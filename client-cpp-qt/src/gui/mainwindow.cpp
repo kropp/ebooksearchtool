@@ -21,6 +21,10 @@ HttpWindow::HttpWindow(QWidget *parent) : QDialog(parent) {
 	myButtonBox->addButton(myDownloadButton, QDialogButtonBox::ActionRole);
 	myButtonBox->addButton(myQuitButton, QDialogButtonBox::RejectRole);
 
+	myText = new QTextEdit(this);
+	myText->setPlainText("You can start searching.\n");
+	myText->setReadOnly(true);
+
 	myProgressDialog = new QProgressDialog(this);
 
 	myHttp = new QHttp(this);
@@ -45,6 +49,7 @@ HttpWindow::HttpWindow(QWidget *parent) : QDialog(parent) {
 	mainLayout->addLayout(topLayout);
 	mainLayout->addWidget(myStatusLabel);
 	mainLayout->addWidget(myButtonBox);
+	mainLayout->addWidget(myText);
 	setLayout(mainLayout);
 
 	setWindowTitle(tr("HTTP"));
@@ -92,6 +97,7 @@ void HttpWindow::downloadFile() {
 HttpWindow::~HttpWindow() {
 	delete myStatusLabel;
 	delete myUrlLabel;
+	delete myText;
 	delete myUrlLineEdit;
 	delete myProgressDialog;
 	delete myDownloadButton;

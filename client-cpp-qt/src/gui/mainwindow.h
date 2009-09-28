@@ -9,6 +9,7 @@ class QHttp;
 class QHttpResponseHeader;
 class QLabel;
 class QLineEdit;
+class QTextEdit;
 class QProgressDialog;
 class QPushButton;
 class QAuthenticator;
@@ -34,6 +35,7 @@ private:
 	QLabel *myStatusLabel;
 	QLabel *myUrlLabel;
 	QLineEdit *myUrlLineEdit;
+	QTextEdit *myText;
 	QProgressDialog *myProgressDialog;
 	QPushButton *myDownloadButton;
 	QPushButton *myQuitButton;
