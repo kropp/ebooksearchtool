@@ -1,8 +1,9 @@
-package ru.udalov;
+package ru.udalov.crawler;
 
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import ru.udalov.crawler.impl.*;
 
 class Crawler {
 
@@ -14,8 +15,8 @@ class Crawler {
 	}
 	
 	public void go(String start) {
-		final Set<String> were = new HashSet<String>();
-		final Queue<String> queue = new LinkedList<String>();
+		final AbstractVisitedLinksSet were = new VisitedLinksSet();
+		final AbstractLinksQueue queue = new LinksQueue();
 		were.add(start);
 		queue.offer(start);
 		int iteration = 0;
@@ -53,7 +54,9 @@ class Crawler {
 	
 	private static String getPage(String s) {
 		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(new URL(s).openStream()));
+			Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("192.168.0.2", 3128));
+			URLConnection connection = new URL(s).openConnection(proxy);
+			BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 			String line = "";
 			StringBuilder page = new StringBuilder();
 			while ((line = br.readLine()) != null) {

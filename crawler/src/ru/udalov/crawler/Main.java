@@ -1,4 +1,4 @@
-package ru.udalov;
+package ru.udalov.crawler;
 
 import java.io.*;
 import java.util.*;
