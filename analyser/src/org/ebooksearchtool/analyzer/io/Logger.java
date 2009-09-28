@@ -1,4 +1,4 @@
-package ru.podolsky.stringparser.io;
+package org.ebooksearchtool.analyzer.io;
 
 import java.io.*;
 

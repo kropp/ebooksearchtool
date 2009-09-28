@@ -1,8 +1,8 @@
-package ru.podolsky.stringparser.algorithms;
+package org.ebooksearchtool.analyzer.algorithms;
 
-import ru.podolsky.stringparser.utils.Lexema;
+import org.ebooksearchtool.analyzer.utils.Lexema;
 import java.util.ArrayList;
-import ru.podolsky.stringparser.utils.SpecialWords.*;
+import org.ebooksearchtool.analyzer.utils.SpecialWords.*;
 
 /**
  * @author Алексей

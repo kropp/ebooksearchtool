@@ -1,4 +1,4 @@
-package ru.podolsky.stringparser.tests;
+package org.ebooksearchtool.analyzer.tests;
 
 /**
  * @author Алексей

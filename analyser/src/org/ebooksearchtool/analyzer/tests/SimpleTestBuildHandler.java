@@ -1,4 +1,4 @@
-package ru.podolsky.stringparser.tests;
+package org.ebooksearchtool.analyzer.tests;
 
 /**
  * @author Алексей
@@ -8,23 +8,25 @@ import java.util.ArrayList;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-import ru.podolsky.stringparser.algorithms.AuthorsSimpleParser;
-import ru.podolsky.stringparser.io.Serializator;
+import org.ebooksearchtool.analyzer.algorithms.AuthorsSimpleParser;
+import org.ebooksearchtool.analyzer.io.Serializator;
 
-public class SimpleAuthorsHandler extends DefaultHandler{
+public class SimpleTestBuildHandler extends DefaultHandler{
 
     private static boolean rightElementFlag = false;
     private static ArrayList<ArrayList<String>> authors = new ArrayList<ArrayList<String>>();
 
-    public SimpleAuthorsHandler(){
+    public SimpleTestBuildHandler(){
         super();
+
+
     }
 
     @Override
     public void characters (char ch[], int start, int length) throws SAXException{
         if(rightElementFlag == true){
             AuthorsSimpleParser parser = AuthorsSimpleParser.Instance();
-            SimpleAuthorsHandler.authors.add(parser.parse(new String(ch, start, length).trim()));
+            SimpleTestBuildHandler.authors.add(parser.parse(new String(ch, start, length).trim()));
             rightElementFlag = false;
         }
     }
@@ -51,6 +53,6 @@ public class SimpleAuthorsHandler extends DefaultHandler{
 
     @Override
     public void endDocument () throws SAXException {
-        Serializator.serialazeTest(authors, "authors.out");
+        Serializator.serialazeTest(authors, "simpletest.tst");
     }
 }

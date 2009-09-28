@@ -1,4 +1,4 @@
-package ru.podolsky.stringparser.tests;
+package org.ebooksearchtool.analyzer.tests;
 
 /**
  * @author Алексей
@@ -12,8 +12,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.SAXException;
-import ru.podolsky.stringparser.algorithms.IParser;
-import ru.podolsky.stringparser.io.Serializator;
+import org.ebooksearchtool.analyzer.algorithms.IParser;
+import org.ebooksearchtool.analyzer.io.Serializator;
 
 public class Tester {
 

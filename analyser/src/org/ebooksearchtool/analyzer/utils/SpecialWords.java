@@ -1,4 +1,4 @@
-package ru.podolsky.stringparser.utils;
+package org.ebooksearchtool.analyzer.utils;
 
 import java.util.HashSet;
 

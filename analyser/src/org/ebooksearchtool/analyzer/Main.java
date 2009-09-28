@@ -1,14 +1,14 @@
-package ru.podolsky.stringparser;
+package org.ebooksearchtool.analyzer;
 
-import ru.podolsky.stringparser.tests.TestBuilder;
+import org.ebooksearchtool.analyzer.tests.TestBuilder;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
-import ru.podolsky.stringparser.algorithms.AuthorsSimpleParser;
-import ru.podolsky.stringparser.tests.Tester;
+import org.ebooksearchtool.analyzer.algorithms.AuthorsSimpleParser;
+import org.ebooksearchtool.analyzer.tests.Tester;
 
 /**
  *

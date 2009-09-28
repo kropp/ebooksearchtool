@@ -1,11 +1,11 @@
-package ru.podolsky.stringparser.utils;
+package org.ebooksearchtool.analyzer.utils;
 
 /**
  * @author Алексей
  */
 
 import java.util.ArrayList;
-import ru.podolsky.stringparser.utils.SpecialWords.*;
+import org.ebooksearchtool.analyzer.utils.SpecialWords.*;
 
 public class Lexema {
 

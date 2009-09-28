@@ -1,4 +1,4 @@
-package ru.podolsky.stringparser.algorithms;
+package org.ebooksearchtool.analyzer.algorithms;
 
 import java.util.ArrayList;
 
