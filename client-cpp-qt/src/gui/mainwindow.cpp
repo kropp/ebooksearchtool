@@ -1,8 +1,8 @@
 #include <QtGui>
 #include <QtNetwork>
 
-#include <iostream>
 #include "mainwindow.h"
+#include "../xml_parser/parser.h"
 
 HttpWindow::HttpWindow(QWidget *parent) : QDialog(parent) {
 	myUrlLineEdit = new QLineEdit("http://");
@@ -127,6 +127,7 @@ void HttpWindow::httpRequestFinished(int requestId, bool error) {
     }
 
     myDownloadButton->setEnabled(true);
+    parseDownloadedFile();
     delete myFile;
     myFile = 0;
 }
@@ -154,4 +155,10 @@ void HttpWindow::updateDataReadProgress(int bytesRead, int totalBytes) {
 void HttpWindow::enableDownloadButton() {
 	myDownloadButton->setEnabled(!myUrlLineEdit->text().isEmpty());
 }
+
+void HttpWindow::parseDownloadedFile() {
+	AtomParser parser;
+	parser.parse();
+}
+
 

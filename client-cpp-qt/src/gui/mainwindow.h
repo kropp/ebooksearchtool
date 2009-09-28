@@ -27,6 +27,7 @@ private slots:
 	void readResponseHeader(const QHttpResponseHeader &responseHeader);
 	void updateDataReadProgress(int bytesRead, int totalBytes);
 	void enableDownloadButton();
+	void parseDownloadedFile();
 
 private:
 	QLabel *myStatusLabel;
