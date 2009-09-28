@@ -12,18 +12,18 @@ public class WholeStringSimpleParser implements IParser{
 
     private static WholeStringSimpleParser instance;
 
-    private WholeStringSimpleParser(){
-
+    private ArrayList<String> authors;
+    private String bookName;
+    private String url;
+    private String language;
+    
+    public WholeStringSimpleParser(){
+        authors = new ArrayList<String>();
+        bookName = "";
+        url = "";
+        language = "";
     }
 
-    public static WholeStringSimpleParser Instance(){
-        if(instance == null){
-            instance = new WholeStringSimpleParser();
-            return instance;
-        }else{
-            return instance;
-        }
-    }
 
     //TODO:Сделать парсинг целой строки, пока выводит пустой массив
     public ArrayList<String> parse(String input) {
@@ -31,9 +31,27 @@ public class WholeStringSimpleParser implements IParser{
 
         ArrayList<Lexema> temp = Lexema.convertToLexems(input);
 
-        
+        url = URLsExtractor.extractURL(temp);
+
+        out.add("URL: " + url);
 
         return out;
+    }
+
+    public ArrayList<String> getAuthors(){
+        return authors;
+    }
+
+    public String getBookName(){
+        return bookName;
+    }
+
+    public String getURL(){
+        return url;
+    }
+
+    public String getLanguage(){
+        return language;
     }
 
 }

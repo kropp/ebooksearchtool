@@ -29,7 +29,13 @@ public class Tester {
         pars1.parse("munsey.xml", dh);
         ArrayList<ArrayList<String>> parsed = Serializator.deserialazeTest("authors.out");
 
-        long length = parsed.size();
+        int length = parsed.size();
+        int lengthOfTest = test.size();
+        if(length != lengthOfTest){
+            out.write("Test and example have different length. Please rebuild the test or example isn't correct");
+            return;
+        }
+
         for (int i = 0; i < length; i++) {
             ArrayList<String> testElem = test.get(i);
             ArrayList<String> parsedElem = parsed.get(i);
