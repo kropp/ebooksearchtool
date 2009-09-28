@@ -71,8 +71,32 @@ public class Lexema {
                 }
             }
         }
-        temp.add(new Lexema(bd.toString()));
+        //Случай пробела в конце строки
+        if(bd.length() != 0){
+            temp.add(new Lexema(bd.toString()));
+        }
+
+        length = temp.size();
+        for (int i = 0; i < length; i++) {
+            temp.get(i).trim();
+        }
 
         return temp;
+    }
+
+    private void trim(){
+        if(info != null){
+            StringBuilder temp = new StringBuilder(info.trim());
+
+            while(SpecialWords.isNeedToTrim(temp.charAt(0))){
+                temp.deleteCharAt(0);
+            }
+
+            while(SpecialWords.isNeedToTrim(temp.charAt(temp.length() - 1))){
+                temp.deleteCharAt(temp.length() - 1);
+            }
+
+            info = temp.toString();
+        }
     }
 }

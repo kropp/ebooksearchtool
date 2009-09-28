@@ -23,6 +23,21 @@ public class SpecialWords {
         joiners.add('и');
     }
 
+    static HashSet needToTrim = new HashSet();
+    static{
+        needToTrim.add(')');
+        needToTrim.add('(');
+        needToTrim.add('[');
+        needToTrim.add(']');
+    }
+
+    public static boolean isNeedToTrim(char value){
+        if(needToTrim.contains(value)){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
     public static boolean isSepatator(String value){
         if(separators.contains(value)){
