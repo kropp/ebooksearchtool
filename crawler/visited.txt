@@ -1,17 +1,1 @@
 http://www.google.com/
-http://images.google.ru/imghp?hl=ru&tab=wi
-http://video.google.ru/?hl=ru&tab=wv
-http://maps.google.ru/maps?hl=ru&tab=wl
-http://mail.google.com/mail/?hl=ru&tab=wm
-http://www.google.ru/intl/ru/options/
-http://www.google.com/ncr
-http://www.google.ru/webhp?hl=ru&tab=iw
-http://video.google.ru/?hl=ru&tab=iv
-http://maps.google.ru/maps?hl=ru&tab=il
-http://mail.google.com/mail/?hl=ru&tab=im
-http://images.google.ru/imghp?hl=ru
-http://www.google.com/chrome/index.html?hl=ru&brand=CHMI&utm_source=ru-et&utm_medium=et&utm_campaign=ru
-http://desktop.google.com/ru/?utm_source=ru-et-more&utm_medium=et&utm_campaign=ru
-http://www.google.ru/ig?source=mpues&hl=ru
-http://www.google.ru/notebook/?hl=ru
-http://maps.google.ru/
