@@ -29,13 +29,13 @@ private slots:
 	void enableDownloadButton();
 
 private:
-	QLabel *statusLabel;
-	QLabel *urlLabel;
-	QLineEdit *urlLineEdit;
-	QProgressDialog *progressDialog;
-	QPushButton *downloadButton;
-	QPushButton *quitButton;
-	QDialogButtonBox *buttonBox;
+	QLabel *myStatusLabel;
+	QLabel *myUrlLabel;
+	QLineEdit *myUrlLineEdit;
+	QProgressDialog *myProgressDialog;
+	QPushButton *myDownloadButton;
+	QPushButton *myQuitButton;
+	QDialogButtonBox *myButtonBox;
 
 	QHttp *myHttp;
 	QFile *myFile;

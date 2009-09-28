@@ -1,57 +1,58 @@
 #include <QtGui>
 #include <QtNetwork>
 
+#include <iostream>
 #include "mainwindow.h"
 
 HttpWindow::HttpWindow(QWidget *parent) : QDialog(parent) {
-	urlLineEdit = new QLineEdit("http://");
+	myUrlLineEdit = new QLineEdit("http://");
 
-	urlLabel = new QLabel(tr("&URL:"));
-	urlLabel->setBuddy(urlLineEdit);
-	statusLabel = new QLabel(tr("Please enter the URL of a file you want to "
+	myUrlLabel = new QLabel(tr("&URL:"));
+	myUrlLabel->setBuddy(myUrlLineEdit);
+	myStatusLabel = new QLabel(tr("Please enter the URL of a file you want to "
 		                     "download."));
 
-	downloadButton = new QPushButton(tr("Download"));
-	downloadButton->setDefault(true);
-	quitButton = new QPushButton(tr("Quit"));
-	quitButton->setAutoDefault(false);
+	myDownloadButton = new QPushButton(tr("Download"));
+	myDownloadButton->setDefault(true);
+	myQuitButton = new QPushButton(tr("Quit"));
+	myQuitButton->setAutoDefault(false);
 
-	buttonBox = new QDialogButtonBox;
-	buttonBox->addButton(downloadButton, QDialogButtonBox::ActionRole);
-	buttonBox->addButton(quitButton, QDialogButtonBox::RejectRole);
+	myButtonBox = new QDialogButtonBox;
+	myButtonBox->addButton(myDownloadButton, QDialogButtonBox::ActionRole);
+	myButtonBox->addButton(myQuitButton, QDialogButtonBox::RejectRole);
 
-	progressDialog = new QProgressDialog(this);
+	myProgressDialog = new QProgressDialog(this);
 
 	myHttp = new QHttp(this);
 
-	connect(urlLineEdit, SIGNAL(textChanged(const QString &)),
-		 this, SLOT(enableDownloadButton()));
+	connect(myUrlLineEdit, SIGNAL(textChanged(const QString &)),
+		this, SLOT(enableDownloadButton()));
 	connect(myHttp, SIGNAL(requestFinished(int, bool)),
 		 this, SLOT(httpRequestFinished(int, bool)));
 	connect(myHttp, SIGNAL(dataReadProgress(int, int)),
 		 this, SLOT(updateDataReadProgress(int, int)));
 	connect(myHttp, SIGNAL(responseHeaderReceived(const QHttpResponseHeader &)),
 		 this, SLOT(readResponseHeader(const QHttpResponseHeader &)));
-	connect(progressDialog, SIGNAL(canceled()), this, SLOT(cancelDownload()));
-	connect(downloadButton, SIGNAL(clicked()), this, SLOT(downloadFile()));
-	connect(quitButton, SIGNAL(clicked()), this, SLOT(close()));
+	connect(myProgressDialog, SIGNAL(canceled()), this, SLOT(cancelDownload()));
+	connect(myDownloadButton, SIGNAL(clicked()), this, SLOT(downloadFile()));
+	connect(myQuitButton, SIGNAL(clicked()), this, SLOT(close()));
 
 	QHBoxLayout *topLayout = new QHBoxLayout;
-	topLayout->addWidget(urlLabel);
-	topLayout->addWidget(urlLineEdit);
+	topLayout->addWidget(myUrlLabel);
+	topLayout->addWidget(myUrlLineEdit);
 
 	QVBoxLayout *mainLayout = new QVBoxLayout;
 	mainLayout->addLayout(topLayout);
-	mainLayout->addWidget(statusLabel);
-	mainLayout->addWidget(buttonBox);
+	mainLayout->addWidget(myStatusLabel);
+	mainLayout->addWidget(myButtonBox);
 	setLayout(mainLayout);
 
 	setWindowTitle(tr("HTTP"));
-	urlLineEdit->setFocus();
+	myUrlLineEdit->setFocus();
 }
 
 void HttpWindow::downloadFile() {
-	QUrl url(urlLineEdit->text());
+	QUrl url(myUrlLineEdit->text());
 	QFileInfo fileInfo(url.path());
 	QString fileName = fileInfo.fileName();
 
@@ -62,7 +63,7 @@ void HttpWindow::downloadFile() {
 		                       QMessageBox::Ok|QMessageBox::Cancel, QMessageBox::Cancel)
 		 == QMessageBox::Cancel)
 		return;
-	QFile::remove(fileName);
+		QFile::remove(fileName);
 	}
 
 	myFile = new QFile(fileName);
@@ -77,20 +78,22 @@ void HttpWindow::downloadFile() {
 
 	QHttp::ConnectionMode mode = url.scheme().toLower() == "https" ? QHttp::ConnectionModeHttps : QHttp::ConnectionModeHttp;
 	myHttp->setHost(url.host(), mode, url.port() == -1 ? 0 : url.port());
+	//TODO - add button for setting proxy
+	myHttp->setProxy("192.168.0.2", 3128);
 
 	myHttpRequestAborted = false;
 	myHttpGetId = myHttp->get(url.path(), myFile);
 
-	progressDialog->setWindowTitle(tr("HTTP"));
-	progressDialog->setLabelText(tr("Downloading %1.").arg(fileName));
-	downloadButton->setEnabled(false);
+	myProgressDialog->setWindowTitle(tr("HTTP"));
+	myProgressDialog->setLabelText(tr("Downloading %1.").arg(fileName));
+	myDownloadButton->setEnabled(false);
 }
 
 void HttpWindow::cancelDownload() {
-	statusLabel->setText(tr("Download canceled."));
+	myStatusLabel->setText(tr("Download canceled."));
 	myHttpRequestAborted = true;
 	myHttp->abort();
-	downloadButton->setEnabled(true);
+	myDownloadButton->setEnabled(true);
 }
 
 void HttpWindow::httpRequestFinished(int requestId, bool error) {
@@ -103,14 +106,14 @@ void HttpWindow::httpRequestFinished(int requestId, bool error) {
 			delete myFile;
 			myFile = 0;
 		}
-		progressDialog->hide();
+		myProgressDialog->hide();
 		return;
 	}
 
 	if (requestId != myHttpGetId)
 		return;
 
-	progressDialog->hide();
+	myProgressDialog->hide();
 	myFile->close();
 
     if (error) {
@@ -119,11 +122,11 @@ void HttpWindow::httpRequestFinished(int requestId, bool error) {
                                   tr("Download failed: %1.")
                                   .arg(myHttp->errorString()));
     } else {
-        QString fileName = QFileInfo(QUrl(urlLineEdit->text()).path()).fileName();
-        statusLabel->setText(tr("Downloaded %1 to current directory.").arg(fileName));
+    	QString fileName = QFileInfo(QUrl(myUrlLineEdit->text()).path()).fileName();
+    	myStatusLabel->setText(tr("Downloaded %1 to current directory.").arg(fileName));
     }
 
-    downloadButton->setEnabled(true);
+    myDownloadButton->setEnabled(true);
     delete myFile;
     myFile = 0;
 }
@@ -134,7 +137,7 @@ void HttpWindow::readResponseHeader(const QHttpResponseHeader &responseHeader) {
 					          tr("Download failed: %1.")
 					          .arg(responseHeader.reasonPhrase()));
 		myHttpRequestAborted = true;
-		progressDialog->hide();
+		myProgressDialog->hide();
 		myHttp->abort();
 		return;
 	}
@@ -144,11 +147,11 @@ void HttpWindow::updateDataReadProgress(int bytesRead, int totalBytes) {
 	if (myHttpRequestAborted)
 		return;
 
-	progressDialog->setMaximum(totalBytes);
-	progressDialog->setValue(bytesRead);
+	myProgressDialog->setMaximum(totalBytes);
+	myProgressDialog->setValue(bytesRead);
 }
 
 void HttpWindow::enableDownloadButton() {
-	downloadButton->setEnabled(!urlLineEdit->text().isEmpty());
+	myDownloadButton->setEnabled(!myUrlLineEdit->text().isEmpty());
 }
 
