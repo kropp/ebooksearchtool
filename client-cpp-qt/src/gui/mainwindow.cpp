@@ -82,7 +82,7 @@ void HttpWindow::downloadFile() {
 	myHttp->setProxy("192.168.0.2", 3128);
 
 	myHttpRequestAborted = false;
-	myHttpGetId = myHttp->get(url.path(), myFile);
+	myHttpGetId = myHttp->get(myUrlLineEdit->text(), myFile);
 
 	myProgressDialog->setWindowTitle(tr("HTTP"));
 	myProgressDialog->setLabelText(tr("Downloading %1.").arg(fileName));
@@ -173,7 +173,7 @@ void HttpWindow::enableDownloadButton() {
 
 void HttpWindow::parseDownloadedFile() {
 	AtomParser parser;
-	parser.parse();
+	parser.parse(*myFile);
 }
 
 

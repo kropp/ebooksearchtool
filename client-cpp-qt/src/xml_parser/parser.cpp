@@ -18,9 +18,8 @@ bool AtomHandler::endElement (const QString&, const QString&, const QString& str
 
 AtomParser::AtomParser() {}
 
-void AtomParser::parse() {
+void AtomParser::parse(QFile& file) {
 	AtomHandler handler;
-	QFile file("id.atom");
 	QXmlInputSource source(&file);
 	QXmlSimpleReader reader;
 	reader.setContentHandler(&handler);

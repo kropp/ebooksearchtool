@@ -19,7 +19,7 @@ public:
 	AtomParser();
 	
 public:
-	void parse();
+	void parse(QFile& file);
 };
 
 #endif //_PARSER_H_
