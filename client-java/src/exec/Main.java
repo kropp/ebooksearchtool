@@ -20,15 +20,14 @@ public class Main {
 
     public static void main(String args[]) throws IOException, SAXException, ParserConfigurationException {
 
-        Connector connect = new Connector("http://feedbooks.com/books");
+        Connector connect = new Connector("http://feedbooks.com/books/search.atom?query=Pushkin");
 
         connect.GetFileFromURL();
 
         Parser parser = new Parser();
 
-//        parser.parse("file.xml");
-        //TODO Handle with parsing
-
+        parser.parse("answer_file.xml");
+       
     }
 
 }

@@ -2,6 +2,7 @@ package Connection;
 
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.OutputStreamWriter;
@@ -25,12 +26,12 @@ public class Connector{
     public void GetFileFromURL() throws IOException {
 
         URLConnection connection;
-        connection = Url.openConnection();
+        connection = Url.openConnection(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("192.168.0.2", 3128)));
 
-        PrintWriter pw = new PrintWriter   // класс с методами записи строк
-            (new OutputStreamWriter          // класс-преобразователь
-            (new FileOutputStream         // класс записи байтов в файл
-            ("file.xml"), "utf-8"));
+        PrintWriter pw = new PrintWriter   //     
+            (new OutputStreamWriter          // -
+            (new FileOutputStream         //     
+            ("answer_file.xml"), "utf-8"));
 
         int i = 0;
         while (i != connection.getContentLength()){

@@ -31,6 +31,10 @@ public class Parser {
     public void parse(String fileName) throws IOException, SAXException {
         SAXHandler handler = new SAXHandler();
         parser.parse(new File(fileName), handler);
+        System.out.println(handler.getBooks().length);
+        for (int i = 0; i < handler.getBooks().length; ++i){
+    		System.out.println(handler.getBooks()[i]);
+    	}
 
     }
 
