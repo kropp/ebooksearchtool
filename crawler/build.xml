@@ -15,7 +15,7 @@
 		<javac srcdir="${src}" destdir="${build}"/>
 	</target>
 
-	<target name="dist" depends="compile">
+	<target name="dist" depends="clean,compile">
 		<mkdir dir="${dist}"/>
 		<jar jarfile="${jar}" basedir="${build}" manifest="${manifest}"/>
 	</target>
