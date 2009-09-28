@@ -24,6 +24,7 @@ HttpWindow::HttpWindow(QWidget *parent) : QDialog(parent) {
 	myText = new QTextEdit(this);
 	myText->setPlainText("You can start searching.\n");
 	myText->setReadOnly(true);
+	myByteArray = new QByteArray();
 
 	myProgressDialog = new QProgressDialog(this);
 
@@ -40,6 +41,7 @@ HttpWindow::HttpWindow(QWidget *parent) : QDialog(parent) {
 	connect(myProgressDialog, SIGNAL(canceled()), this, SLOT(cancelDownload()));
 	connect(myDownloadButton, SIGNAL(clicked()), this, SLOT(downloadFile()));
 	connect(myQuitButton, SIGNAL(clicked()), this, SLOT(close()));
+	connect(myDownloadButton, SIGNAL(clicked()), this, SLOT(clearScreen()));
 
 	QHBoxLayout *topLayout = new QHBoxLayout;
 	topLayout->addWidget(myUrlLabel);
@@ -179,7 +181,13 @@ void HttpWindow::enableDownloadButton() {
 
 void HttpWindow::parseDownloadedFile() {
 	AtomParser parser;
+	parser.setOutput(myByteArray);
 	parser.parse(*myFile);
+	myText->setPlainText(myByteArray->data());
+}
+
+void HttpWindow::clearScreen() {
+	myByteArray->clear();
 }
 
 

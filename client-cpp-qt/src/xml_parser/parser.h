@@ -3,7 +3,12 @@
 
 #include <QtXml>
 
+#include<iostream>
+
 class AtomHandler : public QXmlDefaultHandler {
+
+public:
+	AtomHandler(QByteArray* output) : myBuffer(output) {}
 
 public:
 	bool characters (const QString& strText);
@@ -11,6 +16,7 @@ public:
 	
 private:
 	QString myStrText;
+	QByteArray* myBuffer; 
 };
 
 class AtomParser {
@@ -20,6 +26,10 @@ public:
 	
 public:
 	void parse(QFile& file);
+	void setOutput(QByteArray* buffer);
+
+private:
+	QByteArray* myOutputBuffer;
 };
 
 #endif //_PARSER_H_

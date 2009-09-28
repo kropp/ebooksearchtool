@@ -1,5 +1,6 @@
 #include <QtXml>
 
+#include <iostream>
 #include "parser.h"
 
 bool AtomHandler::characters (const QString& strText) {
@@ -9,9 +10,11 @@ bool AtomHandler::characters (const QString& strText) {
 
 bool AtomHandler::endElement (const QString&, const QString&, const QString& str) {
 	if (str == "title") {
-		qDebug() << "Title:" << myStrText;
+		myBuffer->append(myStrText);
+		myBuffer->append(" 	 ");
 	} else if (str == "name") {
-		qDebug() << "\tAuthor:" << myStrText << "\n";
+		myBuffer->append(myStrText);
+		myBuffer->append("\n");
 	}
 	return true;
 }
@@ -19,10 +22,14 @@ bool AtomHandler::endElement (const QString&, const QString&, const QString& str
 AtomParser::AtomParser() {}
 
 void AtomParser::parse(QFile& file) {
-	AtomHandler handler;
+	AtomHandler handler(myOutputBuffer);
 	QXmlInputSource source(&file);
 	QXmlSimpleReader reader;
 	reader.setContentHandler(&handler);
 	reader.parse(source);
+}
+
+void AtomParser::setOutput(QByteArray* buffer) {
+	myOutputBuffer = buffer;
 }
 

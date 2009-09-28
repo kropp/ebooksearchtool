@@ -30,6 +30,7 @@ private slots:
 	void updateDataReadProgress(int bytesRead, int totalBytes);
 	void enableDownloadButton();
 	void parseDownloadedFile();
+	void clearScreen();
 
 private:
 	QLabel *myStatusLabel;
@@ -40,6 +41,7 @@ private:
 	QPushButton *myDownloadButton;
 	QPushButton *myQuitButton;
 	QDialogButtonBox *myButtonBox;
+	QByteArray* myByteArray;
 
 	QHttp *myHttp;
 	QFile *myFile; //может, он и не нужен
