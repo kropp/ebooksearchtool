@@ -89,6 +89,21 @@ void HttpWindow::downloadFile() {
 	myDownloadButton->setEnabled(false);
 }
 
+HttpWindow::~HttpWindow() {
+	delete myStatusLabel;
+	delete myUrlLabel;
+	delete myUrlLineEdit;
+	delete myProgressDialog;
+	delete myDownloadButton;
+	delete myQuitButton;
+	delete myButtonBox;
+	delete myHttp;
+	if (myFile) {
+		delete myFile;
+	}
+}
+
+
 void HttpWindow::cancelDownload() {
 	myStatusLabel->setText(tr("Download canceled."));
 	myHttpRequestAborted = true;

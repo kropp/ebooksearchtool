@@ -10,7 +10,6 @@ public:
 	bool endElement (const QString&, const QString&, const QString& str);
 	
 private:
-	QXmlSimpleReader myReader;
 	QString myStrText;
 };
 

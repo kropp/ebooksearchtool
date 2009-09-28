@@ -19,6 +19,7 @@ class HttpWindow : public QDialog {
 
 public:
 	HttpWindow(QWidget *parent = 0);
+	~HttpWindow();
 
 private slots:
 	void downloadFile();
@@ -39,7 +40,7 @@ private:
 	QDialogButtonBox *myButtonBox;
 
 	QHttp *myHttp;
-	QFile *myFile;
+	QFile *myFile; //может, он и не нужен
 	int myHttpGetId;
 	bool myHttpRequestAborted;
 };
