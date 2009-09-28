@@ -1,7 +1,8 @@
 package ru.podolsky.stringparser.algorithms;
 
+import ru.podolsky.stringparser.utils.Lexema;
 import java.util.ArrayList;
-import ru.podolsky.stringparser.algorithms.SpecialWords.*;
+import ru.podolsky.stringparser.utils.SpecialWords.*;
 
 /**
  * @author Алексей
@@ -25,33 +26,11 @@ public class AuthorsSimpleParser implements IParser{
     }
 
     public ArrayList<String> parse(String input) {
-        ArrayList<Lexema> temp = new ArrayList<Lexema>();
         ArrayList<String> out = new ArrayList<String>();
-        StringBuilder bd = new StringBuilder();
-        int length = input.length();
-        char ch = ' ';
-
-        for (int i = 0; i < length; i++) {
-            ch = input.charAt(i);
-            if(ch != ' '){
-                if(!SpecialWords.isSepatator(ch)){
-                    bd.append(ch);
-                }else{
-
-                    temp.add(new Lexema(bd.toString()));
-                    temp.add(new Lexema(ch + "",StringType.separator));
-                    bd.delete(0, bd.length());
-                }
-            }else{
-                if(bd.length() != 0){               //На случай прбела после запятой
-                    temp.add(new Lexema(bd.toString()));
-                    bd.delete(0, bd.length());
-                }
-            }
-        }
-        temp.add(new Lexema(bd.toString()));
-
-        length = temp.size();
+        
+        ArrayList<Lexema> temp = Lexema.convertToLexems(input);
+        
+        int length = temp.size();
         while (length != 0){
             //Случай, когда остался только первый элимент
             if(1 == length){
@@ -62,7 +41,7 @@ public class AuthorsSimpleParser implements IParser{
                 if(temp.get(1).getType().equals(StringType.separator)){
                     //Если следующее слово - завние
                     if(length < 4 || temp.get(3).getType().equals(StringType.separator)){
-                        out.add(temp.get(0).toString() + "," + temp.get(2).toString());
+                        out.add(temp.get(0).toString() + ", " + temp.get(2).toString());
                         temp.remove(0);//Удаление готового элимента
                         temp.remove(0);//Удаление сепаратора
                         temp.remove(0);//Удаление завния

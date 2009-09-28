@@ -1,4 +1,4 @@
-package ru.podolsky.stringparser.algorithms;
+package ru.podolsky.stringparser.utils;
 
 import java.util.HashSet;
 
@@ -9,13 +9,18 @@ import java.util.HashSet;
 public class SpecialWords {
 
     static HashSet separators = new HashSet();
-    {   separators.add(",");
+    static{
+        separators.add(",");
         separators.add("'");
+        separators.add(',');
+        separators.add('\'');
     }
 
     static HashSet joiners = new HashSet();
-    {   joiners.add("and");
+    static{
+        joiners.add("and");
         joiners.add("и");
+        joiners.add('и');
     }
 
 
