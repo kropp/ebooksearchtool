@@ -74,11 +74,11 @@ System.out.println("disallowed: " + link);
 	
 	private String getPage(String s) {
 		try {
-			Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("192.168.0.2", 3128));
-			URLConnection connection = new URL(s).openConnection(proxy);
+			URLConnection connection = new URL(s).openConnection(Main.PROXY);
 			BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 			String line = "";
 			StringBuilder page = new StringBuilder();
+			
 			while ((line = br.readLine()) != null) {
 				page.append(line);
 				page.append("\n");

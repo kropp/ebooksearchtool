@@ -1,10 +1,13 @@
 package org.ebooksearchtool.crawler;
 
 import java.io.*;
+import java.net.*;
 import java.util.*;
 
 public class Main {
 
+	public static final Proxy PROXY = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("192.168.0.2", 3128));
+	
 	public static void main(String[] args) {
 		if (args.length > 0) {
 			final String start = args[0];

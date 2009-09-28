@@ -19,10 +19,9 @@ public class RobotsExclusion implements AbstractRobotsExclusion {
 		} catch (StringIndexOutOfBoundsException aioobe) {
 			return false;
 		}
-		Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("192.168.0.2", 3128));
 		BufferedReader br = null;
 		try {
-			URLConnection connection = new URL(server + "/robots.txt").openConnection(proxy);
+			URLConnection connection = new URL(server + "/robots.txt").openConnection(Main.PROXY);
 			br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 		} catch (MalformedURLException mue) {
 			return true;
