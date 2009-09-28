@@ -36,7 +36,13 @@ class Crawler {
 			for (String link : links) {
 				if (!were.contains(link) && were.size() < LIMIT) {
 					were.add(link);
-					queue.offer(link);
+					boolean permitted = myRobots.isPermitted(link);
+					if (permitted) {
+System.out.println("allowed: " + link);
+						queue.offer(link);
+					} else {
+System.out.println("disallowed: " + link);
+					}
 				}
 			}
 		}
@@ -45,20 +51,22 @@ class Crawler {
 	
 	private List<String> getLinks(String page) {
 		final List<String> links = new LinkedList<String>();
-		String href = "href=\"http://";
+		String href = "href=";
 		int k = -1;
 		while (true) {
 			k = page.indexOf(href, k + 1);
 			if (k < 0) break;
-			int x = page.indexOf("\"", k + href.length() - 7);
-			if (x < 0) break;
-			String t = page.substring(k + href.length() - 7, x);
-			boolean permitted = myRobots.isPermitted(t);
-			if (permitted) {
-System.out.println("allowed: " + t);
+			k += 5;
+			if (page.length() > k && page.charAt(k) == '\"') {
+				int x = page.indexOf("\"", k + 1);
+				if (x < 0) break;
+				String t = page.substring(k + 1, x);
 				links.add(t);
-			} else {
-System.out.println("disallowed: " + t);
+				/*
+			} else if (page.length() > k + 6 && page.substring(k, k + 7).equals("http://")) {
+				int x = page.indexOf(">", k + 1);
+				if (x < 0) break;
+				*/
 			}
 		}
 		return links;
