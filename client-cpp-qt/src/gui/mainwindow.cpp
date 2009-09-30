@@ -17,7 +17,7 @@ HttpWindow::HttpWindow(QWidget *parent) : QDialog(parent) {
 	myQuitButton = new QPushButton(tr("Quit"));
 	myQuitButton->setAutoDefault(false);
 
-	myButtonBox = new QDialogButtonBox;
+	myButtonBox = new QDialogButtonBox();
 	myButtonBox->addButton(myDownloadButton, QDialogButtonBox::ActionRole);
 	myButtonBox->addButton(myQuitButton, QDialogButtonBox::RejectRole);
 
@@ -95,22 +95,6 @@ void HttpWindow::downloadFile() {
 	myProgressDialog->setLabelText(tr("Downloading %1.").arg(fileName));
 	myDownloadButton->setEnabled(false);
 }
-
-HttpWindow::~HttpWindow() {
-	delete myStatusLabel;
-	delete myUrlLabel;
-	delete myText;
-	delete myUrlLineEdit;
-	delete myProgressDialog;
-	delete myDownloadButton;
-	delete myQuitButton;
-	delete myButtonBox;
-	delete myHttp;
-	if (myFile) {
-		delete myFile;
-	}
-}
-
 
 void HttpWindow::cancelDownload() {
 	myStatusLabel->setText(tr("Download canceled."));

@@ -20,7 +20,6 @@ class HttpWindow : public QDialog {
 
 public:
 	HttpWindow(QWidget *parent = 0);
-	~HttpWindow();
 
 private slots:
 	void downloadFile();
