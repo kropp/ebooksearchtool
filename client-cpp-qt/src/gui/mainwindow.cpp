@@ -5,7 +5,7 @@
 #include "../xml_parser/parser.h"
 
 HttpWindow::HttpWindow(QWidget *parent) : QDialog(parent) {
-	myUrlLineEdit = new QLineEdit("http://");
+	myUrlLineEdit = new QLineEdit("http://feedbooks.com/books/");
 
 	myUrlLabel = new QLabel(tr("&URL:"));
 	myUrlLabel->setBuddy(myUrlLineEdit);
