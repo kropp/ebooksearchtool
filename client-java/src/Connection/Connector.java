@@ -26,7 +26,8 @@ public class Connector{
     public void GetFileFromURL() throws IOException {
 
         URLConnection connection;
-        connection = Url.openConnection(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("192.168.0.2", 3128)));
+        connection = Url.openConnection();
+        //connection = Url.openConnection(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("192.168.0.2", 3128)));
 
         PrintWriter pw = new PrintWriter   //     
             (new OutputStreamWriter          // -
