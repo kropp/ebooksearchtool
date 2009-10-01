@@ -9,6 +9,9 @@ import javax.xml.parsers.SAXParserFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.util.Vector;
+
+import Model.Data;
 
 /**
  * Created by IntelliJ IDEA.
@@ -28,13 +31,16 @@ public class Parser {
         parser = parserFactory.newSAXParser();
     }
 
-    public void parse(String fileName) throws IOException, SAXException {
-        SAXHandler handler = new SAXHandler();
+    public void parse(String fileName, Data books) throws IOException, SAXException {
+        SAXHandler handler = new SAXHandler(books);
         parser.parse(new File(fileName), handler);
-        System.out.println(handler.getBooks().length);
-        for (int i = 0; i < handler.getBooks().length; ++i){
-    		System.out.println(handler.getBooks()[i]);
-    	}
+        System.out.println(handler.getBooks().getInfo().size());
+        for (int i = 0; i < handler.getBooks().getInfo().size(); ++i){
+            for (int j = 0; j < 5; ++j){
+    		    System.out.print(handler.getBooks().getInfo().get(i).getFields()[j] + "  ");
+            }
+            System.out.println();
+    	}                   
 
     }
 
