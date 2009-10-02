@@ -62,11 +62,6 @@ System.out.println("disallowed: " + link);
 				if (x < 0) break;
 				String t = page.substring(k + 1, x);
 				links.add(t);
-				/*
-			} else if (page.length() > k + 6 && page.substring(k, k + 7).equals("http://")) {
-				int x = page.indexOf(">", k + 1);
-				if (x < 0) break;
-				*/
 			}
 		}
 		return links;
@@ -78,12 +73,15 @@ System.out.println("disallowed: " + link);
 			BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 			String line = "";
 			StringBuilder page = new StringBuilder();
-			
-			while ((line = br.readLine()) != null) {
-				page.append(line);
-				page.append("\n");
+			char[] buf = new char[1024];
+			int r = 0;
+			while ((r = br.read(buf, 0, 1024)) >= 0) {
+				for (int i = 0; i < r; i++) {
+					page.append(buf[i]);
+				}
 			}
 			String ans = page.toString();
+			br.close();
 			return ans;
 		} catch (Exception e) {
 			System.err.println("error on URL =\n" + s);

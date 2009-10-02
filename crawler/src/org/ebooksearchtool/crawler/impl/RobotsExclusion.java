@@ -16,7 +16,7 @@ public class RobotsExclusion implements AbstractRobotsExclusion {
 		String server = null;
 		try {
 			server = getServerNameFromURL(url);
-		} catch (StringIndexOutOfBoundsException aioobe) {
+		} catch (StringIndexOutOfBoundsException e) {
 			return false;
 		}
 		BufferedReader br = null;
@@ -43,6 +43,7 @@ public class RobotsExclusion implements AbstractRobotsExclusion {
 					}
 				}
 			}
+			br.close();
 		} catch (IOException ioe) {
 			return false;
 		}

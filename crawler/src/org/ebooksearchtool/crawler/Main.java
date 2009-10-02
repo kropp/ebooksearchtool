@@ -6,7 +6,8 @@ import java.util.*;
 
 public class Main {
 
-	public static final Proxy PROXY = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("192.168.0.2", 3128));
+//	public static final Proxy PROXY = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("192.168.0.2", 3128));
+	public static final Proxy PROXY = Proxy.NO_PROXY;
 	
 	public static void main(String[] args) {
 		if (args.length > 0) {
@@ -26,12 +27,7 @@ public class Main {
 			}).start();
 			String keyboardInput = null;
 			Scanner keyboardScanner = new Scanner(System.in);
-			while (true) {
-				keyboardInput = keyboardScanner.nextLine();
-				if (keyboardInput.length() > 0) break;
-			}
-			System.out.println("exit: " + keyboardInput);
-			output.flush();
+			System.out.println("exit: " + keyboardScanner.nextLine());
 			output.close();
 			System.exit(0);
 		} else {
