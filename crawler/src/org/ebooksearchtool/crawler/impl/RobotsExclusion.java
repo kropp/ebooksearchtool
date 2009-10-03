@@ -6,7 +6,7 @@ import org.ebooksearchtool.crawler.*;
 
 public class RobotsExclusion extends AbstractRobotsExclusion {
 	
-	private static final File ROBOTS_FILE = new File("robots");
+	private static final File ROBOTS_FILE = new File("robotscache.txt");
 	
 	public RobotsExclusion() {
 		if (!ROBOTS_FILE.exists()) {
@@ -94,8 +94,10 @@ public class RobotsExclusion extends AbstractRobotsExclusion {
 					me = "*".equals(s) || Crawler.USER_AGENT.equals(s);
 				} else if (me && s.startsWith("disallow:")) {
 					s = s.substring(9).trim();
-					bw.write(" " + s);
-					bw.newLine();
+					if (s.length() > 0) {
+						bw.write(" " + s);
+						bw.newLine();
+					}
 				}
 			}
 			br.close();

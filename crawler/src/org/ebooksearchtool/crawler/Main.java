@@ -8,7 +8,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		if (args.length > 0) {
-			final String start = args[0];
+			final String start = args[0].startsWith("http://") ? args[0] : "http://" + args[0];
 			PrintWriter output = null;
 			try {
 				output = new PrintWriter("visited.txt");
@@ -16,19 +16,26 @@ public class Main {
 				fnfe.printStackTrace();
 				System.exit(0);
 			}
-			final PrintWriter finalOutput = output;
+			final Crawler crawler = new Crawler(output);
 			new Thread(new Runnable() {
 				public void run() {
-					new Crawler(finalOutput).go(new String[]{start});
+					crawler.go(new String[]{start});
 				}
 			}).start();
 			String keyboardInput = null;
 			Scanner keyboardScanner = new Scanner(System.in);
-			System.out.println("exit: " + keyboardScanner.nextLine());
+			String input = "";
+			while (true) {
+				input = keyboardScanner.nextLine();
+				if (input.length() == 0) {
+					System.out.println(crawler.whatAmIDoing());
+				} else break;
+			}
+			System.out.println("exit: " + input);
 			output.close();
 			System.exit(0);
 		} else {
-			System.out.println("usage: java -jar Crawler.jar http://www.example.com/");
+			System.out.println("usage: java -jar Crawler.jar www.example.com\ninput empty string and press Enter to ask Crawler what is he doing\ninput any non-empty string and press Enter to exit");
 		}
 	}
 	

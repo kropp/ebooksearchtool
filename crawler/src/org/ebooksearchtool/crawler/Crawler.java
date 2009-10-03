@@ -14,17 +14,24 @@ public class Crawler {
 	
 	private static final int LIMIT = 500000;
 	private final PrintWriter myOutput;
+	private volatile String myAction;
 	
 	private final AbstractRobotsExclusion myRobots = new RobotsExclusion();
 	
 	Crawler(PrintWriter output) {
 		myOutput = output;
+		myAction = "nothing";
+	}
+	
+	public String whatAmIDoing() {
+		return myAction;
 	}
 	
 	public void go(String[] starts) {
 		final AbstractVisitedLinksSet were = new VisitedLinksSet();
 		final AbstractLinksQueue queue = new LinksQueue();
 		for (String start : starts) {
+			myAction = "prechecking if i can go to " + start;
 			if (myRobots.canGo(start)) {
 				were.add(start);
 				queue.offer(start);
@@ -33,17 +40,22 @@ public class Crawler {
 		int iteration = 0;
 		while (!queue.isEmpty()) {
 			String s = queue.poll();
+			myAction = "downloading page at " + s;
 			String page = getPage(s);
 			if (page == null) continue;
 			System.out.println((++iteration) + " " + s + " " + page.length());
 			myOutput.println(s);
+			myAction = "getting all links out of " + s;
 			List<String> links = getLinks(page);
 			for (String link : links) {
+				myAction = "checking if already visited " + link;
 				if (!were.contains(link) && were.size() < LIMIT) {
 					were.add(link);
+					myAction = "checking if i can go to " + link;
 					boolean permitted = myRobots.canGo(link);
 					if (permitted) {
 //System.out.println("allowed: " + link);
+						myAction = "adding to queue " + link;
 						queue.offer(link);
 					} else {
 //System.out.println("disallowed: " + link);
@@ -51,6 +63,7 @@ public class Crawler {
 				}
 			}
 		}
+		myAction = "nothing";
 		System.out.println("finished");
 	}
 	
