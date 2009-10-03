@@ -68,7 +68,8 @@ public class Crawler {
 	}
 	
 	private List<String> getLinks(String page) {
-		final List<String> links = new LinkedList<String>();
+//		return HTMLParser.parseLinks(page);
+		final List<String> links = new ArrayList<String>();
 		String href = "href=";
 		int k = -1;
 		while (true) {
