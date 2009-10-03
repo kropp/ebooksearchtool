@@ -1,1 +1,1 @@
-java -jar bin/Crawler.jar http://www.yandex.ru/
+java -ea -jar bin/Crawler.jar http://www.yandex.ru/

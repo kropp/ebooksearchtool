@@ -5,8 +5,13 @@ import java.net.*;
 import java.util.*;
 import org.ebooksearchtool.crawler.impl.*;
 
-class Crawler {
+public class Crawler {
 
+//	public static final Proxy PROXY = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("192.168.0.2", 3128));
+	public static final Proxy PROXY = Proxy.NO_PROXY;
+	
+	public static final String USER_AGENT = "ebooksearchtool";
+	
 	private static final int LIMIT = 500000;
 	private final PrintWriter myOutput;
 	
@@ -41,7 +46,7 @@ class Crawler {
 //System.out.println("allowed: " + link);
 						queue.offer(link);
 					} else {
-System.out.println("disallowed: " + link);
+//System.out.println("disallowed: " + link);
 					}
 				}
 			}
@@ -69,7 +74,7 @@ System.out.println("disallowed: " + link);
 	
 	private String getPage(String s) {
 		try {
-			URLConnection connection = new URL(s).openConnection(Main.PROXY);
+			URLConnection connection = new URL(s).openConnection(Crawler.PROXY);
 			BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 			String line = "";
 			StringBuilder page = new StringBuilder();

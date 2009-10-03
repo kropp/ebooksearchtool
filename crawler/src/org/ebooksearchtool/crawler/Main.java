@@ -6,9 +6,6 @@ import java.util.*;
 
 public class Main {
 
-//	public static final Proxy PROXY = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("192.168.0.2", 3128));
-	public static final Proxy PROXY = Proxy.NO_PROXY;
-	
 	public static void main(String[] args) {
 		if (args.length > 0) {
 			final String start = args[0];
