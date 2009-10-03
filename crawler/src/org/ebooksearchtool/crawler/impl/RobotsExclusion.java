@@ -4,15 +4,13 @@ import java.io.*;
 import java.net.*;
 import org.ebooksearchtool.crawler.*;
 
-public class RobotsExclusion implements AbstractRobotsExclusion {
+public class RobotsExclusion extends AbstractRobotsExclusion {
 
-	private static String getServerNameFromURL(String url) {
-		int x = url.indexOf("/", 7);
-		return x < 0 ? url : url.substring(0, x);
+	protected int isDisallowed(String server, String url) {
+		return 0;
 	}
 	
-	public boolean isPermitted(String url) {
-//System.out.println("checking = " + url);
+	protected void downloadRobotsTxt(String server) {/*
 		String server = null;
 		try {
 			server = getServerNameFromURL(url);
@@ -49,7 +47,8 @@ public class RobotsExclusion implements AbstractRobotsExclusion {
 		}
 		
 		return true;
-	}
+*/	}
+	
 	
 }
 

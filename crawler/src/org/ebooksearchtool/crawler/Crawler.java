@@ -20,7 +20,7 @@ class Crawler {
 		final AbstractVisitedLinksSet were = new VisitedLinksSet();
 		final AbstractLinksQueue queue = new LinksQueue();
 		for (String start : starts) {
-			if (myRobots.isPermitted(start)) {
+			if (myRobots.canGo(start)) {
 				were.add(start);
 				queue.offer(start);
 			}
@@ -36,9 +36,9 @@ class Crawler {
 			for (String link : links) {
 				if (!were.contains(link) && were.size() < LIMIT) {
 					were.add(link);
-					boolean permitted = myRobots.isPermitted(link);
+					boolean permitted = myRobots.canGo(link);
 					if (permitted) {
-System.out.println("allowed: " + link);
+//System.out.println("allowed: " + link);
 						queue.offer(link);
 					} else {
 System.out.println("disallowed: " + link);
