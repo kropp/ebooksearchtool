@@ -4,8 +4,8 @@
 #include "mainwindow.h"
 #include "../xml_parser/parser.h"
 
-HttpWindow::HttpWindow(QWidget *parent) : QDialog(parent) {
-	myUrlLineEdit = new QLineEdit("http://feedbooks.com/books/");
+MainWindow::MainWindow(QWidget *parent) : QDialog(parent) {
+	myUrlLineEdit = new QLineEdit("http://feedbooks.com/books/search.atom?query=");
 
 	myUrlLabel = new QLabel(tr("&URL:"));
 	myUrlLabel->setBuddy(myUrlLineEdit);
@@ -58,7 +58,7 @@ HttpWindow::HttpWindow(QWidget *parent) : QDialog(parent) {
 	myUrlLineEdit->setFocus();
 }
 
-void HttpWindow::downloadFile() {
+void MainWindow::downloadFile() {
 	QUrl url(myUrlLineEdit->text());
 	QFileInfo fileInfo(url.path());
 	QString fileName = fileInfo.fileName();
@@ -86,7 +86,7 @@ void HttpWindow::downloadFile() {
 	QHttp::ConnectionMode mode = url.scheme().toLower() == "https" ? QHttp::ConnectionModeHttps : QHttp::ConnectionModeHttp;
 	myHttp->setHost(url.host(), mode, url.port() == -1 ? 0 : url.port());
 	//TODO - add button for setting proxy
-	myHttp->setProxy("192.168.0.2", 3128);
+	//myHttp->setProxy("192.168.0.2", 3128);
 
 	myHttpRequestAborted = false;
 	myHttpGetId = myHttp->get(myUrlLineEdit->text(), myFile);
@@ -96,14 +96,14 @@ void HttpWindow::downloadFile() {
 	myDownloadButton->setEnabled(false);
 }
 
-void HttpWindow::cancelDownload() {
+void MainWindow::cancelDownload() {
 	myStatusLabel->setText(tr("Download canceled."));
 	myHttpRequestAborted = true;
 	myHttp->abort();
 	myDownloadButton->setEnabled(true);
 }
 
-void HttpWindow::httpRequestFinished(int requestId, bool error) {
+void MainWindow::httpRequestFinished(int requestId, bool error) {
 	if (requestId != myHttpGetId)
 		return;
 	if (myHttpRequestAborted) {
@@ -139,7 +139,7 @@ void HttpWindow::httpRequestFinished(int requestId, bool error) {
     myFile = 0;
 }
 
-void HttpWindow::readResponseHeader(const QHttpResponseHeader &responseHeader) {
+void MainWindow::readResponseHeader(const QHttpResponseHeader &responseHeader) {
 	if (responseHeader.statusCode() != 200) {
 		QMessageBox::information(this, tr("HTTP"),
 					          tr("Download failed: %1.")
@@ -151,7 +151,7 @@ void HttpWindow::readResponseHeader(const QHttpResponseHeader &responseHeader) {
 	}
 }
 
-void HttpWindow::updateDataReadProgress(int bytesRead, int totalBytes) {
+void MainWindow::updateDataReadProgress(int bytesRead, int totalBytes) {
 	if (myHttpRequestAborted)
 		return;
 
@@ -159,18 +159,18 @@ void HttpWindow::updateDataReadProgress(int bytesRead, int totalBytes) {
 	myProgressDialog->setValue(bytesRead);
 }
 
-void HttpWindow::enableDownloadButton() {
+void MainWindow::enableDownloadButton() {
 	myDownloadButton->setEnabled(!myUrlLineEdit->text().isEmpty());
 }
 
-void HttpWindow::parseDownloadedFile() {
+void MainWindow::parseDownloadedFile() {
 	AtomParser parser;
 	parser.setOutput(myByteArray);
 	parser.parse(*myFile);
 	myText->setPlainText(myByteArray->data());
 }
 
-void HttpWindow::clearScreen() {
+void MainWindow::clearScreen() {
 	myByteArray->clear();
 }
 

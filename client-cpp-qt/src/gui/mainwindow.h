@@ -3,6 +3,8 @@
 
 #include <QDialog>
 
+//#include <QMainWindow>
+
 class QDialogButtonBox;
 class QFile;
 class QHttp;
@@ -14,12 +16,12 @@ class QProgressDialog;
 class QPushButton;
 class QAuthenticator;
 
-class HttpWindow : public QDialog {
+class MainWindow : public QDialog {
 
      Q_OBJECT
 
 public:
-	HttpWindow(QWidget *parent = 0);
+	MainWindow(QWidget *parent = 0);
 
 private slots:
 	void downloadFile();
