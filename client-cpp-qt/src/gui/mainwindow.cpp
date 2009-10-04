@@ -1,10 +1,10 @@
 #include <QtGui>
-#include <QtNetwork>
 
 #include "mainwindow.h"
 #include "../xml_parser/parser.h"
+#include "../network/httpconnection.h"
 
-MainWindow::MainWindow(QWidget *parent) : QDialog(parent) {
+MainWindow::MainWindow(QWidget *parent) : QDialog(parent), myFile(0) {
 	myUrlLineEdit = new QLineEdit("http://feedbooks.com/books/search.atom?query=");
 
 	myUrlLabel = new QLabel(tr("&URL:"));
@@ -24,21 +24,13 @@ MainWindow::MainWindow(QWidget *parent) : QDialog(parent) {
 	myText = new QTextEdit(this);
 	myText->setPlainText("You can start searching.\n");
 	myText->setReadOnly(true);
-	myByteArray = new QByteArray();
+	myByteArray = new QByteArray(); // TODO а это вообще уже часть модели и представления - убрать 
 
-	myProgressDialog = new QProgressDialog(this);
+	myHttpConnection = new HttpConnection(this);
 
-	myHttp = new QHttp(this);
+	connect(myUrlLineEdit, SIGNAL(textChanged(const QString &)), this, SLOT(enableDownloadButton()));
+	connect(myHttpConnection, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
 
-	connect(myUrlLineEdit, SIGNAL(textChanged(const QString &)),
-		this, SLOT(enableDownloadButton()));
-	connect(myHttp, SIGNAL(requestFinished(int, bool)),
-		 this, SLOT(httpRequestFinished(int, bool)));
-	connect(myHttp, SIGNAL(dataReadProgress(int, int)),
-		 this, SLOT(updateDataReadProgress(int, int)));
-	connect(myHttp, SIGNAL(responseHeaderReceived(const QHttpResponseHeader &)),
-		 this, SLOT(readResponseHeader(const QHttpResponseHeader &)));
-	connect(myProgressDialog, SIGNAL(canceled()), this, SLOT(cancelDownload()));
 	connect(myDownloadButton, SIGNAL(clicked()), this, SLOT(downloadFile()));
 	connect(myQuitButton, SIGNAL(clicked()), this, SLOT(close()));
 	connect(myDownloadButton, SIGNAL(clicked()), this, SLOT(clearScreen()));
@@ -59,114 +51,35 @@ MainWindow::MainWindow(QWidget *parent) : QDialog(parent) {
 }
 
 void MainWindow::downloadFile() {
-	QUrl url(myUrlLineEdit->text());
-	QFileInfo fileInfo(url.path());
-	QString fileName = fileInfo.fileName();
-
-	if (QFile::exists(fileName)) {
-	if (QMessageBox::question(this, tr("HTTP"),
-		                       tr("There already exists a file called %1 in "
-		                          "the current directory. Overwrite?").arg(fileName),
-		                       QMessageBox::Ok|QMessageBox::Cancel, QMessageBox::Cancel)
-		 == QMessageBox::Cancel)
-		return;
-		QFile::remove(fileName);
-	}
-
-	myFile = new QFile(fileName);
-	if (!myFile->open(QIODevice::WriteOnly)) {
-    	QMessageBox::information(this, tr("HTTP"),
-                                  tr("Unable to save the file %1: %2.")
-                                  .arg(fileName).arg(myFile->errorString()));
-		delete myFile;
-		myFile = 0;
-		return;
-	}
-
-	QHttp::ConnectionMode mode = url.scheme().toLower() == "https" ? QHttp::ConnectionModeHttps : QHttp::ConnectionModeHttp;
-	myHttp->setHost(url.host(), mode, url.port() == -1 ? 0 : url.port());
 	//TODO - add button for setting proxy
-	//myHttp->setProxy("192.168.0.2", 3128);
-
-	myHttpRequestAborted = false;
-	myHttpGetId = myHttp->get(myUrlLineEdit->text(), myFile);
-
-	myProgressDialog->setWindowTitle(tr("HTTP"));
-	myProgressDialog->setLabelText(tr("Downloading %1.").arg(fileName));
+	//myHttpConnection->setProxy("192.168.0.2", 3128);
+	
+	if (myFile != 0) {
+		delete myFile;
+	}
+	myFile = new QFile("downloaded");
+	myFile->open(QIODevice::WriteOnly); //может и не суметь открыть
+	myHttpConnection->downloadFile(myUrlLineEdit->text(), myFile);
 	myDownloadButton->setEnabled(false);
 }
 
-void MainWindow::cancelDownload() {
-	myStatusLabel->setText(tr("Download canceled."));
-	myHttpRequestAborted = true;
-	myHttp->abort();
-	myDownloadButton->setEnabled(true);
-}
-
-void MainWindow::httpRequestFinished(int requestId, bool error) {
-	if (requestId != myHttpGetId)
-		return;
-	if (myHttpRequestAborted) {
-    	if (myFile) {
-			myFile->close();
-			myFile->remove();
-			delete myFile;
-			myFile = 0;
-		}
-		myProgressDialog->hide();
-		return;
-	}
-
-	if (requestId != myHttpGetId)
-		return;
-
-	myProgressDialog->hide();
-	myFile->close();
-
-    if (error) {
-        myFile->remove();
-        QMessageBox::information(this, tr("HTTP"),
-                                  tr("Download failed: %1.")
-                                  .arg(myHttp->errorString()));
-    } else {
-    	QString fileName = QFileInfo(QUrl(myUrlLineEdit->text()).path()).fileName();
-    	myStatusLabel->setText(tr("Downloaded %1 to current directory.").arg(fileName));
-    }
-
-    myDownloadButton->setEnabled(true);
-    parseDownloadedFile();
-    delete myFile;
-    myFile = 0;
-}
-
-void MainWindow::readResponseHeader(const QHttpResponseHeader &responseHeader) {
-	if (responseHeader.statusCode() != 200) {
-		QMessageBox::information(this, tr("HTTP"),
-					          tr("Download failed: %1.")
-					          .arg(responseHeader.reasonPhrase()));
-		myHttpRequestAborted = true;
-		myProgressDialog->hide();
-		myHttp->abort();
-		return;
-	}
-}
-
-void MainWindow::updateDataReadProgress(int bytesRead, int totalBytes) {
-	if (myHttpRequestAborted)
-		return;
-
-	myProgressDialog->setMaximum(totalBytes);
-	myProgressDialog->setValue(bytesRead);
-}
 
 void MainWindow::enableDownloadButton() {
 	myDownloadButton->setEnabled(!myUrlLineEdit->text().isEmpty());
 }
 
+void MainWindow::httpRequestFinished(int , bool) {
+	myFile->close();
+	enableDownloadButton();
+	parseDownloadedFile();
+}
+
 void MainWindow::parseDownloadedFile() {
 	AtomParser parser;
 	parser.setOutput(myByteArray);
-	parser.parse(*myFile);
+	myFile->open(QIODevice::ReadOnly);
+	parser.parse(myFile);
+	myFile->close();
 	myText->setPlainText(myByteArray->data());
 }
 

@@ -1,6 +1,5 @@
 #include <QtXml>
 
-#include <iostream>
 #include "parser.h"
 
 bool AtomHandler::characters (const QString& strText) {
@@ -21,9 +20,9 @@ bool AtomHandler::endElement (const QString&, const QString&, const QString& str
 
 AtomParser::AtomParser() {}
 
-void AtomParser::parse(QFile& file) {
+void AtomParser::parse(QFile* file) {
 	AtomHandler handler(myOutputBuffer);
-	QXmlInputSource source(&file);
+	QXmlInputSource source(file);
 	QXmlSimpleReader reader;
 	reader.setContentHandler(&handler);
 	reader.parse(source);

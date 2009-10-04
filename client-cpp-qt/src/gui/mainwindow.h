@@ -3,7 +3,7 @@
 
 #include <QDialog>
 
-//#include <QMainWindow>
+#include "../network/httpconnection.h"
 
 class QDialogButtonBox;
 class QFile;
@@ -25,10 +25,7 @@ public:
 
 private slots:
 	void downloadFile();
-	void cancelDownload();
 	void httpRequestFinished(int requestId, bool error);
-	void readResponseHeader(const QHttpResponseHeader &responseHeader);
-	void updateDataReadProgress(int bytesRead, int totalBytes);
 	void enableDownloadButton();
 	void parseDownloadedFile();
 	void clearScreen();
@@ -38,16 +35,13 @@ private:
 	QLabel *myUrlLabel;
 	QLineEdit *myUrlLineEdit;
 	QTextEdit *myText;
-	QProgressDialog *myProgressDialog;
 	QPushButton *myDownloadButton;
 	QPushButton *myQuitButton;
 	QDialogButtonBox *myButtonBox;
 	QByteArray* myByteArray;
 
-	QHttp *myHttp;
-	QFile *myFile; //может, он и не нужен
-	int myHttpGetId;
-	bool myHttpRequestAborted;
+	HttpConnection* myHttpConnection;
+	QFile *myFile; 
 };
 
 #endif //_MAIN_WINDOW_H_

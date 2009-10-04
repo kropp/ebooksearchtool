@@ -25,7 +25,7 @@ public:
 	AtomParser();
 	
 public:
-	void parse(QFile& file);
+	void parse(QFile* file);
 	void setOutput(QByteArray* buffer);
 
 private:
