@@ -39,19 +39,26 @@ public class AuthorsSimpleParser implements IParser{
             }else{
                 //Случай с сепаратором
                 if(temp.get(1).getType().equals(StringType.separator)){
-                    //Если следующее слово - завние
-                    if(length < 4 || temp.get(3).getType().equals(StringType.separator)){
-                        out.add(temp.get(0).toString() + ", " + temp.get(2).toString());
-                        temp.remove(0);//Удаление готового элимента
-                        temp.remove(0);//Удаление сепаратора
-                        temp.remove(0);//Удаление завния
-                        if(length > 3){
-                            temp.remove(0);//Уаление второго сепаратора
-                        }
-                    }else{
+                    //Случай, когда сепаратор - последний в строке
+                    if(length == 2){
                         out.add(temp.get(0).toString());
                         temp.remove(0);//Удаление готового элимента
                         temp.remove(0);//Удаление сепаратора
+                    }else{
+                        //Если следующее слово - завние
+                        if(length < 4 || temp.get(3).getType().equals(StringType.separator)){
+                            out.add(temp.get(0).toString() + ", " + temp.get(2).toString());
+                            temp.remove(0);//Удаление готового элимента
+                            temp.remove(0);//Удаление сепаратора
+                            temp.remove(0);//Удаление завния
+                            if(length > 3){
+                                temp.remove(0);//Уаление второго сепаратора
+                            }
+                        }else{
+                            out.add(temp.get(0).toString());
+                            temp.remove(0);//Удаление готового элимента
+                            temp.remove(0);//Удаление сепаратора
+                        }
                     }
                 }else{
                     //Случай с соединителем

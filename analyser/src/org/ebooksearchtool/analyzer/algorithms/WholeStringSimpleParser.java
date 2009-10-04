@@ -12,16 +12,16 @@ public class WholeStringSimpleParser implements IParser{
 
     private static WholeStringSimpleParser instance;
 
-    private ArrayList<String> authors;
-    private String bookName;
-    private String url;
-    private String language;
+    private ArrayList<String> myAuthors;
+    private String myBookName;
+    private String myUrl;
+    private String myLanguage;
     
     public WholeStringSimpleParser(){
-        authors = new ArrayList<String>();
-        bookName = "";
-        url = "";
-        language = "";
+        myAuthors = new ArrayList<String>();
+        myBookName = "";
+        myUrl = "";
+        myLanguage = "";
     }
 
 
@@ -31,27 +31,27 @@ public class WholeStringSimpleParser implements IParser{
 
         ArrayList<Lexema> temp = Lexema.convertToLexems(input);
 
-        url = URLsExtractor.extractURL(temp);
+        myUrl = URLsExtractor.extractURL(temp);
 
-        out.add("URL: " + url);
+        out.add("URL: " + myUrl);
 
         return out;
     }
 
     public ArrayList<String> getAuthors(){
-        return authors;
+        return myAuthors;
     }
 
     public String getBookName(){
-        return bookName;
+        return myBookName;
     }
 
     public String getURL(){
-        return url;
+        return myUrl;
     }
 
     public String getLanguage(){
-        return language;
+        return myLanguage;
     }
 
 }

@@ -59,7 +59,6 @@ public class Lexema {
                 if(!SpecialWords.isSepatator(ch)){
                     bd.append(ch);
                 }else{
-
                     temp.add(new Lexema(bd.toString()));
                     temp.add(new Lexema(ch + "",StringType.separator));
                     bd.delete(0, bd.length());
@@ -78,25 +77,33 @@ public class Lexema {
 
         length = temp.size();
         for (int i = 0; i < length; i++) {
-            temp.get(i).trim();
+            //Здесь проверяются и удаляются пустые лексемы
+            if(!temp.get(i).trim()){
+                temp.remove(i);
+                length--;
+            }
         }
 
         return temp;
     }
 
-    private void trim(){
+    private boolean trim(){
         if(info != null){
             StringBuilder temp = new StringBuilder(info.trim());
 
-            while(SpecialWords.isNeedToTrim(temp.charAt(0))){
+            while(temp.length() != 0 && SpecialWords.isNeedToTrim(temp.charAt(0))){
                 temp.deleteCharAt(0);
             }
 
-            while(SpecialWords.isNeedToTrim(temp.charAt(temp.length() - 1))){
+            while(temp.length() != 0 && SpecialWords.isNeedToTrim(temp.charAt(temp.length() - 1))){
                 temp.deleteCharAt(temp.length() - 1);
             }
-
-            info = temp.toString();
+            if(temp.length() != 0){
+                info = temp.toString();
+                return true;
+            }
+            return false;
         }
+        return false;
     }
 }

@@ -9,7 +9,7 @@ import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.ebooksearchtool.analyzer.algorithms.AuthorsSimpleParser;
-import org.ebooksearchtool.analyzer.io.Serializator;
+import org.ebooksearchtool.analyzer.io.TestToFileWriter;
 
 public class SimpleTestBuildHandler extends DefaultHandler{
 
@@ -18,8 +18,6 @@ public class SimpleTestBuildHandler extends DefaultHandler{
 
     public SimpleTestBuildHandler(){
         super();
-
-
     }
 
     @Override
@@ -53,6 +51,6 @@ public class SimpleTestBuildHandler extends DefaultHandler{
 
     @Override
     public void endDocument () throws SAXException {
-        Serializator.serialazeTest(authors, "simpletest.tst");
+        TestToFileWriter.writeTestToFile(authors, "simpletest.tst");
     }
 }

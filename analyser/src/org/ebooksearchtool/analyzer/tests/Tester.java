@@ -13,12 +13,12 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.SAXException;
 import org.ebooksearchtool.analyzer.algorithms.IParser;
-import org.ebooksearchtool.analyzer.io.Serializator;
+import org.ebooksearchtool.analyzer.io.TestToFileWriter;
 
 public class Tester {
 
     public static void Test(IParser parser) throws ParserConfigurationException, SAXException, IOException{
-        ArrayList<ArrayList<String>> test = Serializator.deserialazeTest("simpletest.tst");
+        ArrayList<ArrayList<String>> test = TestToFileWriter.readTestFromFile("simpletest.tst");
         
         BufferedWriter out = new BufferedWriter(new FileWriter("testresult.txt"));
         boolean testPassedFlag = true;
@@ -27,7 +27,7 @@ public class Tester {
         SAXParser pars1 = factory1.newSAXParser();
         SimpleAuthorsHandler dh = new SimpleAuthorsHandler();
         pars1.parse("munsey.xml", dh);
-        ArrayList<ArrayList<String>> parsed = Serializator.deserialazeTest("authors.out");
+        ArrayList<ArrayList<String>> parsed = TestToFileWriter.readTestFromFile("authors.out");
 
         int length = parsed.size();
         int lengthOfTest = test.size();
