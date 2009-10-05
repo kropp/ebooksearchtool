@@ -1,9 +1,10 @@
 package Connection;
 
-import java.net.URL;
-import java.net.URLConnection;
 import java.net.*;
 import java.io.*;
+import View.Viewer;
+
+import exec.Controller;
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,22 +14,21 @@ import java.io.*;
  * To change this template use File | Settings | File Templates.
  */
 public class Connector{
-
+	
+	Viewer viewer;
     URL Url;
     URLConnection connection;
 
     public Connector(String adress) throws IOException {
         Url = new URL(adress);
+        viewer = new Viewer();
     }
 
     public void GetFileFromURL() {
         
         try {
             connection = Url.openConnection();
-            PrintWriter pw = new PrintWriter   //
-                (new OutputStreamWriter          // -
-                (new FileOutputStream         //
-                ("answer_file.xml"), "utf-8"));
+            PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream("answer_file.xml"), "utf-8"));
 
             int i = 0;
             while (i != connection.getContentLength()){
@@ -38,17 +38,13 @@ public class Connector{
             pw.close();
         } catch (IOException e) {
             try {
-                BufferedReader bReader = new BufferedReader (new InputStreamReader(System.in)); 
-                System.out.println("input IP (192.168.0.2 for APTU)");
-                String IP = bReader.readLine();
-                System.out.println("input port (3128 for APTU)");
-                int port = Integer.parseInt(bReader.readLine());
+                String IP = "192.168.0.2";
+                int port = 3128;
+                viewer.showProxyDialog(IP, port);
+                System.out.println(IP + " " + port);
                 connection = Url.openConnection(new Proxy(Proxy.Type.HTTP, new InetSocketAddress(IP, port)));
                 
-                PrintWriter pw = new PrintWriter   //
-                    (new OutputStreamWriter          // -
-                    (new FileOutputStream         //
-                    ("answer_file.xml"), "utf-8"));
+                PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream("answer_file.xml"), "utf-8"));
 
                 int i = 0;
                 while (i != connection.getContentLength()){

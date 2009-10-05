@@ -18,7 +18,7 @@ import javax.xml.parsers.ParserConfigurationException;
  */
 public class Main {
 
-    public static void main(String args[]) throws IOException, SAXException, ParserConfigurationException {
+   /* public static void main(String args[]) throws IOException, SAXException, ParserConfigurationException {
 
         Connector connect = new Connector("http://feedbooks.com/books/search.atom?query=Pushkin");
 
@@ -29,5 +29,5 @@ public class Main {
       //  parser.parse("answer_file.xml");
        
     }
-
+*/
 }

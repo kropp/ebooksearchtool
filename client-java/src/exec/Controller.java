@@ -9,21 +9,30 @@ import java.util.Vector;
 import Connection.Connector;
 import Logic.Parser.Parser;
 import Model.Data;
+import View.Viewer;
+import Logic.Query.*;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Администратор
+ * User: 
  * Date: 01.10.2009
  * Time: 21:29:17
  * To change this template use File | Settings | File Templates.
  */
 public class Controller {
+	
+	Viewer viewer;
 
     public static void main(String args[]) throws IOException, SAXException, ParserConfigurationException {
 
         Data books = new Data();
+        
+        Query query = new Query();
+        
+        String adress = query.getQueryAdress();
+        System.out.println(adress);
 
-        Connector connect = new Connector("http://feedbooks.com/books/search.atom?query=Pushkin");
+        Connector connect = new Connector(adress);
 
         connect.GetFileFromURL();
 
