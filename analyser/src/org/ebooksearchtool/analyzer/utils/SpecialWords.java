@@ -31,6 +31,19 @@ public class SpecialWords {
         needToTrim.add(']');
     }
 
+    static HashSet typesSeparators = new HashSet();
+    static{
+        typesSeparators.add("!sep!");
+    }
+
+    public static boolean isTypesSeparator(String value){
+        if(typesSeparators.contains(value)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     public static boolean isNeedToTrim(char value){
         if(needToTrim.contains(value)){
             return true;
@@ -74,6 +87,7 @@ public class SpecialWords {
     public enum StringType{
         word,
         separator,
-        joiner;
+        joiner,
+        typesSeparator;
     }
 }

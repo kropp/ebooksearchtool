@@ -106,4 +106,12 @@ public class Lexema {
         }
         return false;
     }
+
+    public boolean equals(Lexema lex){
+        return info.equals(lex.info) && type.equals(lex.type);
+    }
+
+    public boolean equalsInfo(String str){
+        return info.equals(str);
+    }
 }
