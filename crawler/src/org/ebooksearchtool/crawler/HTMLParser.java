@@ -20,7 +20,9 @@ class HTMLParser extends HTMLEditorKit.ParserCallback {
 	}
 	
 	private void maybeAddLink(String url) {
-		if (url.startsWith("javascript:")) return;
+		if (url.length() == 0 || url.startsWith("javascript:")) {
+			return;
+		}
 		if (url.indexOf("://") < 0) {
 			if (url.charAt(0) != '/') url = "/" + url;
 			url = myServer + url;

@@ -16,7 +16,7 @@ public class Crawler {
 	private final PrintWriter myOutput;
 	private volatile String myAction;
 	
-	private final AbstractRobotsExclusion myRobots = new RobotsExclusion();
+	private final AbstractRobotsExclusion myRobots = new ManyFilesRobotsExclusion();
 	
 	Crawler(PrintWriter output) {
 		myOutput = output;
@@ -46,7 +46,7 @@ public class Crawler {
 			System.out.println((++iteration) + " " + s + " " + page.length());
 			myOutput.println(s);
 			myAction = "getting all links out of " + s;
-			List<String> links = getLinks(getServerNameFromURL(s), page);
+			List<String> links = HTMLParser.parseLinks(getServerNameFromURL(s), page);
 			for (String link : links) {
 				myAction = "checking if already visited " + link;
 				if (!were.contains(link) && were.size() < LIMIT) {
@@ -65,10 +65,6 @@ public class Crawler {
 		}
 		myAction = "nothing";
 		System.out.println("finished");
-	}
-	
-	private List<String> getLinks(String server, String page) {
-		return HTMLParser.parseLinks(server, page);
 	}
 	
 	private String getPage(String s) {

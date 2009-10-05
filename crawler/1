@@ -1,1 +1,1 @@
-java -ea -jar bin/Crawler.jar http://graph.dyndns.info/
+java -ea -jar bin/Crawler.jar www.lib.ru

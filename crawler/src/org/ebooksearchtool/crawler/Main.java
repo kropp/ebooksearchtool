@@ -35,7 +35,7 @@ public class Main {
 			output.close();
 			System.exit(0);
 		} else {
-			System.out.println("usage: java -jar Crawler.jar www.example.com\ninput empty string and press Enter to ask Crawler what is he doing\ninput any non-empty string and press Enter to exit");
+			System.out.println("usage:\n  java -jar Crawler.jar www.example.com\n  input empty string and press Enter to ask Crawler what is he doing\n  input any non-empty string and press Enter to exit");
 		}
 	}
 	
