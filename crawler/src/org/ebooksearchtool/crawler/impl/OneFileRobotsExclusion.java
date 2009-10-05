@@ -4,11 +4,13 @@ import java.io.*;
 import java.net.*;
 import org.ebooksearchtool.crawler.*;
 
-public class RobotsExclusion extends AbstractRobotsExclusion {
+public class OneFileRobotsExclusion extends AbstractRobotsExclusion {
 	
 	private static final File ROBOTS_FILE = new File("robotscache.txt");
 	
-	public RobotsExclusion() {
+	/** stores all cached robots.txt in one file
+	    very inefficient and slow                */
+	public OneFileRobotsExclusion() {
 		if (!ROBOTS_FILE.exists()) {
 			try {
 				new PrintWriter(ROBOTS_FILE).close();
