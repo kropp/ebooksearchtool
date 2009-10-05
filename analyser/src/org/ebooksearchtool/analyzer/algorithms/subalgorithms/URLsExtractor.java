@@ -1,4 +1,4 @@
-package org.ebooksearchtool.analyzer.algorithms;
+package org.ebooksearchtool.analyzer.algorithms.subalgorithms;
 
 import java.util.ArrayList;
 import org.ebooksearchtool.analyzer.utils.Lexema;
