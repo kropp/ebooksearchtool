@@ -1,45 +1,51 @@
 package org.ebooksearchtool.crawler;
 
-import javax.swing.text.ChangedCharSetException;
 import javax.swing.text.html.parser.*;
 import javax.swing.text.html.*;
+import javax.swing.text.*;
 import java.io.*;
 import java.util.*;
 
-class HTMLParser extends Parser {
+class HTMLParser extends HTMLEditorKit.ParserCallback {
 	
 	private final List<String> myLinks = new ArrayList<String>();
+	private final String myServer;
 	
-	HTMLParser(DTD dtd) {
-		super(dtd);
+	private HTMLParser(String server) {
+		myServer = server;
 	}
 	
 	private List<String> getLinks() {
 		return myLinks;
 	}
 	
-	protected void startTag(TagElement tag) {
-		try {
-			super.startTag(tag);
-		} catch (ChangedCharSetException e) { }
-		if (tag.getHTMLTag() == HTML.Tag.A) {
-			Element e = tag.getElement();
-			AttributeList atts = e.atts;
-			while (atts != null) {
-				System.err.println(atts.getName() + " " + e.getName());
-				atts = atts.next;
+	private void maybeAddLink(String url) {
+		if (url.startsWith("javascript:")) return;
+		if (url.indexOf("://") < 0) {
+			if (url.charAt(0) != '/') url = "/" + url;
+			url = myServer + url;
+		}
+		myLinks.add(url);
+	}
+	
+	public void handleSimpleTag(HTML.Tag tag, MutableAttributeSet attr, int pos) {
+		super.handleSimpleTag(tag, attr, pos);
+		if (tag == HTML.Tag.A) {
+			Object href = attr.getAttribute(HTML.Attribute.HREF);
+			if (href != null) {
+				maybeAddLink(href.toString());
 			}
 		}
 	}
 	
 	
-	static List<String> parseLinks(String page) {
-		HTMLParser parser = null;
+	static List<String> parseLinks(String server, String page) {
+		HTMLParser parser = new HTMLParser(server);
 		try {
-			parser = new HTMLParser(DTD.getDTD(""));
-			parser.parse(new StringReader(page));
+			DocumentParser dp = new DocumentParser(DTD.getDTD("html"));
+			dp.parse(new StringReader(page), parser, true);
 		} catch (Exception e) {
-			System.err.println("o_O");
+System.err.println("o_O " + e.getMessage());
 			return new ArrayList<String>();
 		}
 		return parser.getLinks();

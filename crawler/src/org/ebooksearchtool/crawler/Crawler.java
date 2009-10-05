@@ -46,7 +46,7 @@ public class Crawler {
 			System.out.println((++iteration) + " " + s + " " + page.length());
 			myOutput.println(s);
 			myAction = "getting all links out of " + s;
-			List<String> links = getLinks(page);
+			List<String> links = getLinks(getServerNameFromURL(s), page);
 			for (String link : links) {
 				myAction = "checking if already visited " + link;
 				if (!were.contains(link) && were.size() < LIMIT) {
@@ -67,23 +67,8 @@ public class Crawler {
 		System.out.println("finished");
 	}
 	
-	private List<String> getLinks(String page) {
-//		return HTMLParser.parseLinks(page);
-		final List<String> links = new ArrayList<String>();
-		String href = "href=";
-		int k = -1;
-		while (true) {
-			k = page.indexOf(href, k + 1);
-			if (k < 0) break;
-			k += 5;
-			if (page.length() > k && page.charAt(k) == '\"') {
-				int x = page.indexOf("\"", k + 1);
-				if (x < 0) break;
-				String t = page.substring(k + 1, x);
-				links.add(t);
-			}
-		}
-		return links;
+	private List<String> getLinks(String server, String page) {
+		return HTMLParser.parseLinks(server, page);
 	}
 	
 	private String getPage(String s) {
@@ -108,6 +93,19 @@ public class Crawler {
 			//e.printStackTrace();
 			return null;
 		}
+	}
+	
+
+
+	public static String getServerNameFromURL(String url) {
+		if (!url.startsWith("http://")) return null;
+		try {
+			URL u = new URL(url);
+		} catch (MalformedURLException e) {
+			return null;
+		}
+		int x = url.indexOf("/", 7);
+		return x < 0 ? url : url.substring(0, x);
 	}
 	
 	

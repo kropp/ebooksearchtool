@@ -4,17 +4,6 @@ import java.net.*;
 
 public abstract class AbstractRobotsExclusion {
 	
-	private static String getServerNameFromURL(String url) {
-		if (!url.startsWith("http://")) return null;
-		try {
-			URL u = new URL(url);
-		} catch (MalformedURLException e) {
-			return null;
-		}
-		int x = url.indexOf("/", 7);
-		return x < 0 ? url : url.substring(0, x);
-	}
-	
 	protected static boolean matches(String url, String pattern) {
 		// regular expressions?...
 		return url.startsWith(pattern);
@@ -31,7 +20,7 @@ public abstract class AbstractRobotsExclusion {
 	protected abstract void downloadRobotsTxt(String server);
 	
 	boolean canGo(String url) {
-		String server = getServerNameFromURL(url);
+		String server = Crawler.getServerNameFromURL(url);
 		if (server == null) return false;
 		int disallowed = isDisallowed(server, url);
 		if (disallowed == -1) {
