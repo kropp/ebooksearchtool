@@ -1,6 +1,26 @@
+# -*- coding: utf-8 -*-
 from django.contrib.syndication.feeds import Feed
-from model.models import Book
+from book.models import Book
 from django.utils.feedgenerator import Atom1Feed
+
+
+from django.http import HttpResponse
+from book.models import Author
+def my_test(request, add_author = ''):
+ #   a = Author()
+ #   a.name = u"Ремарк, Эрих Мария"
+ #   a.save()
+    if add_author:
+      a = Author()
+      a.name = add_author
+      a.save()
+
+    a_list = Author.objects.all()
+    html = ''
+    for a in a_list:
+        html += a.name + "<br>"
+    
+    return HttpResponse(html)
 
 class OPDSFeed(Atom1Feed ):
     "Feed class to support OPDS protocol"
@@ -19,6 +39,9 @@ class OPDSFeed(Atom1Feed ):
                 
 #        print self.feed
         
+
+
+
     def add_root_elements(self, handler):
         Atom1Feed.add_root_elements(self, handler)
         handler.addQuickElement(u"opensearch:totalResults", self.feed['total'])
