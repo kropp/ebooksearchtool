@@ -7,13 +7,22 @@ bool AtomHandler::characters (const QString& strText) {
 	return true;
 }
 
+bool AtomHandler::startElement (const QString& , const QString& , const QString& name, const QXmlAttributes& ) {
+	if (name == "entry") {
+		myIsEntry = true;
+	}
+	return true;
+}
+
 bool AtomHandler::endElement (const QString&, const QString&, const QString& str) {
-	if (str == "title") {
+	if ((str == "title") && (myIsEntry)) {
 		myBuffer->append(myStrText);
 		myBuffer->append(" 	 ");
-	} else if (str == "name") {
+	} else if ((str == "name") && (myIsEntry)) {
 		myBuffer->append(myStrText);
 		myBuffer->append("\n");
+	} else if (str == "entry") {
+		myIsEntry = false;	
 	}
 	return true;
 }

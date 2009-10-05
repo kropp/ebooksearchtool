@@ -8,11 +8,10 @@ class QFile;
 class HttpConnection : public QHttp {
 
 public:
-	HttpConnection(QObject* parent = 0);
+	HttpConnection(QObject* parent = 0) : QHttp(parent) {}
 	
 public:
 	void downloadFile(QString url, QFile* file);
-	void setProxy(QString proxy, int port);
 
 public:
 	int myHttpGetId;

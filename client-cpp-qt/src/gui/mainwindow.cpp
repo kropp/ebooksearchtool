@@ -52,7 +52,7 @@ MainWindow::MainWindow(QWidget *parent) : QDialog(parent), myFile(0) {
 
 void MainWindow::downloadFile() {
 	//TODO - add button for setting proxy
-	//myHttpConnection->setProxy("192.168.0.2", 3128);
+	myHttpConnection->setProxy("192.168.0.2", 3128);
 	
 	if (myFile != 0) {
 		delete myFile;
