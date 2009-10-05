@@ -13,17 +13,17 @@ class OPDSFeed(Atom1Feed ):
             author_name, author_link, subtitle, categories,
             feed_url, feed_copyright, feed_guid, ttl, **kwargs)
             
-        self.feed['tit'] = tit
+        self.feed['tit:asd'] = tit
                 
 #        print self.feed
         
     def add_root_elements(self, handler):
         Atom1Feed.add_root_elements(self, handler)
-        handler.addQuickElement(u"tit", self.feed['tit'])
+        handler.addQuickElement(u"tit:asd", self.feed['tit:asd'])
     
     def add_item_elements(self, handler, item):
         Atom1Feed.add_item_elements(self, handler, item)
-        handler.addQuickElement(u"ent", self.feed['ent'])
+        handler.addQuickElement(u"dcterms:language", self.feed['language'])
 #        handler.addQuickElement(u"ent", self.feed['zxc'])        
         
 class BookFeed(Feed):
@@ -36,7 +36,7 @@ class BookFeed(Feed):
     language = "language"
     link = "LINK FOR SEARCHING"
     description = "description"
-    ent = "ent"
+    language = "english"
     
     def get_absolute_url():
     	return "get absolute URL"
@@ -48,7 +48,7 @@ class BookFeed(Feed):
         return Book.objects.all()
         
     def feed_extra_kwargs(self, obj):
-        return {'tit': self.tit, 'ent': self.ent, }
+        return {'tit': self.tit, 'dcterms:languageent': self.language, }
 
 #    def item_extra_kwargs(self, item):
 #        return {'ent': self.ent, }
