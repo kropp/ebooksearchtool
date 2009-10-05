@@ -30,7 +30,6 @@ public class Controller {
         Query query = new Query();
         
         String adress = query.getQueryAdress();
-        System.out.println(adress);
 
         Connector connect = new Connector(adress);
 
