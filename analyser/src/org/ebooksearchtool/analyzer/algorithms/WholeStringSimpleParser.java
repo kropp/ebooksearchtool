@@ -23,8 +23,6 @@ public class WholeStringSimpleParser implements IParser{
         myLanguage = "";
     }
 
-
-    //TODO:Сделать парсинг целой строки, пока выводит пустой массив
     public ArrayList<String> parse(String input) {
         ArrayList<String> out = new ArrayList<String>();
 
