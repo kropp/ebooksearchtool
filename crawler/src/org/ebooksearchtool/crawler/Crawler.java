@@ -7,8 +7,8 @@ import org.ebooksearchtool.crawler.impl.*;
 
 public class Crawler {
 
-//	public static final Proxy PROXY = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("192.168.0.2", 3128));
-	public static final Proxy PROXY = Proxy.NO_PROXY;
+	public static final Proxy PROXY = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("192.168.0.2", 3128));
+//	public static final Proxy PROXY = Proxy.NO_PROXY;
 	
 	public static final String USER_AGENT = "ebooksearchtool";
 	

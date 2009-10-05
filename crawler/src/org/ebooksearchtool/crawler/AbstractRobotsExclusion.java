@@ -1,12 +1,23 @@
 package org.ebooksearchtool.crawler;
 
+import java.net.*;
+
 public abstract class AbstractRobotsExclusion {
 	
 	private static String getServerNameFromURL(String url) {
 		if (!url.startsWith("http://")) return null;
-		///TODO: try {URL u = new URL(url);} catch (Exception e) {return false;}
+		try {
+			URL u = new URL(url);
+		} catch (MalformedURLException e) {
+			return null;
+		}
 		int x = url.indexOf("/", 7);
 		return x < 0 ? url : url.substring(0, x);
+	}
+	
+	protected static boolean matches(String url, String pattern) {
+		// regular expressions?...
+		return url.startsWith(pattern);
 	}
 	
 	/*  returns -1 if no robots.txt is stored for this server,

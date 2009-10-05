@@ -29,11 +29,12 @@ public class RobotsExclusion extends AbstractRobotsExclusion {
 		}
 		String s = "";
 		boolean serverFound = false;
+		url = url.substring(server.length());
 		try {
 			while ((s = br.readLine()) != null) {
 				if (s.length() == 0) continue;
 				if (s.charAt(0) == ' ') {
-					if (serverFound && url.startsWith(server + s.substring(1))) {
+					if (serverFound && matches(url, s.substring(1))) {
 						br.close();
 						return 1;
 					}
@@ -93,7 +94,9 @@ public class RobotsExclusion extends AbstractRobotsExclusion {
 					s = s.substring(11).trim();
 					me = "*".equals(s) || Crawler.USER_AGENT.equals(s);
 				} else if (me && s.startsWith("disallow:")) {
-					s = s.substring(9).trim();
+					int end = s.indexOf('#');
+					if (end < 0) end = s.length();
+					s = s.substring(9, end).trim();
 					if (s.length() > 0) {
 						bw.write(" " + s);
 						bw.newLine();
