@@ -7,7 +7,7 @@ import org.ebooksearchtool.crawler.*;
 public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
 	
 	private static final File ROBOTS_DIR = new File("robotscache");
-	private static final int FILES_NUMBER = 64;
+	private static final int FILES_NUMBER = 256;
 	private File[] cacheFile;
 	
 	/**	stores all cached robots.txt in a number of files:
@@ -21,7 +21,7 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
 			}
 			cacheFile = new File[FILES_NUMBER];
 			for (int i = 0; i < FILES_NUMBER; i++) {
-				cacheFile[i] = new File(ROBOTS_DIR + "/" + i + ".txt");
+				cacheFile[i] = new File(ROBOTS_DIR + "/" + String.format("%03d", i) + ".txt");
 				if (!cacheFile[i].exists()) {
 					new PrintWriter(cacheFile[i]).close();
 				}

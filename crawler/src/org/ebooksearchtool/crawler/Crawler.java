@@ -49,7 +49,7 @@ public class Crawler {
 			List<String> links = HTMLParser.parseLinks(getServerNameFromURL(s), page);
 			for (String link : links) {
 				myAction = "checking if already visited " + link;
-				if (!were.contains(link) && were.size() < LIMIT) {
+				if (!were.contains(similarLinks(link)) && were.size() < LIMIT) {
 					were.add(link);
 					myAction = "checking if i can go to " + link;
 					boolean permitted = myRobots.canGo(link);
@@ -84,7 +84,7 @@ public class Crawler {
 			br.close();
 			return ans;
 		} catch (Exception e) {
-			System.err.println("error on URL =\n" + s);
+			System.err.println("error on " + s);
 			System.err.println(e.getMessage());
 			//e.printStackTrace();
 			return null;
@@ -92,7 +92,32 @@ public class Crawler {
 	}
 	
 
-
+	public static List<String> similarLinks(String url) {
+		List<String> answer = new ArrayList<String>();
+		final String HTTP = "http://";
+		if (url.startsWith(HTTP)) {
+			url = url.substring(HTTP.length());
+		}
+		for (int iteration = 0; iteration <= 1; iteration++) {
+			if (iteration == 1) {
+				///TODO: make this customizable (because www.site.com is not
+				///      always similar to site.com: see 404.ru vs www.404.ru
+				if (url.startsWith("www.")) {
+					url = url.substring("www.".length());
+				} else {
+					url = "www." + url;
+				}
+			}
+			answer.add(HTTP + url);
+			if (url.endsWith("/")) {
+				answer.add(HTTP + url.substring(0, url.length() - 1));
+			} else {
+				answer.add(HTTP + url + "/");
+			}
+		}
+		return answer;
+	}
+	
 	public static String getServerNameFromURL(String url) {
 		if (!url.startsWith("http://")) return null;
 		try {

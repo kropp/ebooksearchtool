@@ -13,6 +13,15 @@ public class VisitedLinksSet implements AbstractVisitedLinksSet {
 	public boolean contains(String s) {
 		return mySet.contains(s);
 	}
+	/** returns true iff at least one element of the collection is present in the set */
+	public boolean contains(Collection<? extends String> c) {
+		for (String s : c) {
+			if (contains(s)) {
+				return true;
+			}
+		}
+		return false;
+	}
 	public int size() {
 		return mySet.size();
 	}
