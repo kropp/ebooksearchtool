@@ -11,8 +11,6 @@ import org.ebooksearchtool.analyzer.utils.SpecialWords.*;
 
 public class WholeStringSimpleParser implements IParser{
 
-    private static WholeStringSimpleParser instance;
-
     private ArrayList<String> myAuthors;
     private String myBookName;
     private String myUrl;
@@ -35,6 +33,7 @@ public class WholeStringSimpleParser implements IParser{
         myUrl = URLsExtractor.extractURL(temp);
         myLanguage = LanguageExtractor.extractLanguage(temp);
         myAuthors = AuthorsExtractor.extractAuthors(temp);
+        myBookName = TitleExtractor.extractTitle(temp);
 
         int length = myAuthors.size();
         StringBuilder tempString = new StringBuilder();
@@ -44,7 +43,8 @@ public class WholeStringSimpleParser implements IParser{
         }
         tempString.delete(tempString.length() - 2, tempString.length());
 
-        out.add("Authors:" + tempString);
+        out.add("Title: " + myBookName);
+        out.add("Authors: " + tempString);
         out.add("URL: " + myUrl);
         out.add("Language: " + myLanguage);
 
