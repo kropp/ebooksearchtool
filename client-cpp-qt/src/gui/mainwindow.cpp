@@ -3,6 +3,7 @@
 #include "mainwindow.h"
 #include "../xml_parser/parser.h"
 #include "../network/httpconnection.h"
+#include "../model/model.h"
 
 MainWindow::MainWindow(QWidget *parent) : QDialog(parent), myFile(0) {
 	myUrlLineEdit = new QLineEdit("http://feedbooks.com/books/search.atom?query=");
@@ -76,9 +77,9 @@ void MainWindow::httpRequestFinished(int , bool) {
 
 void MainWindow::parseDownloadedFile() {
 	AtomParser parser;
-	parser.setOutput(myByteArray);
 	myFile->open(QIODevice::ReadOnly);
-	parser.parse(myFile);
+	//Model* model = new Model();	
+	//parser.parse(myFile, model);
 	myFile->close();
 	myText->setPlainText(myByteArray->data());
 }

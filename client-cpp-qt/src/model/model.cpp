@@ -1,5 +1,7 @@
 #include "model.h"
 
+Model::Model() {}
+
 void Model::addBook(const Book* book) {
 	myBooks.push_back(book);
 }

@@ -3,12 +3,15 @@
 
 #include <QtXml>
 
-#include<iostream>
+#include <string>
+
+#include "../model/book_author.h"
+#include "../model/model.h"
 
 class AtomHandler : public QXmlDefaultHandler {
 
 public:
-	AtomHandler(QByteArray* output) : myBuffer(output), myIsEntry(false) {}
+	AtomHandler(Model* model) : myModel(model), myIsEntry(false) {}
 
 public:
 	bool characters (const QString& strText);
@@ -17,8 +20,13 @@ public:
 	
 private:
 	QString myStrText;
-	QByteArray* myBuffer; 
+	Model* myModel; 
 	bool myIsEntry;
+	std::string myTitle;
+	std::string myLanguage;
+	std::string mySummary;
+	std::string myAuthorsName;
+	//int myCurrentAuthorId;
 };
 
 class AtomParser {
@@ -27,11 +35,7 @@ public:
 	AtomParser();
 	
 public:
-	void parse(QFile* file);
-	void setOutput(QByteArray* buffer);
-
-private:
-	QByteArray* myOutputBuffer;
+	void parse(QFile* file, Model* model);
 };
 
 #endif //_PARSER_H_

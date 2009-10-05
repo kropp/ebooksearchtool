@@ -9,9 +9,9 @@ class Author;
 class Book {
 
 public:
-	Book(std::string title, std::string language, std::string annotation) : myTitle (title),
+	Book(std::string title, std::string language, std::string summary) : myTitle (title),
 																			myLanguage(language),
-																			myAnnotation(annotation) {}
+																			mySummary(summary) {}
 
 public:
 	void addAuthor(const Author* author);
@@ -19,7 +19,7 @@ public:
 private:
 	const std::string myTitle;
 	const std::string myLanguage;
-	const std::string myAnnotation;
+	const std::string mySummary;
 	std::list<const Author*> myAuthors;
 };
 
@@ -34,6 +34,7 @@ public:
 
 private:
 	const std::string myName;
+	//const int myId;
 	//std::list<const Book*> myBooks;
 };
 

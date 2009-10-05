@@ -15,29 +15,37 @@ bool AtomHandler::startElement (const QString& , const QString& , const QString&
 }
 
 bool AtomHandler::endElement (const QString&, const QString&, const QString& str) {
-	if ((str == "title") && (myIsEntry)) {
-		myBuffer->append(myStrText);
-		myBuffer->append(" 	 ");
-	} else if ((str == "name") && (myIsEntry)) {
-		myBuffer->append(myStrText);
-		myBuffer->append("\n");
-	} else if (str == "entry") {
+	if (str == "entry") {
+		const Author* author = new Author(myAuthorsName);
+		Book* book = new Book(myTitle, myLanguage, mySummary);
+		book->addAuthor(author);
+		myModel->addBook(book);
 		myIsEntry = false;	
+	}	
+	if (!myIsEntry) {
+		return false;
+	}
+	if (str == "title") {
+		//myTitle = myStrText;
+	} else if (str == "name") {
+//		myAuthorsName = myStrText;
+	} else if (str == "dcterms:language") {
+	//	myLanguage = myStrText;
+	} else if (str == "summary") {
+		//mySummary = myStrText;
 	}
 	return true;
 }
 
 AtomParser::AtomParser() {}
 
-void AtomParser::parse(QFile* file) {
-	AtomHandler handler(myOutputBuffer);
+void AtomParser::parse(QFile* file, Model* model) {
+	AtomHandler handler(model);
 	QXmlInputSource source(file);
 	QXmlSimpleReader reader;
 	reader.setContentHandler(&handler);
 	reader.parse(source);
 }
 
-void AtomParser::setOutput(QByteArray* buffer) {
-	myOutputBuffer = buffer;
-}
+
 
