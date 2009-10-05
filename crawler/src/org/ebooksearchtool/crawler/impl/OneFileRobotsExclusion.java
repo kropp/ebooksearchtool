@@ -8,7 +8,7 @@ public class OneFileRobotsExclusion extends AbstractRobotsExclusion {
 	
 	private static final File ROBOTS_FILE = new File("robotscache.txt");
 	
-	/** stores all cached robots.txt in one file
+	/*  stores all cached robots.txt in one file
 	    very inefficient and slow                */
 	public OneFileRobotsExclusion() {
 		if (!ROBOTS_FILE.exists()) {

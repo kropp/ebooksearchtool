@@ -20,7 +20,7 @@ public class Crawler {
 	
 	Crawler(PrintWriter output) {
 		myOutput = output;
-		myAction = "nothing";
+		myAction = "doing nothing";
 	}
 	
 	public String whatAmIDoing() {
@@ -63,8 +63,8 @@ public class Crawler {
 				}
 			}
 		}
-		myAction = "nothing";
-		System.out.println("finished");
+		myAction = "doing nothing";
+		System.out.println("finished; input something to exit");
 	}
 	
 	private String getPage(String s) {
@@ -98,21 +98,31 @@ public class Crawler {
 		if (url.startsWith(HTTP)) {
 			url = url.substring(HTTP.length());
 		}
+		String server = null;
+		int slash = url.indexOf('/');
+		if (slash < 0) {
+			server = url;
+			url = "";
+		} else {
+			server = url.substring(0, slash);
+			url = url.substring(slash);
+		}
 		for (int iteration = 0; iteration <= 1; iteration++) {
 			if (iteration == 1) {
 				///TODO: make this customizable (because www.site.com is not
 				///      always similar to site.com: see 404.ru vs www.404.ru
-				if (url.startsWith("www.")) {
-					url = url.substring("www.".length());
+				if (server.startsWith("www.")) {
+					server = server.substring("www.".length());
 				} else {
-					url = "www." + url;
+					server = "www." + server;
 				}
 			}
-			answer.add(HTTP + url);
-			if (url.endsWith("/")) {
-				answer.add(HTTP + url.substring(0, url.length() - 1));
+			String toAdd = HTTP + server + url;
+			answer.add(toAdd);
+			if (toAdd.endsWith("/")) {
+				answer.add(toAdd.substring(0, toAdd.length() - 1));
 			} else {
-				answer.add(HTTP + url + "/");
+				answer.add(toAdd + "/");
 			}
 		}
 		return answer;

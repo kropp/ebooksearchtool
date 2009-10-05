@@ -10,9 +10,9 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
 	private static final int FILES_NUMBER = 256;
 	private File[] cacheFile;
 	
-	/**	stores all cached robots.txt in a number of files:
-		0.txt, 1.txt, ..., {FILES_NUMBER - 1}.txt,
-		where the number chosen for the given server is its name's hashcode  */
+	/*  stores all cached robots.txt in a number of files:
+	    0.txt, 1.txt, ..., {FILES_NUMBER - 1}.txt,
+	    where the number chosen for the given server is its name's hashcode  */
 	public ManyFilesRobotsExclusion() {
 		try {
 			if (!ROBOTS_DIR.exists()) {
