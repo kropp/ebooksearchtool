@@ -1,19 +1,15 @@
 package org.ebooksearchtool.analyzer.network;
 
-import java.io.IOException;
-import java.net.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.net.URL;
+import java.io.*;
 
 /**
  * @author Алексей
  */
 
-public class NetworkSocketIO{
-
-    public static void createServer(InetAddress address, int socketNumber) throws IOException{
-        ServerSocket socket = new ServerSocket(socketNumber);
-        ServerSocketThread server = new ServerSocketThread(socket);
+public class NetworkURLIO {
+     public static void createServer(URL url) throws IOException{
+        ServerURLThread server = new ServerURLThread(url);
         server.start();
         //Может быть не надо, потестить.
 //        try {
@@ -23,9 +19,8 @@ public class NetworkSocketIO{
 //        }
     }
 
-    public static void createClient(InetAddress address, int socketNumber) throws IOException{
-        Socket socket = new Socket("localhost",socketNumber);
-        ClientSocketThread client = new ClientSocketThread(socket);
+    public static void createClient(URL url) throws IOException{
+        ClientURLThread client = new ClientURLThread(url);
         client.start();
         //Может быть не надо, потестить.
 //        try {

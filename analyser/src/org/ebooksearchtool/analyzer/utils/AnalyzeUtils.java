@@ -7,16 +7,16 @@ import java.util.HashSet;
  */
 
 public class AnalyzeUtils {
-    static HashSet languages = new HashSet();
+    private static HashSet myLanguages = new HashSet();
     static{
-        languages.add("English");
-        languages.add("Russian");
-        languages.add("Русский");
-        languages.add("Английский");
+        myLanguages.add("English");
+        myLanguages.add("Russian");
+        myLanguages.add("Русский");
+        myLanguages.add("Английский");
     }
 
     public static boolean isLanguage(String value){
-        if(languages.contains(value)){
+        if(myLanguages.contains(value)){
             return true;
         }else{
             return false;

@@ -9,6 +9,7 @@ import org.ebooksearchtool.analyzer.utils.AnalyzeUtils;
  */
 
 public class LanguageExtractor {
+
     public static String extractLanguage(ArrayList<Lexema> lexems){
         int length = lexems.size();
         for (int i = 0; i < length; i++) {

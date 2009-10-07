@@ -13,8 +13,8 @@ import org.ebooksearchtool.analyzer.io.TestToFileWriter;
 
 public class SimpleTestBuildHandler extends DefaultHandler{
 
-    private static boolean rightElementFlag = false;
-    private static ArrayList<ArrayList<String>> authors = new ArrayList<ArrayList<String>>();
+    private static boolean ourRightElementFlag = false;
+    private static ArrayList<ArrayList<String>> ourAuthors = new ArrayList<ArrayList<String>>();
 
     public SimpleTestBuildHandler(){
         super();
@@ -22,10 +22,10 @@ public class SimpleTestBuildHandler extends DefaultHandler{
 
     @Override
     public void characters (char ch[], int start, int length) throws SAXException{
-        if(rightElementFlag == true){
+        if(ourRightElementFlag == true){
             AuthorsSimpleParser parser = AuthorsSimpleParser.Instance();
-            SimpleTestBuildHandler.authors.add(parser.parse(new String(ch, start, length).trim()));
-            rightElementFlag = false;
+            SimpleTestBuildHandler.ourAuthors.add(parser.parse(new String(ch, start, length).trim()));
+            ourRightElementFlag = false;
         }
     }
 
@@ -33,7 +33,7 @@ public class SimpleTestBuildHandler extends DefaultHandler{
     public void endElement (String uri, String localName, String qName)
 	throws SAXException
     {
-        rightElementFlag = false;
+        ourRightElementFlag = false;
     }
     
     @Override
@@ -44,13 +44,13 @@ public class SimpleTestBuildHandler extends DefaultHandler{
         if(qName.equals("field")){
             String attr = attributes.getValue("name");
             if(attr != null && attr.equals("author")){
-                rightElementFlag = true;
+                ourRightElementFlag = true;
             }
         }
     }
 
     @Override
     public void endDocument () throws SAXException {
-        TestToFileWriter.writeTestToFile(authors, "simpletest.tst");
+        TestToFileWriter.writeTestToFile(ourAuthors, "simpletest.tst");
     }
 }

@@ -9,42 +9,42 @@ import org.ebooksearchtool.analyzer.utils.SpecialWords.*;
 
 public class Lexema {
 
-    private String info;
-    private StringType type;
+    private String myInfo;
+    private StringType myType;
 
     public Lexema(String input){
-        info = input.trim();
+        myInfo = input.trim();
         if(SpecialWords.isSepatator(input)){
-            type = StringType.separator;
+            myType = StringType.separator;
         }else{
             if(SpecialWords.isJoiner(input)){
-                type = StringType.joiner;
+                myType = StringType.joiner;
             }else{
-                type = StringType.word;
+                myType = StringType.word;
             }
         }
     }
 
     public Lexema(String input, StringType ty){
-        type = ty;
-        info = input;
+        myType = ty;
+        myInfo = input;
     }
 
     public StringType getType(){
-        return type;
+        return myType;
     }
 
     public String getValue(){
-        return info;
+        return myInfo;
     }
 
     @Override
     public String toString(){
-        return info;
+        return myInfo;
     }
 
     public Lexema join(Lexema lex){
-        return new Lexema(info + " " + lex.getValue(), StringType.word);
+        return new Lexema(myInfo + " " + lex.getValue(), StringType.word);
     }
 
     public static ArrayList<Lexema>convertToLexems(String input){
@@ -88,8 +88,8 @@ public class Lexema {
     }
 
     private boolean trim(){
-        if(info != null){
-            StringBuilder temp = new StringBuilder(info.trim());
+        if(myInfo != null){
+            StringBuilder temp = new StringBuilder(myInfo.trim());
 
             while(temp.length() != 0 && SpecialWords.isNeedToTrim(temp.charAt(0))){
                 temp.deleteCharAt(0);
@@ -99,7 +99,7 @@ public class Lexema {
                 temp.deleteCharAt(temp.length() - 1);
             }
             if(temp.length() != 0){
-                info = temp.toString();
+                myInfo = temp.toString();
                 return true;
             }
             return false;
@@ -108,10 +108,10 @@ public class Lexema {
     }
 
     public boolean equals(Lexema lex){
-        return info.equals(lex.info) && type.equals(lex.type);
+        return myInfo.equals(lex.myInfo) && myType.equals(lex.myType);
     }
 
     public boolean equalsInfo(String str){
-        return info.equals(str);
+        return myInfo.equals(str);
     }
 }

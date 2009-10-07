@@ -10,18 +10,18 @@ import org.ebooksearchtool.analyzer.utils.SpecialWords.*;
 
 public class AuthorsSimpleParser implements IParser{
 
-    private static AuthorsSimpleParser instance;
+    private static AuthorsSimpleParser ourInstance;
 
     private AuthorsSimpleParser(){
 
     }
 
     public static AuthorsSimpleParser Instance(){
-        if(instance == null){
-            instance = new AuthorsSimpleParser();
-            return instance;
+        if(ourInstance == null){
+            ourInstance = new AuthorsSimpleParser();
+            return ourInstance;
         }else{
-            return instance;
+            return ourInstance;
         }
     }
 

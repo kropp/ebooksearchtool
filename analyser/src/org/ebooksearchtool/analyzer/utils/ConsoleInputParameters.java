@@ -18,6 +18,7 @@ import org.ebooksearchtool.analyzer.tests.Tester;
 import org.ebooksearchtool.analyzer.tests.WholeStringSimpleTest;
 
 public class ConsoleInputParameters {
+
     public static void switchMode(String[] args){
         if(args.length != 0){
         switch (args[0].charAt(1)){
@@ -43,6 +44,7 @@ public class ConsoleInputParameters {
                         try {
                             //TODO: Разобраться с InetAddress
                             NetworkSocketIO.createServer(null, 9999);
+                            NetworkSocketIO.createClient(null, 9999);
                         } catch (IOException ex) {
                             java.util.logging.Logger.getLogger(ConsoleInputParameters.class.getName()).log(Level.SEVERE, null, ex);
                         }
