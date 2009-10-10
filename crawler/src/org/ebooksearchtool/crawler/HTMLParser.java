@@ -40,6 +40,7 @@ class HTMLParser extends HTMLEditorKit.ParserCallback {
 		}
 	}
 	
+
 	
 	static List<String> parseLinks(String server, String page) {
 		HTMLParser parser = new HTMLParser(server);
@@ -47,7 +48,6 @@ class HTMLParser extends HTMLEditorKit.ParserCallback {
 			DocumentParser dp = new DocumentParser(DTD.getDTD("html"));
 			dp.parse(new StringReader(page), parser, true);
 		} catch (Exception e) {
-System.err.println("o_O " + e.getMessage());
 			return new ArrayList<String>();
 		}
 		return parser.getLinks();

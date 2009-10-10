@@ -1,7 +1,6 @@
 package org.ebooksearchtool.crawler;
 
 import java.io.*;
-import java.net.*;
 import java.util.*;
 
 public class Main {
@@ -11,7 +10,7 @@ public class Main {
 			final String start = args[0].startsWith("http://") ? args[0] : "http://" + args[0];
 			PrintWriter output = null;
 			try {
-				output = new PrintWriter("visited.txt");
+				output = new PrintWriter("books.txt");
 			} catch (FileNotFoundException fnfe) {
 				fnfe.printStackTrace();
 				System.exit(0);

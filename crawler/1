@@ -1,1 +1,1 @@
-java -ea -jar bin/Crawler.jar www.amse.ru
+java -ea -jar bin/Crawler.jar www.feedbooks.com

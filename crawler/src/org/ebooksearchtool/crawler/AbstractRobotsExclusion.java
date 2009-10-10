@@ -20,7 +20,7 @@ public abstract class AbstractRobotsExclusion {
 	protected abstract void downloadRobotsTxt(String server);
 	
 	boolean canGo(String url) {
-		String server = Crawler.getServerNameFromURL(url);
+		String server = Util.getServerNameFromURL(url);
 		if (server == null) return false;
 		int disallowed = isDisallowed(server, url);
 		if (disallowed == -1) {
