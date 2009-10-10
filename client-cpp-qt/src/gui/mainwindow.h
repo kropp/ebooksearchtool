@@ -4,6 +4,7 @@
 #include <QDialog>
 
 #include "../network/httpconnection.h"
+#include "../view/view.h" 
 
 class QDialogButtonBox;
 class QFile;
@@ -22,26 +23,26 @@ class MainWindow : public QDialog {
 
 public:
 	MainWindow(QWidget *parent = 0);
+	~MainWindow();
 
 private slots:
 	void downloadFile();
 	void httpRequestFinished(int requestId, bool error);
 	void enableDownloadButton();
 	void parseDownloadedFile();
-	void clearScreen();
 
 private:
 	QLabel *myStatusLabel;
 	QLabel *myUrlLabel;
 	QLineEdit *myUrlLineEdit;
-	QTextEdit *myText;
 	QPushButton *myDownloadButton;
 	QPushButton *myQuitButton;
 	QDialogButtonBox *myButtonBox;
-	QByteArray* myByteArray;
 
 	HttpConnection* myHttpConnection;
 	QFile *myFile; 
+
+	View* myView;
 };
 
 #endif //_MAIN_WINDOW_H_

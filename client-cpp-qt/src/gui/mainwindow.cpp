@@ -5,7 +5,7 @@
 #include "../network/httpconnection.h"
 #include "../model/model.h"
 
-MainWindow::MainWindow(QWidget *parent) : QDialog(parent), myFile(0) {
+MainWindow::MainWindow(QWidget *parent) : QDialog(parent), myFile(0), myView(0) {
 	myUrlLineEdit = new QLineEdit("http://feedbooks.com/books/search.atom?query=");
 
 	myUrlLabel = new QLabel(tr("&URL:"));
@@ -22,10 +22,8 @@ MainWindow::MainWindow(QWidget *parent) : QDialog(parent), myFile(0) {
 	myButtonBox->addButton(myDownloadButton, QDialogButtonBox::ActionRole);
 	myButtonBox->addButton(myQuitButton, QDialogButtonBox::RejectRole);
 
-	myText = new QTextEdit(this);
-	myText->setPlainText("You can start searching.\n");
-	myText->setReadOnly(true);
-	myByteArray = new QByteArray(); // TODO а это вообще уже часть модели и представления - убрать 
+	myView = new View(this);
+//	myText->setPlainText("You can start searching.\n");
 
 	myHttpConnection = new HttpConnection(this);
 
@@ -34,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent) : QDialog(parent), myFile(0) {
 
 	connect(myDownloadButton, SIGNAL(clicked()), this, SLOT(downloadFile()));
 	connect(myQuitButton, SIGNAL(clicked()), this, SLOT(close()));
-	connect(myDownloadButton, SIGNAL(clicked()), this, SLOT(clearScreen()));
+	//connect(myDownloadButton, SIGNAL(clicked()), this, SLOT(clearScreen()));
 
 	QHBoxLayout *topLayout = new QHBoxLayout;
 	topLayout->addWidget(myUrlLabel);
@@ -44,24 +42,32 @@ MainWindow::MainWindow(QWidget *parent) : QDialog(parent), myFile(0) {
 	mainLayout->addLayout(topLayout);
 	mainLayout->addWidget(myStatusLabel);
 	mainLayout->addWidget(myButtonBox);
-	mainLayout->addWidget(myText);
+	mainLayout->addWidget(myView);
 	setLayout(mainLayout);
 
 	setWindowTitle(tr("HTTP"));
 	myUrlLineEdit->setFocus();
 }
 
+MainWindow::~MainWindow() {
+	if (myView) {
+		delete myView;
+	}
+}
+
 void MainWindow::downloadFile() {
 	//TODO - add button for setting proxy
-	myHttpConnection->setProxy("192.168.0.2", 3128);
+//	myHttpConnection->setProxy("192.168.0.2", 3128);
 	
-	if (myFile != 0) {
-		delete myFile;
-	}
-	myFile = new QFile("downloaded");
-	myFile->open(QIODevice::WriteOnly); //может и не суметь открыть
-	myHttpConnection->downloadFile(myUrlLineEdit->text(), myFile);
-	myDownloadButton->setEnabled(false);
+	//if (myFile != 0) {
+		//delete myFile;
+	//}
+	myFile = new QFile("id.atom");
+	parseDownloadedFile();
+
+	//myFile->open(QIODevice::WriteOnly); //может и не суметь открыть
+	//myHttpConnection->downloadFile(myUrlLineEdit->text(), myFile);
+	//myDownloadButton->setEnabled(false);
 }
 
 
@@ -70,22 +76,18 @@ void MainWindow::enableDownloadButton() {
 }
 
 void MainWindow::httpRequestFinished(int , bool) {
-	myFile->close();
-	enableDownloadButton();
-	parseDownloadedFile();
+	//myFile->close();
+	//enableDownloadButton();
+	//parseDownloadedFile();
 }
 
 void MainWindow::parseDownloadedFile() {
 	AtomParser parser;
 	myFile->open(QIODevice::ReadOnly);
-	//Model* model = new Model();	
-	//parser.parse(myFile, model);
+	Model* model = new Model();	
+	parser.parse(myFile, model);
+	myView->setModel(model);
 	myFile->close();
-	myText->setPlainText(myByteArray->data());
+//	myText->setPlainText(myByteArray->data());
 }
-
-void MainWindow::clearScreen() {
-	myByteArray->clear();
-}
-
 

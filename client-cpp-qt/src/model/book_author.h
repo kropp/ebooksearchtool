@@ -15,12 +15,15 @@ public:
 
 public:
 	void addAuthor(const Author* author);
+	
+	std::string getTitle() const;
 
 private:
 	const std::string myTitle;
 	const std::string myLanguage;
 	const std::string mySummary;
 	std::list<const Author*> myAuthors;
+	//TODO id to add
 };
 
 
@@ -37,5 +40,10 @@ private:
 	//const int myId;
 	//std::list<const Book*> myBooks;
 };
+
+inline std::string Book::getTitle() const {
+	return myTitle;
+}
+
 
 #endif //_BOOK_AUTHOR_H_

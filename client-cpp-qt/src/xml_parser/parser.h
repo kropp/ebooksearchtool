@@ -22,10 +22,10 @@ private:
 	QString myStrText;
 	Model* myModel; 
 	bool myIsEntry;
-	std::string myTitle;
-	std::string myLanguage;
-	std::string mySummary;
-	std::string myAuthorsName;
+	QString myTitle;
+	QString myLanguage;
+	QString mySummary;
+	QString myAuthorsName;
 	//int myCurrentAuthorId;
 };
 
