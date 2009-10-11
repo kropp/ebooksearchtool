@@ -5,9 +5,11 @@
 
 #include <QWidget>
 
-class QTextEdit;
+#include <QTextBrowser>
 
 class View : public QWidget {
+
+	Q_OBJECT
 	
 public:
 	View(QWidget* parent);
@@ -20,7 +22,7 @@ private:
 
 private:
 	const Model* myModel;
-	QTextEdit* myText;
+	QTextBrowser* myTextBrowser;
 };
 
 #endif //_VIEW_H_

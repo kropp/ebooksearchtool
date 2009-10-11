@@ -5,48 +5,43 @@
 #include "../network/httpconnection.h"
 #include "../model/model.h"
 
-MainWindow::MainWindow(QWidget *parent) : QDialog(parent), myFile(0), myView(0) {
-	myUrlLineEdit = new QLineEdit("http://feedbooks.com/books/search.atom?query=");
+MainWindow::MainWindow(QWidget *parent) : QDialog(parent), myFile(0) {
+	myUrlLineEdit = new QLineEdit("http://feedbooks.com");
+	myUrlLabel = new QLabel(tr("URL:"));
+	myQueryLineEdit = new QLineEdit();
+	myStatusLabel = new QLabel(tr("Please enter a title or an author's name of the book you want to find"));
 
-	myUrlLabel = new QLabel(tr("&URL:"));
-	myUrlLabel->setBuddy(myUrlLineEdit);
-	myStatusLabel = new QLabel(tr("Please enter the URL of a file you want to "
-		                     "download."));
-
-	myDownloadButton = new QPushButton(tr("Download"));
-	myDownloadButton->setDefault(true);
-	myQuitButton = new QPushButton(tr("Quit"));
-	myQuitButton->setAutoDefault(false);
-
-	myButtonBox = new QDialogButtonBox();
-	myButtonBox->addButton(myDownloadButton, QDialogButtonBox::ActionRole);
-	myButtonBox->addButton(myQuitButton, QDialogButtonBox::RejectRole);
+	mySearchButton = new QPushButton(tr("Search"));
+	mySearchButton->setDefault(true);
 
 	myView = new View(this);
-//	myText->setPlainText("You can start searching.\n");
-
 	myHttpConnection = new HttpConnection(this);
 
-	connect(myUrlLineEdit, SIGNAL(textChanged(const QString &)), this, SLOT(enableDownloadButton()));
+	connect(myQueryLineEdit, SIGNAL(textChanged(const QString &)), this, SLOT(enableSearchButton()));
 	connect(myHttpConnection, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
 
-	connect(myDownloadButton, SIGNAL(clicked()), this, SLOT(downloadFile()));
-	connect(myQuitButton, SIGNAL(clicked()), this, SLOT(close()));
-	//connect(myDownloadButton, SIGNAL(clicked()), this, SLOT(clearScreen()));
+	connect(mySearchButton, SIGNAL(clicked()), this, SLOT(downloadFile())); 
+	QHBoxLayout *firstLayout = new QHBoxLayout;
+	firstLayout->addWidget(myUrlLabel);
+	firstLayout->addWidget(myUrlLineEdit);
 
-	QHBoxLayout *topLayout = new QHBoxLayout;
-	topLayout->addWidget(myUrlLabel);
-	topLayout->addWidget(myUrlLineEdit);
-
-	QVBoxLayout *mainLayout = new QVBoxLayout;
-	mainLayout->addLayout(topLayout);
-	mainLayout->addWidget(myStatusLabel);
-	mainLayout->addWidget(myButtonBox);
-	mainLayout->addWidget(myView);
+	QHBoxLayout *secondLayout = new QHBoxLayout;
+	secondLayout->addWidget(myQueryLineEdit);
+	secondLayout->addWidget(mySearchButton);
+	
+	QVBoxLayout *topLayout = new QVBoxLayout;
+	topLayout->addLayout(firstLayout);
+	topLayout->addLayout(secondLayout);
+	topLayout->addWidget(myStatusLabel);
+	
+	QGridLayout *mainLayout = new QGridLayout;
+	mainLayout->addLayout(topLayout, 0, 0, 1, 3);
+	mainLayout->addWidget(myView, 1, 0, 15, 5);
 	setLayout(mainLayout);
 
-	setWindowTitle(tr("HTTP"));
-	myUrlLineEdit->setFocus();
+	setWindowTitle(tr("Search book tool"));
+	myQueryLineEdit->setFocus();
+	showMaximized();
 }
 
 MainWindow::~MainWindow() {
@@ -62,6 +57,10 @@ void MainWindow::downloadFile() {
 	//if (myFile != 0) {
 		//delete myFile;
 	//}
+	
+	//convert to url
+	myUrlLineEdit->setText(queryToUrl());
+	
 	myFile = new QFile("id.atom");
 	parseDownloadedFile();
 
@@ -71,8 +70,8 @@ void MainWindow::downloadFile() {
 }
 
 
-void MainWindow::enableDownloadButton() {
-	myDownloadButton->setEnabled(!myUrlLineEdit->text().isEmpty());
+void MainWindow::enableSearchButton() {
+	mySearchButton->setEnabled(!myUrlLineEdit->text().isEmpty());
 }
 
 void MainWindow::httpRequestFinished(int , bool) {
@@ -87,7 +86,14 @@ void MainWindow::parseDownloadedFile() {
 	Model* model = new Model();	
 	parser.parse(myFile, model);
 	myView->setModel(model);
+//	myView->showFullScreen();
 	myFile->close();
 //	myText->setPlainText(myByteArray->data());
+}
+
+QString MainWindow::queryToUrl() const {
+	QString str("http://feedbooks.com/books/search.atom?query=");
+	str.append(myQueryLineEdit->text());
+	return str;
 }
 

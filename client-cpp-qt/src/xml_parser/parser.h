@@ -26,7 +26,8 @@ private:
 	QString myLanguage;
 	QString mySummary;
 	QString myAuthorsName;
-	//int myCurrentAuthorId;
+	QString myAuthorsUri;	
+	QString myBooksUri;	
 };
 
 class AtomParser {

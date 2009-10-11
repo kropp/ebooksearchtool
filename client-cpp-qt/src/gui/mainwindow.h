@@ -28,15 +28,18 @@ public:
 private slots:
 	void downloadFile();
 	void httpRequestFinished(int requestId, bool error);
-	void enableDownloadButton();
+	void enableSearchButton();
 	void parseDownloadedFile();
+
+private:
+	QString queryToUrl() const;
 
 private:
 	QLabel *myStatusLabel;
 	QLabel *myUrlLabel;
 	QLineEdit *myUrlLineEdit;
-	QPushButton *myDownloadButton;
-	QPushButton *myQuitButton;
+	QLineEdit *myQueryLineEdit;
+	QPushButton *mySearchButton;
 	QDialogButtonBox *myButtonBox;
 
 	HttpConnection* myHttpConnection;
