@@ -1,4 +1,4 @@
-package View;
+package org.ebooksearchtool.client.View;
 
 import java.io.BufferedReader;
 import java.io.IOException;

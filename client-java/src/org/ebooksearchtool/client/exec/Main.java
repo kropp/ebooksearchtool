@@ -1,7 +1,6 @@
-package exec;
+package org.ebooksearchtool.client.exec;
 
-import Connection.Connector;
-import Logic.Parser.Parser;
+import org.ebooksearchtool.client.Connection.Connector;
 
 import java.io.IOException;
 

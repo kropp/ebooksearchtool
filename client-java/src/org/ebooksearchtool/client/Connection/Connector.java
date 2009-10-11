@@ -1,10 +1,9 @@
-package Connection;
+package org.ebooksearchtool.client.Connection;
 
 import java.net.*;
 import java.io.*;
-import View.Viewer;
 
-import exec.Controller;
+import org.ebooksearchtool.client.View.Viewer;
 
 /**
  * Created by IntelliJ IDEA.

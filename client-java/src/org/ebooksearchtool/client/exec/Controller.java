@@ -1,16 +1,17 @@
-package exec;
+package org.ebooksearchtool.client.exec;
 
 import org.xml.sax.SAXException;
+import org.ebooksearchtool.client.View.Viewer;
+import org.ebooksearchtool.client.Model.Data;
+import org.ebooksearchtool.client.Connection.Connector;
+import org.ebooksearchtool.client.Logic.parsing.*;
+import org.ebooksearchtool.client.Logic.Query.*;
+
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.util.Vector;
 
-import Connection.Connector;
-import Logic.Parser.Parser;
-import Model.Data;
-import View.Viewer;
-import Logic.Query.*;
+
 
 /**
  * Created by IntelliJ IDEA.

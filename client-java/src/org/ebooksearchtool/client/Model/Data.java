@@ -1,6 +1,7 @@
-package org.ebooksearchtool.client.model;
+package org.ebooksearchtool.client.Model;
 
-import org.ebooksearchtool.client.model.DataElement;
+import org.ebooksearchtool.client.Model.DataElement;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
