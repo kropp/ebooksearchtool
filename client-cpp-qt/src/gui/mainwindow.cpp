@@ -57,9 +57,11 @@ void MainWindow::downloadFile() {
 	if (myFile != 0) {
 		delete myFile;
 	}
-
-	myUrlLineEdit->setText(queryToUrl());
-
+	
+	if (!myQueryLineEdit->text().isEmpty()) {
+		myUrlLineEdit->setText(queryToUrl());
+	}
+	
 	myFile = new QFile("downloaded.atom");
 	myFile->open(QIODevice::WriteOnly); //может и не суметь открыть
 	myHttpConnection->downloadFile(myUrlLineEdit->text(), myFile);
