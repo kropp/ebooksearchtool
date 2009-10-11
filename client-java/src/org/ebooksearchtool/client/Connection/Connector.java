@@ -1,9 +1,15 @@
-package org.ebooksearchtool.client.Connection;
+package org.ebooksearchtool.client.connection;
 
-import java.net.*;
-import java.io.*;
+import org.ebooksearchtool.client.view.Viewer;
 
-import org.ebooksearchtool.client.View.Viewer;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
+import java.net.URL;
+import java.net.URLConnection;
 
 /**
  * Created by IntelliJ IDEA.

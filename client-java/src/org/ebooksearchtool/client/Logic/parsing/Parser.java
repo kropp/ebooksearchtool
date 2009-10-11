@@ -1,15 +1,13 @@
 package org.ebooksearchtool.client.Logic.parsing;
 
+import org.ebooksearchtool.client.model.Data;
 import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-
-import org.ebooksearchtool.client.Model.Data;
-import org.ebooksearchtool.client.Logic.parsing.SAXHandler;
 
 /**
  * Created by IntelliJ IDEA.

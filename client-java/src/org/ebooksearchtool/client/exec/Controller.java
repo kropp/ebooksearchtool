@@ -1,12 +1,11 @@
 package org.ebooksearchtool.client.exec;
 
-import org.xml.sax.SAXException;
-import org.ebooksearchtool.client.View.Viewer;
-import org.ebooksearchtool.client.Model.Data;
-import org.ebooksearchtool.client.Connection.Connector;
+import org.ebooksearchtool.client.connection.Connector;
+import org.ebooksearchtool.client.Logic.query.*;
 import org.ebooksearchtool.client.Logic.parsing.*;
-import org.ebooksearchtool.client.Logic.Query.*;
-
+import org.ebooksearchtool.client.model.Data;
+import org.ebooksearchtool.client.view.Viewer;
+import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;

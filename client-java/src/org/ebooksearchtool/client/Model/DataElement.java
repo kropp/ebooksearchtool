@@ -1,4 +1,4 @@
-package org.ebooksearchtool.client.Model;
+package org.ebooksearchtool.client.model;
 
 /**
  * Created by IntelliJ IDEA.

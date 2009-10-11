@@ -1,13 +1,10 @@
 package org.ebooksearchtool.client.Logic.parsing;
 
-import org.xml.sax.helpers.DefaultHandler;
-import org.xml.sax.SAXException;
-
+import org.ebooksearchtool.client.model.Data;
+import org.ebooksearchtool.client.model.DataElement;
 import org.xml.sax.Attributes;
-
-import org.ebooksearchtool.client.Model.Data;
-import org.ebooksearchtool.client.Model.DataElement;
-import org.ebooksearchtool.client.Logic.parsing.*;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * Created by IntelliJ IDEA.

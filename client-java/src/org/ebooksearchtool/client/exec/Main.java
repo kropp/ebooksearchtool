@@ -1,13 +1,5 @@
 package org.ebooksearchtool.client.exec;
 
-import org.ebooksearchtool.client.Connection.Connector;
-
-import java.io.IOException;
-
-import org.xml.sax.SAXException;
-
-import javax.xml.parsers.ParserConfigurationException;
-
 /**
  * Created by IntelliJ IDEA.
  * User: Admin

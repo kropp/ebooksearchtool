@@ -1,8 +1,8 @@
-package org.ebooksearchtool.client.Logic.Query;
+package org.ebooksearchtool.client.Logic.query;
+
+import org.ebooksearchtool.client.view.Viewer;
 
 import java.io.IOException;
-
-import org.ebooksearchtool.client.View.Viewer;
 
 public class Query {
 	

@@ -1,4 +1,4 @@
-package org.ebooksearchtool.client.View;
+package org.ebooksearchtool.client.view;
 
 import javax.swing.*;
 
