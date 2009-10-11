@@ -54,19 +54,15 @@ void MainWindow::downloadFile() {
 	//TODO - add button for setting proxy
 //	myHttpConnection->setProxy("192.168.0.2", 3128);
 	
-	//if (myFile != 0) {
-		//delete myFile;
-	//}
-	
-	//convert to url
-	myUrlLineEdit->setText(queryToUrl());
-	
-	myFile = new QFile("id.atom");
-	parseDownloadedFile();
+	if (myFile != 0) {
+		delete myFile;
+	}
 
-	//myFile->open(QIODevice::WriteOnly); //может и не суметь открыть
-	//myHttpConnection->downloadFile(myUrlLineEdit->text(), myFile);
-	//myDownloadButton->setEnabled(false);
+	myUrlLineEdit->setText(queryToUrl());
+
+	myFile = new QFile("downloaded.atom");
+	myFile->open(QIODevice::WriteOnly); //может и не суметь открыть
+	myHttpConnection->downloadFile(myUrlLineEdit->text(), myFile);
 }
 
 
@@ -75,9 +71,9 @@ void MainWindow::enableSearchButton() {
 }
 
 void MainWindow::httpRequestFinished(int , bool) {
-	//myFile->close();
-	//enableDownloadButton();
-	//parseDownloadedFile();
+	myFile->close();
+	enableSearchButton();
+	parseDownloadedFile();
 }
 
 void MainWindow::parseDownloadedFile() {
@@ -86,9 +82,7 @@ void MainWindow::parseDownloadedFile() {
 	Model* model = new Model();	
 	parser.parse(myFile, model);
 	myView->setModel(model);
-//	myView->showFullScreen();
 	myFile->close();
-//	myText->setPlainText(myByteArray->data());
 }
 
 QString MainWindow::queryToUrl() const {

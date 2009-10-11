@@ -35,7 +35,7 @@ bool AtomHandler::endElement (const QString&, const QString&, const QString& str
 		myBooksUri = myStrText;
 	} else if (str == "dc:language") {
 		myLanguage = myStrText;
-	} else if (str == "dc:description") {
+	} else if (str == "summary") {
 		mySummary = myStrText;
 	}
 	return true;
