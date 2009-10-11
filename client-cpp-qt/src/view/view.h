@@ -4,8 +4,9 @@
 #include "../model/model.h"
 
 #include <QWidget>
-
 #include <QTextBrowser>
+
+#include <../network/httpconnection.h>
 
 class View : public QWidget {
 
@@ -20,6 +21,9 @@ public:
 private slots:
 	void downloadFile(const QUrl&);
 	
+signals:
+	void urlRequest(const QString&);
+
 private:
 	void drawModel() const;
 	QString bookToHtml(const Book*) const;

@@ -21,6 +21,10 @@ MainWindow::MainWindow(QWidget *parent) : QDialog(parent), myFile(0) {
 	connect(myHttpConnection, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
 
 	connect(mySearchButton, SIGNAL(clicked()), this, SLOT(downloadFile())); 
+	
+	connect(myView, SIGNAL(urlRequest(const QString&)), myUrlLineEdit, SLOT(setText(const QString&)));
+	connect(myView, SIGNAL(urlRequest(const QString&)), this, SLOT(downloadFile(const QString&)));
+	
 	QHBoxLayout *firstLayout = new QHBoxLayout;
 	firstLayout->addWidget(myUrlLabel);
 	firstLayout->addWidget(myUrlLineEdit);
@@ -67,6 +71,19 @@ void MainWindow::downloadFile() {
 	myHttpConnection->downloadFile(myUrlLineEdit->text(), myFile);
 }
 
+void MainWindow::downloadFile(const QString& url) {
+	//TODO - add button for setting proxy
+//	myHttpConnection->setProxy("192.168.0.2", 3128);
+	
+	if (myFile != 0) {
+		delete myFile;
+	}
+	myFile = new QFile("downloaded.atom");
+
+	myFile->open(QIODevice::WriteOnly); //может и не суметь открыть
+	myHttpConnection->downloadFile(url, myFile);
+}
+
 
 void MainWindow::enableSearchButton() {
 	mySearchButton->setEnabled(!myUrlLineEdit->text().isEmpty());
@@ -74,7 +91,7 @@ void MainWindow::enableSearchButton() {
 
 void MainWindow::httpRequestFinished(int , bool) {
 	myFile->close();
-	enableSearchButton();
+	enableSearchButton(); //надо бы ее и недоступной где-то делать
 	parseDownloadedFile();
 }
 

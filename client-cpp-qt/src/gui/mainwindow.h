@@ -27,6 +27,7 @@ public:
 
 private slots:
 	void downloadFile();
+	void downloadFile(const QString& url);
 	void httpRequestFinished(int requestId, bool error);
 	void enableSearchButton();
 	void parseDownloadedFile();

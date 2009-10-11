@@ -26,8 +26,11 @@ void View::drawModel() const {
 	
 }
 
-void View::downloadFile(const QUrl&) {
+void View::downloadFile(const QUrl& url) {
+	QString str = url.toString();	
 	std::cout << "slot 'download file'called\n";
+	str.append(".atom");
+	emit urlRequest(str);	
 }
 
 
@@ -38,8 +41,8 @@ QString View::bookToHtml(const Book* book) const {
 	appendParagraph(html, book->getAuthor()->getName().c_str());
 	appendParagraph(html, "Summary: ");	
 	appendParagraph(html, book->getSummary().c_str());
-	appendParagraph(html, "author's uri: ");
-	appendParagraph(html, book->getAuthor()->getUri().c_str());
+	//appendParagraph(html, "author's uri: ");
+	//appendParagraph(html, book->getAuthor()->getUri().c_str());
 	appendParagraph(html, " ");
 	return html;
 }
