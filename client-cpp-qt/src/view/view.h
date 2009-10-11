@@ -21,6 +21,8 @@ private:
 	void drawModel() const;
 	QString bookToHtml(const Book*) const;
 	void appendParagraph(QString& html, const QString& paragraph) const;
+	void appendHeader(QString& html, const QString& header) const;
+	void appendReference(QString& html, const QString& reference, const QString& text) const;
 
 private:
 	const Model* myModel;

@@ -14,38 +14,24 @@ void View::setModel(const Model* model) {
 	drawModel();
 }
 
-//typedef std::vector<const Book*>::const_iterator BooksIt;
-
 void View::drawModel() const {
 	myTextBrowser->clear();
 	const std::vector<const Book*> books = myModel->getBooks();
 	for (size_t i = 0; i < books.size(); ++i) {
 		myTextBrowser->insertHtml(bookToHtml(books[i]));
-		//myTextBrowser->setText(bookToHtml(books[i]));
-/*		myTextBrowser->append(books[i]->getTitle().c_str());
-		myTextBrowser->append(books[i]->getAuthor()->getName().c_str());
-		myTextBrowser->append("\nSummary: ");	
-		myTextBrowser->append(books[i]->getSummary().c_str());
-		myTextBrowser->append("author's uri: ");
-		myTextBrowser->append(books[i]->getAuthor()->getUri().c_str());
-		myTextBrowser->append("book's uri: ");
-		myTextBrowser->append(books[i]->getUri().c_str());
-		myTextBrowser->append("-------------------------------------------");*/
 	}
 	
 }
 
 QString View::bookToHtml(const Book* book) const {
 	QString html;
-	appendParagraph(html, book->getTitle().c_str());
+//	appendHeader(html, book->getTitle().c_str());
+	appendReference(html, book->getUri().c_str(), book->getTitle().c_str());
 	appendParagraph(html, book->getAuthor()->getName().c_str());
-	appendParagraph(html, "\nSummary: ");	
+	appendParagraph(html, "Summary: ");	
 	appendParagraph(html, book->getSummary().c_str());
 	appendParagraph(html, "author's uri: ");
 	appendParagraph(html, book->getAuthor()->getUri().c_str());
-	appendParagraph(html, "book's uri: ");
-	appendParagraph(html, book->getUri().c_str());
-	appendParagraph(html, "-----------------------------------------");
 	appendParagraph(html, " ");
 	return html;
 }
@@ -56,4 +42,16 @@ void View::appendParagraph(QString& html, const QString& paragraph) const {
 	html.append("</p>");
 }
 
+void View::appendHeader(QString& html, const QString& header) const {
+	html.append("<h3>");
+	html.append(header);
+	html.append("</h3>");	
+}
 
+void View::appendReference(QString& html, const QString& reference, const QString& text) const {
+	html.append("<a href=\""); //<a href="subfolder/page2.htm">Щёлкните здесь для перехода на page 2</a>
+	html.append(reference);
+	html.append("\">");
+	html.append(text);
+	html.append("</a>");
+}
