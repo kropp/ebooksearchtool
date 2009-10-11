@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-View::View(QWidget* parent) : QWidget(parent) {
+View::View(QWidget* parent) : QWidget(parent), myOneBookMode(false) {
 	myTextBrowser = new QTextBrowser(this);	
 	myTextBrowser->setReadOnly(true);
 	myTextBrowser->setText("test for displaying something\n");
@@ -17,7 +17,9 @@ void View::setModel(const Model* model) {
 	drawModel();
 }
 
-void View::drawModel() const {
+void View::drawModel() {
+	myOneBookMode = (myModel->getSize() > 1) ? false : true;
+	std::cerr << "myModel size" << myModel->getSize() << "\n";
 	myTextBrowser->clear();
 	const std::vector<const Book*> books = myModel->getBooks();
 	for (size_t i = 0; i < books.size(); ++i) {
@@ -28,22 +30,33 @@ void View::drawModel() const {
 
 void View::downloadFile(const QUrl& url) {
 	QString str = url.toString();	
+	if (str == "READ") {
+		myOneBookMode = false;	
+	}
 	std::cout << "slot 'download file'called\n";
 	str.append(".atom");
+	myOneBookMode = true;
 	emit urlRequest(str);	
 }
 
 
 QString View::bookToHtml(const Book* book) const {
 	QString html;
-//	appendHeader(html, book->getTitle().c_str());
-	appendReference(html, book->getUri().c_str(), book->getTitle().c_str());
+	if (myOneBookMode) {
+		appendHeader(html, book->getTitle().c_str());
+		//appendReference();
+	} else {
+		appendReference(html, book->getUri().c_str(), book->getTitle().c_str());
+	}
 	appendParagraph(html, book->getAuthor()->getName().c_str());
 	appendParagraph(html, "Summary: ");	
 	appendParagraph(html, book->getSummary().c_str());
 	//appendParagraph(html, "author's uri: ");
 	//appendParagraph(html, book->getAuthor()->getUri().c_str());
 	appendParagraph(html, " ");
+	if (myOneBookMode) {
+		appendReference(html, "READ", "READ");
+	}	
 	return html;
 }
 

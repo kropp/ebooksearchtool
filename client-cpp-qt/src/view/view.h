@@ -25,7 +25,7 @@ signals:
 	void urlRequest(const QString&);
 
 private:
-	void drawModel() const;
+	void drawModel();
 	QString bookToHtml(const Book*) const;
 	void appendParagraph(QString& html, const QString& paragraph) const;
 	void appendHeader(QString& html, const QString& header) const;
@@ -34,6 +34,8 @@ private:
 private:
 	const Model* myModel;
 	QTextBrowser* myTextBrowser;
+	
+	bool myOneBookMode;
 };
 
 #endif //_VIEW_H_
