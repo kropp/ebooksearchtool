@@ -20,16 +20,14 @@ import java.io.IOException;
  * To change this template use File | Settings | File Templates.
  */
 public class Controller {
+
+    Data books = new Data();
 	
-	Viewer viewer;
-
-    public static void main(String args[]) throws IOException, SAXException, ParserConfigurationException {
-
-        Data books = new Data();
+    public void act(String queryWord) throws IOException, SAXException, ParserConfigurationException {
         
         Query query = new Query();
         
-        String adress = query.getQueryAdress();
+        String adress = query.getQueryAdress(queryWord);
 
         Connector connect = new Connector(adress);
 
@@ -39,6 +37,10 @@ public class Controller {
 
         parser.parse("answer_file.xml", books);
 
+    }
+
+    public Data getData(){
+        return books;
     }
 
 }

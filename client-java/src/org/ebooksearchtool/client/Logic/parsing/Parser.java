@@ -29,13 +29,7 @@ public class Parser {
     public void parse(String fileName, Data books) throws IOException, SAXException {
         SAXHandler handler = new SAXHandler(books);
         myParser.parse(new File(fileName), handler);
-        System.out.println(handler.getBooks().getInfo().size());
-        for (int i = 0; i < handler.getBooks().getInfo().size(); ++i){
-            for (int j = 0; j < 5; ++j){
-    		    System.out.print(handler.getBooks().getInfo().get(i).getFields()[j] + "  ");
-            }
-            System.out.println();
-    	}                   
+                           
 
     }
 

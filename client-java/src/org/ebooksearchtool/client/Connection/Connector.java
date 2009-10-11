@@ -20,13 +20,11 @@ import java.net.URLConnection;
  */
 public class Connector{
 	
-	Viewer viewer;
     URL Url;
     URLConnection connection;
 
     public Connector(String adress) throws IOException {
         Url = new URL(adress);
-        viewer = new Viewer();
     }
 
     public void GetFileFromURL() {
@@ -45,7 +43,7 @@ public class Connector{
             try {
                 String IP = "192.168.0.2";
                 int port = 3128;
-                viewer.showProxyDialog(IP, port);
+                //viewer.showProxyDialog(IP, port);
                 connection = Url.openConnection(new Proxy(Proxy.Type.HTTP, new InetSocketAddress(IP, port)));
                 
                 PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream("answer_file.xml"), "utf-8"));
