@@ -1,4 +1,4 @@
-package Model;
+package org.ebooksearchtool.client.model;
 
 /**
  * Created by IntelliJ IDEA.
@@ -9,13 +9,13 @@ package Model;
  */
 public class DataElement {
 
-    private String[] fields;
+    private String[] myFields;
 
     public DataElement(){
-        fields = new String[5];
+        myFields = new String[5];
     }
 
     public String[] getFields() {
-        return fields;
+        return myFields;
     }
 }

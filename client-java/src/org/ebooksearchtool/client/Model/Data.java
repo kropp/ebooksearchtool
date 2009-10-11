@@ -1,6 +1,9 @@
-package Model;
+package org.ebooksearchtool.client.model;
 
-import java.util.Vector;
+import org.ebooksearchtool.client.model.DataElement;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,27 +14,30 @@ import java.util.Vector;
  */
 public class Data {
 
-    private String[] attributeNames;
-    private Vector<DataElement> info;
+    private String[] myAttributeNames = {
+            "title",
+            "author",
+            "language",
+            "date",
+            "summary"
+    };
+    private List<DataElement> myInfo = new ArrayList<DataElement>();
 
-    public Data(){
+    public Data(){}
 
-        attributeNames = new String[5];
-        attributeNames[0] = "title";
-        attributeNames[1] = "author";
-        attributeNames[2] = "language";
-        attributeNames[3] = "date";
-        attributeNames[4] = "summary";
-
-        info = new Vector<DataElement>();
-
+    public List<DataElement> getInfo() {
+        return Collections.unmodifiableList(myInfo);
     }
 
-    public Vector<DataElement> getInfo() {
-        return info;
+    public void setInfo(int elementIndex, int fieldIndex, String value){
+        myInfo.get(elementIndex).getFields()[fieldIndex] = value;
+    }
+
+    public void addElement(DataElement addition){
+        myInfo.add(addition);
     }
 
     public String[] getAttributes() {
-        return attributeNames;
+        return myAttributeNames;
     }
 }
