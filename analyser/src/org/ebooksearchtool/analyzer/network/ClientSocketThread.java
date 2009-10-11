@@ -20,28 +20,38 @@ public class ClientSocketThread extends Thread{
 
     @Override
     public synchronized void run(){
-        InputStream is;
-        OutputStream os;
-        try {
-            is = mySocket.getInputStream();
-            os = mySocket.getOutputStream();
-            byte[] bytes = new byte[255];
-            StringBuilder buffer = new StringBuilder();
+        BufferedReader br = null;
+        BufferedWriter bw = null;
+        try{
+            try {
+                br = new BufferedReader(new InputStreamReader(mySocket.getInputStream()));
+                bw = new BufferedWriter(new OutputStreamWriter(mySocket.getOutputStream()));
+                byte[] bytes = new byte[255];
+                StringBuilder buffer = new StringBuilder();
 
-            while(true){
-                while(buffer.indexOf(";") == -1){
-                    System.in.read(bytes);
-                    buffer.append(NetUtils.convertBytesToString(bytes));
+                System.out.print(mySocket.getPort());
+
+                while(true){
+                    while(buffer.indexOf(";") == -1){
+                        System.in.read(bytes);
+                        buffer.append(NetUtils.convertBytesToString(bytes));
+                    }
+                    NetUtils.sendMessage(bw, buffer.toString().trim());
+                    buffer = new StringBuilder(NetUtils.reciveMessage(br));
+                    System.out.print(buffer.toString());
+                    if(buffer.indexOf("quit") != -1){
+                        break;
+                    }
                 }
-                NetUtils.sendMessage(os, buffer.toString().trim());
-                buffer = new StringBuilder(NetUtils.reciveMessage(is));
-                System.out.print(buffer.toString());
-                if(buffer.indexOf("quit") == -1){
-                    break;
-                }
+            } catch (IOException ex) {
+                Logger.getLogger(ClientSocketThread.class.getName()).log(Level.SEVERE, null, ex);
+            }finally{
+                br.close();
+                bw.close();
+                mySocket.close();
             }
-        } catch (IOException ex) {
-            Logger.getLogger(ServerSocketThread.class.getName()).log(Level.SEVERE, null, ex);
+        }catch(IOException ex){
+            Logger.getLogger(ClientSocketThread.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

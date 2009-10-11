@@ -40,15 +40,10 @@ public class ConsoleInputParameters {
                         WholeStringSimpleTest.createTest(new File("urlexample.txt"));
                         break;
                     }
-                    case 'n':{//TODO: Разобраться с InetAddress
-                        try {
-                            //TODO: Разобраться с InetAddress
-                            NetworkSocketIO.createServer(null, 9999);
-                            NetworkSocketIO.createClient(null, 9999);
-                        } catch (IOException ex) {
-                            java.util.logging.Logger.getLogger(ConsoleInputParameters.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                            break;
+                    case 'n':{
+                        //TODO: Разобраться с InetAddress
+                        NetworkSocketIO.createServer(null, 9999);
+                        //NetworkSocketIO.createClient(null, 9999);
                     }
                 }
                 break;

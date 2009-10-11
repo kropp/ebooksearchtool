@@ -7,12 +7,9 @@ import java.io.*;
  */
 
 public class NetUtils {
-    public static void sendMessage(OutputStream os, String s) throws IOException {
-        for(int i = 0; i < s.length(); i++)
-        {
-          os.write((byte)s.charAt(i));
-        }
-        os.write('\n');
+    public static void sendMessage(BufferedWriter os, String s) throws IOException {
+        os.write(s);
+        os.newLine();
         os.flush();
     }
 
@@ -26,11 +23,12 @@ public class NetUtils {
         return str.toString();
     }
 
-   public static String reciveMessage(InputStream is) throws IOException {
-        byte[] input = new byte[255];
+   public static String reciveMessage(BufferedReader is) throws IOException {
+        String input = "";
         StringBuilder str = new StringBuilder();
-        while(str.indexOf(";") == -1){
-            str.append(is.read(input));
+        while(str.indexOf("</root>") == -1){
+            input = is.readLine();
+            str.append(input);
         }
         return str.toString();
     }

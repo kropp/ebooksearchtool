@@ -21,20 +21,20 @@ public class ServerURLThread extends Thread{
     public void run(){
         try {
             URLConnection connection = myURL.openConnection();
-            InputStream is;
-            OutputStream os;
+            BufferedReader br = null;
+            BufferedWriter bw = null;
 
-            is = connection.getInputStream();
-            os = connection.getOutputStream();
+            br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            bw = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
             String buffer = "";
 
             while(true){
-                buffer = NetUtils.reciveMessage(is);
+                buffer = NetUtils.reciveMessage(br);
                 if(buffer.length() > 3){
                     buffer = buffer.substring(1, buffer.length() - 2);
                 }
-                os.write(NetUtils.convertToByteArray(buffer));
-                if(buffer.indexOf("quit") == -1){
+                //bw.write(NetUtils.convertToByteArray(buffer));
+                if(buffer.indexOf("quit") != -1){
                     break;
                 }
             }

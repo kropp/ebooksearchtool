@@ -20,11 +20,11 @@ public class ClientURLThread extends Thread{
     public void run(){
         try {
             URLConnection connection = myURL.openConnection();
-            InputStream is;
-            OutputStream os;
+            BufferedReader br = null;
+            BufferedWriter bw = null;
 
-            is = connection.getInputStream();
-            os = connection.getOutputStream();
+            br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            bw = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));
             StringBuilder buffer = new StringBuilder();
             byte[] bytes = new byte[255];
 
@@ -32,10 +32,10 @@ public class ClientURLThread extends Thread{
                 while(buffer.indexOf(";") == -1){
                     System.in.read(bytes);
                 }
-                NetUtils.sendMessage(os, buffer.toString());
-                buffer = new StringBuilder(NetUtils.reciveMessage(is));
+                NetUtils.sendMessage(bw, buffer.toString());
+                buffer = new StringBuilder(NetUtils.reciveMessage(br));
                 System.out.print(buffer.toString());
-                if(buffer.indexOf("quit") == -1){
+                if(buffer.indexOf("quit") != -1){
                     break;
                 }
             }
