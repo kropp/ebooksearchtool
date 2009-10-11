@@ -8,7 +8,8 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
 	
 	private static final File ROBOTS_DIR = new File("robotscache");
 	private static final int FILES_NUMBER = 256;
-	private File[] cacheFile;
+	
+	private File[] myCacheFile;
 	
 	/*  stores all cached robots.txt in a number of files:
 	    0.txt, 1.txt, ..., {FILES_NUMBER - 1}.txt,
@@ -19,11 +20,11 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
 				boolean success = ROBOTS_DIR.mkdir();
 				if (!success) throw new Exception();
 			}
-			cacheFile = new File[FILES_NUMBER];
+			myCacheFile = new File[FILES_NUMBER];
 			for (int i = 0; i < FILES_NUMBER; i++) {
-				cacheFile[i] = new File(ROBOTS_DIR + "/" + String.format("%03d", i) + ".txt");
-				if (!cacheFile[i].exists()) {
-					new PrintWriter(cacheFile[i]).close();
+				myCacheFile[i] = new File(ROBOTS_DIR + "/" + String.format("%03d", i) + ".txt");
+				if (!myCacheFile[i].exists()) {
+					new PrintWriter(myCacheFile[i]).close();
 				}
 			}
 		} catch (Exception e) {
@@ -33,7 +34,7 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
 	}
 	
 	protected int isDisallowed(String server, String url) {
-		File file = cacheFile[Math.abs(server.hashCode()) % FILES_NUMBER];
+		File file = myCacheFile[Math.abs(server.hashCode()) % FILES_NUMBER];
 		BufferedReader br = null;
 		try {
 			br = new BufferedReader(new FileReader(file));
@@ -72,7 +73,7 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
 	}
 	
 	protected void downloadRobotsTxt(String server) {
-		File file = cacheFile[Math.abs(server.hashCode()) % FILES_NUMBER];
+		File file = myCacheFile[Math.abs(server.hashCode()) % FILES_NUMBER];
 		BufferedWriter bw = null;
 		try {
 			bw = new BufferedWriter(new FileWriter(file, true));

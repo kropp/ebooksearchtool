@@ -9,7 +9,7 @@ import java.util.*;
 
 class Util {
 
-	public static List<String> similarLinks(String url) {
+	public static List<String> createSimilarLinks(String url) {
 		List<String> answer = new ArrayList<String>();
 		final String HTTP = "http://";
 		if (url.startsWith(HTTP)) {

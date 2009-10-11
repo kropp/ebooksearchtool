@@ -16,7 +16,7 @@ class HTMLParser extends HTMLEditorKit.ParserCallback {
 	}
 	
 	private List<String> getLinks() {
-		return myLinks;
+		return Collections.unmodifiableList(myLinks);
 	}
 	
 	private void maybeAddLink(String url) {
@@ -48,7 +48,7 @@ class HTMLParser extends HTMLEditorKit.ParserCallback {
 			DocumentParser dp = new DocumentParser(DTD.getDTD("html"));
 			dp.parse(new StringReader(page), parser, true);
 		} catch (Exception e) {
-			return new ArrayList<String>();
+			return new ArrayList<String>(0);
 		}
 		return parser.getLinks();
 	}

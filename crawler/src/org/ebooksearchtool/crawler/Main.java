@@ -18,7 +18,7 @@ public class Main {
 			final Crawler crawler = new Crawler(output);
 			new Thread(new Runnable() {
 				public void run() {
-					crawler.go(new String[]{start});
+					crawler.crawl(new String[]{start});
 				}
 			}).start();
 			String keyboardInput = null;
@@ -27,7 +27,7 @@ public class Main {
 			while (true) {
 				input = keyboardScanner.nextLine();
 				if (input.length() == 0) {
-					System.out.println(crawler.whatAmIDoing());
+					System.out.println(crawler.getAction());
 				} else break;
 			}
 			System.out.println("exit: " + input);

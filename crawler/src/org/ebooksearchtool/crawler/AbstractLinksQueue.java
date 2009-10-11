@@ -1,7 +1,11 @@
 package org.ebooksearchtool.crawler;
 
-public interface AbstractLinksQueue {
-	void offer(String s);
-	String poll();
-	boolean isEmpty();
+public abstract class AbstractLinksQueue {
+
+	public abstract void offer(String s);
+	
+	public abstract String poll();
+	
+	public abstract boolean isEmpty();
+	
 }
