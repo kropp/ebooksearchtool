@@ -5,6 +5,7 @@
 
 #include <QWidget>
 #include <QTextBrowser>
+#include <QProcess>
 
 #include <../network/httpconnection.h>
 
@@ -34,8 +35,10 @@ private:
 private:
 	const Model* myModel;
 	QTextBrowser* myTextBrowser;
-	
+
 	bool myOneBookMode;
+
+	QProcess* myReadingProcess;
 };
 
 #endif //_VIEW_H_
