@@ -10,16 +10,16 @@ feeds = {
 from server.views import my_test
 
 urlpatterns = patterns('',
-  (r'^tipa/$', my_test),
-  (r'^tipa/add/([^/]+)/$', my_test),
-
-  # interface for analizer/crawler
-  (r'^data/\+author/$', data_modify, {'action': ACTION['insert'], 'target': TARGET['author']}),
-  (r'^data/\+book/$', data_modify, {'action': ACTION['insert'], 'target': TARGET['book']}),
-
-  (r'^books/search.atom/query\=(allbooks)$',
-    'django.contrib.syndication.views.feed',
-    {'feed_dict' : feeds}
-  ),
+    (r'^tipa/$', my_test),
+    (r'^tipa/add/([^/]+)/$', my_test),
+  
+    # interface for analizer/crawler
+    (r'^data/\+author/$', data_modify, {'action': ACTION['insert'], 'target': TARGET['author']}),
+    (r'^data/\+book/$', data_modify, {'action': ACTION['insert'], 'target': TARGET['book']}),
+  
+    (r'^books/search.atom/query\=(allbooks)$',
+      'django.contrib.syndication.views.feed',
+      {'feed_dict' : feeds}
+    ),
 )
 

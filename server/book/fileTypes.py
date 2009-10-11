@@ -15,4 +15,3 @@ FILE_TYPE = (
     ('rtf', 'Rich Text Format'),
 )
 
-FILE_TYPE = 
