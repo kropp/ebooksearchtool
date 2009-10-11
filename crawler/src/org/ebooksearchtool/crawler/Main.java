@@ -10,7 +10,7 @@ public class Main {
 			final String start = args[0].startsWith("http://") ? args[0] : "http://" + args[0];
 			PrintWriter output = null;
 			try {
-				output = new PrintWriter("books.txt");
+				output = new PrintWriter("books.xml");
 			} catch (FileNotFoundException fnfe) {
 				fnfe.printStackTrace();
 				System.exit(0);
@@ -31,8 +31,9 @@ public class Main {
 				} else break;
 			}
 			System.out.println("exit: " + input);
+			crawler.stop();
+			while (crawler.isRunning());
 			output.close();
-			System.exit(0);
 		} else {
 			System.out.println("usage:\n  java -jar Crawler.jar www.example.com\n  input empty string and press Enter to ask Crawler what is he doing\n  input any non-empty string and press Enter to exit");
 		}

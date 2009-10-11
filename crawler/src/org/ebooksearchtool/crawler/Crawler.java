@@ -10,13 +10,15 @@ public class Crawler {
 //	public static final Proxy PROXY = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("192.168.0.2", 3128));
 	public static final Proxy PROXY = Proxy.NO_PROXY;
 	public static final String USER_AGENT = "ebooksearchtool";
-	public static final int CONNECTION_TIMEOUT = 4000;
-	public static final int LIMIT = 500000;
+	public static final int CONNECTION_TIMEOUT = 3000;
+	public static final int LIMIT = 500000000;
 	
 	private final PrintWriter myOutput;
 	private volatile String myAction;
 	
 	private final AbstractRobotsExclusion myRobots = new ManyFilesRobotsExclusion();
+	
+	private int myRunning = 0;
 	
 	Crawler(PrintWriter output) {
 		myOutput = output;
@@ -28,6 +30,7 @@ public class Crawler {
 	}
 	
 	public void crawl(String[] starts) {
+		myRunning = 1;
 		final AbstractVisitedLinksSet were = new VisitedLinksSet();
 		final AbstractLinksQueue queue = new LinksQueue();
 		for (String start : starts) {
@@ -37,8 +40,9 @@ public class Crawler {
 				queue.offer(start);
 			}
 		}
+		myOutput.println("<books>");
 		int iteration = 0;
-		while (!queue.isEmpty()) {
+		while (myRunning == 1 && !queue.isEmpty()) {
 			String s = queue.poll();
 			myAction = "downloading page at " + s;
 			String page = getPage(s);
@@ -64,28 +68,46 @@ public class Crawler {
 				}
 			}
 		}
+		myOutput.println("</books>");
 		myAction = "doing nothing";
 		System.out.println("finished; input something to exit");
+		myRunning = 0;
+	}
+	
+	public void stop() {
+		myRunning = 2;
+	}
+	
+	public boolean isRunning() {
+		return myRunning != 0;
 	}
 	
 	private boolean isBook(String url) {
-		return url.endsWith(".epub") || url.endsWith(".pdf");
+		return
+			url.endsWith(".epub") ||
+			url.endsWith(".pdf") ||
+			url.endsWith(".txt") ||
+			url.endsWith(".doc");
 	}
 	
 	private void writeBookToOutput(String url, String referrer) {
-		myOutput.println(url + " from " + referrer);
+		myOutput.println("\t<book>");
+		myOutput.println("\t\t<link src=\"" + url + "\" />");
+		myOutput.println("\t\t<referrer src=\"" + referrer + "\" />");
+		myOutput.println("\t</book>");
 		myOutput.flush();
 	}
 	
 	private static String getPage(String url) {
 		try {
 			URLConnection connection = new URL(url).openConnection(Crawler.PROXY);
-			if (!connection.getHeaderField("Content-Type").startsWith("text/html;")) {
+			connection.setConnectTimeout(CONNECTION_TIMEOUT);
+			InputStream is = connection.getInputStream();
+			if (is == null || !connection.getHeaderField("Content-Type").startsWith("text/html")) {
 				return null;
 			}
-			connection.setConnectTimeout(CONNECTION_TIMEOUT);
 //			connection.setRequestProperty("User-Agent", USER_AGENT);
-			BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			BufferedReader br = new BufferedReader(new InputStreamReader(is));
 			String line = "";
 			StringBuilder page = new StringBuilder();
 			char[] buf = new char[1024];
@@ -99,8 +121,8 @@ public class Crawler {
 			br.close();
 			return ans;
 		} catch (Exception e) {
-			System.err.println("error on " + url);
-			System.err.println(e.getMessage());
+			System.err.println(" error on " + url);
+			System.err.println(" " + e.getMessage());
 			//e.printStackTrace();
 			return null;
 		}

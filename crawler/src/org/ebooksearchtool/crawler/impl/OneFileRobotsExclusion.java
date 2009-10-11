@@ -70,7 +70,13 @@ public class OneFileRobotsExclusion extends AbstractRobotsExclusion {
 		BufferedReader br = null;
 		try {
 			URLConnection connection = new URL(server + "/robots.txt").openConnection(Crawler.PROXY);
-			br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			connection.setConnectTimeout(Crawler.CONNECTION_TIMEOUT);
+			InputStream is = connection.getInputStream();
+			if (is == null) throw new IOException();
+			if (!connection.getHeaderField("Content-Type").startsWith("text/plain")) {
+				throw new IOException();
+			}
+			br = new BufferedReader(new InputStreamReader(is));
 		} catch (MalformedURLException mue) {
 			System.err.println("malformed URL: " + server);
 			try {
