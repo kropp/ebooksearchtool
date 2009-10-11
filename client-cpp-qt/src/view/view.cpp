@@ -2,11 +2,14 @@
 
 #include <QTextEdit>
 
+#include <iostream>
+
 View::View(QWidget* parent) : QWidget(parent) {
 	myTextBrowser = new QTextBrowser(this);	
 	myTextBrowser->setReadOnly(true);
 	myTextBrowser->setText("test for displaying something\n");
 	myTextBrowser->resize(1000, 700); //сделать автоматическое удобное задание размеров
+	connect(myTextBrowser, SIGNAL(sourceChanged(const QUrl&)), this, SLOT(downloadFile(const QUrl&)));
 }
 	
 void View::setModel(const Model* model) {
@@ -22,6 +25,11 @@ void View::drawModel() const {
 	}
 	
 }
+
+void View::downloadFile(const QUrl&) {
+	std::cout << "slot 'download file'called\n";
+}
+
 
 QString View::bookToHtml(const Book* book) const {
 	QString html;

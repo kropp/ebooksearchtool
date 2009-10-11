@@ -17,6 +17,9 @@ public:
 public:
 	void setModel(const Model* model);
 	
+private slots:
+	void downloadFile(const QUrl&);
+	
 private:
 	void drawModel() const;
 	QString bookToHtml(const Book*) const;
