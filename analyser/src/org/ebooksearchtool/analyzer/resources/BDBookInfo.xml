@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : BDBookInfo.xml
+    Created on : 12 Октябрь 2009 г., 1:00
+    Author     : Алексей
+    Description:
+        Purpose of the document follows.
+-->
+
+<root>
+    <field name="title"></field>
+    <field name="author"></field>
+	<field name="format"></field>
+	<field name="descr"></field>
+	<field name="language"></field>
+</root>
