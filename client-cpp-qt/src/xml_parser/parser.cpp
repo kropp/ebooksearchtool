@@ -7,11 +7,16 @@ bool AtomHandler::characters (const QString& strText) {
 	return true;
 }
 
-bool AtomHandler::startElement (const QString& , const QString& , const QString& name, const QXmlAttributes& ) {
+bool AtomHandler::startElement (const QString& , const QString& , const QString& name, const QXmlAttributes& attributes) {
 	if (name == "entry") {
 		myIsEntry = true;
+	} else if (name == "link") {
+		if (attributes.value("type") == "application/epub+zip") {
+			myBooksLink = attributes.value("href");
+		}
 	}
 	return true;
+//<link type="application/epub+zip" href="http://www.feedbooks.com/book/1156.epub"/>
 }
 
 bool AtomHandler::endElement (const QString&, const QString&, const QString& str) {
@@ -19,6 +24,7 @@ bool AtomHandler::endElement (const QString&, const QString&, const QString& str
 		const Author* author = new Author(myAuthorsName.toStdString(), myAuthorsUri.toStdString()); 
 		Book* book = new Book(myTitle.toStdString(), myLanguage.toStdString(), mySummary.toStdString(), myBooksUri.toStdString());
 		book->addAuthor(author);
+		book->setLink(myBooksLink.toStdString());
 		myModel->addBook(book);
 		myIsEntry = false;	
 	}	
@@ -40,6 +46,8 @@ bool AtomHandler::endElement (const QString&, const QString&, const QString& str
 	}
 	return true;
 }
+
+
 
 AtomParser::AtomParser() {}
 

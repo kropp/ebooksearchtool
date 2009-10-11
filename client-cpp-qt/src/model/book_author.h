@@ -22,6 +22,9 @@ public:
 	std::string getLanguage() const;
 	std::string getSummary() const;
 	std::string getUri() const;
+	std::string getLink() const;
+	
+	void setLink(std::string link);
 
 private:
 	const std::string myTitle;
@@ -29,6 +32,7 @@ private:
 	const std::string mySummary;
 	std::vector<const Author*> myAuthors;
 	const std::string myUri;
+	std::string myLink;
 };
 
 
@@ -45,8 +49,6 @@ public:
 private:
 	const std::string myName;
 	const std::string myUri;
-	//TODO std::string id to add
-	//const int myId;
 	//std::list<const Book*> myBooks;
 };
 
@@ -77,6 +79,11 @@ inline std::string Author::getName() const {
 inline std::string Book::getUri() const {
 	return myUri;
 }
+
+inline std::string Book::getLink() const {
+	return myLink;
+}
+
 
 inline std::string Author::getUri() const {
 	return myUri;

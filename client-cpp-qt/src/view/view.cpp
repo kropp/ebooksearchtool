@@ -3,7 +3,6 @@
 #include <QTextEdit>
 #include <QFlags>
 
-#include <iostream>
 
 View::View(QWidget* parent) : QWidget(parent), myOneBookMode(false), myReadingProcess(0) {
 	myTextBrowser = new QTextBrowser(this);	
@@ -29,14 +28,11 @@ void View::drawModel() {
 
 void View::downloadFile(const QUrl& url) {
 	QString str = url.toString();	
-	std::cout << "view url-refirence str" << str.toStdString().c_str()<< " \n";
 	if (!str.contains(QString("READ"))) {
 		str.append(".atom");
 		myOneBookMode = true;
-		std::cerr << "reference not READ\n";
 		emit urlRequest(str);
 	} else {
-		std::cerr << "reference is READ\n";
 		myOneBookMode = false;	
 		if (!myReadingProcess) {
 			myReadingProcess = new QProcess(this);
@@ -61,7 +57,7 @@ QString View::bookToHtml(const Book* book) const {
 	//appendParagraph(html, book->getAuthor()->getUri().c_str());
 	appendParagraph(html, " ");
 	if (myOneBookMode) {
-		appendReference(html, "READ", "READ");
+		appendReference(html, "READ", "LOAD AND READ");
 	}	
 	return html;
 }
