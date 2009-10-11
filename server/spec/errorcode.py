@@ -32,10 +32,11 @@ ERROR_CODE = {
 	10000: 'test warning',
 
 	20000: 'Unknow error in input data',
+	21101: 'The field author\'s name can\'t be empty',
 	22101: 'The field author\'s name can\'t be empty',
 
 	30000: 'Unknow error in database',
-	32101: 'Athor with this name exists in database',
+	32101: 'Author with this name exists in database',
 
 	40000: 'test error on server',
 

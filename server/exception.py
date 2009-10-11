@@ -25,4 +25,7 @@ class InputDataExcpt(DataExcpt):
   "Error in input data"
   pass
 
+class DatabaseExcp(DataExcpt):
+  "Error in database"
+  pass
 

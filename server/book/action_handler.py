@@ -1,35 +1,38 @@
 '''Action handler'''
 
+
 import server.book.models as book
 from server.exception import *
+from django.db import IntegrityError
 
-def author_handler(action, data_list):
-  return {'status': 'ok', 'id': 8,}
-
-#def add_author_db(name, alias=[]):
-#  if name == '':
-#    raise InputDataExcpt(22101)
-#
-#  alias = map(convert_delim, alias)
-#  name = convert_delim(name)
-#
-#  author = book.Author(name=name)
-#  try:
-#    author.save()
-#  except IntegrityError:
-#    raise InputDataExcpt(32101)
-#
-#  return 0
-
-def book_handler(action, data_list):
-  raise DataExcpt(10000)
-  return {'status': 'ok', 'id': 8,}
-  
 ACTION = {
     'get': 1,
     'insert': 2,
     'update': 3,
     'remove': 4,}
+
+def author_handler(action, data_dict):
+  print data_dict
+  if action == ACTION['insert']:
+    try:
+      author_name = data_dict['name']
+    except KeyError:
+      raise InputDataExcpt(21101)
+    print author_name
+    author = book.Author(name=author_name)
+    try:
+      author.save()
+    except IntegrityError:
+      raise DatabaseExcp(32101)
+      
+    dict = {'status': 'ok', 'id': author.id}
+  return dict
+
+
+def book_handler(action, data_dict):
+  raise DataExcpt(10000)
+  return {'status': 'ok', 'id': 8,}
+  
 
 TARGET = {
     'author': author_handler,

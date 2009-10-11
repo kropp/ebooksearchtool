@@ -23,16 +23,19 @@ def data_modify(request, action, target):
             'code': 50001, 
             'message': ERROR_CODE[50001]}
   else:
+
     # strip string on strings, used delimiter='\r\n'
-    data_list = map(lambda x: (x[0], split(x[1], '\r\n')),
-                    request.POST.items())
-    # delete leading/between word) spaces, tab, etc
-    data_list = map(lambda x: (x[0], convert_delim(x[1])),
-                    data_list)
+    data_dict = {}
+    for item in request.POST.items():
+      strs = convert_delim(split(item[1], '\r\n'))
+      if len(strs) == 1:
+        data_dict[item[0]] = strs[0]
+      else:
+        data_dict[item[0]] = strs
 
     # call handler
     try:
-      dict = target(action, data_list)
+      dict = target(action, data_dict)
     except DataExcpt, excp:
       dict = excp.get_dict()
 
