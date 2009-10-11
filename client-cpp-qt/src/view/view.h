@@ -19,6 +19,8 @@ public:
 	
 private:
 	void drawModel() const;
+	QString bookToHtml(const Book*) const;
+	void appendParagraph(QString& html, const QString& paragraph) const;
 
 private:
 	const Model* myModel;
