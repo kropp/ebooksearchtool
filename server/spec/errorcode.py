@@ -1,37 +1,43 @@
 '''This file discribes error and warning codes, wich you can get getting/adding/updating information about book, author, book-link etc.
 
-Each code consists 6 digits
+Each code consists 5 digits
 
 
 The first digit says about type of error
 
-1xxxxx - warning
-2xxxxx - error in input data
-3xxxxx - error in database
-4xxxxx - error on server
+1xxxx - warning
+2xxxx - error in input data
+3xxxx - error in database
+4xxxx - error on server
 
+5xxxx - error in request
 
-Next two digits say about action
+Next digit says about action
 
-x00xxx - test error
-x01xxx - get
-x02xxx - insert
-x03xxx - update
-x04xxx - remove
+x0xxx - unknow error
+
+x1xxx - get
+x2xxx - insert
+x3xxx - update
+x4xxx - remove
 
 
 The last three digits say specific information about error
 
-xxx000 - test error
+xx000 - unknown error
 
 '''
 
 ERROR_CODE = {
-	100000: 'test warning',
+	10000: 'test warning',
 
-	200000: 'test error in input data',
+	20000: 'Unknow error in input data',
+	22101: 'The field author\'s name can\'t be empty',
 
-	300000: 'test error in database',
+	30000: 'Unknow error in database',
+	32101: 'Athor with this name exists in database',
 
-	400000: 'test error on server',
+	40000: 'test error on server',
+
+    50001: 'Bad request method. Use POST'
 }
