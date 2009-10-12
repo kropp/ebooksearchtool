@@ -3,26 +3,36 @@
 	<property name="build" location="build"/>
 	<property name="dist" location="bin"/>
 	<property name="res" location="res"/>
+	<property name="lib" location="lib"/>
 	
-	<property name="jar" location="${dist}/Crawler.jar"/>
+	<property name="jarfile" location="${dist}/Crawler.jar"/>
 	<property name="manifest" location="${res}/MANIFEST.MF"/>
-
+	<property name="lib/jericho" location="${lib}/jericho-html-3.1.jar"/>
+	
+	
 	<target name="init">
 		<mkdir dir="${build}"/>
 	</target>
 
 	<target name="compile" depends="init">
-		<javac srcdir="${src}" destdir="${build}"/>
+		<javac srcdir="${src}" destdir="${build}" classpath=".;${lib/jericho}"/>
 	</target>
 
 	<target name="dist" depends="clean,compile">
 		<mkdir dir="${dist}"/>
-		<jar jarfile="${jar}" basedir="${build}" manifest="${manifest}"/>
+		<jar jarfile="${jarfile}" basedir="${build}" manifest="${manifest}"/>
 	</target>
 
 	<target name="clean">
 		<delete dir="${build}"/>
 		<delete dir="${dist}"/>
 	</target>
+	
+	<target name="run">
+		<java fork="true" jar="${jarfile}">
+			<arg value="www.feedbooks.com"/>
+		</java>
+	</target>
+	
 	
 </project>

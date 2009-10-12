@@ -1,1 +1,2 @@
 Main-Class: org.ebooksearchtool.crawler.Main
+Class-Path: ../lib/jericho-html-3.1.jar

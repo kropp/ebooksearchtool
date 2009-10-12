@@ -5,6 +5,7 @@ import javax.swing.text.html.*;
 import javax.swing.text.*;
 import java.io.*;
 import java.util.*;
+import net.htmlparser.jericho.*;
 
 class HTMLParser extends HTMLEditorKit.ParserCallback {
 	
@@ -45,6 +46,13 @@ class HTMLParser extends HTMLEditorKit.ParserCallback {
 
 	
 	static List<String> parseLinks(String server, String page) {
+		List<String> answer = new ArrayList<String>();
+		Source source = new Source(page);
+		Tag[] tags = source.fullSequentialParse();
+		for (Tag tag : tags) System.out.println("  " + tag + "");
+		if (1 == 1) return answer;
+		
+		
 		HTMLParser parser = new HTMLParser(server);
 		try {
 			DocumentParser dp = new DocumentParser(DTD.getDTD("html"));
