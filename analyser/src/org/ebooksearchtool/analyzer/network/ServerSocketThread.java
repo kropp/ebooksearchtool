@@ -36,11 +36,14 @@ public class ServerSocketThread extends Thread{
                 System.out.print(mySocket.getPort());
 
             while(true){
+                System.out.print("before");
                 buffer = NetUtils.reciveMessage(br);
+                System.out.print("after");
                 WholeStringSimpleParser ws = new WholeStringSimpleParser();
                 ArrayList<String> list = ws.parse(buffer);
-                System.out.print(buffer);
-                ClientSocketThread.sendRequest(Messages.formBookInfo(list));
+                System.out.print(list);
+                String message = ClientSocketThread.sendRequest(Messages.formBookInfo(list));
+                System.out.print(message);
                 //TODO:Разобраться с вылетом сервера
 //                if(buffer.indexOf("quit") != -1){
 //                    break;
