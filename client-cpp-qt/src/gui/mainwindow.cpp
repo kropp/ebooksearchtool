@@ -56,6 +56,7 @@ MainWindow::~MainWindow() {
 
 void MainWindow::downloadFile() {
 	//TODO - add button for setting proxy
+	mySearchButton->setEnabled(false);
 	myHttpConnection->setProxy("192.168.0.2", 3128);
 	
 	if (myFile != 0) {
@@ -89,12 +90,13 @@ void MainWindow::downloadFile(const QString& url) {
 
 
 void MainWindow::enableSearchButton() {
-	mySearchButton->setEnabled(!myUrlLineEdit->text().isEmpty());
+	//mySearchButton->setEnabled(!myUrlLineEdit->text().isEmpty());
 }
 
 void MainWindow::httpRequestFinished(int , bool) {
+	
 	myFile->close();
-	enableSearchButton(); //надо бы ее и недоступной где-то делать
+	mySearchButton->setEnabled(true);
 	if (myUrlLineEdit->text().contains("atom")) {
 		parseDownloadedFile();
 	} else if (myUrlLineEdit->text().contains("epub")) {
