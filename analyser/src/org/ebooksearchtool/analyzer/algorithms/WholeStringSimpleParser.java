@@ -41,10 +41,10 @@ public class WholeStringSimpleParser implements IParser{
         }
         tempString.delete(tempString.length() - 2, tempString.length());
 
-        out.add("Title: " + myBookName);
-        out.add("Authors: " + tempString);
-        out.add("URL: " + myUrl);
-        out.add("Language: " + myLanguage);
+        out.add(myBookName);
+        out.add(tempString.toString());
+        out.add(myUrl);
+        out.add(myLanguage);
 
         return out;
     }

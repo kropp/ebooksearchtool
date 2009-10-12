@@ -39,7 +39,7 @@ public class ServerSocketThread extends Thread{
                 buffer = NetUtils.reciveMessage(br);
                 WholeStringSimpleParser ws = new WholeStringSimpleParser();
                 ArrayList<String> list = ws.parse(buffer);
-                System.out.println(list);
+                printList(list);
                 String message = ClientSocketThread.sendRequest(Messages.formBookInfo(list));
                 System.out.println(message);
                 //TODO:Разобраться с вылетом сервера
@@ -60,5 +60,10 @@ public class ServerSocketThread extends Thread{
         }
     }
 
-   
+   private void printList(ArrayList<String> list){
+       System.out.println("Title: " + list.get(0));
+       System.out.println("Authors: " + list.get(1));
+       System.out.println("URL: " + list.get(2));
+       System.out.println("Language: " + list.get(3));
+   }
 }
