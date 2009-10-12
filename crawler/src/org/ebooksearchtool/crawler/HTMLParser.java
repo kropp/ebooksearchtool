@@ -30,6 +30,8 @@ class HTMLParser extends HTMLEditorKit.ParserCallback {
 		myLinks.add(url);
 	}
 	
+//	public void handleStartTag(HTML.Tag tag, MutableAttributeSet attr, int pos) { }
+	
 	public void handleSimpleTag(HTML.Tag tag, MutableAttributeSet attr, int pos) {
 		super.handleSimpleTag(tag, attr, pos);
 		if (tag == HTML.Tag.A) {

@@ -24,6 +24,7 @@ class Util {
 			server = url.substring(0, slash);
 			url = url.substring(slash);
 		}
+		//TODO: /index.html, /index.htm, /index.php, #...
 		for (int iteration = 0; iteration <= 1; iteration++) {
 			if (iteration == 1) {
 				///TODO: make this customizable (because www.site.com is not always equal to site.com)

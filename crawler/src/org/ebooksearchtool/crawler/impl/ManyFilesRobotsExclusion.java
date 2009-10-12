@@ -85,6 +85,7 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
 		try {
 			URLConnection connection = new URL(server + "/robots.txt").openConnection(Crawler.PROXY);
 			connection.setConnectTimeout(Crawler.CONNECTION_TIMEOUT);
+			connection.setRequestProperty("User-Agent", Crawler.USER_AGENT);
 			InputStream is = connection.getInputStream();
 			if (is == null) throw new IOException();
 			if (!connection.getHeaderField("Content-Type").startsWith("text/plain")) {
