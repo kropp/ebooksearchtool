@@ -7,11 +7,17 @@
     <input type='submit'>
   </form>
 
+  <h2>Insert data</h2>
   <form action='http://127.0.0.1:8000/data/insert/' method=POST>
-    Add author <br>
     <input name='author'><br>
     <textarea name='alias'></textarea><br>
     <input type='submit'>
   </form>
 
+  <h2>Get data</h2>
+  <form action='http://127.0.0.1:8000/data/get/' method=POST>
+    <input name='author'><br>
+    <textarea name='alias'></textarea><br>
+    <input type='submit'>
+  </form>
 </html>

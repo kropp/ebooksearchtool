@@ -7,6 +7,7 @@ from server.book.models import Alias
 from django.db import IntegrityError
 from django.db import transaction
 
+
 ACTION = {
     'get': 1,
     'insert': 2,
@@ -14,11 +15,14 @@ ACTION = {
     'remove': 4,}
 
 class AuthorEntirety:
-    def __init__(self, name, aliases=[]):
+    def __init__(self, name='', aliases=[]):
         self.name = name
         self.aliases = aliases
     
     def save_to_db(self):
+        "Save entirety author to database"
+        if not self.name:
+            raise InputDataExcpt(21101)
 
         author = book.Author.objects.get_or_create(name=self.name)[0]
 
@@ -35,6 +39,26 @@ class AuthorEntirety:
             # add alias to author
             alias_obj.author_set.add(author)
             alias_obj.save()
+       
+    def get_from_db(self):
+        "Return list of authors"
+        
+        if self.aliases:
+            "Get authors by name and alias"
+            author_list = []
+            for alias_name in aliases:
+                author_list += book.Author.objects.filter(name__icontains=self.name, alias__name__icontains=alias__name__icontains)
+            # remove duplicates
+            author_dict = {}
+            for author in author_list:
+                author_dict[author.name] = author
+            author_list = author_dict
+        else:
+            "Get authors only by name"
+            author_list = book.Author.objects.filter(name__icontains=self.name)
+        return author_list
+        
+
 
 
 class FileEntirety:
@@ -45,6 +69,9 @@ class FileEntirety:
         self.type = type
         self.more_info = more_info
         self.img_link = img_link
+
+    def save_to_db(self):
+        pass
 
 class BookEntirety:
     def __init__(self, title, authors, files, annotations):
@@ -61,25 +88,26 @@ class BookEntirety:
 
 def get_all_handler(data_dict):
     "Get book"
-    pass
+    a = AuthorEntirety()
+    print a.get_from_db()
 
 
 def insert_all_handler(data_dict):
     print data_dict['author']
-    a = AuthorEntirety('author4', ['author4alias1', 'author4alias2'])
+    a = AuthorEntirety('author5', ['author4alias1', 'author4alias2'])
     a.save_to_db()
-    pass
 
 
 
 @transaction.commit_manually
 def all_handler(action, data_dict):
+    "Handler of all requests, maintains the integrity of database"
     if action == ACTION['get']:
         return get_all_handler(data_dict)
     elif action == ACTION['insert']:
         try:
             dict = insert_all_handler(data_dict)
-        except IntegrityError, ex:
+        except Exception, ex:
             transaction.rollback()
             raise ex
         transaction.commit()
