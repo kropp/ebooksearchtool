@@ -1,8 +1,8 @@
 package org.ebooksearchtool.client.exec;
 
 import org.ebooksearchtool.client.connection.Connector;
-import org.ebooksearchtool.client.Logic.query.*;
-import org.ebooksearchtool.client.Logic.parsing.*;
+import org.ebooksearchtool.client.logic.query.*;
+import org.ebooksearchtool.client.logic.parsing.*;
 import org.ebooksearchtool.client.model.Data;
 import org.ebooksearchtool.client.view.Viewer;
 import org.xml.sax.SAXException;
