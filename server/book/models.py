@@ -7,6 +7,10 @@ LINK_LENGTH = 255
 class Annotation(models.Model):
     name = models.TextField(max_length=10000)
 
+    def __unicode__(self):
+        return self.name
+
+
 class BookFile(models.Model):
     link = models.URLField(unique=True, max_length=LINK_LENGTH)
     size = models.IntegerField()
@@ -14,14 +18,27 @@ class BookFile(models.Model):
     more_info = models.TextField(max_length=10000, null = True)
     img_link = models.URLField(null = True, max_length=LINK_LENGTH)
 
+
 class Series(models.Model):
     name = models.CharField(max_length=255, unique=True)
+
+    def __unicode__(self):
+        return self.name
+
 
 class Alias(models.Model):
     name = models.CharField(max_length=255, unique=True)
 
+    def __unicode__(self):
+        return self.name
+
+
 class Tag(models.Model):
     name = models.CharField(max_length=255, unique=True)
+
+    def __unicode__(self):
+        return self.name
+
 
 class Book(models.Model):
     title = models.CharField(max_length=255)
@@ -31,8 +48,15 @@ class Book(models.Model):
     series = models.ManyToManyField(Series)
     tag = models.ManyToManyField(Tag)
 
+    def __unicode__(self):
+        return '%s (%s)' % (self.title, self.lang)
+
+
 class Author(models.Model):
     name = models.CharField(max_length=255, unique=True)
     book = models.ManyToManyField(Book)
     alias = models.ManyToManyField(Alias)
     tag = models.ManyToManyField(Tag)
+
+    def __unicode__(self):
+        return self.name
