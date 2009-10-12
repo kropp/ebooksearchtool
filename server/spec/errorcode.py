@@ -37,8 +37,10 @@ ERROR_CODE = {
 
 	30000: 'Unknow error in database',
 	32101: 'Author with this name exists in database',
+	32102: 'Alias exist in DB and it associates with other author',
 
 	40000: 'test error on server',
+	40001: 'Bad action',
 
-    50001: 'Bad request method. Use POST'
+	50001: 'Bad request method. Use POST'
 }

@@ -10,6 +10,6 @@
   <message>{{ message }}</message>
 {# status = ok, it's some additional infornation #}
 {% else %}
- {# <id>{{ id }}</id> #}
+  <id>{{ id }}</id>
 {% endif %}
 </response>

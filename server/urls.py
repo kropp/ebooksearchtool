@@ -14,6 +14,8 @@ urlpatterns = patterns('',
     (r'^tipa/add/([^/]+)/$', my_test),
   
     # interface for analizer/crawler
+    (r'^data/get/$', data_modify, {'action': ACTION['get'], 'target': TARGET['all']}),
+    (r'^data/insert/$', data_modify, {'action': ACTION['insert'], 'target': TARGET['all']}),
     (r'^data/\+author/$', data_modify, {'action': ACTION['insert'], 'target': TARGET['author']}),
     (r'^data/\+book/$', data_modify, {'action': ACTION['insert'], 'target': TARGET['book']}),
   
