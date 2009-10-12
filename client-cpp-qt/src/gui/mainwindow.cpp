@@ -78,7 +78,10 @@ void MainWindow::downloadFile(const QString& url) {
 	if (myFile != 0) {
 		delete myFile;
 	}
-	myFile = new QFile("downloaded.atom");
+	QUrl qUrl(url);
+	QFileInfo fileInfo(qUrl.path());
+	QString fileName = fileInfo.fileName();
+	myFile = new QFile(fileName);
 
 	myFile->open(QIODevice::WriteOnly); //может и не суметь открыть
 	myHttpConnection->downloadFile(url, myFile);
@@ -92,7 +95,11 @@ void MainWindow::enableSearchButton() {
 void MainWindow::httpRequestFinished(int , bool) {
 	myFile->close();
 	enableSearchButton(); //надо бы ее и недоступной где-то делать
-	parseDownloadedFile();
+	if (myUrlLineEdit->text().contains("atom")) {
+		parseDownloadedFile();
+	} else if (myUrlLineEdit->text().contains("epub")) {
+		myView->open(myFile->fileName());
+	}
 }
 
 void MainWindow::parseDownloadedFile() {

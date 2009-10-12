@@ -10,6 +10,13 @@ View::View(QWidget* parent) : QWidget(parent), myOneBookMode(false), myReadingPr
 	myTextBrowser->resize(1000, 700); //сделать автоматическое удобное задание размеров
 	connect(myTextBrowser, SIGNAL(sourceChanged(const QUrl&)), this, SLOT(downloadFile(const QUrl&)));
 }
+
+View::~View() {
+/*	if (!myProcess) {
+		myProcess.close();
+		delete myProcess;
+	}*/
+}
 	
 void View::setModel(const Model* model) {
 	myModel = model;
@@ -34,11 +41,17 @@ void View::downloadFile(const QUrl& url) {
 		emit urlRequest(str);
 	} else {
 		myOneBookMode = false;	
-		if (!myReadingProcess) {
-			myReadingProcess = new QProcess(this);
-		}
-		myReadingProcess->start (QString("FBReader"), QStringList("Proust - Within A Budding Grove.epub"));
+		std::vector<const Book*> books = myModel->getBooks();
+		emit urlRequest(books[0]->getLink().c_str());
 	}
+}
+
+void View::open(const QString& fileName) {
+	if (!myReadingProcess) {
+		myReadingProcess = new QProcess(this);
+	}
+	myReadingProcess->close();
+	myReadingProcess->start(QString("FBReader"), QStringList(fileName));
 }
 
 

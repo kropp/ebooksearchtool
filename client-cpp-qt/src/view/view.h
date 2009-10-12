@@ -15,9 +15,11 @@ class View : public QWidget {
 	
 public:
 	View(QWidget* parent);
+	~View();
 	
 public:
 	void setModel(const Model* model);
+	void open(const QString& fileName);
 	
 private slots:
 	void downloadFile(const QUrl&);
