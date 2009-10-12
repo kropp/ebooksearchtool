@@ -40,7 +40,7 @@ public class ServerSocketThread extends Thread{
                 WholeStringSimpleParser ws = new WholeStringSimpleParser();
                 ArrayList<String> list = ws.parse(buffer);
                 System.out.print(buffer);
-                NetUtils.sendMessage(bw, Messages.formBookInfo(list));
+                ClientSocketThread.sendRequest(Messages.formBookInfo(list));
                 //TODO:Разобраться с вылетом сервера
 //                if(buffer.indexOf("quit") != -1){
 //                    break;

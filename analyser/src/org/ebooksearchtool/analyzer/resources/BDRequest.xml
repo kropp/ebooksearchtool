@@ -9,5 +9,6 @@
 -->
 
 <root>
-    <field type=""></field>
+    <field type="Request"></field>
+    <field name=""></field>
 </root>

@@ -27,6 +27,9 @@ public class TitleExtractor {
             lex = lexems.get(index);
             index++;
         }
+        if(sb.length() == 0){
+            return "Unknown title";
+        }
 
         return sb.toString();
     }

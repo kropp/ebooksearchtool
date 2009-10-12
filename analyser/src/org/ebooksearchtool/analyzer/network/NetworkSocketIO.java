@@ -21,15 +21,23 @@ public class NetworkSocketIO{
         }
     }
 
-    public static void createClient(InetAddress address, int socketNumber){
-        try {
-            Socket socket = new Socket("localhost", socketNumber);
-            ClientSocketThread client = new ClientSocketThread(socket);
-            client.start();
-        } catch (UnknownHostException ex) {
-            Logger.getLogger(NetworkSocketIO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(NetworkSocketIO.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public static void createClient(InetAddress address, int socketNumber, long timeToWait){
+//        Object timeout = new Object();
+//        while(true){
+            try {
+                Socket socket = new Socket("localhost", socketNumber);
+                ClientSocketThread client = new ClientSocketThread(socket);
+                client.start();
+            } catch (UnknownHostException ex) {
+                //Logger.getLogger(NetworkSocketIO.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                //Logger.getLogger(NetworkSocketIO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+//            try {
+//                timeout.wait(timeToWait);
+//            } catch (InterruptedException ex) {
+//                Logger.getLogger(NetworkSocketIO.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }
     }
 }

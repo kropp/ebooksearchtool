@@ -9,6 +9,7 @@
 -->
 
 <root>
+    <field type="Book Info"></field>
     <field name="title"></field>
     <field name="author"></field>
 	<field name="format"></field>

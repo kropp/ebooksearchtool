@@ -43,7 +43,7 @@ public class ConsoleInputParameters {
                     case 'n':{
                         //TODO: Разобраться с InetAddress
                         NetworkSocketIO.createServer(null, 9999);
-                        //NetworkSocketIO.createClient(null, 9999);
+                        NetworkSocketIO.createClient(null, 12345, 1000);
                     }
                 }
                 break;
