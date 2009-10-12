@@ -114,8 +114,10 @@ void MainWindow::parseDownloadedFile() {
 }
 
 QString MainWindow::queryToUrl() const {
-	QString str("http://feedbooks.com/books/search.atom?query=");
-	str.append(myQueryLineEdit->text());
-	return str;
+	QString urlStr("http://feedbooks.com/books/search.atom?query=");
+	QString queryStr = myQueryLineEdit->text();
+	queryStr.replace(" ", "+");
+	urlStr.append(queryStr);
+	return urlStr;
 }
 
