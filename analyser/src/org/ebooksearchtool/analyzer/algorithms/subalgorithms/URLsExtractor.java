@@ -15,8 +15,9 @@ public class URLsExtractor {
         for (int i = 0; i < length; i++) {
             buff = lexems.get(i).getValue();
             if(buff.indexOf("http") != -1 || isManySlashes(buff)){
-                return buff;
+                return trim(buff);
             }
+
         }
         return "URL not found";
     }
@@ -36,5 +37,18 @@ public class URLsExtractor {
         }else{
             return false;
         }
+    }
+
+    private static String trim(String s){
+        StringBuilder sb = new StringBuilder(s);
+        while(sb.indexOf("http") != 0){
+            sb.delete(0, 1);
+        }
+        while(sb.indexOf("\"") != (sb.length() - 1)){
+            sb.delete(sb.length() - 1, sb.length());
+        }
+        sb.delete(sb.length() - 1, sb.length());
+
+        return sb.toString();
     }
 }

@@ -30,8 +30,8 @@ public class WholeStringSimpleParser implements IParser{
 
         myUrl = URLsExtractor.extractURL(temp);
         myLanguage = LanguageExtractor.extractLanguage(temp);
-        myAuthors = AuthorsExtractor.extractAuthors(temp);
-        myBookName = TitleExtractor.extractTitle(temp);
+        myAuthors = epubAuthorExtractor.extractAuthors(temp);
+        myBookName = epubTitleExtractor.extractTitle(temp);
 
         int length = myAuthors.size();
         StringBuilder tempString = new StringBuilder();
