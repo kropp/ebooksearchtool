@@ -10,7 +10,7 @@ public class Main {
 			final String start = args[0].startsWith("http://") ? args[0] : "http://" + args[0];
 			PrintWriter output = null;
 			try {
-				output = new PrintWriter("books.xml");
+				output = new PrintWriter("found.xml");
 			} catch (FileNotFoundException fnfe) {
 				fnfe.printStackTrace();
 				System.exit(0);
