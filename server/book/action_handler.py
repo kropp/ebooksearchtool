@@ -3,9 +3,12 @@
 
 import server.book.models as book
 from server.exception import *
-from server.book.models import Alias
+from server.book.fileTypes import FILE_TYPE
+
 from django.db import IntegrityError
 from django.db import transaction
+
+
 
 
 ACTION = {
@@ -20,7 +23,7 @@ class AuthorEntirety:
         self.aliases = aliases
     
     def save_to_db(self):
-        "Save entirety author to database"
+        "Saves entirety author to database. Ruturns saved author"
         if not self.name:
             raise InputDataExcpt(21101)
 
@@ -39,6 +42,8 @@ class AuthorEntirety:
             # add alias to author
             alias_obj.author_set.add(author)
             alias_obj.save()
+
+        return author
        
     def get_from_db(self):
         "Return list of authors"
@@ -62,7 +67,7 @@ class AuthorEntirety:
 
 
 class FileEntirety:
-    def __init__(self, link, size, type='',
+    def __init__(self, link, size, type=None,
                  more_info='', img_link=''):
         self.link = link
         self.size = size
@@ -71,18 +76,47 @@ class FileEntirety:
         self.img_link = img_link
 
     def save_to_db(self):
-        pass
+        book_file = book.BookFile.objects.get_or_create(link=self.link, size=self.size)[0]
+        book_file.size = self.size
+        if self.type:
+            book_file.type = self.type
+        if self.more_info:
+            book_file.more_info = self.more_info
+        if self.img_link:
+            book_file.img_link = self.img_link
+
+        book_file.save()
+
+        return book_file.id
+
+
+
 
 class BookEntirety:
-    def __init__(self, title, authors, files, annotations):
+    def __init__(self, title, authors=[], files=[], annotations=[]):
         self.title = title
         self.authors = authors
         self.files = files
         self.annotations = annotations
 
     def save_to_db(self):
-        for author in authors:
-            author.save_to_db()
+
+        book_obj = book.Book.objects.get_or_create(title=self.title)[0]
+        for author in self.authors:
+            author_obj = author.save_to_db()
+            author_obj.book.add(book_obj)
+
+        for file in self.files:
+            file.save_to_db()
+
+        
+
+
+    def get_from_db(self):
+        "returns list of matched BookEntirety"
+        book_list = book.Book.objects.filter(title__icontains=self.title)
+        return book_list
+
 
 
 
@@ -94,8 +128,11 @@ def get_all_handler(data_dict):
 
 def insert_all_handler(data_dict):
     print data_dict['author']
-    a = AuthorEntirety('author5', ['author4alias1', 'author4alias2'])
-    a.save_to_db()
+    a = AuthorEntirety('author55', ['author4alias12', 'author4alias22'])
+    f = FileEntirety('http://link', 123, 'epub') # FILE_TYPE['epub'])
+
+    b = BookEntirety('Title', [a], [f])
+    b.save_to_db()
 
 
 
@@ -107,13 +144,13 @@ def all_handler(action, data_dict):
     elif action == ACTION['insert']:
         try:
             dict = insert_all_handler(data_dict)
-        except Exception, ex:
+        except Exception:
             transaction.rollback()
-            raise ex
-        transaction.commit()
-        return dict
+            raise
     else:
         raise DataExcpt(40001)
+    transaction.commit()
+    return dict
 
 
 

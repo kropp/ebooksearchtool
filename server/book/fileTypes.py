@@ -4,14 +4,14 @@
 FILE_TYPE = ('epub', 'fb2', 'pdf', 'txt', 'html', 'opf', 'djvu', 'pdb', 'rtf',)
 
 FILE_TYPE = (
-    ('epub', 'Electronic publication'),
-    ('fb2', 'FictionBook'),
-    ('pdf', 'Adobe Portable Document'),
-    ('txt', 'Plain text'),
-    ('html', 'Hypertext'),
-    ('opf', 'Open eBook'),
-    ('djvu', 'DjVu'),
-    ('pdb', 'Palm Media'),
-    ('rtf', 'Rich Text Format'),
+    ('epub', 0),
+    ('fb2',  1),
+    ('pdf',  2),
+    ('txt',  3),
+    ('html', 4),
+    ('opf',  5),
+    ('djvu', 6),
+    ('pdb',  7),
+    ('rtf',  8),
 )
 
