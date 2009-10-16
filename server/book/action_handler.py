@@ -17,6 +17,13 @@ ACTION = {
     'update': 3,
     'remove': 4,}
 
+
+class Callable:
+    'Makes method callable without instanse (like static method)'
+    def __init__(self, anycallable):
+        self.__call__ = anycallable
+
+
 class AuthorEntirety:
     def __init__(self, name='', aliases=[]):
         self.name = name
@@ -46,8 +53,7 @@ class AuthorEntirety:
         return author
        
     def get_from_db(self):
-        "Return list of authors"
-        
+        "Returns list of authors"
         if self.aliases:
             "Get authors by name and alias"
             author_list = []
@@ -62,12 +68,15 @@ class AuthorEntirety:
             "Get authors only by name"
             author_list = book.Author.objects.filter(name__icontains=self.name)
         return author_list
-        
+    
+    def CreateFromObj(obj):
+        print 'I am creating from obj'
+    CreateFromObj = Callable(CreateFromObj)
 
 
 
 class FileEntirety:
-    def __init__(self, link, size, type=None,
+    def __init__(self, link, size=None, type='',
                  more_info='', img_link=''):
         self.link = link
         self.size = size
@@ -89,6 +98,12 @@ class FileEntirety:
 
         return book_file
 
+    def get_from_db(self):
+        book_list = book.BookFile.objects.filter(link__icontains=self.link,
+                                                 type__icontains=self.type,
+                                                 more_info__icontains=self.more_info)
+        return book_list
+
 
 
 
@@ -109,10 +124,8 @@ class BookEntirety:
         for file in self.files:
             file_obj = file.save_to_db()
             book_obj.book_file.add(file_obj)
-
-
         
-
+        return book_obj.id
 
     def get_from_db(self):
         "returns list of matched BookEntirety"
@@ -124,8 +137,14 @@ class BookEntirety:
 
 def get_all_handler(data_dict):
     "Get book"
-    a = AuthorEntirety()
-    print a.get_from_db()
+  #  a = AuthorEntirety()
+    #print a.get_from_db()
+  #  print BookEntirety('').get_from_db()
+  #  book = BookEntirety('')
+  #  book_obj_list = book.get_from_db()
+  #  AuthorEntirety.CreateFromObj('')
+
+
 
 
 def insert_all_handler(data_dict):
@@ -134,7 +153,8 @@ def insert_all_handler(data_dict):
     f = FileEntirety('http://link', 123, 'epub') # FILE_TYPE['epub'])
 
     b = BookEntirety('Title', [a], [f])
-    b.save_to_db()
+    dict = {'id': b.save_to_db(), }
+    return dict
 
 
 
