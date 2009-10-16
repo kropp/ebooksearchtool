@@ -12,6 +12,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -67,10 +68,12 @@ public class Window {
                     /*myDataTextArea.setColumns(myController.getData().getAttributes().length);
                     myDataTextArea.setRows(myController.getData().getInfo().size());*/
                     for (int i = 0; i < myController.getData().getInfo().size(); ++i){
-                        for (int j = 0; j < myController.getData().getAttributes().length; ++j){
-                            myDataTextArea.append(myController.getData().getInfo().get(i).getFields()[j] + "\n");
-                        }
-                         myDataTextArea.append("\n");
+                        myDataTextArea.append(myController.getData().getInfo().get(i).getTitle() + "\n");
+                        myDataTextArea.append(myController.getData().getInfo().get(i).getAuthor() + "\n");
+                        myDataTextArea.append(myController.getData().getInfo().get(i).getLanguage() + "\n");
+                        myDataTextArea.append(myController.getData().getInfo().get(i).getDate() + "\n");
+                        myDataTextArea.append(myController.getData().getInfo().get(i).getSummary() + "\n");
+                        myDataTextArea.append("\n");
     	            }
                     
                 } catch (IOException e1) {

@@ -1,10 +1,12 @@
-package org.ebooksearchtool.client.Logic.parsing;
+package org.ebooksearchtool.client.logic.parsing;
 
 import org.ebooksearchtool.client.model.Data;
 import org.ebooksearchtool.client.model.DataElement;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -45,6 +47,14 @@ public class SAXHandler extends DefaultHandler{
         for(int i = 0; i < myTags.getTags().length; ++i){
             myTags.getTags()[i].setStatus(myTags.getTags()[i].getName().equals(qName));
         }
+
+/*        for (int i = 0; i < 2; ++i){
+            System.out.println(myBooks.getClass().getDeclaredFields()[i]);
+        }
+        for (int i = 0; i < 8; ++i){
+            System.out.println(myBooks.getClass().getMethods()[i]);
+        }
+  */
     }
     @Override
     public void characters(char[] ch, int start, int length) throws SAXException
@@ -53,13 +63,23 @@ public class SAXHandler extends DefaultHandler{
             for(int i = 0; i < myTags.getTags().length; ++i){
                 if(myTags.getTags()[i].getStatus()) {
                     if(myIsContinue){
-                        myBooks.setInfo(myBooks.getInfo().size()-1, i, myBooks.getInfo().get(myBooks.getInfo().size() - 1).getFields()[i] + new String(ch, start, length));
+                        try {
+                            myBooks.getClass().getMethods()[i+2].invoke(myBooks, myBooks.getInfo().size()-1, myBooks.getInfo().get(myBooks.getInfo().size()-1).getClass().getMethods()[2*i].invoke(myBooks.getInfo().get(myBooks.getInfo().size()-1)) + new String(ch, start, length));
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        } catch (InvocationTargetException e) {
+                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        }
                     }else{
-                        myBooks.setInfo(myBooks.getInfo().size()-1, i, new String(ch, start, length));
+                        try {
+                            myBooks.getClass().getMethods()[i+2].invoke(myBooks, myBooks.getInfo().size()-1, new String(ch, start, length));
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        } catch (InvocationTargetException e) {
+                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        }    
                         myIsContinue = true;
                     }
-                 //   System.out.println(ch);
-                 //   System.exit(1);
                 }
             }
         }

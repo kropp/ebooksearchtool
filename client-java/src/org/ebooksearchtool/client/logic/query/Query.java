@@ -1,4 +1,4 @@
-package org.ebooksearchtool.client.Logic.query;
+package org.ebooksearchtool.client.logic.query;
 
 import org.ebooksearchtool.client.view.Viewer;
 

@@ -1,4 +1,4 @@
-package org.ebooksearchtool.client.Logic.parsing;
+package org.ebooksearchtool.client.logic.parsing;
 
 /**
  * Created by IntelliJ IDEA.
