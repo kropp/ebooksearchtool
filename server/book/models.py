@@ -18,6 +18,9 @@ class BookFile(models.Model):
     more_info = models.TextField(max_length=10000, null = True)
     img_link = models.URLField(null = True, max_length=LINK_LENGTH)
 
+    def __unicode__(self):
+        return '%s [size %s] [type %s]' % (self.link, self.size, self.type)
+
 
 class Series(models.Model):
     name = models.CharField(max_length=255, unique=True)
