@@ -87,7 +87,7 @@ class FileEntirety:
 
         book_file.save()
 
-        return book_file.id
+        return book_file
 
 
 
@@ -100,14 +100,16 @@ class BookEntirety:
         self.annotations = annotations
 
     def save_to_db(self):
-
         book_obj = book.Book.objects.get_or_create(title=self.title)[0]
+
         for author in self.authors:
             author_obj = author.save_to_db()
             author_obj.book.add(book_obj)
 
         for file in self.files:
-            file.save_to_db()
+            file_obj = file.save_to_db()
+            book_obj.book_file.add(file_obj)
+
 
         
 
