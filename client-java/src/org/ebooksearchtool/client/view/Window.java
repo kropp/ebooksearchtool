@@ -11,6 +11,8 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
@@ -22,23 +24,34 @@ import java.lang.reflect.InvocationTargetException;
  * To change this template use File | Settings | File Templates.
  */
 public class Window {
+    private JFrame myFrame;
     private JPanel myPanel1 = new JPanel();
     private JPanel myQueryPanel;
     private JTextField myQueryField;
-    private JTextField myIpField;
-    private JTextField myPortField;
     private JButton mySearchButton;
-    private JPanel myConnectionPanel;
-    private JPanel myDataPanel;
     private JTextArea myDataTextArea;
-    private JTextPane myDataTextPane;
+    private JMenuItem myNetMenu;
+    
     private Controller myController = new Controller();
 
-    public JPanel getRootPanel() {
-        return myPanel1;
+    public JFrame getFrame() {
+        return myFrame;
     }
 
     public Window(){
+
+        myFrame = new JFrame("MainWindow");
+        JMenuBar myMenuBar;
+        myMenuBar = new JMenuBar();
+        myMenuBar.add(new JMenu("Settings"));
+        myNetMenu = new JMenuItem("Network");
+        myMenuBar.getMenu(0).add(myNetMenu);
+        myFrame.setJMenuBar(myMenuBar);
+        myFrame.setContentPane(myPanel1);
+        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        myFrame.setSize(400, 400);
+        myFrame.setLocation(10,10);
+        myFrame.setVisible(true);
 
     	myPanel1.setLayout(new BorderLayout());
     	myQueryPanel = new JPanel();
@@ -50,11 +63,11 @@ public class Window {
     	mySearchButton = new JButton();
     	mySearchButton.setText("SEARCH");
     	myQueryPanel.add(mySearchButton);
-    	myDataPanel = new JPanel();
+    	//myDataPanel = new JPanel();
     	myDataTextArea = new JTextArea();
-    	myPanel1.add(myDataTextArea, BorderLayout.CENTER);
-    	
-    	
+        myPanel1.add(new JScrollPane(myDataTextArea), "Center");
+        myDataTextArea.setEditable(false);
+
     	/*myConnectionPanel = new JPanel();
         myConnectionPanel.setVisible(false);
 */
@@ -86,6 +99,17 @@ public class Window {
 
             }
         });
+
+        myNetMenu.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+
+                NetworkDialog dialogFrame = new NetworkDialog();
+
+            }
+
+        });
+
 
     }
 

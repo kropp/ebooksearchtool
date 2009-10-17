@@ -17,16 +17,9 @@ public class MainWindow {
 
     public static void main(String args[]){
 
-        JFrame frame = new JFrame("MainWindow");
-        frame.setContentPane(new Window().getRootPanel());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //frame.pack();
-        /*Container c = frame.getContentPane();
-        c.setLayout(new GridLayout(2, 0, 10, 10));
-        c.add(new JButton("Search"));*/
-        frame.setSize(400, 400);
-        frame.setLocation(10,10);
-        frame.setVisible(true);
+
+
+        JFrame myMainFrame = new Window().getFrame();
 
     }
 
