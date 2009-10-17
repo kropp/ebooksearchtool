@@ -9,3 +9,9 @@ def convert_delim(strs, delimiter=' '):
         result = join(split(strs), delimiter)
     return result
 
+
+def replace_delim_to_space(str, delimiter=' '):
+    if str:
+        return join(split(str), delimiter)
+    return ''
+

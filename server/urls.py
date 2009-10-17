@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import *
 from server.views import BookFeed
 from server.book.views import data_modify 
-from server.book.action_handler import ACTION, TARGET
+from server.book.action_handler import ACTION
 
 feeds = {
     'allbooks': BookFeed,
@@ -14,10 +14,8 @@ urlpatterns = patterns('',
     (r'^tipa/add/([^/]+)/$', my_test),
   
     # interface for analizer/crawler
-    (r'^data/get/$', data_modify, {'action': ACTION['get'], 'target': TARGET['all']}),
-    (r'^data/insert/$', data_modify, {'action': ACTION['insert'], 'target': TARGET['all']}),
-    (r'^data/\+author/$', data_modify, {'action': ACTION['insert'], 'target': TARGET['author']}),
-    (r'^data/\+book/$', data_modify, {'action': ACTION['insert'], 'target': TARGET['book']}),
+    (r'^data/get/$', data_modify, {'action': ACTION['get'],}),
+    (r'^data/insert/$', data_modify, {'action': ACTION['insert'],}),
   
     (r'^books/search.atom/query\=(allbooks)$',
       'django.contrib.syndication.views.feed',

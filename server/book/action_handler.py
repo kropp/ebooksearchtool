@@ -1,150 +1,28 @@
 '''Action handler'''
 
-
-import server.book.models as book
-from server.exception import *
-from server.book.fileTypes import FILE_TYPE
-
 from django.db import IntegrityError
 from django.db import transaction
 
-
-
+from server.spec.utils import replace_delim_to_space
+from server.book.entirety import AuthorEntirety, FileEntirety, BookEntirety
+from server.exception import *
 
 ACTION = {
     'get': 1,
     'insert': 2,
-    'update': 3,
-    'remove': 4,}
+}
 
-
-class Callable:
-    'Makes method callable without instanse (like static method)'
-    def __init__(self, anycallable):
-        self.__call__ = anycallable
-
-
-class AuthorEntirety:
-    def __init__(self, name='', aliases=[]):
-        self.name = name
-        self.aliases = aliases
-    
-    def save_to_db(self):
-        "Saves entirety author to database. Ruturns saved author"
-        if not self.name:
-            raise InputDataExcpt(21101)
-
-        author = book.Author.objects.get_or_create(name=self.name)[0]
-
-        # get all aliases
-        for alias_item in self.aliases:
-            # get or create alias in database
-            alias_obj = book.Alias.objects.get_or_create(name=alias_item)[0]
-            alias_id = None
-            if alias_obj.author_set.count() > 0:
-                alias_id = alias_obj.author_set.get().id
-            # if existing alias associated with other author -> exception
-            if alias_id and alias_id != author.id:
-                raise InputDataExcpt(32102)
-            # add alias to author
-            alias_obj.author_set.add(author)
-            alias_obj.save()
-
-        return author
-       
-    def get_from_db(self):
-        "Returns list of authors"
-        if self.aliases:
-            "Get authors by name and alias"
-            author_list = []
-            for alias_name in aliases:
-                author_list += book.Author.objects.filter(name__icontains=self.name, alias__name__icontains=alias__name__icontains)
-            # remove duplicates
-            author_dict = {}
-            for author in author_list:
-                author_dict[author.name] = author
-            author_list = author_dict
-        else:
-            "Get authors only by name"
-            author_list = book.Author.objects.filter(name__icontains=self.name)
-        return author_list
-    
-    def CreateFromObj(obj):
-        print 'I am creating from obj'
-    CreateFromObj = Callable(CreateFromObj)
-
-
-
-class FileEntirety:
-    def __init__(self, link, size=None, type='',
-                 more_info='', img_link=''):
-        self.link = link
-        self.size = size
-        self.type = type
-        self.more_info = more_info
-        self.img_link = img_link
-
-    def save_to_db(self):
-        book_file = book.BookFile.objects.get_or_create(link=self.link, size=self.size)[0]
-        book_file.size = self.size
-        if self.type:
-            book_file.type = self.type
-        if self.more_info:
-            book_file.more_info = self.more_info
-        if self.img_link:
-            book_file.img_link = self.img_link
-
-        book_file.save()
-
-        return book_file
-
-    def get_from_db(self):
-        book_list = book.BookFile.objects.filter(link__icontains=self.link,
-                                                 type__icontains=self.type,
-                                                 more_info__icontains=self.more_info)
-        return book_list
-
-
-
-
-class BookEntirety:
-    def __init__(self, title, authors=[], files=[], annotations=[]):
-        self.title = title
-        self.authors = authors
-        self.files = files
-        self.annotations = annotations
-
-    def save_to_db(self):
-        book_obj = book.Book.objects.get_or_create(title=self.title)[0]
-
-        for author in self.authors:
-            author_obj = author.save_to_db()
-            author_obj.book.add(book_obj)
-
-        for file in self.files:
-            file_obj = file.save_to_db()
-            book_obj.book_file.add(file_obj)
-        
-        return book_obj.id
-
-    def get_from_db(self):
-        "returns list of matched BookEntirety"
-        book_list = book.Book.objects.filter(title__icontains=self.title)
-        return book_list
-
-
-
-
-def get_all_handler(data_dict):
+def get_all_handler(book_entr):
     "Get book"
+    book_entr.get_from_db()
+    return {'status': 'ok',}
+    
   #  a = AuthorEntirety()
     #print a.get_from_db()
   #  print BookEntirety('').get_from_db()
   #  book = BookEntirety('')
   #  book_obj_list = book.get_from_db()
   #  AuthorEntirety.CreateFromObj('')
-
-
 
 
 def insert_all_handler(data_dict):
@@ -157,15 +35,14 @@ def insert_all_handler(data_dict):
     return dict
 
 
-
 @transaction.commit_manually
-def all_handler(action, data_dict):
+def all_handler(action, book_entr):
     "Handler of all requests, maintains the integrity of database"
     if action == ACTION['get']:
-        return get_all_handler(data_dict)
+        return get_all_handler(book_entr)
     elif action == ACTION['insert']:
         try:
-            dict = insert_all_handler(data_dict)
+            dict = insert_all_handler(book_entr)
         except Exception:
             transaction.rollback()
             raise
@@ -177,33 +54,67 @@ def all_handler(action, data_dict):
 
 
 
+    
+
+def load_book_entr_from_xml(xml):
+    "Creates BookEntirety and fills it data from xml document"
+    if xml.tag != 'book':
+        raise InputDataExcpt("Not found root tag 'book'")
+
+    book_entr = BookEntirety(title='')
 
 
-def author_handler(action, data_dict):
-    #print data_dict
-    if action == ACTION['insert']:
-        try:
-            author_name = data_dict['name']
-        except KeyError:
-            raise InputDataExcpt(21101)
-        #print author_name
-        author = book.Author(name=author_name)
-        try:
-            author.save()
-        except IntegrityError:
-            raise DatabaseExcp(32101)
-          
-        dict = {'status': 'ok', 'id': author.id}
-    return dict
+    for node in xml.getchildren():
+        if node.tag == 'title':
+            book_entr.title = replace_delim_to_space(node.text)
+        elif node.tag == 'lang':
+            lang = replace_delim_to_space(node.text)
+            book_entr.lang = lang
 
+        # Book authors block
+        elif node.tag == 'authors':
+            for author_node in node.getchildren():
+                
+                # If not 'author' tag in block raise exception
+                if author_node.tag != 'author':
+                    raise InputDataExcpt("Unknown tag '" + author_node.tag +
+                                         "' in tag 'authors'")
 
-def book_handler(action, data_dict):
-    raise DataExcpt(10000)
-    return {'status': 'ok', 'id': 8,}
-  
+                # Create author entirety and fill data
+                for details_node in author_node.getchildren():
+                    author_entr = AuthorEntirety()                    
+                    if details_node.tag == 'name':
+                        author_entr.name = replace_delim_to_space(details_node.text)
+                    if details_node.tag == 'alias':
+                        author_entr.aliases.append(replace_delim_to_space(details_node.text))
+                    # Add created author to authors list of book entirety
+                    book_entr.authors.append(author_entr)
 
-TARGET = {
-    'all': all_handler,
-    'author': author_handler,
-    'book': book_handler, }
+        # Book file block
+        elif node.tag == 'files':
+            for file_node in node.getchildren():
+                
+                # If not 'file' tag in block raise exception
+                if file_node.tag != 'file':
+                    raise InputDataExcpt("Unknown tag '" + file_node.tag +
+                                         "' in tag 'files'")
 
+                # Create file entirety and fill data
+                for details_node in file_node.getchildren():
+                    file_entr = FileEntirety(link='')                    
+                    if details_node.tag == 'link':
+                        file_entr.link = replace_delim_to_space(details_node.text)
+                    if details_node.tag == 'size':
+                        file_entr.size = replace_delim_to_space(details_node.text)
+                    if details_node.tag == 'type':
+                        file_entr.type = replace_delim_to_space(details_node.text)
+                    if details_node.tag == 'more_info':
+                        file_entr.more_info = replace_delim_to_space(details_node.text)
+                    if details_node.tag == 'img_link':
+                        file_entr.img_link = replace_delim_to_space(details_node.text)
+
+                    # Add created book file to book_files list of book entirety
+                    book_entr.files.append(file_entr)
+
+    return book_entr
+            
