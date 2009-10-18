@@ -7,12 +7,13 @@ import org.ebooksearchtool.crawler.impl.*;
 
 public class Crawler {
 
-//    public static final Proxy PROXY = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("192.168.0.2", 3128));
-    public static final Proxy PROXY = Proxy.NO_PROXY;
-    public static final String USER_AGENT = "ebooksearchtool";
-    public static final int CONNECTION_TIMEOUT = 3000;
-    public static final int LIMIT = 500000000;
-    public static final int ANALYZER_PORT = 9999;
+//    public static Proxy PROXY = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("192.168.0.2", 3128));
+    private static Proxy ourProxy;
+    private static String ourUserAgent;
+    private static int ourConnectionTimeout;
+    private static int ourMaxLinksCount;
+    private static boolean ourAnalyzerEnabled;
+    private static int ourAnalyzerPort;
     
     private Socket myAnalyzerSocket = null;
     private BufferedWriter myAnalyzerWriter = null;
@@ -23,20 +24,63 @@ public class Crawler {
     
     private int myRunning = 0;
     
-    Crawler(PrintWriter output) {
+    Crawler(Properties properties, PrintWriter output) {
         myOutput = output;
         myAction = "doing nothing";
         try {
-            myAnalyzerSocket = new Socket(InetAddress.getLocalHost().getHostName(), ANALYZER_PORT);
-            System.err.println(" analyzer connected on port " + myAnalyzerSocket.getPort());
-            myAnalyzerWriter = new BufferedWriter(new OutputStreamWriter(myAnalyzerSocket.getOutputStream()));
+            if ("true".equals(properties.getProperty("proxy_enabled"))) {
+                String type = properties.getProperty("proxy_type").toLowerCase();
+                Proxy.Type proxyType = null;
+                if ("http".equals(type)) {
+                    proxyType = Proxy.Type.HTTP;
+                } else if ("socks".equals(type)) {
+                    proxyType = Proxy.Type.SOCKS;
+                }
+                String proxyHost = properties.getProperty("proxy_host");
+                String proxyPort = properties.getProperty("proxy_port");
+                ourProxy = new Proxy(proxyType, new InetSocketAddress(proxyHost, Integer.parseInt(proxyPort)));
+            } else {
+                ourProxy = Proxy.NO_PROXY;
+            }
+            if ("true".equals(properties.getProperty("analyzer_enabled"))) {
+                String port = properties.getProperty("analyzer_port");
+                ourAnalyzerEnabled = true;
+                ourAnalyzerPort = Integer.parseInt(port);
+            } else {
+                ourAnalyzerEnabled = false;
+                ourAnalyzerPort = -1;
+            }
+            ourMaxLinksCount = Integer.parseInt(properties.getProperty("max_links_count"));
+            ourConnectionTimeout = Integer.parseInt(properties.getProperty("connection_timeout"));
+            ourUserAgent = properties.getProperty("user_agent");
         } catch (Exception e) {
-            System.err.println(" error: connect to analyzer failed!");
+            throw new RuntimeException("bad format of properties file: " + e.getMessage());
+        }
+        if (ourAnalyzerEnabled) {
+            try {
+                myAnalyzerSocket = new Socket(InetAddress.getLocalHost().getHostName(), ourAnalyzerPort);
+                System.err.println(" analyzer connected on port " + myAnalyzerSocket.getPort());
+                myAnalyzerWriter = new BufferedWriter(new OutputStreamWriter(myAnalyzerSocket.getOutputStream()));
+            } catch (Exception e) {
+                System.err.println(" error: connect to analyzer failed!");
+            }
         }
     }
     
     public String getAction() {
         return myAction;
+    }
+    
+    public static int getConnectionTimeout() {
+        return ourConnectionTimeout;
+    }
+    
+    public static String getUserAgent() {
+        return ourUserAgent;
+    }
+    
+    public static Proxy getProxy() {
+        return ourProxy;
     }
     
     public void crawl(String[] starts) {
@@ -65,7 +109,7 @@ public class Crawler {
                 if (myRunning != 1) break;
                 myAction = "checking if already visited " + link;
                 URI uri = createURI(link);
-                if (!were.contains(Util.createSimilarLinks(link)) && were.size() < LIMIT) {
+                if (!were.contains(Util.createSimilarLinks(link)) && were.size() < ourMaxLinksCount) {
                     were.add(link);
                     if (isBook(link)) {
                         myAction = "writing information about visited book " + link;
@@ -85,11 +129,13 @@ public class Crawler {
         myAction = "doing nothing";
         System.out.println("finished; input something to exit");
         myRunning = 0;
-        try {
-            if (myAnalyzerSocket != null) {
-                myAnalyzerWriter.close();
-            }
-        } catch (IOException e) { }
+        if (ourAnalyzerEnabled) {
+            try {
+                if (myAnalyzerSocket != null) {
+                    myAnalyzerWriter.close();
+                }
+            } catch (IOException e) { }
+        }
     }
     
     public void stop() {
@@ -114,20 +160,22 @@ public class Crawler {
         myOutput.println("\t\t<referrer src=\"" + referrer + "\" />");
         myOutput.println("\t</book>");
         myOutput.flush();
-        try {
-            if (myAnalyzerSocket != null) {
-                referrerPage = referrerPage.replaceAll("]]>", "]]]]><![CDATA[>");
-                myAnalyzerWriter.write("<root>"); myAnalyzerWriter.newLine();
-                myAnalyzerWriter.write("\t<link src=\"" + url + "\" />"); myAnalyzerWriter.newLine();
-                myAnalyzerWriter.write("\t<![CDATA["); myAnalyzerWriter.newLine();
-                myAnalyzerWriter.write(referrerPage); myAnalyzerWriter.newLine();
-                myAnalyzerWriter.write("\t]]>"); myAnalyzerWriter.newLine();
-                myAnalyzerWriter.write("</root>");
-                myAnalyzerWriter.flush();
+        if (ourAnalyzerEnabled) {
+            try {
+                if (myAnalyzerSocket != null) {
+                    referrerPage = referrerPage.replaceAll("]]>", "]]]]><![CDATA[>");
+                    myAnalyzerWriter.write("<root>"); myAnalyzerWriter.newLine();
+                    myAnalyzerWriter.write("\t<link src=\"" + url + "\" />"); myAnalyzerWriter.newLine();
+                    myAnalyzerWriter.write("\t<![CDATA["); myAnalyzerWriter.newLine();
+                    myAnalyzerWriter.write(referrerPage); myAnalyzerWriter.newLine();
+                    myAnalyzerWriter.write("\t]]>"); myAnalyzerWriter.newLine();
+                    myAnalyzerWriter.write("</root>");
+                    myAnalyzerWriter.flush();
+                }
+            } catch (IOException e) {
+                System.err.println(" error: output to analyzer failed, " + url.hashCode());
+                System.err.println(" " + e.getMessage());
             }
-        } catch (IOException e) {
-            System.err.println(" error: output to analyzer failed, " + url.hashCode());
-            System.err.println(" " + e.getMessage());
         }
     }
     
@@ -142,9 +190,9 @@ public class Crawler {
     
     private static String getPage(URI uri) {
         try {
-            URLConnection connection = uri.toURL().openConnection(Crawler.PROXY);
-            connection.setConnectTimeout(CONNECTION_TIMEOUT);
-            connection.setRequestProperty("User-Agent", USER_AGENT);
+            URLConnection connection = uri.toURL().openConnection(ourProxy);
+            connection.setConnectTimeout(ourConnectionTimeout);
+            connection.setRequestProperty("User-Agent", ourUserAgent);
             InputStream is = connection.getInputStream();
             if (is == null || !connection.getHeaderField("Content-Type").startsWith("text/html")) {
                 return null;

@@ -6,8 +6,8 @@ import org.ebooksearchtool.crawler.*;
 
 public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
     
-    private static final File ROBOTS_DIR = new File("robotscache");
-    private static final int FILES_NUMBER = 256;
+    public static final File ROBOTS_DIR = new File("robotscache");
+    public static final int FILES_NUMBER = 256;
     
     private File[] myCacheFile;
     
@@ -83,9 +83,9 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
         }
         BufferedReader br = null;
         try {
-            URLConnection connection = new URL("http://" + host + "/robots.txt").openConnection(Crawler.PROXY);
-            connection.setConnectTimeout(Crawler.CONNECTION_TIMEOUT);
-            connection.setRequestProperty("User-Agent", Crawler.USER_AGENT);
+            URLConnection connection = new URL("http://" + host + "/robots.txt").openConnection(Crawler.getProxy());
+            connection.setConnectTimeout(Crawler.getConnectionTimeout());
+            connection.setRequestProperty("User-Agent", Crawler.getUserAgent());
             InputStream is = connection.getInputStream();
             if (is == null || !connection.getHeaderField("Content-Type").startsWith("text/plain")) {
                 throw new IOException();
@@ -114,7 +114,7 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
                 s = s.trim().replaceAll(" +", " ").toLowerCase();
                 if (s.startsWith("user-agent:")) {
                     s = s.substring(11).trim();
-                    me = "*".equals(s) || Crawler.USER_AGENT.equals(s);
+                    me = "*".equals(s) || Crawler.getUserAgent().equals(s);
                 } else if (me && s.startsWith("disallow:")) {
                     int end = s.indexOf('#');
                     if (end < 0) end = s.length();
