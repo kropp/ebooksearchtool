@@ -1,17 +1,18 @@
 package org.ebooksearchtool.crawler.impl;
 
+import java.net.*;
 import java.util.*;
 import org.ebooksearchtool.crawler.*;
 
 public class LinksQueue extends AbstractLinksQueue {
 
-    private final Queue<String> myQueue = new LinkedList<String>();
+    private final Queue<URI> myQueue = new LinkedList<URI>();
     
-    public void offer(String s) {
-        myQueue.offer(s);
+    public void offer(URI uri) {
+        myQueue.offer(uri);
     }
     
-    public String poll() {
+    public URI poll() {
         return myQueue.poll();
     }
     

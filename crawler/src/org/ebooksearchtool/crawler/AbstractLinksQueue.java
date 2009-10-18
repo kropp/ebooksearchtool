@@ -1,10 +1,12 @@
 package org.ebooksearchtool.crawler;
 
+import java.net.URI;
+
 public abstract class AbstractLinksQueue {
 
-    public abstract void offer(String s);
+    public abstract void offer(URI s);
     
-    public abstract String poll();
+    public abstract URI poll();
     
     public abstract boolean isEmpty();
     

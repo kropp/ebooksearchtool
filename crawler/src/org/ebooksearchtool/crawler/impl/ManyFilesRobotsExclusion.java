@@ -33,8 +33,8 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
         }
     }
     
-    protected int isDisallowed(String server, String url) {
-        File file = myCacheFile[Math.abs(server.hashCode()) % FILES_NUMBER];
+    protected int isDisallowed(String host, URI uri) {
+        File file = myCacheFile[Math.abs(host.hashCode()) % FILES_NUMBER];
         BufferedReader br = null;
         try {
             br = new BufferedReader(new FileReader(file));
@@ -43,25 +43,25 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
             return 1;
         }
         String s = "";
-        boolean serverFound = false;
-        url = url.substring(server.length());
+        boolean hostFound = false;
+        String path = uri.getPath();
         try {
             while ((s = br.readLine()) != null) {
                 if (s.length() == 0) continue;
                 if (s.charAt(0) == ' ') {
-                    if (serverFound && matches(url, s.substring(1))) {
+                    if (hostFound && matches(path, s.substring(1))) {
                         br.close();
                         return 1;
                     }
                 } else {
-                    if (s.equals(server)) {
-                        serverFound = true;
+                    if (s.equals(host)) {
+                        hostFound = true;
                     } else {
-                        if (serverFound) {
+                        if (hostFound) {
                             br.close();
                             return 0;
                         }
-                        serverFound = false;
+                        hostFound = false;
                     }
                 }
             }
@@ -69,11 +69,11 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
         } catch (IOException ioe) {
             System.err.println("error while reading " + file);
         }
-        return serverFound ? 0 : -1;
+        return hostFound ? 0 : -1;
     }
     
-    protected void downloadRobotsTxt(String server) {
-        File file = myCacheFile[Math.abs(server.hashCode()) % FILES_NUMBER];
+    protected void downloadRobotsTxt(String host) {
+        File file = myCacheFile[Math.abs(host.hashCode()) % FILES_NUMBER];
         BufferedWriter bw = null;
         try {
             bw = new BufferedWriter(new FileWriter(file, true));
@@ -83,24 +83,23 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
         }
         BufferedReader br = null;
         try {
-            URLConnection connection = new URL(server + "/robots.txt").openConnection(Crawler.PROXY);
+            URLConnection connection = new URL("http://" + host + "/robots.txt").openConnection(Crawler.PROXY);
             connection.setConnectTimeout(Crawler.CONNECTION_TIMEOUT);
             connection.setRequestProperty("User-Agent", Crawler.USER_AGENT);
             InputStream is = connection.getInputStream();
-            if (is == null) throw new IOException();
-            if (!connection.getHeaderField("Content-Type").startsWith("text/plain")) {
+            if (is == null || !connection.getHeaderField("Content-Type").startsWith("text/plain")) {
                 throw new IOException();
             }
             br = new BufferedReader(new InputStreamReader(is));
         } catch (MalformedURLException mue) {
-            System.err.println("malformed URL: " + server);
+            System.err.println("malformed URL: " + host);
             try {
                 bw.close();
             } catch (IOException ioe) { }
             return;
         } catch (IOException ioe) {
             try {
-                bw.write(server);
+                bw.write(host);
                 bw.newLine();
                 bw.close();
             } catch (IOException ioe2) { }
@@ -109,7 +108,7 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
         String s = "";
         boolean me = false;
         try {
-            bw.write(server);
+            bw.write(host);
             bw.newLine();
             while ((s = br.readLine()) != null) {
                 s = s.trim().replaceAll(" +", " ").toLowerCase();

@@ -45,17 +45,4 @@ class Util {
         return answer;
     }
     
-    
-    
-    public static String getServerNameFromURL(String url) {
-        if (!url.startsWith("http://")) return null;
-        try {
-            URL u = new URL(url);
-        } catch (MalformedURLException e) {
-            return null;
-        }
-        int x = url.indexOf("/", 7);
-        return x < 0 ? url : url.substring(0, x);
-    }
-    
 }

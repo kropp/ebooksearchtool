@@ -45,36 +45,38 @@ public class Crawler {
         final AbstractLinksQueue queue = new LinksQueue();
         for (String start : starts) {
             myAction = "prechecking if i can go to " + start;
-            if (myRobots.canGo(start)) {
+            URI uri = createURI(start);
+            if (myRobots.canGo(uri)) {
                 were.add(start);
-                queue.offer(start);
+                queue.offer(uri);
             }
         }
         myOutput.println("<books>");
         int iteration = 0;
         while (myRunning == 1 && !queue.isEmpty()) {
-            String s = queue.poll();
+            URI s = queue.poll();
             myAction = "downloading page at " + s;
             String page = getPage(s);
             if (page == null) continue;
             System.out.println((++iteration) + " " + s + " " + page.length());
             myAction = "getting all links out of " + s;
-            List<String> links = HTMLParser.parseLinks(Util.getServerNameFromURL(s), page);
+            List<String> links = HTMLParser.parseLinks(s.getHost(), page);
             for (String link : links) {
                 if (myRunning != 1) break;
                 myAction = "checking if already visited " + link;
+                URI uri = createURI(link);
                 if (!were.contains(Util.createSimilarLinks(link)) && were.size() < LIMIT) {
                     were.add(link);
                     if (isBook(link)) {
                         myAction = "writing information about visited book " + link;
-                        writeBookToOutput(link, s, page);
+                        writeBookToOutput(link, s.toString(), page);
                         continue;
                     }
                     myAction = "checking if i can go to " + link;
-                    boolean permitted = myRobots.canGo(link);
+                    boolean permitted = myRobots.canGo(uri);
                     if (permitted) {
                         myAction = "adding to queue " + link;
-                        queue.offer(link);
+                        queue.offer(uri);
                     }
                 }
             }
@@ -129,9 +131,18 @@ public class Crawler {
         }
     }
     
-    private static String getPage(String url) {
+    private static URI createURI(String s) {
         try {
-            URLConnection connection = new URL(url).openConnection(Crawler.PROXY);
+            URI tmp = new URI(s.replaceAll(" ", "%20"));
+            return new URI(tmp.getScheme(), tmp.getHost(), tmp.getPath(), null);
+        } catch (URISyntaxException e) {
+            return null;
+        }
+    }
+    
+    private static String getPage(URI uri) {
+        try {
+            URLConnection connection = uri.toURL().openConnection(Crawler.PROXY);
             connection.setConnectTimeout(CONNECTION_TIMEOUT);
             connection.setRequestProperty("User-Agent", USER_AGENT);
             InputStream is = connection.getInputStream();
@@ -152,7 +163,7 @@ public class Crawler {
             br.close();
             return ans;
         } catch (Exception e) {
-            System.err.println(" error on " + url);
+            System.err.println(" error on " + uri);
             System.err.println(" " + e.getMessage());
             //e.printStackTrace();
             return null;
