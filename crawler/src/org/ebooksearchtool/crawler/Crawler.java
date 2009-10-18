@@ -7,13 +7,16 @@ import org.ebooksearchtool.crawler.impl.*;
 
 public class Crawler {
 
-//    public static Proxy PROXY = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("192.168.0.2", 3128));
     private static Proxy ourProxy;
     private static String ourUserAgent;
     private static int ourConnectionTimeout;
     private static int ourMaxLinksCount;
+    
     private static boolean ourAnalyzerEnabled;
     private static int ourAnalyzerPort;
+    
+    private static int ourMaxLinksFromPage;
+    
     
     private Socket myAnalyzerSocket = null;
     private BufferedWriter myAnalyzerWriter = null;
@@ -53,6 +56,8 @@ public class Crawler {
             ourMaxLinksCount = Integer.parseInt(properties.getProperty("max_links_count"));
             ourConnectionTimeout = Integer.parseInt(properties.getProperty("connection_timeout"));
             ourUserAgent = properties.getProperty("user_agent");
+            int maxLinksFromPage = Integer.parseInt(properties.getProperty("max_links_from_page"));
+            ourMaxLinksFromPage = maxLinksFromPage == 0 ? Integer.MAX_VALUE : maxLinksFromPage;
         } catch (Exception e) {
             throw new RuntimeException("bad format of properties file: " + e.getMessage());
         }
@@ -82,6 +87,11 @@ public class Crawler {
     public static Proxy getProxy() {
         return ourProxy;
     }
+    
+    public static int getMaxLinksFromPage() {
+        return ourMaxLinksFromPage;
+    }
+    
     
     public void crawl(String[] starts) {
         myRunning = 1;

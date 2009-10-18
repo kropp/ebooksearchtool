@@ -23,6 +23,9 @@ public class Main {
         properties.setProperty("proxy_host", "192.168.0.2");
         properties.setProperty("proxy_port", "3128");
         
+        properties.setProperty("max_links_from_page", "0");
+        
+        
         
         try {
             properties.load(new FileReader(PROPERTIES_FILENAME));

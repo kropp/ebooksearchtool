@@ -20,6 +20,7 @@ public abstract class AbstractRobotsExclusion {
     protected abstract void downloadRobotsTxt(String host);
     
     boolean canGo(URI uri) {
+        if (uri == null) return false;
         String host = uri.getHost();
         if (host == null) return false;
         int disallowed = isDisallowed(host, uri);
