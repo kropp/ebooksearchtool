@@ -18,12 +18,9 @@ void Configurator::setParameters(const std::string& path, Map& settings) {
 			continue;
 		}
 		std::string str(ch);
-	//	std::cout << "read " << str.c_str() << "\n";
 		int i = str.find_first_of('=');
 		std::string name = str.substr(0, i);
 		std::string value = str.substr(i + 1, str.size() - 1);
-//		std::cout << "name " << name.c_str() << "\n";
-//		std::cout << "value " << value.c_str() << "\n";
 		Map::iterator it = settings.find(name);
 		if (it == settings.end()) {
 			continue;
