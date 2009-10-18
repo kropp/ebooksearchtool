@@ -2,6 +2,8 @@ package org.ebooksearchtool.analyzer.io;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
+import org.ebooksearchtool.analyzer.model.Author;
 
 /**
  * @author Алексей
@@ -9,17 +11,17 @@ import java.util.ArrayList;
 
 public class TestToFileWriter {
 
-    public static boolean writeTestToFile(ArrayList<ArrayList<String>> test, String file){
+    public static boolean writeTestToFile(List<ArrayList<Author>> test, String file){
         BufferedWriter out = null;
         try{
             try{
                 out = new BufferedWriter(new FileWriter(file));
                 int length = test.size();
                 for (int i = 0; i < length; i++) {
-                    ArrayList temp = test.get(i);
+                    List<Author> temp = test.get(i);
                     int sizeOfSubArray = temp.size();
                     for (int j = 0; j < sizeOfSubArray; j++) {
-                        out.write((String)temp.get(j));
+                        out.write((String)temp.get(j).getName());
                         out.newLine();
                     }
                     out.write("    !Next book!    ");
@@ -37,17 +39,17 @@ public class TestToFileWriter {
         return true;
     }
 
-    public static ArrayList<ArrayList<String>> readTestFromFile(String file){
+    public static List<ArrayList<Author>> readTestFromFile(String file){
         BufferedReader input = null;
-        ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>();
+        ArrayList<ArrayList<Author>> data = new ArrayList<ArrayList<Author>>();
         try{
             try{
                 input = new BufferedReader(new FileReader(file));
                 String temp = input.readLine();
-                ArrayList<String> subArray = new ArrayList<String>();
+                ArrayList<Author> subArray = new ArrayList<Author>();
                 while(temp != null){
                     while(temp != null && temp.equals("    !Next book!    ")){
-                        subArray.add(temp);
+                        subArray.add(new Author(temp));
                         temp = input.readLine();
                     }
                     if(temp == null){

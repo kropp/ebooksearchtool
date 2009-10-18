@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ebooksearchtool.analyzer.algorithms.WholeStringSimpleParser;
+import org.ebooksearchtool.analyzer.model.BookInfo;
 
 /**
  * @author Алексей
@@ -38,9 +39,9 @@ public class ServerSocketThread extends Thread{
             while(true){
                 buffer = NetUtils.reciveMessage(br);
                 WholeStringSimpleParser ws = new WholeStringSimpleParser();
-                ArrayList<String> list = ws.parse(buffer);
-                printList(list);
-                String message = ClientSocketThread.sendRequest(Messages.formBookInfo(list));
+                BookInfo info = ws.parse(buffer);
+                printInfo(info);
+                String message = ClientSocketThread.sendRequest(info.getBookInfo());
                 System.out.println(message);
                 //TODO:Разобраться с вылетом сервера
 //                if(buffer.indexOf("quit") != -1){
@@ -60,10 +61,10 @@ public class ServerSocketThread extends Thread{
         }
     }
 
-   private void printList(ArrayList<String> list){
-       System.out.println("Title: " + list.get(0));
-       System.out.println("Authors: " + list.get(1));
-       System.out.println("URL: " + list.get(2));
-       System.out.println("Language: " + list.get(3));
+   private void printInfo(BookInfo info){
+       System.out.println("Title: " + info.getTitle());
+       System.out.println("Authors: " + info.getAuthors());
+       System.out.println("Files: " + info.getFiles());
+       System.out.println("Language: " + info.getLanguage());
    }
 }

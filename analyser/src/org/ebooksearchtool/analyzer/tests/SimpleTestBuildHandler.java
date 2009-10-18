@@ -10,11 +10,12 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.ebooksearchtool.analyzer.algorithms.AuthorsSimpleParser;
 import org.ebooksearchtool.analyzer.io.TestToFileWriter;
+import org.ebooksearchtool.analyzer.model.Author;
 
 public class SimpleTestBuildHandler extends DefaultHandler{
 
     private static boolean ourRightElementFlag = false;
-    private static ArrayList<ArrayList<String>> ourAuthors = new ArrayList<ArrayList<String>>();
+    private static ArrayList<ArrayList<Author>> ourAuthors = new ArrayList<ArrayList<Author>>();
 
     public SimpleTestBuildHandler(){
         super();

@@ -1,7 +1,9 @@
 package org.ebooksearchtool.analyzer.algorithms.subalgorithms;
 
 import java.util.ArrayList;
+import java.util.List;
 import org.ebooksearchtool.analyzer.algorithms.AuthorsSimpleParser;
+import org.ebooksearchtool.analyzer.model.Author;
 import org.ebooksearchtool.analyzer.utils.Lexema;
 
 /**
@@ -10,7 +12,7 @@ import org.ebooksearchtool.analyzer.utils.Lexema;
 
 public class epubAuthorExtractor {
 
-     public static ArrayList<String> extractAuthors (ArrayList<Lexema> lexems){
+     public static List<Author> extractAuthors (ArrayList<Lexema> lexems){
         int length = lexems.size();
         int index = 0;
         for (index = 0; index < length; index++) {
@@ -34,13 +36,13 @@ public class epubAuthorExtractor {
         }
         sb.append(lex.getValue());
 
-        ArrayList<String> arr = AuthorsSimpleParser.Instance().parse(trim(sb));
+        List<Author> authors = AuthorsSimpleParser.Instance().parse(trim(sb));
 
-        if(arr.isEmpty()){
-            arr.add("Unknown author");
+        if(authors.isEmpty()){
+            authors.add(new Author());
         }
 
-        return arr;
+        return authors;
     }
 
     private static String trim(StringBuilder sb){

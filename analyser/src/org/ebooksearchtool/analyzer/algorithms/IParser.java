@@ -1,11 +1,11 @@
 package org.ebooksearchtool.analyzer.algorithms;
 
-import java.util.ArrayList;
+import org.ebooksearchtool.analyzer.model.BookInfo;
 
 /**
  * @author Алексей
  */
 
 public interface IParser {
-    public ArrayList<String> parse(String input);
+    public BookInfo parse(String input);
 }

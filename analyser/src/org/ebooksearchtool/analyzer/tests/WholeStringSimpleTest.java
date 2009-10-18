@@ -2,8 +2,11 @@ package org.ebooksearchtool.analyzer.tests;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 import org.ebooksearchtool.analyzer.algorithms.WholeStringSimpleParser;
 import org.ebooksearchtool.analyzer.io.Logger;
+import org.ebooksearchtool.analyzer.model.Author;
+import org.ebooksearchtool.analyzer.model.BookInfo;
 
 /**
  * @author Алексей
@@ -19,10 +22,11 @@ public class WholeStringSimpleTest {
             br = new BufferedReader(new FileReader(input));
             String src = br.readLine();
             WholeStringSimpleParser parser = new WholeStringSimpleParser();
-            ArrayList<String> temp = parser.parse(src);
-            int length = temp.size();
+            BookInfo temp = parser.parse(src);
+            List<Author> authors = temp.getAuthors();
+            int length = authors.size();
             for (int i = 0; i < length; i++) {
-                bw.write(temp.get(i));
+                bw.write(authors.get(i).getName());
                 bw.newLine();
             }
         } catch (IOException ex) {

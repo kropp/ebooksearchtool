@@ -3,9 +3,8 @@ package org.ebooksearchtool.analyzer.io;
 import java.io.*;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.SimpleTimeZone;
 import java.util.TimeZone;
-import org.ebooksearchtool.analyzer.utils.AnalyzerConstans;
+import org.ebooksearchtool.analyzer.utils.AnalyzerConstants;
 
 /**
  * @author Алексей
@@ -49,14 +48,14 @@ public class Logger {
     }
 
     private static void makeDirectory(){
-        File directory = new File(AnalyzerConstans.LOG_DIRECTORY_NAME);
+        File directory = new File(AnalyzerConstants.LOG_DIRECTORY_NAME);
         if(!directory.exists()){
             directory.mkdir();
         }
     }
 
     private static String getLogPath(){
-        return AnalyzerConstans.LOG_DIRECTORY_NAME + "\\log" + getCurrentDate() + ".txt";
+        return AnalyzerConstants.LOG_DIRECTORY_NAME + "\\log" + getCurrentDate() + ".txt";
     }
 
     private static String format(int i){

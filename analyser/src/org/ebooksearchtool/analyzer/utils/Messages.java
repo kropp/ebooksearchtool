@@ -1,7 +1,6 @@
 package org.ebooksearchtool.analyzer.utils;
 
-import java.io.*;
-import java.util.ArrayList;
+import org.ebooksearchtool.analyzer.model.BookInfo;
 
 /**
  * @author Алексей
@@ -11,7 +10,7 @@ public class Messages {
 
     public static final String SEPARATOR = System.getProperty("line.separator");
 
-    public static String formBookInfo(ArrayList<String> list) {
+    public static String formBookInfo(BookInfo info) {
         StringBuilder str = new StringBuilder();
         str.append("POST");
         str.append(Messages.SEPARATOR);
@@ -19,15 +18,21 @@ public class Messages {
         str.append(Messages.SEPARATOR);
         str.append("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">");
         str.append(Messages.SEPARATOR);
-        str.append("<field name=\"messgetype\">" + "BookInfo" + "</field>");
+        str.append("<center>");
         str.append(Messages.SEPARATOR);
-        str.append("<field name=\"title\">" + list.get(0) + "</field>");
+        str.append("<form action='http://127.0.0.1:8000/data/get/' method=POST>");
         str.append(Messages.SEPARATOR);
-        str.append("<field name=\"author\">" + list.get(1) + "</field>");
+        str.append("<textarea name='xml' cols='90' rows='20'>");
         str.append(Messages.SEPARATOR);
-        str.append("<field name=\"link\">" + list.get(2) + "</field>");
+        str.append(info.getBookInfo());
         str.append(Messages.SEPARATOR);
-        str.append("<field name=\"language\">" + list.get(3) + "</field>");
+        str.append("</textarea>");
+        str.append(Messages.SEPARATOR);
+        str.append("<input type='submit' value='Lets Go!'>");
+        str.append(Messages.SEPARATOR);
+        str.append("</form>");
+        str.append(Messages.SEPARATOR);
+        str.append("</center>");
         str.append(Messages.SEPARATOR);
         str.append("</html>");
         str.append(Messages.SEPARATOR);

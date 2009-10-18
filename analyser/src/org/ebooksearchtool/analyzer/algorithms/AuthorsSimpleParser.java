@@ -2,13 +2,15 @@ package org.ebooksearchtool.analyzer.algorithms;
 
 import org.ebooksearchtool.analyzer.utils.Lexema;
 import java.util.ArrayList;
+import java.util.List;
+import org.ebooksearchtool.analyzer.model.Author;
 import org.ebooksearchtool.analyzer.utils.SpecialWords.*;
 
 /**
  * @author Алексей
  */
 
-public class AuthorsSimpleParser implements IParser{
+public class AuthorsSimpleParser{
 
     private static AuthorsSimpleParser ourInstance;
 
@@ -25,7 +27,7 @@ public class AuthorsSimpleParser implements IParser{
         }
     }
 
-    public ArrayList<String> parse(String input) {
+    public ArrayList<Author> parse(String input) {
         ArrayList<String> out = new ArrayList<String>();
         
         ArrayList<Lexema> temp = Lexema.convertToLexems(input);
@@ -85,7 +87,14 @@ public class AuthorsSimpleParser implements IParser{
 
             length = temp.size();
         }
-        return out;
+
+        ArrayList<Author> authors = new ArrayList<Author>();
+        length = out.size();
+        for (int i = 0; i < length; i++) {
+            authors.add(new Author(out.get(i)));
+        }
+
+        return authors;
     }
 
 }
