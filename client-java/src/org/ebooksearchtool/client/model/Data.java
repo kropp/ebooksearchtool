@@ -18,7 +18,8 @@ public class Data {
             "author",
             "language",
             "date",
-            "summary"
+            "summary",
+            "link"
     };
     private List<DataElement> myInfo = new ArrayList<DataElement>();
 
@@ -42,6 +43,10 @@ public class Data {
 
     public void setBookSummary(int elementIndex, String value){
         myInfo.get(elementIndex).setSummary(value);
+    }
+
+    public void setBookLink(int elementIndex, String value){
+        myInfo.get(elementIndex).setLink(value);
     }
 
     public void addElement(DataElement addition){

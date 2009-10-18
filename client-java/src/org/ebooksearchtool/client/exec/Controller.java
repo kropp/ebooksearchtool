@@ -23,7 +23,7 @@ public class Controller {
 
     Data books = new Data();
 	
-    public void act(String queryWord) throws IOException, SAXException, ParserConfigurationException {
+    public void getQueryAnswer(String queryWord) throws IOException, SAXException, ParserConfigurationException {
         
         Query query = new Query();
         

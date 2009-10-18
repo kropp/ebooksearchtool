@@ -76,7 +76,7 @@ public class Window {
 
                 try {
                     String queryWord = myQueryField.getText();
-                    myController.act(queryWord);
+                    myController.getQueryAnswer(queryWord);
                     myDataTextArea.setLineWrap(true);
                     /*myDataTextArea.setColumns(myController.getData().getAttributes().length);
                     myDataTextArea.setRows(myController.getData().getInfo().size());*/
@@ -86,6 +86,7 @@ public class Window {
                         myDataTextArea.append(myController.getData().getInfo().get(i).getLanguage() + "\n");
                         myDataTextArea.append(myController.getData().getInfo().get(i).getDate() + "\n");
                         myDataTextArea.append(myController.getData().getInfo().get(i).getSummary() + "\n");
+                        myDataTextArea.add(new JButton("Download"));//.append(myController.getData().getInfo().get(i).getLink() + "\n");
                         myDataTextArea.append("\n");
     	            }
                     

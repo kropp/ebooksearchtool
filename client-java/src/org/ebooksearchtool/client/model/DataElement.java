@@ -14,6 +14,7 @@ public class DataElement {
     private String myLanguage;
     private String myDate;
     private String mySummary;
+    private String myLink;
 
     public DataElement(){}
 
@@ -55,5 +56,13 @@ public class DataElement {
 
     public void setSummary(String mySummary) {
         this.mySummary = mySummary;
+    }
+
+    public String getLink() {
+        return myLink;
+    }
+
+    public void setLink(String myLink) {
+        this.myLink = myLink;
     }
 }
