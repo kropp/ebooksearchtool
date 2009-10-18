@@ -57,7 +57,7 @@ MainWindow::~MainWindow() {
 void MainWindow::downloadFile() {
 	//TODO - add button for setting proxy
 	mySearchButton->setEnabled(false);
-	myHttpConnection->setProxy("192.168.0.2", 3128);
+//	myHttpConnection->setProxy("192.168.0.2", 3128);
 	
 	if (myFile != 0) {
 		delete myFile;
@@ -74,7 +74,7 @@ void MainWindow::downloadFile() {
 
 void MainWindow::downloadFile(const QString& url) {
 	//TODO - add button for setting proxy
-	myHttpConnection->setProxy("192.168.0.2", 3128);
+	//myHttpConnection->setProxy("192.168.0.2", 3128);
 	
 	if (myFile != 0) {
 		delete myFile;
