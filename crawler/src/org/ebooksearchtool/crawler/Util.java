@@ -1,6 +1,6 @@
 package org.ebooksearchtool.crawler;
 
-import java.net.URI;
+import java.net.*;
 import java.util.*;
 
 class Util {
@@ -20,6 +20,20 @@ class Util {
             System.err.println(" error: creating similar links to " + uri);
         }
         return answer;
+    }
+    
+    public static boolean isBook(URI uri) {
+        String s = uri.getPath();
+        return s != null && (s.endsWith(".epub") || s.endsWith(".pdf") || s.endsWith(".txt") || s.endsWith(".doc"));
+    }
+    
+    public static URI createURI(String s) {
+        try {
+            URI tmp = new URI(s.replaceAll(" ", "%20"));
+            return new URI(tmp.getScheme(), tmp.getHost(), tmp.getPath(), null);
+        } catch (URISyntaxException e) {
+            return null;
+        }
     }
     
 }

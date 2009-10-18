@@ -33,7 +33,7 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
         }
     }
     
-    protected int isDisallowed(String host, URI uri) {
+    protected synchronized int isDisallowed(String host, URI uri) {
         File file = myCacheFile[Math.abs(host.hashCode()) % FILES_NUMBER];
         BufferedReader br = null;
         try {
@@ -87,7 +87,8 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
             connection.setConnectTimeout(Crawler.getConnectionTimeout());
             connection.setRequestProperty("User-Agent", Crawler.getUserAgent());
             InputStream is = connection.getInputStream();
-            if (is == null || !connection.getHeaderField("Content-Type").startsWith("text/plain")) {
+            String contentType = connection.getHeaderField("Content-Type");
+            if (is == null || (contentType != null && !contentType.startsWith("text/plain"))) {
                 throw new IOException();
             }
             br = new BufferedReader(new InputStreamReader(is));

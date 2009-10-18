@@ -10,7 +10,11 @@ class HTMLParser {
         if (link.length() == 0 || link.startsWith("javascript:")) return;
         URI uri = null;
         try {
-            uri = new URI(link);
+            uri = Util.createURI(link);
+            String referrerPath = referrer.getPath();
+            if (referrerPath == null || "".equals(referrerPath)) {
+                referrer = new URI(referrer + "/");
+            }
             uri = referrer.resolve(uri);
         } catch (Exception e) {
             return;

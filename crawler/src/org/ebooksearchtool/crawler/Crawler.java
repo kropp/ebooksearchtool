@@ -10,26 +10,27 @@ public class Crawler {
     private static Proxy ourProxy;
     private static String ourUserAgent;
     private static int ourConnectionTimeout;
-    private static int ourMaxLinksCount;
     
     private static boolean ourAnalyzerEnabled;
     private static int ourAnalyzerPort;
     
+    private static int ourMaxLinksCount;
     private static int ourMaxLinksFromPage;
+    private static int ourThreadsCount;
     
     
     private Socket myAnalyzerSocket = null;
     private BufferedWriter myAnalyzerWriter = null;
     private final PrintWriter myOutput;
-    private volatile String myAction;
     
     private final AbstractRobotsExclusion myRobots = new ManyFilesRobotsExclusion();
+    private final AbstractLinksQueue myQueue = new LinksQueue();
+    private final AbstractVisitedLinksSet myVisited = new VisitedLinksSet();
     
-    private int myRunning = 0;
+    private int myCounter = 0;
     
     Crawler(Properties properties, PrintWriter output) {
         myOutput = output;
-        myAction = "doing nothing";
         try {
             if ("true".equals(properties.getProperty("proxy_enabled"))) {
                 String type = properties.getProperty("proxy_type").toLowerCase();
@@ -53,11 +54,13 @@ public class Crawler {
                 ourAnalyzerEnabled = false;
                 ourAnalyzerPort = -1;
             }
-            ourMaxLinksCount = Integer.parseInt(properties.getProperty("max_links_count"));
             ourConnectionTimeout = Integer.parseInt(properties.getProperty("connection_timeout"));
             ourUserAgent = properties.getProperty("user_agent");
+            int maxLinksCount = Integer.parseInt(properties.getProperty("max_links_count"));
+            ourMaxLinksCount = maxLinksCount == 0 ? Integer.MAX_VALUE : maxLinksCount;
             int maxLinksFromPage = Integer.parseInt(properties.getProperty("max_links_from_page"));
             ourMaxLinksFromPage = maxLinksFromPage == 0 ? Integer.MAX_VALUE : maxLinksFromPage;
+            ourThreadsCount = Integer.parseInt(properties.getProperty("threads_count"));
         } catch (Exception e) {
             throw new RuntimeException("bad format of properties file: " + e.getMessage());
         }
@@ -72,10 +75,6 @@ public class Crawler {
         }
     }
     
-    public String getAction() {
-        return myAction;
-    }
-    
     public static int getConnectionTimeout() {
         return ourConnectionTimeout;
     }
@@ -88,56 +87,58 @@ public class Crawler {
         return ourProxy;
     }
     
+    public static int getMaxLinksCount() {
+        return ourMaxLinksCount;
+    }
+    
     public static int getMaxLinksFromPage() {
         return ourMaxLinksFromPage;
     }
     
+    AbstractLinksQueue getQueue() {
+        return myQueue;
+    }
+    
+    AbstractVisitedLinksSet getVisited() {
+        return myVisited;
+    }
+    
+    AbstractRobotsExclusion getRobots() {
+        return myRobots;
+    }
+    
+    public synchronized int getCounter() {
+        return myCounter++;
+    }
+    
     
     public void crawl(String[] starts) {
-        myRunning = 1;
-        final AbstractVisitedLinksSet were = new VisitedLinksSet();
-        final AbstractLinksQueue queue = new LinksQueue();
         for (String start : starts) {
-            myAction = "prechecking if i can go to " + start;
-            URI uri = createURI(start);
+            URI uri = Util.createURI(start);
             if (myRobots.canGo(uri)) {
-                were.add(uri);
-                queue.offer(uri);
+                myVisited.add(uri);
+                myQueue.offer(uri);
             }
         }
         myOutput.println("<books>");
-        int iteration = 0;
-        while (myRunning == 1 && !queue.isEmpty()) {
-            URI uri = queue.poll();
-            myAction = "downloading page at " + uri;
-            String page = getPage(uri);
-            if (page == null) continue;
-            System.out.println((++iteration) + " " + uri + " " + page.length());
-            myAction = "getting all links out of " + uri;
-            List<URI> links = HTMLParser.parseLinks(uri, page);
-            for (URI link : links) {
-                if (myRunning != 1) break;
-                myAction = "checking if already visited " + link;
-                if (!were.contains(Util.createSimilarLinks(link)) && were.size() < ourMaxLinksCount) {
-                    were.add(link);
-                    if (isBook(link)) {
-                        myAction = "writing information about visited book " + link;
-                        writeBookToOutput(link, uri, page);
-                        continue;
-                    }
-                    myAction = "checking if i can go to " + link;
-                    boolean permitted = myRobots.canGo(link);
-                    if (permitted) {
-                        myAction = "adding to queue " + link;
-                        queue.offer(link);
-                    }
-                }
-            }
+        
+        
+        Thread[] thread = new Thread[ourThreadsCount];
+        for (int i = 0; i < ourThreadsCount; i++) {
+            thread[i] = new CrawlerThread(this, i);
         }
+        for (int i = 0; i < ourThreadsCount; i++) {
+            thread[i].start();
+        }
+        for (int i = 0; i < ourThreadsCount; i++) {
+            try {
+                thread[i].join();
+            } catch (InterruptedException e) { }
+        }
+        
+        
         myOutput.println("</books>");
-        myAction = "doing nothing";
         System.out.println("finished; input something to exit");
-        myRunning = 0;
         if (ourAnalyzerEnabled) {
             try {
                 if (myAnalyzerSocket != null) {
@@ -147,20 +148,9 @@ public class Crawler {
         }
     }
     
-    public void stop() {
-        if (myRunning == 1) myRunning = 2;
-    }
+ 
     
-    public boolean isRunning() {
-        return myRunning != 0;
-    }
-    
-    private boolean isBook(URI uri) {
-        String s = uri.getPath();
-        return s != null && (s.endsWith(".epub") || s.endsWith(".pdf") || s.endsWith(".txt") || s.endsWith(".doc"));
-    }
-    
-    private void writeBookToOutput(URI source, URI referrer, String referrerPage) {
+    synchronized void writeBookToOutput(URI source, URI referrer, String referrerPage) {
         myOutput.println("\t<book>");
         myOutput.println("\t\t<link src=\"" + source + "\" />");
         myOutput.println("\t\t<referrer src=\"" + referrer + "\" />");
@@ -185,22 +175,18 @@ public class Crawler {
         }
     }
     
-    private static URI createURI(String s) {
-        try {
-            URI tmp = new URI(s.replaceAll(" ", "%20"));
-            return new URI(tmp.getScheme(), tmp.getHost(), tmp.getPath(), null);
-        } catch (URISyntaxException e) {
-            return null;
-        }
-    }
+
     
-    private static String getPage(URI uri) {
+
+    
+    static String getPage(URI uri) {
         try {
             URLConnection connection = uri.toURL().openConnection(ourProxy);
             connection.setConnectTimeout(ourConnectionTimeout);
             connection.setRequestProperty("User-Agent", ourUserAgent);
             InputStream is = connection.getInputStream();
-            if (is == null || !connection.getHeaderField("Content-Type").startsWith("text/html")) {
+            String contentType = connection.getHeaderField("Content-Type");
+            if (is == null || (contentType != null && !contentType.startsWith("text/html"))) {
                 return null;
             }
             BufferedReader br = new BufferedReader(new InputStreamReader(is));

@@ -11,7 +11,6 @@ public class Main {
         Properties properties = new Properties();
         
         // default values
-        properties.setProperty("max_links_count", "50000000");
         properties.setProperty("connection_timeout", "3000");
         properties.setProperty("user_agent", "ebooksearchtool");
         
@@ -23,7 +22,9 @@ public class Main {
         properties.setProperty("proxy_host", "192.168.0.2");
         properties.setProperty("proxy_port", "3128");
         
+        properties.setProperty("max_links_count", "0");
         properties.setProperty("max_links_from_page", "0");
+        properties.setProperty("threads_count", "10");
         
         
         
@@ -43,24 +44,25 @@ public class Main {
                 System.exit(0);
             }
             final Crawler crawler = new Crawler(properties, output);
-            new Thread(new Runnable() {
+            Thread t = new Thread(new Runnable() {
                 public void run() {
                     crawler.crawl(new String[]{start});
                 }
-            }).start();
+            });
+            t.start();
             String keyboardInput = null;
             Scanner keyboardScanner = new Scanner(System.in);
             String input = "";
             while (true) {
                 input = keyboardScanner.nextLine();
                 if (input.length() == 0) {
-                    System.out.println(crawler.getAction());
+                    System.out.println("disabled");
                 } else break;
             }
             System.out.println("exit: " + input);
-            crawler.stop();
-            while (crawler.isRunning());
+//            try { t.join(); } catch (InterruptedException e) { }
             output.close();
+            System.exit(0);
         } else {
             System.out.println("usage:\n  java -jar Crawler.jar www.example.com\n  input empty string and press Enter to ask Crawler what is he doing\n  input any non-empty string and press Enter to exit");
         }

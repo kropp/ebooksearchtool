@@ -8,8 +8,12 @@ public class VisitedLinksSet extends AbstractVisitedLinksSet {
 
     private final Set<URI> mySet = new HashSet<URI>();
     
-    public void add(URI uri) {
+    public boolean add(URI uri) {
+        if (mySet.size() == Crawler.getMaxLinksCount()) {
+            return false;
+        }
         mySet.add(uri);
+        return true;
     }
     
     public boolean contains(URI uri) {
@@ -25,8 +29,11 @@ public class VisitedLinksSet extends AbstractVisitedLinksSet {
         return false;
     }
     
-    public int size() {
-        return mySet.size();
+    public synchronized boolean addIfNotContains(Collection<? extends URI> c, URI uri) {
+        if (contains(c)) {
+            return false;
+        }
+        return add(uri);
     }
-    
+
 }

@@ -2,18 +2,25 @@ package org.ebooksearchtool.crawler.impl;
 
 import java.net.URI;
 import java.util.*;
+import java.util.concurrent.*;
 import org.ebooksearchtool.crawler.*;
 
 public class LinksQueue extends AbstractLinksQueue {
 
-    private final Queue<URI> myQueue = new LinkedList<URI>();
+    private final BlockingQueue<URI> myQueue = new LinkedBlockingQueue<URI>();
     
     public void offer(URI uri) {
-        myQueue.offer(uri);
+        try {
+            myQueue.put(uri);
+        } catch (InterruptedException e) { }
     }
     
     public URI poll() {
-        return myQueue.poll();
+        try {
+            return myQueue.take();
+        } catch (InterruptedException e) {
+            return null;
+        }
     }
     
     public boolean isEmpty() {
