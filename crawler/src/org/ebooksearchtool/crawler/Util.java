@@ -1,46 +1,23 @@
 package org.ebooksearchtool.crawler;
 
-import javax.swing.text.html.parser.*;
-import javax.swing.text.html.*;
-import javax.swing.text.*;
-import java.io.*;
-import java.net.*;
+import java.net.URI;
 import java.util.*;
 
 class Util {
 
-    public static List<String> createSimilarLinks(String url) {
-        List<String> answer = new ArrayList<String>();
-        final String HTTP = "http://";
-        if (url.startsWith(HTTP)) {
-            url = url.substring(HTTP.length());
-        }
-        String server = null;
-        int slash = url.indexOf('/');
-        if (slash < 0) {
-            server = url;
-            url = "";
-        } else {
-            server = url.substring(0, slash);
-            url = url.substring(slash);
-        }
-        //TODO: /index.html, /index.htm, /index.php, #...
-        for (int iteration = 0; iteration <= 1; iteration++) {
-            if (iteration == 1) {
-                ///TODO: make this customizable (because www.site.com is not always equal to site.com)
-                if (server.startsWith("www.")) {
-                    server = server.substring("www.".length());
-                } else {
-                    server = "www." + server;
-                }
-            }
-            String toAdd = HTTP + server + url;
-            answer.add(toAdd);
-            if (toAdd.endsWith("/")) {
-                answer.add(toAdd.substring(0, toAdd.length() - 1));
+    public static List<URI> createSimilarLinks(URI uri) {
+        List<URI> answer = new ArrayList<URI>();
+        answer.add(uri);
+        try {
+            String s = uri.toString();
+            if (s.endsWith("/")) {
+                answer.add(new URI(s.substring(0, s.length() - 1)));
             } else {
-                answer.add(toAdd + "/");
+                answer.add(new URI(s + "/"));
             }
+            //TODO: /index.html, /index.htm, /index.php, #...
+        } catch (Exception e) {
+            System.err.println(" error: creating similar links to " + uri);
         }
         return answer;
     }

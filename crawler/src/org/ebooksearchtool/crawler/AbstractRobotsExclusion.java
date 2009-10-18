@@ -1,6 +1,6 @@
 package org.ebooksearchtool.crawler;
 
-import java.net.*;
+import java.net.URI;
 
 public abstract class AbstractRobotsExclusion {
     

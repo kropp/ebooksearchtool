@@ -101,36 +101,35 @@ public class Crawler {
             myAction = "prechecking if i can go to " + start;
             URI uri = createURI(start);
             if (myRobots.canGo(uri)) {
-                were.add(start);
+                were.add(uri);
                 queue.offer(uri);
             }
         }
         myOutput.println("<books>");
         int iteration = 0;
         while (myRunning == 1 && !queue.isEmpty()) {
-            URI s = queue.poll();
-            myAction = "downloading page at " + s;
-            String page = getPage(s);
+            URI uri = queue.poll();
+            myAction = "downloading page at " + uri;
+            String page = getPage(uri);
             if (page == null) continue;
-            System.out.println((++iteration) + " " + s + " " + page.length());
-            myAction = "getting all links out of " + s;
-            List<String> links = HTMLParser.parseLinks(s.getHost(), page);
-            for (String link : links) {
+            System.out.println((++iteration) + " " + uri + " " + page.length());
+            myAction = "getting all links out of " + uri;
+            List<URI> links = HTMLParser.parseLinks(uri, page);
+            for (URI link : links) {
                 if (myRunning != 1) break;
                 myAction = "checking if already visited " + link;
-                URI uri = createURI(link);
                 if (!were.contains(Util.createSimilarLinks(link)) && were.size() < ourMaxLinksCount) {
                     were.add(link);
                     if (isBook(link)) {
                         myAction = "writing information about visited book " + link;
-                        writeBookToOutput(link, s.toString(), page);
+                        writeBookToOutput(link, uri, page);
                         continue;
                     }
                     myAction = "checking if i can go to " + link;
-                    boolean permitted = myRobots.canGo(uri);
+                    boolean permitted = myRobots.canGo(link);
                     if (permitted) {
                         myAction = "adding to queue " + link;
-                        queue.offer(uri);
+                        queue.offer(link);
                     }
                 }
             }
@@ -156,17 +155,14 @@ public class Crawler {
         return myRunning != 0;
     }
     
-    private boolean isBook(String url) {
-        return
-            url.endsWith(".epub") ||
-            url.endsWith(".pdf") ||
-            url.endsWith(".txt") ||
-            url.endsWith(".doc");
+    private boolean isBook(URI uri) {
+        String s = uri.getPath();
+        return s != null && (s.endsWith(".epub") || s.endsWith(".pdf") || s.endsWith(".txt") || s.endsWith(".doc"));
     }
     
-    private void writeBookToOutput(String url, String referrer, String referrerPage) {
+    private void writeBookToOutput(URI source, URI referrer, String referrerPage) {
         myOutput.println("\t<book>");
-        myOutput.println("\t\t<link src=\"" + url + "\" />");
+        myOutput.println("\t\t<link src=\"" + source + "\" />");
         myOutput.println("\t\t<referrer src=\"" + referrer + "\" />");
         myOutput.println("\t</book>");
         myOutput.flush();
@@ -175,7 +171,7 @@ public class Crawler {
                 if (myAnalyzerSocket != null) {
                     referrerPage = referrerPage.replaceAll("]]>", "]]]]><![CDATA[>");
                     myAnalyzerWriter.write("<root>"); myAnalyzerWriter.newLine();
-                    myAnalyzerWriter.write("\t<link src=\"" + url + "\" />"); myAnalyzerWriter.newLine();
+                    myAnalyzerWriter.write("\t<link src=\"" + source + "\" />"); myAnalyzerWriter.newLine();
                     myAnalyzerWriter.write("\t<![CDATA["); myAnalyzerWriter.newLine();
                     myAnalyzerWriter.write(referrerPage); myAnalyzerWriter.newLine();
                     myAnalyzerWriter.write("\t]]>"); myAnalyzerWriter.newLine();
@@ -183,7 +179,7 @@ public class Crawler {
                     myAnalyzerWriter.flush();
                 }
             } catch (IOException e) {
-                System.err.println(" error: output to analyzer failed, " + url.hashCode());
+                System.err.println(" error: output to analyzer failed, " + source.hashCode());
                 System.err.println(" " + e.getMessage());
             }
         }

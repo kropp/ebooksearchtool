@@ -1,25 +1,26 @@
 package org.ebooksearchtool.crawler;
 
-import java.io.*;
+import java.net.URI;
 import java.util.*;
 import net.htmlparser.jericho.*;
 
 class HTMLParser {
     
-    private static void maybeAddLink(List<String> links, String server, String url) {
-        if (url.length() == 0 || url.startsWith("javascript:")) {
+    private static void maybeAddLink(List<URI> links, URI referrer, String link) {
+        if (link.length() == 0 || link.startsWith("javascript:")) return;
+        URI uri = null;
+        try {
+            uri = new URI(link);
+            uri = referrer.resolve(uri);
+        } catch (Exception e) {
             return;
         }
-        if (url.indexOf("://") < 0) {
-            if (url.charAt(0) != '/') url = "/" + url;
-            url = server + url;
-        }
-        links.add(url);
+        links.add(uri);
     }
     
     
-    static List<String> parseLinks(String server, String page) {
-        List<String> answer = new ArrayList<String>();
+    static List<URI> parseLinks(URI referrer, String page) {
+        List<URI> answer = new ArrayList<URI>();
         Source source = new Source(page);
         source.setLogger(null);
         Tag[] tags = source.fullSequentialParse();
@@ -32,7 +33,7 @@ class HTMLParser {
                     if ("a".equals(tagName)) {
                         String href = attributes.getValue("href");
                         if (href != null) {
-                            maybeAddLink(answer, server, href);
+                            maybeAddLink(answer, referrer, href);
                             if (answer.size() == Crawler.getMaxLinksFromPage()) return answer;
                         }
                     } else if ("meta".equals(tagName)) {
@@ -43,7 +44,7 @@ class HTMLParser {
                                 String[] terms = content.split(" *, *");
                                 for (String term : terms) {
                                     if ("noindex".equals(term.toLowerCase()) || "nofollow".equals(term.toLowerCase())) {
-                                        return new ArrayList<String>();
+                                        return new ArrayList<URI>();
                                     }
                                 }
                             }

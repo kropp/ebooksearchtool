@@ -1,6 +1,6 @@
 package org.ebooksearchtool.crawler.impl;
 
-import java.net.*;
+import java.net.URI;
 import java.util.*;
 import org.ebooksearchtool.crawler.*;
 
