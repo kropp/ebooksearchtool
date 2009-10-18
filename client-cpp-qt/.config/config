@@ -1,0 +1,4 @@
+# [ebook search tool: client-cpp-qt]
+# There are global constants which cannot be attached to one of the modules
+
+SERVER=feedbooks.com
