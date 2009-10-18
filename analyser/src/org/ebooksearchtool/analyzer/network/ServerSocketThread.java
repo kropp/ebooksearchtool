@@ -1,14 +1,12 @@
 package org.ebooksearchtool.analyzer.network;
 
 import org.ebooksearchtool.analyzer.utils.NetUtils;
-import org.ebooksearchtool.analyzer.utils.Messages;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ebooksearchtool.analyzer.algorithms.WholeStringSimpleParser;
-import org.ebooksearchtool.analyzer.model.BookInfo;
 
 /**
  * @author Алексей
@@ -18,15 +16,25 @@ public class ServerSocketThread extends Thread{
 
     private ServerSocket myServerSocket = null;
     private Socket mySocket = null;
+    private List<AnalyzerThread> myThreads = null;
 
     public ServerSocketThread(ServerSocket sSocket){
         myServerSocket = sSocket;
+        myThreads = new ArrayList<AnalyzerThread>();
+        for (int i = 0; i < 10; i++) {
+            myThreads.add(new AnalyzerThread());
+        }
+        for (int i = 0; i < 10; i++) {
+            myThreads.get(i).start();
+        }
     }
 
     @Override
     public synchronized void run(){
         BufferedReader br = null;
         BufferedWriter bw = null;
+        boolean requestToAnalyzeFlag = false;
+        int requestToAnalyzeCount = 0;
         try{
             try {
             mySocket = myServerSocket.accept();
@@ -38,11 +46,15 @@ public class ServerSocketThread extends Thread{
 
             while(true){
                 buffer = NetUtils.reciveMessage(br);
-                WholeStringSimpleParser ws = new WholeStringSimpleParser();
-                BookInfo info = ws.parse(buffer);
-                printInfo(info);
-                String message = ClientSocketThread.sendRequest(info.getBookInfo());
-                System.out.println(message);
+                System.out.println(buffer);
+                while(!requestToAnalyzeFlag){
+                    if(requestToAnalyzeCount == 10){
+                        requestToAnalyzeCount = 0;
+                    }
+                    requestToAnalyzeFlag = myThreads.get(requestToAnalyzeCount).setMessage(buffer);
+                    requestToAnalyzeCount++;
+                }
+                requestToAnalyzeFlag = false;
                 //TODO:Разобраться с вылетом сервера
 //                if(buffer.indexOf("quit") != -1){
 //                    break;
@@ -60,11 +72,4 @@ public class ServerSocketThread extends Thread{
             Logger.getLogger(ServerSocketThread.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-   private void printInfo(BookInfo info){
-       System.out.println("Title: " + info.getTitle());
-       System.out.println("Authors: " + info.getAuthors());
-       System.out.println("Files: " + info.getFiles());
-       System.out.println("Language: " + info.getLanguage());
-   }
 }

@@ -51,12 +51,7 @@ public class Author {
      */
     public void setAliases(List<String> myAliases) {
         this.myAliases = myAliases;
-    }
-
-    @Override
-    public int hashCode(){
-        return myName.hashCode() + myAliases.hashCode();
-    }
+    }    
 
     @Override
     public boolean equals(Object obj) {
@@ -74,5 +69,11 @@ public class Author {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return (this.myName != null ? this.myName.hashCode() : 0)
+                + (this.myAliases != null ? this.myAliases.hashCode() : 0);
     }
 }

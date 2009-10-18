@@ -150,19 +150,21 @@ public class BookInfo {
         str.append(AnalyzerConstants.SYSTEM_SEPARATOR);
         for (int i = 0; i < length; i++) {
             Author author = authors.get(i);
-            List<String> aliases = author.getAliases();
-            int alLength = aliases.size();
             str.append("<author>");
             str.append(AnalyzerConstants.SYSTEM_SEPARATOR);
             str.append("<name>");
             str.append(author.getName());
             str.append("</name>");
             str.append(AnalyzerConstants.SYSTEM_SEPARATOR);
-            for (int j = 0; j < alLength; j++) {
-                str.append("<alias>");
-                str.append(aliases.get(j));
-                str.append("</alias>");
-                str.append(AnalyzerConstants.SYSTEM_SEPARATOR);
+            List<String> aliases = author.getAliases();
+            if(aliases != null){
+            int alLength = aliases.size();
+                for (int j = 0; j < alLength; j++) {
+                    str.append("<alias>");
+                    str.append(aliases.get(j));
+                    str.append("</alias>");
+                    str.append(AnalyzerConstants.SYSTEM_SEPARATOR);
+                }
             }
             str.append("<author>");
             str.append(AnalyzerConstants.SYSTEM_SEPARATOR);

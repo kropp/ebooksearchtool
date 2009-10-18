@@ -3,8 +3,7 @@ package org.ebooksearchtool.analyzer.network;
 import org.ebooksearchtool.analyzer.utils.NetUtils;
 import java.io.*;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.ebooksearchtool.analyzer.io.Logger;
 
 /**
  * @author Алексей
@@ -15,6 +14,7 @@ public class ClientSocketThread extends Thread{
     private Socket mySocket;
     private static BufferedReader myReader;
     private static BufferedWriter myWriter;
+    private static final Object myLock = new Object();
 
     public ClientSocketThread(Socket sSocket){
         mySocket = sSocket;
@@ -34,26 +34,23 @@ public class ClientSocketThread extends Thread{
                 System.out.print(mySocket.getPort());
 
                 while(true){
-//                    while(buffer.indexOf(";") == -1){
-//                        System.in.read(bytes);
-//                        buffer.append(NetUtils.convertBytesToString(bytes));
-//                    }
-//                    NetUtils.sendMessage(myWriter, buffer.toString().trim());
-//                    buffer = new StringBuilder(NetUtils.reciveMessage(myReader));
-//                    System.out.print(buffer.toString());
-//                    if(buffer.indexOf("quit") != -1){
-//                        break;
-//                    }
+                    synchronized(myLock){
+//                        try {
+//                            //myLock.wait();
+//                        } catch (InterruptedException ex) {
+//                            Logger.setToLog(ex.getMessage());
+//                        }
+                    }
                 }
             } catch (IOException ex) {
-                Logger.getLogger(ClientSocketThread.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.setToLog(ex.getMessage());
             }finally{
                 myReader.close();
                 myWriter.close();
                 mySocket.close();
             }
         }catch(IOException ex){
-            Logger.getLogger(ClientSocketThread.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.setToLog(ex.getMessage());
         }
     }
 
@@ -64,16 +61,17 @@ public class ClientSocketThread extends Thread{
                 NetUtils.sendMessage(myWriter, request);
                 message = NetUtils.reciveMessage(myReader);
             } catch (IOException ex) {
-                Logger.getLogger(ClientSocketThread.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.setToLog(ex.getMessage());
             }finally{
                 myWriter.flush();
             }
         } catch (IOException ex) {
-                Logger.getLogger(ClientSocketThread.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.setToLog(ex.getMessage());
         }
         if(message.length() == 0){
             return "Reciving error";
         }
+
         return message;
     }
 }

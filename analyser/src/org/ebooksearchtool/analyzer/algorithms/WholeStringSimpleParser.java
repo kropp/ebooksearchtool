@@ -19,8 +19,6 @@ public class WholeStringSimpleParser implements IParser{
     }
 
     public BookInfo parse(String input) {
-        ArrayList<String> out = new ArrayList<String>();
-
         ArrayList<Lexema> temp = Lexema.convertToLexems(input);
 
         myBookInfo.addFile(new File(URLsExtractor.extractURL(temp)));

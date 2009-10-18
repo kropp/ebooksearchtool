@@ -20,9 +20,9 @@ public class Messages {
         str.append(Messages.SEPARATOR);
         str.append("<center>");
         str.append(Messages.SEPARATOR);
-        str.append("<form action='http://127.0.0.1:8000/data/get/' method=POST>");
+        str.append("<form action='http://127.0.0.1:8000/data/insert/' method=POST>");
         str.append(Messages.SEPARATOR);
-        str.append("<textarea name='xml' cols='90' rows='20'>");
+        str.append("<textarea name='xml' cols='90' rows='40'>");
         str.append(Messages.SEPARATOR);
         str.append(info.getBookInfo());
         str.append(Messages.SEPARATOR);
