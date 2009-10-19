@@ -42,6 +42,26 @@ class DatabaseExcp(DataExcpt):
     "Error in database"
     pass
 
-# 
 
+
+
+class ServerEx(Exception):
+    "Base server exeption"
+    pass
+
+class RequestServerEx(ServerEx):
+    "Bad request"
+    pass
+
+class RequestFileServerEx(ServerEx):
+    "Bad request file format"
+    pass
+
+class InputDataExcpt(ServerEx):
+    "Bad input data"
+    pass
+
+class DatabaseExcp(ServerEx):
+    "Request is not accommodated with database"
+    pass
 

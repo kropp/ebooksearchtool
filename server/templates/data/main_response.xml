@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <response>
-  <!-- status: ok, warning, error -->
-  <status>{{ status }}</status>
-{# if some error #}
-{% if code %}
-  <!-- See more about error/warning codes at
-  http://ebooksearchtool.googlecode.com/svn/trunk/server/spec/errorcode.py -->
-  <code>{{ code }}</code>
+  <status>error</status>
+  <error>{{ code }}</error>
+  <class>{{ class }}</class>
   <message>{{ message }}</message>
-{# status = ok, it's some additional infornation #}
-{% else %}
-  <id>{{ id }}</id>
-{% endif %}
 </response>

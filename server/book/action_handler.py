@@ -14,8 +14,10 @@ ACTION = {
 
 def get_all_handler(book_entr):
     "Get book"
-    book_entr.get_from_db()
-    return {'status': 'ok',}
+    book_entrs = book_entr.get_from_db()
+    for book_entr in book_entrs:
+        print book_entr
+    return book_entrs
     
   #  a = AuthorEntirety()
     #print a.get_from_db()
