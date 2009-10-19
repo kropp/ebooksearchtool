@@ -7,12 +7,20 @@ class QFile;
 
 class HttpConnection : public QHttp {
 
+private:
+    static QString ourConfigFilePath;
+    static QString ourProxy;
+    static int ourPort;    
+    
 public:
-	HttpConnection(QObject* parent = 0) : QHttp(parent) {}
+	HttpConnection(QObject* parent);
 	
 public:
 	void downloadFile(QString url, QFile* file);
 
+private:
+    void configurate(); //set static fields from config-file.
+    
 public:
 	int myHttpGetId;
 };

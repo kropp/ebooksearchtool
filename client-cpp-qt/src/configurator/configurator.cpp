@@ -25,7 +25,7 @@ void Configurator::setParameters(const std::string& path, Map& settings) {
 		if (it == settings.end()) {
 			continue;
 		}
-		*(it->second) = value;
+		it->second = value;
 	}
 }
 
