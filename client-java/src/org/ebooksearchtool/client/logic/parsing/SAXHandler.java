@@ -46,6 +46,23 @@ public class SAXHandler extends DefaultHandler{
 
         for(int i = 0; i < myTags.getTags().length; ++i){
             myTags.getTags()[i].setStatus(myTags.getTags()[i].getName().equals(qName));
+            if (attributes != null) {
+            	boolean isEpub = false;
+                int len = attributes.getLength();
+                for (int j = 0; j < len; ++j)
+                {
+                	System.out.println(attributes.getValue(j));
+                	if(attributes.getValue(j).equals("application/epub+zip")){
+                		isEpub = true;
+                	}
+                	if(myIsEntryTag && isEpub){
+                		myBooks.setBookLink(myBooks.getInfo().size()-1, attributes.getValue(j));
+                	}
+                }
+                    
+                
+            }
+
         }
 
 /*        for (int i = 0; i < 2; ++i){
@@ -93,12 +110,6 @@ public class SAXHandler extends DefaultHandler{
                         }else if(myTags.getTags()[i].getName() == "summary"){
                         	myBooks.setBookSummary(myBooks.getInfo().size()-1, new String(ch, start, length));
                         	myIsContinue = true;
-                        }else if(myTags.getTags()[i].getName() == "id"){
-                        	myBooks.setBookLink(myBooks.getInfo().size()-1, new String(ch, start, length));
-                        
-                    
-                            
-                        myIsContinue = true;
                         }
                     }
                 }
