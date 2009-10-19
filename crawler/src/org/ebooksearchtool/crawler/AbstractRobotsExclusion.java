@@ -25,6 +25,8 @@ public abstract class AbstractRobotsExclusion {
     protected abstract void setLastAccessTime(String host, long value);
     
     
+    public abstract void finish();
+    
     boolean canGo(URI uri) {
         if (uri == null) return false;
         String host = uri.getHost();

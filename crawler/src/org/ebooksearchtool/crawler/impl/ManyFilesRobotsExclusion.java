@@ -8,7 +8,9 @@ import org.ebooksearchtool.crawler.*;
 public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
     
     public static final File ROBOTS_DIR = new File("robotscache");
+    public static final File LAST_ACCESS_FILE = new File(ROBOTS_DIR + "/lastaccess");
     public static final int FILES_NUMBER = 256;
+    public static final int MAX_WAIT_FOR_ACCESS = 5000;
         
     private File[] myCacheFile;
     private Map<String, Long> myLastAccess;
@@ -35,8 +37,21 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
             System.err.println(ROBOTS_DIR + " cannot be initialized");
             System.exit(1);
         }
-        //TODO: read myLastAccess from file
         myLastAccess = new HashMap<String, Long>();
+        try {
+            if (!LAST_ACCESS_FILE.exists()) {
+                new PrintWriter(LAST_ACCESS_FILE).close();
+            }
+            BufferedReader br = new BufferedReader(new FileReader(LAST_ACCESS_FILE));
+            String s1 = null, s2 = null;
+            while ((s1 = br.readLine()) != null) {
+                s2 = br.readLine();
+                myLastAccess.put(s1, Long.parseLong(s2));
+            }
+            br.close();
+        } catch (Exception e) {
+            System.err.println(LAST_ACCESS_FILE + " cannot be initialized");
+        }
     }
     
     protected long getLastAccessTime(String host) {
@@ -107,15 +122,25 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
                         if (time1 <= time && time <= time2) {
                             long docs = Long.parseLong(ss[0]);
                             long seconds = Long.parseLong(ss[1]);
-                            long wait = (seconds + docs - 1) / docs;
+                            long wait = 1000L * (seconds + docs - 1) / docs;
                             long lastAccess = getLastAccessTime(host);
-                            long now = myCalendar.getTimeInMillis() / 1000;
+                            long now = myCalendar.getTimeInMillis();
                             if (lastAccess + wait > now) {
-                                br.close();
-                                //TODO: return "to wait" instead of "disallowed"
-                                return 1;
+                                //TODO: invent something more clever
+                                if (lastAccess + wait < now + MAX_WAIT_FOR_ACCESS) {
+                                    try {
+                                        Thread.sleep(wait);
+                                    } catch (InterruptedException e) {
+                                        br.close();
+                                        return 1;
+                                    }
+                                } else {
+                                    br.close();
+                                    return 1;
+                                }
+                            } else {
+                                setLastAccessTime(host, now);
                             }
-                            //TODO: setLastAccessTime
                         }
                     }
                 } else {
@@ -243,7 +268,21 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
             return;
         }
     }
+
     
+    public void finish() {
+        try {
+            PrintWriter pw = new PrintWriter(LAST_ACCESS_FILE);
+            for (String host : myLastAccess.keySet()) {
+                pw.println(host);
+                pw.println(myLastAccess.get(host));
+            }
+            pw.close();
+        } catch (Exception e) {
+            System.err.println("error while writing to " + LAST_ACCESS_FILE);
+        }
+    }
     
+
 }
 

@@ -154,6 +154,7 @@ public class Crawler implements Runnable {
             } catch (InterruptedException e) { }
         }
         
+        myRobots.finish();
         myOutput.println("</books>");
         System.out.println("finished");
         if (ourAnalyzerEnabled) {
