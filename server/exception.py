@@ -1,4 +1,17 @@
-"Data modify exception"
+''' Exception hierarchy
+
+ServerEx
+
+    RequestServerEx - bad request
+
+    RequestFileServerEx - bad request file format
+
+    InputDataServerEx - bad input data
+
+    DataBaseServerEx - request is not accommodated with database
+
+
+'''
 
 from server.spec.errorcode import ERROR_CODE
 
@@ -28,4 +41,7 @@ class InputDataExcpt(DataExcpt):
 class DatabaseExcp(DataExcpt):
     "Error in database"
     pass
+
+# 
+
 
