@@ -35,7 +35,10 @@ public class Main {
         }
         
         if (args.length > 0) {
-            final String start = args[0].startsWith("http://") ? args[0] : "http://" + args[0];
+            final String[] starts = new String[args.length];
+            for (int i = 0; i < args.length; i++) {
+                starts[i] = args[i].startsWith("http://") ? args[i] : "http://" + args[i];
+            }
             PrintWriter output = null;
             try {
                 output = new PrintWriter("found.xml");
@@ -46,7 +49,7 @@ public class Main {
             final Crawler crawler = new Crawler(properties, output);
             Thread t = new Thread(new Runnable() {
                 public void run() {
-                    crawler.crawl(new String[]{start});
+                    crawler.crawl(starts);
                 }
             });
             t.start();
