@@ -30,7 +30,13 @@ public class Connector{
     public void GetFileFromURL() {
         
         try {
-            connection = Url.openConnection();
+        	System.out.println("C2");
+            String IP = "192.168.0.2";
+            int port = 3128;
+            //viewer.showProxyDialog(IP, port);
+            
+            connection = Url.openConnection(new Proxy(Proxy.Type.HTTP, new InetSocketAddress(IP, port)));
+            
             PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream("answer_file.xml"), "utf-8"));
 
             int i = 0;
@@ -41,12 +47,9 @@ public class Connector{
             pw.close();
         } catch (IOException e) {
             try {
-                String IP = "192.168.0.2";
-                int port = 3128;
-                //viewer.showProxyDialog(IP, port);
-                System.out.println(IP + port);
-                connection = Url.openConnection(new Proxy(Proxy.Type.HTTP, new InetSocketAddress(IP, port)));
-                
+
+            	System.out.println("C1");
+                connection = Url.openConnection();
                 PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream("answer_file.xml"), "utf-8"));
 
                 int i = 0;
@@ -55,7 +58,9 @@ public class Connector{
                     ++i;
                 }
                 pw.close();
-            } catch (IOException e1) {
+
+            	            } catch (IOException e1) {
+            	System.out.println("connection error");
                 e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
         }

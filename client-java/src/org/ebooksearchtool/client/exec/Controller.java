@@ -24,17 +24,17 @@ public class Controller {
     Data books = new Data();
 	
     public void getQueryAnswer(String queryWord) throws IOException, SAXException, ParserConfigurationException {
-        
+        System.out.println("1");
         Query query = new Query();
-        
+        System.out.println("2");
         String adress = query.getQueryAdress(queryWord);
-
+        System.out.println("3");
         Connector connect = new Connector(adress);
-
+        System.out.println("4");
         connect.GetFileFromURL();
-
+        System.out.println("5");
         Parser parser = new Parser();
-
+        System.out.println("6");
         parser.parse("answer_file.xml", books);
 
     }

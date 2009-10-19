@@ -62,23 +62,44 @@ public class SAXHandler extends DefaultHandler{
         if (myIsEntryTag){
             for(int i = 0; i < myTags.getTags().length; ++i){
                 if(myTags.getTags()[i].getStatus()) {
+                	
                     if(myIsContinue){
-                        try {
-                            myBooks.getClass().getMethods()[i+2].invoke(myBooks, myBooks.getInfo().size()-1, myBooks.getInfo().get(myBooks.getInfo().size()-1).getClass().getMethods()[2*i].invoke(myBooks.getInfo().get(myBooks.getInfo().size()-1)) + new String(ch, start, length));
-                        } catch (IllegalAccessException e) {
-                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                        } catch (InvocationTargetException e) {
-                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                        }
+                        if(myTags.getTags()[i].getName() == "title"){
+                        	myBooks.setBookTitle(myBooks.getInfo().size()-1, myBooks.getInfo().get(myBooks.getInfo().size()-1).getTitle() + new String(ch, start, length));
+                        }else if(myTags.getTags()[i].getName() == "name"){
+                        	myBooks.setBookAuthor(myBooks.getInfo().size()-1, myBooks.getInfo().get(myBooks.getInfo().size()-1).getAuthor() + new String(ch, start, length));
+                        }else if(myTags.getTags()[i].getName() == "dcterms:language"){
+                        	myBooks.setBookLanguage(myBooks.getInfo().size()-1, myBooks.getInfo().get(myBooks.getInfo().size()-1).getLanguage() + new String(ch, start, length));
+                        }else if(myTags.getTags()[i].getName() == "dcterms:issued"){
+                        	myBooks.setBookDate(myBooks.getInfo().size()-1, myBooks.getInfo().get(myBooks.getInfo().size()-1).getDate() + new String(ch, start, length));
+                        }else if(myTags.getTags()[i].getName() == "summary"){
+                        	myBooks.setBookSummary(myBooks.getInfo().size()-1, myBooks.getInfo().get(myBooks.getInfo().size()-1).getSummary() + new String(ch, start, length));
+                        }else if(myTags.getTags()[i].getName() == "id"){
+                        	myBooks.setBookLink(myBooks.getInfo().size()-1, myBooks.getInfo().get(myBooks.getInfo().size()-1).getLink() + new String(ch, start, length));
+                        }                    
                     }else{
-                        try {
-                            myBooks.getClass().getMethods()[i+2].invoke(myBooks, myBooks.getInfo().size()-1, new String(ch, start, length));
-                        } catch (IllegalAccessException e) {
-                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                        } catch (InvocationTargetException e) {
-                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                        }    
+                        if(myTags.getTags()[i].getName() == "title"){
+                        	myBooks.setBookTitle(myBooks.getInfo().size()-1, new String(ch, start, length));
+                        	myIsContinue = true;
+                        }else if(myTags.getTags()[i].getName() == "name"){
+                        	myBooks.setBookAuthor(myBooks.getInfo().size()-1, new String(ch, start, length));
+                        	myIsContinue = true;
+                        }else if(myTags.getTags()[i].getName() == "dcterms:language"){
+                        	myBooks.setBookLanguage(myBooks.getInfo().size()-1, new String(ch, start, length));
+                        	myIsContinue = true;
+                        }else if(myTags.getTags()[i].getName() == "dcterms:issued"){
+                        	myBooks.setBookDate(myBooks.getInfo().size()-1, new String(ch, start, length));
+                        	myIsContinue = true;
+                        }else if(myTags.getTags()[i].getName() == "summary"){
+                        	myBooks.setBookSummary(myBooks.getInfo().size()-1, new String(ch, start, length));
+                        	myIsContinue = true;
+                        }else if(myTags.getTags()[i].getName() == "id"){
+                        	myBooks.setBookLink(myBooks.getInfo().size()-1, new String(ch, start, length));
+                        
+                    
+                            
                         myIsContinue = true;
+                        }
                     }
                 }
             }
