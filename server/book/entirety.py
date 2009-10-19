@@ -49,7 +49,7 @@ class AuthorEntirety:
     def get_from_db(self):
         "Returns list of authors"
         if self.aliases:
-            "Get authors by name and alias"
+            # "Get authors by name and alias"
             author_list = []
             for alias_name in aliases:
                 author_list += book.Author.objects.filter(name__icontains=self.name, alias__name__icontains=alias__name__icontains)
@@ -59,13 +59,20 @@ class AuthorEntirety:
                 author_dict[author.name] = author
             author_list = author_dict
         else:
-            "Get authors only by name"
+            # "Get authors only by name"
             author_list = book.Author.objects.filter(name__icontains=self.name)
         return author_list
     
-    def CreateFromObj(obj):
-        print 'I am creating from obj'
-    CreateFromObj = Callable(CreateFromObj)
+    def CreateFromObj(author_obj):
+        "Creates entirety object from book.models object"
+        author = AuthorEntirety(name=author_obj.name)
+        print author.aliases
+        for alias_obj in author_obj.alias.all():
+            author.aliases.append(alias_obj.name)
+        print author.aliases
+        return author
+        
+    CreateFromObj = staticmethod(CreateFromObj)
 
 
 

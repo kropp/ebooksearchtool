@@ -42,6 +42,10 @@ class Tag(models.Model):
     def __unicode__(self):
         return self.name
 
+class mymanager(models.Model):
+    def test(self):
+        print '    test'
+
 
 class Book(models.Model):
     title = models.CharField(max_length=255)
@@ -50,6 +54,8 @@ class Book(models.Model):
     book_file = models.ManyToManyField(BookFile)
     series = models.ManyToManyField(Series)
     tag = models.ManyToManyField(Tag)
+
+    mymanager = mymanager()
 
     def __unicode__(self):
         return '%s (%s)' % (self.title, self.lang)

@@ -13,21 +13,11 @@ ACTION = {
 }
 
 def get_all_handler(book_entr):
-    "Get book"
-    book_entrs = book_entr.get_from_db()
-    for book_entr in book_entrs:
-        print book_entr
-    return book_entrs
-    
-  #  a = AuthorEntirety()
-    #print a.get_from_db()
-  #  print BookEntirety('').get_from_db()
-  #  book = BookEntirety('')
-  #  book_obj_list = book.get_from_db()
-  #  AuthorEntirety.CreateFromObj('')
+    "Returns all matched book_entiretys"
+    return book_entr.get_from_db()
 
 
-def insert_all_handler(data_dict):
+def insert_all_handler(book_entr):
     print data_dict['author']
     a = AuthorEntirety('author55', ['author4alias12', 'author4alias22'])
     f = FileEntirety('http://link', 123, 'epub') # FILE_TYPE['epub'])
@@ -47,9 +37,9 @@ def all_handler(action, book_entr):
             dict = insert_all_handler(book_entr)
         except Exception:
             transaction.rollback()
-            raise InnerServerExcp('All handler got not supported action' + action)
+            raise
     else:
-        raise 
+        raise InnerServerExcp('All handler got not supported action ' + action)
     transaction.commit()
     return dict
 

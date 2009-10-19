@@ -7,6 +7,13 @@ feeds = {
     'allbooks': BookFeed,
 }
 
+def test_f(request):
+    print request.GET['query']
+    print 'test_f'
+    response = 'sd'
+    return response
+
+
 from server.views import my_test
 
 urlpatterns = patterns('',
@@ -14,8 +21,8 @@ urlpatterns = patterns('',
     (r'^tipa/add/([^/]+)/$', my_test),
   
     # interface for analizer/crawler
-    (r'^data/get/$', data_modify, {'action': ACTION['get'],}),
-    (r'^data/insert/$', data_modify, {'action': ACTION['insert'],}),
+    (r'^data/get/?$', data_modify, {'action': ACTION['get'],}),
+    (r'^data/insert/?$', data_modify, {'action': ACTION['insert'],}),
   
 #    (r'^books/search.atom/query\=(?P<url>allbooks)/$',
 #      'django.contrib.syndication.views.feed',
