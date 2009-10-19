@@ -4,9 +4,16 @@
 #include "../xml_parser/parser.h"
 #include "../network/httpconnection.h"
 #include "../model/model.h"
+#include "../configurator/configurator.h"
+
+QString MainWindow::ourConfigPath = "../.config/gui";
+QString MainWindow::ourServer = "undefined"; // 1. этот параметр перекочует в другой класс обязательно
+                                            // 2. может быть несколько серверов для поиска
 
 MainWindow::MainWindow(QWidget *parent) : QDialog(parent), myFile(0) {
-	myUrlLineEdit = new QLineEdit("http://feedbooks.com");
+    configurate();
+	myUrlLineEdit = new QLineEdit("http://");
+    myUrlLineEdit->insert(ourServer);
 	myUrlLabel = new QLabel(tr("URL:"));
 	myQueryLineEdit = new QLineEdit();
 	myStatusLabel = new QLabel(tr("Please enter a title or an author's name of the book you want to find"));
@@ -52,6 +59,18 @@ MainWindow::~MainWindow() {
 	if (myView) {
 		delete myView;
 	}
+}
+
+void MainWindow::configurate() {
+//typedef std::map<const std::string, std::string*> Map;
+    Map settings;
+    std::string name("SERVER");
+    std::string value;
+    settings.insert(std::make_pair(name, &value));
+
+    Configurator configurator;
+    configurator.setParameters(ourConfigPath.toStdString(), settings);
+    ourServer = value.c_str();
 }
 
 void MainWindow::downloadFile() {
@@ -108,7 +127,9 @@ void MainWindow::parseDownloadedFile() {
 }
 
 QString MainWindow::queryToUrl() const {
-	QString urlStr("http://feedbooks.com/books/search.atom?query=");
+	QString urlStr("http://");
+    urlStr.append(ourServer);
+    urlStr.append("/books/search.atom?query=");
 	QString queryStr = myQueryLineEdit->text();
 	queryStr.replace(" ", "+");
 	urlStr.append(queryStr);
