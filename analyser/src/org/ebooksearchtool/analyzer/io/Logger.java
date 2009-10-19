@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
-import org.ebooksearchtool.analyzer.utils.AnalyzerConstants;
+import org.ebooksearchtool.analyzer.utils.Properties;
 
 /**
  * @author Алексей
@@ -48,14 +48,14 @@ public class Logger {
     }
 
     private static void makeDirectory(){
-        File directory = new File(AnalyzerConstants.LOG_DIRECTORY_NAME);
+        File directory = new File(Properties.getPropertie("logDirectoryName"));
         if(!directory.exists()){
             directory.mkdir();
         }
     }
 
     private static String getLogPath(){
-        return AnalyzerConstants.LOG_DIRECTORY_NAME + "\\log" + getCurrentDate() + ".txt";
+        return Properties.getPropertie("logDirectoryName") + "\\log" + getCurrentDate() + ".txt";
     }
 
     private static String format(int i){

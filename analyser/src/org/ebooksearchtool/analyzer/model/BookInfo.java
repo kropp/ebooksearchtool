@@ -2,7 +2,7 @@ package org.ebooksearchtool.analyzer.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.ebooksearchtool.analyzer.utils.AnalyzerConstants;
+import org.ebooksearchtool.analyzer.utils.Properties;
 
 /**
  * @author Алексей
@@ -17,10 +17,10 @@ public class BookInfo {
 
     public BookInfo(){
         myAuthors = new ArrayList<Author>();
-        myAuthors.add(new Author());
+        //myAuthors.add(new Author());
         myTitle = "Unknown title";
         myFiles = new ArrayList<File>();
-        myFiles.add(new File());
+        //myFiles.add(new File());
         myLanguage = "Unknown language";
         myAnnotations = new ArrayList<String>();
         myAnnotations.add("Unknown annotation");
@@ -35,6 +35,7 @@ public class BookInfo {
         myAnnotations = annotations;
     }
 
+    // <editor-fold defaultstate="collapsed" desc="Get and Set methods">
     /**
      * @return the myAuthors
      */
@@ -48,6 +49,7 @@ public class BookInfo {
     public void setAuthors(List<Author> myAuthors) {
         this.myAuthors = myAuthors;
     }
+
 
     /**
      * @return the myTitle
@@ -104,13 +106,14 @@ public class BookInfo {
     public void setAnnotations(List<String> myAnnotations) {
         this.myAnnotations = myAnnotations;
     }
+    // </editor-fold>
 
     public String getBookInfo(){
         StringBuilder str = new StringBuilder();
         str.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-        str.append(AnalyzerConstants.SYSTEM_SEPARATOR);
+        str.append(Properties.SYSTEM_SEPARATOR);
         str.append("<book>");
-        str.append(AnalyzerConstants.SYSTEM_SEPARATOR);
+        str.append(Properties.SYSTEM_SEPARATOR);
         str.append(writeTitle());
         str.append(writeLanguage());      
         str.append(writeAuthors());
@@ -126,7 +129,7 @@ public class BookInfo {
         str.append("<title>");
         str.append(getTitle());
         str.append("</title>");
-        str.append(AnalyzerConstants.SYSTEM_SEPARATOR);
+        str.append(Properties.SYSTEM_SEPARATOR);
 
         return str.toString();
     }
@@ -136,7 +139,7 @@ public class BookInfo {
         str.append("<lang>");
         str.append(getLanguage());
         str.append("</lang>");
-        str.append(AnalyzerConstants.SYSTEM_SEPARATOR);
+        str.append(Properties.SYSTEM_SEPARATOR);
 
         return str.toString();
     }
@@ -147,15 +150,15 @@ public class BookInfo {
         int length = authors.size();
 
         str.append("<authors>");
-        str.append(AnalyzerConstants.SYSTEM_SEPARATOR);
+        str.append(Properties.SYSTEM_SEPARATOR);
         for (int i = 0; i < length; i++) {
             Author author = authors.get(i);
             str.append("<author>");
-            str.append(AnalyzerConstants.SYSTEM_SEPARATOR);
+            str.append(Properties.SYSTEM_SEPARATOR);
             str.append("<name>");
             str.append(author.getName());
             str.append("</name>");
-            str.append(AnalyzerConstants.SYSTEM_SEPARATOR);
+            str.append(Properties.SYSTEM_SEPARATOR);
             List<String> aliases = author.getAliases();
             if(aliases != null){
             int alLength = aliases.size();
@@ -163,14 +166,14 @@ public class BookInfo {
                     str.append("<alias>");
                     str.append(aliases.get(j));
                     str.append("</alias>");
-                    str.append(AnalyzerConstants.SYSTEM_SEPARATOR);
+                    str.append(Properties.SYSTEM_SEPARATOR);
                 }
             }
             str.append("<author>");
-            str.append(AnalyzerConstants.SYSTEM_SEPARATOR);
+            str.append(Properties.SYSTEM_SEPARATOR);
         }
         str.append("</authors>");
-        str.append(AnalyzerConstants.SYSTEM_SEPARATOR);
+        str.append(Properties.SYSTEM_SEPARATOR);
         
         return str.toString();
     }
@@ -181,36 +184,36 @@ public class BookInfo {
         int length = files.size();
 
         str.append("<files>");
-        str.append(AnalyzerConstants.SYSTEM_SEPARATOR);
+        str.append(Properties.SYSTEM_SEPARATOR);
         for (int i = 0; i < length; i++) {
             File file = files.get(i);
             str.append("<file>");
-            str.append(AnalyzerConstants.SYSTEM_SEPARATOR);
+            str.append(Properties.SYSTEM_SEPARATOR);
             str.append("<link>");
             str.append(file.getLink());
             str.append("</link>");
-            str.append(AnalyzerConstants.SYSTEM_SEPARATOR);
+            str.append(Properties.SYSTEM_SEPARATOR);
             str.append("<size>");
             str.append(file.getSize());
             str.append("</size>");
-            str.append(AnalyzerConstants.SYSTEM_SEPARATOR);
+            str.append(Properties.SYSTEM_SEPARATOR);
             str.append("<type>");
             str.append(file.getType());
             str.append("</type>");
-            str.append(AnalyzerConstants.SYSTEM_SEPARATOR);
+            str.append(Properties.SYSTEM_SEPARATOR);
             str.append("<more_info>");
             str.append(file.getMoreInfo());
             str.append("</more_info>");
-            str.append(AnalyzerConstants.SYSTEM_SEPARATOR);
+            str.append(Properties.SYSTEM_SEPARATOR);
             str.append("<img_link>");
             str.append(file.getImgLink());
             str.append("</img_link>");
-            str.append(AnalyzerConstants.SYSTEM_SEPARATOR);
+            str.append(Properties.SYSTEM_SEPARATOR);
             str.append("</file>");
-            str.append(AnalyzerConstants.SYSTEM_SEPARATOR);
+            str.append(Properties.SYSTEM_SEPARATOR);
         }
         str.append("</files>");
-        str.append(AnalyzerConstants.SYSTEM_SEPARATOR);
+        str.append(Properties.SYSTEM_SEPARATOR);
 
         return str.toString();
     }
@@ -223,7 +226,7 @@ public class BookInfo {
             str.append("<annotation>");
             str.append(annotations.get(i));
             str.append("</annotation>");
-            str.append(AnalyzerConstants.SYSTEM_SEPARATOR);
+            str.append(Properties.SYSTEM_SEPARATOR);
         }
 
         return str.toString();
