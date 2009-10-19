@@ -31,7 +31,7 @@ public class AnalyzerThread extends Thread {
                     WholeStringSimpleParser ws = new WholeStringSimpleParser();
                     BookInfo info = ws.parse(myMessage);
                     printInfo(info);
-                    //TODO: Добавить разбор ответов от сервера
+                    //TODO: Добавить разбор ответов от сервера  
                     String message = ClientSocketThread.sendRequest(Messages.formBookInfo(info));
                     System.out.println(message);
                     myMessage = "";

@@ -23,19 +23,20 @@ public class epubAuthorExtractor {
 
         StringBuilder sb = new StringBuilder();
 
-        Lexema lex = new Lexema(lexems.get(index).getValue());
-        index++;
-
-        sb.append(lex.getValue() + " ");
-        lex = lexems.get(index);
-
-        while(index < length && (lex.getValue().indexOf("<") == -1)){
-            sb.append(lex.getValue() + " ");
+        if(index < length){
+            Lexema lex = new Lexema(lexems.get(index).getValue());
             index++;
-            lex = lexems.get(index);
-        }
-        sb.append(lex.getValue());
 
+            sb.append(lex.getValue() + " ");
+            lex = lexems.get(index);
+
+            while(index < length && (lex.getValue().indexOf("<") == -1)){
+                sb.append(lex.getValue() + " ");
+                index++;
+                lex = lexems.get(index);
+            }
+            sb.append(lex.getValue());
+        }
         List<Author> authors = AuthorsSimpleParser.Instance().parse(trim(sb));
 
         if(authors.isEmpty()){
