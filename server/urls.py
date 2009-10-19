@@ -17,11 +17,11 @@ urlpatterns = patterns('',
     (r'^data/get/$', data_modify, {'action': ACTION['get'],}),
     (r'^data/insert/$', data_modify, {'action': ACTION['insert'],}),
   
-    (r'^books/search.atom/query\=(?P<url>allbooks)/$',
-      'django.contrib.syndication.views.feed',
-      {'feed_dict' : feeds}
-    ),
+#    (r'^books/search.atom/query\=(?P<url>allbooks)/$',
+#      'django.contrib.syndication.views.feed',
+#      {'feed_dict' : feeds}
+#    ),
     
-    (r'^opds/(.*)/?$', 'server.views.request_to_server'),
+    (r'^books/search.atom/?$', 'server.views.request_to_server'),
 )
 

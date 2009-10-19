@@ -106,14 +106,14 @@ class BookFeed(Feed):
 
 
 
-def book_to_opds(qwery, book_entrs):
+def book_to_opds(query, book_entrs):
 
-    return render_to_response('opds/client_response.xml', {'book_entrs': book_entrs, 'qwery': qwery})
+    return render_to_response('opds/client_response.xml', {'book_entrs': book_entrs, 'query': query})
 
-def request_to_server(request, qwery):
-    
-    a = AuthorEntirety(name=qwery)
-    b = BookEntirety(title=qwery)
+def request_to_server(request):
+    query = request.GET['query']
+    a = AuthorEntirety(name=query)
+    b = BookEntirety(title=query)
     book_entrs = b.get_from_db()
-    return book_to_opds(qwery, book_entrs)
+    return book_to_opds(query, book_entrs)
 

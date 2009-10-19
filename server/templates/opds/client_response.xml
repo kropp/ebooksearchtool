@@ -3,7 +3,7 @@
 <feed>
     <id></id>
     <link></link>
-    <title>Search results for: {{ qwery }} </title>
+    <title>Search results for: {{ query }} </title>
     <updated></updated>
     <icon></icon>
     <author></author>
