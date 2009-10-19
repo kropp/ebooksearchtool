@@ -1,7 +1,0 @@
-#[ebook search tool: client-cpp-qt]
-#There are constants for the gui module in this file
-
-#there suppose to be constants corresponding gui-mode
-#(for exapmle, size of the window, colors...
-
-SERVER=feedbooks.com

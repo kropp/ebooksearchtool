@@ -11,15 +11,17 @@ private:
     static QString ourConfigFilePath;
     static QString ourProxy;
     static int ourPort;    
-    
+    static QString ourServer;
+
 public:
 	HttpConnection(QObject* parent);
 	
 public:
 	void downloadFile(QString url, QFile* file);
+    QString getServer() const;
 
 private:
-    void configurate(); //set static fields from config-file.
+    void configurate(); //set static fields from the config-file.
     
 public:
 	int myHttpGetId;

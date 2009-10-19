@@ -21,10 +21,6 @@ class MainWindow : public QDialog {
 
     Q_OBJECT
 
-private:
-    static QString ourConfigPath;
-    static QString ourServer;
-
 public:
 	MainWindow(QWidget *parent = 0);
 	~MainWindow();
@@ -37,7 +33,6 @@ private slots:
 	void parseDownloadedFile();
 
 private:
-    void configurate();
 	QString queryToUrl() const;
 
 private:

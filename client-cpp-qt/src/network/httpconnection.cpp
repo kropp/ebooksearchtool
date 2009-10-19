@@ -7,7 +7,9 @@
 
 QString HttpConnection::ourConfigFilePath = "../.config/network";
 QString HttpConnection::ourProxy = "undefined";
-int HttpConnection::ourPort = 0;
+int HttpConnection::ourPort = 80;
+QString HttpConnection::ourServer = "undefined"; // далее изначально неопределен
+
 
 HttpConnection::HttpConnection(QObject* parent = 0) : QHttp(parent) {
     configurate();
@@ -17,13 +19,11 @@ void HttpConnection::downloadFile(QString urlStr, QFile* file) {
     if (ourProxy != "undefined") { 
         setProxy(ourProxy, ourPort);
 	}
-    QUrl url(urlStr);
-	QHttp::ConnectionMode mode = url.scheme().toLower() == "https" ? QHttp::ConnectionModeHttps : QHttp::ConnectionModeHttp;
-	setHost(url.host(), mode, url.port() == -1 ? 0 : url.port());
+	setHost(ourServer, 80); // не работает с ourPort
 	QString query(urlStr);
-	query.remove("http://feedbooks.com"); //удалить всю начальную информацию
+	query.remove("http://");
+	query.remove(ourServer); //оставляю только запрос
 	myHttpGetId = get(query, file);
-	std::cout << "query "<< query.toStdString().c_str() << "\n";
 }
     
 void HttpConnection::configurate() {
@@ -31,20 +31,25 @@ void HttpConnection::configurate() {
     Map settings;
     std::string name1("PROXY");
     std::string name2("PORT");
+    std::string name3("SERVER");
     std::string value1;
     std::string value2;
+    std::string value3;
     settings.insert(std::make_pair(name1, &value1));
     settings.insert(std::make_pair(name2, &value2));
+    settings.insert(std::make_pair(name3, &value3));
 
     Configurator configurator;
     configurator.setParameters(ourConfigFilePath.toStdString(), settings);
-//    for (Map::const_iterator it = settings.begin(); it != settings.end(); ++it) {
-  //      std::cout << it->first.c_str() << " = " << it->second->c_str() << "\n";
- //   }
     ourProxy = value1.c_str();
     QString str(value2.c_str());
     ourPort = str.toInt();
-//    std::cout << "proxy = " << ourProxy.toStdString().c_str() << "\n";
+    ourServer = value3.c_str();
+//    std::cout << "server = " << ourServer.toStdString().c_str() << "\n";
 //    std::cout << "port = " << ourPort << "\n";
+}
+
+QString HttpConnection::getServer() const {
+    return ourServer;
 }
 
