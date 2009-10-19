@@ -55,14 +55,11 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::downloadFile() {
-	//TODO - add button for setting proxy
 	mySearchButton->setEnabled(false);
-	myHttpConnection->setProxy("192.168.0.2", 3128);
 	
 	if (myFile != 0) {
 		delete myFile;
 	}
-	
 	if (!myQueryLineEdit->text().isEmpty()) {
 		myUrlLineEdit->setText(queryToUrl());
 	}
@@ -73,9 +70,6 @@ void MainWindow::downloadFile() {
 }
 
 void MainWindow::downloadFile(const QString& url) {
-	//TODO - add button for setting proxy
-	myHttpConnection->setProxy("192.168.0.2", 3128);
-	
 	if (myFile != 0) {
 		delete myFile;
 	}
@@ -120,4 +114,3 @@ QString MainWindow::queryToUrl() const {
 	urlStr.append(queryStr);
 	return urlStr;
 }
-
