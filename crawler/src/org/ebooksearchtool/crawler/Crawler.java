@@ -5,7 +5,7 @@ import java.net.*;
 import java.util.*;
 import org.ebooksearchtool.crawler.impl.*;
 
-public class Crawler {
+public class Crawler implements Runnable {
 
     private static Proxy ourProxy;
     private static String ourUserAgent;
@@ -19,9 +19,10 @@ public class Crawler {
     private static int ourThreadsCount;
     
     
-    private Socket myAnalyzerSocket = null;
-    private BufferedWriter myAnalyzerWriter = null;
+    private final Socket myAnalyzerSocket;
+    private final BufferedWriter myAnalyzerWriter;
     private final PrintWriter myOutput;
+    private final String[] myStarts;
     
     private final AbstractRobotsExclusion myRobots = new ManyFilesRobotsExclusion();
     private final AbstractLinksQueue myQueue = new LinksQueue();
@@ -29,8 +30,9 @@ public class Crawler {
     
     private int myCounter = 0;
     
-    Crawler(Properties properties, PrintWriter output) {
+    Crawler(Properties properties, String[] starts, PrintWriter output) {
         myOutput = output;
+        myStarts = starts;
         try {
             if ("true".equals(properties.getProperty("proxy_enabled"))) {
                 String type = properties.getProperty("proxy_type").toLowerCase();
@@ -65,13 +67,25 @@ public class Crawler {
             throw new RuntimeException("bad format of properties file: " + e.getMessage());
         }
         if (ourAnalyzerEnabled) {
+            Socket analyzerSocket = null;
+            BufferedWriter analyzerWriter = null;
             try {
-                myAnalyzerSocket = new Socket(InetAddress.getLocalHost().getHostName(), ourAnalyzerPort);
-                System.err.println(" analyzer connected on port " + myAnalyzerSocket.getPort());
-                myAnalyzerWriter = new BufferedWriter(new OutputStreamWriter(myAnalyzerSocket.getOutputStream()));
-            } catch (Exception e) {
+                analyzerSocket = new Socket(InetAddress.getLocalHost().getHostName(), ourAnalyzerPort);
+                System.err.println(" analyzer connected on port " + analyzerSocket.getPort());
+                analyzerWriter = new BufferedWriter(new OutputStreamWriter(analyzerSocket.getOutputStream()));
+            } catch (IOException e) {
+                try {
+                    analyzerSocket.close();
+                } catch (IOException f) { }
+                analyzerSocket = null;
+                analyzerWriter = null;
                 System.err.println(" error: connect to analyzer failed!");
             }
+            myAnalyzerSocket = analyzerSocket;
+            myAnalyzerWriter = analyzerWriter;
+        } else {
+            myAnalyzerSocket = null;
+            myAnalyzerWriter = null;
         }
     }
     
@@ -112,8 +126,8 @@ public class Crawler {
     }
     
     
-    public void crawl(String[] starts) {
-        for (String start : starts) {
+    public void run() {
+        for (String start : myStarts) {
             URI uri = Util.createURI(start);
             if (myRobots.canGo(uri)) {
                 myVisited.add(uri);

@@ -2,6 +2,7 @@ package org.ebooksearchtool.crawler.impl;
 
 import java.io.*;
 import java.net.*;
+import java.util.*;
 import org.ebooksearchtool.crawler.*;
 
 public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
@@ -10,6 +11,7 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
     public static final int FILES_NUMBER = 256;
     
     private File[] myCacheFile;
+    private static Calendar myCalendar = new GregorianCalendar(TimeZone.getTimeZone("America/New_York"));
     
     /*  stores all cached robots.txt in a number of files:
         0.txt, 1.txt, ..., {FILES_NUMBER - 1}.txt,
@@ -21,15 +23,16 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
                 if (!success) throw new Exception();
             }
             myCacheFile = new File[FILES_NUMBER];
+            int digits = (FILES_NUMBER + "").length();
             for (int i = 0; i < FILES_NUMBER; i++) {
-                myCacheFile[i] = new File(ROBOTS_DIR + "/" + String.format("%03d", i) + ".txt");
+                myCacheFile[i] = new File(ROBOTS_DIR + "/" + String.format("%0" + digits + "d", i) + ".txt");
                 if (!myCacheFile[i].exists()) {
                     new PrintWriter(myCacheFile[i]).close();
                 }
             }
         } catch (Exception e) {
             System.err.println(ROBOTS_DIR + " cannot be initialized");
-            System.exit(0);
+            System.exit(1);
         }
     }
     
@@ -60,8 +63,20 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
                             return 0;
                         }
                     } else if (s.charAt(1) == 't') {       // Visit-time
-//                        String[] ss = s.substring(3).split(" ");
-                        
+                        String[] ss = s.substring(3).split(" ");
+                        int time1 = Integer.parseInt(ss[0]);
+                        int time2 = Integer.parseInt(ss[1]);
+                        myCalendar.setTime(new Date());
+                        int minute = myCalendar.get(Calendar.MINUTE);
+                        int hour = myCalendar.get(Calendar.HOUR);
+                        if (myCalendar.get(Calendar.AM_PM) == 1) {
+                            hour += 12;
+                        }
+                        int time = hour * 100 + minute;
+                        if (time < time1 || time > time2) {
+                            br.close();
+                            return 1;
+                        }
                     } else if (s.charAt(1) == 'r') {       // Request-rate
                         
                     }

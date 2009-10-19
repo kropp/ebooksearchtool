@@ -46,12 +46,8 @@ public class Main {
                 fnfe.printStackTrace();
                 System.exit(0);
             }
-            final Crawler crawler = new Crawler(properties, output);
-            Thread crawlingThread = new Thread(new Runnable() {
-                public void run() {
-                    crawler.crawl(starts);
-                }
-            });
+            final Crawler crawler = new Crawler(properties, starts, output);
+            Thread crawlingThread = new Thread(crawler);
             crawlingThread.start();
             String keyboardInput = null;
             Scanner keyboardScanner = new Scanner(System.in);
