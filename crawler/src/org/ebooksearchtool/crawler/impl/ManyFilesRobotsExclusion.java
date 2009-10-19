@@ -49,15 +49,28 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
             while ((s = br.readLine()) != null) {
                 if (s.length() == 0) continue;
                 if (s.charAt(0) == ' ') {
-                    if (hostFound && matches(path, s.substring(1))) {
-                        br.close();
-                        return 1;
+                    if (s.charAt(1) == '-') {              // Disallow
+                        if (hostFound && matches(path, s.substring(3))) {
+                            br.close();
+                            return 1;
+                        }
+                    } else if (s.charAt(1) == '+') {       // Allow
+                        if (hostFound && matches(path, s.substring(3))) {
+                            br.close();
+                            return 0;
+                        }
+                    } else if (s.charAt(1) == 't') {       // Visit-time
+//                        String[] ss = s.substring(3).split(" ");
+                        
+                    } else if (s.charAt(1) == 'r') {       // Request-rate
+                        
                     }
                 } else {
                     if (s.equals(host)) {
                         hostFound = true;
                     } else {
                         if (hostFound) {
+                            // assuming there are no more records about this user agent further in the file
                             br.close();
                             return 0;
                         }
@@ -112,17 +125,62 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
             bw.write(host);
             bw.newLine();
             while ((s = br.readLine()) != null) {
-                s = s.trim().replaceAll(" +", " ").toLowerCase();
+                s = s.replaceAll(" +", " ").toLowerCase();
+                int end = s.indexOf('#');
+                if (end < 0) end = s.length();
+                s = s.substring(0, end).trim();
                 if (s.startsWith("user-agent:")) {
                     s = s.substring(11).trim();
-                    me = "*".equals(s) || Crawler.getUserAgent().equals(s);
-                } else if (me && s.startsWith("disallow:")) {
-                    int end = s.indexOf('#');
-                    if (end < 0) end = s.length();
-                    s = s.substring(9, end).trim();
-                    if (s.length() > 0) {
-                        bw.write(" " + s);
-                        bw.newLine();
+                    me = "*".equals(s) || Crawler.getUserAgent().toLowerCase().equals(s);
+                } else if (me) {
+                    if (s.startsWith("disallow:")) {
+                        s = s.substring(9).trim();
+                        if (s.length() > 0) {
+                            bw.write(" - " + s);
+                            bw.newLine();
+                        }
+                    } else if (s.startsWith("allow:")) {
+                        s = s.substring(6).trim();
+                        if (s.length() > 0) {
+                            bw.write(" + " + s);
+                            bw.newLine();
+                        }
+                    } else if (s.startsWith("request-rate:")) {
+                        s = s.substring(13).trim();
+                        if (s.length() > 0) {
+                            String r = null;
+                            try {
+                                String[] ss = s.replaceAll(":", "").split("[ /\\-]");
+                                if (ss[1].endsWith("h")) {
+                                    long x = Long.parseLong(ss[1].substring(0, ss[1].length() - 1));
+                                    ss[1] = (3600 * x) + "";
+                                } else if (ss[1].endsWith("m")) {
+                                    long x = Long.parseLong(ss[1].substring(0, ss[1].length() - 1));
+                                    ss[1] = (60 * x) + "";
+                                }
+                                r = ss[0] + " " + ss[1];
+                                if (ss.length == 4) {
+                                    r = r + " " + ss[2] + " " + ss[3];
+                                }
+                            } catch (Exception e) {
+                                continue;
+                            }
+                            bw.write(" r " + r);
+                            bw.newLine();
+                        }
+                    } else if (s.startsWith("visit-time:")) {
+                        s = s.substring(11).trim();
+                        if (s.length() > 0) {
+                            String r = null;
+                            try {
+                                String[] ss = s.replaceAll(":", "").split("[ -]");
+                                r = ss[0] + " " + ss[1];
+                            } catch (Exception e) {
+                                continue;
+                            }
+                            bw.write(" t " + r);
+                            bw.newLine();
+                        }
                     }
                 }
             }

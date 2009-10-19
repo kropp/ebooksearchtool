@@ -44,7 +44,7 @@ class CrawlerThread extends Thread {
                 }
             }
         }
-        System.out.println("thread #" + myIndex + " finished");
+//        System.out.println("thread #" + myIndex + " finished");
     }
     
 }

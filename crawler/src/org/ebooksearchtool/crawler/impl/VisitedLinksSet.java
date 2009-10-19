@@ -6,7 +6,7 @@ import org.ebooksearchtool.crawler.*;
 
 public class VisitedLinksSet extends AbstractVisitedLinksSet {
 
-    private final Set<URI> mySet = new HashSet<URI>();
+    private final Set<URI> mySet = Collections.synchronizedSet(new HashSet<URI>());
     
     public boolean add(URI uri) {
         if (mySet.size() == Crawler.getMaxLinksCount()) {
