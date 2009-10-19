@@ -43,7 +43,7 @@ public class ServerSocketThread extends Thread{
             bw = new BufferedWriter(new OutputStreamWriter(mySocket.getOutputStream()));
             String buffer = "";
 
-                System.out.print(mySocket.getPort());
+            System.out.print(mySocket.getPort());
 
             while(true){
                 buffer = NetUtils.reciveMessage(br);

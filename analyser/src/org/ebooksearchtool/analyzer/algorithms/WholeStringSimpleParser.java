@@ -23,6 +23,8 @@ public class WholeStringSimpleParser implements IParser{
 
         myBookInfo.addFile(new File(URLsExtractor.extractURL(temp)));
         myBookInfo.getFiles().get(0).setType(FormatExtractor.extractFormat(temp));
+        myBookInfo.getFiles().get(0).setSize(SizeExtractor.extractSize(temp));
+        //Пока не использовать//myBookInfo.getFiles().get(0).setImgLink(BookCoverExtractor.extractBookCover(temp));
         myBookInfo.setLanguage(LanguageExtractor.extractLanguage(temp));
         myBookInfo.setAuthors(epubAuthorExtractor.extractAuthors(temp));
         myBookInfo.setTitle(epubTitleExtractor.extractTitle(temp));
