@@ -19,6 +19,12 @@ public abstract class AbstractRobotsExclusion {
         must be generated anyway.                             */
     protected abstract void downloadRobotsTxt(String host);
     
+    /*  last access time to the host in milliseconds          */
+    protected abstract long getLastAccessTime(String host);
+    
+    protected abstract void setLastAccessTime(String host, long value);
+    
+    
     boolean canGo(URI uri) {
         if (uri == null) return false;
         String host = uri.getHost();

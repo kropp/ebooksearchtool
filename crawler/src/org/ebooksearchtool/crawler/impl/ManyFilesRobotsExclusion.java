@@ -9,8 +9,9 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
     
     public static final File ROBOTS_DIR = new File("robotscache");
     public static final int FILES_NUMBER = 256;
-    
+        
     private File[] myCacheFile;
+    private Map<String, Long> myLastAccess;
     private static Calendar myCalendar = new GregorianCalendar(TimeZone.getTimeZone("America/New_York"));
     
     /*  stores all cached robots.txt in a number of files:
@@ -34,6 +35,21 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
             System.err.println(ROBOTS_DIR + " cannot be initialized");
             System.exit(1);
         }
+        //TODO: read myLastAccess from file
+        myLastAccess = new HashMap<String, Long>();
+    }
+    
+    protected long getLastAccessTime(String host) {
+        Long answer = myLastAccess.get(host);
+        if (answer == null) {
+            answer = Long.MIN_VALUE;
+            myLastAccess.put(host, answer);
+        }
+        return answer;
+    }
+    
+    protected void setLastAccessTime(String host, long value) {
+        myLastAccess.put(host, value);
     }
     
     protected synchronized int isDisallowed(String host, URI uri) {
@@ -78,14 +94,36 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
                             return 1;
                         }
                     } else if (s.charAt(1) == 'r') {       // Request-rate
-                        
+                        String[] ss = s.substring(3).split(" ");
+                        int time1 = Integer.parseInt(ss[2]);
+                        int time2 = Integer.parseInt(ss[3]);
+                        myCalendar.setTime(new Date());
+                        int minute = myCalendar.get(Calendar.MINUTE);
+                        int hour = myCalendar.get(Calendar.HOUR);
+                        if (myCalendar.get(Calendar.AM_PM) == 1) {
+                            hour += 12;
+                        }
+                        int time = hour * 100 + minute;
+                        if (time1 <= time && time <= time2) {
+                            long docs = Long.parseLong(ss[0]);
+                            long seconds = Long.parseLong(ss[1]);
+                            long wait = (seconds + docs - 1) / docs;
+                            long lastAccess = getLastAccessTime(host);
+                            long now = myCalendar.getTimeInMillis() / 1000;
+                            if (lastAccess + wait > now) {
+                                br.close();
+                                //TODO: return "to wait" instead of "disallowed"
+                                return 1;
+                            }
+                            //TODO: setLastAccessTime
+                        }
                     }
                 } else {
                     if (s.equals(host)) {
                         hostFound = true;
                     } else {
                         if (hostFound) {
-                            // assuming there are no more records about this user agent further in the file
+                            // assuming there are no more records about this user agent further in the cached file
                             br.close();
                             return 0;
                         }
