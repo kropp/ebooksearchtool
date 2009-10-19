@@ -2,7 +2,7 @@
 from django.contrib.syndication.feeds import Feed
 from book.models import Book
 from django.utils.feedgenerator import Atom1Feed
-
+from django.utils.xmlutils import SimplerXMLGenerator
 
 from django.http import HttpResponse
 from book.models import Author
@@ -39,9 +39,6 @@ class OPDSFeed(Atom1Feed ):
                 
 #        print self.feed
         
-
-
-
     def add_root_elements(self, handler):
         Atom1Feed.add_root_elements(self, handler)
         handler.addQuickElement(u"opensearch:totalResults", self.feed['total'])
@@ -51,6 +48,22 @@ class OPDSFeed(Atom1Feed ):
         Atom1Feed.add_item_elements(self, handler, item)
         handler.addQuickElement(u"dcterms:language", self.feed['item_language'])
 #        handler.addQuickElement(u"ent", self.feed['zxc'])        
+
+    def write(self, outfile, encoding):
+        handler = SimplerXMLGenerator(outfile, encoding)
+        handler.startDocument()
+        handler.startElement(u'feed', self.root_attributes())
+        self.add_root_elements(handler)
+        self.write_items(handler)
+        handler.endElement(u"feed")
+        
+    def write_items(self, handler):
+        for item in self.items:
+            handler.startElement(u"entry", self.item_attributes(item))
+            self.add_item_elements(handler, item)
+            handler.endElement(u"entry")
+
+
         
 class BookFeed(Feed):
     
@@ -61,12 +74,12 @@ class BookFeed(Feed):
     feed_type = OPDSFeed    
     total = "%s" % len(Book.objects.all())
     items_per_page = "20"
-    
     author = "SITE"
-    subtitle = "subtitle"
+#    subtitle = "subtitle"
     link = "LINK FOR SEARCHING"
     description = "description"
-    item_language = "english"
+    item_language = Book.objects.all()[1].lang
+
     
     def get_absolute_url():
     	return "get absolute URL"

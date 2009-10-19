@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<books>
+    {% for book in book_entrs %}
+    <book>
+        <title> {{ book.title }} </title>
+        <lang> {{ book.lang }} </lang>
+
+        <authors>
+            {% for author in book.authors %}
+            <author>
+                <name> {{ author.name }}</name>
+                <aliases>
+                    {% for alias in author.aliases %}    
+                    <alias> {{ alias }}</alias>
+                    {% endfor %}
+                </aliases>
+            </author>
+            {% endfor %}
+        </authors>
+
+        <files>
+            {% for file in book.files %}
+            <file>
+                <link> {{ file.link }} </link>
+                <size> {{ file.size }} </size>
+                <type> {{ file.type }} </type>
+                <more_info> {{ file.more_info }} </more_info>
+                <img_link> {{ file.img_link }} </img_link>
+            </file>
+            {% endfor %}
+        </files>
+        
+        <annotations>
+            {% for annotation in book.annotations %}
+            <annotation> {{ annotation }} </annotation>
+            {% endfor %}
+        </annotations>
+    </book>
+    {% endfor %}
+</books>

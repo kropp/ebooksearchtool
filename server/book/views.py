@@ -15,6 +15,10 @@ from server.spec.utils import convert_delim
 from server.exception import *
 from server.book.action_handler import all_handler, load_book_entr_from_xml
 
+def book_entr_to_response(book_entrs):
+    '''function convert book_entirety to response'''
+
+    return render_to_response('data/analyser_response.xml', {'book_entrs': book_entrs})
 
 
 
@@ -48,6 +52,9 @@ def data_modify(request, action):
 #                book_entr = load_book_entr_from_xml(xml)
 #                dict = all_handler(action, book_entr)
 #
+
+#    book_entr_to_response(book_entrs)
+
 
 
         # strip string on strings, used delimiter='\r\n'
@@ -94,13 +101,16 @@ def data_modify(request, action):
         book_entrs = all_handler(action, book_entr)
         print 'action handler ok'
         dict['message'] = 'ok'
+        for book in book_entrs:
+            print "AAA", book
+        return book_entr_to_response(book_entrs)
 
     except ServerEx, ex:
         dict['error'] = ex.__doc__
         dict['class'] = ex.__class__
         dict['message'] = ex.message
     except Exception, ex:
-        dict['error'] = 'Unknown error: ' + ex.__doc__
+#        dict['error'] = 'Unknown error: ' + ex.__doc__
         dict['class'] = ex.__class__
         dict['message'] = ex.message
         
