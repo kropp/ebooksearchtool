@@ -26,7 +26,7 @@ class AuthorEntirety:
     def save_to_db(self):
         "Saves entirety author to database. Ruturns saved author"
         if not self.name:
-            raise InputDataExcpt(21101)
+            raise InputDataServerEx("The field 'author.name' can't be empty")
 
         author = book.Author.objects.get_or_create(name=self.name)[0]
 
@@ -39,7 +39,7 @@ class AuthorEntirety:
                 alias_id = alias_obj.author_set.get().id
             # if existing alias associated with other author -> exception
             if alias_id and alias_id != author.id:
-                raise InputDataExcpt(32102)
+                raise DataBaseServerEx("Alias already exists ans is associated with other author")
             # add alias to author
             alias_obj.author_set.add(author)
             alias_obj.save()

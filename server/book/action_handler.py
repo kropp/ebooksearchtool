@@ -47,9 +47,9 @@ def all_handler(action, book_entr):
             dict = insert_all_handler(book_entr)
         except Exception:
             transaction.rollback()
-            raise
+            raise InnerServerExcp('All handler got not supported action' + action)
     else:
-        raise DataExcpt(40001)
+        raise 
     transaction.commit()
     return dict
 
@@ -61,7 +61,7 @@ def all_handler(action, book_entr):
 def load_book_entr_from_xml(xml):
     "Creates BookEntirety and fills it data from xml document"
     if xml.tag != 'book':
-        raise InputDataExcpt("Not found root tag 'book'")
+        raise InputDataServerEx("Not found root tag 'book'")
 
     book_entr = BookEntirety(title='')
 
@@ -79,7 +79,7 @@ def load_book_entr_from_xml(xml):
                 
                 # If not 'author' tag in block raise exception
                 if author_node.tag != 'author':
-                    raise InputDataExcpt("Unknown tag '" + author_node.tag +
+                    raise InputDataServerEx("Unknown tag '" + author_node.tag +
                                          "' in tag 'authors'")
 
                 # Create author entirety and fill data
@@ -98,7 +98,7 @@ def load_book_entr_from_xml(xml):
                 
                 # If not 'file' tag in block raise exception
                 if file_node.tag != 'file':
-                    raise InputDataExcpt("Unknown tag '" + file_node.tag +
+                    raise InputDataServerEx("Unknown tag '" + file_node.tag +
                                          "' in tag 'files'")
 
                 # Create file entirety and fill data

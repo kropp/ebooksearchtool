@@ -10,7 +10,6 @@ from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.template import Context
 
-from server.spec.errorcode import ERROR_CODE
 from server.spec.utils import convert_delim
 from server.exception import *
 from server.book.action_handler import all_handler, load_book_entr_from_xml
@@ -110,7 +109,7 @@ def data_modify(request, action):
         dict['class'] = ex.__class__
         dict['message'] = ex.message
     except Exception, ex:
-#        dict['error'] = 'Unknown error: ' + ex.__doc__
+     #   dict['error'] = 'Unknown error: ' + ex.__doc__
         dict['class'] = ex.__class__
         dict['message'] = ex.message
         
