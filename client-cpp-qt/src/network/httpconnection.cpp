@@ -3,6 +3,8 @@
 #include "httpconnection.h"
 #include "../configurator/configurator.h"
 
+#include <iostream>
+
 QString HttpConnection::ourConfigFilePath = "../.config/network";
 QString HttpConnection::ourProxy = "undefined";
 int HttpConnection::ourPort = 0;
@@ -18,9 +20,12 @@ void HttpConnection::downloadFile(QString urlStr, QFile* file) {
     QUrl url(urlStr);
 	QHttp::ConnectionMode mode = url.scheme().toLower() == "https" ? QHttp::ConnectionModeHttps : QHttp::ConnectionModeHttp;
 	setHost(url.host(), mode, url.port() == -1 ? 0 : url.port());
-	myHttpGetId = get(urlStr, file);
+	QString query(urlStr);
+	query.remove("http://feedbooks.com"); //удалить всю начальную информацию
+	myHttpGetId = get(query, file);
+	std::cout << "query "<< query.toStdString().c_str() << "\n";
 }
-
+    
 void HttpConnection::configurate() {
 //typedef std::map<const std::string, std::string*> Map;
     Map settings;
