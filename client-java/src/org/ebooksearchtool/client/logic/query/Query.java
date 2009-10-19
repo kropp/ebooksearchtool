@@ -16,7 +16,7 @@ public class Query {
 	
 	public String getQueryAdress(String queryWord)  throws IOException{
 		
-		return "http://feedbooks.com/books/search.atom?query=" + queryWord;
+		return "http://feedbooks.com/books/search.atom?query="/*"http://192.168.2.104:8001/books/search.atom/query="*/ + queryWord;
 		
 	}
 

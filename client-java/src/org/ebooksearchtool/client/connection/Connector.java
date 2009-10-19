@@ -2,6 +2,7 @@ package org.ebooksearchtool.client.connection;
 
 import org.ebooksearchtool.client.view.Viewer;
 
+import java.io.EOFException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -27,30 +28,38 @@ public class Connector{
         Url = new URL(adress);
     }
 
-    public void GetFileFromURL() {
+    public void getFileFromURL(String fileName) {
         
         try {
-        	System.out.println("C2");
-            String IP = "192.168.0.2";
-            int port = 3128;
-            //viewer.showProxyDialog(IP, port);
-            
-            connection = Url.openConnection(new Proxy(Proxy.Type.HTTP, new InetSocketAddress(IP, port)));
-            
-            PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream("answer_file.xml"), "utf-8"));
-
+            System.out.println("C1");
+            connection = Url.openConnection();
+            PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream(fileName), "utf-8"));
+            System.out.println("start download");
+            System.out.println(Url.getFile() + "  " + Url.getProtocol() + "  " + connection.getContentEncoding() + "  " + connection.getInputStream().available());
             int i = 0;
-            while (i != connection.getContentLength()){
-                pw.print((char)connection.getInputStream().read());
+            int end = connection.getInputStream().available();
+            char ch;
+            while (i!=end/*connection.getInputStream().available()/*i != connection.getContentLength()*/){
+            	
+                ch = (char)connection.getInputStream().read();
+            	pw.print(ch);
                 ++i;
+                
+                System.out.println("D "+i);
             }
             pw.close();
+            System.out.println("finish download");
         } catch (IOException e) {
             try {
 
-            	System.out.println("C1");
-                connection = Url.openConnection();
-                PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream("answer_file.xml"), "utf-8"));
+            	System.out.println("C2");
+                String IP = "192.168.0.2";
+                int port = 3128;
+                //viewer.showProxyDialog(IP, port);
+                
+                connection = Url.openConnection(new Proxy(Proxy.Type.HTTP, new InetSocketAddress(IP, port)));
+                
+                PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream(fileName), "utf-8"));
 
                 int i = 0;
                 while (i != connection.getContentLength()){
@@ -58,7 +67,8 @@ public class Connector{
                     ++i;
                 }
                 pw.close();
-
+     
+            	
             	            } catch (IOException e1) {
             	System.out.println("connection error");
                 e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.

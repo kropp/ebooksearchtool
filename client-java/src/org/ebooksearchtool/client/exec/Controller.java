@@ -31,12 +31,20 @@ public class Controller {
         System.out.println("3");
         Connector connect = new Connector(adress);
         System.out.println("4");
-        connect.GetFileFromURL();
+        connect.getFileFromURL("answer_file.xml");
         System.out.println("5");
         Parser parser = new Parser();
         System.out.println("6");
         parser.parse("answer_file.xml", books);
 
+    }
+    
+    public void getBookFile(int bookIndex) throws IOException{
+    	
+    	Connector connect = new Connector(books.getInfo().get(bookIndex).getLink());
+    	
+    	connect.getFileFromURL("book.pdf");
+    	
     }
 
     public Data getData(){

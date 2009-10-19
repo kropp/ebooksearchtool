@@ -1,3 +1,4 @@
+
 package org.ebooksearchtool.client.view;
 
 import org.ebooksearchtool.client.exec.Controller;
@@ -31,6 +32,8 @@ public class Window {
     private JButton mySearchButton;
     private JTextArea myDataTextArea;
     private JMenuItem myNetMenu;
+    private JPanel myTextPan;
+    private int ind;
     
     private Controller myController = new Controller();
 
@@ -65,7 +68,8 @@ public class Window {
     	myQueryPanel.add(mySearchButton);
     	//myDataPanel = new JPanel();
     	myDataTextArea = new JTextArea();
-        myPanel1.add(new JScrollPane(myDataTextArea), "Center");
+    	myTextPan = new JPanel(new GridLayout(0, 1));
+        myPanel1.add(new JScrollPane(myTextPan), "Center");
         myDataTextArea.setEditable(false);
 
     	/*myConnectionPanel = new JPanel();
@@ -77,19 +81,41 @@ public class Window {
                 try {
                     String queryWord = myQueryField.getText();
                     myController.getQueryAnswer(queryWord);
-                    myDataTextArea.setLineWrap(true);
+                    //JEditorPane myPane = new JEditorPane();
+                    JTextArea[] info = new JTextArea[myController.getData().getInfo().size()];
+                    JButton[] infB = new JButton[myController.getData().getInfo().size()];
+                    //myDataTextArea.setLineWrap(true);
                     /*myDataTextArea.setColumns(myController.getData().getAttributes().length);
                     myDataTextArea.setRows(myController.getData().getInfo().size());*/
                     for (int i = 0; i < myController.getData().getInfo().size(); ++i){
-                        myDataTextArea.append(myController.getData().getInfo().get(i).getTitle() + "\n");
+                    	info[i] = new JTextArea();
+                    	myTextPan.add(info[i]);
+                    	infB[i] = new JButton("download");
+                    	ind = i;
+                    	infB[i].addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
+
+                                try {
+                                	
+                                	myController.getBookFile(ind);
+                                	
+                                }catch (IOException e1) {
+                                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                                }
+                            }
+                        });
+                    	myTextPan.add(infB[i]);
+                    	info[i].append(myController.getData().getInfo().get(i).getTitle() + "\n");
+                        /*myDataTextArea.append(myController.getData().getInfo().get(i).getTitle() + "\n");
                         myDataTextArea.append(myController.getData().getInfo().get(i).getAuthor() + "\n");
                         myDataTextArea.append(myController.getData().getInfo().get(i).getLanguage() + "\n");
                         myDataTextArea.append(myController.getData().getInfo().get(i).getDate() + "\n");
                         myDataTextArea.append(myController.getData().getInfo().get(i).getSummary() + "\n");
                         myDataTextArea.append(myController.getData().getInfo().get(i).getLink() + "\n");
                      //   myDataTextArea.add(new JButton("Download"));//.append(myController.getData().getInfo().get(i).getLink() + "\n");
-                        myDataTextArea.append("\n");
+                        myDataTextArea.append("\n");*/
     	            }
+                    
                     
                 } catch (IOException e1) {
                     e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.

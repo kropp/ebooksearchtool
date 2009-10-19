@@ -52,7 +52,7 @@ public class SAXHandler extends DefaultHandler{
                 for (int j = 0; j < len; ++j)
                 {
                 	System.out.println(attributes.getValue(j));
-                	if(attributes.getValue(j).equals("application/epub+zip")){
+                	if(attributes.getValue(j).equals("application/pdf")){
                 		isEpub = true;
                 	}
                 	if(myIsEntryTag && isEpub){
