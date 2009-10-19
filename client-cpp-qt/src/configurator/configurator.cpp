@@ -1,16 +1,14 @@
 #include "configurator.h"
 #include <fstream>
-//#include <csdlib>
-#include <iostream>
-
 
 Configurator::Configurator() {}
 
 void Configurator::setParameters(const std::string& path, Map& settings) {
 	std::ifstream f(path.c_str());
 	if (!f) {
-		std::cerr << "cannot open file " << path.c_str() << "\n";
-	}
+		//std::cerr << "cannot open file " << path.c_str() << "\n";
+        return;	
+    }
 	const int SIZE = 200;
 	char ch[SIZE] ;
 	while (f.getline(ch, SIZE)) {
@@ -25,10 +23,8 @@ void Configurator::setParameters(const std::string& path, Map& settings) {
 		if (it == settings.end()) {
 			continue;
 		}
-		it->second = value;
+		*(it->second) = value;
 	}
 }
 
 void Configurator::saveSettings(const std::string&, const Map& ) {}
-		
-

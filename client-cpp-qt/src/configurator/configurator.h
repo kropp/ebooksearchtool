@@ -4,7 +4,7 @@
 #include <string>
 #include <map>
 
-typedef std::map<const std::string, std::string> Map;
+typedef std::map<const std::string, std::string* > Map;
 
 class Configurator {
 
