@@ -126,9 +126,13 @@ public class Crawler {
         Thread[] thread = new Thread[ourThreadsCount];
         for (int i = 0; i < ourThreadsCount; i++) {
             thread[i] = new CrawlerThread(this, i);
-        }
-        for (int i = 0; i < ourThreadsCount; i++) {
             thread[i].start();
+        }
+        try {
+            Thread.sleep(Long.MAX_VALUE);
+        } catch (InterruptedException e) { }
+        for (int i = 0; i < ourThreadsCount; i++) {
+            thread[i].interrupt();
         }
         for (int i = 0; i < ourThreadsCount; i++) {
             try {
@@ -136,9 +140,8 @@ public class Crawler {
             } catch (InterruptedException e) { }
         }
         
-        
         myOutput.println("</books>");
-        System.out.println("finished; input something to exit");
+        System.out.println("finished");
         if (ourAnalyzerEnabled) {
             try {
                 if (myAnalyzerSocket != null) {

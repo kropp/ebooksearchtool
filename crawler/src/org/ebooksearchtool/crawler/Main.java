@@ -47,12 +47,12 @@ public class Main {
                 System.exit(0);
             }
             final Crawler crawler = new Crawler(properties, output);
-            Thread t = new Thread(new Runnable() {
+            Thread crawlingThread = new Thread(new Runnable() {
                 public void run() {
                     crawler.crawl(starts);
                 }
             });
-            t.start();
+            crawlingThread.start();
             String keyboardInput = null;
             Scanner keyboardScanner = new Scanner(System.in);
             String input = "";
@@ -63,11 +63,14 @@ public class Main {
                 } else break;
             }
             System.out.println("exit: " + input);
-//            try { t.join(); } catch (InterruptedException e) { }
+            crawlingThread.interrupt();
+            try {
+                crawlingThread.join();
+            } catch (InterruptedException ie) { }
             output.close();
             System.exit(0);
         } else {
-            System.out.println("usage:\n  java -jar Crawler.jar www.example.com\n  input empty string and press Enter to ask Crawler what is he doing\n  input any non-empty string and press Enter to exit");
+            System.out.println("usage:\n  java -jar Crawler.jar www.example.com www.example.net www.example.org\n  input empty string and press Enter to ask Crawler what is he doing\n  input any non-empty string and press Enter to exit");
         }
     }
     

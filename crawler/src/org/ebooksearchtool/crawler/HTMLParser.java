@@ -12,7 +12,12 @@ class HTMLParser {
         try {
             uri = Util.createURI(link);
             String referrerPath = referrer.getPath();
-            if (referrerPath == null || "".equals(referrerPath)) {
+            boolean addSlash = referrerPath == null || "".equals(referrerPath);
+            if (!addSlash) {
+                int lastSlash = referrerPath.lastIndexOf('/');
+                addSlash = lastSlash < 0 || referrerPath.substring(lastSlash).indexOf('.') < 0;
+            }
+            if (addSlash) {
                 referrer = new URI(referrer + "/");
             }
             uri = referrer.resolve(uri);

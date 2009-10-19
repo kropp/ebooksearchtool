@@ -15,6 +15,7 @@ class CrawlerThread extends Thread {
         myIndex = index;
     }
     
+    
     public void run() {
         AbstractLinksQueue queue = myCrawler.getQueue();
         AbstractVisitedLinksSet visited = myCrawler.getVisited();
@@ -24,24 +25,26 @@ class CrawlerThread extends Thread {
             if (uri == null) break;
             String page = myCrawler.getPage(uri);
             if (page == null) continue;
-            
-            System.out.printf("% 4d %d %s %d\n", myIndex, myCrawler.getCounter(), uri, page.length());
+            if (isInterrupted()) break;
+            System.out.println(String.format("% 4d %d %s %d", myIndex, myCrawler.getCounter(), uri, page.length()));
             List<URI> links = HTMLParser.parseLinks(uri, page);
             for (URI link : links) {
                 Collection<URI> similarLinks = Util.createSimilarLinks(link);
+                if (isInterrupted()) break;
                 boolean success = visited.addIfNotContains(similarLinks, link);
                 if (success) {
                     if (Util.isBook(link)) {
                         myCrawler.writeBookToOutput(link, uri, page);
-                        continue;
-                    }
-                    boolean permitted = robots.canGo(link);
-                    if (permitted) {
-                        queue.offer(link);
+                    } else {
+                        boolean permitted = robots.canGo(link);
+                        if (permitted) {
+                            queue.offer(link);
+                        }
                     }
                 }
             }
         }
+        System.out.println("thread #" + myIndex + " finished");
     }
     
 }
