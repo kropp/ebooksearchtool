@@ -5,7 +5,10 @@ from django.utils.feedgenerator import Atom1Feed
 from django.utils.xmlutils import SimplerXMLGenerator
 
 from django.http import HttpResponse
-from book.models import Author
+from book.entirety import *
+
+from django.shortcuts import render_to_response
+
 def my_test(request, add_author = ''):
  #   a = Author()
  #   a.name = u"Ремарк, Эрих Мария"
@@ -25,7 +28,7 @@ def my_test(request, add_author = ''):
 class OPDSFeed(Atom1Feed ):
     "Feed class to support OPDS protocol"
     
-    def __init__(self, title, link, description, total=None, item_language=None, items_per_page=None, language=None, author_email=None,
+    def __init__(self, title, link, description, total=None, items_per_page=None, language=None, author_email=None,
             author_name=None, author_link=None, subtitle=None, categories=None,
             feed_url=None, feed_copyright=None, feed_guid=None, ttl=None, **kwargs):
             
@@ -35,7 +38,6 @@ class OPDSFeed(Atom1Feed ):
             
         self.feed['total'] = total
         self.feed['items_per_page'] = items_per_page
-        self.feed['item_language'] = item_language
                 
 #        print self.feed
         
@@ -44,26 +46,33 @@ class OPDSFeed(Atom1Feed ):
         handler.addQuickElement(u"opensearch:totalResults", self.feed['total'])
         handler.addQuickElement(u"opensearch:itemsPerPage", self.feed['items_per_page'])
     
+    def add_item(self, title, link, description, author_email=None,
+        author_name=None, author_link=None, pubdate=None, comments=None,
+        unique_id=None, enclosure=None, categories=(), item_copyright=None,
+        ttl=None, lang=None, **kwargs):    
+        
+        item = {
+            'title': title,
+            'link': link,
+            'description': description,
+            'author_email': author_email,
+            'author_name': author_name,
+            'author_link': author_link,
+            'pubdate': pubdate,
+            'comments': comments,
+            'unique_id': unique_id,
+            'enclosure': enclosure,
+            'categories': categories or (),
+            'item_copyright': item_copyright,
+            'ttl': ttl,
+            'item_language': lang,
+        }
+        item.update(kwargs)
+        self.items.append(item)
+        
     def add_item_elements(self, handler, item):
         Atom1Feed.add_item_elements(self, handler, item)
-        handler.addQuickElement(u"dcterms:language", self.feed['item_language'])
-#        handler.addQuickElement(u"ent", self.feed['zxc'])        
-
-    def write(self, outfile, encoding):
-        handler = SimplerXMLGenerator(outfile, encoding)
-        handler.startDocument()
-        handler.startElement(u'feed', self.root_attributes())
-        self.add_root_elements(handler)
-        self.write_items(handler)
-        handler.endElement(u"feed")
-        
-    def write_items(self, handler):
-        for item in self.items:
-            handler.startElement(u"entry", self.item_attributes(item))
-            self.add_item_elements(handler, item)
-            handler.endElement(u"entry")
-
-
+        handler.addQuickElement(u"dcterms:language", item['item_language'])
         
 class BookFeed(Feed):
     
@@ -80,7 +89,6 @@ class BookFeed(Feed):
     description = "description"
     item_language = Book.objects.all()[1].lang
 
-    
     def get_absolute_url():
     	return "get absolute URL"
     	
@@ -95,4 +103,17 @@ class BookFeed(Feed):
 
 #    def item_extra_kwargs(self, item):
 #        return {'ent': self.ent, }
+
+
+
+def book_to_opds(qwery, book_entrs):
+
+    return render_to_response('opds/client_response.xml', {'book_entrs': book_entrs, 'qwery': qwery})
+
+def request_to_server(request, qwery):
+    
+    a = AuthorEntirety(name=qwery)
+    b = BookEntirety(title=qwery)
+    book_entrs = b.get_from_db()
+    return book_to_opds(qwery, book_entrs)
 
