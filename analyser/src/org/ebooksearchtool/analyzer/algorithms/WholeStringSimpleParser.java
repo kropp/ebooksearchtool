@@ -22,6 +22,7 @@ public class WholeStringSimpleParser implements IParser{
         ArrayList<Lexema> temp = Lexema.convertToLexems(input);
 
         myBookInfo.addFile(new File(URLsExtractor.extractURL(temp)));
+        myBookInfo.getFiles().get(0).setType(FormatExtractor.extractFormat(temp));
         myBookInfo.setLanguage(LanguageExtractor.extractLanguage(temp));
         myBookInfo.setAuthors(epubAuthorExtractor.extractAuthors(temp));
         myBookInfo.setTitle(epubTitleExtractor.extractTitle(temp));

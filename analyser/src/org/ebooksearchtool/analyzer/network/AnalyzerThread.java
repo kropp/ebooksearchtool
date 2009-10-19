@@ -65,7 +65,8 @@ public class AnalyzerThread extends Thread {
        length = files.size();
        System.out.println("Files: ");
        for (int i = 0; i < length; i++) {
-           System.out.println("    " + files.get(i).getLink());
+           System.out.print("Link: " + files.get(i).getLink() +"; " );
+           System.out.println("Type: " + files.get(i).getType());
        }
        System.out.println("Language: " + info.getLanguage());
    }
