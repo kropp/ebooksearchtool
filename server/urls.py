@@ -23,12 +23,13 @@ urlpatterns = patterns('',
     # interface for analizer/crawler
     (r'^data/get/?$', data_modify, {'action': ACTION['get'],}),
     (r'^data/insert/?$', data_modify, {'action': ACTION['insert'],}),
-  
+
+    # interface for search
 #    (r'^books/search.atom/query\=(?P<url>allbooks)/$',
 #      'django.contrib.syndication.views.feed',
 #      {'feed_dict' : feeds}
 #    ),
     
-    (r'^books/search.atom/?$', 'server.views.request_to_server'),
+    (r'^books/search.atom/?$', 'server.views.search_request_to_server'),
 )
 

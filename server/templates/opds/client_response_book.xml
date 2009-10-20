@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="/stylesheets/entry.xsl"?>
+
+<entry>
+    <title> {{ book.title }} </title>
+    <dcterms:language> {{ book.lang }} </dcterms:language>
+    <id></id>
+    <link></link>
+    <dcterms:issued></dcterms:issued>
+    <updated></updated>
+    <category></category>
+    <dcterms:source></dcterms:source>
+
+    {% for author in book.authors %}
+    <author>
+        <name> {{ author.name }}</name>
+    </author>
+    {% endfor %}
+    
+    <summary>
+        {% for annotation in book.annotations %}
+        <annotation> {{ annotation }} </annotation>
+        {% endfor %}
+    </summary>
+
+</entry>
+
