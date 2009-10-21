@@ -45,6 +45,7 @@ def all_handler(action, book_entr):
 
 
 
+#def exec_reques(
 
     
 

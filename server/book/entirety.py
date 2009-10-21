@@ -12,11 +12,6 @@ from server.exception import *
 
 
 
-class Callable:
-    'Makes method callable without instanse (like static method)'
-    def __init__(self, anycallable):
-        self.__call__ = anycallable
-
 
 class AuthorEntirety:
     def __init__(self, name='', aliases=[]):
