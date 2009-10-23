@@ -3,8 +3,10 @@ package org.ebooksearchtool.crawler;
 import java.net.*;
 import java.util.*;
 
-class Util {
+public class Util {
 
+    private static Calendar ourCalendar = new GregorianCalendar(TimeZone.getTimeZone("America/New_York"));
+    
     public static List<URI> createSimilarLinks(URI uri) {
         List<URI> answer = new ArrayList<URI>();
         answer.add(uri);
@@ -29,11 +31,29 @@ class Util {
     
     public static URI createURI(String s) {
         try {
-            URI tmp = new URI(s.replaceAll(" ", "%20"));
-            return new URI(tmp.getScheme(), tmp.getHost(), tmp.getPath(), null);
+            s = s.replaceAll(" ", "%20");
+            int lastDash = s.lastIndexOf('#');
+            if (lastDash >= 0) {
+                s = s.substring(0, lastDash);
+            }
+            return new URI(s);
         } catch (URISyntaxException e) {
             return null;
         }
+    }
+    
+    public static int getCurrentTime() {
+        ourCalendar.setTime(new Date());
+        int minute = ourCalendar.get(Calendar.MINUTE);
+        int hour = ourCalendar.get(Calendar.HOUR);
+        if (ourCalendar.get(Calendar.AM_PM) == 1) {
+            hour += 12;
+        }
+        return hour * 100 + minute;
+    }
+    
+    public static long getCurrentTimeInMillis() {
+        return ourCalendar.getTimeInMillis();
     }
     
 }

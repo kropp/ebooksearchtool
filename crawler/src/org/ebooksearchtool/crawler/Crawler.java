@@ -7,10 +7,8 @@ import org.ebooksearchtool.crawler.impl.*;
 
 public class Crawler implements Runnable {
 
-    private static Proxy ourProxy;
-    private static String ourUserAgent;
-    private static int ourConnectionTimeout;
-    
+    private static Network ourNetwork;
+
     private static boolean ourAnalyzerEnabled;
     private static int ourAnalyzerPort;
     
@@ -24,9 +22,9 @@ public class Crawler implements Runnable {
     private final PrintWriter myOutput;
     private final String[] myStarts;
     
-    private final AbstractRobotsExclusion myRobots = new ManyFilesRobotsExclusion();
-    private final AbstractLinksQueue myQueue = new LinksQueue();
-    private final AbstractVisitedLinksSet myVisited = new VisitedLinksSet();
+    private final AbstractRobotsExclusion myRobots;
+    private final AbstractLinksQueue myQueue;
+    private final AbstractVisitedLinksSet myVisited;
     
     private int myCounter = 0;
     
@@ -34,6 +32,7 @@ public class Crawler implements Runnable {
         myOutput = output;
         myStarts = starts;
         try {
+            Proxy proxy;
             if ("true".equals(properties.getProperty("proxy_enabled"))) {
                 String type = properties.getProperty("proxy_type").toLowerCase();
                 Proxy.Type proxyType = null;
@@ -44,9 +43,9 @@ public class Crawler implements Runnable {
                 }
                 String proxyHost = properties.getProperty("proxy_host");
                 String proxyPort = properties.getProperty("proxy_port");
-                ourProxy = new Proxy(proxyType, new InetSocketAddress(proxyHost, Integer.parseInt(proxyPort)));
+                proxy = new Proxy(proxyType, new InetSocketAddress(proxyHost, Integer.parseInt(proxyPort)));
             } else {
-                ourProxy = Proxy.NO_PROXY;
+                proxy = Proxy.NO_PROXY;
             }
             if ("true".equals(properties.getProperty("analyzer_enabled"))) {
                 String port = properties.getProperty("analyzer_port");
@@ -56,13 +55,18 @@ public class Crawler implements Runnable {
                 ourAnalyzerEnabled = false;
                 ourAnalyzerPort = -1;
             }
-            ourConnectionTimeout = Integer.parseInt(properties.getProperty("connection_timeout"));
-            ourUserAgent = properties.getProperty("user_agent");
+            int connectionTimeout = Integer.parseInt(properties.getProperty("connection_timeout"));
+            String userAgent = properties.getProperty("user_agent");
             int maxLinksCount = Integer.parseInt(properties.getProperty("max_links_count"));
             ourMaxLinksCount = maxLinksCount == 0 ? Integer.MAX_VALUE : maxLinksCount;
             int maxLinksFromPage = Integer.parseInt(properties.getProperty("max_links_from_page"));
             ourMaxLinksFromPage = maxLinksFromPage == 0 ? Integer.MAX_VALUE : maxLinksFromPage;
             ourThreadsCount = Integer.parseInt(properties.getProperty("threads_count"));
+            
+            ourNetwork = new Network(proxy, connectionTimeout, userAgent);
+            myRobots = new ManyFilesRobotsExclusion(ourNetwork);
+            myQueue = new LinksQueue();
+            myVisited = new VisitedLinksSet(ourMaxLinksCount);
         } catch (Exception e) {
             throw new RuntimeException("bad format of properties file: " + e.getMessage());
         }
@@ -88,21 +92,9 @@ public class Crawler implements Runnable {
             myAnalyzerWriter = null;
         }
     }
-    
-    public static int getConnectionTimeout() {
-        return ourConnectionTimeout;
-    }
-    
-    public static String getUserAgent() {
-        return ourUserAgent;
-    }
-    
-    public static Proxy getProxy() {
-        return ourProxy;
-    }
-    
-    public static int getMaxLinksCount() {
-        return ourMaxLinksCount;
+
+    public static Network getNetwork() {
+        return ourNetwork;
     }
     
     public static int getMaxLinksFromPage() {
@@ -190,41 +182,6 @@ public class Crawler implements Runnable {
                 System.err.println(" error: output to analyzer failed, " + source.hashCode());
                 System.err.println(" " + e.getMessage());
             }
-        }
-    }
-    
-
-    
-
-    
-    static String getPage(URI uri) {
-        try {
-            URLConnection connection = uri.toURL().openConnection(ourProxy);
-            connection.setConnectTimeout(ourConnectionTimeout);
-            connection.setRequestProperty("User-Agent", ourUserAgent);
-            InputStream is = connection.getInputStream();
-            String contentType = connection.getHeaderField("Content-Type");
-            if (is == null || (contentType != null && !contentType.startsWith("text/html"))) {
-                return null;
-            }
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
-            String line = "";
-            StringBuilder page = new StringBuilder();
-            char[] buf = new char[1024];
-            int r = 0;
-            while ((r = br.read(buf, 0, 1024)) >= 0) {
-                for (int i = 0; i < r; i++) {
-                    page.append(buf[i]);
-                }
-            }
-            String ans = page.toString();
-            br.close();
-            return ans;
-        } catch (Exception e) {
-            System.err.println(" error on " + uri);
-            System.err.println(" " + e.getMessage());
-            //e.printStackTrace();
-            return null;
         }
     }
     

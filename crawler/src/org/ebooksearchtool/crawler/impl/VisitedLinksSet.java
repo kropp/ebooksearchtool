@@ -2,14 +2,19 @@ package org.ebooksearchtool.crawler.impl;
 
 import java.net.URI;
 import java.util.*;
-import org.ebooksearchtool.crawler.*;
+import org.ebooksearchtool.crawler.AbstractVisitedLinksSet;
 
 public class VisitedLinksSet extends AbstractVisitedLinksSet {
 
     private final Set<URI> mySet = Collections.synchronizedSet(new HashSet<URI>());
+    private final int myMaxSize;
+    
+    public VisitedLinksSet(int maxSize) {
+        myMaxSize = maxSize;
+    }
     
     public boolean add(URI uri) {
-        if (mySet.size() == Crawler.getMaxLinksCount()) {
+        if (mySet.size() == myMaxSize) {
             return false;
         }
         mySet.add(uri);

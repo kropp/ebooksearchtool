@@ -20,14 +20,15 @@ class CrawlerThread extends Thread {
         AbstractLinksQueue queue = myCrawler.getQueue();
         AbstractVisitedLinksSet visited = myCrawler.getVisited();
         AbstractRobotsExclusion robots = myCrawler.getRobots();
+        Network network = myCrawler.getNetwork();
         while (true) {
             URI uri = queue.poll();
             if (uri == null) break;
-            String page = myCrawler.getPage(uri);
+            String page = network.download(uri, "text/html");
             if (page == null) continue;
             if (isInterrupted()) break;
             System.out.println(String.format("% 4d %d %s %d", myIndex, myCrawler.getCounter(), uri, page.length()));
-            List<URI> links = HTMLParser.parseLinks(uri, page);
+            List<URI> links = HTMLParser.parseLinks(uri, page, myCrawler.getMaxLinksFromPage());
             for (URI link : links) {
                 Collection<URI> similarLinks = Util.createSimilarLinks(link);
                 if (isInterrupted()) break;

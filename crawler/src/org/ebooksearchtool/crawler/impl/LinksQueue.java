@@ -3,7 +3,7 @@ package org.ebooksearchtool.crawler.impl;
 import java.net.URI;
 import java.util.*;
 import java.util.concurrent.*;
-import org.ebooksearchtool.crawler.*;
+import org.ebooksearchtool.crawler.AbstractLinksQueue;
 
 public class LinksQueue extends AbstractLinksQueue {
 
