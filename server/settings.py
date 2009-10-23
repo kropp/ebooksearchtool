@@ -16,6 +16,8 @@ DATABASE_USER = 'user2'             # Not used with sqlite3.
 DATABASE_PASSWORD = 'betaP2'         # Not used with sqlite3.
 DATABASE_HOST = '192.168.216.133'             # Set to empty string for localhost. Not used with sqlite3.
 DATABASE_PORT = '3306'             # Set to empty string for default. Not used with sqlite3.
+#DATABASE_HOST = 'localhost'             # Set to empty string for localhost. Not used with sqlite3.
+#DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -87,4 +89,7 @@ INSTALLED_APPS = (
     'server.book',
 )
 
-from local_settings import *
+try:
+    from local_settings import *
+except Exception:
+	  pass
