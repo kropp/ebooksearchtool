@@ -1,25 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="/stylesheets/catalog.xsl"?>
 
-<feed>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:thr="http://purl.org/syndication/thread/1.0" xml:lang="en-US" xmlns:app="http://www.w3.org/2007/app" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns="http://www.w3.org/2005/Atom" xmlns:dcterms="http://purl.org/dc/terms/">
+
     <id></id>
-    <link></link>
+    
+    <link href="http://127.0.0.1:8000LINK%20FOR%20SEARCHING" rel="alternate"></link>
+    <link href="{{ server }}/books/search.atom?query={{ query }}" rel="self"></link>
+    <link rel="next" href="{{ server }}/books/search.atom?page=2;query={{ query }}"/>
+    
     <title>Search results for: {{ query }} </title>
     <updated></updated>
     <icon></icon>
     <author></author>
-    <opensearch:totalResults></opensearch:totalResults>
-    <opensearch:itemsPerPage></opensearch:itemsPerPage>
+    <opensearch:totalResults> {{ books.count }} </opensearch:totalResults>
+    <opensearch:itemsPerPage>20</opensearch:itemsPerPage>
     
     {% for book in books %}
     <entry>
         <title> {{ book.title }} </title>
         <dcterms:language> {{ book.lang }} </dcterms:language>
         <id> {{ book.id }} </id>
-        <link></link>
+        <link> {{ server }}/book.atom/id{{ book.id }}</link>
         <dcterms:issued></dcterms:issued>
         <updated></updated>
-        <category></category>
+        {% for tag in book.tag.all %}
+            <category>tag</category>
+        {% endfor %}
+
         <dcterms:source></dcterms:source>
 
         {% for author in book.author_set.all %}

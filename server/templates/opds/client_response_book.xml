@@ -5,20 +5,25 @@
     <title> {{ book.title }} </title>
     <dcterms:language> {{ book.lang }} </dcterms:language>
     <id> {{ book.id }} </id>
-    <link></link>
+    <link> {{ server }}/book.atom/id{{ book.id }}</link>
     <dcterms:issued></dcterms:issued>
+    
     <updated></updated>
-    <category></category>
+    
+    {% for tag in book.tag.all %}
+        <category>book.tag</category>
+    {% endfor %}
+
     <dcterms:source></dcterms:source>
 
-    {% for author in book.authors %}
+    {% for author in book.author_set.all %}
     <author>
         <name> {{ author.name }}</name>
     </author>
     {% endfor %}
     
     <summary>
-        {% for annotation in book.annotations %}
+        {% for annotation in book.annotation.all %}
         <annotation> {{ annotation }} </annotation>
         {% endfor %}
     </summary>

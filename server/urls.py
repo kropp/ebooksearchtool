@@ -29,7 +29,8 @@ urlpatterns = patterns('',
 #      'django.contrib.syndication.views.feed',
 #      {'feed_dict' : feeds}
 #    ),
-    
+   
+    (r'^books/search.atom/?$', 'server.views.search_request_to_server'),
     (r'^books/search.atom/?$', 'server.views.search_request_to_server'),
     (r'^book.atom/id([\d]{1,})/?$', 'server.views.book_request_to_server'),
 )
