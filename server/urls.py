@@ -31,5 +31,6 @@ urlpatterns = patterns('',
 #    ),
     
     (r'^books/search.atom/?$', 'server.views.search_request_to_server'),
+    (r'^book.atom/id([\d]{1,})/?$', 'server.views.book_request_to_server'),
 )
 

@@ -104,12 +104,11 @@ class BookFeed(Feed):
 #    def item_extra_kwargs(self, item):
 #        return {'ent': self.ent, }
 
-
 def search_to_opds(query, books):
 
     return render_to_response('opds/client_response_search.xml', {'books': books, 'query': query})
 
-def book_to_opds(query, book):
+def book_to_opds(book):
 
     return render_to_response('opds/client_response_book.xml', {'book': book})
 
@@ -118,9 +117,13 @@ def search_request_to_server(request):
 
     books = Book.objects.filter(title__icontains=query)
     
-
     return search_to_opds(query, books)
 
-def book_request_to_server(request):
-    # need search by id (TODO)
-    pass
+def book_request_to_server(request, book_id):
+    try:
+        book = Book.objects.get(id=book_id)
+    except DoesNotExist:
+        pass
+    
+    return book_to_opds(book)
+

@@ -15,7 +15,7 @@
     <entry>
         <title> {{ book.title }} </title>
         <dcterms:language> {{ book.lang }} </dcterms:language>
-        <id></id>
+        <id> {{ book.id }} </id>
         <link></link>
         <dcterms:issued></dcterms:issued>
         <updated></updated>
