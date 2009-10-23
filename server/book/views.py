@@ -11,12 +11,12 @@ from django.template import Context
 
 from server.spec.utils import convert_delim
 from server.exception import *
-from server.book.action_handler import all_handler, load_book_entr_from_xml
+from server.book.action_handler import all_handler, xml_exec_get, xml_exec_insert, ACTION
 
-def book_entr_to_response(book_entrs):
+def books_to_response(books):
     '''function convert book_entirety to response'''
 
-    return render_to_response('data/analyser_response.xml', {'book_entrs': book_entrs})
+    return render_to_response('data/analyser_response.xml', {'books': books})
 
 
 
@@ -41,23 +41,26 @@ def data_modify(request, action):
             raise RequestFileServerEx(ex.message)
 
         print 'xml is ok'
-        book_entr = load_book_entr_from_xml(xml)
+        if action == ACTION['get']:
+            books = xml_exec_get(xml)
+            return books_to_response(books)
+        elif action == ACTION['insert']:
+            result = xml_exec_insert(xml)
+            pass
+        else:
+            # TODO insert error here
+            pass
 
-        print 'load from xml ... ok'
-        book_entrs = all_handler(action, book_entr)
-        print 'action handler ok'
         dict['message'] = 'ok'
-        for book in book_entrs:
-            print "AAA", book
-        return book_entr_to_response(book_entrs)
+            
 
     except ServerEx, ex:
         dict['error'] = ex.__doc__
         dict['class'] = ex.__class__
         dict['message'] = ex.message
-    except Exception, ex:
-     #   dict['error'] = 'Unknown error: ' + ex.__doc__
-        dict['class'] = ex.__class__
-        dict['message'] = ex.message
+#    except Exception, ex:
+#     #   dict['error'] = 'Unknown error: ' + ex.__doc__
+#        dict['class'] = ex.__class__
+#        dict['message'] = ex.message
         
     return render_to_response('data/main_response.xml', Context(dict))

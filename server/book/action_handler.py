@@ -6,6 +6,7 @@ from django.db import transaction
 from server.spec.utils import replace_delim_to_space
 from server.book.entirety import AuthorEntirety, FileEntirety, BookEntirety
 from server.exception import *
+from server.book.models import *
 
 ACTION = {
     'get': 1,
@@ -43,26 +44,76 @@ def all_handler(action, book_entr):
     transaction.commit()
     return dict
 
-
-
-#def exec_reques(
-
-    
-
-def load_book_entr_from_xml(xml):
-    "Creates BookEntirety and fills it data from xml document"
+def xml_exec_insert_unsafe(xml):
+    "Execute xml-insert-request usafe"
     if xml.tag != 'book':
         raise InputDataServerEx("Not found root tag 'book'")
 
-    book_entr = BookEntirety(title='')
+    book = Book(title='', lang='')
+    
+    for node in xml.getchildren():
+        if node.tag == 'title':
+            book.title = replace_delim_to_space(node.text)
+        if node.tag == 'lang':
+            # TODO add check of correct lang (from LANG_CODE)
+            book.lang = replace_delim_to_space(node.text)
+
+        if node.tag == 'authors':
+            for author_node in node.getchildren():
+
+                # check title isn't empty
+                if not book.title:
+                    raise InputDataExcpt("The field 'title' can't be empty")
+                
+                # If not 'author' tag in block raise exception
+                if author_node.tag != 'author':
+                    raise InputDataServerEx("Unknown tag '" + author_node.tag +
+                                         "' in tag 'authors'")
+
+                for details_node in author_node.getchildren():
+                    author = Author(name='')
+                    if details_node.tag == 'name':
+                        author.name = replace_delim_to_space(details_node.text)
+                    if details_node.tag == 'alias':
+                        alias = replace_delim_to_space(details_node.text)
+
+
+
+
+    
+        
+
+
+@transaction.commit_manually
+def xml_exec_insert(xml):
+    "Executes xml-request"
+    try:
+        result = xml_exec_insert_unsafe(xml)
+    except:
+        transaction.rollback()
+        raise
+    transaction.commit()
+    return result
+            
+def xml_exec_get(xml):
+    "Executes xml-request, returns books"
+    if xml.tag != 'book':
+        raise InputDataServerEx("Not found root tag 'book'")
+
+    books = Book.objects.all()
 
 
     for node in xml.getchildren():
         if node.tag == 'title':
-            book_entr.title = replace_delim_to_space(node.text)
+            title = replace_delim_to_space(node.text)
+            books = books.filter(title__icontains=title)
         elif node.tag == 'lang':
             lang = replace_delim_to_space(node.text)
-            book_entr.lang = lang
+            print 'lang =', lang
+            if lang:
+                print 'filter by lang'
+                books = books.filter(lang=lang)
+                print books
 
         # Book authors block
         elif node.tag == 'authors':
@@ -73,15 +124,15 @@ def load_book_entr_from_xml(xml):
                     raise InputDataServerEx("Unknown tag '" + author_node.tag +
                                          "' in tag 'authors'")
 
-                # Create author entirety and fill data
                 for details_node in author_node.getchildren():
-                    author_entr = AuthorEntirety()                    
                     if details_node.tag == 'name':
-                        author_entr.name = replace_delim_to_space(details_node.text)
+                        name = replace_delim_to_space(details_node.text)
+                        if name:
+                            books = books.filter(author__name__icontains=name)
                     if details_node.tag == 'alias':
-                        author_entr.aliases.append(replace_delim_to_space(details_node.text))
-                    # Add created author to authors list of book entirety
-                    book_entr.authors.append(author_entr)
+                        alias = replace_delim_to_space(details_node.text)
+                        if alias:
+                            books = books.filter(author__alias__name__icontains=alias)
 
         # Book file block
         elif node.tag == 'files':
@@ -92,22 +143,29 @@ def load_book_entr_from_xml(xml):
                     raise InputDataServerEx("Unknown tag '" + file_node.tag +
                                          "' in tag 'files'")
 
-                # Create file entirety and fill data
                 for details_node in file_node.getchildren():
-                    file_entr = FileEntirety(link='')                    
                     if details_node.tag == 'link':
-                        file_entr.link = replace_delim_to_space(details_node.text)
+                        link = replace_delim_to_space(details_node.text)
+                        if link:
+                            books = books.filter(book_file__link=link)
                     if details_node.tag == 'size':
-                        file_entr.size = replace_delim_to_space(details_node.text)
+                        size = replace_delim_to_space(details_node.text)
+                        try:
+                            if size: books = books.filter(book_file__size=size)
+                        except ValueError:
+                            raise InputDataServerEx("size is not number")
                     if details_node.tag == 'type':
-                        file_entr.type = replace_delim_to_space(details_node.text)
+                        type = replace_delim_to_space(details_node.text)
+                        if type:
+                            books = books.filter(book_file__type=type)
                     if details_node.tag == 'more_info':
-                        file_entr.more_info = replace_delim_to_space(details_node.text)
+                        more_info = replace_delim_to_space(details_node.text)
+                        if more_info:
+                            books = books.filter(book_file__more_info__icontains=more_info)
                     if details_node.tag == 'img_link':
-                        file_entr.img_link = replace_delim_to_space(details_node.text)
+                        img_link = replace_delim_to_space(details_node.text)
+                        if img_link:
+                            books = books.filter(book_file__img_link=img_link)
 
-                    # Add created book file to book_files list of book entirety
-                    book_entr.files.append(file_entr)
-
-    return book_entr
+    return books
             
