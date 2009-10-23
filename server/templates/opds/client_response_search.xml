@@ -6,15 +6,15 @@
     <id></id>
     
     <link href="http://127.0.0.1:8000LINK%20FOR%20SEARCHING" rel="alternate"></link>
-    <link href="{{ server }}/books/search.atom?query={{ query }}" rel="self"></link>
-    <link rel="next" href="{{ server }}/books/search.atom?page=2;query={{ query }}"/>
+    <link href="{{ server }}/books/search.atom?items_per_page={{items_per_page}};query={{ query }}" rel="self"></link>
+    <link rel="next" href="{{ server }}/books/search.atom?page={{next}};items_per_page={{items_per_page}};query={{ query }}"/>
     
     <title>Search results for: {{ query }} </title>
     <updated></updated>
     <icon></icon>
     <author></author>
-    <opensearch:totalResults> {{ books.count }} </opensearch:totalResults>
-    <opensearch:itemsPerPage>20</opensearch:itemsPerPage>
+    <opensearch:totalResults> {{ total }} </opensearch:totalResults>
+    <opensearch:itemsPerPage> {{ items_per_page }}</opensearch:itemsPerPage>
     
     {% for book in books %}
     <entry>

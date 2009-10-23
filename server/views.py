@@ -27,9 +27,9 @@ def my_test(request, add_author = ''):
     
     return HttpResponse(html)
 
-def search_to_opds(query, books):
+def search_to_opds(query, books, items_per_page, total, next):
 
-    return render_to_response('opds/client_response_search.xml', {'books': books, 'query': query, 'server':SERVER_URL})
+    return render_to_response('opds/client_response_search.xml', {'books': books, 'query': query, 'server':SERVER_URL, 'items_per_page':items_per_page, 'total':total, 'next':next})
 
 def book_to_opds(book):
 
@@ -37,16 +37,23 @@ def book_to_opds(book):
 
 def search_request_to_server(request):
     query = request.GET['query']
+
+    try:
+        items_per_page = int(request.GET['items_per_page'])
+    except KeyError:
+        items_per_page = 20
     
     try:
-        page = request.GET['page']
-        i = 20 * page
+        page = int(request.GET['page'])
+        i = items_per_page * page
     except KeyError:
+        page = 1
         i = 0
         
+    next = page + 1
     books = Book.objects.filter(title__icontains=query)
-
-    return search_to_opds(query, books[i:i+20])
+    total = books.count()
+    return search_to_opds(query, books[i:i+items_per_page], items_per_page, total, next)
 
 def book_request_to_server(request, book_id):
     try:

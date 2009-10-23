@@ -1,11 +1,6 @@
 from django.conf.urls.defaults import *
-from server.views import BookFeed
 from server.book.views import data_modify 
 from server.book.action_handler import ACTION
-
-feeds = {
-    'allbooks': BookFeed,
-}
 
 def test_f(request):
     print request.GET['query']
@@ -25,10 +20,6 @@ urlpatterns = patterns('',
     (r'^data/insert/?$', data_modify, {'action': ACTION['insert'],}),
 
     # interface for search
-#    (r'^books/search.atom/query\=(?P<url>allbooks)/$',
-#      'django.contrib.syndication.views.feed',
-#      {'feed_dict' : feeds}
-#    ),
    
     (r'^books/search.atom/?$', 'server.views.search_request_to_server'),
     (r'^books/search.atom/?$', 'server.views.search_request_to_server'),
