@@ -11,7 +11,7 @@
     <opensearch:totalResults></opensearch:totalResults>
     <opensearch:itemsPerPage></opensearch:itemsPerPage>
     
-    {% for book in book_entrs %}
+    {% for book in books %}
     <entry>
         <title> {{ book.title }} </title>
         <dcterms:language> {{ book.lang }} </dcterms:language>
@@ -22,14 +22,14 @@
         <category></category>
         <dcterms:source></dcterms:source>
 
-        {% for author in book.authors %}
+        {% for author in book.author_set.all %}
         <author>
-            <name> {{ author.name }}</name>
+            <name> {{ author.name }} </name>
         </author>
         {% endfor %}
         
         <summary>
-            {% for annotation in book.annotations %}
+            {% for annotation in book.annotation.all %}
             <annotation> {{ annotation }} </annotation>
             {% endfor %}
         </summary>

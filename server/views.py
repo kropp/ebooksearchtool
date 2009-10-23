@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.contrib.syndication.feeds import Feed
-from book.models import Book
+from book.models import *
 from django.utils.feedgenerator import Atom1Feed
 from django.utils.xmlutils import SimplerXMLGenerator
 
@@ -105,9 +105,9 @@ class BookFeed(Feed):
 #        return {'ent': self.ent, }
 
 
-def search_to_opds(query, book_entrs):
+def search_to_opds(query, books):
 
-    return render_to_response('opds/client_response_search.xml', {'book_entrs': book_entrs, 'query': query})
+    return render_to_response('opds/client_response_search.xml', {'books': books, 'query': query})
 
 def book_to_opds(query, book):
 
@@ -115,10 +115,11 @@ def book_to_opds(query, book):
 
 def search_request_to_server(request):
     query = request.GET['query']
-    a = AuthorEntirety(name=query)
-    b = BookEntirety(title=query)
-    book_entrs = b.get_from_db()
-    return search_to_opds(query, book_entrs)
+
+    books = Book.objects.filter(title__icontains=query)
+    
+
+    return search_to_opds(query, books)
 
 def book_request_to_server(request):
     # need search by id (TODO)
