@@ -1,0 +1,10 @@
+<books>
+	<book>
+		<link src="http://www.acm.org/membership/membership/ProfMemApp.pdf" />
+		<referrer src="http://campus.acm.org/public/quickjoin/interim.cfm" />
+	</book>
+	<book>
+		<link src="http://www.acm.org/membership/student/StuMemApp.pdf" />
+		<referrer src="http://campus.acm.org/public/quickjoin/interim.cfm" />
+	</book>
+</books>

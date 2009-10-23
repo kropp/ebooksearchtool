@@ -27,6 +27,7 @@ public class Crawler implements Runnable {
     private final AbstractVisitedLinksSet myVisited;
     
     private int myCounter = 0;
+    private CrawlerThread[] myThread;
     
     Crawler(Properties properties, String[] starts, PrintWriter output) {
         myOutput = output;
@@ -129,25 +130,26 @@ public class Crawler implements Runnable {
         myOutput.println("<books>");
         
         
-        Thread[] thread = new Thread[ourThreadsCount];
+        myThread = new CrawlerThread[ourThreadsCount];
         for (int i = 0; i < ourThreadsCount; i++) {
-            thread[i] = new CrawlerThread(this, i);
-            thread[i].start();
+            myThread[i] = new CrawlerThread(this, i);
+            myThread[i].start();
         }
         try {
             Thread.sleep(Long.MAX_VALUE);
         } catch (InterruptedException e) { }
         for (int i = 0; i < ourThreadsCount; i++) {
-            thread[i].interrupt();
+            myThread[i].finish();
         }
         for (int i = 0; i < ourThreadsCount; i++) {
             try {
-                thread[i].join();
+                myThread[i].join();
             } catch (InterruptedException e) { }
         }
         
         myRobots.finish();
         myOutput.println("</books>");
+        System.out.println();
         System.out.println("finished");
         if (ourAnalyzerEnabled) {
             try {
@@ -158,7 +160,20 @@ public class Crawler implements Runnable {
         }
     }
     
- 
+    public boolean dumpCurrentState(File file) {
+        try {
+            PrintWriter pw = new PrintWriter(file);
+            for (int i = 0; i < ourThreadsCount; i++) {
+                pw.println(String.format("%4d  %s", i, myThread[i].getAction()));
+            }
+            pw.println();
+            pw.close();
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+    }
+    
     
     synchronized void writeBookToOutput(URI source, URI referrer, String referrerPage) {
         myOutput.println("\t<book>");

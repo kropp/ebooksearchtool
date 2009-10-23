@@ -5,7 +5,10 @@ import java.util.*;
 
 public class Main {
     
-    public static final String PROPERTIES_FILENAME = "crawler.properties";
+    public static final File PROPERTIES_FILE = new File("crawler.properties");
+    public static final File FOUND_BOOKS_FILE = new File("found.xml");
+    public static final File DUMP_FILE = new File("dump.txt");
+    
     
     public static void main(String[] args) {
         Properties properties = new Properties();
@@ -29,9 +32,9 @@ public class Main {
         
         
         try {
-            properties.load(new FileReader(PROPERTIES_FILENAME));
+            properties.load(new FileReader(PROPERTIES_FILE));
         } catch (IOException e) {
-            System.err.println("cannot open file " + PROPERTIES_FILENAME + ", using default values instead");
+            System.err.println("cannot open file " + PROPERTIES_FILE + ", using default values instead");
         }
         
         if (args.length > 0) {
@@ -41,12 +44,12 @@ public class Main {
             }
             PrintWriter output = null;
             try {
-                output = new PrintWriter("found.xml");
+                output = new PrintWriter(FOUND_BOOKS_FILE);
             } catch (FileNotFoundException fnfe) {
                 fnfe.printStackTrace();
                 System.exit(0);
             }
-            final Crawler crawler = new Crawler(properties, starts, output);
+            Crawler crawler = new Crawler(properties, starts, output);
             Thread crawlingThread = new Thread(crawler);
             crawlingThread.start();
             String keyboardInput = null;
@@ -55,7 +58,11 @@ public class Main {
             while (true) {
                 input = keyboardScanner.nextLine();
                 if (input.length() == 0) {
-                    System.out.println("disabled");
+                    if (crawler.dumpCurrentState(DUMP_FILE)) {
+                        System.out.println("current state dumped successfully to " + DUMP_FILE);
+                    } else {
+                        System.out.println("there were problems while dumping current state to " + DUMP_FILE);
+                    }
                 } else break;
             }
             System.out.println("exit: " + input);
