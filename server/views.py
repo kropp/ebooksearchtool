@@ -1,31 +1,12 @@
 # -*- coding: utf-8 -*-
-from django.contrib.syndication.feeds import Feed
-from book.models import *
-from django.utils.feedgenerator import Atom1Feed
-from django.utils.xmlutils import SimplerXMLGenerator
+
 from django.core.exceptions import *
-
-from spec.utils import SERVER_URL
-
-from django.http import HttpResponse
-
+from django.db.models import Q
 from django.shortcuts import render_to_response
 
-def my_test(request, add_author = ''):
- #   a = Author()
- #   a.name = u"Ремарк, Эрих Мария"
- #   a.save()
-    if add_author:
-      a = Author()
-      a.name = add_author
-      a.save()
+from book.models import *
+from spec.utils import SERVER_URL
 
-    a_list = Author.objects.all()
-    html = ''
-    for a in a_list:
-        html += a.name + "<br>"
-    
-    return HttpResponse(html)
 
 def search_to_opds(query, books, items_per_page, total, next):
 
@@ -51,8 +32,17 @@ def search_request_to_server(request):
         i = 0
         
     next = page + 1
-    books = Book.objects.filter(title__icontains=query)
+
+    # search in title, author.name, alias, anntation, more_info (book_file)
+    q = Q(title__icontains=query) \
+      | Q(author__name__icontains=query) \
+      | Q(author__alias__name__icontains=query) \
+      | Q(annotation__name__icontains=query) \
+      | Q(book_file__more_info__icontains=query)
+
+    books = Book.objects.filter(q)
     total = books.count()
+    
     return search_to_opds(query, books[i:i+items_per_page], items_per_page, total, next)
 
 def book_request_to_server(request, book_id):
