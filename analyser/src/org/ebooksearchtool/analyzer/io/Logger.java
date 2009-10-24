@@ -12,7 +12,7 @@ import org.ebooksearchtool.analyzer.utils.Properties;
 
 public class Logger {
 
-    public static void setToLog(String message){
+    public static synchronized void setToLog(String message){
         RandomAccessFile log = null;
         try{
             try{

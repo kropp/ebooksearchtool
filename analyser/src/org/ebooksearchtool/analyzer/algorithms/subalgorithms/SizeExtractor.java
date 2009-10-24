@@ -13,8 +13,8 @@ public class SizeExtractor {
         int length = lexems.size();
         int index = 0;
         for (int i = 0; i < length; i++) {
-            if(hasSize(lexems.get(i).getValue())){
-                String lex = lexems.get(i).getValue();
+            if(i > 0 && hasSize(lexems.get(i).getValue())){
+                String lex = lexems.get(i - 1).getValue() + lexems.get(i).getValue();
                 index = lex.indexOf("KB");
                 if(index < 0){
                     index = lex.indexOf("MB");

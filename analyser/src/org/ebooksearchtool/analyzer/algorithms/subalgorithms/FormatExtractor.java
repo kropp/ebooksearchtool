@@ -9,6 +9,7 @@ import org.ebooksearchtool.analyzer.utils.Lexema;
 
 public class FormatExtractor {
 
+    //TODO:Алгоритм дучше "2-х слэшевого"
     public static String extractFormat(ArrayList<Lexema> lexems){
         int length = lexems.size();
         String buff = "";

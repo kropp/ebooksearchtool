@@ -22,8 +22,9 @@ public class epubAuthorExtractor {
         }
 
         StringBuilder sb = new StringBuilder();
+        List<Author> authors = new ArrayList<Author>();
 
-        if(index < length){
+        if(index < length){            
             Lexema lex = new Lexema(lexems.get(index).getValue());
             index++;
 
@@ -36,14 +37,13 @@ public class epubAuthorExtractor {
                 lex = lexems.get(index);
             }
             sb.append(lex.getValue());
-        }
-        List<Author> authors = AuthorsSimpleParser.Instance().parse(trim(sb));
 
-        if(authors.isEmpty()){
+            authors = AuthorsSimpleParser.Instance().parse(trim(sb));
+        }else{
             authors.add(new Author());
         }
-
         return authors;
+
     }
 
     private static String trim(StringBuilder sb){

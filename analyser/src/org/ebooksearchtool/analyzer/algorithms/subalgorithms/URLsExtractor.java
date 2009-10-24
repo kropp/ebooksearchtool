@@ -9,6 +9,7 @@ import org.ebooksearchtool.analyzer.utils.Lexema;
 
 public class URLsExtractor {
 
+    //TODO:Алгоритм дучше "2-х слэшевого"
     public static String extractURL(ArrayList<Lexema> lexems){
         int length = lexems.size();
         String buff = "";

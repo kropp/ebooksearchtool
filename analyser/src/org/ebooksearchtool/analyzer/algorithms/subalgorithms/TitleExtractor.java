@@ -21,6 +21,7 @@ public class TitleExtractor {
         Lexema lex = new Lexema("");
         index++;
 
+        //TODO:Исправить алгоритм, сейчас фактически не работает
         StringBuilder sb = new StringBuilder();
         while(index < length && !lex.equalsInfo("!sep!")){
             sb.append(lex.getValue() + " ");
