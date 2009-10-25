@@ -2,8 +2,6 @@
 
 #include "parser.h"
 
-#include <iostream>
-
 AtomHandler::AtomHandler(Model* model) {
     myModel = model;
     myIsEntry = false;
@@ -26,7 +24,7 @@ bool AtomHandler::startElement (const QString& , const QString& , const QString&
 		        myNextAtomPage = new QString();
 		    }
 			*myNextAtomPage = attributes.value("href");
-            std::cout << "link to the next page " << myNextAtomPage->toStdString().c_str() << "\n";
+         //   std::cout << "link to the next page " << myNextAtomPage->toStdString().c_str() << "\n";
         } else if (name == "entry") {
 		    myIsEntry = true;
 	    }     

@@ -14,13 +14,14 @@ class View : public QWidget {
 	Q_OBJECT
 	
 public:
-	View(QWidget* parent);
+	View(QWidget* parent, Model* model);
 	~View();
 	
 public:
-	void setModel(const Model* model);
+	void resetModel(Model* model);
 	void open(const QString& fileName);
 	void update() const;
+	Model* getModel();
 	
 private slots:
 	void downloadFile(const QUrl&);
@@ -37,12 +38,18 @@ private:
 	void appendReference(QString& html, const QString& reference, const QString& text) const;
 
 private:
-	const Model* myModel;
+	Model* myModel; 
 	QTextBrowser* myTextBrowser;
 
 	mutable bool myOneBookMode;
 
 	QProcess* myReadingProcess;
 };
+
+
+inline Model* View::getModel() {
+    return myModel;
+}
+
 
 #endif //_VIEW_H_

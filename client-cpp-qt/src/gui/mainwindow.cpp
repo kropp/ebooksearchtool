@@ -7,6 +7,7 @@
 #include "../configurator/configurator.h"
 
 MainWindow::MainWindow(QWidget *parent) : QDialog(parent), myFile(0) {
+    myNewRequest = true;
 	myUrlLineEdit = new QLineEdit("http://");
 	myUrlLabel = new QLabel(tr("URL:"));
 	myQueryLineEdit = new QLineEdit();
@@ -19,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent) : QDialog(parent), myFile(0) {
 	mySearchButton = new QPushButton(tr("Search"));
 	mySearchButton->setDefault(true);
 
-	myView = new View(this);
+	myView = new View(this, 0);
 	myHttpConnection = new HttpConnection(this);
     myUrlLineEdit->insert(myHttpConnection->getServer());
 
@@ -27,6 +28,7 @@ MainWindow::MainWindow(QWidget *parent) : QDialog(parent), myFile(0) {
 	connect(myHttpConnection, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
 
 	connect(mySearchButton, SIGNAL(clicked()), this, SLOT(downloadFile())); 
+	connect(mySearchButton, SIGNAL(clicked()), this, SLOT(setNewRequest()));
 	
 	connect(myView, SIGNAL(urlRequest(const QString&)), myUrlLineEdit, SLOT(setText(const QString&)));
 	connect(myView, SIGNAL(urlRequest(const QString&)), this, SLOT(downloadFile(const QString&)));
@@ -108,12 +110,18 @@ void MainWindow::httpRequestFinished(int , bool) {
 void MainWindow::parseDownloadedFile() {
 	AtomParser parser;
 	myFile->open(QIODevice::ReadOnly);
-	Model* model = new Model();
-	myView->setModel(model);
-	
-	parser.parse(myFile, model);
+	if (myNewRequest) {
+	    Model* model = new Model();
+	    myView->resetModel(model);
+    }
+    parser.parse(myFile, myView->getModel());
     myView->update();	
 	myFile->close();
+    const QString* url = parser.getNextAtomPage();
+    if (url) {
+        myNewRequest = false;
+        downloadFile(*url);
+    }
 }
 
 QString MainWindow::queryToUrl() const {
@@ -124,4 +132,8 @@ QString MainWindow::queryToUrl() const {
 	queryStr.replace(" ", "+");
 	urlStr.append(queryStr);
 	return urlStr;
+}
+
+void MainWindow::setNewRequest() {
+    myNewRequest = true;
 }

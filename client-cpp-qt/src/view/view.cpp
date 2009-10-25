@@ -3,7 +3,10 @@
 #include <QTextEdit>
 #include <QFlags>
 
-View::View(QWidget* parent) : QWidget(parent), myOneBookMode(false), myReadingProcess(0) {
+View::View(QWidget* parent, Model* model) : QWidget(parent) {
+    myOneBookMode = false;
+    myReadingProcess = 0;
+    myModel = model;
 	myTextBrowser = new QTextBrowser(this);	
 	myTextBrowser->setReadOnly(true);
 	myTextBrowser->resize(1000, 700); //сделать автоматическое удобное задание размеров
@@ -15,12 +18,19 @@ View::~View() {
 		myProcess.close();
 		delete myProcess;
 	}*/
+	if (myModel) {
+	    delete myModel;
+	}
 }
 	
-void View::setModel(const Model* model) {
-	myModel = model;
-	drawModel();
+void View::resetModel(Model* model) {
+    if (myModel) {
+        delete myModel;
+    }
+    myModel = model;
+  	drawModel();
 }
+
 
 void View::update() const {
     drawModel();

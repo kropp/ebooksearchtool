@@ -32,6 +32,7 @@ private slots:
 	void httpRequestFinished(int requestId, bool error);
 	void enableSearchButton();
 	void parseDownloadedFile();
+	void setNewRequest();
 
 private:
 	QString queryToUrl() const;
@@ -45,6 +46,7 @@ private:
 	QPushButton *mySearchButton;
 	QDialogButtonBox *myButtonBox;
 
+    bool myNewRequest;
 	HttpConnection* myHttpConnection;
 	QFile *myFile; 
 
