@@ -21,7 +21,7 @@ public:
     QString getServer() const;
 
 private:
-    void configurate(); //set static fields from the config-file.
+    void configurate(); //set static fields from the config-file. setSettings();
     
 public:
 	int myHttpGetId;
