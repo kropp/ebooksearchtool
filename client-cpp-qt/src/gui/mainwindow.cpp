@@ -23,13 +23,13 @@ MainWindow::MainWindow(QWidget *parent) : QDialog(parent), myFile(0) {
 	myHttpConnection = new HttpConnection(this);
     myUrlLineEdit->insert(myHttpConnection->getServer());
 
-	//connect(myQueryLineEdit, SIGNAL(textChanged(const QString &)), this, SLOT(enableSearchButton()));
-	//connect(myHttpConnection, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
+	connect(myQueryLineEdit, SIGNAL(textChanged(const QString &)), this, SLOT(enableSearchButton()));
+	connect(myHttpConnection, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
 
-	//connect(mySearchButton, SIGNAL(clicked()), this, SLOT(downloadFile())); 
+	connect(mySearchButton, SIGNAL(clicked()), this, SLOT(downloadFile())); 
 	
-	//connect(myView, SIGNAL(urlRequest(const QString&)), myUrlLineEdit, SLOT(setText(const QString&)));
-	//connect(myView, SIGNAL(urlRequest(const QString&)), this, SLOT(downloadFile(const QString&)));
+	connect(myView, SIGNAL(urlRequest(const QString&)), myUrlLineEdit, SLOT(setText(const QString&)));
+	connect(myView, SIGNAL(urlRequest(const QString&)), this, SLOT(downloadFile(const QString&)));
 	
 	QHBoxLayout *firstLayout = new QHBoxLayout;
 	firstLayout->addWidget(myUrlLabel);
