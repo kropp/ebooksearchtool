@@ -2,6 +2,13 @@
 
 #include "parser.h"
 
+AtomHandler::AtomHandler(Model* model) {
+    myModel = model;
+    myIsEntry = false;
+    myNextAtomPage = 0;
+}
+
+
 bool AtomHandler::characters (const QString& strText) {
 	myStrText = strText;
 	return true;
@@ -20,6 +27,9 @@ bool AtomHandler::startElement (const QString& , const QString& , const QString&
 }
 
 bool AtomHandler::endElement (const QString&, const QString&, const QString& str) {
+	if (str == "opensearch:totalResults") {
+        myModel->setTotalEntries(myStrText.toInt());
+    }
 	if (str == "entry") {
 		const Author* author = new Author(myAuthorsName.toStdString(), myAuthorsUri.toStdString()); 
 		Book* book = new Book(myTitle.toStdString(), myLanguage.toStdString(), mySummary.toStdString(), myBooksUri.toStdString());
@@ -47,9 +57,7 @@ bool AtomHandler::endElement (const QString&, const QString&, const QString& str
 	return true;
 }
 
-
-
-AtomParser::AtomParser() {}
+AtomParser::AtomParser() : myNextAtomPage(0) {}
 
 void AtomParser::parse(QFile* file, Model* model) {
 	AtomHandler handler(model);
@@ -58,6 +66,11 @@ void AtomParser::parse(QFile* file, Model* model) {
 	reader.setContentHandler(&handler);
 	reader.parse(source);
 }
+
+const QString* AtomParser::getNextAtomPage() const {
+    return myNextAtomPage;
+}
+
 
 
 

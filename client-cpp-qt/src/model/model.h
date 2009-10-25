@@ -16,9 +16,12 @@ public:
 //	void addAuthor(const Author* author);
 	const std::vector<const Book*> getBooks() const;
 	size_t getSize() const;
+	void setTotalEntries(int size);
+    int getTotalEntries() const;
 
 private:
 	std::vector<const Book*> myBooks;
+	int myTotalEntries;
 	//std::vector<const Author*> myAuthors;
 };
 
@@ -29,6 +32,10 @@ inline const std::vector<const Book*> Model::getBooks() const {
 
 inline size_t Model::getSize() const {
 	return myBooks.size();
+}
+
+inline int Model::getTotalEntries() const {
+    return myTotalEntries;
 }
 
 #endif //_MODEL_H_

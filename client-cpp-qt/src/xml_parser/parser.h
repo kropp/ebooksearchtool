@@ -11,16 +11,18 @@
 class AtomHandler : public QXmlDefaultHandler {
 
 public:
-	AtomHandler(Model* model) : myModel(model), myIsEntry(false) {}
-
+	AtomHandler(Model* model);
 public:
 	bool characters (const QString& strText);
 	bool endElement (const QString&, const QString&, const QString& str);
 	bool startElement (const QString& , const QString& , const QString& name, const QXmlAttributes& );
 	
+	
 private:
-	QString myStrText;
 	Model* myModel; 
+
+	QString myStrText;
+    QString* myNextAtomPage;
 	bool myIsEntry;
 	QString myTitle;
 	QString myLanguage;
@@ -38,6 +40,10 @@ public:
 	
 public:
 	void parse(QFile* file, Model* model);
+	const QString* getNextAtomPage() const;
+
+private:
+    QString* myNextAtomPage;
 };
 
 #endif //_PARSER_H_
