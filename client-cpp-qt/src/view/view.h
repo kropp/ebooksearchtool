@@ -30,6 +30,7 @@ signals:
 
 private:
 	void drawModel() const;
+	void makeStatusString(QString& str) const;
 	QString bookToHtml(const Book*) const;
 	void appendParagraph(QString& html, const QString& paragraph) const;
 	void appendHeader(QString& html, const QString& header) const;

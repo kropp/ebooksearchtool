@@ -3,7 +3,6 @@
 #include <QTextEdit>
 #include <QFlags>
 
-
 View::View(QWidget* parent) : QWidget(parent), myOneBookMode(false), myReadingProcess(0) {
 	myTextBrowser = new QTextBrowser(this);	
 	myTextBrowser->setReadOnly(true);
@@ -30,11 +29,25 @@ void View::update() const {
 void View::drawModel() const {
 	myOneBookMode = (myModel->getSize() > 1) ? false : true;
 	myTextBrowser->clear();
+	if (!myOneBookMode) {
+	    QString status(" ");
+	    makeStatusString(status);
+	    myTextBrowser->insertPlainText(status);
+	}
 	const std::vector<const Book*> books = myModel->getBooks();
 	for (size_t i = 0; i < books.size(); ++i) {
 		myTextBrowser->insertHtml(bookToHtml(books[i]));
 	}
 	
+}
+
+void View::makeStatusString(QString& str) const {
+    str.setNum(myModel->getTotalEntries());
+    str.prepend("TOTAL RESULTS: ");
+    str.append("   SHOWN: ");
+    str.append(QString::number(myModel->getSize()));
+    str.append("\n");
+    str.append("\n");
 }
 
 void View::downloadFile(const QUrl& url) {
