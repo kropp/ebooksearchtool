@@ -4,12 +4,12 @@ import org.ebooksearchtool.client.connection.Connector;
 import org.ebooksearchtool.client.logic.query.*;
 import org.ebooksearchtool.client.logic.parsing.*;
 import org.ebooksearchtool.client.model.Data;
+import org.ebooksearchtool.client.model.Settings;
 import org.ebooksearchtool.client.view.Viewer;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-
+import java.io.*;
 
 
 /**
@@ -21,34 +21,60 @@ import java.io.IOException;
  */
 public class Controller {
 
-    Data books = new Data();
+    Data myBooks;
+    Settings mySettings;
+
+    public Controller() throws SAXException, ParserConfigurationException, IOException {
+
+        myBooks = new Data();
+        mySettings = new Settings();
+
+        try {
+            mySettings.setIP(getSettings().getIP());
+            mySettings.setPort(getSettings().getPort());
+        } catch (FileNotFoundException exeption){
+            setSettings("192.168.0.2", 3128);
+        }
+
+    }
+
 	
     public void getQueryAnswer(String queryWord) throws IOException, SAXException, ParserConfigurationException {
-        System.out.println("1");
         Query query = new Query();
-        System.out.println("2");
         String adress = query.getQueryAdress(queryWord);
-        System.out.println("3");
-        Connector connect = new Connector(adress);
-        System.out.println("4");
+        Connector connect = new Connector(adress, mySettings.getIP(), mySettings.getPort());
         connect.getFileFromURL("answer_file.xml");
-        System.out.println("5");
         Parser parser = new Parser();
-        System.out.println("6");
-        parser.parse("answer_file.xml", books);
+        SAXHandler handler = new SAXHandler(myBooks);
+        parser.parse("answer_file.xml", handler);
 
+    }
+
+    public Settings getSettings() throws SAXException, ParserConfigurationException, IOException {
+        Parser parser = new Parser();
+        SAXSetHandler handler = new SAXSetHandler(mySettings);
+        parser.parse("settings.xml", handler);
+        return mySettings;
+    }
+
+    public void setSettings(String IP, int port) throws FileNotFoundException, UnsupportedEncodingException {
+        mySettings.setIP(IP);
+        mySettings.setPort(port);
+        PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream("settings.xml"), "utf-8"));
+        pw.print("<root>\n" + "<IP>" + IP + "</IP>\n" + "<port>" + port + "</port>\n" + "</root>");
+        pw.close();
     }
     
     public void getBookFile(int bookIndex) throws IOException{
     	
-    	Connector connect = new Connector(books.getInfo().get(bookIndex).getLink());
+    	Connector connect = new Connector(myBooks.getInfo().get(bookIndex).getLink(), mySettings.getIP(), mySettings.getPort());
     	
     	connect.getFileFromURL("book.pdf");
     	
     }
 
     public Data getData(){
-        return books;
+        return myBooks;
     }
 
 }

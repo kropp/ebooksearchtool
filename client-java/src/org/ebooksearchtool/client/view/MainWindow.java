@@ -1,10 +1,14 @@
 package org.ebooksearchtool.client.view;
 
+import org.xml.sax.SAXException;
+
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.io.IOException;
 
 import javax.swing.*;
+import javax.xml.parsers.ParserConfigurationException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,7 +19,7 @@ import javax.swing.*;
  */
 public class MainWindow {
 
-    public static void main(String args[]){
+    public static void main(String args[]) throws SAXException, ParserConfigurationException, IOException {
 
 
 

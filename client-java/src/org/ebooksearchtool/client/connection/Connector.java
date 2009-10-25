@@ -23,9 +23,13 @@ public class Connector{
 	
     URL Url;
     URLConnection connection;
+    String myIP;
+    int myPort;
 
-    public Connector(String adress) throws IOException {
+    public Connector(String adress, String IP, int port) throws IOException {
         Url = new URL(adress);
+        myIP = IP;
+        myPort = port;
     }
 
     public void getFileFromURL(String fileName) {
@@ -34,10 +38,9 @@ public class Connector{
             System.out.println("C1");
             connection = Url.openConnection();
             PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream(fileName), "utf-8"));
-            System.out.println("start download");
             System.out.println(Url.getFile() + "  " + Url.getProtocol() + "  " + connection.getContentEncoding() + "  " + connection.getInputStream().available());
             int i = 0;
-            int end = connection.getInputStream().available();
+            int end = connection.getContentLength();
             char ch;
             while (i!=end/*connection.getInputStream().available()/*i != connection.getContentLength()*/){
             	
@@ -45,19 +48,12 @@ public class Connector{
             	pw.print(ch);
                 ++i;
                 
-                System.out.println("D "+i);
             }
             pw.close();
-            System.out.println("finish download");
         } catch (IOException e) {
             try {
 
-            	System.out.println("C2");
-                String IP = "192.168.0.2";
-                int port = 3128;
-                //viewer.showProxyDialog(IP, port);
-                
-                connection = Url.openConnection(new Proxy(Proxy.Type.HTTP, new InetSocketAddress(IP, port)));
+                connection = Url.openConnection(new Proxy(Proxy.Type.HTTP, new InetSocketAddress(myIP, myPort)));
                 
                 PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream(fileName), "utf-8"));
 

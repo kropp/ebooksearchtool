@@ -35,14 +35,15 @@ public class Window {
     private JPanel myTextPan;
     private int ind;
     
-    private Controller myController = new Controller();
+    private Controller myController;
 
     public JFrame getFrame() {
         return myFrame;
     }
 
-    public Window(){
+    public Window() throws SAXException, ParserConfigurationException, IOException {
 
+        myController = new Controller();
         myFrame = new JFrame("MainWindow");
         JMenuBar myMenuBar;
         myMenuBar = new JMenuBar();
@@ -72,21 +73,14 @@ public class Window {
         myPanel1.add(new JScrollPane(myTextPan), "Center");
         myDataTextArea.setEditable(false);
 
-    	/*myConnectionPanel = new JPanel();
-        myConnectionPanel.setVisible(false);
-*/
         mySearchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
                 try {
                     String queryWord = myQueryField.getText();
                     myController.getQueryAnswer(queryWord);
-                    //JEditorPane myPane = new JEditorPane();
                     JTextArea[] info = new JTextArea[myController.getData().getInfo().size()];
                     JButton[] infB = new JButton[myController.getData().getInfo().size()];
-                    //myDataTextArea.setLineWrap(true);
-                    /*myDataTextArea.setColumns(myController.getData().getAttributes().length);
-                    myDataTextArea.setRows(myController.getData().getInfo().size());*/
                     for (int i = 0; i < myController.getData().getInfo().size(); ++i){
                     	info[i] = new JTextArea();
                     	myTextPan.add(info[i]);
@@ -106,14 +100,6 @@ public class Window {
                         });
                     	myTextPan.add(infB[i]);
                     	info[i].append(myController.getData().getInfo().get(i).getTitle() + "\n");
-                        /*myDataTextArea.append(myController.getData().getInfo().get(i).getTitle() + "\n");
-                        myDataTextArea.append(myController.getData().getInfo().get(i).getAuthor() + "\n");
-                        myDataTextArea.append(myController.getData().getInfo().get(i).getLanguage() + "\n");
-                        myDataTextArea.append(myController.getData().getInfo().get(i).getDate() + "\n");
-                        myDataTextArea.append(myController.getData().getInfo().get(i).getSummary() + "\n");
-                        myDataTextArea.append(myController.getData().getInfo().get(i).getLink() + "\n");
-                     //   myDataTextArea.add(new JButton("Download"));//.append(myController.getData().getInfo().get(i).getLink() + "\n");
-                        myDataTextArea.append("\n");*/
     	            }
                     
                     
@@ -132,7 +118,15 @@ public class Window {
 
             public void actionPerformed(ActionEvent e) {
 
-                NetworkDialog dialogFrame = new NetworkDialog();
+                try {
+                    NetworkDialog dialogFrame = new NetworkDialog(myController);
+                } catch (IOException e1) {
+                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (SAXException e1) {
+                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (ParserConfigurationException e1) {
+                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
 
             }
 

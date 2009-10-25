@@ -2,6 +2,7 @@ package org.ebooksearchtool.client.logic.parsing;
 
 import org.ebooksearchtool.client.model.Data;
 import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -26,8 +27,7 @@ public class Parser {
         myParser = parserFactory.newSAXParser();
     }
 
-    public void parse(String fileName, Data books) throws IOException, SAXException {
-        SAXHandler handler = new SAXHandler(books);
+    public void parse(String fileName, DefaultHandler handler) throws IOException, SAXException {
         myParser.parse(new File(fileName), handler);
                            
 
