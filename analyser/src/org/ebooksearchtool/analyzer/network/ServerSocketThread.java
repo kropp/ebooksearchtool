@@ -38,6 +38,9 @@ public class ServerSocketThread extends Thread{
         int requestToAnalyzeCount = 0;
         try{
             try {
+            DemonThread dt = new DemonThread();
+            dt.start();
+
             mySocket = myServerSocket.accept();
             br = new BufferedReader(new InputStreamReader(mySocket.getInputStream()));
             bw = new BufferedWriter(new OutputStreamWriter(mySocket.getOutputStream()));

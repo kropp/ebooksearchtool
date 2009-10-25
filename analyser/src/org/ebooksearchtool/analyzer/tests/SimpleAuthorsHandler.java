@@ -24,8 +24,7 @@ public class SimpleAuthorsHandler extends DefaultHandler{
     @Override
     public void characters (char ch[], int start, int length) throws SAXException{
         if(ourRightElementFlag == true){
-            AuthorsSimpleParser parser = AuthorsSimpleParser.Instance();
-            SimpleAuthorsHandler.ourAuthors.add(parser.parse(new String(ch, start, length).trim()));
+            SimpleAuthorsHandler.ourAuthors.add(AuthorsSimpleParser.parse(new String(ch, start, length).trim()));
             ourRightElementFlag = false;
         }
     }

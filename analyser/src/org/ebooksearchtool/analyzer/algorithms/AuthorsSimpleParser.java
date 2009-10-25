@@ -1,8 +1,7 @@
 package org.ebooksearchtool.analyzer.algorithms;
 
-import org.ebooksearchtool.analyzer.utils.Lexema;
+import org.ebooksearchtool.analyzer.model.Lexema;
 import java.util.ArrayList;
-import java.util.List;
 import org.ebooksearchtool.analyzer.model.Author;
 import org.ebooksearchtool.analyzer.utils.SpecialWords.*;
 
@@ -11,23 +10,7 @@ import org.ebooksearchtool.analyzer.utils.SpecialWords.*;
  */
 
 public class AuthorsSimpleParser{
-
-    private static AuthorsSimpleParser ourInstance;
-
-    private AuthorsSimpleParser(){
-
-    }
-
-    public static AuthorsSimpleParser Instance(){
-        if(ourInstance == null){
-            ourInstance = new AuthorsSimpleParser();
-            return ourInstance;
-        }else{
-            return ourInstance;
-        }
-    }
-
-    public ArrayList<Author> parse(String input) {
+    public static ArrayList<Author> parse(String input) {
         ArrayList<String> out = new ArrayList<String>();
         
         ArrayList<Lexema> temp = Lexema.convertToLexems(input);

@@ -1,7 +1,7 @@
 package org.ebooksearchtool.analyzer.algorithms.subalgorithms;
 
 import java.util.ArrayList;
-import org.ebooksearchtool.analyzer.utils.Lexema;
+import org.ebooksearchtool.analyzer.model.Lexema;
 
 /**
  * @author Алексей
@@ -31,7 +31,7 @@ public class FormatExtractor {
                 }
             }
         }
-        return "URL not found";
+        return "Format not found";
     }
 
     private static boolean isManySlashes(String input){

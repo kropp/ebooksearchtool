@@ -21,10 +21,10 @@ public class Logger {
                 long length = log.length();
                 log.readFully(new byte[(int)length]);
                 log.writeBytes(getCurrentTime());
-                log.writeBytes(System.getProperty("line.separator"));
+                log.writeBytes(Properties.SYSTEM_SEPARATOR);
                 log.writeBytes(message);
-                log.writeBytes(System.getProperty("line.separator"));
-                log.writeBytes(System.getProperty("line.separator"));
+                log.writeBytes(Properties.SYSTEM_SEPARATOR);
+                log.writeBytes(Properties.SYSTEM_SEPARATOR);
                 } catch (IOException ex) {
                     System.out.print(ex.toString());
                 }finally{

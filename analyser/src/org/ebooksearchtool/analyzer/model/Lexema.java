@@ -1,9 +1,10 @@
-package org.ebooksearchtool.analyzer.utils;
+package org.ebooksearchtool.analyzer.model;
 
 /**
  * @author Алексей
  */
 
+import org.ebooksearchtool.analyzer.utils.*;
 import java.util.ArrayList;
 import org.ebooksearchtool.analyzer.utils.SpecialWords.*;
 
@@ -47,7 +48,7 @@ public class Lexema {
         return new Lexema(myInfo + " " + lex.getValue(), StringType.word);
     }
 
-    public static ArrayList<Lexema>convertToLexems(String input){
+    public static ArrayList<Lexema> convertToLexems(String input){
         ArrayList<Lexema> temp = new ArrayList<Lexema>();
         StringBuilder bd = new StringBuilder();
         int length = input.length();

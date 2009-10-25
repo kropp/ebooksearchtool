@@ -20,7 +20,7 @@ import org.ebooksearchtool.analyzer.model.Author;
 
 public class Tester {
 
-    public static void Test(IParser parser) throws ParserConfigurationException, SAXException, IOException{
+    public static void AuthorTest() throws ParserConfigurationException, SAXException, IOException{
         List<ArrayList<Author>> test = TestToFileWriter.readTestFromFile("simpletest.tst");
         
         BufferedWriter out = new BufferedWriter(new FileWriter("testresult.txt"));

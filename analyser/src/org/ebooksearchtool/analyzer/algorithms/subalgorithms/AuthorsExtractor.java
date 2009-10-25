@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.ebooksearchtool.analyzer.algorithms.AuthorsSimpleParser;
 import org.ebooksearchtool.analyzer.model.Author;
-import org.ebooksearchtool.analyzer.utils.Lexema;
+import org.ebooksearchtool.analyzer.model.Lexema;
 
 /**
  * @author Алексей
@@ -31,7 +31,7 @@ public class AuthorsExtractor {
             index++; 
         }
 
-        List<Author> arr = AuthorsSimpleParser.Instance().parse(sb.toString());
+        List<Author> arr = AuthorsSimpleParser.parse(sb.toString());
 
         if(arr.isEmpty()){
             arr.add(new Author());

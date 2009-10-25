@@ -24,8 +24,7 @@ public class SimpleTestBuildHandler extends DefaultHandler{
     @Override
     public void characters (char ch[], int start, int length) throws SAXException{
         if(ourRightElementFlag == true){
-            AuthorsSimpleParser parser = AuthorsSimpleParser.Instance();
-            SimpleTestBuildHandler.ourAuthors.add(parser.parse(new String(ch, start, length).trim()));
+            SimpleTestBuildHandler.ourAuthors.add(AuthorsSimpleParser.parse(new String(ch, start, length).trim()));
             ourRightElementFlag = false;
         }
     }

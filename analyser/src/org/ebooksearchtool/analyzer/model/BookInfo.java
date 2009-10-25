@@ -236,6 +236,10 @@ public class BookInfo {
         myAuthors.add(author);
     }
 
+    public void addAnnotation(String annotation){
+        myAnnotations.add(annotation);
+    }
+
     public void addFile(File file){
         myFiles.add(file);
     }
