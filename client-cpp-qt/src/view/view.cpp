@@ -23,7 +23,11 @@ void View::setModel(const Model* model) {
 	drawModel();
 }
 
-void View::drawModel() {
+void View::update() const {
+    drawModel();
+}
+
+void View::drawModel() const {
 	myOneBookMode = (myModel->getSize() > 1) ? false : true;
 	myTextBrowser->clear();
 	const std::vector<const Book*> books = myModel->getBooks();

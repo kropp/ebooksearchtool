@@ -23,7 +23,6 @@ bool AtomHandler::startElement (const QString& , const QString& , const QString&
 		}
 	}
 	return true;
-//<link type="application/epub+zip" href="http://www.feedbooks.com/book/1156.epub"/>
 }
 
 bool AtomHandler::endElement (const QString&, const QString&, const QString& str) {

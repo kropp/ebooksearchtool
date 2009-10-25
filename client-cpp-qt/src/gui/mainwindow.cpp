@@ -108,9 +108,10 @@ void MainWindow::httpRequestFinished(int , bool) {
 void MainWindow::parseDownloadedFile() {
 	AtomParser parser;
 	myFile->open(QIODevice::ReadOnly);
-	Model* model = new Model();	
-	parser.parse(myFile, model);
+	Model* model = new Model();
 	myView->setModel(model);
+	parser.parse(myFile, model);
+    myView->update();	
 	myFile->close();
 }
 

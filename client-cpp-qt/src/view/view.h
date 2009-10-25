@@ -20,6 +20,7 @@ public:
 public:
 	void setModel(const Model* model);
 	void open(const QString& fileName);
+	void update() const;
 	
 private slots:
 	void downloadFile(const QUrl&);
@@ -28,7 +29,7 @@ signals:
 	void urlRequest(const QString&);
 
 private:
-	void drawModel();
+	void drawModel() const;
 	QString bookToHtml(const Book*) const;
 	void appendParagraph(QString& html, const QString& paragraph) const;
 	void appendHeader(QString& html, const QString& header) const;
@@ -38,7 +39,7 @@ private:
 	const Model* myModel;
 	QTextBrowser* myTextBrowser;
 
-	bool myOneBookMode;
+	mutable bool myOneBookMode;
 
 	QProcess* myReadingProcess;
 };
