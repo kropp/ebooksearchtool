@@ -4,7 +4,6 @@
 #include "../xml_parser/parser.h"
 #include "../network/httpconnection.h"
 #include "../model/model.h"
-#include "../configurator/configurator.h"
 
 MainWindow::MainWindow(QWidget *parent) : QDialog(parent), myFile(0) {
     myNewRequest = true;
