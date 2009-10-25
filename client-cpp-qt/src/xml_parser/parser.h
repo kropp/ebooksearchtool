@@ -10,13 +10,13 @@
 
 class AtomHandler : public QXmlDefaultHandler {
 
-public:
+private:
 	AtomHandler(Model* model);
-public:
+	
+private:
 	bool characters (const QString& strText);
 	bool endElement (const QString&, const QString&, const QString& str);
 	bool startElement (const QString& , const QString& , const QString& name, const QXmlAttributes& );
-	
 	
 private:
 	Model* myModel; 
@@ -31,6 +31,8 @@ private:
 	QString myAuthorsUri;	
 	QString myBooksUri;
 	QString myBooksLink;
+
+friend class AtomParser;
 };
 
 class AtomParser {

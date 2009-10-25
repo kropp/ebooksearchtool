@@ -110,6 +110,7 @@ void MainWindow::parseDownloadedFile() {
 	myFile->open(QIODevice::ReadOnly);
 	Model* model = new Model();
 	myView->setModel(model);
+	
 	parser.parse(myFile, model);
     myView->update();	
 	myFile->close();
