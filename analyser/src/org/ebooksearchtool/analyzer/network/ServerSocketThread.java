@@ -47,7 +47,7 @@ public class ServerSocketThread extends Thread{
 
             while(true){
                 buffer = NetUtils.reciveMessage(br);
-                System.out.println(buffer);
+                //Нужно только если тестить//System.out.println(buffer);
                 while(!requestToAnalyzeFlag){
                     if(requestToAnalyzeCount == 10){
                         requestToAnalyzeCount = 0;

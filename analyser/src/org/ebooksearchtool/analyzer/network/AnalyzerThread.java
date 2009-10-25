@@ -73,6 +73,12 @@ public class AnalyzerThread extends Thread {
            System.out.println("Type: " + files.get(i).getType());
        }
        System.out.println("Language: " + info.getLanguage());
+       List<String> annotations = info.getAnnotations();
+       length = annotations.size();
+       System.out.println("Annotations: ");
+       for (int i = 0; i < length; i++) {
+           System.out.println(annotations.get(i));
+       }
    }
 
    private String bookInfoToString(BookInfo info){
