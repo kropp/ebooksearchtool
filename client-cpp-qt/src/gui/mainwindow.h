@@ -8,6 +8,7 @@
 
 class QDialogButtonBox;
 class QFile;
+class QComboBox;
 class QHttp;
 class QHttpResponseHeader;
 class QLabel;
@@ -23,8 +24,8 @@ class MainWindow : public QDialog {
 
 public:
 	MainWindow(QWidget *parent = 0);
-	~MainWindow();
-
+	~MainWindow(); // TODO в деструкторе сохранять все настройки
+ 
 private slots:
 	void downloadFile();
 	void downloadFile(const QString& url);
@@ -40,6 +41,7 @@ private:
 	QLabel *myUrlLabel;
 	QLineEdit *myUrlLineEdit;
 	QLineEdit *myQueryLineEdit;
+	QComboBox  *mySearchTags;
 	QPushButton *mySearchButton;
 	QDialogButtonBox *myButtonBox;
 
