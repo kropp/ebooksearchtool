@@ -34,6 +34,7 @@ public class Window {
     private JMenuItem myNetMenu;
     private JPanel myTextPan;
     private int ind;
+    private JComboBox myQueryCombo;
     
     private Controller myController;
 
@@ -53,7 +54,7 @@ public class Window {
         myFrame.setJMenuBar(myMenuBar);
         myFrame.setContentPane(myPanel1);
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        myFrame.setSize(400, 400);
+        myFrame.setSize(600, 800);
         myFrame.setLocation(10,10);
         myFrame.setVisible(true);
 
@@ -64,6 +65,9 @@ public class Window {
     	myQueryField = new JTextField();
     	myQueryField.setSize(40, 10);
     	myQueryPanel.add(myQueryField);
+        String[] query = new String[] { "General", "Author", "Title" };
+        myQueryCombo = new JComboBox(query);
+        myQueryPanel.add(myQueryCombo);
     	mySearchButton = new JButton();
     	mySearchButton.setText("SEARCH");
     	myQueryPanel.add(mySearchButton);
@@ -78,7 +82,8 @@ public class Window {
 
                 try {
                     String queryWord = myQueryField.getText();
-                    myController.getQueryAnswer(queryWord);
+                    String queryOption = (String)myQueryCombo.getSelectedItem();
+                    myController.getQueryAnswer(queryWord, queryOption);
                     JTextArea[] info = new JTextArea[myController.getData().getInfo().size()];
                     JButton[] infB = new JButton[myController.getData().getInfo().size()];
                     for (int i = 0; i < myController.getData().getInfo().size(); ++i){

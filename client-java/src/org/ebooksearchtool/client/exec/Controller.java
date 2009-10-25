@@ -39,9 +39,9 @@ public class Controller {
     }
 
 	
-    public void getQueryAnswer(String queryWord) throws IOException, SAXException, ParserConfigurationException {
+    public void getQueryAnswer(String queryWord, String queryOption) throws IOException, SAXException, ParserConfigurationException {
         Query query = new Query();
-        String adress = query.getQueryAdress(queryWord);
+        String adress = query.getQueryAdress(queryWord, queryOption);
         Connector connect = new Connector(adress, mySettings.getIP(), mySettings.getPort());
         connect.getFileFromURL("answer_file.xml");
         Parser parser = new Parser();
