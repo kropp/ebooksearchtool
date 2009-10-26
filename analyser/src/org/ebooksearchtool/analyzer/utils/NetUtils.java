@@ -33,6 +33,16 @@ public class NetUtils {
         return str.toString();
     }
 
+   public static String reciveServerMessage(BufferedReader is) throws IOException {
+        String input = "";
+        StringBuilder str = new StringBuilder();
+        while(str.indexOf("</response>") == -1){
+            input = is.readLine();
+            str.append(input);
+        }
+        return str.toString();
+    }
+
    public static byte[] convertToByteArray(String str){
         char[] temp = str.toCharArray();
         int index = temp.length;

@@ -169,7 +169,7 @@ public class BookInfo {
                     str.append(Properties.SYSTEM_SEPARATOR);
                 }
             }
-            str.append("<author>");
+            str.append("</author>");
             str.append(Properties.SYSTEM_SEPARATOR);
         }
         str.append("</authors>");

@@ -25,13 +25,13 @@ public class NetworkSocketIO{
 //        Object timeout = new Object();
 //        while(true){
             try {
-                Socket socket = new Socket("localhost", socketNumber);
+                Socket socket = new Socket("192.168.2.104", socketNumber);
                 ClientSocketThread client = new ClientSocketThread(socket);
                 client.start();
             } catch (UnknownHostException ex) {
-                //Logger.getLogger(NetworkSocketIO.class.getName()).log(Level.SEVERE, null, ex);
+                //Logger.getLogger(NetworkSocketIO.class.getName()).log(Level.SEVERE, null, ex);"localhost"
             } catch (IOException ex) {
-                //Logger.getLogger(NetworkSocketIO.class.getName()).log(Level.SEVERE, null, ex);
+                //Logger.getLogger(NetworkSocketIO.class.getName()).log(Level.SEVERE, null, ex);"192.168.2.104"
             }
 //            try {
 //                timeout.wait(timeToWait);

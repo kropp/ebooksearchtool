@@ -35,6 +35,7 @@ public class AnalyzerThread extends Thread {
                     //TODO: Добавить разбор ответов от сервера  
                     String message = ClientSocketThread.sendRequest(Messages.formBookInfo(info));
                     Logger.setToLog(message);
+                    System.out.println(message);
                     Logger.setToLog("Book Information succsesfully sent to server:" + AnalyzeUtils.bookInfoToString(info));
                     System.out.println(message);
                     myMessage = "";

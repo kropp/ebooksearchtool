@@ -60,6 +60,8 @@ public class SizeExtractor {
             case '7':{return true;}
             case '8':{return true;}
             case '9':{return true;}
+            case '.':{return true;}
+            case ',':{return true;}
             default :{return false;}
         }
     }

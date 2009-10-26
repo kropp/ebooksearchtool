@@ -59,7 +59,7 @@ public class ClientSocketThread extends Thread{
         try {
             try {
                 NetUtils.sendMessage(myWriter, request);
-                message = NetUtils.reciveMessage(myReader);
+                message = NetUtils.reciveServerMessage(myReader);
             } catch (IOException ex) {
                 Logger.setToLog(ex.getMessage());
             }finally{
