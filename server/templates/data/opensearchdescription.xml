@@ -1,12 +1,14 @@
-<OpenSearchDescription>
-    <ShortName>Feedbooks</ShortName>
-    <Description>Search for e-books on Feedbooks</Description>
+<?xml version="1.0" encoding="UTF-8"?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+    <ShortName>EBookSearchTool</ShortName>
+    <Description>Search for e-books </Description>
     <InputEncoding>UTF-8</InputEncoding>
     <OutputEncoding>UTF-8</OutputEncoding>
-    <Image type="image/x-icon" width="16" height="16">http://www.feedbooks.com/favicon.ico</Image>
-    <Url type="text/html" template="http://www.feedbooks.com/search?query={searchTerms}"/>
-    <Url type="application/atom+xml" template="http://www.feedbooks.com/search.atom?query={searchTerms}"/>
-    <Url type="application/x-suggestions+json" rel="suggestions" template="http://www.feedbooks.com/search.json?query={searchTerms}"/>
-    <Url type="application/x-suggestions+xml" rel="suggestions" template="http://www.feedbooks.com/suggest.xml?query={searchTerms}"/>
+
+    <Url type="application/atom+xml" template="SERVER/search.atom?query={searchTerms}"/>
+    <Url type="application/atom+xml" template="SERVER/search.atom?author={searchTerms}"/>
+    <Url type="application/atom+xml" template="SERVER/search.atom?title={searchTerms}"/>
+    <Url type="application/atom+xml" template="SERVER/search.atom?title={searchTerms};author={searchTerms}"/>
+
     <Query role="example" searchTerms="robot"/>
 </OpenSearchDescription>
