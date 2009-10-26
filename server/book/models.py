@@ -2,7 +2,7 @@ from django.db import models
 
 from spec.langcode import LANG_CODE 
 
-LINK_LENGTH = 255
+LINK_LENGTH = 4000
 
 class Annotation(models.Model):
     name = models.TextField(max_length=10000)
@@ -12,11 +12,12 @@ class Annotation(models.Model):
 
 
 class BookFile(models.Model):
-    link = models.URLField(unique=True, max_length=LINK_LENGTH)
-    size = models.IntegerField()
+    link = models.TextField(max_length=LINK_LENGTH)
+    link_hash = models.CharField(unique=True, max_length=32)
+    size = models.IntegerField(default=0)
     type = models.CharField(max_length=10)
     more_info = models.TextField(max_length=10000, null = True)
-    img_link = models.URLField(null = True, max_length=LINK_LENGTH)
+    img_link = models.TextField(null = True, max_length=LINK_LENGTH)
 
     def __unicode__(self):
         return '%s [size %s] [type %s]' % (self.link, self.size, self.type)
@@ -42,10 +43,6 @@ class Tag(models.Model):
     def __unicode__(self):
         return self.name
 
-class mymanager(models.Model):
-    def test(self):
-        print '    test'
-
 
 class Book(models.Model):
     title = models.CharField(max_length=255)
@@ -54,8 +51,6 @@ class Book(models.Model):
     book_file = models.ManyToManyField(BookFile)
     series = models.ManyToManyField(Series)
     tag = models.ManyToManyField(Tag)
-
-    mymanager = mymanager()
 
     def __unicode__(self):
         return '%s (%s)' % (self.title, self.lang)
