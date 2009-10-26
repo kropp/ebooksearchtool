@@ -16,41 +16,6 @@ ACTION = {
     'insert': 2,
 }
 
-def get_all_handler(book_entr):
-    "Returns all matched book_entiretys"
-    return book_entr.get_from_db()
-
-
-def insert_all_handler(book_entr):
-    print data_dict['author']
-    a = AuthorEntirety('author55', ['author4alias12', 'author4alias22'])
-    f = FileEntirety('http://link', 123, 'epub') # FILE_TYPE['epub'])
-
-    b = BookEntirety('Title', [a], [f])
-    dict = {'id': b.save_to_db(), }
-    return dict
-
-
-@transaction.commit_manually
-def all_handler(action, book_entr):
-    "Handler of all requests, maintains the integrity of database"
-    if action == ACTION['get']:
-        return get_all_handler(book_entr)
-    elif action == ACTION['insert']:
-        try:
-            dict = insert_all_handler(book_entr)
-        except Exception:
-            print 'ERROR'
-            print 'transaction.rollback()'
-            transaction.rollback()
-            raise
-    else:
-        raise InnerServerExcption('All handler got not supported action ' + action)
-    print 'transaction.commit()'
-    transaction.commit()
-    return dict
-
-
 def xml_exec_insert_unsafe(xml):
     "Execute xml-insert-request usafe"
     if xml.tag != 'book':
