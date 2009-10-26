@@ -7,7 +7,7 @@ package org.ebooksearchtool.client.model;
  * Time: 22:59:55
  * To change this template use File | Settings | File Templates.
  */
-public class DataElement {
+public class Book {
 
     private String myTitle;
     private String myAuthor;
@@ -16,7 +16,7 @@ public class DataElement {
     private String mySummary;
     private String myLink;
 
-    public DataElement(){}
+    public Book(){}
 
     public String getTitle() {
         return myTitle;
