@@ -5,10 +5,10 @@
     <InputEncoding>UTF-8</InputEncoding>
     <OutputEncoding>UTF-8</OutputEncoding>
 
-    <Url type="application/atom+xml" template="SERVER/search.atom?query={searchTerms}"/>
-    <Url type="application/atom+xml" template="SERVER/search.atom?author={searchTerms}"/>
-    <Url type="application/atom+xml" template="SERVER/search.atom?title={searchTerms}"/>
-    <Url type="application/atom+xml" template="SERVER/search.atom?title={searchTerms};author={searchTerms}"/>
+    <Url type="application/atom+xml" template="{{ server }}/search.atom?query={searchTerms}"/>
+    <Url type="application/atom+xml" template="{{ server }}/search.atom?author={searchTerms}"/>
+    <Url type="application/atom+xml" template="{{ server }}/search.atom?title={searchTerms}"/>
+    <Url type="application/atom+xml" template="{{ server }}/search.atom?title={searchTerms};author={searchTerms}"/>
 
     <Query role="example" searchTerms="robot"/>
 </OpenSearchDescription>

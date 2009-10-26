@@ -85,4 +85,4 @@ def author_request_to_server(request, author_id):
     return author_to_opds(author)
 
 def opensearch_description(request):
-    return render_to_response("data/opensearchdescription.xml")
+    return render_to_response("data/opensearchdescription.xml", {'server':SERVER_URL})
