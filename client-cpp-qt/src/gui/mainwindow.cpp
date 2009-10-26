@@ -127,9 +127,14 @@ QString MainWindow::queryToUrl() const {
 	QString urlStr("http://");
     urlStr.append(myHttpConnection->getServer());
     urlStr.append("/books/search.atom?query=");
-	QString queryStr = myQueryLineEdit->text();
-	queryStr.replace(" ", "+");
-	urlStr.append(queryStr);
+    const QString tag = mySearchTags->currentText();
+    if ((tag == "author") || (tag == "title")) {
+        urlStr.append(tag);
+        urlStr.append(":");
+    }
+    QString queryStr = myQueryLineEdit->text();
+    queryStr.replace(" ", "+");
+    urlStr.append(queryStr);
 	return urlStr;
 }
 
