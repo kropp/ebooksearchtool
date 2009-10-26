@@ -29,17 +29,17 @@ def data_modify(request, action):
 
     try:
         if request.method != 'POST':
-            raise RequestServerEx('Use POST method in request')
+            raise RequestServerException('Use POST method in request')
 
         try:
             xml_request = request.POST['xml']
         except KeyError:
-            raise RequestServerEx("Not found 'xml' field in POST request")
+            raise RequestServerException("Not found 'xml' field in POST request")
 
         try:
             xml = etree.fromstring(xml_request)
         except ExpatError, ex:
-            raise RequestFileServerEx(ex.message)
+            raise RequestFileServerException(ex.message)
 
         if action == ACTION['get']:
             books = xml_exec_get(xml)
@@ -54,7 +54,7 @@ def data_modify(request, action):
         dict['message'] = 'ok'
             
 
-    except ServerEx, ex:
+    except ServerException, ex:
         dict['error'] = ex.__doc__
         dict['class'] = ex.__class__
         dict['message'] = ex.message

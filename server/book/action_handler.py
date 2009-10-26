@@ -45,7 +45,7 @@ def all_handler(action, book_entr):
             transaction.rollback()
             raise
     else:
-        raise InnerServerExcp('All handler got not supported action ' + action)
+        raise InnerServerExcption('All handler got not supported action ' + action)
     print 'transaction.commit()'
     transaction.commit()
     return dict
@@ -54,11 +54,12 @@ def all_handler(action, book_entr):
 def xml_exec_insert_unsafe(xml):
     "Execute xml-insert-request usafe"
     if xml.tag != 'book':
-        raise InputDataServerEx("Not found root tag 'book'")
+        raise InputDataServerException("Not found root tag 'book'")
     
     book = Book(title='', lang='')
     authors = []
     files = []
+    annotations = []
 
     for node in xml.getchildren():
         if node.tag == 'title':
@@ -73,14 +74,14 @@ def xml_exec_insert_unsafe(xml):
                 
                 # If not 'author' tag in block raise exception
                 if author_node.tag != 'author':
-                    raise InputDataServerEx("Unknown tag '" + author_node.tag +
+                    raise InputDataServerException("Unknown tag '" + author_node.tag +
                                          "' in tag 'authors'")
 
                 for details_node in author_node.getchildren():
                     if details_node.tag == 'name':
                         name = replace_delim_to_space(details_node.text)
                         if not name:
-                            raise InputDataServerEx("The field 'author.name' can't be empty")
+                            raise InputDataServerException("The field 'author.name' can't be empty")
                         
                         author = Author.objects.get_or_create(name=name)[0]
                         print 'Author.objects.get_or_create(name=%s)' % name
@@ -98,14 +99,14 @@ def xml_exec_insert_unsafe(xml):
         if node.tag == 'files':
             for file_node in node.getchildren():
                 if file_node.tag != 'file':
-                    raise InputDataServerEx("Unknown tag '" + file_node.tag +
+                    raise InputDataServerException("Unknown tag '" + file_node.tag +
                                          "' in tag 'files'")
 
                 for details_node in file_node.getchildren():
                     if details_node.tag == 'link':
                         link = replace_delim_to_space(details_node.text)
                         if not link:
-                            raise InputDataServerEx("The field 'file.link' can't be empty")
+                            raise InputDataServerException("The field 'file.link' can't be empty")
 
                         link_hash = md5.new(link).hexdigest()
                         try:
@@ -118,14 +119,15 @@ def xml_exec_insert_unsafe(xml):
                     if details_node.tag == 'size':
                         file.size = replace_delim_to_space(details_node.text)
                     if details_node.tag == 'more_info':
-                        file.more_info = replace_delim_to_space(details_node.text)
+                        file.more_info = details_node.text
                     if details_node.tag == 'img_link':
                         file.img_link = replace_delim_to_space(details_node.text)
 
                 file.save()
                 files.append(file)
 
-    print book
+        if node.tag == 'annotation':
+            annotations = Annotation.objects.get_or_create(name=node.text)
         
     found_book = Book.objects.filter(title=book.title, lang=book.lang)
     for author in authors:
@@ -134,10 +136,10 @@ def xml_exec_insert_unsafe(xml):
     print found_book.count()
 
     if found_book.count() > 1:
-        raise InnerServerEx("More than one book with the same title and the same authors")
+        raise InnerServerException("More than one book with the same title and the same authors")
     if not found_book.count():
         if not book.title:
-            raise InputDataServerEx("The field title can't be empty")
+            raise InputDataServerException("The field title can't be empty")
         book.save()
     else:
         book = found_book[0]
@@ -147,6 +149,10 @@ def xml_exec_insert_unsafe(xml):
 
     for file in files:
         book.book_file.add(file)
+
+    for annotation in annotations:
+        book.annotation.add(annotation)
+
     book.save()
 
                     
@@ -169,7 +175,7 @@ def xml_exec_insert(xml):
 def xml_exec_get(xml):
     "Executes xml-request, returns books"
     if xml.tag != 'book':
-        raise InputDataServerEx("Not found root tag 'book'")
+        raise InputDataServerException("Not found root tag 'book'")
 
     books = Book.objects.all()
 
@@ -191,7 +197,7 @@ def xml_exec_get(xml):
                 
                 # If not 'author' tag in block raise exception
                 if author_node.tag != 'author':
-                    raise InputDataServerEx("Unknown tag '" + author_node.tag +
+                    raise InputDataServerException("Unknown tag '" + author_node.tag +
                                          "' in tag 'authors'")
 
                 for details_node in author_node.getchildren():
@@ -210,7 +216,7 @@ def xml_exec_get(xml):
                 
                 # If not 'file' tag in block raise exception
                 if file_node.tag != 'file':
-                    raise InputDataServerEx("Unknown tag '" + file_node.tag +
+                    raise InputDataServerException("Unknown tag '" + file_node.tag +
                                          "' in tag 'files'")
 
                 for details_node in file_node.getchildren():
@@ -223,7 +229,7 @@ def xml_exec_get(xml):
                         try:
                             if size: books = books.filter(book_file__size=size)
                         except ValueError:
-                            raise InputDataServerEx("size is not number")
+                            raise InputDataServerException("size is not number")
                     if details_node.tag == 'type':
                         type = replace_delim_to_space(details_node.text)
                         if type:
