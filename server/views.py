@@ -35,13 +35,15 @@ def search_request_to_server(request):
 
     # search in title, author.name, alias, anntation, more_info (book_file)
     q = Q(title__icontains=query) \
-      | Q(author__name__icontains=query) \
-      | Q(author__alias__name__icontains=query) \
-      | Q(annotation__name__icontains=query) \
-      | Q(book_file__more_info__icontains=query)
+      | Q(author__name__icontains=query)# \
+  #    | Q(author__alias__name__icontains=query) \
+  #    | Q(annotation__name__icontains=query) \
+  #    | Q(book_file__more_info__icontains=query)
 
-    books = Book.objects.filter(q)
+    books = Book.objects.filter(q).distinct()
     total = books.count()
+    print books
+    print books.count()
     
     return search_to_opds(query, books[i:i+items_per_page], items_per_page, total, next)
 

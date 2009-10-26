@@ -44,26 +44,25 @@ def all_handler(action, book_entr):
     transaction.commit()
     return dict
 
+
 def xml_exec_insert_unsafe(xml):
     "Execute xml-insert-request usafe"
     if xml.tag != 'book':
         raise InputDataServerEx("Not found root tag 'book'")
-
-    book = Book(title='', lang='')
     
+    book = Book(title='', lang='')
+    authors = []
+
     for node in xml.getchildren():
         if node.tag == 'title':
             book.title = replace_delim_to_space(node.text)
+
         if node.tag == 'lang':
             # TODO add check of correct lang (from LANG_CODE)
             book.lang = replace_delim_to_space(node.text)
 
         if node.tag == 'authors':
             for author_node in node.getchildren():
-
-                # check title isn't empty
-                if not book.title:
-                    raise InputDataExcpt("The field 'title' can't be empty")
                 
                 # If not 'author' tag in block raise exception
                 if author_node.tag != 'author':
@@ -71,16 +70,55 @@ def xml_exec_insert_unsafe(xml):
                                          "' in tag 'authors'")
 
                 for details_node in author_node.getchildren():
-                    author = Author(name='')
                     if details_node.tag == 'name':
-                        author.name = replace_delim_to_space(details_node.text)
-                    if details_node.tag == 'alias':
-                        alias = replace_delim_to_space(details_node.text)
+                        name = replace_delim_to_space(details_node.text)
+                        if not name:
+                            raise InputDataServerEx("THe field 'author.name' can't be empty")
+                        authors.append(Author.objects.get_or_create(name=name)[0])
+
+#                    if details_node.tag == 'alias':
+#                        if not author.name:
+#                            raise InputDataServerEx("The field 'author.name' can't be empty")
+#                        alias = Alias(name='')
+#                        alias.name = replace_delim_to_space(details_node.text)
+#                        if alias.name:
+#                            alias.save()
+#                            author.alias.add(alias)
+
+        if node.tag == 'files':
+            for file_node in node.getchildren():
+                if file_node.tag != 'file':
+                    raise InputDataServerEx("Unknown tag '" + file_node.tag +
+                                         "' in tag 'files'")
+                file = BookFile()
+                for details_node in file_node.getchildren():
+                    if details_node.tag == 'link':
+                        file.link = replace_delim_to_space(details_node.text)
+                    if details_node.tag == 'type':
+                        file.type = replace_delim_to_space(details_node.text)
+                    if details_node.tag == 'size':
+                        file.size = replace_delim_to_space(details_node.text)
+                    if details_node.tag == 'more_info':
+                        file.more_info = replace_delim_to_space(details_node.text)
+                    if details_node.tag == 'img_link':
+                        file.img_link = replace_delim_to_space(details_node.text)
+                
 
 
+        
+    found_book = Book.objects.filter(title=book.title, lang=book.lang)
+    for author in authors:
+        found_book = found_book.filter(author=author)
 
+    if not found_book.count():
+        book.save()
+        for author in authors:
+            book.author_set.add(author)
+        book.save()
 
-    
+    elif book.count() > 1:
+        raise InnerServerExcp("More than one book with the same title and the same authors")
+                    
         
 
 
