@@ -19,6 +19,7 @@
     {% for author in book.author_set.all %}
     <author>
         <name> {{ author.name }}</name>
+        <uri> {{ server }}/author.atom/id{{ author.id }}</uri>
     </author>
     {% endfor %}
     
