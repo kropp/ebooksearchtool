@@ -23,6 +23,6 @@ urlpatterns = patterns('',
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
     
     #opensearchdescription
-    (r'^opensearch.xml/?$', opensearchdescription.xml),
+    (r'^opensearch.xml/?$', 'server.views.opensearch_description'),
 )
 

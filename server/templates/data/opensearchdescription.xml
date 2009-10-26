@@ -1,0 +1,12 @@
+<OpenSearchDescription>
+    <ShortName>Feedbooks</ShortName>
+    <Description>Search for e-books on Feedbooks</Description>
+    <InputEncoding>UTF-8</InputEncoding>
+    <OutputEncoding>UTF-8</OutputEncoding>
+    <Image type="image/x-icon" width="16" height="16">http://www.feedbooks.com/favicon.ico</Image>
+    <Url type="text/html" template="http://www.feedbooks.com/search?query={searchTerms}"/>
+    <Url type="application/atom+xml" template="http://www.feedbooks.com/search.atom?query={searchTerms}"/>
+    <Url type="application/x-suggestions+json" rel="suggestions" template="http://www.feedbooks.com/search.json?query={searchTerms}"/>
+    <Url type="application/x-suggestions+xml" rel="suggestions" template="http://www.feedbooks.com/suggest.xml?query={searchTerms}"/>
+    <Query role="example" searchTerms="robot"/>
+</OpenSearchDescription>
