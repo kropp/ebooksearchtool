@@ -1,12 +1,10 @@
 package org.ebooksearchtool.client.logic.parsing;
 
 import org.ebooksearchtool.client.model.Data;
-import org.ebooksearchtool.client.model.DataElement;
+import org.ebooksearchtool.client.model.Book;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -41,7 +39,7 @@ public class SAXHandler extends DefaultHandler{
     {
         if("entry".equals(qName)){
             myIsEntryTag = true;
-            myBooks.addElement(new DataElement());
+            myBooks.addElement(new Book());
         }
 
         for(int i = 0; i < myTags.getTags().length; ++i){

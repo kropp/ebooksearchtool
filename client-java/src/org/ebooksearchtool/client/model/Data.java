@@ -21,7 +21,7 @@ public class Data {
             "summary",
             "link"
     };
-    private List<DataElement> myInfo = new ArrayList<DataElement>();
+    private List<Book> myInfo = new ArrayList<Book>();
 
     public Data(){}
 
@@ -49,11 +49,11 @@ public class Data {
         myInfo.get(elementIndex).setLink(value);
     }
 
-    public void addElement(DataElement addition){
+    public void addElement(Book addition){
         myInfo.add(addition);
     }
 
-    public List<DataElement> getInfo() {
+    public List<Book> getInfo() {
         return Collections.unmodifiableList(myInfo);
     }
 

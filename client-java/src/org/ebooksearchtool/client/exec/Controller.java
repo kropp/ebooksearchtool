@@ -5,7 +5,6 @@ import org.ebooksearchtool.client.logic.query.*;
 import org.ebooksearchtool.client.logic.parsing.*;
 import org.ebooksearchtool.client.model.Data;
 import org.ebooksearchtool.client.model.Settings;
-import org.ebooksearchtool.client.view.Viewer;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
