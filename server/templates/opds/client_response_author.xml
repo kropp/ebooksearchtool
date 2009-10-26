@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="/stylesheets/entry.xsl"?>
+
+<entry>
+    <name> {{ author.name }} </name>
+    <id> {{ author.id }} </id>
+    <link> {{ server }}/author.atom/id{{ book.id }}</link>
+    
+    <updated></updated>
+    
+    {% for alias in author.alias.all %}
+        <alias>author.alias</alias>
+    {% endfor %}
+
+    {% for tag in author.tag.all %}
+        <category>author.tag</category>
+    {% endfor %}
+    
+</entry>
+

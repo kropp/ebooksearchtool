@@ -16,11 +16,10 @@ urlpatterns = patterns('',
     # interface for search
     (r'^books/search.atom/?$', 'server.views.search_request_to_server'),
     (r'^book.atom/id(\d{1,})/?$', 'server.views.book_request_to_server'),
+    (r'^author.atom/id(\d{1,})/?$', 'server.views.author_request_to_server'),
     
     #admin
     (r'^admin/(.*)', admin.site.root),
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-
 )
 
