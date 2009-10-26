@@ -56,9 +56,6 @@ public class Window {
         myFrame.setJMenuBar(myMenuBar);
         myFrame.setContentPane(myPanel1);
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        myFrame.setSize(600, 700);
-        myFrame.setLocation(10,10);
-        myFrame.setVisible(true);
 
     	myPanel1.setLayout(new BorderLayout());
     	myQueryPanel = new JPanel();
@@ -162,6 +159,9 @@ public class Window {
         });
 
 
+        myFrame.setSize(600, 700);
+        myFrame.setLocation(10,10);
+        myFrame.setVisible(true);
     }
 
 }
