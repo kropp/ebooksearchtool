@@ -17,11 +17,11 @@ public class Query {
 	public String getQueryAdress(String queryWord, String queryOption)  throws IOException{
 
         if(queryOption.equals("General")){
-            return "http://feedbooks.com/books/search.atom?query="/*"http://192.168.2.104:8001/books/search.atom/query="*/ + queryWord;
+            return "/books/search.atom?query="/*"http://192.168.2.104:8001/books/search.atom/query="*/ + queryWord;
         }else if(queryOption.equals("Author")){
-            return "http://feedbooks.com/books/search.atom?query=author." + queryWord;
+            return "/books/search.atom?query=author." + queryWord;
         }else{
-            return "http://feedbooks.com/books/search.atom?query=title." + queryWord;
+            return "/books/search.atom?query=title." + queryWord;
         }
 
 	}

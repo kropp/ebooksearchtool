@@ -28,6 +28,7 @@ public class Connector{
 
     public Connector(String adress, String IP, int port) throws IOException {
         Url = new URL(adress);
+        System.out.println(adress);
         myIP = IP;
         myPort = port;
     }
@@ -35,9 +36,8 @@ public class Connector{
     public void getFileFromURL(String fileName) {
         
         try {
-            System.out.println("C1");
             connection = Url.openConnection();
-            PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream(fileName), "utf-8"));
+            PrintWriter pw1 = new PrintWriter(new OutputStreamWriter(new FileOutputStream(fileName), "utf-8"));
             System.out.println(Url.getFile() + "  " + Url.getProtocol() + "  " + connection.getContentEncoding() + "  " + connection.getInputStream().available());
             int i = 0;
             int end = connection.getContentLength();
@@ -45,24 +45,24 @@ public class Connector{
             while (i!=end/*connection.getInputStream().available()/*i != connection.getContentLength()*/){
             	
                 ch = (char)connection.getInputStream().read();
-            	pw.print(ch);
+            	pw1.print(ch);
                 ++i;
                 
             }
-            pw.close();
+            pw1.close();
         } catch (IOException e) {
             try {
 
                 connection = Url.openConnection(new Proxy(Proxy.Type.HTTP, new InetSocketAddress(myIP, myPort)));
                 
-                PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream(fileName), "utf-8"));
+                PrintWriter pw1 = new PrintWriter(new OutputStreamWriter(new FileOutputStream(fileName), "utf-8"));
 
                 int i = 0;
                 while (i != connection.getContentLength()){
-                    pw.print((char)connection.getInputStream().read());
+                    pw1.print((char)connection.getInputStream().read());
                     ++i;
                 }
-                pw.close();
+                pw1.close();
      
             	
             	            } catch (IOException e1) {
