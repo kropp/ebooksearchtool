@@ -73,7 +73,7 @@ def xml_exec_insert_unsafe(xml):
                     if details_node.tag == 'name':
                         name = replace_delim_to_space(details_node.text)
                         if not name:
-                            raise InputDataServerEx("THe field 'author.name' can't be empty")
+                            raise InputDataServerEx("The field 'author.name' can't be empty")
                         authors.append(Author.objects.get_or_create(name=name)[0])
 
 #                    if details_node.tag == 'alias':
@@ -86,6 +86,7 @@ def xml_exec_insert_unsafe(xml):
 #                            author.alias.add(alias)
 
         if node.tag == 'files':
+            files = []
             for file_node in node.getchildren():
                 if file_node.tag != 'file':
                     raise InputDataServerEx("Unknown tag '" + file_node.tag +
@@ -93,7 +94,12 @@ def xml_exec_insert_unsafe(xml):
                 file = BookFile()
                 for details_node in file_node.getchildren():
                     if details_node.tag == 'link':
-                        file.link = replace_delim_to_space(details_node.text)
+                        link = replace_delim_to_space(details_node.text)
+                        try:
+                            file = BookFile.objects.get(link=link)
+                        except DoesNotExist:
+                            file = BookFile(link=link)
+                         
                     if details_node.tag == 'type':
                         file.type = replace_delim_to_space(details_node.text)
                     if details_node.tag == 'size':
@@ -102,7 +108,11 @@ def xml_exec_insert_unsafe(xml):
                         file.more_info = replace_delim_to_space(details_node.text)
                     if details_node.tag == 'img_link':
                         file.img_link = replace_delim_to_space(details_node.text)
-                
+
+                if not file.size:
+                    raise InputDataServerEx("The size of book file can't be empty")
+                file.save()
+                files.append(file)
 
 
         
@@ -110,14 +120,20 @@ def xml_exec_insert_unsafe(xml):
     for author in authors:
         found_book = found_book.filter(author=author)
 
+    if found_book.count() > 1:
+        raise InnerServerExcp("More than one book with the same title and the same authors")
     if not found_book.count():
         book.save()
-        for author in authors:
-            book.author_set.add(author)
-        book.save()
+    else:
+        book = found_book[0]
 
-    elif book.count() > 1:
-        raise InnerServerExcp("More than one book with the same title and the same authors")
+    for author in authors:
+        book.author_set.add(author)
+
+    for file in files:
+        book.book_file.add(file)
+    book.save()
+
                     
         
 
