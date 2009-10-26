@@ -54,7 +54,7 @@ public class SAXHandler extends DefaultHandler{
                 		isPdf = true;
                 	}
                 	if(myIsEntryTag && isPdf){
-                		myBooks.setBookLink(myBooks.getInfo().size()-1, attributes.getValue(j));
+                		myBooks.setBookLink(myBooks.getBooks().size()-1, attributes.getValue(j));
                 	}
                 }
                     
@@ -80,33 +80,33 @@ public class SAXHandler extends DefaultHandler{
                 	
                     if(myIsContinue){
                         if(myTags.getTags()[i].getName() == "title"){
-                        	myBooks.setBookTitle(myBooks.getInfo().size()-1, myBooks.getInfo().get(myBooks.getInfo().size()-1).getTitle() + new String(ch, start, length));
+                        	myBooks.setBookTitle(myBooks.getBooks().size()-1, myBooks.getBooks().get(myBooks.getBooks().size()-1).getTitle() + new String(ch, start, length));
                         }else if(myTags.getTags()[i].getName() == "name"){
-                        	myBooks.setBookAuthor(myBooks.getInfo().size()-1, myBooks.getInfo().get(myBooks.getInfo().size()-1).getAuthor() + new String(ch, start, length));
+                        	myBooks.setBookAuthor(myBooks.getBooks().size()-1, myBooks.getBooks().get(myBooks.getBooks().size()-1).getAuthor() + new String(ch, start, length));
                         }else if(myTags.getTags()[i].getName() == "dcterms:language"){
-                        	myBooks.setBookLanguage(myBooks.getInfo().size()-1, myBooks.getInfo().get(myBooks.getInfo().size()-1).getLanguage() + new String(ch, start, length));
+                        	myBooks.setBookLanguage(myBooks.getBooks().size()-1, myBooks.getBooks().get(myBooks.getBooks().size()-1).getLanguage() + new String(ch, start, length));
                         }else if(myTags.getTags()[i].getName() == "dcterms:issued"){
-                        	myBooks.setBookDate(myBooks.getInfo().size()-1, myBooks.getInfo().get(myBooks.getInfo().size()-1).getDate() + new String(ch, start, length));
+                        	myBooks.setBookDate(myBooks.getBooks().size()-1, myBooks.getBooks().get(myBooks.getBooks().size()-1).getDate() + new String(ch, start, length));
                         }else if(myTags.getTags()[i].getName() == "summary"){
-                        	myBooks.setBookSummary(myBooks.getInfo().size()-1, myBooks.getInfo().get(myBooks.getInfo().size()-1).getSummary() + new String(ch, start, length));
+                        	myBooks.setBookSummary(myBooks.getBooks().size()-1, myBooks.getBooks().get(myBooks.getBooks().size()-1).getSummary() + new String(ch, start, length));
                         }else if(myTags.getTags()[i].getName() == "id"){
-                        	myBooks.setBookLink(myBooks.getInfo().size()-1, myBooks.getInfo().get(myBooks.getInfo().size()-1).getLink() + new String(ch, start, length));
+                        	myBooks.setBookLink(myBooks.getBooks().size()-1, myBooks.getBooks().get(myBooks.getBooks().size()-1).getLink() + new String(ch, start, length));
                         }                    
                     }else{
                         if(myTags.getTags()[i].getName() == "title"){
-                        	myBooks.setBookTitle(myBooks.getInfo().size()-1, new String(ch, start, length));
+                        	myBooks.setBookTitle(myBooks.getBooks().size()-1, new String(ch, start, length));
                         	myIsContinue = true;
                         }else if(myTags.getTags()[i].getName() == "name"){
-                        	myBooks.setBookAuthor(myBooks.getInfo().size()-1, new String(ch, start, length));
+                        	myBooks.setBookAuthor(myBooks.getBooks().size()-1, new String(ch, start, length));
                         	myIsContinue = true;
                         }else if(myTags.getTags()[i].getName() == "dcterms:language"){
-                        	myBooks.setBookLanguage(myBooks.getInfo().size()-1, new String(ch, start, length));
+                        	myBooks.setBookLanguage(myBooks.getBooks().size()-1, new String(ch, start, length));
                         	myIsContinue = true;
                         }else if(myTags.getTags()[i].getName() == "dcterms:issued"){
-                        	myBooks.setBookDate(myBooks.getInfo().size()-1, new String(ch, start, length));
+                        	myBooks.setBookDate(myBooks.getBooks().size()-1, new String(ch, start, length));
                         	myIsContinue = true;
                         }else if(myTags.getTags()[i].getName() == "summary"){
-                        	myBooks.setBookSummary(myBooks.getInfo().size()-1, new String(ch, start, length));
+                        	myBooks.setBookSummary(myBooks.getBooks().size()-1, new String(ch, start, length));
                         	myIsContinue = true;
                         }
                     }
@@ -128,8 +128,8 @@ public class SAXHandler extends DefaultHandler{
     @Override
     public void endDocument() throws SAXException
     {
-    	for (int i = 0; i < myBooks.getInfo().size(); ++i){
-    		System.out.println(myBooks.getInfo().get(i).getTitle() + "   " + myBooks.getInfo().get(i).getLink());
+    	for (int i = 0; i < myBooks.getBooks().size(); ++i){
+    		System.out.println(myBooks.getBooks().get(i).getTitle() + "   " + myBooks.getBooks().get(i).getLink());
     	}
     }
 

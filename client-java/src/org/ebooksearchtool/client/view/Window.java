@@ -83,11 +83,11 @@ public class Window {
                     String queryWord = myQueryField.getText();
                     String queryOption = (String)myQueryCombo.getSelectedItem();
                     myController.getQueryAnswer(queryWord, queryOption);
-                    JTextArea[] info = new JTextArea[myController.getData().getInfo().size()];
-                    infB = new JButton[myController.getData().getInfo().size()];
+                    JTextArea[] info = new JTextArea[myController.getData().getBooks().size()];
+                    infB = new JButton[myController.getData().getBooks().size()];
                     
-                    ActionListener[] AL = new ActionListener[myController.getData().getInfo().size()];
-                    for (int i = 0; i < myController.getData().getInfo().size(); ++i){
+                    ActionListener[] AL = new ActionListener[myController.getData().getBooks().size()];
+                    for (int i = 0; i < myController.getData().getBooks().size(); ++i){
                     	info[i] = new JTextArea();
                     	myTextPan.add(info[i]);
                     	infB[i] = new JButton("download");
@@ -111,7 +111,7 @@ public class Window {
                     		public void actionPerformed(ActionEvent e) {
                     			try {
                                 	
-                                	for (int k = 0; k < myController.getData().getInfo().size(); ++k){
+                                	for (int k = 0; k < myController.getData().getBooks().size(); ++k){
                                 		if(e.getSource() == infB[k]){
                                 			myController.getBookFile(k);
                                 			System.out.println(k);
@@ -125,7 +125,7 @@ public class Window {
                             }
                         });
                     	myTextPan.add(infB[i]);
-                    	info[i].append(myController.getData().getInfo().get(i).getTitle() + "\n");
+                    	info[i].append(myController.getData().getBooks().get(i).getTitle() + "\n");
     	            }
                     
                     

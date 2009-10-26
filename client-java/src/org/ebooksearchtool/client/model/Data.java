@@ -21,40 +21,45 @@ public class Data {
             "summary",
             "link"
     };
-    private List<Book> myInfo = new ArrayList<Book>();
+    private List<Book> myBooks = new ArrayList<Book>();
+    private List<Author> myAuthors = new ArrayList<Author>();
 
     public Data(){}
 
     public void setBookTitle(int elementIndex, String value){
-        myInfo.get(elementIndex).setTitle(value);
+        myBooks.get(elementIndex).setTitle(value);
     }
 
     public void setBookAuthor(int elementIndex, String value){
-        myInfo.get(elementIndex).setAuthor(value);
+        myBooks.get(elementIndex).setAuthor(value);
     }
 
     public void setBookLanguage(int elementIndex, String value){
-        myInfo.get(elementIndex).setLanguage(value);
+        myBooks.get(elementIndex).setLanguage(value);
     }
 
     public void setBookDate(int elementIndex, String value){
-        myInfo.get(elementIndex).setDate(value);
+        myBooks.get(elementIndex).setDate(value);
     }
 
     public void setBookSummary(int elementIndex, String value){
-        myInfo.get(elementIndex).setSummary(value);
+        myBooks.get(elementIndex).setSummary(value);
     }
 
     public void setBookLink(int elementIndex, String value){
-        myInfo.get(elementIndex).setLink(value);
+        myBooks.get(elementIndex).setLink(value);
     }
 
     public void addElement(Book addition){
-        myInfo.add(addition);
+        myBooks.add(addition);
     }
 
-    public List<Book> getInfo() {
-        return Collections.unmodifiableList(myInfo);
+    public List<Book> getBooks() {
+        return Collections.unmodifiableList(myBooks);
+    }
+    
+    public List<Author> getAuthors() {
+        return Collections.unmodifiableList(myAuthors);
     }
 
     public String[] getAttributes() {

@@ -72,9 +72,9 @@ public class Controller {
     
     public void getBookFile(int bookIndex) throws IOException{
     	
-    	Connector connect = new Connector(myBooks.getInfo().get(bookIndex).getLink(), mySettings.getIP(), mySettings.getPort());
+    	Connector connect = new Connector(myBooks.getBooks().get(bookIndex).getLink(), mySettings.getIP(), mySettings.getPort());
     	
-    	connect.getBookFromURL(myBooks.getInfo().get(bookIndex).getTitle() + ".pdf");
+    	connect.getBookFromURL(myBooks.getBooks().get(bookIndex).getTitle() + ".pdf");
     	
     }
 
