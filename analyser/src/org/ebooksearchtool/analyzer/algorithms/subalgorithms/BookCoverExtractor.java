@@ -12,15 +12,86 @@ public class BookCoverExtractor {
     //TODO: Подумать, как брать ее с сайта, ПОКА ЧТО НЕ СПОЛЬЗОВАТЬ!!!
     public static String extractBookCover(ArrayList<Lexema> lexems){
         int length = lexems.size();
-        for (int i = 0; i < length; i++) {
-            if(lexems.get(i).getValue().indexOf("bookcover") != -1){
-                return trim(lexems.get(i).getValue());
+        int index = 0;
+        for (index = 0; index < length - 2; index++) {
+            if(lexems.get(index).getValue().indexOf("Book") != -1 && lexems.get(index + 1).getValue().indexOf("Cover") != -1
+                    && lexems.get(index + 2).getValue().indexOf("Image") != -1){
+                break;
             }
         }
-        return new String("Unknown cover");
+
+        if (index < length){
+            StringBuilder sb = new StringBuilder();
+
+            Lexema lex = new Lexema(lexems.get(index).getValue());
+            index++;
+
+            sb.append(lex.getValue() + " ");
+            lex = lexems.get(index);
+
+            while(index < length && (lex.getValue().indexOf("<") == -1)){
+                sb.append(lex.getValue() + " ");
+                index--;
+                lex = lexems.get(index);
+            }
+            sb.append(lex.getValue());
+
+            return trim(sb, extractURL(lexems));
+        }else{
+            return "Unknown title";
+        }
     }
 
-    private static String trim(String s){
+    private static String trim(StringBuilder s, String str){
+        while(s.indexOf("/") != 0){
+            s.delete(0, 1);
+        }
+        while(s.lastIndexOf("\"") != (s.length() - 1)){
+            s.delete(s.length() - 1, s.length());
+        }
+        s.delete(s.length() - 1, s.length());
+
+        int index = str.indexOf(".");
+        while(str.charAt(index) != '/'){
+            index++;
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append(str.subSequence(0, index));
+        sb.append(s);
+
+        return sb.toString();
+    }
+
+    private static String extractURL(ArrayList<Lexema> lexems){
+        int length = lexems.size();
+        String buff = "";
+        for (int i = 0; i < length; i++) {
+            buff = lexems.get(i).getValue();
+            if(buff.indexOf("http") != -1 || isManySlashes(buff)){
+                return trimURL(buff);
+            }
+
+        }
+        return "URL not found";
+    }
+
+    private static boolean isManySlashes(String input){
+        int i = 0;
+        int position = input.indexOf("\\");
+        while(position != -1){
+            i++;
+            input.replaceFirst("\\", "a");
+            position = input.indexOf("\\");
+        }
+
+        if(i > 2){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    private static String trimURL(String s){
         StringBuilder sb = new StringBuilder(s);
         while(sb.indexOf("http") != 0){
             sb.delete(0, 1);
