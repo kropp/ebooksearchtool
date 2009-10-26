@@ -75,7 +75,7 @@ public class Controller {
     	
     	Connector connect = new Connector(myBooks.getInfo().get(bookIndex).getLink(), mySettings.getIP(), mySettings.getPort());
     	
-    	connect.getFileFromURL("book.pdf");
+    	connect.getBookFromURL(myBooks.getInfo().get(bookIndex).getTitle() + ".pdf");
     	
     }
 
