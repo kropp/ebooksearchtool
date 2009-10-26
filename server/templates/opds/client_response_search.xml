@@ -9,12 +9,25 @@
     <link href="{{ server }}/books/search.atom?items_per_page={{items_per_page}};query={{ query }}" rel="self"></link>
     <link rel="next" href="{{ server }}/books/search.atom?page={{next}};items_per_page={{items_per_page}};query={{ query }}"/>
     
-    <title>Search results for: {{ query }} </title>
+    <title>Search results for: 
+    {% if query %}
+        {{ query }}
+    {% else %}
+        {% if title %}
+            Title "{{ title }}"
+        {% endif %} 
+        {% if author %}
+            Author "{{ author }}"
+        {% endif %}
+    {% endif %}</title>
     <updated></updated>
     <icon></icon>
     <author></author>
     <opensearch:totalResults> {{ total }} </opensearch:totalResults>
-    <opensearch:itemsPerPage> {{ items_per_page }}</opensearch:itemsPerPage>
+    <opensearch:itemsPerPage> {{ items_per_page }} </opensearch:itemsPerPage>
+    {% if start_index %}
+    <opensearch:startIndex> {{ start_index }} <opensearch:startIndex>
+    {% endif %}
     
     {% for book in books %}
     <entry>
@@ -25,7 +38,7 @@
         <dcterms:issued></dcterms:issued>
         <updated></updated>
         {% for tag in book.tag.all %}
-            <category>tag</category>
+            <category term="tag"/>
         {% endfor %}
 
         <dcterms:source></dcterms:source>
@@ -33,6 +46,7 @@
         {% for author in book.author_set.all %}
         <author>
             <name> {{ author.name }} </name>
+            <uri> {{ server }}/author.atom/id{{ author.id }}</uri>
         </author>
         {% endfor %}
         
@@ -42,6 +56,11 @@
             {% endfor %}
         </summary>
 
+        <link type="application/atom+xml;type=entry" rel="alternate" title="Full entry" href="/book.atom/id{{ book.id }}"/>
+        {% for book_file in book.book_file.all %}
+            <link type="{{ book_file.type }}" href="{{ book_file.link }}" />
+        {% endfor %}
+       
     </entry>
     {% endfor %}
 </feed>
