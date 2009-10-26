@@ -3,6 +3,7 @@
 from django.core.exceptions import *
 from django.db.models import Q
 from django.shortcuts import render_to_response
+from string import split
 
 from book.models import *
 from spec.utils import SERVER_URL
@@ -37,11 +38,12 @@ def search_request_to_server(request):
     try:
     # search in title, author.name, alias, annotation, more_info (book_file)
         query = request.GET['query']
-        q = Q(title__icontains=query) \
-          | Q(author__name__icontains=query) \
-          | Q(author__alias__name__icontains=query) \
-          | Q(annotation__name__icontains=query) \
-          | Q(book_file__more_info__icontains=query)
+        for word in query.split():
+            q = q | Q(title__icontains=word) \
+              | Q(author__name__icontains=word) \
+              | Q(author__alias__name__icontains=word) \
+              | Q(annotation__name__icontains=word) \
+              | Q(book_file__more_info__icontains=word)
     except KeyError:
         query = None    
     try:
