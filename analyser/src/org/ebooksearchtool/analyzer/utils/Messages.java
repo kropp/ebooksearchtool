@@ -64,6 +64,6 @@ public class Messages {
     }
 
     private static long getContentLength(String str){
-        return str.length();
+        return str.length() + 4;
     }
 }

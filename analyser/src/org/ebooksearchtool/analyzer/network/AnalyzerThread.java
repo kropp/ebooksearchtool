@@ -33,12 +33,16 @@ public class AnalyzerThread extends Thread {
                     BookInfo info = ws.parse(myMessage);
                     printInfo(info);
                     //TODO: Добавить разбор ответов от сервера  
-                    String message = ClientSocketThread.sendRequest(Messages.formBookInfo(info));
-                    Logger.setToLog(message);
-                    System.out.println(message);
-                    Logger.setToLog("Book Information succsesfully sent to server:" + AnalyzeUtils.bookInfoToString(info));
-                    System.out.println(message);
-                    myMessage = "";
+                    if(info.getTitle().equals("Unknown title")){
+                        String message = ClientSocketThread.sendRequest(Messages.formBookInfo(info));
+                        Logger.setToLog(message);
+                        System.out.println(message);
+                        Logger.setToLog("Book Information succsesfully sent to server:" + AnalyzeUtils.bookInfoToString(info));
+                        System.out.println(message);
+                        myMessage = "";
+                    }else{
+                        Logger.setToLog("Book Information can't be sent to server(Unknown title):" + AnalyzeUtils.bookInfoToString(info));
+                    }
                 } catch (InterruptedException ex) {
                     Logger.setToLog(ex.getMessage());
                 }

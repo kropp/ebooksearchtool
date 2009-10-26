@@ -35,6 +35,20 @@ public class SizeExtractor {
                 if(!isNumber(lex.charAt(0))){
                     lex = lex.substring(1, lex.length());
                 }
+
+                
+                if(lex.indexOf("KB") != -1){
+                    lex = lex.substring(0, lex.length() - 2);
+                    long size = Integer.parseInt(lex);
+                    size*=1024;
+                    lex = String.valueOf(size);
+                }else{
+                    lex = lex.substring(0, lex.length() - 2);
+                    long size = Integer.parseInt(lex);
+                    size*=1024;
+                    size*=1024;
+                    lex = String.valueOf(size);
+                }
                 return lex;
             }
         }
