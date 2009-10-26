@@ -7,29 +7,33 @@ import javax.xml.parsers.ParserConfigurationException;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Администратор
+ * User: 
  * Date: 25.10.2009
  * Time: 17:35:28
  * To change this template use File | Settings | File Templates.
  */
 public class Settings {
 
+	private String myServer;
     private String myIP;
     private int myPort;
 
-    public Settings() throws SAXException, ParserConfigurationException {
+    public Settings() throws SAXException, ParserConfigurationException {}
 
-        Parser parser = new Parser();
-
+    public String getServer() {
+        return myServer;
     }
 
-
+    public void setServer(String server) {
+        this.myServer = server;
+    }
+    
     public String getIP() {
         return myIP;
     }
 
-    public void setIP(String myIP) {
-        this.myIP = myIP;
+    public void setIP(String IP) {
+        this.myIP = IP;
     }
 
     public int getPort() {

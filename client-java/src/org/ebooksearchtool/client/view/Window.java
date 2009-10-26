@@ -54,7 +54,7 @@ public class Window {
         myFrame.setJMenuBar(myMenuBar);
         myFrame.setContentPane(myPanel1);
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        myFrame.setSize(600, 800);
+        myFrame.setSize(600, 700);
         myFrame.setLocation(10,10);
         myFrame.setVisible(true);
 

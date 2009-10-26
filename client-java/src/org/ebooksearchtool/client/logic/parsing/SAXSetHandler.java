@@ -9,7 +9,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Администратор
+ * User: 
  * Date: 25.10.2009
  * Time: 17:53:27
  * To change this template use File | Settings | File Templates.
@@ -46,7 +46,9 @@ public class SAXSetHandler extends DefaultHandler{
     {
             for(int i = 0; i < myTags.getTags().length; ++i){
                 if(myTags.getTags()[i].getStatus()) {
-                        if(myTags.getTags()[i].getName() == "IP"){
+                        if(myTags.getTags()[i].getName() == "server"){
+                        	mySettings.setServer(new String(ch, start, length));
+                        }else if(myTags.getTags()[i].getName() == "IP"){                        
                         	mySettings.setIP(new String(ch, start, length));
                         }else if(myTags.getTags()[i].getName() == "port"){
                         	mySettings.setPort(Integer.parseInt(new String(ch, start, length)));

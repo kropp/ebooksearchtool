@@ -8,11 +8,15 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Администратор
+ * User: 
  * Date: 17.10.2009
  * Time: 21:57:00
  * To change this template use File | Settings | File Templates.
@@ -22,6 +26,7 @@ public class NetworkDialog {
     JFrame myFrame = new JFrame("Network settings");
     JPanel myPanel;
     JLabel myTitle;
+    JTextField myServerText;
     JTextField myIPText;
     JTextField myPortText;
     JPanel myIpPanel;
@@ -45,25 +50,43 @@ public class NetworkDialog {
         JPanel pan1 = new JPanel(new FlowLayout());
         myPanel.add(pan1, "North");
         pan1.add(myTitle);
-        JPanel pan2 = new JPanel(new GridLayout(2, 2));
-        myPanel.add(pan2, "Center");
-        pan2.add(new JLabel("IP"));
+        JPanel mainPan = new JPanel(new GridLayout(3, 2));
+        myPanel.add(mainPan, "Center");
+        
+        mainPan.add(new JLabel("server"));
+        myServerText = new JTextField();
+        mainPan.add(myServerText);
+        mainPan.add(new JLabel("IP"));
         myIPText = new JTextField();
+        mainPan.add(myIPText);
+        mainPan.add(new JLabel("port"));
         myPortText = new JTextField();
-        pan2.add(myIPText, "Center");
-        pan2.add(new JLabel("port"));
-        pan2.add(myPortText);
+        mainPan.add(myPortText);
+        
+        
 
+        myServerText.setText(myController.getSettings().getServer());
         myIPText.setText(myController.getSettings().getIP());
         myPortText.setText(String.valueOf(myController.getSettings().getPort()));
 
-        myFrame.setDefaultCloseOperation(exit());
+        myFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-    }
-
-    public int exit() throws IOException, SAXException, ParserConfigurationException {
-        myController.setSettings(myIPText.getText(), Integer.parseInt(myPortText.getText()));
-        return JFrame.DISPOSE_ON_CLOSE;
+        myServerText.setEditable(true);
+        
+        myFrame.addWindowListener(new WindowAdapter() {
+        	public void windowClosing(WindowEvent e) {
+            	try {
+					myController.setSettings(myServerText.getText(), myIPText.getText(), Integer.parseInt(myPortText.getText()));
+				} catch (NumberFormatException e1) {
+					e1.printStackTrace();
+				} catch (FileNotFoundException e1) {					
+					e1.printStackTrace();
+				} catch (UnsupportedEncodingException e1) {					
+					e1.printStackTrace();
+				}
+        	}
+        });
+        
     }
 
 }

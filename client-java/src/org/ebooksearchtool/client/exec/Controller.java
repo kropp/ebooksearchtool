@@ -30,10 +30,11 @@ public class Controller {
         mySettings = new Settings();
 
         try {
-            mySettings.setIP(getSettings().getIP());
-            mySettings.setPort(getSettings().getPort());
+        	mySettings.setServer(getSettingsFromFile().getServer());
+            mySettings.setIP(getSettingsFromFile().getIP());
+            mySettings.setPort(getSettingsFromFile().getPort());
         } catch (FileNotFoundException exeption){
-            setSettings("192.168.0.2", 3128);
+            setSettings("http://feedbooks.com", "192.168.0.2", 3128);
         }
 
     }
@@ -51,17 +52,22 @@ public class Controller {
     }
 
     public Settings getSettings() throws SAXException, ParserConfigurationException, IOException {
+        return mySettings;
+    }
+    
+    public Settings getSettingsFromFile() throws SAXException, ParserConfigurationException, IOException {
         Parser parser = new Parser();
         SAXSetHandler handler = new SAXSetHandler(mySettings);
         parser.parse("settings.xml", handler);
         return mySettings;
     }
 
-    public void setSettings(String IP, int port) throws FileNotFoundException, UnsupportedEncodingException {
-        mySettings.setIP(IP);
+    public void setSettings(String server, String IP, int port) throws FileNotFoundException, UnsupportedEncodingException {
+        mySettings.setServer(server);
+    	mySettings.setIP(IP);
         mySettings.setPort(port);
         PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream("settings.xml"), "utf-8"));
-        pw.print("<root>\n" + "<IP>" + IP + "</IP>\n" + "<port>" + port + "</port>\n" + "</root>");
+        pw.print("<root>\n" + "<server>" + server + "</server>\n" + "<IP>" + IP + "</IP>\n" + "<port>" + port + "</port>\n" + "</root>");
         pw.close();
     }
     
