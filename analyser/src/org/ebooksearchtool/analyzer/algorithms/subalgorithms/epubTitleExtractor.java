@@ -41,15 +41,18 @@ public class epubTitleExtractor {
     }
 
     private static String trim(StringBuilder sb){
-        while(sb.indexOf(">") != 0){
+        while(sb.length() != 0 && sb.indexOf(">") != 0){
             sb.delete(0, 1);
         }
-        sb.delete(0, 1);
-        while(sb.indexOf("<") != (sb.length() - 1)){
+        if(sb.length() != 0){
+            sb.delete(0, 1);
+        }
+        while(sb.length() != 0 && sb.indexOf("<") != (sb.length() - 1)){
             sb.delete(sb.length() - 1, sb.length());
         }
-        sb.delete(sb.length() - 1, sb.length());
-
+        if(sb.length() != 0){
+            sb.delete(sb.length() - 1, sb.length());
+        }
         return sb.toString();
     }
 }

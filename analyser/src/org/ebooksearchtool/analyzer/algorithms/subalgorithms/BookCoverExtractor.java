@@ -38,26 +38,34 @@ public class BookCoverExtractor {
 
             return trim(sb, extractURL(lexems));
         }else{
-            return "Unknown title";
+            return "Unknown book cover";
         }
     }
 
     private static String trim(StringBuilder s, String str){
-        while(s.indexOf("/") != 0){
+        while(s.length() != 0 && s.indexOf("/") != 0){
             s.delete(0, 1);
         }
-        while(s.lastIndexOf("\"") != (s.length() - 1)){
+        while(s.length() != 0 && s.lastIndexOf("\"") != (s.length() - 1)){
             s.delete(s.length() - 1, s.length());
         }
-        s.delete(s.length() - 1, s.length());
 
-        int index = str.indexOf(".");
-        while(str.charAt(index) != '/'){
-            index++;
-        }
         StringBuilder sb = new StringBuilder();
-        sb.append(str.subSequence(0, index));
-        sb.append(s);
+        
+        if(s.length() != 0){
+            s.delete(s.length() - 1, s.length());
+            
+            int index = str.indexOf(".");
+            while(str.charAt(index) != '/'){
+                index++;
+            }
+            sb.append(str.subSequence(0, index));
+            sb.append(s);
+        }
+
+        if(sb.length() == 0){
+            sb.append("Unknown book cover");
+        }
 
         return sb.toString();
     }

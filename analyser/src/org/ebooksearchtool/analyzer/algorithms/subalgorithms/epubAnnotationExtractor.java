@@ -48,14 +48,14 @@ public class epubAnnotationExtractor {
 
     private static String trim(StringBuilder sb){
         if(sb.lastIndexOf("<") != -1 && sb.lastIndexOf(">") != -1){
-            while(sb.lastIndexOf("<") != (sb.length() - 1) && sb.lastIndexOf(">") != (sb.length() - 1)){
+            while(sb.length() != 0 && sb.lastIndexOf("<") != (sb.length() - 1) && sb.lastIndexOf(">") != (sb.length() - 1)){
                     sb.delete(sb.length() - 1, sb.length());
             }
             while(true){
-                if(sb.lastIndexOf("<") == (sb.length() - 1)){
+                if(sb.length() != 0 && sb.lastIndexOf("<") == (sb.length() - 1)){
                      sb.delete(sb.length() - 1, sb.length());
                 }else{
-                     if(sb.lastIndexOf(">") == (sb.length() - 1)){
+                     if(sb.length() != 0 && sb.lastIndexOf(">") == (sb.length() - 1)){
                         while(sb.lastIndexOf("<") != (sb.length() - 1)){
                             sb.delete(sb.length() - 1, sb.length());
                         }
@@ -65,7 +65,7 @@ public class epubAnnotationExtractor {
                      }
                 }
             }
-            while(sb.indexOf(">") != -1){
+            while(sb.length() != 0 && sb.indexOf(">") != -1){
                 sb.delete(0,1);
             }
         }

@@ -71,6 +71,7 @@ public class AnalyzerThread extends Thread {
            System.out.print("    Link: " + files.get(i).getLink() +"; " );
            System.out.print("Size: " + files.get(i).getSize() +"; " );
            System.out.println("Type: " + files.get(i).getType());
+           System.out.println("Book Cover: " + files.get(i).getImgLink());
        }
        System.out.println("Language: " + info.getLanguage());
        List<String> annotations = info.getAnnotations();
