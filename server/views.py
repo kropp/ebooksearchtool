@@ -17,7 +17,6 @@ def book_to_opds(book):
     return render_to_response('opds/client_response_book.xml', {'book': book,'server':SERVER_URL})
 
 def search_request_to_server(request):
-    query = request.GET['query']
 
     try:
         items_per_page = int(request.GET['items_per_page'])
@@ -30,20 +29,38 @@ def search_request_to_server(request):
     except KeyError:
         page = 1
         i = 0
-        
     next = page + 1
 
-    # search in title, author.name, alias, anntation, more_info (book_file)
-    q = Q(title__icontains=query) \
-      | Q(author__name__icontains=query)# \
-  #    | Q(author__alias__name__icontains=query) \
-  #    | Q(annotation__name__icontains=query) \
-  #    | Q(book_file__more_info__icontains=query)
+    try:
+    # search in title, author.name, alias, annotation, more_info (book_file)
+        query = request.GET['query']
+        q = Q(title__icontains=query) \
+          | Q(author__name__icontains=query) \
+          | Q(author__alias__name__icontains=query) \
+          | Q(annotation__name__icontains=query) \
+          | Q(book_file__more_info__icontains=query)
+    except KeyError:
+        pass
+        
+    try:
+    # search in title
+        title = request.GET['title']
+        q = q | Q(title__icontains=title) 
+    except KeyError:
+        pass                
+
+    try:
+    # search in author.name, alias
+        author = request.GET['author']
+        q = q | Q(author__name__icontains=author) \
+          | Q(author__alias__name__icontains=author)
+    except KeyError:
+        pass                
 
     books = Book.objects.filter(q).distinct()
     total = books.count()
-    print books
-    print books.count()
+#    print books
+#    print books.count()
     
     return search_to_opds(query, books[i:i+items_per_page], items_per_page, total, next)
 

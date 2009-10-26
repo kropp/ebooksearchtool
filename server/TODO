@@ -12,6 +12,8 @@
 
         1. Вывод данных в OPDS
             поиск по базе (добавить поиск по Author, Annotation)
+            opensearch
+            добавить startIndex
 
         2. интерфейс к analiser'y
             возможность добавлять книги
