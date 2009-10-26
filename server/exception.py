@@ -58,14 +58,14 @@ class RequestFileServerEx(ServerEx):
     "Bad request file format"
     pass
 
-class InputDataExcpt(ServerEx):
+class InputDataServerEx(ServerEx):
     "Bad input data"
     pass
 
-class DatabaseExcp(ServerEx):
+class DatabaseServerEx(ServerEx):
     "Request is not accommodated with database"
     pass
 
-class InnerServerExcp(ServerEx):
+class InnerServerEx(ServerEx):
     "Inner server error"
     pass

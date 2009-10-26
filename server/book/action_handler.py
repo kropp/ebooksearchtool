@@ -1,7 +1,10 @@
 '''Action handler'''
 
+import md5
+
 from django.db import IntegrityError
 from django.db import transaction
+from django.core.exceptions import *
 
 from server.spec.utils import replace_delim_to_space
 from server.book.entirety import AuthorEntirety, FileEntirety, BookEntirety
@@ -37,10 +40,13 @@ def all_handler(action, book_entr):
         try:
             dict = insert_all_handler(book_entr)
         except Exception:
+            print 'ERROR'
+            print 'transaction.rollback()'
             transaction.rollback()
             raise
     else:
         raise InnerServerExcp('All handler got not supported action ' + action)
+    print 'transaction.commit()'
     transaction.commit()
     return dict
 
@@ -52,6 +58,7 @@ def xml_exec_insert_unsafe(xml):
     
     book = Book(title='', lang='')
     authors = []
+    files = []
 
     for node in xml.getchildren():
         if node.tag == 'title':
@@ -74,31 +81,37 @@ def xml_exec_insert_unsafe(xml):
                         name = replace_delim_to_space(details_node.text)
                         if not name:
                             raise InputDataServerEx("The field 'author.name' can't be empty")
-                        authors.append(Author.objects.get_or_create(name=name)[0])
+                        
+                        author = Author.objects.get_or_create(name=name)[0]
+                        print 'Author.objects.get_or_create(name=%s)' % name
 
-#                    if details_node.tag == 'alias':
-#                        if not author.name:
-#                            raise InputDataServerEx("The field 'author.name' can't be empty")
-#                        alias = Alias(name='')
-#                        alias.name = replace_delim_to_space(details_node.text)
-#                        if alias.name:
-#                            alias.save()
-#                            author.alias.add(alias)
+
+                    if details_node.tag == 'alias':
+                        name = replace_delim_to_space(details_node.text)
+                        if name:
+                            alias = Alias.objects.get_or_create(name=name)[0]
+                            print 'Alias.objects.get_or_create(name=%s)' % name
+                            author.alias.add(alias)
+
+                    authors.append(author)
 
         if node.tag == 'files':
-            files = []
             for file_node in node.getchildren():
                 if file_node.tag != 'file':
                     raise InputDataServerEx("Unknown tag '" + file_node.tag +
                                          "' in tag 'files'")
-                file = BookFile()
+
                 for details_node in file_node.getchildren():
                     if details_node.tag == 'link':
                         link = replace_delim_to_space(details_node.text)
+                        if not link:
+                            raise InputDataServerEx("The field 'file.link' can't be empty")
+
+                        link_hash = md5.new(link).hexdigest()
                         try:
-                            file = BookFile.objects.get(link=link)
-                        except DoesNotExist:
-                            file = BookFile(link=link)
+                            file = BookFile.objects.get(link_hash=link_hash)
+                        except ObjectDoesNotExist:
+                            file = BookFile(link=link, link_hash=link_hash)
                          
                     if details_node.tag == 'type':
                         file.type = replace_delim_to_space(details_node.text)
@@ -109,20 +122,22 @@ def xml_exec_insert_unsafe(xml):
                     if details_node.tag == 'img_link':
                         file.img_link = replace_delim_to_space(details_node.text)
 
-                if not file.size:
-                    raise InputDataServerEx("The size of book file can't be empty")
                 file.save()
                 files.append(file)
 
-
+    print book
         
     found_book = Book.objects.filter(title=book.title, lang=book.lang)
     for author in authors:
         found_book = found_book.filter(author=author)
 
+    print found_book.count()
+
     if found_book.count() > 1:
-        raise InnerServerExcp("More than one book with the same title and the same authors")
+        raise InnerServerEx("More than one book with the same title and the same authors")
     if not found_book.count():
+        if not book.title:
+            raise InputDataServerEx("The field title can't be empty")
         book.save()
     else:
         book = found_book[0]
@@ -144,8 +159,10 @@ def xml_exec_insert(xml):
     try:
         result = xml_exec_insert_unsafe(xml)
     except:
+        print 'transaction.rollback()'
         transaction.rollback()
         raise
+    print 'transaction.commit()'
     transaction.commit()
     return result
             
@@ -155,7 +172,6 @@ def xml_exec_get(xml):
         raise InputDataServerEx("Not found root tag 'book'")
 
     books = Book.objects.all()
-
 
     for node in xml.getchildren():
         if node.tag == 'title':

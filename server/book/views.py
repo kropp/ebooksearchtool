@@ -5,6 +5,7 @@ import xml.etree.ElementTree as etree
 from string import split
 from xml.parsers.expat import ExpatError
 
+from django.core.exceptions import *
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.template import Context
@@ -40,7 +41,6 @@ def data_modify(request, action):
         except ExpatError, ex:
             raise RequestFileServerEx(ex.message)
 
-        print 'xml is ok'
         if action == ACTION['get']:
             books = xml_exec_get(xml)
             return books_to_response(books)

@@ -22,10 +22,16 @@
             {% for file in book.book_file.all %}
             <file>
                 <link> {{ file.link }} </link>
+                {% if file.size %}
                 <size> {{ file.size }} </size>
+                {% endif %}
                 <type> {{ file.type }} </type>
+                {% if file.more_info %}
                 <more_info> {{ file.more_info }} </more_info>
+                {% endif %}
+                {% if file.img_link %}
                 <img_link> {{ file.img_link }} </img_link>
+                {% endif %}
             </file>
             {% endfor %}
         </files>
