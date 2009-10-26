@@ -22,6 +22,10 @@
     </author>
     {% endfor %}
     
+    {% for book_file in book.book_file.all %}
+        <link type="{{ book_file.type }}" href="{{ book_file.link }}" />
+    {% endfor %}
+    
     <summary>
         {% for annotation in book.annotation.all %}
         <annotation> {{ annotation }} </annotation>

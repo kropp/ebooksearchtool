@@ -9,6 +9,9 @@
     <link href="{{ server }}/books/search.atom?items_per_page={{items_per_page}};query={{ query }}" rel="self"></link>
     <link rel="next" href="{{ server }}/books/search.atom?page={{next}};items_per_page={{items_per_page}};query={{ query }}"/>
     
+    <link type="application/opensearchdescription+xml" rel="search" title="Open Search Description" href="/opensearch.xml"/>
+
+    
     <title>Search results for: 
     {% if query %}
         {{ query }}
