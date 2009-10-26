@@ -130,6 +130,9 @@ public class SAXHandler extends DefaultHandler{
     @Override
     public void endDocument() throws SAXException
     {
+    	for (int i = 0; i < myBooks.getInfo().size(); ++i){
+    		System.out.println(myBooks.getInfo().get(i).getTitle() + "   " + myBooks.getInfo().get(i).getLink());
+    	}
     }
 
 }

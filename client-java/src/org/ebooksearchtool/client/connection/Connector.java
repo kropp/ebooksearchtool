@@ -28,7 +28,6 @@ public class Connector{
 
     public Connector(String adress, String IP, int port) throws IOException {
         Url = new URL(adress);
-        System.out.println(adress);
         myIP = IP;
         myPort = port;
     }
@@ -38,7 +37,7 @@ public class Connector{
         try {
             connection = Url.openConnection();
             PrintWriter pw1 = new PrintWriter(new OutputStreamWriter(new FileOutputStream(fileName), "utf-8"));
-            System.out.println(Url.getFile() + "  " + Url.getProtocol() + "  " + connection.getContentEncoding() + "  " + connection.getInputStream().available());
+            
             int i = 0;
             int end = connection.getContentLength();
             char ch;

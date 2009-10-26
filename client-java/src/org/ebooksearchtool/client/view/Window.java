@@ -36,6 +36,8 @@ public class Window {
     private int ind;
     private JComboBox myQueryCombo;
     
+    private JButton[] infB;
+    
     private Controller myController;
 
     public JFrame getFrame() {
@@ -85,18 +87,40 @@ public class Window {
                     String queryOption = (String)myQueryCombo.getSelectedItem();
                     myController.getQueryAnswer(queryWord, queryOption);
                     JTextArea[] info = new JTextArea[myController.getData().getInfo().size()];
-                    JButton[] infB = new JButton[myController.getData().getInfo().size()];
+                    infB = new JButton[myController.getData().getInfo().size()];
+                    
+                    ActionListener[] AL = new ActionListener[myController.getData().getInfo().size()];
                     for (int i = 0; i < myController.getData().getInfo().size(); ++i){
                     	info[i] = new JTextArea();
                     	myTextPan.add(info[i]);
                     	infB[i] = new JButton("download");
+                    	
                     	ind = i;
-                    	infB[i].addActionListener(new ActionListener() {
-                            public void actionPerformed(ActionEvent e) {
-
-                                try {
+                    	
+                    	/*AL[i] = new ActionListener(){
+                    		public void actionPerformed(ActionEvent e) {
+                    			try {
+                                	System.out.println(i);
                                 	
-                                	myController.getBookFile(ind);
+                                	myController.getBookFile(i);
+                                	
+                                }catch (IOException e1) {
+                                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                                }
+                            }
+                    	};
+                    	infB[i].addActionListener(AL[i]);*/
+                    	infB[i].addActionListener(new ActionListener() {
+                    		public void actionPerformed(ActionEvent e) {
+                    			try {
+                                	
+                                	for (int k = 0; k < myController.getData().getInfo().size(); ++k){
+                                		if(e.getSource() == infB[k]){
+                                			myController.getBookFile(k);
+                                			System.out.println(k);
+                                		}
+                                	}
+                                	
                                 	
                                 }catch (IOException e1) {
                                     e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
