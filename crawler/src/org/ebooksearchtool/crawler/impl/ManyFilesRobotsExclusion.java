@@ -107,7 +107,7 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
                             return 1;
                         }
                     } else if (s.charAt(1) == 'r') {       // Request-rate
-                        String[] ss = s.substring(3).split(" ");
+                        String[] ss = s.substring(3).split("[ \\/\\-]");
                         int time1 = Integer.parseInt(ss[2]);
                         int time2 = Integer.parseInt(ss[3]);
                         int time = Util.getCurrentTime();
@@ -130,7 +130,7 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
                                     br.close();
                                     return 1;
                                 }
-                            } else {
+   	                        } else {
                                 setLastAccessTime(host, now);
                             }
                         }
@@ -220,14 +220,31 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
                                     ss[1] = (60 * x) + "";
                                 }
                                 r = ss[0] + " " + ss[1];
+                                String times = null;
                                 if (ss.length == 4) {
-                                    r = r + " " + ss[2] + " " + ss[3];
+                                    ss[2] = ss[2].replaceAll(":", "");
+                                    ss[3] = ss[3].replaceAll(":", "");
+                                    try {
+                                        int t1 = Integer.parseInt(ss[2]);
+                                        int t2 = Integer.parseInt(ss[3]);
+                                        if (0 <= t1 && t1 <= 2359 && 0 <= t2 && t2 <= 2359) {
+                                            times = ss[2] + " " + ss[3];
+                                        }
+                                    } catch (NumberFormatException nfe) {
+                                    }
+                                }
+                                if (times != null) {
+                                    r = r + " " + times;
+                                } else {
+                                    r = r + " 0000 2359";
                                 }
                             } catch (Exception e) {
                                 continue;
                             }
-                            bw.write(" r " + r);
-                            bw.newLine();
+                            if (r != null) {
+                                bw.write(" r " + r);
+                                bw.newLine();
+                            }
                         }
                     } else if (s.startsWith("visit-time:")) {
                         s = s.substring(11).trim();
@@ -239,8 +256,10 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
                             } catch (Exception e) {
                                 continue;
                             }
-                            bw.write(" t " + r);
-                            bw.newLine();
+                            if (r != null) {
+                                bw.write(" t " + r);
+                                bw.newLine();
+                            }
                         }
                     }
                 }
