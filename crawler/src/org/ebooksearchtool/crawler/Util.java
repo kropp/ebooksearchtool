@@ -1,11 +1,13 @@
 package org.ebooksearchtool.crawler;
 
 import java.net.*;
+import java.text.*;
 import java.util.*;
 
 public class Util {
 
     private static Calendar ourCalendar = new GregorianCalendar(TimeZone.getTimeZone("America/New_York"));
+    private static DateFormat ourDateFormat = new SimpleDateFormat("HH:mm:ss");
     
     public static List<URI> createSimilarLinks(URI uri) {
         List<URI> answer = new ArrayList<URI>();
@@ -54,6 +56,11 @@ public class Util {
     
     public static long getCurrentTimeInMillis() {
         return ourCalendar.getTimeInMillis();
+    }
+    
+    
+    public static String getTimeString() {
+        return ourDateFormat.format(new Date());
     }
     
 }

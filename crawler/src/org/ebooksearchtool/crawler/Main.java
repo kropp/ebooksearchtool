@@ -28,6 +28,9 @@ public class Main {
         properties.setProperty("max_links_count", "0");
         properties.setProperty("max_links_from_page", "0");
         properties.setProperty("threads_count", "10");
+
+        properties.setProperty("log_file", "");
+        properties.setProperty("log_to_screen", "true");
         
         
         

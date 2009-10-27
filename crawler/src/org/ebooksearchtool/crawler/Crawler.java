@@ -63,6 +63,8 @@ public class Crawler implements Runnable {
             int maxLinksFromPage = Integer.parseInt(properties.getProperty("max_links_from_page"));
             ourMaxLinksFromPage = maxLinksFromPage == 0 ? Integer.MAX_VALUE : maxLinksFromPage;
             ourThreadsCount = Integer.parseInt(properties.getProperty("threads_count"));
+            Logger.setLogToScreenEnabled("true".equals(properties.getProperty("log_to_screen")));
+            Logger.setOutput(properties.getProperty("log_file"));
             
             ourNetwork = new Network(proxy, connectionTimeout, userAgent);
             myRobots = new ManyFilesRobotsExclusion(ourNetwork);
@@ -84,7 +86,7 @@ public class Crawler implements Runnable {
                 } catch (IOException f) { }
                 analyzerSocket = null;
                 analyzerWriter = null;
-                System.err.println(" error: connect to analyzer failed!");
+                System.err.println(" error: connect to analyzer failed, continuing without it");
             }
             myAnalyzerSocket = analyzerSocket;
             myAnalyzerWriter = analyzerWriter;
@@ -151,6 +153,7 @@ public class Crawler implements Runnable {
         myOutput.println("</books>");
         System.out.println();
         System.out.println("finished");
+        Logger.finish();
         if (ourAnalyzerEnabled) {
             try {
                 if (myAnalyzerSocket != null) {

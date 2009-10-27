@@ -52,9 +52,8 @@ public class Network {
             br.close();
             return page.toString();
         } catch (Exception e) {
-            System.err.println(" error on " + uri);
-            System.err.println(" " + e.getMessage());
-            //e.printStackTrace();
+            Logger.log(" error on " + uri);
+            Logger.log(" " + e.getMessage());
             return null;
         }
     }

@@ -36,7 +36,7 @@ class CrawlerThread extends Thread {
             String page = network.download(uri, "text/html");
             if (myStopping) break;
             if (page == null) continue;
-            System.out.println(String.format("% 4d %d %s %d", myIndex, myCrawler.getCounter(), uri, page.length()));
+            Logger.log(String.format("% 4d %d %s %d", myIndex, myCrawler.getCounter(), uri, page.length()));
             myAction = "getting links out of: " + uri;
             List<URI> links = HTMLParser.parseLinks(uri, page, myCrawler.getMaxLinksFromPage());
             if (myStopping) break;
