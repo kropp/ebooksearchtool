@@ -5,6 +5,7 @@ import java.net.*;
 import java.util.*;
 import org.ebooksearchtool.crawler.AbstractRobotsExclusion;
 import org.ebooksearchtool.crawler.Network;
+import org.ebooksearchtool.crawler.Logger;
 import org.ebooksearchtool.crawler.Util;
 
 public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
@@ -15,6 +16,7 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
     public static final int MAX_WAIT_FOR_ACCESS = 5000;
         
     private final Network myNetwork;
+    private final Logger myLogger;
     
     private File[] myCacheFile;
     private Map<String, Long> myLastAccess;
@@ -22,7 +24,9 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
     /*  stores all cached robots.txt in a number of files:
         0.txt, 1.txt, ..., {FILES_NUMBER - 1}.txt,
         where the number chosen for the given server is its name's hashcode modulo FILES_NUMBER */
-    public ManyFilesRobotsExclusion(Network network) {
+    public ManyFilesRobotsExclusion(Network network, Logger logger) {
+        myNetwork = network;
+        myLogger = logger;
         try {
             if (!ROBOTS_DIR.exists()) {
                 boolean success = ROBOTS_DIR.mkdir();
@@ -37,7 +41,7 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
                 }
             }
         } catch (Exception e) {
-            System.err.println(ROBOTS_DIR + " cannot be initialized");
+            myLogger.log(Logger.MessageType.ERRORS, ROBOTS_DIR + " cannot be initialized");
             System.exit(1);
         }
         myLastAccess = new HashMap<String, Long>();
@@ -53,9 +57,9 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
             }
             br.close();
         } catch (Exception e) {
-            System.err.println(LAST_ACCESS_FILE + " cannot be initialized");
+            myLogger.log(Logger.MessageType.ERRORS, LAST_ACCESS_FILE + " cannot be initialized");
+            System.exit(1);
         }
-        myNetwork = network;
     }
     
     protected long getLastAccessTime(String host) {
@@ -77,7 +81,7 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
         try {
             br = new BufferedReader(new FileReader(file));
         } catch (IOException ioe) {
-            System.err.println(file + " cannot be read");
+            myLogger.log(Logger.MessageType.ERRORS, file + " cannot be read");
             return 1;
         }
         String s = "";
@@ -150,7 +154,7 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
             }
             br.close();
         } catch (IOException ioe) {
-            System.err.println("error while reading " + file);
+            myLogger.log(Logger.MessageType.ERRORS, "error while reading " + file);
         }
         return hostFound ? 0 : -1;
     }
@@ -161,14 +165,14 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
         try {
             bw = new BufferedWriter(new FileWriter(file, true));
         } catch (IOException e) {
-            System.err.println(file + " cannot be written");
+            myLogger.log(Logger.MessageType.ERRORS, file + " cannot be written");
             return;
         }
         URI robotstxt = null;
         try {
             robotstxt = new URI("http://" + host + "/robots.txt");
         } catch (URISyntaxException e) {
-            System.err.println(" " + e.getMessage());
+            myLogger.log(Logger.MessageType.ERRORS, "URI syntax exception: " + e.getMessage());
             return;
         }
         String content = myNetwork.download(robotstxt, "text/plain");
@@ -265,6 +269,7 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
                 }
             }
             bw.close();
+            myLogger.log(Logger.MessageType.DOWNLOADED_ROBOTS_TXT, "downloaded " + robotstxt);
         } catch (IOException ioe) {
             return;
         }
@@ -280,7 +285,7 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
             }
             pw.close();
         } catch (Exception e) {
-            System.err.println("error while writing to " + LAST_ACCESS_FILE);
+            myLogger.log(Logger.MessageType.ERRORS, "error while writing to " + LAST_ACCESS_FILE);
         }
     }
     

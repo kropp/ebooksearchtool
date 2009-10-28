@@ -27,7 +27,6 @@ public class Crawler implements Runnable {
     private final AbstractVisitedLinksSet myVisited;
     private final Logger myLogger;
     
-    private int myCounter = 0;
     private CrawlerThread[] myThread;
     
     Crawler(Properties properties, String[] starts, PrintWriter output) {
@@ -66,10 +65,16 @@ public class Crawler implements Runnable {
             ourThreadsCount = Integer.parseInt(properties.getProperty("threads_count"));
             boolean logToScreenEnabled = "true".equals(properties.getProperty("log_to_screen"));
             String loggerOutput = properties.getProperty("log_file");
-            myLogger = new Logger(loggerOutput, logToScreenEnabled);
+            Map<Logger.MessageType, Boolean> logOptions = new HashMap<Logger.MessageType, Boolean>();
+            logOptions.put(Logger.MessageType.DOWNLOADED_ROBOTS_TXT, "true".equals(properties.getProperty("log_downloaded_robots_txt")));
+            logOptions.put(Logger.MessageType.CRAWLED_PAGES, "true".equals(properties.getProperty("log_crawled_pages")));
+            logOptions.put(Logger.MessageType.FOUND_BOOKS, "true".equals(properties.getProperty("log_found_books")));
+            logOptions.put(Logger.MessageType.ERRORS, "true".equals(properties.getProperty("log_errors")));
+            logOptions.put(Logger.MessageType.MISC, "true".equals(properties.getProperty("log_misc")));
             
+            myLogger = new Logger(loggerOutput, logToScreenEnabled, logOptions);
             ourNetwork = new Network(proxy, connectionTimeout, userAgent, myLogger);
-            myRobots = new ManyFilesRobotsExclusion(ourNetwork);
+            myRobots = new ManyFilesRobotsExclusion(ourNetwork, myLogger);
             myQueue = new LinksQueue();
             myVisited = new VisitedLinksSet(ourMaxLinksCount);
         } catch (Exception e) {
@@ -80,7 +85,7 @@ public class Crawler implements Runnable {
             BufferedWriter analyzerWriter = null;
             try {
                 analyzerSocket = new Socket(InetAddress.getLocalHost().getHostName(), ourAnalyzerPort);
-                System.err.println(" analyzer connected on port " + analyzerSocket.getPort());
+                myLogger.log(Logger.MessageType.MISC, " analyzer connected on port " + analyzerSocket.getPort());
                 analyzerWriter = new BufferedWriter(new OutputStreamWriter(analyzerSocket.getOutputStream()));
             } catch (IOException e) {
                 try {
@@ -88,7 +93,7 @@ public class Crawler implements Runnable {
                 } catch (IOException f) { }
                 analyzerSocket = null;
                 analyzerWriter = null;
-                System.err.println(" error: connect to analyzer failed, continuing without it");
+                myLogger.log(Logger.MessageType.ERRORS, " error: connect to analyzer failed, continuing without it");
             }
             myAnalyzerSocket = analyzerSocket;
             myAnalyzerWriter = analyzerWriter;
@@ -122,8 +127,15 @@ public class Crawler implements Runnable {
         return myLogger;
     }
     
-    public synchronized int getCounter() {
-        return myCounter++;
+
+    private int myCrawledPagesNumber = 0;
+    public synchronized int getCrawledPagesNumber() {
+        return myCrawledPagesNumber++;
+    }
+    
+    private int myFoundBooksNumber = 0;
+    public synchronized int getFoundBooksNumber() {
+        return myFoundBooksNumber++;
     }
     
     
@@ -203,8 +215,8 @@ public class Crawler implements Runnable {
                     myAnalyzerWriter.flush();
                 }
             } catch (IOException e) {
-                System.err.println(" error: output to analyzer failed, " + source.hashCode());
-                System.err.println(" " + e.getMessage());
+                myLogger.log(Logger.MessageType.ERRORS, " error: output to analyzer failed, " + source.hashCode());
+                myLogger.log(Logger.MessageType.ERRORS, " " + e.getMessage());
             }
         }
     }

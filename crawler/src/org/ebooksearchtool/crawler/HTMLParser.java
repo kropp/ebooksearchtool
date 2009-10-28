@@ -21,6 +21,10 @@ class HTMLParser {
                 referrer = new URI(referrer + "/");
             }
             uri = referrer.resolve(uri);
+            String checkDots = uri.toString();
+            if (checkDots.indexOf("../") >= 0) {
+                uri = new URI(checkDots.replaceAll("\\.\\./", ""));
+            }
         } catch (Exception e) {
             return;
         }

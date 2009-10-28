@@ -54,8 +54,8 @@ public class Network {
             br.close();
             return page.toString();
         } catch (Exception e) {
-            myLogger.log(" error on " + uri);
-            myLogger.log(" " + e.getMessage());
+            myLogger.log(Logger.MessageType.ERRORS, " error on " + uri);
+            myLogger.log(Logger.MessageType.ERRORS, " " + e.getMessage());
             return null;
         }
     }

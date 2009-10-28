@@ -37,7 +37,7 @@ class CrawlerThread extends Thread {
             String page = network.download(uri, "text/html");
             if (myStopping) break;
             if (page == null) continue;
-            logger.log(String.format("% 4d %d %s %d", myIndex, myCrawler.getCounter(), uri, page.length()));
+            logger.log(Logger.MessageType.CRAWLED_PAGES, String.format("% 4d %d %s %d", myIndex, myCrawler.getCrawledPagesNumber(), uri, page.length()));
             myAction = "getting links out of: " + uri;
             List<URI> links = HTMLParser.parseLinks(uri, page, myCrawler.getMaxLinksFromPage());
             if (myStopping) break;
@@ -52,6 +52,7 @@ class CrawlerThread extends Thread {
                     if (Util.isBook(link)) {
                         myAction = "writing information about a book: " + link;
                         myCrawler.writeBookToOutput(link, uri, page);
+                        logger.log(Logger.MessageType.FOUND_BOOKS, String.format("% 4d  book #%d: %s", myIndex, myCrawler.getFoundBooksNumber(), link));
                     } else {
                         myAction = "checking if i can go to: " + link;
                         boolean permitted = robots.canGo(link);

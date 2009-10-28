@@ -26,7 +26,12 @@ public class Main {
         {"threads_count", "10"},
 
         {"log_file", ""},
-        {"log_to_screen", "true"}
+        {"log_to_screen", "true"},
+        {"log_downloaded_robots_txt", "false"},
+        {"log_crawled_pages", "true"},
+        {"log_found_books", "true"},
+        {"log_errors", "true"},
+        {"log_misc", "true"}
     };
                                         
     
