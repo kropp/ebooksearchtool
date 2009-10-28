@@ -9,7 +9,7 @@ class Author;
 class Book {
 
 public:
-	Book(std::string title, std::string language, std::string summary, std::string uri) : myTitle (title),
+	Book(const std::string& title, const std::string& language, const std::string& summary, const std::string& uri) : myTitle (title),
 																			myLanguage(language),
 																			mySummary(summary),
 																			myUri(uri) {}
@@ -17,14 +17,14 @@ public:
 public:
 	void addAuthor(const Author* author);
 	
-	std::string getTitle() const;
+	const std::string& getTitle() const;
 	const Author* getAuthor() const;
-	std::string getLanguage() const;
-	std::string getSummary() const;
-	std::string getUri() const;
-	std::string getLink() const;
+	const std::string& getLanguage() const;
+	const std::string& getSummary() const;
+	const std::string& getUri() const;
+	const std::string& getLink() const;
 	
-	void setLink(std::string link);
+	void setLink(const std::string& link);
 
 private:
 	const std::string myTitle;
@@ -32,7 +32,7 @@ private:
 	const std::string mySummary;
 	std::vector<const Author*> myAuthors;
 	const std::string myUri;
-	std::string myLink;
+	const std::string myLink;
 };
 
 
@@ -43,8 +43,8 @@ public:
 
 public:
 	//void addBook(const Book* book);	
-	std::string getName() const;
-	std::string getUri() const;
+	const std::string& getName() const;
+	const std::string& getUri() const;
 
 private:
 	const std::string myName;
@@ -53,7 +53,7 @@ private:
 };
 
 
-inline std::string Book::getTitle() const {
+inline const std::string& Book::getTitle() const {
 	return myTitle;
 }
 
@@ -64,28 +64,28 @@ inline const Author* Book::getAuthor() const {
 	return myAuthors[0];
 }
 
-inline std::string Book::getLanguage() const {
+inline const std::string& Book::getLanguage() const {
 	return myLanguage;
 }
 
-inline std::string Book::getSummary() const {
+inline const std::string& Book::getSummary() const {
 	return mySummary;
 }
 
-inline std::string Author::getName() const {
+inline const std::string& Author::getName() const {
 	return myName;
 }
 
-inline std::string Book::getUri() const {
+inline const std::string& Book::getUri() const {
 	return myUri;
 }
 
-inline std::string Book::getLink() const {
+inline const std::string& Book::getLink() const {
 	return myLink;
 }
 
 
-inline std::string Author::getUri() const {
+inline const std::string& Author::getUri() const {
 	return myUri;
 }
 

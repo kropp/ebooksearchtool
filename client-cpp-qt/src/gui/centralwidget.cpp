@@ -12,10 +12,10 @@ CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myFile(0) {
 	myUrlLabel = new QLabel(tr("URL:"));
 	myQueryLineEdit = new QLineEdit();
     mySearchTags = new QComboBox(this);
-    mySearchTags->addItem("title");
-    mySearchTags->addItem("author");
     mySearchTags->addItem("general");
-	myStatusLabel = new QLabel(tr("Please enter a title or an author's name of the book you want to find"));
+   mySearchTags->addItem("title");
+    mySearchTags->addItem("author");
+ 	myStatusLabel = new QLabel(tr("Please enter a title or an author's name of the book you want to find"));
 
 	mySearchButton = new QPushButton(tr("Search"));
 	mySearchButton->setDefault(true);
