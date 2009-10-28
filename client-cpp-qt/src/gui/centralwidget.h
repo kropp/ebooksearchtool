@@ -19,6 +19,9 @@ class QAuthenticator;
 
 
 class CentralWidget : public QWidget {
+    
+    Q_OBJECT    
+    
 private:
     CentralWidget(QWidget* parent);
     

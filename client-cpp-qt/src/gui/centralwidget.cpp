@@ -1,6 +1,10 @@
 #include <QtGui>
 
 #include "centralwidget.h"
+#include "../xml_parser/parser.h"
+#include "../network/httpconnection.h"
+#include "../model/model.h"
+
 
 CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myFile(0) {
     myNewRequest = true;
@@ -50,6 +54,85 @@ CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myFile(0) {
 
 	setWindowTitle(tr("Search book tool"));
 	myQueryLineEdit->setFocus();
-	//showMaximized();
+}
+
+void CentralWidget::downloadFile() {
+	mySearchButton->setEnabled(false);
+	
+	if (myFile != 0) {
+		delete myFile;
+	}
+	if (!myQueryLineEdit->text().isEmpty()) {
+		myUrlLineEdit->setText(queryToUrl());
+	}
+	
+	myFile = new QFile("downloaded.atom");
+	myFile->open(QIODevice::WriteOnly); //может и не суметь открыть
+	myHttpConnection->downloadFile(myUrlLineEdit->text(), myFile);
+}
+
+void CentralWidget::downloadFile(const QString& url) {
+	if (myFile != 0) {
+		delete myFile;
+	}
+	QUrl qUrl(url);
+	QFileInfo fileInfo(qUrl.path());
+	QString fileName = fileInfo.fileName();
+	myFile = new QFile(fileName);
+
+	myFile->open(QIODevice::WriteOnly); //может и не суметь открыть
+	myHttpConnection->downloadFile(url, myFile);
+}
+
+
+void CentralWidget::enableSearchButton() {
+	//mySearchButton->setEnabled(!myUrlLineEdit->text().isEmpty());
+}
+
+void CentralWidget::httpRequestFinished(int , bool) {
+	
+	myFile->close();
+	mySearchButton->setEnabled(true);
+	if (myUrlLineEdit->text().contains("atom")) {
+		parseDownloadedFile();
+	} else if (myUrlLineEdit->text().contains("epub")) {
+		myView->open(myFile->fileName());
+	}
+}
+
+void CentralWidget::parseDownloadedFile() {
+	AtomParser parser;
+	myFile->open(QIODevice::ReadOnly);
+	if (myNewRequest) {
+	    Model* model = new Model();
+	    myView->resetModel(model);
+    }
+    parser.parse(myFile, myView->getModel());
+    myView->update();	
+	myFile->close();
+    const QString* url = parser.getNextAtomPage();
+    if (url) {
+        myNewRequest = false;
+        downloadFile(*url);
+    }
+}
+
+QString CentralWidget::queryToUrl() const {
+	QString urlStr("http://");
+    urlStr.append(myHttpConnection->getServer());
+    urlStr.append("/books/search.atom?query=");
+    const QString tag = mySearchTags->currentText();
+    if ((tag == "author") || (tag == "title")) {
+        urlStr.append(tag);
+        urlStr.append(":");
+    }
+    QString queryStr = myQueryLineEdit->text();
+    queryStr.replace(" ", "+");
+    urlStr.append(queryStr);
+	return urlStr;
+}
+
+void CentralWidget::setNewRequest() {
+    myNewRequest = true;
 }
 
