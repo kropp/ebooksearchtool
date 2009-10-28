@@ -9,31 +9,32 @@ public class Main {
     public static final File FOUND_BOOKS_FILE = new File("found.xml");
     public static final File DUMP_FILE = new File("dump.txt");
     
+    public static final String[][] DEFAULT_PROPERTIES = {
+        {"connection_timeout", "3000"},
+        {"user_agent", "ebooksearchtool"},
+
+        {"analyzer_enabled", "true"},
+        {"analyzer_port", "9999"},
+
+        {"proxy_enabled", "false"},
+        {"proxy_type", "http"},
+        {"proxy_host", "192.168.0.2"},
+        {"proxy_port", "3128"},
+
+        {"max_links_count", "0"},
+        {"max_links_from_page", "0"},
+        {"threads_count", "10"},
+
+        {"log_file", ""},
+        {"log_to_screen", "true"}
+    };
+                                        
     
     public static void main(String[] args) {
         Properties properties = new Properties();
-        
-        // default values
-        properties.setProperty("connection_timeout", "3000");
-        properties.setProperty("user_agent", "ebooksearchtool");
-        
-        properties.setProperty("analyzer_enabled", "true");
-        properties.setProperty("analyzer_port", "9999");
-        
-        properties.setProperty("proxy_enabled", "false");
-        properties.setProperty("proxy_type", "http");
-        properties.setProperty("proxy_host", "192.168.0.2");
-        properties.setProperty("proxy_port", "3128");
-        
-        properties.setProperty("max_links_count", "0");
-        properties.setProperty("max_links_from_page", "0");
-        properties.setProperty("threads_count", "10");
-
-        properties.setProperty("log_file", "");
-        properties.setProperty("log_to_screen", "true");
-        
-        
-        
+        for (String[] property : DEFAULT_PROPERTIES) {
+            properties.setProperty(property[0], property[1]);
+        }
         try {
             properties.load(new FileReader(PROPERTIES_FILE));
         } catch (IOException e) {

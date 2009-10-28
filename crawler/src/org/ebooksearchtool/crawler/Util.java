@@ -7,7 +7,8 @@ import java.util.*;
 public class Util {
 
     private static Calendar ourCalendar = new GregorianCalendar(TimeZone.getTimeZone("America/New_York"));
-    private static DateFormat ourDateFormat = new SimpleDateFormat("HH:mm:ss");
+    private static DateFormat ourTimeFormat = new SimpleDateFormat("HH:mm:ss");
+    private static DateFormat ourDateFormat = new SimpleDateFormat("dd.MM.yyyy");
     
     public static List<URI> createSimilarLinks(URI uri) {
         List<URI> answer = new ArrayList<URI>();
@@ -44,6 +45,8 @@ public class Util {
         }
     }
     
+    
+    
     public static int getCurrentTime() {
         ourCalendar.setTime(new Date());
         int minute = ourCalendar.get(Calendar.MINUTE);
@@ -60,6 +63,10 @@ public class Util {
     
     
     public static String getTimeString() {
+        return ourTimeFormat.format(new Date());
+    }
+    
+    public static String getDateString() {
         return ourDateFormat.format(new Date());
     }
     

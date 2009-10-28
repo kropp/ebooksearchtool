@@ -11,11 +11,13 @@ public class Network {
 	private final Proxy myProxy;
 	private final int myConnectionTimeout;
 	private final String myUserAgent;
+    private final Logger myLogger;
 	
-	public Network(Proxy proxy, int connectionTimeout, String userAgent) {
+	public Network(Proxy proxy, int connectionTimeout, String userAgent, Logger logger) {
 		myProxy = proxy;
 		myConnectionTimeout = connectionTimeout;
 		myUserAgent = userAgent;
+        myLogger = logger;
 	}
     
     public Proxy getProxy() {
@@ -52,8 +54,8 @@ public class Network {
             br.close();
             return page.toString();
         } catch (Exception e) {
-            Logger.log(" error on " + uri);
-            Logger.log(" " + e.getMessage());
+            myLogger.log(" error on " + uri);
+            myLogger.log(" " + e.getMessage());
             return null;
         }
     }

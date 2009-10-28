@@ -4,34 +4,34 @@ import java.io.*;
 
 public class Logger {
     
-    private static boolean ourLogToScreenEnabled = true;
-    private static PrintWriter ourOutput = null;
+    private final boolean myLogToScreenEnabled;
+    private final PrintWriter myOutput;
     
-    public static boolean setOutput(String logFile) {
-        if (ourOutput != null) {
-            return false;
-        }
+    public Logger(String logFile, boolean logToScreenEnabled) {
+        PrintWriter output = null;
         try {
-            ourOutput = new PrintWriter(logFile);
-        } catch (IOException e) {
-            return false;
+            output = new PrintWriter(logFile);
+        } catch (Exception e) {
         }
-        return true;
-    }
-    
-    public static void setLogToScreenEnabled(boolean logToScreenEnabled) {
-        ourLogToScreenEnabled = logToScreenEnabled;
-    }
-    
-    public static void finish() {
-        ourOutput.close();
-    }
-    
-    public static synchronized void log(String s) {
-        if (ourOutput != null) {
-            ourOutput.println("[" + Util.getTimeString() + "]" + s);
+        myOutput = output;
+        if (myOutput != null) {
+            myOutput.println("crawler started on " + Util.getDateString() + " at " + Util.getTimeString());
         }
-        if (ourLogToScreenEnabled) {
+        myLogToScreenEnabled = logToScreenEnabled;
+    }
+    
+    public void finish() {
+        if (myOutput != null) {
+            myOutput.println("crawler finished on " + Util.getDateString() + " at " + Util.getTimeString());
+            myOutput.close();
+        }
+    }
+    
+    public synchronized void log(String s) {
+        if (myOutput != null) {
+            myOutput.println("[" + Util.getTimeString() + "]" + s);
+        }
+        if (myLogToScreenEnabled) {
             System.out.println(s);
         }
     }

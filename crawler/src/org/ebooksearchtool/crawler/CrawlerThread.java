@@ -28,6 +28,7 @@ class CrawlerThread extends Thread {
         AbstractVisitedLinksSet visited = myCrawler.getVisited();
         AbstractRobotsExclusion robots = myCrawler.getRobots();
         Network network = myCrawler.getNetwork();
+        Logger logger = myCrawler.getLogger();
         while (true) {
             myAction = "taking an URI from the queue";
             URI uri = queue.poll();
@@ -36,7 +37,7 @@ class CrawlerThread extends Thread {
             String page = network.download(uri, "text/html");
             if (myStopping) break;
             if (page == null) continue;
-            Logger.log(String.format("% 4d %d %s %d", myIndex, myCrawler.getCounter(), uri, page.length()));
+            logger.log(String.format("% 4d %d %s %d", myIndex, myCrawler.getCounter(), uri, page.length()));
             myAction = "getting links out of: " + uri;
             List<URI> links = HTMLParser.parseLinks(uri, page, myCrawler.getMaxLinksFromPage());
             if (myStopping) break;

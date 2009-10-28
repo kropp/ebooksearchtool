@@ -25,6 +25,7 @@ public class Crawler implements Runnable {
     private final AbstractRobotsExclusion myRobots;
     private final AbstractLinksQueue myQueue;
     private final AbstractVisitedLinksSet myVisited;
+    private final Logger myLogger;
     
     private int myCounter = 0;
     private CrawlerThread[] myThread;
@@ -63,10 +64,11 @@ public class Crawler implements Runnable {
             int maxLinksFromPage = Integer.parseInt(properties.getProperty("max_links_from_page"));
             ourMaxLinksFromPage = maxLinksFromPage == 0 ? Integer.MAX_VALUE : maxLinksFromPage;
             ourThreadsCount = Integer.parseInt(properties.getProperty("threads_count"));
-            Logger.setLogToScreenEnabled("true".equals(properties.getProperty("log_to_screen")));
-            Logger.setOutput(properties.getProperty("log_file"));
+            boolean logToScreenEnabled = "true".equals(properties.getProperty("log_to_screen"));
+            String loggerOutput = properties.getProperty("log_file");
+            myLogger = new Logger(loggerOutput, logToScreenEnabled);
             
-            ourNetwork = new Network(proxy, connectionTimeout, userAgent);
+            ourNetwork = new Network(proxy, connectionTimeout, userAgent, myLogger);
             myRobots = new ManyFilesRobotsExclusion(ourNetwork);
             myQueue = new LinksQueue();
             myVisited = new VisitedLinksSet(ourMaxLinksCount);
@@ -116,6 +118,10 @@ public class Crawler implements Runnable {
         return myRobots;
     }
     
+    Logger getLogger() {
+        return myLogger;
+    }
+    
     public synchronized int getCounter() {
         return myCounter++;
     }
@@ -153,7 +159,7 @@ public class Crawler implements Runnable {
         myOutput.println("</books>");
         System.out.println();
         System.out.println("finished");
-        Logger.finish();
+        myLogger.finish();
         if (ourAnalyzerEnabled) {
             try {
                 if (myAnalyzerSocket != null) {
