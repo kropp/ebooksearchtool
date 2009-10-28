@@ -3,9 +3,7 @@
 
 <feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:thr="http://purl.org/syndication/thread/1.0" xml:lang="en-US" xmlns:app="http://www.w3.org/2007/app" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns="http://www.w3.org/2005/Atom" xmlns:dcterms="http://purl.org/dc/terms/">
 
-    <id></id>
-    
-    <link href="http://127.0.0.1:8000LINK%20FOR%20SEARCHING" rel="alternate"></link>
+    <link href="{{ server }}/books/search.atom?" rel="alternate"></link>
     <link href="{{ server }}/books/search.atom?items_per_page={{items_per_page}};query={{ query }}" rel="self"></link>
     <link rel="next" href="{{ server }}/books/search.atom?page={{next}};items_per_page={{items_per_page}};query={{ query }}"/>
     
@@ -14,18 +12,21 @@
     
     <title>Search results for: 
     {% if query %}
-        {{ query }}
-    {% else %}
-        {% if title %}
-            Title "{{ title }}"
-        {% endif %} 
-        {% if author %}
-            Author "{{ author }}"
-        {% endif %}
-    {% endif %}</title>
+        Query "{{ query }}";
+    {% endif %}
+    {% if title %}
+        Title "{{ title }}";
+    {% endif %} 
+    {% if author %}
+        Author "{{ author }}";
+    {% endif %}
+    </title>
+    
+    <id></id>
     <updated></updated>
     <icon></icon>
     <author></author>
+    
     <opensearch:totalResults> {{ total }} </opensearch:totalResults>
     <opensearch:itemsPerPage> {{ items_per_page }} </opensearch:itemsPerPage>
     {% if start_index %}

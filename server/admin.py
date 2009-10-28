@@ -1,6 +1,10 @@
 from django.contrib import admin
 from book.models import *
 
+class AnnotationAdmin(admin.ModelAdmin):
+    pass
+admin.site.register(Annotation, AnnotationAdmin)
+
 class BookAdmin(admin.ModelAdmin):
     pass
 admin.site.register(Book, BookAdmin)
@@ -8,10 +12,6 @@ admin.site.register(Book, BookAdmin)
 class AuthorAdmin(admin.ModelAdmin):
     pass
 admin.site.register(Author, AuthorAdmin)
-
-class AnnotationAdmin(admin.ModelAdmin):
-    pass
-admin.site.register(Annotation, AnnotationAdmin)
 
 class BookFileAdmin(admin.ModelAdmin):
     pass

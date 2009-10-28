@@ -5,10 +5,19 @@
     <InputEncoding>UTF-8</InputEncoding>
     <OutputEncoding>UTF-8</OutputEncoding>
 
-    <Url type="application/atom+xml" template="{{ server }}/search.atom?query={searchTerms}"/>
-    <Url type="application/atom+xml" template="{{ server }}/search.atom?author={searchTerms}"/>
-    <Url type="application/atom+xml" template="{{ server }}/search.atom?title={searchTerms}"/>
-    <Url type="application/atom+xml" template="{{ server }}/search.atom?title={searchTerms};author={searchTerms}"/>
-
+    <Url type="application/atom+xml" template="{{ server }}/search.atom?query={searchTerms?}"/>
+    <Query role="example" searchTerms="robot" />
+    
+    <Url type="application/atom+xml" template="{{ server }}/search.atom?author={searchTerms?}"/>
+    <Query role="example" searchTerms="pushkin"/>
+    
+    <Url type="application/atom+xml" template="{{ server }}/search.atom?title={searchTerms?}"/>
     <Query role="example" searchTerms="robot"/>
+    
+    <Url type="application/atom+xml" template="{{ server }}/search.atom?items_per_page={count?};query={searchTerms?}"/>
+    <Query role="example" searchTerms="rad hat" count="2" />
+    
+    <Url type="application/atom+xml" template="{{ server }}/search.atom?page={count?};author={searchTerms?}"/>
+    <Query role="example" searchTerms="Pushkin" count="2" />
+    
 </OpenSearchDescription>
