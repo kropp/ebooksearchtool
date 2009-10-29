@@ -32,7 +32,7 @@ public class Network {
         return myUserAgent;
     }
 	
-    public String download(URI uri, String wantedContentType) {
+    public String download(URI uri, String wantedContentType, boolean logErrors) {
         try {
             URLConnection connection = uri.toURL().openConnection(myProxy);
             connection.setConnectTimeout(myConnectionTimeout);
@@ -54,8 +54,10 @@ public class Network {
             br.close();
             return page.toString();
         } catch (Exception e) {
-            myLogger.log(Logger.MessageType.ERRORS, " error on " + uri);
-            myLogger.log(Logger.MessageType.ERRORS, " " + e.getMessage());
+            if (logErrors) {
+                myLogger.log(Logger.MessageType.ERRORS, " error on " + uri);
+                myLogger.log(Logger.MessageType.ERRORS, " " + e.getMessage());
+            }
             return null;
         }
     }

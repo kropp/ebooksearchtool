@@ -175,7 +175,7 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
             myLogger.log(Logger.MessageType.ERRORS, "URI syntax exception: " + e.getMessage());
             return;
         }
-        String content = myNetwork.download(robotstxt, "text/plain");
+        String content = myNetwork.download(robotstxt, "text/plain", false);
         if (content == null) {
             try {
                 bw.write(host);

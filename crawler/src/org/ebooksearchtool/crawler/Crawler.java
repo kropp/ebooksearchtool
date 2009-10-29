@@ -210,7 +210,7 @@ public class Crawler implements Runnable {
         String from = referrer.toString().replaceAll("&", "&amp;");
         myOutput.println("\t<book>");
         myOutput.println("\t\t<link src=\"" + link + "\" />");
-        myOutput.println("\t\t<referrer src=\"" + referrer + "\" />");
+        myOutput.println("\t\t<referrer src=\"" + from + "\" />");
         myOutput.println("\t</book>");
         myOutput.flush();
         if (ourAnalyzerEnabled) {

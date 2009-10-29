@@ -34,7 +34,7 @@ class CrawlerThread extends Thread {
             URI uri = queue.poll();
             if (uri == null) break;
             myAction = "downloading the page at: " + uri;
-            String page = network.download(uri, "text/html");
+            String page = network.download(uri, "text/html", true);
             if (myStopping) break;
             if (page == null) continue;
             logger.log(Logger.MessageType.CRAWLED_PAGES, String.format("% 4d %d %s %d", myIndex, myCrawler.getCrawledPagesNumber(), uri, page.length()));
