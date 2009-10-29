@@ -10,7 +10,7 @@ package org.ebooksearchtool.client.model;
 public class Book {
 
     private String myTitle;
-    private String myAuthor;
+    private Author myAuthor;
     private String myLanguage;
     private String myDate;
     private String mySummary;
@@ -26,11 +26,11 @@ public class Book {
         this.myTitle = myTitle;
     }
 
-    public String getAuthor() {
+    public Author getAuthor() {
         return myAuthor;
     }
 
-    public void setAuthor(String myAuthor) {
+    public void setAuthor(Author myAuthor) {
         this.myAuthor = myAuthor;
     }
 

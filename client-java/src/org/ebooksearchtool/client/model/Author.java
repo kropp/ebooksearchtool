@@ -1,5 +1,9 @@
 package org.ebooksearchtool.client.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Администратор
@@ -11,6 +15,7 @@ public class Author {
 
     private String myName;
     private String myID;
+    private List<Book> myBooks;
 
     public Author(){}
 
@@ -26,8 +31,16 @@ public class Author {
         return myID;
     }
 
-    public void setAuthor(String ID) {
+    public void setID(String ID) {
         myID = ID;
+    }
+
+    public void addBook(Book newBook){
+        myBooks.add(newBook);
+    }
+
+    public List<Book> getBooks(){
+        return Collections.unmodifiableList(myBooks);
     }
 
 }

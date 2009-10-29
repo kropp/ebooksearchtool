@@ -30,7 +30,7 @@ public class Data {
         myBooks.get(elementIndex).setTitle(value);
     }
 
-    public void setBookAuthor(int elementIndex, String value){
+    public void setBookAuthor(int elementIndex, Author value){
         myBooks.get(elementIndex).setAuthor(value);
     }
 
@@ -50,8 +50,12 @@ public class Data {
         myBooks.get(elementIndex).setLink(value);
     }
 
-    public void addElement(Book addition){
+    public void addBook(Book addition){
         myBooks.add(addition);
+    }
+
+    public void addAuthor(Author addition){
+        myAuthors.add(addition);
     }
 
     public List<Book> getBooks() {
@@ -60,6 +64,10 @@ public class Data {
     
     public List<Author> getAuthors() {
         return Collections.unmodifiableList(myAuthors);
+    }
+
+    public void setAuthorBook(int elementIndex, Book value){
+        myAuthors.get(elementIndex).addBook(value);
     }
 
     public String[] getAttributes() {
