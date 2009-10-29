@@ -1,0 +1,2 @@
+Main-Class: org.ebooksearchtool.client.MainWindow
+Class-Path: ../lib/client.jar
