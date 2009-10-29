@@ -14,4 +14,6 @@ public abstract class AbstractVisitedLinksSet {
     
     public abstract boolean addIfNotContains(Collection<? extends URI> c, URI uri);
     
+    public abstract int size();
+    
 }

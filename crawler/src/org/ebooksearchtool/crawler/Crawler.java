@@ -14,6 +14,7 @@ public class Crawler implements Runnable {
     
     private static int ourMaxLinksCount;
     private static int ourMaxLinksFromPage;
+    private static int ourMaxQueueSize;
     private static int ourThreadsCount;
     
     
@@ -62,6 +63,8 @@ public class Crawler implements Runnable {
             ourMaxLinksCount = maxLinksCount == 0 ? Integer.MAX_VALUE : maxLinksCount;
             int maxLinksFromPage = Integer.parseInt(properties.getProperty("max_links_from_page"));
             ourMaxLinksFromPage = maxLinksFromPage == 0 ? Integer.MAX_VALUE : maxLinksFromPage;
+            int maxQueueSize = Integer.parseInt(properties.getProperty("max_queue_size"));
+            ourMaxQueueSize = maxQueueSize == 0 ? Integer.MAX_VALUE : maxQueueSize;
             ourThreadsCount = Integer.parseInt(properties.getProperty("threads_count"));
             boolean logToScreenEnabled = "true".equals(properties.getProperty("log_to_screen"));
             String loggerOutput = properties.getProperty("log_file");
@@ -75,7 +78,7 @@ public class Crawler implements Runnable {
             myLogger = new Logger(loggerOutput, logToScreenEnabled, logOptions);
             ourNetwork = new Network(proxy, connectionTimeout, userAgent, myLogger);
             myRobots = new ManyFilesRobotsExclusion(ourNetwork, myLogger);
-            myQueue = new LinksQueue();
+            myQueue = new LinksQueue(ourMaxQueueSize);
             myVisited = new VisitedLinksSet(ourMaxLinksCount);
         } catch (Exception e) {
             throw new RuntimeException("bad format of properties file: " + e.getMessage());
@@ -128,13 +131,13 @@ public class Crawler implements Runnable {
     }
     
 
-    private int myCrawledPagesNumber = 0;
-    public synchronized int getCrawledPagesNumber() {
+    private long myCrawledPagesNumber = 0;
+    public synchronized long getCrawledPagesNumber() {
         return myCrawledPagesNumber++;
     }
     
-    private int myFoundBooksNumber = 0;
-    public synchronized int getFoundBooksNumber() {
+    private long myFoundBooksNumber = 0;
+    public synchronized long getFoundBooksNumber() {
         return myFoundBooksNumber++;
     }
     
@@ -183,11 +186,17 @@ public class Crawler implements Runnable {
     
     public boolean dumpCurrentState(File file) {
         try {
-            PrintWriter pw = new PrintWriter(file);
+            StringBuffer sb = new StringBuffer();
+            sb.append("     queue size = " + myQueue.size() + "\n");
+            sb.append("       set size = " + myVisited.size() + "\n");
+            sb.append("  pages crawled = " + myCrawledPagesNumber + "\n");
+            sb.append("    books found = " + myFoundBooksNumber + "\n");
             for (int i = 0; i < ourThreadsCount; i++) {
-                pw.println(String.format("%4d  %s", i, myThread[i].getAction()));
+                sb.append(String.format("%4d  %s\n", i, myThread[i].getAction()));
             }
-            pw.println();
+            System.out.println(sb);
+            PrintWriter pw = new PrintWriter(file);
+            pw.println(sb);
             pw.close();
             return true;
         } catch (IOException e) {
@@ -197,8 +206,10 @@ public class Crawler implements Runnable {
     
     
     synchronized void writeBookToOutput(URI source, URI referrer, String referrerPage) {
+        String link = source.toString().replaceAll("&", "&amp;");
+        String from = referrer.toString().replaceAll("&", "&amp;");
         myOutput.println("\t<book>");
-        myOutput.println("\t\t<link src=\"" + source + "\" />");
+        myOutput.println("\t\t<link src=\"" + link + "\" />");
         myOutput.println("\t\t<referrer src=\"" + referrer + "\" />");
         myOutput.println("\t</book>");
         myOutput.flush();
@@ -207,7 +218,7 @@ public class Crawler implements Runnable {
                 if (myAnalyzerSocket != null) {
                     referrerPage = referrerPage.replaceAll("]]>", "]]]]><![CDATA[>");
                     myAnalyzerWriter.write("<root>"); myAnalyzerWriter.newLine();
-                    myAnalyzerWriter.write("\t<link src=\"" + source + "\" />"); myAnalyzerWriter.newLine();
+                    myAnalyzerWriter.write("\t<link src=\"" + link + "\" />"); myAnalyzerWriter.newLine();
                     myAnalyzerWriter.write("\t<![CDATA["); myAnalyzerWriter.newLine();
                     myAnalyzerWriter.write(referrerPage); myAnalyzerWriter.newLine();
                     myAnalyzerWriter.write("\t]]>"); myAnalyzerWriter.newLine();
@@ -215,7 +226,7 @@ public class Crawler implements Runnable {
                     myAnalyzerWriter.flush();
                 }
             } catch (IOException e) {
-                myLogger.log(Logger.MessageType.ERRORS, " error: output to analyzer failed, " + source.hashCode());
+                myLogger.log(Logger.MessageType.ERRORS, " error: output to analyzer failed, " + link.hashCode());
                 myLogger.log(Logger.MessageType.ERRORS, " " + e.getMessage());
             }
         }

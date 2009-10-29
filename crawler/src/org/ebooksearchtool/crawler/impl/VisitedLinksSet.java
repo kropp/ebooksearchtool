@@ -40,5 +40,9 @@ public class VisitedLinksSet extends AbstractVisitedLinksSet {
         }
         return add(uri);
     }
+    
+    public int size() {
+        return mySet.size();
+    }
 
 }

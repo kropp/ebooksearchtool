@@ -10,4 +10,6 @@ public abstract class AbstractLinksQueue {
     
     public abstract boolean isEmpty();
     
+    public abstract int size();
+    
 }

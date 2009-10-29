@@ -8,11 +8,18 @@ import org.ebooksearchtool.crawler.AbstractLinksQueue;
 public class LinksQueue extends AbstractLinksQueue {
 
     private final BlockingQueue<URI> myQueue = new LinkedBlockingQueue<URI>();
+    private final int myMaxSize;
+    
+    public LinksQueue(int maxSize) {
+        myMaxSize = maxSize;
+    }
     
     public void offer(URI uri) {
-        try {
-            myQueue.put(uri);
-        } catch (InterruptedException e) { }
+        if (myQueue.size() < myMaxSize) {
+            try {
+                myQueue.put(uri);
+            } catch (InterruptedException e) { }
+        }
     }
     
     public URI poll() {
@@ -25,6 +32,10 @@ public class LinksQueue extends AbstractLinksQueue {
     
     public boolean isEmpty() {
         return myQueue.isEmpty();
+    }
+    
+    public int size() {
+        return myQueue.size();
     }
     
 }

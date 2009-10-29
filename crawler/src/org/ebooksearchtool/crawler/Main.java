@@ -23,6 +23,7 @@ public class Main {
 
         {"max_links_count", "0"},
         {"max_links_from_page", "0"},
+        {"max_queue_size", "0"},
         {"threads_count", "10"},
 
         {"log_file", ""},
