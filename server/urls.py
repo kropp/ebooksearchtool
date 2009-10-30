@@ -24,5 +24,8 @@ urlpatterns = patterns('',
     
     #opensearchdescription
     (r'^opensearch/?$', 'server.views.opensearch_description'),
+    
+    #user_information
+    (r'^user/insert/?$', 'server.reader.views.insert_user_information',
 )
 

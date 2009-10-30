@@ -17,7 +17,7 @@ ACTION = {
 }
 
 def xml_exec_insert_unsafe(xml):
-    "Execute xml-insert-request usafe"
+    "Execute xml-insert-request unsafe"
     if xml.tag != 'book':
         raise InputDataServerException("Not found root tag 'book'")
     

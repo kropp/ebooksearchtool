@@ -88,8 +88,9 @@ INSTALLED_APPS = (
 
     'django.contrib.admin',
     'django.contrib.admindocs',
-#    'server.south',
+    'server.south',
     'server.book',
+    'server.reader',
 )
 
 try:
