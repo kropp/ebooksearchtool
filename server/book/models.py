@@ -53,7 +53,7 @@ class Book(models.Model):
     tag = models.ManyToManyField(Tag)
 
     def __unicode__(self):
-        return '%s (%s)' % (self.title, self.lang)
+        return '[id %s] %s (%s)' % (self.id, self.title, self.lang)
 
 
 class Author(models.Model):

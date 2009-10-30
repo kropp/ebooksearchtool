@@ -97,3 +97,5 @@ try:
     from local_settings import *
 except Exception:
 	  pass
+
+from log_setting import *

@@ -10,6 +10,7 @@ from server.spec.utils import replace_delim_to_space
 from server.book.entirety import AuthorEntirety, FileEntirety, BookEntirety
 from server.exception import *
 from server.book.models import *
+from server.logger import main_logger
 
 ACTION = {
     'get': 1,
@@ -102,6 +103,8 @@ def xml_exec_insert_unsafe(xml):
 
     if found_book.count() > 1:
         raise InnerServerException("More than one book with the same title and the same authors")
+    print "Write to log"
+    main_logger.error("More than one book with the same title and the same authors: " + str(found_book))
     if not found_book.count():
         if not book.title:
             raise InputDataServerException("The field title can't be empty")
