@@ -8,23 +8,21 @@ import org.ebooksearchtool.analyzer.model.BookInfo;
 
 public class Messages {
 
-    public static final String SEPARATOR = System.getProperty("line.separator");
-
     public static String formBookInfo(BookInfo info) {
         StringBuilder str = new StringBuilder();
-        String message = info.getBookInfo();
+        String message = encodeSpecialSymbols(info.getBookInfo());
         str.append("POST " + "/data/insert " + "HTTP/1.0");
-        str.append(Messages.SEPARATOR);
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
         str.append("Host: " + "192.168.2.104:8000");
-        str.append(Messages.SEPARATOR);
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
         str.append("Content-Type: application/x-www-form-urlencoded");
-        str.append(Messages.SEPARATOR);
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
         str.append("Content-Length: " + getContentLength(message));
-        str.append(Messages.SEPARATOR);
-        str.append(Messages.SEPARATOR);
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
         str.append("xml=" + message);
-        str.append(Messages.SEPARATOR);
-        str.append(Messages.SEPARATOR);
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
 
         System.out.println(str.toString());
         return str.toString();
@@ -32,19 +30,20 @@ public class Messages {
 
     public static String formBookInfoRequest(BookInfo info) {
         StringBuilder str = new StringBuilder();
-        String message = info.getBookInfo();//TODO: Сделать функцию для запроса данных у сервера
+        //TODO: Сделать функцию для запроса данных у сервера
+        String message = encodeSpecialSymbols(info.getBookInfo());
         str.append("POST " + "/data/insert " + "HTTP/1.0");
-        str.append(Messages.SEPARATOR);
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
         str.append("Host: " + "192.168.2.104:8000");
-        str.append(Messages.SEPARATOR);
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
         str.append("Content-Type: application/x-www-form-urlencoded");
-        str.append(Messages.SEPARATOR);
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
         str.append("Content-Length: " + getContentLength(message));
-        str.append(Messages.SEPARATOR);
-        str.append(Messages.SEPARATOR);
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
         str.append("xml=" + message);
-        str.append(Messages.SEPARATOR);
-        str.append(Messages.SEPARATOR);
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
 
         System.out.println(str.toString());
         return str.toString();
@@ -52,5 +51,24 @@ public class Messages {
 
     private static long getContentLength(String str){
         return str.length() + 4;
+    }
+
+    private static String encodeSpecialSymbols(String message){
+        StringBuilder sb = new StringBuilder(message);
+        int length = sb.length();
+        for (int i = 0; i < length; i++) {
+            if(sb.charAt(i) == ';'){
+                sb.deleteCharAt(i);
+                sb.insert(i, "%3B");
+            }
+        }
+        String test = AnalyzerProperties.getPropertie("systemSeparator") + 
+                AnalyzerProperties.getPropertie("systemSeparator");
+        while(sb.indexOf(test) != -1){
+            sb.replace(sb.indexOf(test), sb.indexOf(test) + test.length(),
+                    AnalyzerProperties.getPropertie("systemSeparator"));
+        }
+
+        return sb.toString();
     }
 }
