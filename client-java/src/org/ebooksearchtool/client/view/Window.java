@@ -94,19 +94,6 @@ public class Window {
                     	
                     	ind = i;
                     	
-                    	/*AL[i] = new ActionListener(){
-                    		public void actionPerformed(ActionEvent e) {
-                    			try {
-                                	System.out.println(i);
-                                	
-                                	myController.getBookFile(i);
-                                	
-                                }catch (IOException e1) {
-                                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                                }
-                            }
-                    	};
-                    	infB[i].addActionListener(AL[i]);*/
                     	infB[i].addActionListener(new ActionListener() {
                     		public void actionPerformed(ActionEvent e) {
                     			try {

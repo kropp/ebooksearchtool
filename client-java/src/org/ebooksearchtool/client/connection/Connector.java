@@ -44,7 +44,7 @@ public class Connector{
             int i = 0;
             int end = connection.getContentLength();
             char ch;
-            while (i!=end/*connection.getInputStream().available()/*i != connection.getContentLength()*/){
+            while (i!=end){
             	
                 ch = (char)connection.getInputStream().read();
             	pw1.print(ch);

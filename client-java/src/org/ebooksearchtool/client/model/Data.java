@@ -13,14 +13,6 @@ import java.util.List;
  */
 public class Data {
 
-    private String[] myAttributeNames = {
-            "title",
-            "author",
-            "language",
-            "date",
-            "summary",
-            "link"
-    };
     private List<Book> myBooks = new ArrayList<Book>();
     private List<Author> myAuthors = new ArrayList<Author>();
 
@@ -46,8 +38,24 @@ public class Data {
         myBooks.get(elementIndex).setSummary(value);
     }
 
-    public void setBookLink(int elementIndex, String value){
-        myBooks.get(elementIndex).setLink(value);
+    public void setBookID(int elementIndex, String value){
+        myBooks.get(elementIndex).setID(value);
+    }
+
+    public void setBookPdfLink(int elementIndex, String value){
+        myBooks.get(elementIndex).setPdfLink(value);
+    }
+
+    public void setBookEpubLink(int elementIndex, String value){
+        myBooks.get(elementIndex).setEpubLink(value);
+    }
+
+    public void setBookImage(int elementIndex, String value){
+        myBooks.get(elementIndex).setImage(value);
+    }
+
+    public void setBookGenre(int elementIndex, String value){
+        myBooks.get(elementIndex).setGenre(value);
     }
 
     public void addBook(Book addition){
@@ -70,7 +78,4 @@ public class Data {
         myAuthors.get(elementIndex).addBook(value);
     }
 
-    public String[] getAttributes() {
-        return myAttributeNames;
-    }
 }

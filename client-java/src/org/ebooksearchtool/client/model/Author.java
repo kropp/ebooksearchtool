@@ -15,7 +15,7 @@ public class Author {
 
     private String myName;
     private String myID;
-    private List<Book> myBooks;
+    private List<Book> myBooks = new ArrayList<Book>();
 
     public Author(){}
 
