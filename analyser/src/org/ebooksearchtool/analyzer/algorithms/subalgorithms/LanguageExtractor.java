@@ -33,6 +33,7 @@ public class LanguageExtractor {
         if(sb.length() != 0){
             sb.delete(sb.length() - 1, sb.length());
         }
+        
         return sb.toString();
     }
 }

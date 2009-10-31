@@ -2,7 +2,7 @@ package org.ebooksearchtool.analyzer.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.ebooksearchtool.analyzer.utils.Properties;
+import org.ebooksearchtool.analyzer.utils.AnalyzerProperties;
 
 /**
  * @author Алексей
@@ -111,9 +111,9 @@ public class BookInfo {
     public String getBookInfo(){
         StringBuilder str = new StringBuilder();
         str.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-        str.append(Properties.SYSTEM_SEPARATOR);
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
         str.append("<book>");
-        str.append(Properties.SYSTEM_SEPARATOR);
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
         str.append(writeTitle());
         str.append(writeLanguage());      
         str.append(writeAuthors());
@@ -129,7 +129,7 @@ public class BookInfo {
         str.append("<title>");
         str.append(getTitle());
         str.append("</title>");
-        str.append(Properties.SYSTEM_SEPARATOR);
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
 
         return str.toString();
     }
@@ -139,7 +139,7 @@ public class BookInfo {
         str.append("<lang>");
         str.append(getLanguage());
         str.append("</lang>");
-        str.append(Properties.SYSTEM_SEPARATOR);
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
 
         return str.toString();
     }
@@ -150,15 +150,15 @@ public class BookInfo {
         int length = authors.size();
 
         str.append("<authors>");
-        str.append(Properties.SYSTEM_SEPARATOR);
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
         for (int i = 0; i < length; i++) {
             Author author = authors.get(i);
             str.append("<author>");
-            str.append(Properties.SYSTEM_SEPARATOR);
+            str.append(AnalyzerProperties.getPropertie("systemSeparator"));
             str.append("<name>");
             str.append(author.getName());
             str.append("</name>");
-            str.append(Properties.SYSTEM_SEPARATOR);
+            str.append(AnalyzerProperties.getPropertie("systemSeparator"));
             List<String> aliases = author.getAliases();
             if(aliases != null){
             int alLength = aliases.size();
@@ -166,14 +166,14 @@ public class BookInfo {
                     str.append("<alias>");
                     str.append(aliases.get(j));
                     str.append("</alias>");
-                    str.append(Properties.SYSTEM_SEPARATOR);
+                    str.append(AnalyzerProperties.getPropertie("systemSeparator"));
                 }
             }
             str.append("</author>");
-            str.append(Properties.SYSTEM_SEPARATOR);
+            str.append(AnalyzerProperties.getPropertie("systemSeparator"));
         }
         str.append("</authors>");
-        str.append(Properties.SYSTEM_SEPARATOR);
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
         
         return str.toString();
     }
@@ -184,36 +184,36 @@ public class BookInfo {
         int length = files.size();
 
         str.append("<files>");
-        str.append(Properties.SYSTEM_SEPARATOR);
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
         for (int i = 0; i < length; i++) {
             File file = files.get(i);
             str.append("<file>");
-            str.append(Properties.SYSTEM_SEPARATOR);
+            str.append(AnalyzerProperties.getPropertie("systemSeparator"));
             str.append("<link>");
             str.append(file.getLink());
             str.append("</link>");
-            str.append(Properties.SYSTEM_SEPARATOR);
+            str.append(AnalyzerProperties.getPropertie("systemSeparator"));
             str.append("<size>");
             str.append(file.getSize());
             str.append("</size>");
-            str.append(Properties.SYSTEM_SEPARATOR);
+            str.append(AnalyzerProperties.getPropertie("systemSeparator"));
             str.append("<type>");
             str.append(file.getType());
             str.append("</type>");
-            str.append(Properties.SYSTEM_SEPARATOR);
+            str.append(AnalyzerProperties.getPropertie("systemSeparator"));
             str.append("<more_info>");
             str.append(file.getMoreInfo());
             str.append("</more_info>");
-            str.append(Properties.SYSTEM_SEPARATOR);
+            str.append(AnalyzerProperties.getPropertie("systemSeparator"));
             str.append("<img_link>");
             str.append(file.getImgLink());
             str.append("</img_link>");
-            str.append(Properties.SYSTEM_SEPARATOR);
+            str.append(AnalyzerProperties.getPropertie("systemSeparator"));
             str.append("</file>");
-            str.append(Properties.SYSTEM_SEPARATOR);
+            str.append(AnalyzerProperties.getPropertie("systemSeparator"));
         }
         str.append("</files>");
-        str.append(Properties.SYSTEM_SEPARATOR);
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
 
         return str.toString();
     }
@@ -226,7 +226,7 @@ public class BookInfo {
             str.append("<annotation>");
             str.append(annotations.get(i));
             str.append("</annotation>");
-            str.append(Properties.SYSTEM_SEPARATOR);
+            str.append(AnalyzerProperties.getPropertie("systemSeparator"));
         }
 
         return str.toString();

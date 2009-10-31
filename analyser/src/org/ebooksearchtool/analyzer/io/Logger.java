@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
-import org.ebooksearchtool.analyzer.utils.Properties;
+import org.ebooksearchtool.analyzer.utils.AnalyzerProperties;
 
 /**
  * @author Алексей
@@ -12,7 +12,30 @@ import org.ebooksearchtool.analyzer.utils.Properties;
 
 public class Logger {
 
-    public static synchronized void setToLog(String message){
+    public static synchronized void setToErrorLog(String message){
+        RandomAccessFile log = null;
+        try{
+            try{
+                makeDirectory();
+                log = new RandomAccessFile(getErrorLogPath(), "rws");
+                long length = log.length();
+                log.readFully(new byte[(int)length]);
+                log.writeBytes(getCurrentTime());
+                log.writeBytes(AnalyzerProperties.getPropertie("systemSeparator"));
+                log.writeBytes(message);
+                log.writeBytes(AnalyzerProperties.getPropertie("systemSeparator"));
+                log.writeBytes(AnalyzerProperties.getPropertie("systemSeparator"));
+                } catch (IOException ex) {
+                    System.out.print(ex.toString());
+                }finally{
+                    log.close();
+                }
+        }catch(IOException ex){
+            System.out.println("Couldn't write to log.");
+        }
+    }
+
+     public static synchronized void setToLog(String message){
         RandomAccessFile log = null;
         try{
             try{
@@ -21,17 +44,20 @@ public class Logger {
                 long length = log.length();
                 log.readFully(new byte[(int)length]);
                 log.writeBytes(getCurrentTime());
-                log.writeBytes(Properties.SYSTEM_SEPARATOR);
+                log.writeBytes(AnalyzerProperties.getPropertie("systemSeparator"));
                 log.writeBytes(message);
-                log.writeBytes(Properties.SYSTEM_SEPARATOR);
-                log.writeBytes(Properties.SYSTEM_SEPARATOR);
+                log.writeBytes(AnalyzerProperties.getPropertie("systemSeparator"));
+                log.writeBytes(AnalyzerProperties.getPropertie("systemSeparator"));
                 } catch (IOException ex) {
                     System.out.print(ex.toString());
                 }finally{
                     log.close();
                 }
-        }catch(IOException ex){}
+        }catch(IOException ex){
+            System.out.println("Couldn't write to log.");
+        }
     }
+
 
     private static String getCurrentDate(){
         GregorianCalendar calendar = new GregorianCalendar(TimeZone.getDefault());
@@ -48,14 +74,18 @@ public class Logger {
     }
 
     private static void makeDirectory(){
-        File directory = new File(Properties.getPropertie("logDirectoryName"));
+        File directory = new File(AnalyzerProperties.getPropertie("logDirectoryName"));
         if(!directory.exists()){
             directory.mkdir();
         }
     }
 
+    private static String getErrorLogPath(){
+        return AnalyzerProperties.getPropertie("logDirectoryName") + "\\log" + getCurrentDate() + "ErrorLog.txt";
+    }
+
     private static String getLogPath(){
-        return Properties.getPropertie("logDirectoryName") + "\\log" + getCurrentDate() + ".txt";
+        return AnalyzerProperties.getPropertie("logDirectoryName") + "\\log" + getCurrentDate() + ".txt";
     }
 
     private static String format(int i){

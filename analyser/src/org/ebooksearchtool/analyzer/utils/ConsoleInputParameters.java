@@ -14,6 +14,7 @@ import org.xml.sax.SAXException;
 import org.ebooksearchtool.analyzer.algorithms.AuthorsSimpleParser;
 import org.ebooksearchtool.analyzer.algorithms.subalgorithms.epubAnnotationExtractor;
 import org.ebooksearchtool.analyzer.io.Logger;
+import org.ebooksearchtool.analyzer.io.PropertiesIO;
 import org.ebooksearchtool.analyzer.network.NetworkSocketIO;
 import org.ebooksearchtool.analyzer.tests.TestBuilder;
 import org.ebooksearchtool.analyzer.tests.Tester;
@@ -30,11 +31,11 @@ public class ConsoleInputParameters {
                     try {
                         Tester.AuthorTest();
                     } catch (ParserConfigurationException ex) {
-                        Logger.setToLog(ex.getMessage());
+                        Logger.setToErrorLog(ex.getMessage());
                     } catch (SAXException ex) {
-                        Logger.setToLog(ex.getMessage());
+                        Logger.setToErrorLog(ex.getMessage());
                     } catch (IOException ex) {
-                        Logger.setToLog(ex.getMessage());
+                        Logger.setToErrorLog(ex.getMessage());
                     }
                        break;
                     }
@@ -43,11 +44,9 @@ public class ConsoleInputParameters {
                         break;
                     }
                     case 'n':{
+                        PropertiesIO.getPropertiesFromFile("analyzer.properties");
                         NetworkSocketIO.createServer(null, 9999);
                         NetworkSocketIO.createClient(null, 8000, 1000);
-//                        ArrayList<Lexema> les = Lexema.convertToLexems("<h3>Book Summary</h3> <p>Merry Christmas, everyone! “Bah!” said Scrooge. “Humbug!” With those famous words unfolds a tale that renews the joy and caring that are Christmas. Whether we read it aloud with our family and friends or open the pages on a chill winter evening to savor the story in solitude, Charles Dickens’s A Christmas Carol is a very special holiday experience. It is the one book that every year will warm our hearts with favorite memories of Ebenezer Scrooge, Tiny Tim, Bob Cratchit, and the Ghosts of Christmas Past, Present, and Future — and will remind us with laughter and tears that the true Christmas spirit comes from giving with love.With a heartwarming account of Dickens’s first reading of the Carol, and a biographical sketch.</p></div>");
-//
-//                        epubAnnotationExtractor.extractAnnotation(les);
                     }
                 }
                 break;
@@ -58,17 +57,18 @@ public class ConsoleInputParameters {
                     try {
                         TestBuilder.build(new File("munsey.xml"));
                     } catch (ParserConfigurationException ex) {
-                        Logger.setToLog(ex.getMessage());
+                        Logger.setToErrorLog(ex.getMessage());
                     } catch (SAXException ex) {
-                        Logger.setToLog(ex.getMessage());
+                        Logger.setToErrorLog(ex.getMessage());
                     } catch (IOException ex) {
-                        Logger.setToLog(ex.getMessage());
+                        Logger.setToErrorLog(ex.getMessage());
                     }
                        break;
                     }
                 }
                 break;
             }
+            default:{}
         }
         }else{
             System.out.print("Wrong parameters");

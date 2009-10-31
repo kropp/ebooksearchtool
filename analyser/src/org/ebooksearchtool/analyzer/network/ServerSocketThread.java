@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ebooksearchtool.analyzer.utils.Properties;
+import org.ebooksearchtool.analyzer.utils.AnalyzerProperties;
 
 /**
  * @author Алексей
@@ -22,10 +22,10 @@ public class ServerSocketThread extends Thread{
     public ServerSocketThread(ServerSocket sSocket){
         myServerSocket = sSocket;
         myThreads = new ArrayList<AnalyzerThread>();
-        for (int i = 0; i < Integer.parseInt(Properties.getPropertie("numberOfAnalyzerThreads")); i++) {
+        for (int i = 0; i < Integer.parseInt(AnalyzerProperties.getPropertie("numberOfAnalyzerThreads")); i++) {
             myThreads.add(new AnalyzerThread());
         }
-        for (int i = 0; i < Integer.parseInt(Properties.getPropertie("numberOfAnalyzerThreads")); i++) {
+        for (int i = 0; i < Integer.parseInt(AnalyzerProperties.getPropertie("numberOfAnalyzerThreads")); i++) {
             myThreads.get(i).start();
         }
     }
@@ -49,7 +49,7 @@ public class ServerSocketThread extends Thread{
             System.out.print(mySocket.getPort());
 
             while(true){
-                buffer = NetUtils.reciveMessage(br);
+                buffer = NetUtils.reciveCrawlerMessage(br);
                 //Нужно только если тестить//System.out.println(buffer);
                 while(!requestToAnalyzeFlag){
                     if(requestToAnalyzeCount == 10){

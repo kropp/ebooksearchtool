@@ -39,7 +39,7 @@ public class DemonThread extends Thread{
                     try {
                         waiter.wait(3600000);
                     } catch (InterruptedException ex) {
-                        Logger.setToLog(ex.getMessage());
+                        Logger.setToErrorLog(ex.getMessage());
                     }
                 }
                 try {
@@ -57,14 +57,14 @@ public class DemonThread extends Thread{
                     MunseyParser parser = new MunseyParser();
                     parser.parse(sb.toString());
                 } catch (IOException ex) {
-                    Logger.setToLog(ex.getMessage());
+                    Logger.setToErrorLog(ex.getMessage());
                 }
             }else{
                 while(calendar.get(Calendar.HOUR_OF_DAY) > 1){
                     try {
                         waiter.wait(3600000);
                     } catch (InterruptedException ex) {
-                        Logger.setToLog(ex.getMessage());
+                        Logger.setToErrorLog(ex.getMessage());
                     }
                 }
                 myTodayUpdateFlag = false;

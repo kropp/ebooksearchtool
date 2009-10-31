@@ -7,7 +7,7 @@ package org.ebooksearchtool.analyzer.io;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-import org.ebooksearchtool.analyzer.utils.Properties;
+import org.ebooksearchtool.analyzer.utils.AnalyzerProperties;
 
 public class PropertiesHandler extends DefaultHandler{
 
@@ -21,7 +21,7 @@ public class PropertiesHandler extends DefaultHandler{
     @Override
     public void characters (char ch[], int start, int length) throws SAXException{
         if(ourRightElementFlag == true){
-            Properties.setPropertie(ourElementType, new String(ch, start, length).trim());
+            AnalyzerProperties.setPropertie(ourElementType, new String(ch, start, length).trim());
             ourRightElementFlag = false;
         }
     }

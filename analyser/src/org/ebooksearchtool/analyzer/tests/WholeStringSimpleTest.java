@@ -1,7 +1,6 @@
 package org.ebooksearchtool.analyzer.tests;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 import org.ebooksearchtool.analyzer.algorithms.WholeStringSimpleParser;
 import org.ebooksearchtool.analyzer.io.Logger;
@@ -30,13 +29,13 @@ public class WholeStringSimpleTest {
                 bw.newLine();
             }
         } catch (IOException ex) {
-            Logger.setToLog(ex.getMessage());
+            Logger.setToErrorLog(ex.getMessage());
         } finally {
             try {
                 br.close();
                 bw.close();
             } catch (IOException ex) {
-                Logger.setToLog(ex.getMessage());
+                Logger.setToErrorLog(ex.getMessage());
             }
         }
 

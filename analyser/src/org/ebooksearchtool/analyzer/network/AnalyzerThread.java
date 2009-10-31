@@ -33,7 +33,7 @@ public class AnalyzerThread extends Thread {
                     BookInfo info = ws.parse(myMessage);
                     printInfo(info);
                     //TODO: Добавить разбор ответов от сервера  
-                    if(info.getTitle().equals("Unknown title")){
+                    if(!info.getTitle().equals("Unknown title")){
                         String message = ClientSocketThread.sendRequest(Messages.formBookInfo(info));
                         Logger.setToLog(message);
                         System.out.println(message);
@@ -44,7 +44,7 @@ public class AnalyzerThread extends Thread {
                         Logger.setToLog("Book Information can't be sent to server(Unknown title):" + AnalyzeUtils.bookInfoToString(info));
                     }
                 } catch (InterruptedException ex) {
-                    Logger.setToLog(ex.getMessage());
+                    Logger.setToErrorLog(ex.getMessage());
                 }
             }
         }

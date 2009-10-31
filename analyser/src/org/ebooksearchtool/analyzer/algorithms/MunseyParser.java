@@ -20,11 +20,11 @@ public class MunseyParser{
             MunseyHandler dh = new MunseyHandler();
             pars1.parse(input, dh);
         } catch (IOException ex) {
-            Logger.setToLog(ex.getMessage());
+            Logger.setToErrorLog(ex.getMessage());
         } catch (ParserConfigurationException ex) {
-            Logger.setToLog(ex.getMessage());
+            Logger.setToErrorLog(ex.getMessage());
         } catch (SAXException ex) {
-            Logger.setToLog(ex.getMessage());
+            Logger.setToErrorLog(ex.getMessage());
         }
     }
 

@@ -23,7 +23,7 @@ public class NetUtils {
         return str.toString();
     }
 
-   public static String reciveMessage(BufferedReader is) throws IOException {
+   public static String reciveCrawlerMessage(BufferedReader is) throws IOException {
         String input = "";
         StringBuilder str = new StringBuilder();
         while(str.indexOf("</root>") == -1){

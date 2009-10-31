@@ -28,8 +28,6 @@ public class ClientSocketThread extends Thread{
             try {
                 myReader = new BufferedReader(new InputStreamReader(mySocket.getInputStream()));
                 myWriter = new BufferedWriter(new OutputStreamWriter(mySocket.getOutputStream()));
-//                byte[] bytes = new byte[255];
-//                StringBuilder buffer = new StringBuilder();
 
                 System.out.print(mySocket.getPort());
 
@@ -38,19 +36,19 @@ public class ClientSocketThread extends Thread{
 //                        try {
 //                            //myLock.wait();
 //                        } catch (InterruptedException ex) {
-//                            Logger.setToLog(ex.getMessage());
+//                            Logger.setToErrorLog(ex.getMessage());
 //                        }
                     }
                 }
             } catch (IOException ex) {
-                Logger.setToLog(ex.getMessage());
+                Logger.setToErrorLog(ex.getMessage());
             }finally{
                 myReader.close();
                 myWriter.close();
                 mySocket.close();
             }
         }catch(IOException ex){
-            Logger.setToLog(ex.getMessage());
+            Logger.setToErrorLog(ex.getMessage());
         }
     }
 
@@ -61,12 +59,12 @@ public class ClientSocketThread extends Thread{
                 NetUtils.sendMessage(myWriter, request);
                 message = NetUtils.reciveServerMessage(myReader);
             } catch (IOException ex) {
-                Logger.setToLog(ex.getMessage());
+                Logger.setToErrorLog(ex.getMessage());
             }finally{
                 myWriter.flush();
             }
         } catch (IOException ex) {
-                Logger.setToLog(ex.getMessage());
+                Logger.setToErrorLog(ex.getMessage());
         }
         if(message.length() == 0){
             return "Reciving error";

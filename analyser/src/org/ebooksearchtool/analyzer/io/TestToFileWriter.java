@@ -28,13 +28,13 @@ public class TestToFileWriter {
                     out.newLine();
                 }
             }catch (IOException ex){
-                Logger.setToLog("Serializator: " + ex.getMessage());
+                Logger.setToErrorLog("Serializator: " + ex.getMessage());
                 return false;
             }finally{
                 out.close();
             }
         }catch(IOException ex){
-            Logger.setToLog("Serializator: " + ex.getMessage());
+            Logger.setToErrorLog("Serializator: " + ex.getMessage());
         }
         return true;
     }
@@ -61,12 +61,12 @@ public class TestToFileWriter {
                 }
                
             }catch (IOException ex){
-                Logger.setToLog("Serializator: " + ex.getMessage());
+                Logger.setToErrorLog("Serializator: " + ex.getMessage());
             }finally{
                 input.close();
             }
         }catch(IOException ex){
-            Logger.setToLog("Serializator: " + ex.getMessage());
+            Logger.setToErrorLog("Serializator: " + ex.getMessage());
         }
         return data;
     }

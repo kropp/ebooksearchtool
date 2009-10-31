@@ -26,22 +26,22 @@ public class AnalyzeUtils {
     public static String bookInfoToString(BookInfo info){
        StringBuilder sb = new StringBuilder();
 
-       sb.append("Title: " + info.getTitle() + Properties.SYSTEM_SEPARATOR);
+       sb.append("Title: " + info.getTitle() + AnalyzerProperties.getPropertie("systemSeparator"));
        List<Author> authors = info.getAuthors();
        int length = authors.size();
-       sb.append("Authors: " + Properties.SYSTEM_SEPARATOR);
+       sb.append("Authors: " + AnalyzerProperties.getPropertie("systemSeparator"));
        for (int i = 0; i < length; i++) {
-           sb.append("    " + authors.get(i).getName() + Properties.SYSTEM_SEPARATOR);
+           sb.append("    " + authors.get(i).getName() + AnalyzerProperties.getPropertie("systemSeparator"));
        }
        List<File> files = info.getFiles();
        length = files.size();
-       sb.append("Files: " + Properties.SYSTEM_SEPARATOR);
+       sb.append("Files: " + AnalyzerProperties.getPropertie("systemSeparator"));
        for (int i = 0; i < length; i++) {
            sb.append("    Link: " + files.get(i).getLink() +"; " );
            sb.append("Size: " + files.get(i).getSize() +"; " );
-           sb.append("Type: " + files.get(i).getType() + Properties.SYSTEM_SEPARATOR);
+           sb.append("Type: " + files.get(i).getType() + AnalyzerProperties.getPropertie("systemSeparator"));
        }
-       sb.append("Language: " + info.getLanguage() + Properties.SYSTEM_SEPARATOR);
+       sb.append("Language: " + info.getLanguage() + AnalyzerProperties.getPropertie("systemSeparator"));
 
        return sb.toString();
    }
