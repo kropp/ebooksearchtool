@@ -6,13 +6,8 @@ package org.ebooksearchtool.analyzer.utils;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.util.ArrayList;
-import java.util.logging.Level;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
-import org.ebooksearchtool.analyzer.algorithms.AuthorsSimpleParser;
-import org.ebooksearchtool.analyzer.algorithms.subalgorithms.epubAnnotationExtractor;
 import org.ebooksearchtool.analyzer.io.Logger;
 import org.ebooksearchtool.analyzer.io.PropertiesIO;
 import org.ebooksearchtool.analyzer.network.NetworkSocketIO;
@@ -45,8 +40,11 @@ public class ConsoleInputParameters {
                     }
                     case 'n':{
                         PropertiesIO.getPropertiesFromFile("analyzer.properties");
-                        NetworkSocketIO.createServer(null, 9999);
-                        NetworkSocketIO.createClient(null, 8000, 1000);
+                        NetworkSocketIO.createServer("localhost", 
+                                AnalyzerProperties.getPropertieAsNumber("crawlerPort"));
+                        NetworkSocketIO.createClient(AnalyzerProperties.getPropertie("serverAddress"),
+                                AnalyzerProperties.getPropertieAsNumber("serverPort"),
+                                AnalyzerProperties.getPropertieAsNumber("serverConnectionTimeout"));
                     }
                 }
                 break;

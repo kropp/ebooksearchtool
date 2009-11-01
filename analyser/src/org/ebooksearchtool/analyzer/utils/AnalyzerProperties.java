@@ -10,6 +10,7 @@ public class AnalyzerProperties{
 
     private static HashMap<String,String> ourProperties;
     
+    //TODO: Потом убрать, пока ради теста
     static{
         ourProperties = new HashMap<String, String>();
         ourProperties.put("numberOfAnalyzerThreads", "10");
@@ -17,6 +18,10 @@ public class AnalyzerProperties{
         ourProperties.put("systemSeparator", System.getProperty("line.separator"));
         ourProperties.put("demonRepeatConditionsChekTime", "3600000");
         ourProperties.put("demonHourWhenRefresh", "15");
+        ourProperties.put("serverAddress", "192.168.2.104");
+        ourProperties.put("serverPort", "8000");
+        ourProperties.put("crawlerPort", "9999");
+        ourProperties.put("serverConnectionTimeout", "1000");
     }
 
     public static void setPropertie(String key, String value){

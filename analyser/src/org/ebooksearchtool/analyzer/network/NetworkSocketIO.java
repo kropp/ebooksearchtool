@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 
 public class NetworkSocketIO{
 
-    public static void createServer(InetAddress address, int socketNumber){
+    public static void createServer(String address, int socketNumber){
        try {
             ServerSocket socket = new ServerSocket(socketNumber);
             ServerSocketThread server = new ServerSocketThread(socket);
@@ -21,7 +21,7 @@ public class NetworkSocketIO{
         }
     }
 
-    public static void createClient(InetAddress address, int socketNumber, long timeToWait){
+    public static void createClient(String address, int socketNumber, long timeToWait){
 //        Object timeout = new Object();
 //        while(true){
             try {

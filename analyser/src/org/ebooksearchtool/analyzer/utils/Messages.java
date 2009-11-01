@@ -13,7 +13,8 @@ public class Messages {
         String message = encodeSpecialSymbols(info.getBookInfo());
         str.append("POST " + "/data/insert " + "HTTP/1.0");
         str.append(AnalyzerProperties.getPropertie("systemSeparator"));
-        str.append("Host: " + "192.168.2.104:8000");
+        str.append("Host: " + AnalyzerProperties.getPropertie("serverAddress") +
+                ":" + AnalyzerProperties.getPropertie("serverPort"));
         str.append(AnalyzerProperties.getPropertie("systemSeparator"));
         str.append("Content-Type: application/x-www-form-urlencoded");
         str.append(AnalyzerProperties.getPropertie("systemSeparator"));
@@ -34,7 +35,8 @@ public class Messages {
         String message = encodeSpecialSymbols(info.getBookInfo());
         str.append("POST " + "/data/insert " + "HTTP/1.0");
         str.append(AnalyzerProperties.getPropertie("systemSeparator"));
-        str.append("Host: " + "192.168.2.104:8000");
+        str.append("Host: " + AnalyzerProperties.getPropertie("serverAddress") +
+                ":" + AnalyzerProperties.getPropertie("serverPort"));
         str.append(AnalyzerProperties.getPropertie("systemSeparator"));
         str.append("Content-Type: application/x-www-form-urlencoded");
         str.append(AnalyzerProperties.getPropertie("systemSeparator"));

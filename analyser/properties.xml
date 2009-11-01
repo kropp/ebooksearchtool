@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<root>
-<field type="numberOfAnalyzerThreads">10</field>
-<field type="logDirectoryName">log</field>
-</root>
