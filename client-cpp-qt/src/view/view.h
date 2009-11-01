@@ -1,8 +1,12 @@
 #ifndef _VIEW_H_
 #define _VIEW_H_
 
+#include <QWidget>
+
 #include "../data/data.h"
-#include <../network/httpconnection.h>
+#include "../view/bookwidget.h"
+#include <QWidget>
+#include <QVBoxLayout>
 
 class Data; 
 
@@ -13,10 +17,15 @@ public:
 
 public:
     Data* getData() const;
-    void resetData(Data* data);
+    void setData(Data* data);
+    void update();
+
+private:    
+    void addWidget(QWidget* widget);
 
 private:
     Data* myData;
+    QVBoxLayout* myLayout;
 };
 
 inline Data* View::getData() const {

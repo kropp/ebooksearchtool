@@ -1,6 +1,7 @@
 #include "data.h"
 
-Data::Data() : myTotalEntries(0) {}
+Data::Data() : myTotalEntries(0) {
+}
 
 void Data::addBook(const Book* book) {
 	myBooks.push_back(book);

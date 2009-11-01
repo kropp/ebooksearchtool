@@ -68,4 +68,3 @@ bool AtomHandler::endElement (const QString&, const QString&, const QString& str
 	}
 	return true;
 }
-

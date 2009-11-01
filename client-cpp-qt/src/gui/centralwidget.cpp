@@ -14,7 +14,7 @@ CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myFile(0) {
 	myQueryLineEdit = new QLineEdit();
     mySearchTags = new QComboBox(this);
     mySearchTags->addItem("general");
-   mySearchTags->addItem("title");
+    mySearchTags->addItem("title");
     mySearchTags->addItem("author");
  	myStatusLabel = new QLabel(tr("Please enter a title or an author's name of the book you want to find"));
 
@@ -25,11 +25,11 @@ CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myFile(0) {
 	myHttpConnection = new HttpConnection(this); // а может мне соединение не понадобится - отложить создание!
     myUrlLineEdit->insert(myHttpConnection->getServer());
 
-	//connect(myQueryLineEdit, SIGNAL(textChanged(const QString &)), this, SLOT(enableSearchButton()));
-	//connect(myHttpConnection, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
+	connect(myQueryLineEdit, SIGNAL(textChanged(const QString &)), this, SLOT(enableSearchButton()));
+	connect(myHttpConnection, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
 
-	//connect(mySearchButton, SIGNAL(clicked()), this, SLOT(downloadFile())); 
-	//connect(mySearchButton, SIGNAL(clicked()), this, SLOT(setNewRequest()));
+	connect(mySearchButton, SIGNAL(clicked()), this, SLOT(downloadFile())); 
+	connect(mySearchButton, SIGNAL(clicked()), this, SLOT(setNewRequest()));
 	
 	//connect(myView, SIGNAL(urlRequest(const QString&)), myUrlLineEdit, SLOT(setText(const QString&)));
 	//connect(myView, SIGNAL(urlRequest(const QString&)), this, SLOT(downloadFile(const QString&)));
@@ -55,10 +55,6 @@ CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myFile(0) {
 
 	setWindowTitle(tr("Search book tool"));
 	myQueryLineEdit->setFocus();
-	//!!!!!!!!1
-	//TEMPORARY
-	parseDownloadedFile();
-    //!!!!!!
 }
 
 void CentralWidget::downloadFile() {
@@ -77,6 +73,8 @@ void CentralWidget::downloadFile() {
 }
 
 void CentralWidget::downloadFile(const QString& url) {
+   /* std::cout << "slot file download\n";
+
 	if (myFile != 0) {
 		delete myFile;
 	}
@@ -86,7 +84,7 @@ void CentralWidget::downloadFile(const QString& url) {
 	myFile = new QFile(fileName);
 
 	myFile->open(QIODevice::WriteOnly); //может и не суметь открыть
-	myHttpConnection->downloadFile(url, myFile);
+	myHttpConnection->downloadFile(url, myFile);*/
 }
 
 
@@ -111,17 +109,17 @@ void CentralWidget::parseDownloadedFile() {
  	myFile->open(QIODevice::ReadOnly);
 	if (myNewRequest) {
 	    Data* data = new Data();
-	   // Model* model = new Model(data);
-	    myView->resetData(data);
+	    myView->setData(data);
     }
     parser.parse(myFile, myView->getData());
-    //myView->update();	
+    myView->update();	
+    //myView->show();
 	myFile->close();
-    //const QString* url = parser.getNextAtomPage();
+   // const QString* url = parser.getNextAtomPage();
     //if (url) {
-      //  myNewRequest = false;
+     //   myNewRequest = false;
        // downloadFile(*url);
-    //F}
+    //}
 }
 
 QString CentralWidget::queryToUrl() const {
