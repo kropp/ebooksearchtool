@@ -81,7 +81,7 @@ public class Logger {
     }
 
     private static String getErrorLogPath(){
-        return AnalyzerProperties.getPropertie("logDirectoryName") + "\\log" + getCurrentDate() + "ErrorLog.txt";
+        return AnalyzerProperties.getPropertie("logDirectoryName") + "\\errorlog" + getCurrentDate() + ".txt";
     }
 
     private static String getLogPath(){

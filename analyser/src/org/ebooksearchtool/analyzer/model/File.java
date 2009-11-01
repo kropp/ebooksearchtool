@@ -8,6 +8,8 @@ public class File {
     private String myLink;
     private String mySize;
     private String myType;
+    private String myTimeFound;
+    private String myLastChek;
     private String myMoreInfo;
     private String myImgLink;
 
@@ -15,6 +17,8 @@ public class File {
         myLink = "Unknown link";
         mySize = "Unknown size";
         myType = "Unknown type";
+        myTimeFound = "Unknown time found";
+        myLastChek = "Unknown last chek";
         myMoreInfo = "Unknown info";
         myImgLink = "Unknown image link";
     }
@@ -36,6 +40,7 @@ public class File {
         myImgLink = "Unknown image link";
     }
 
+    // <editor-fold defaultstate="collapsed" desc="Get and Set methods">
     /**
      * @return the myLink
      */
@@ -105,4 +110,33 @@ public class File {
     public void setImgLink(String myImgLink) {
         this.myImgLink = myImgLink;
     }
+
+    /**
+     * @return the myTimeFound
+     */
+    public String getTimeFound() {
+        return myTimeFound;
+    }
+
+    /**
+     * @param myTimeFound the myTimeFound to set
+     */
+    public void setTimeFound(String myTimeFound) {
+        this.myTimeFound = myTimeFound;
+    }
+
+    /**
+     * @return the mylastChek
+     */
+    public String getLastChek() {
+        return myLastChek;
+    }
+
+    /**
+     * @param mylastChek the mylastChek to set
+     */
+    public void setLastChek(String mylastChek) {
+        this.myLastChek = mylastChek;
+    }
+    // </editor-fold>
 }

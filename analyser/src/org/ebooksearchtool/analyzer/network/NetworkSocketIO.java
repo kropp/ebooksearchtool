@@ -2,8 +2,7 @@ package org.ebooksearchtool.analyzer.network;
 
 import java.io.IOException;
 import java.net.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.ebooksearchtool.analyzer.io.Logger;
 
 /**
  * @author Алексей
@@ -17,7 +16,7 @@ public class NetworkSocketIO{
             ServerSocketThread server = new ServerSocketThread(socket);
             server.start();
         } catch (IOException ex) {
-            Logger.getLogger(NetworkSocketIO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.setToErrorLog(ex.getMessage());
         }
     }
 
@@ -29,9 +28,9 @@ public class NetworkSocketIO{
                 ClientSocketThread client = new ClientSocketThread(socket);
                 client.start();
             } catch (UnknownHostException ex) {
-                //Logger.getLogger(NetworkSocketIO.class.getName()).log(Level.SEVERE, null, ex);"localhost"
+                Logger.setToErrorLog(ex.getMessage());
             } catch (IOException ex) {
-                //Logger.getLogger(NetworkSocketIO.class.getName()).log(Level.SEVERE, null, ex);"192.168.2.104"
+                Logger.setToErrorLog(ex.getMessage());
             }
 //            try {
 //                timeout.wait(timeToWait);

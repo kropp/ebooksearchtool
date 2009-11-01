@@ -6,8 +6,9 @@ import org.ebooksearchtool.analyzer.io.Logger;
 import org.ebooksearchtool.analyzer.model.Author;
 import org.ebooksearchtool.analyzer.model.BookInfo;
 import org.ebooksearchtool.analyzer.model.File;
-import org.ebooksearchtool.analyzer.utils.Messages;
+import org.ebooksearchtool.analyzer.utils.ServerRequests;
 import org.ebooksearchtool.analyzer.utils.AnalyzeUtils;
+import org.ebooksearchtool.analyzer.utils.AnalyzerProperties;
 
 /**
  * @author Алексей
@@ -34,14 +35,16 @@ public class AnalyzerThread extends Thread {
                     printInfo(info);
                     //TODO: Добавить разбор ответов от сервера  
                     if(!info.getTitle().equals("Unknown title")){
-                        String message = ClientSocketThread.sendRequest(Messages.formBookInfo(info));
+                        String message = ClientSocketThread.sendRequest(ServerRequests.formBookInfo(info));
                         Logger.setToLog(message);
                         System.out.println(message);
-                        Logger.setToLog("Book Information succsesfully sent to server:" + AnalyzeUtils.bookInfoToString(info));
+                        Logger.setToLog("Book Information succsesfully sent to server:" +
+                                AnalyzerProperties.getPropertie("systemSeparator") + AnalyzeUtils.bookInfoToString(info));
                         System.out.println(message);
                         myMessage = "";
                     }else{
-                        Logger.setToLog("Book Information can't be sent to server(Unknown title):" + AnalyzeUtils.bookInfoToString(info));
+                        Logger.setToLog("Book Information can't be sent to server(Unknown title):" +
+                                AnalyzerProperties.getPropertie("systemSeparator") + AnalyzeUtils.bookInfoToString(info));
                     }
                 } catch (InterruptedException ex) {
                     Logger.setToErrorLog(ex.getMessage());

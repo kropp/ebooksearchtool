@@ -6,7 +6,7 @@ import org.ebooksearchtool.analyzer.model.BookInfo;
  * @author Алексей
  */
 
-public class Messages {
+public class ServerRequests {
 
     public static String formBookInfo(BookInfo info) {
         StringBuilder str = new StringBuilder();
@@ -33,6 +33,28 @@ public class Messages {
         StringBuilder str = new StringBuilder();
         //TODO: Сделать функцию для запроса данных у сервера
         String message = encodeSpecialSymbols(info.getBookInfo());
+        str.append("POST " + "/data/insert " + "HTTP/1.0");
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
+        str.append("Host: " + AnalyzerProperties.getPropertie("serverAddress") +
+                ":" + AnalyzerProperties.getPropertie("serverPort"));
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
+        str.append("Content-Type: application/x-www-form-urlencoded");
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
+        str.append("Content-Length: " + getContentLength(message));
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
+        str.append("xml=" + message);
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
+
+        System.out.println(str.toString());
+        return str.toString();
+    }
+
+    //TODO: Доделать request для сервера
+    public static String timeFoundRequest(BookInfo info) {
+        StringBuilder str = new StringBuilder();
+        String message = encodeSpecialSymbols(info.getBookInfoForRequest());
         str.append("POST " + "/data/insert " + "HTTP/1.0");
         str.append(AnalyzerProperties.getPropertie("systemSeparator"));
         str.append("Host: " + AnalyzerProperties.getPropertie("serverAddress") +

@@ -15,7 +15,7 @@ import org.ebooksearchtool.analyzer.model.*;
 import org.ebooksearchtool.analyzer.utils.AnalyzeUtils;
 import org.ebooksearchtool.analyzer.model.Lexema;
 import org.ebooksearchtool.analyzer.network.ClientSocketThread;
-import org.ebooksearchtool.analyzer.utils.Messages;
+import org.ebooksearchtool.analyzer.utils.ServerRequests;
 
 public class MunseyHandler extends DefaultHandler{
 
@@ -70,7 +70,7 @@ public class MunseyHandler extends DefaultHandler{
 //        if(!ourBookInfo.equals(new BookInfo())){
 //
 //        }
-        String message = ClientSocketThread.sendRequest(Messages.formBookInfo(ourBookInfo));
+        String message = ClientSocketThread.sendRequest(ServerRequests.formBookInfo(ourBookInfo));
         Logger.setToLog(message);
         Logger.setToLog("Book Information succsesfully sent to server:" + AnalyzeUtils.bookInfoToString(ourBookInfo));
     }
