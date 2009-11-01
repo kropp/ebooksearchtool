@@ -67,7 +67,7 @@ public class SAXHandler extends DefaultHandler{
                         myData.setBookEpubLink(myData.getBooks().size()-1, attributes.getValue(j+2));
                     }else if(myIsEntryTag && attributes.getValue(j).equals("image/png")){
                         myData.setBookImage(myData.getBooks().size()-1, attributes.getValue(j+2));
-                    }else if(myIsEntryTag && attributes.getValue(j).equals("term")){
+                    }else if(myIsEntryTag && attributes.getLocalName(j).equals("term")){
                         myData.setBookGenre(myData.getBooks().size()-1, attributes.getValue(j));
                     }
                 }
