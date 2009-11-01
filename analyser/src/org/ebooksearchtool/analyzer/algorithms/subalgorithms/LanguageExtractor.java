@@ -15,7 +15,7 @@ public class LanguageExtractor {
         for (int i = 0; i < length; i++) {
             if(lexems.get(i).getValue().indexOf("Language") != -1){
                 if(i < length -1 && AnalyzeUtils.isLanguage(trim(lexems.get(i+1).getValue()))){
-                    return trim(lexems.get(i+1).getValue());
+                    return AnalyzeUtils.normalizeLanguage(trim(lexems.get(i+1).getValue()));
                 }
             }
         }

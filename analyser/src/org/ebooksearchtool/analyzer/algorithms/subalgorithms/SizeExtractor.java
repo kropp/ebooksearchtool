@@ -2,6 +2,7 @@ package org.ebooksearchtool.analyzer.algorithms.subalgorithms;
 
 import java.util.ArrayList;
 import org.ebooksearchtool.analyzer.model.Lexema;
+import org.ebooksearchtool.analyzer.utils.AnalyzeUtils;
 
 /**
  * @author Алексей
@@ -63,17 +64,10 @@ public class SizeExtractor {
     }
 
     private static boolean isNumber(char ch){
+        if(AnalyzeUtils.isNumber(ch)){
+            return true;
+        }
         switch(ch){
-            case '0':{return true;}
-            case '1':{return true;}
-            case '2':{return true;}
-            case '3':{return true;}
-            case '4':{return true;}
-            case '5':{return true;}
-            case '6':{return true;}
-            case '7':{return true;}
-            case '8':{return true;}
-            case '9':{return true;}
             case '.':{return true;}
             case ',':{return true;}
             default :{return false;}

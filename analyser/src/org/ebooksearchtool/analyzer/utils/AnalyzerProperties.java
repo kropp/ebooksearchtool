@@ -22,6 +22,7 @@ public class AnalyzerProperties{
         ourProperties.put("serverPort", "8000");
         ourProperties.put("crawlerPort", "9999");
         ourProperties.put("serverConnectionTimeout", "1000");
+        ourProperties.put("languagesList", "languages.lang");
     }
 
     public static void setPropertie(String key, String value){
