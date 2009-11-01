@@ -1,16 +1,36 @@
+#include <QModelIndex>
+#include <iostream>
+
 #include "model.h"
 
-Model::Model() : myTotalEntries(0) {}
-
-void Model::addBook(const Book* book) {
-	myBooks.push_back(book);
+Model::Model (Data* data) : myData (data) {
+    std::cout << "model initialized\n";
 }
 
-void Model::setTotalEntries(int size) {
-    myTotalEntries = size;
+
+Model::~Model() {}
+
+QModelIndex Model::index (int , int, const QModelIndex& ) const { // return valid index
+    return QModelIndex();
 }
-	
-//void Model::addAuthor(const Author* author) {
-//	myAuthors.push_back(author);
-//}
+ 
+QMap<int, QVariant> Model::itemData (const QModelIndex& ) const {
+    return QMap<int, QVariant> ();
+}
+  
+int Model::rowCount (const QModelIndex& ) const {
+    return myData->getSize();
+}
+
+QModelIndex Model::parent(const QModelIndex& ) const {
+    return QModelIndex();
+}
+
+int Model::columnCount(const QModelIndex& ) const {
+    return 0;
+}
+    
+QVariant Model::data (const QModelIndex&, int ) const {
+    return QVariant();
+}
 

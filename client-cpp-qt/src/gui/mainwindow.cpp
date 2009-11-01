@@ -11,5 +11,6 @@ MainWindow::MainWindow() {
     myCentralWidget = new CentralWidget(this);
 	setCentralWidget(myCentralWidget);
 	showMaximized();
+	// set header
 }
 

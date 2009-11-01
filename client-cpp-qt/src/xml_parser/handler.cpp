@@ -1,7 +1,7 @@
 #include "handler.h"
 
-AtomHandler::AtomHandler(Model* model) {
-    myModel = model;
+AtomHandler::AtomHandler(Data* data) {
+    myData = data;
     myIsEntry = false;
     myNextAtomPage = 0;
 }
@@ -38,7 +38,7 @@ bool AtomHandler::startElement (const QString& , const QString& , const QString&
 
 bool AtomHandler::endElement (const QString&, const QString&, const QString& str) {
 	if ((!myIsEntry) && (str == "opensearch:totalResults")) {
-        myModel->setTotalEntries(myStrText.toInt());
+        myData->setTotalEntries(myStrText.toInt());
         return true;
     }
     
@@ -51,7 +51,7 @@ bool AtomHandler::endElement (const QString&, const QString&, const QString& str
 		                          myBooksUri.toStdString());
 		    book->addAuthor(author);
 		    book->setLink(myBooksLink.toStdString());
-		    myModel->addBook(book);
+		    myData->addBook(book);
 		    myIsEntry = false;	
 	} else if (str == "title") {
 		myTitle = myStrText;

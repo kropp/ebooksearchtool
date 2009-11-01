@@ -3,8 +3,8 @@
 
 AtomParser::AtomParser() : myNextAtomPage(0) {}
 
-void AtomParser::parse(QFile* file, Model* model) {
-	AtomHandler handler(model);
+void AtomParser::parse(QFile* file, Data* data) {
+	AtomHandler handler(data);
 	QXmlInputSource source(file);
 	QXmlSimpleReader reader;
 	reader.setContentHandler(&handler);

@@ -1,12 +1,30 @@
 #include "view.h"
+#include "bookwidget.h"
 
-#include <QTextEdit>
-#include <QFlags>
+View::View (QWidget* parent, Data* data) : QListWidget(parent) {
+    resetData(data);
+}
 
-View::View(QWidget* parent, Model* model) : QWidget(parent) {
+void View::resetData(Data* data) {
+    myData = data;
+    if (myData) {
+        const size_t dataSize = myData->getSize();
+        for (size_t i = 0; i < dataSize; ++i) {
+            BookWidget* widget = new BookWidget(this, myData->getBook(i));
+            addItem(widget);
+            std::cout << "item added to the view\n";
+        }
+    }
+}
+
+
+//View::~View {
+    // удалить все BookWidget
+//}
+/*View::View(QWidget* parent, Data* Data) : QWidget(parent) {
     myOneBookMode = false;
     myReadingProcess = 0;
-    myModel = model;
+    myData = Data;
 	myTextBrowser = new QTextBrowser(this);	
 	myTextBrowser->setReadOnly(true);
 	myTextBrowser->resize(1000, 700); //сделать автоматическое удобное задание размеров
@@ -14,37 +32,37 @@ View::View(QWidget* parent, Model* model) : QWidget(parent) {
 }
 
 View::~View() {
-/*	if (!myProcess) {
+	if (!myProcess) {
 		myProcess.close();
 		delete myProcess;
-	}*/
-	if (myModel) {
-	    delete myModel;
+	}
+	if (myData) {
+	    delete myData;
 	}
 }
 	
-void View::resetModel(Model* model) {
-    if (myModel) {
-        delete myModel;
+void View::resetData(Data* Data) {
+    if (myData) {
+        delete myData;
     }
-    myModel = model;
-  	drawModel();
+    myData = Data;
+  	drawData();
 }
 
 
 void View::update() const {
-    drawModel();
+    drawData();
 }
 
-void View::drawModel() const {
-	myOneBookMode = (myModel->getSize() > 1) ? false : true;
+void View::drawData() const {
+	myOneBookMode = (myData->getSize() > 1) ? false : true;
 	myTextBrowser->clear();
 	if (!myOneBookMode) {
 	    QString status(" ");
 	    makeStatusString(status);
 	    myTextBrowser->insertPlainText(status);
 	}
-	const std::vector<const Book*> books = myModel->getBooks();
+	const std::vector<const Book*> books = myData->getBooks();
 	for (size_t i = 0; i < books.size(); ++i) {
 		myTextBrowser->insertHtml(bookToHtml(books[i]));
 	}
@@ -52,10 +70,10 @@ void View::drawModel() const {
 }
 
 void View::makeStatusString(QString& str) const {
-    str.setNum(myModel->getTotalEntries());
+    str.setNum(myData->getTotalEntries());
     str.prepend("TOTAL RESULTS: ");
     str.append("   SHOWN: ");
-    str.append(QString::number(myModel->getSize()));
+    str.append(QString::number(myData->getSize()));
     str.append("\n");
     str.append("\n");
 }
@@ -68,7 +86,7 @@ void View::downloadFile(const QUrl& url) {
 		emit urlRequest(str);
 	} else {
 		myOneBookMode = false;	
-		std::vector<const Book*> books = myModel->getBooks();
+		std::vector<const Book*> books = myData->getBooks();
 		emit urlRequest(books[0]->getLink().c_str());
 	}
 }
@@ -120,4 +138,4 @@ void View::appendReference(QString& html, const QString& reference, const QStrin
 	html.append("\">");
 	html.append(text);
 	html.append("</a>");
-}
+}*/

@@ -1,41 +1,38 @@
 #ifndef _MODEL_H_
 #define _MODEL_H_
 
-#include <string>
-#include <vector>
+#include <QAbstractItemModel>
+#include <../data/data.h>
 
-#include "book_author.h"
-
-class Model {
+class Model : public QAbstractItemModel {
+public:
+    Model (Data* data);
+    virtual ~Model ();
 
 public:
-	Model();
-
-public:
-	void addBook(const Book* book);
-//	void addAuthor(const Author* author);
-	const std::vector<const Book*> getBooks() const;
-	size_t getSize() const;
-	void setTotalEntries(int size);
-    int getTotalEntries() const;
+    QModelIndex index (int row, int column, const QModelIndex & parent = QModelIndex()) const; // return valid index
+    QMap<int, QVariant> itemData (const QModelIndex & index) const;
+    int rowCount (const QModelIndex & parent = QModelIndex()) const;
+    Data* getData() const;
+    QModelIndex parent(const QModelIndex& index) const;
+    int columnCount(const QModelIndex& index) const;
+    QVariant data (const QModelIndex & index, int role = Qt::DisplayRole) const;
 
 private:
-	std::vector<const Book*> myBooks;
-	int myTotalEntries;
-	//std::vector<const Author*> myAuthors;
+//    QModelIndex createIndex (int row, int column, void * ptr = 0) const;
+
+private:
+    Data* myData;
+    //QVariant headerData (int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+    //bool setData (const QModelIndex & index, const QVariant & value, int role = Qt::EditRole);
+    //bool setItemData (const QModelIndex & index, const QMap<int, QVariant> & roles);
+
+//bool setHeaderData ( int section, Qt::Orientation orientation, const QVariant & value, int role = Qt::EditRole )
+//insert rows, columns
 };
 
-
-inline const std::vector<const Book*> Model::getBooks() const {
-	return myBooks;
-}
-
-inline size_t Model::getSize() const {
-	return myBooks.size();
-}
-
-inline int Model::getTotalEntries() const {
-    return myTotalEntries;
+inline Data* Model::getData() const {
+    return myData;
 }
 
 #endif //_MODEL_H_

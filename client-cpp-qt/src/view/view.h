@@ -1,27 +1,43 @@
 #ifndef _VIEW_H_
 #define _VIEW_H_
 
-#include "../model/model.h"
+#include "../data/data.h"
 
-#include <QWidget>
-#include <QTextBrowser>
-#include <QProcess>
-
+#include <QListWidget>
 #include <../network/httpconnection.h>
 
-class View : public QWidget {
+class Data; 
+
+class View : public QListWidget {
+
+public:
+    View(QWidget* parent, Data* data);
+
+public:
+    Data* getData() const;
+    void resetData(Data* data);
+
+private:
+    Data* myData;
+};
+
+inline Data* View::getData() const {
+    return myData;
+}
+
+/*class View : public QWidget {
 
 	Q_OBJECT
 	
 public:
-	View(QWidget* parent, Model* model);
+	View(QWidget* parent, Data* Data);
 	~View();
 	
 public:
-	void resetModel(Model* model);
+	void resetData(Data* Data);
 	void open(const QString& fileName);
 	void update() const;
-	Model* getModel();
+	Data* getData();
 	
 private slots:
 	void downloadFile(const QUrl&);
@@ -30,7 +46,7 @@ signals:
 	void urlRequest(const QString&);
 
 private:
-	void drawModel() const;
+	void drawData() const;
 	void makeStatusString(QString& str) const;
 	QString bookToHtml(const Book*) const;
 	void appendParagraph(QString& html, const QString& paragraph) const;
@@ -38,7 +54,7 @@ private:
 	void appendReference(QString& html, const QString& reference, const QString& text) const;
 
 private:
-	Model* myModel; 
+	Data* myData; 
 	QTextBrowser* myTextBrowser;
 
 	mutable bool myOneBookMode;
@@ -47,9 +63,9 @@ private:
 };
 
 
-inline Model* View::getModel() {
-    return myModel;
-}
+inline Data* View::getData() {
+    return myData;
+}*/
 
 
 #endif //_VIEW_H_

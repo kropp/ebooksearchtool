@@ -4,13 +4,13 @@
 #include <QtXml>
 #include <QString>
 
-#include "../model/book_author.h"
-#include "../model/model.h"
+#include "../data/book_author.h"
+#include "../data/data.h"
 
 class AtomHandler : public QXmlDefaultHandler {
 
 private:
-	AtomHandler(Model* model);
+	AtomHandler(Data* data);
 	
 private:
 	bool characters (const QString& strText);
@@ -18,7 +18,7 @@ private:
 	bool startElement (const QString& , const QString& , const QString& name, const QXmlAttributes& );
 	
 private:
-	Model* myModel; 
+	Data* myData; 
 
 	QString myStrText;
     QString* myNextAtomPage;

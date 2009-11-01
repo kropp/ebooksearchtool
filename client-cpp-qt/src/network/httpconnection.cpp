@@ -1,7 +1,7 @@
 #include <QtNetwork>
 
 #include "httpconnection.h"
-#include "../configurator/configurator.h"
+//#include "../configurator/configurator.h"
 
 #include <iostream>
 

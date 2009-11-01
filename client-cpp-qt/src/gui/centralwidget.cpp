@@ -3,6 +3,7 @@
 #include "centralwidget.h"
 #include "../xml_parser/parser.h"
 #include "../network/httpconnection.h"
+#include "../data/data.h"
 #include "../model/model.h"
 
 
@@ -21,17 +22,17 @@ CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myFile(0) {
 	mySearchButton->setDefault(true);
 
 	myView = new View(this, 0);
-	myHttpConnection = new HttpConnection(this);
+	myHttpConnection = new HttpConnection(this); // а может мне соединение не понадобится - отложить создание!
     myUrlLineEdit->insert(myHttpConnection->getServer());
 
-	connect(myQueryLineEdit, SIGNAL(textChanged(const QString &)), this, SLOT(enableSearchButton()));
-	connect(myHttpConnection, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
+	//connect(myQueryLineEdit, SIGNAL(textChanged(const QString &)), this, SLOT(enableSearchButton()));
+	//connect(myHttpConnection, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
 
-	connect(mySearchButton, SIGNAL(clicked()), this, SLOT(downloadFile())); 
-	connect(mySearchButton, SIGNAL(clicked()), this, SLOT(setNewRequest()));
+	//connect(mySearchButton, SIGNAL(clicked()), this, SLOT(downloadFile())); 
+	//connect(mySearchButton, SIGNAL(clicked()), this, SLOT(setNewRequest()));
 	
-	connect(myView, SIGNAL(urlRequest(const QString&)), myUrlLineEdit, SLOT(setText(const QString&)));
-	connect(myView, SIGNAL(urlRequest(const QString&)), this, SLOT(downloadFile(const QString&)));
+	//connect(myView, SIGNAL(urlRequest(const QString&)), myUrlLineEdit, SLOT(setText(const QString&)));
+	//connect(myView, SIGNAL(urlRequest(const QString&)), this, SLOT(downloadFile(const QString&)));
 	
 	QHBoxLayout *firstLayout = new QHBoxLayout;
 	firstLayout->addWidget(myUrlLabel);
@@ -54,6 +55,10 @@ CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myFile(0) {
 
 	setWindowTitle(tr("Search book tool"));
 	myQueryLineEdit->setFocus();
+	//!!!!!!!!1
+	//TEMPORARY
+	parseDownloadedFile();
+    //!!!!!!
 }
 
 void CentralWidget::downloadFile() {
@@ -96,25 +101,27 @@ void CentralWidget::httpRequestFinished(int , bool) {
 	if (myUrlLineEdit->text().contains("atom")) {
 		parseDownloadedFile();
 	} else if (myUrlLineEdit->text().contains("epub")) {
-		myView->open(myFile->fileName());
+		//myView->open(myFile->fileName());
 	}
 }
 
 void CentralWidget::parseDownloadedFile() {
 	AtomParser parser;
-	myFile->open(QIODevice::ReadOnly);
+	myFile = new QFile("downloaded.atom");
+ 	myFile->open(QIODevice::ReadOnly);
 	if (myNewRequest) {
-	    Model* model = new Model();
-	    myView->resetModel(model);
+	    Data* data = new Data();
+	   // Model* model = new Model(data);
+	    myView->resetData(data);
     }
-    parser.parse(myFile, myView->getModel());
-    myView->update();	
+    parser.parse(myFile, myView->getData());
+    //myView->update();	
 	myFile->close();
-    const QString* url = parser.getNextAtomPage();
-    if (url) {
-        myNewRequest = false;
-        downloadFile(*url);
-    }
+    //const QString* url = parser.getNextAtomPage();
+    //if (url) {
+      //  myNewRequest = false;
+       // downloadFile(*url);
+    //F}
 }
 
 QString CentralWidget::queryToUrl() const {
