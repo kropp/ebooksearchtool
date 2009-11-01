@@ -26,6 +26,10 @@
                 <size> {{ file.size }} </size>
                 {% endif %}
                 <type> {{ file.type }} </type>
+
+                <time_found> {{ file.time_found }} </time_found>
+                <last_check> {{ file.last_check }} </last_check>
+
                 {% if file.more_info %}
                 <more_info> {{ file.more_info }} </more_info>
                 {% endif %}

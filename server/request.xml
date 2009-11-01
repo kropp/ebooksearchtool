@@ -17,6 +17,8 @@
             <link></link>
             <size></size>
             <type></type>
+            <time_found></time_found>
+            <last_check></last_check>
             <more_info></more_info>
             <img_link></img_link>
         </file>
