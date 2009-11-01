@@ -87,19 +87,19 @@ public void getBookFromURL(String fileName) {
         
         try {
             connection = Url.openConnection();
-            PrintWriter pw1 = new PrintWriter(new OutputStreamWriter(new FileOutputStream(fileName), "utf-8"));
-            
-            int i = 0;
-            int end = connection.getContentLength();
-            char ch;
-            while (i!=end/*connection.getInputStream().available()/*i != connection.getContentLength()*/){
-            	
-                ch = (char)connection.getInputStream().read();
-            	pw1.print(ch);
-                ++i;
-                
-            }
-            pw1.close();
+            File outFile = new File(fileName);
+                FileOutputStream outStream = new FileOutputStream(outFile);
+                InputStream IS = connection.getInputStream();
+
+                int i = 0;
+                while (i != -1)
+               {
+                	i = IS.read();
+                	outStream.write(i);
+                    //pw1.print((char)connection.getInputStream().read());
+
+                }
+                outStream.close();
         } catch (IOException e) {
             try {
 
@@ -114,7 +114,6 @@ public void getBookFromURL(String fileName) {
                 int i = 0;
                 while (i != -1)
                {
-                	System.out.println(i);
                 	i = IS.read();
                 	outStream.write(i);
                     //pw1.print((char)connection.getInputStream().read());

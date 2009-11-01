@@ -83,7 +83,12 @@ public class Window {
                     String queryWord = myQueryField.getText();
                     String queryOption = (String)myQueryCombo.getSelectedItem();
                     myController.getQueryAnswer(queryWord, queryOption);
-                    JTextArea[] info = new JTextArea[myController.getData().getBooks().size()];
+
+                    BookPanel BP = new BookPanel(myController.getData().getBooks().get(0), myController.getSettings().getIP(), myController.getSettings().getPort());
+                    myTextPan.add(BP.getRootPanel());
+                    myFrame.setVisible(true);
+
+/*                    JTextArea[] info = new JTextArea[myController.getData().getBooks().size()];
                     infB = new JButton[myController.getData().getBooks().size()];
                     
                     ActionListener[] AL = new ActionListener[myController.getData().getBooks().size()];
@@ -113,7 +118,7 @@ public class Window {
                         });
                     	myTextPan.add(infB[i]);
                     	info[i].append(myController.getData().getBooks().get(i).getTitle() + "\n");
-    	            }
+    	            }       */
                     
                     
                 } catch (IOException e1) {
@@ -141,7 +146,7 @@ public class Window {
                     e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
 
-            }
+            }                  
 
         });
 

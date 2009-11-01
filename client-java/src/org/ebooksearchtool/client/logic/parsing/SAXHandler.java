@@ -118,11 +118,9 @@ public class SAXHandler extends DefaultHandler{
             for(int i = 0; i < myAuthorTags.getTags().length; ++i){
                 if(myAuthorTags.getTags()[i].getStatus()) {
                     if(myAuthorTags.getTags()[i].getName().equals("name")){
-                                    System.out.println(new String(ch, start, length));
                                     myCurAuthor.setName(new String(ch, start, length));
                                 }else if(myAuthorTags.getTags()[i].getName().equals("uri")){
                                     myCurAuthor.setID(new String(ch, start, length));
-                                    System.out.println(new String(ch, start, length));
                                 }
                 }
             }
@@ -158,9 +156,6 @@ public class SAXHandler extends DefaultHandler{
     @Override
     public void endDocument() throws SAXException
     {
-    	for (int i = 0; i < myData.getBooks().size(); ++i){
-    		System.out.println(myData.getBooks().get(i).getTitle() + "   " + myData.getBooks().get(i).getID());
-    	}
     }
 
 }
