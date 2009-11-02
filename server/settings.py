@@ -50,6 +50,9 @@ MEDIA_URL = ''
 # Examples: "http://foo.com/media/", "/media/".
 ADMIN_MEDIA_PREFIX = '/media/'
 
+ugettext = lambda s: s
+LOGIN_URL = '/%s%s' % (ugettext('account/'), ugettext('signin/'))
+
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'v_%-@z3(t6y!1a3m$s7ulv9#&@e6_e-m_rk9v5&&9gj&+ug9e$'
 
@@ -64,10 +67,14 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.cache.CacheMiddleware',
+
     'django.middleware.transaction.TransactionMiddleware',
     
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    
+    'django.middleware.doc.XViewMiddleware',
+    'django_authopenid.middleware.OpenIDMiddleware',
 )
 #    'django.middleware.common.CommonMiddleware',
 
@@ -93,7 +100,7 @@ INSTALLED_APPS = (
     'server.book',
     'server.reader',
     #openid
-    'server.consumer',
+    'django_authopenid',
 )
 
 try:

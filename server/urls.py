@@ -7,6 +7,9 @@ from django.contrib import admin
 
 from django.conf.urls.defaults import *
 
+import views
+
+
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -31,7 +34,9 @@ urlpatterns = patterns('',
     (r'^user/insert/?$', 'server.reader.views.insert_user_information'),
     
     #openid
-    ('^consumer/', include('server.consumer.urls')),
+    (r'^$', 'django.views.generic.simple.direct_to_template', {'template': 'home.html'}),
+    (r'^account/', include('django_authopenid.urls')),
 
+    
 )
 
