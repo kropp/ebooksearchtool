@@ -13,6 +13,7 @@ class CrawlerThread extends Thread {
     private String myAction;
     private boolean myStopping = false;
     private boolean myWaitingForQueue = false;
+    private URI myDownloadingURI = null;
     
     CrawlerThread(Crawler crawler, int index) {
         myCrawler = crawler;
@@ -27,6 +28,10 @@ class CrawlerThread extends Thread {
         return myWaitingForQueue;
     }
     
+    public URI getDownloadingURI() {
+        return myDownloadingURI;
+    }
+    
     public void run() {
         myAction = "preparing";
         final AbstractLinksQueue queue = myCrawler.getQueue();
@@ -34,6 +39,7 @@ class CrawlerThread extends Thread {
         final AbstractRobotsExclusion robots = myCrawler.getRobots();
         final Network network = myCrawler.getNetwork();
         final Logger logger = myCrawler.getLogger();
+        final int maxLinksFromPage = myCrawler.getMaxLinksFromPage();
         while (true) {
             myAction = "taking an URI from the queue";
             URI uri = null;
@@ -50,12 +56,14 @@ class CrawlerThread extends Thread {
             }
             if (uri == null) break;
             myAction = "downloading the page at: " + uri;
+            myDownloadingURI = uri;
             String page = network.download(uri, "text/html", true);
+            myDownloadingURI = null;
             if (myStopping) break;
             if (page == null) continue;
             logger.log(Logger.MessageType.CRAWLED_PAGES, String.format("% 4d %d %s %d", myIndex, myCrawler.getCrawledPagesNumber(), uri, page.length()));
             myAction = "getting links out of: " + uri;
-            List<URI> links = HTMLParser.parseLinks(uri, page, myCrawler.getMaxLinksFromPage());
+            List<URI> links = HTMLParser.parseLinks(uri, page, maxLinksFromPage);
             if (myStopping) break;
             for (URI link : links) {
                 myAction = "creating similar links to: " + link;
@@ -71,7 +79,9 @@ class CrawlerThread extends Thread {
                         logger.log(Logger.MessageType.FOUND_BOOKS, String.format("% 4d  book #%d: %s", myIndex, myCrawler.getFoundBooksNumber(), link));
                     } else {
                         myAction = "checking if i can go to: " + link;
+                        myDownloadingURI = link;
                         boolean permitted = robots.canGo(link);
+                        myDownloadingURI = null;
                         if (myStopping) break;
                         if (permitted) {
                             myAction = "adding the link to the queue: " + link;

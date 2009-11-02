@@ -16,7 +16,8 @@ public class Crawler implements Runnable {
     private static int ourMaxLinksFromPage;
     private static int ourMaxQueueSize;
     private static int ourThreadsCount;
-    
+    private static int ourThreadTimeoutForLink;
+    private static int ourThreadFinishTime;
     
     private final Socket myAnalyzerSocket;
     private final BufferedWriter myAnalyzerWriter;
@@ -66,6 +67,8 @@ public class Crawler implements Runnable {
             int maxQueueSize = Integer.parseInt(properties.getProperty("max_queue_size"));
             ourMaxQueueSize = maxQueueSize == 0 ? Integer.MAX_VALUE : maxQueueSize;
             ourThreadsCount = Integer.parseInt(properties.getProperty("threads_count"));
+            ourThreadTimeoutForLink = Integer.parseInt(properties.getProperty("thread_timeout_for_link"));
+            ourThreadFinishTime = Integer.parseInt(properties.getProperty("thread_finish_time"));
             boolean logToScreenEnabled = "true".equals(properties.getProperty("log_to_screen"));
             String loggerOutput = properties.getProperty("log_file");
             Map<Logger.MessageType, Boolean> logOptions = new HashMap<Logger.MessageType, Boolean>();
@@ -141,7 +144,7 @@ public class Crawler implements Runnable {
         return myFoundBooksNumber++;
     }
     
-    
+    @SuppressWarnings("deprecation")
     public void run() {
         for (String start : myStarts) {
             URI uri = Util.createURI(start);
@@ -158,16 +161,36 @@ public class Crawler implements Runnable {
             myThread[i] = new CrawlerThread(this, i);
             myThread[i].start();
         }
+        
+        URI[] downloadingURI = new URI[ourThreadsCount];
         try {
-            Thread.sleep(Long.MAX_VALUE);
+            while (true) {
+                Thread.sleep(ourThreadTimeoutForLink);
+                for (int i = 0; i < ourThreadsCount; i++) {
+                    if (downloadingURI[i] != null && downloadingURI[i].equals(myThread[i].getDownloadingURI())) {
+                        myLogger.log(Logger.MessageType.ERRORS, " thread #" + i + " is waiting too long for: " + downloadingURI[i]);
+                        myThread[i].finish();
+                        Thread.sleep(ourThreadFinishTime);
+                        if (myThread[i].isAlive()) {
+                            myThread[i].stop();
+                        }
+                        myThread[i] = new CrawlerThread(this, i);
+                        myThread[i].start();
+                        myLogger.log(Logger.MessageType.ERRORS, " thread #" + i + " restarted");
+                    }
+                    downloadingURI[i] = myThread[i].getDownloadingURI();
+                }
+            }
         } catch (InterruptedException e) { }
+        
         for (int i = 0; i < ourThreadsCount; i++) {
             myThread[i].finish();
         }
+        try {
+            Thread.sleep(ourThreadFinishTime);
+        } catch (InterruptedException e) { }
         for (int i = 0; i < ourThreadsCount; i++) {
-            try {
-                myThread[i].join();
-            } catch (InterruptedException e) { }
+            myThread[i].stop();
         }
         
         myRobots.finish();
