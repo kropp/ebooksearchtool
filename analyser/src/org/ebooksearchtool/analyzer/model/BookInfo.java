@@ -15,6 +15,12 @@ public class BookInfo {
     private String myLanguage;
     private List<String> myAnnotations;
 
+    public static final int AUTHORS = 0;
+    public static final int TITLE = 1;
+    public static final int FILE = 2;
+    public static final int LANGUAGE = 3;
+    public static final int ANNOTATIONS = 4;
+
     public BookInfo(){
         myAuthors = new ArrayList<Author>();
         //myAuthors.add(new Author());
@@ -144,13 +150,14 @@ public class BookInfo {
         return str.toString();
     }
 
-    public String getBookInfoForRequest(){
+    //TODO:Доделать
+    public String getBookInfoForRequest(int... parametrs){
         StringBuilder str = new StringBuilder();
         str.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
         str.append(AnalyzerProperties.getPropertie("systemSeparator"));
         str.append("<book>");
         str.append(AnalyzerProperties.getPropertie("systemSeparator"));
-        if(!myTitle.equals("") && !myTitle.equals("Unknown title")){
+        if(!myTitle.equals("") && !myTitle.equals("Unknown title") ){
             str.append(writeTitle());
         }
         if(!myLanguage.equals("") && !myLanguage.equals("Unknown language")){

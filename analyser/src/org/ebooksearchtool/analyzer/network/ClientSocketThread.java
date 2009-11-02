@@ -34,11 +34,11 @@ public class ClientSocketThread extends Thread{
 
                 while(true){
                     synchronized(myLock){
-//                        try {
-//                            //myLock.wait();
-//                        } catch (InterruptedException ex) {
-//                            Logger.setToErrorLog(ex.getMessage());
-//                        }
+                        try {
+                            myLock.wait();
+                        } catch (InterruptedException ex) {
+                            Logger.setToErrorLog(ex.getMessage());
+                        }
                     }
                 }
             } catch (IOException ex) {

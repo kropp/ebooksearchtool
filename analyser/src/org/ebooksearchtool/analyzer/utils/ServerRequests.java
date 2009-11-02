@@ -36,7 +36,7 @@ public class ServerRequests {
         StringBuilder str = new StringBuilder();
         //TODO: Сделать функцию для запроса данных у сервера
         String message = encodeSpecialSymbols(info.getBookInfo());
-        str.append("POST " + "/data/insert " + "HTTP/1.0");
+        str.append("POST " + "/data/get " + "HTTP/1.0");
         str.append(AnalyzerProperties.getPropertie("systemSeparator"));
         str.append("Host: " + AnalyzerProperties.getPropertie("serverAddress") +
                 ":" + AnalyzerProperties.getPropertie("serverPort"));
