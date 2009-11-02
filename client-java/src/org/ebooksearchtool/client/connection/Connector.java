@@ -36,6 +36,7 @@ public class Connector{
     public void getFileFromURL(String fileName) {
         
         try {
+        	if(myPort == 0){
         	System.out.println("C1 ANS");
             connection = Url.openConnection();
             System.out.println("C1 ANS O");
@@ -52,10 +53,8 @@ public class Connector{
                 
             }
             pw1.close();
-        } catch (IOException e) {
-            try {
-
-System.out.println("C2 ANS");
+        	}else{
+        		System.out.println("C2 ANS");
                 connection = Url.openConnection(new Proxy(Proxy.Type.HTTP, new InetSocketAddress(myIP, myPort)));
                 System.out.println("C2 O");                
                 PrintWriter pw1 = new PrintWriter(new OutputStreamWriter(new FileOutputStream(fileName), "utf-8"));
@@ -72,12 +71,12 @@ System.out.println("C2 ANS");
                     System.out.println(i);
                 }
                 pw1.close();
-     
-            	
-            	            } catch (IOException e1) {
+        	}
+        } catch (IOException e) {
+            
             	System.out.println("connection error");
-                e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            }
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            
         }
         //connection = Url.openConnection(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("192.168.0.2", 3128)));
 
@@ -88,6 +87,7 @@ System.out.println("C2 ANS");
 public void getBookFromURL(String fileName) {
         
         try {
+        	if(myPort == 0){
         	System.out.println("C1 FILE");
             connection = Url.openConnection();
             System.out.println("C1 FILE O");
@@ -108,10 +108,8 @@ public void getBookFromURL(String fileName) {
                	
             }
             outStream.close();
-            
-        } catch (IOException e) {
-            try {
-            	System.out.println("C2 C FILE");
+        	}else{
+        		System.out.println("C2 C FILE");
                 connection = Url.openConnection(new Proxy(Proxy.Type.HTTP, new InetSocketAddress(myIP, myPort)));
                 
                 //PrintWriter pw1 = new PrintWriter(new OutputStreamWriter(new FileOutputStream(fileName), "utf-8"));
@@ -123,7 +121,7 @@ public void getBookFromURL(String fileName) {
                 InputStream IS = connection.getInputStream();
                 System.out.println("C2 IS FILE");
                 int i = 0;
-                System.out.println("C1 FILE Down");
+                System.out.println("C2 FILE Down");
                 while (i != -1)
                {
                 	i = IS.read();
@@ -132,12 +130,12 @@ public void getBookFromURL(String fileName) {
                 	
                 }
                 outStream.close();
-     
-            	
-            	            } catch (IOException e1) {
+        	}
+            
+        } catch (IOException e1) {
             	System.out.println("connection error");
                 e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            }
+            
         }
         //connection = Url.openConnection(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("192.168.0.2", 3128)));
 
