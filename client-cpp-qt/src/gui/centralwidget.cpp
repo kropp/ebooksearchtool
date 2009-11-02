@@ -86,6 +86,9 @@ void CentralWidget::downloadFile(const QString& url) {
 	myHttpConnection->downloadFile(url, myFile);*/
 }
 
+//void CentralWidget::downloadFile(const QString& url, QFile& file) {
+	//myHttpConnection->downloadFile(url, file);
+//}
 
 void CentralWidget::enableSearchButton() {
 	//mySearchButton->setEnabled(!myUrlLineEdit->text().isEmpty());

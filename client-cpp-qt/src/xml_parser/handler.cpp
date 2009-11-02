@@ -32,7 +32,7 @@ bool AtomHandler::startElement (const QString& , const QString& , const QString&
 	if ((name == "link") && (attributes.value("type") == "application/epub+zip")) {
         myBooksLink = attributes.value("href");
 	}
-	if ((name == "link") && (attributes.value("type") == "image/png") && (attributes.value("rel") == "http://opds-spec.org/cover")) {
+	if ((name == "link") && (attributes.value("type") == "image/png") && (attributes.value("rel") == "http://opds-spec.org/thumbnail")) {
         myBooksCover = attributes.value("href");
 	}
 
