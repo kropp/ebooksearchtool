@@ -15,6 +15,7 @@ public:
 
 private:
     const Book* myBook;
-    QLabel* myTitleLable;
+    QLabel* myTitleLabel;
+    QLabel* myAuthorLabel;
 };
 #endif //_BOOK_WIDGET_H_

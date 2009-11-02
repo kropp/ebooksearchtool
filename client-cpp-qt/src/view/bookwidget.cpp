@@ -4,16 +4,13 @@
 #include "bookwidget.h"
 #include "../data/book_author.h"
 
-#include <iostream>
-
 BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent) ,myBook(book) {
-    myTitleLable = new QLabel(myBook->getTitle().c_str());
+    myTitleLabel = new QLabel(myBook->getTitle().c_str());
+    myAuthorLabel = new QLabel(myBook->getAuthor()->getName().c_str());
 	QHBoxLayout* layout = new QHBoxLayout();
-	layout->addWidget(myTitleLable);
-    //setVisible(true);
-    std::cout << "widget created\n";
+	layout->addWidget(myTitleLabel);
+	layout->addWidget(myAuthorLabel);
     setLayout(layout);
-   //show();
 // отображение обложки
 // текст: название, автор
 // свой layout
