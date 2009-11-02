@@ -11,9 +11,9 @@ public class SpecialWords {
     private static HashSet ourSeparators = new HashSet();
     static{
         ourSeparators.add(",");
-        ourSeparators.add("'");
+        //ourSeparators.add("'");
         ourSeparators.add(',');
-        ourSeparators.add('\'');
+        //ourSeparators.add('\'');
     }
 
     private static HashSet ourJoiners = new HashSet();

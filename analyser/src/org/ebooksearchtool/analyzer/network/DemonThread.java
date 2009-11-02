@@ -34,48 +34,49 @@ public class DemonThread extends Thread{
         Object waiter = new Object();
         Calendar calendar = new GregorianCalendar(TimeZone.getDefault());
 
-        while(true){
-            try{
-                if(!myTodayUpdateFlag){
-                    while(calendar.get(Calendar.HOUR_OF_DAY) >
-                            AnalyzerProperties.getPropertieAsNumber("demonHourWhenRefresh")){
-                        try {
-                            waiter.wait(AnalyzerProperties.getPropertieAsNumber("demonRepeatConditionsChekTime"));
-                        } catch (InterruptedException ex) {
-                            Logger.setToErrorLog(ex.getMessage());
+        synchronized(waiter){
+            while(true){
+                try{
+                    if(!myTodayUpdateFlag){
+                        while(calendar.get(Calendar.HOUR_OF_DAY) >
+                                AnalyzerProperties.getPropertieAsNumber("demonHourWhenRefresh")){
+                            try {
+                                waiter.wait(AnalyzerProperties.getPropertieAsNumber("demonRepeatConditionsChekTime"));
+                            } catch (InterruptedException ex) {
+                                Logger.setToErrorLog(ex.getMessage());
+                            }
                         }
-                    }
-                    try {
-                        address = new URL("http://www.munseys.com/munsey.xml");
-                        URLConnection connect = address.openConnection();
+                        try {
+                            address = new URL("http://www.munseys.com/munsey.xml");
+                            URLConnection connect = address.openConnection();
 
-                        StringBuilder sb = new StringBuilder();
-                        int currPosition = 0;
-                        int end = connect.getContentLength();
-                        InputStream input = connect.getInputStream();
-                        while (currPosition != -1 && currPosition < end){
-                            sb.append(input.read());
-                            ++currPosition;
-                        }
-                        MunseyParser parser = new MunseyParser();
-                        parser.parse(sb.toString());
-                    } catch (IOException ex) {
-                        Logger.setToErrorLog(ex.getMessage());
-                    }                
-                }else{
-                    while(calendar.get(Calendar.HOUR_OF_DAY) > 1){
-                        try {
-                            waiter.wait(AnalyzerProperties.getPropertieAsNumber("demonRepeatConditionsChekTime"));
-                        } catch (InterruptedException ex) {
+                            StringBuilder sb = new StringBuilder();
+                            int currPosition = 0;
+                            int end = connect.getContentLength();
+                            InputStream input = connect.getInputStream();
+                            while (currPosition != -1 && currPosition < end){
+                                sb.append(input.read());
+                                ++currPosition;
+                            }
+                            MunseyParser parser = new MunseyParser();
+                            parser.parse(sb.toString());
+                        } catch (IOException ex) {
                             Logger.setToErrorLog(ex.getMessage());
                         }
+                    }else{
+                        while(calendar.get(Calendar.HOUR_OF_DAY) > 1){
+                            try {
+                                waiter.wait(AnalyzerProperties.getPropertieAsNumber("demonRepeatConditionsChekTime"));
+                            } catch (InterruptedException ex) {
+                                Logger.setToErrorLog(ex.getMessage());
+                            }
+                        }
+                        myTodayUpdateFlag = false;
                     }
-                    myTodayUpdateFlag = false;
+                }catch(NullPointerException ex){
+                        Logger.setToErrorLog(ex.getMessage());
                 }
-            }catch(NullPointerException ex){
-                    Logger.setToErrorLog(ex.getMessage());
             }
         }
-
     }
 }

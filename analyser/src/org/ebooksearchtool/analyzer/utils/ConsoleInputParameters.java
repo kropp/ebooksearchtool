@@ -9,9 +9,11 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.SortedMap;
 import javax.xml.parsers.ParserConfigurationException;
+import org.ebooksearchtool.analyzer.algorithms.subalgorithms.FormatExtractor;
 import org.xml.sax.SAXException;
 import org.ebooksearchtool.analyzer.io.Logger;
 import org.ebooksearchtool.analyzer.io.PropertiesIO;
+import org.ebooksearchtool.analyzer.model.Lexema;
 import org.ebooksearchtool.analyzer.network.NetworkSocketIO;
 import org.ebooksearchtool.analyzer.tests.TestBuilder;
 import org.ebooksearchtool.analyzer.tests.Tester;
@@ -41,6 +43,7 @@ public class ConsoleInputParameters {
                         break;
                     }
                     case 'n':{
+                        FormatExtractor.extractFormat(Lexema.convertToLexems("<link src=\"http://www.getfreeebooks.com/wp-content/uploads/2009/It's.In.The.Music.pdf\" />"));
                         PropertiesIO.getPropertiesFromFile("analyzer.properties");
                         NetworkSocketIO.createServer("localhost",
                                 AnalyzerProperties.getPropertieAsNumber("crawlerPort"));

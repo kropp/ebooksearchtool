@@ -205,16 +205,17 @@ public class BookInfo {
             str.append(author.getName());
             str.append("</name>");
             str.append(AnalyzerProperties.getPropertie("systemSeparator"));
-            List<String> aliases = author.getAliases();
-            if(aliases != null){
-            int alLength = aliases.size();
-                for (int j = 0; j < alLength; j++) {
-                    str.append("<alias>");
-                    str.append(aliases.get(j));
-                    str.append("</alias>");
-                    str.append(AnalyzerProperties.getPropertie("systemSeparator"));
-                }
-            }
+            //Не убирать, просто пока не нужны
+//            List<String> aliases = author.getAliases();
+//            if(aliases != null){
+//            int alLength = aliases.size();
+//                for (int j = 0; j < alLength; j++) {
+//                    str.append("<alias>");
+//                    str.append(aliases.get(j));
+//                    str.append("</alias>");
+//                    str.append(AnalyzerProperties.getPropertie("systemSeparator"));
+//                }
+//            }
             str.append("</author>");
             str.append(AnalyzerProperties.getPropertie("systemSeparator"));
         }
