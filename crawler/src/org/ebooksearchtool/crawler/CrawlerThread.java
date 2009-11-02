@@ -29,21 +29,26 @@ class CrawlerThread extends Thread {
     
     public void run() {
         myAction = "preparing";
-        AbstractLinksQueue queue = myCrawler.getQueue();
-        AbstractVisitedLinksSet visited = myCrawler.getVisited();
-        AbstractRobotsExclusion robots = myCrawler.getRobots();
-        Network network = myCrawler.getNetwork();
-        Logger logger = myCrawler.getLogger();
+        final AbstractLinksQueue queue = myCrawler.getQueue();
+        final AbstractVisitedLinksSet visited = myCrawler.getVisited();
+        final AbstractRobotsExclusion robots = myCrawler.getRobots();
+        final Network network = myCrawler.getNetwork();
+        final Logger logger = myCrawler.getLogger();
         while (true) {
             myAction = "taking an URI from the queue";
             URI uri = null;
             myWaitingForQueue = true;
             while (uri == null) {
-                if (myCrawler.allThreadsAreWaitingForQueue()) break;
                 uri = queue.poll();
+                synchronized (queue) {
+                    if (uri != null) {
+                        myWaitingForQueue = false;
+                        break;
+                    }
+                }
+                if (myCrawler.allThreadsAreWaitingForQueue()) break;
             }
             if (uri == null) break;
-            myWaitingForQueue = false;
             myAction = "downloading the page at: " + uri;
             String page = network.download(uri, "text/html", true);
             if (myStopping) break;
