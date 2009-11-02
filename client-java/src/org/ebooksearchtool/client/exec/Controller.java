@@ -30,10 +30,11 @@ public class Controller {
 
         try {
         	mySettings.setServer(getSettingsFromFile().getServer());
+            mySettings.setProxyEnabled(getSettingsFromFile().isProxyEnabled());
             mySettings.setIP(getSettingsFromFile().getIP());
             mySettings.setPort(getSettingsFromFile().getPort());
         } catch (FileNotFoundException exeption){
-            setSettings("http://feedbooks.com", "192.168.0.2", 3128);
+            setSettings("http://feedbooks.com", true, "192.168.0.2", 3128);
         }
 
     }
@@ -42,15 +43,11 @@ public class Controller {
     public void getQueryAnswer(String queryWord, String queryOption) throws IOException, SAXException, ParserConfigurationException {
         Query query = new Query();
         String adress = query.getQueryAdress(queryWord, queryOption);
-        System.out.println("Q");
-        Connector connect = new Connector(mySettings.getServer()+adress, mySettings.getIP(), mySettings.getPort());
-        System.out.println("C");
+        Connector connect = new Connector(mySettings.getServer()+adress, mySettings);
         connect.getFileFromURL("answer_file.xml");
-        System.out.println("GF");
         Parser parser = new Parser();
         SAXHandler handler = new SAXHandler(myBooks);
         parser.parse("answer_file.xml", handler);
-        System.out.println("P");
         
     }
 
@@ -65,18 +62,18 @@ public class Controller {
         return mySettings;
     }
 
-    public void setSettings(String server, String IP, int port) throws FileNotFoundException, UnsupportedEncodingException {
+    public void setSettings(String server, boolean proxy, String IP, int port) throws FileNotFoundException, UnsupportedEncodingException {
         mySettings.setServer(server);
     	mySettings.setIP(IP);
         mySettings.setPort(port);
         PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream("settings.xml"), "utf-8"));
-        pw.print("<root>\n" + "<server>" + server + "</server>\n" + "<IP>" + IP + "</IP>\n" + "<port>" + port + "</port>\n" + "</root>");
+        pw.print("<root>\n" + "<server>" + server + "</server>\n" + "<proxy enabled=\"" + proxy + "\"/>\n" + "<IP>" + IP + "</IP>\n" + "<port>" + port + "</port>\n" + "</root>");
         pw.close();
     }
     
     public void getBookFile(int bookIndex) throws IOException{
     	
-    	Connector connect = new Connector(myBooks.getBooks().get(bookIndex).getPdfLink(), mySettings.getIP(), mySettings.getPort());
+    	Connector connect = new Connector(myBooks.getBooks().get(bookIndex).getPdfLink(), mySettings);
     	
     	connect.getBookFromURL(myBooks.getBooks().get(bookIndex).getTitle() + ".pdf");
     	

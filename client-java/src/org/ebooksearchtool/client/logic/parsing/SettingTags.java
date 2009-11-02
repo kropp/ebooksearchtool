@@ -12,10 +12,11 @@ public class SettingTags {
     private Tag[] myTags;
 
     public SettingTags(){
-        myTags = new Tag[3];
+        myTags = new Tag[4];
         myTags[0] = new Tag("server");
         myTags[1] = new Tag("IP");
         myTags[2] = new Tag("port");
+        myTags[3] = new Tag("proxy");
     }
 
     public Tag[] getTags(){

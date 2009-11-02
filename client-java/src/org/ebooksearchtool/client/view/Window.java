@@ -93,23 +93,20 @@ public class Window {
             	Thread process = new Thread(new Runnable() {
             		public void run() {
             			model.setValue(0);
-            			myProgressBar.setString("Sending request... 5%");
+            			myProgressBar.setString("Sending request... 0%");
             		
             			String queryWord = myQueryField.getText();
             			model.setValue(5);
             			String queryOption = (String)myQueryCombo.getSelectedItem();
             			model.setValue(8);
-            			myProgressBar.setString("Getting data... 30%");
+            			myProgressBar.setString("Recieving data... 5%");
             			try {
 							myController.getQueryAnswer(queryWord, queryOption);
 						} catch (IOException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						} catch (SAXException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						} catch (ParserConfigurationException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
             			model.setValue(30);
@@ -118,26 +115,23 @@ public class Window {
             			model.setValue(35);
             			for(int i = 0; i < myController.getData().getBooks().size(); ++i){
             				try {
-								BP[i] = new BookPanel(myController.getData().getBooks().get(i), myController.getSettings().getIP(), myController.getSettings().getPort());
+								BP[i] = new BookPanel(myController.getData().getBooks().get(i), myController.getSettings());
 								model.setValue(model.getValue() + 5);
 								myProgressBar.setString("Viewing book... " + model.getValue() + "%");
             				} catch (IOException e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							} catch (SAXException e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							} catch (ParserConfigurationException e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
             				JPanel bookPan = BP[i].getRootPanel();
             				myTextPan.add(bookPan);
             				bookPan.setVisible(true);
             				myFrame.setVisible(true);
-            				System.out.println("BP " + i);
             			}
             			model.setValue(100);
+                        myProgressBar.setString("");
             		}
             	});
             	process.start();

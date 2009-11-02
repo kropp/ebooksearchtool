@@ -17,6 +17,7 @@ public class Settings {
 	private String myServer;
     private String myIP;
     private int myPort;
+    private boolean myProxyIsEnabled;
 
     public Settings() throws SAXException, ParserConfigurationException {}
 
@@ -42,5 +43,13 @@ public class Settings {
 
     public void setPort(int myPort) {
         this.myPort = myPort;
+    }
+
+    public boolean isProxyEnabled() {
+        return myProxyIsEnabled;
+    }
+
+    public void setProxyEnabled(boolean enabled) {
+        myProxyIsEnabled = enabled;
     }
 }

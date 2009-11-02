@@ -31,6 +31,7 @@ public class NetworkDialog {
     JTextField myPortText;
     JPanel myIpPanel;
     JPanel myPortPanel;
+    JCheckBox myProxyCheck;
 
     private Controller myController;
 
@@ -50,19 +51,42 @@ public class NetworkDialog {
         JPanel pan1 = new JPanel(new FlowLayout());
         myPanel.add(pan1, "North");
         pan1.add(myTitle);
-        JPanel mainPan = new JPanel(new GridLayout(3, 2));
+        JPanel mainPan = new JPanel(new GridLayout(4, 2));
         myPanel.add(mainPan, "Center");
         
         mainPan.add(new JLabel("server"));
         myServerText = new JTextField();
         mainPan.add(myServerText);
+        mainPan.add(new JLabel("Use proxy"));
+        myProxyCheck = new JCheckBox();
+        mainPan.add(myProxyCheck);
         mainPan.add(new JLabel("IP"));
         myIPText = new JTextField();
         mainPan.add(myIPText);
         mainPan.add(new JLabel("port"));
         myPortText = new JTextField();
         mainPan.add(myPortText);
-        
+        myProxyCheck.setSelected(myController.getSettings().isProxyEnabled());
+        if(myProxyCheck.isSelected()){
+            myIPText.setEnabled(true);
+            myPortText.setEnabled(true);
+        }else{
+            myIPText.setEnabled(false);
+            myPortText.setEnabled(false);
+        }
+
+        myProxyCheck.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) {
+                if(myProxyCheck.isSelected()){
+                    myIPText.setEnabled(true);
+                    myPortText.setEnabled(true);
+                }else{
+                    myIPText.setEnabled(false);
+                    myPortText.setEnabled(false);
+                }
+    			myPanel.updateUI();
+    		}
+        });
         
 
         myServerText.setText(myController.getSettings().getServer());
@@ -76,7 +100,7 @@ public class NetworkDialog {
         myFrame.addWindowListener(new WindowAdapter() {
         	public void windowClosing(WindowEvent e) {
             	try {
-					myController.setSettings(myServerText.getText(), myIPText.getText(), Integer.parseInt(myPortText.getText()));
+					myController.setSettings(myServerText.getText(),myProxyCheck.isSelected(), myIPText.getText(), Integer.parseInt(myPortText.getText()));
 				} catch (NumberFormatException e1) {
 					e1.printStackTrace();
 				} catch (FileNotFoundException e1) {					

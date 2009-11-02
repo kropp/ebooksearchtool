@@ -35,8 +35,12 @@ public class SAXSetHandler extends DefaultHandler{
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException
     {
 
+        if(qName.equals("proxy")){
+            mySettings.setProxyEnabled(attributes.getValue("enabled").equals("true"));
+        }
         for(int i = 0; i < myTags.getTags().length; ++i){
             myTags.getTags()[i].setStatus(myTags.getTags()[i].getName().equals(qName));
+
         }
     }
     @Override
@@ -44,11 +48,11 @@ public class SAXSetHandler extends DefaultHandler{
     {
             for(int i = 0; i < myTags.getTags().length; ++i){
                 if(myTags.getTags()[i].getStatus()) {
-                        if(myTags.getTags()[i].getName() == "server"){
+                        if(myTags.getTags()[i].getName().equals("server")){
                         	mySettings.setServer(new String(ch, start, length));
-                        }else if(myTags.getTags()[i].getName() == "IP"){                        
+                        }else if(myTags.getTags()[i].getName().equals("IP")){
                         	mySettings.setIP(new String(ch, start, length));
-                        }else if(myTags.getTags()[i].getName() == "port"){
+                        }else if(myTags.getTags()[i].getName().equals("port")){
                         	mySettings.setPort(Integer.parseInt(new String(ch, start, length)));
                         }
                     }

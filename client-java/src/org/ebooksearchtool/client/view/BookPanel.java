@@ -1,6 +1,7 @@
 package org.ebooksearchtool.client.view;
 
 import org.ebooksearchtool.client.model.Book;
+import org.ebooksearchtool.client.model.Settings;
 import org.ebooksearchtool.client.connection.Connector;
 
 import javax.swing.*;
@@ -19,8 +20,7 @@ import java.io.IOException;
 public class BookPanel {
 
 	private Book myBook;
-	private String myIP;
-	private int myPort;
+	private Settings mySettings;
 	
     private JPanel myRootPanel;
     private JLabel myImageLable;
@@ -36,17 +36,16 @@ public class BookPanel {
     private JLabel myGenreLabel;
     private JTextArea mySummaryArea;
 
-    public BookPanel(Book book, String IP, int port) throws IOException {
+    public BookPanel(Book book, Settings set) throws IOException {
 
         myBook = book;
-        myIP = IP;
-        myPort = port;
+        mySettings = set;
 
         myRootPanel = new JPanel();
         myRootPanel.setLayout(new BoxLayout(myRootPanel ,BoxLayout.X_AXIS));
         
 
-        Connector connector = new Connector(myBook.getImage(), IP, port);
+        Connector connector = new Connector(myBook.getImage(), mySettings);
         connector.getBookFromURL(myBook.getTitle() + ".jpg");
 
         myImageLable = new JLabel();
@@ -121,7 +120,7 @@ public class BookPanel {
     				myRootPanel.updateUI();
     			}else{
     				myMoreInfoPanel.setVisible(false);
-    				myMoreInfoPanel = new JPanel();
+                    myMoreInfoPanel.removeAll();
     				myMoreButton.setText("More");
     				myRootPanel.updateUI();
     			}
@@ -147,10 +146,9 @@ public class BookPanel {
     		public void actionPerformed(ActionEvent e) {
     			Connector connector;
 				try {
-					connector = new Connector(myBook.getEpubLink(), myIP, myPort);
+					connector = new Connector(myBook.getEpubLink(), mySettings);
 					connector.getBookFromURL(myBook.getTitle() + ".epub");
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}    	        
     		}
@@ -160,10 +158,9 @@ public class BookPanel {
     		public void actionPerformed(ActionEvent e) {
     			Connector connector;
 				try {
-					connector = new Connector(myBook.getPdfLink(), myIP, myPort);
+					connector = new Connector(myBook.getPdfLink(), mySettings);
 					connector.getBookFromURL(myBook.getTitle() + ".pdf");
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}    	        
     		}
