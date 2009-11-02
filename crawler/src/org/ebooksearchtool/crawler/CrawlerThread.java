@@ -93,7 +93,7 @@ class CrawlerThread extends Thread {
             if (myStopping) break;
         }
         myAction = "finished";
-        System.out.print("#" + myIndex + " ");
+//        System.out.print("#" + myIndex + " ");
     }
     
     public void finish() {

@@ -163,22 +163,33 @@ public class Crawler implements Runnable {
         }
         
         URI[] downloadingURI = new URI[ourThreadsCount];
+        boolean[] toKill = new boolean[ourThreadsCount];
         try {
             while (true) {
                 Thread.sleep(ourThreadTimeoutForLink);
+                Arrays.fill(toKill, false);
+                boolean killSomeone = false;
                 for (int i = 0; i < ourThreadsCount; i++) {
                     if (downloadingURI[i] != null && downloadingURI[i].equals(myThread[i].getDownloadingURI())) {
                         myLogger.log(Logger.MessageType.ERRORS, " thread #" + i + " is waiting too long for: " + downloadingURI[i]);
                         myThread[i].finish();
-                        Thread.sleep(ourThreadFinishTime);
+                        toKill[i] = true;
+                        killSomeone = true;
+                    }
+                    downloadingURI[i] = myThread[i].getDownloadingURI();
+                }
+                if (!killSomeone) continue;
+                Thread.sleep(ourThreadFinishTime);
+                for (int i = 0; i < ourThreadsCount; i++) {
+                    if (toKill[i]) {
                         if (myThread[i].isAlive()) {
                             myThread[i].stop();
                         }
                         myThread[i] = new CrawlerThread(this, i);
                         myThread[i].start();
-                        myLogger.log(Logger.MessageType.ERRORS, " thread #" + i + " restarted");
+                        downloadingURI[i] = null;
+                        myLogger.log(Logger.MessageType.ERRORS, " thread #" + i + " is restarted");
                     }
-                    downloadingURI[i] = myThread[i].getDownloadingURI();
                 }
             }
         } catch (InterruptedException e) { }
