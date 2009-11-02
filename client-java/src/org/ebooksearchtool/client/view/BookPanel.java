@@ -95,26 +95,36 @@ public class BookPanel {
         
         myMoreButton.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
-    			myMoreInfoPanel.setLayout(new BoxLayout(myMoreInfoPanel, BoxLayout.Y_AXIS));
+    			if(myMoreButton.getText().equals("More")){
+    				myMoreInfoPanel.setLayout(new BoxLayout(myMoreInfoPanel, BoxLayout.Y_AXIS));
     			
-    			myLangLabel = new JLabel("Language: " + myBook.getLanguage());
-    			myLangLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-    			myMoreInfoPanel.add(myLangLabel);
+    				myLangLabel = new JLabel("Language: " + myBook.getLanguage());
+    				myLangLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+    				myMoreInfoPanel.add(myLangLabel);
     			
-    			myDateLabel = new JLabel("Date of publishing: " + myBook.getDate());
-    			myDateLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-    			myMoreInfoPanel.add(myDateLabel);
+    				myDateLabel = new JLabel("Date of publishing: " + myBook.getDate());
+    				myDateLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+    				myMoreInfoPanel.add(myDateLabel);
     			
-    			myGenreLabel = new JLabel("Genre: " + myBook.getGenre());
-    			myGenreLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-    			myMoreInfoPanel.add(myGenreLabel);
+    				myGenreLabel = new JLabel("Genre: " + myBook.getGenre());
+    				myGenreLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+    				myMoreInfoPanel.add(myGenreLabel);
     			
-    			mySummaryArea = new JTextArea(myBook.getSummary());
-    			mySummaryArea.setLineWrap(true);
-    			mySummaryArea.setAlignmentX(JPanel.LEFT_ALIGNMENT);
-    			myMoreInfoPanel.add(mySummaryArea);
+    				mySummaryArea = new JTextArea(myBook.getSummary());
+    				mySummaryArea.setLineWrap(true);
+    				mySummaryArea.setAlignmentX(JPanel.LEFT_ALIGNMENT);
+    				myMoreInfoPanel.add(mySummaryArea);
+    				
+    				myMoreButton.setText("Hide");
+    				myMoreInfoPanel.setVisible(true);
     			
-    			myRootPanel.repaint();
+    				myRootPanel.updateUI();
+    			}else{
+    				myMoreInfoPanel.setVisible(false);
+    				myMoreInfoPanel = new JPanel();
+    				myMoreButton.setText("More");
+    				myRootPanel.updateUI();
+    			}
     			
 				
 			}

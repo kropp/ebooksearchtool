@@ -35,6 +35,7 @@ public class Window {
     private JPanel myTextPan;
     private int ind;
     private JComboBox myQueryCombo;
+    private JProgressBar myProgressBar;
     
     private JButton[] infB;
     
@@ -77,69 +78,75 @@ public class Window {
     	myTextPan.setLayout(box);
         myPanel1.add(new JScrollPane(myTextPan), "Center");
         myDataTextArea.setEditable(false);
+        
+        final DefaultBoundedRangeModel model = new DefaultBoundedRangeModel(0, 0, 0, 100);
+        myProgressBar = new JProgressBar(model);
+        myProgressBar.setStringPainted(true);
+        myPanel1.add(myProgressBar, "South");
 
-        mySearchButton.addActionListener(new ActionListener() {
+        
+        
+        ActionListener act = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
-                try {
-                    String queryWord = myQueryField.getText();
-                    String queryOption = (String)myQueryCombo.getSelectedItem();
-                    myController.getQueryAnswer(queryWord, queryOption);
+                
+            	Thread process = new Thread(new Runnable() {
+            		public void run() {
+            			model.setValue(0);
+            			myProgressBar.setString("Sending request... 5%");
+            		
+            			String queryWord = myQueryField.getText();
+            			model.setValue(5);
+            			String queryOption = (String)myQueryCombo.getSelectedItem();
+            			model.setValue(8);
+            			myProgressBar.setString("Getting data... 30%");
+            			try {
+							myController.getQueryAnswer(queryWord, queryOption);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (SAXException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (ParserConfigurationException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+            			model.setValue(30);
 
-                    BookPanel[] BP = new BookPanel[myController.getData().getBooks().size()];
-                    
-                    for(int i = 0; i < myController.getData().getBooks().size(); ++i){
-                    	BP[i] = new BookPanel(myController.getData().getBooks().get(i), myController.getSettings().getIP(), myController.getSettings().getPort());
-                    	JPanel bookPan = BP[i].getRootPanel();
-                    	myTextPan.add(bookPan);
-                    	bookPan.setVisible(true);
-                    	myFrame.setVisible(true);
-                    	System.out.println("BP " + i);
-                    }
-
-/*                    JTextArea[] info = new JTextArea[myController.getData().getBooks().size()];
-                    infB = new JButton[myController.getData().getBooks().size()];
-                    
-                    ActionListener[] AL = new ActionListener[myController.getData().getBooks().size()];
-                    for (int i = 0; i < myController.getData().getBooks().size(); ++i){
-                    	info[i] = new JTextArea();
-                    	myTextPan.add(info[i]);
-                    	infB[i] = new JButton("download");
-                    	
-                    	ind = i;
-                    	
-                    	infB[i].addActionListener(new ActionListener() {
-                    		public void actionPerformed(ActionEvent e) {
-                    			try {
-                                	
-                                	for (int k = 0; k < myController.getData().getBooks().size(); ++k){
-                                		if(e.getSource() == infB[k]){
-                                			myController.getBookFile(k);
-                                			System.out.println(k);
-                                		}
-                                	}
-                                	
-                                	
-                                }catch (IOException e1) {
-                                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                                }
-                            }
-                        });
-                    	myTextPan.add(infB[i]);
-                    	info[i].append(myController.getData().getBooks().get(i).getTitle() + "\n");
-    	            }       */
-                    
-                    
-                } catch (IOException e1) {
-                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                } catch (SAXException e1) {
-                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                } catch (ParserConfigurationException e1) {
-                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                }
-
-            }
-        });
+            			BookPanel[] BP = new BookPanel[myController.getData().getBooks().size()];
+            			model.setValue(35);
+            			for(int i = 0; i < myController.getData().getBooks().size(); ++i){
+            				try {
+								BP[i] = new BookPanel(myController.getData().getBooks().get(i), myController.getSettings().getIP(), myController.getSettings().getPort());
+								model.setValue(model.getValue() + 5);
+								myProgressBar.setString("Viewing book... " + model.getValue() + "%");
+            				} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (SAXException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (ParserConfigurationException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+            				JPanel bookPan = BP[i].getRootPanel();
+            				myTextPan.add(bookPan);
+            				bookPan.setVisible(true);
+            				myFrame.setVisible(true);
+            				System.out.println("BP " + i);
+            			}
+            			model.setValue(100);
+            		}
+            	});
+            	process.start();
+        }
+            
+        };
+        
+        mySearchButton.addActionListener(act);
+        myQueryField.addActionListener(act);
 
         myNetMenu.addActionListener(new ActionListener() {
 
