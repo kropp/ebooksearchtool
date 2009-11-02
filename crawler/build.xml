@@ -28,6 +28,13 @@
         <delete dir="${dist}"/>
     </target>
     
+    <target name="clean-all">
+        <delete dir="robotscache"/>
+        <delete file="log.txt"/>
+        <delete file="dump.txt"/>
+        <delete file="found.xml"/>
+    </target>
+    
     <target name="run">
         <java fork="true" jar="${jarfile}">
             <arg value="www.feedbooks.com"/>

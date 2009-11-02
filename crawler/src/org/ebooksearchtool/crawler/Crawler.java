@@ -232,6 +232,13 @@ public class Crawler implements Runnable {
         }
     }
     
-
+    boolean allThreadsAreWaitingForQueue() {
+        for (int i = 0; i < ourThreadsCount; i++) {
+            if (!myThread[i].isWaitingForQueue()) {
+                return false;
+            }
+        }
+        return true;
+    }
     
 }

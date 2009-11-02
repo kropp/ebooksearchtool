@@ -12,6 +12,7 @@ class CrawlerThread extends Thread {
     
     private String myAction;
     private boolean myStopping = false;
+    private boolean myWaitingForQueue = false;
     
     CrawlerThread(Crawler crawler, int index) {
         myCrawler = crawler;
@@ -20,6 +21,10 @@ class CrawlerThread extends Thread {
     
     public String getAction() {
         return myAction;
+    }
+    
+    public boolean isWaitingForQueue() {
+        return myWaitingForQueue;
     }
     
     public void run() {
@@ -31,8 +36,14 @@ class CrawlerThread extends Thread {
         Logger logger = myCrawler.getLogger();
         while (true) {
             myAction = "taking an URI from the queue";
-            URI uri = queue.poll();
+            URI uri = null;
+            myWaitingForQueue = true;
+            while (uri == null) {
+                if (myCrawler.allThreadsAreWaitingForQueue()) break;
+                uri = queue.poll();
+            }
             if (uri == null) break;
+            myWaitingForQueue = false;
             myAction = "downloading the page at: " + uri;
             String page = network.download(uri, "text/html", true);
             if (myStopping) break;

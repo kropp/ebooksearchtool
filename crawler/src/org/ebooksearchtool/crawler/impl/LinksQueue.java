@@ -10,6 +10,8 @@ public class LinksQueue extends AbstractLinksQueue {
     private final BlockingQueue<URI> myQueue = new LinkedBlockingQueue<URI>();
     private final int myMaxSize;
     
+    private static int ourTimeToWait = 1000;
+    
     public LinksQueue(int maxSize) {
         myMaxSize = maxSize;
     }
@@ -24,7 +26,7 @@ public class LinksQueue extends AbstractLinksQueue {
     
     public URI poll() {
         try {
-            return myQueue.take();
+            return myQueue.poll(ourTimeToWait, TimeUnit.MILLISECONDS);
         } catch (InterruptedException e) {
             return null;
         }
