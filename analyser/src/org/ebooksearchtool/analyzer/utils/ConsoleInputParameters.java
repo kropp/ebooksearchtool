@@ -6,6 +6,8 @@ package org.ebooksearchtool.analyzer.utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.SortedMap;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 import org.ebooksearchtool.analyzer.io.Logger;

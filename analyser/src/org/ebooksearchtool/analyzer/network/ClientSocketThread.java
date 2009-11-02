@@ -1,25 +1,9 @@
 package org.ebooksearchtool.analyzer.network;
 
-import java.security.Principal;
-import java.util.Enumeration;
-import java.util.Locale;
-import java.util.Map;
-import java.util.logging.Level;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.ServletInputStream;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpSession;
 import org.ebooksearchtool.analyzer.utils.NetUtils;
 import java.io.*;
 import java.net.Socket;
-import java.net.URI;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
-import javax.servlet.http.HttpServletResponse;
+import java.net.URLDecoder;
 import org.ebooksearchtool.analyzer.io.Logger;
 
 /**
@@ -73,15 +57,8 @@ public class ClientSocketThread extends Thread{
         String message = "";
         try {
             try {
-//                HttpServletRequest req = null ;
-//                HttpServletResponse resp = null;
-//                Servlet servlet = new Servlet();
-//                servlet.init(new HttpServlet() {});
-//                servlet.service(req, resp);
                 NetUtils.sendMessage(myWriter, request);
-                message = NetUtils.reciveServerMessage(myReader);
-//            } catch (ServletException ex) {
-//                Logger.setToErrorLog(ex.getMessage());
+                message = URLDecoder.decode(NetUtils.reciveServerMessage(myReader), "UTF-8");
             } catch (IOException ex) {
                 Logger.setToErrorLog(ex.getMessage());
             }finally{
