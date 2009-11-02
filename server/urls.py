@@ -5,6 +5,8 @@ from server.book.action_handler import ACTION
 
 from django.contrib import admin
 
+from django.conf.urls.defaults import *
+
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -27,5 +29,9 @@ urlpatterns = patterns('',
     
     #user_information
     (r'^user/insert/?$', 'server.reader.views.insert_user_information'),
+    
+    #openid
+    ('^consumer/', include('server.consumer.urls')),
+
 )
 

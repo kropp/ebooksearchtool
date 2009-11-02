@@ -62,9 +62,11 @@ def search_request_to_server(request):
         author = None        
 
     books = Book.objects.filter(q).distinct()
+    
+    if len(q) == 0:
+        books = Book.objects.none()
+        
     total = books.count()
-#    print books
-#    print books.count()
     
     return search_to_opds(query, title, author, books[start_index:start_index+items_per_page], items_per_page, total, next, start_index)
 
@@ -86,3 +88,5 @@ def author_request_to_server(request, author_id):
 
 def opensearch_description(request):
     return render_to_response("data/opensearchdescription.xml", {'server':SERVER_URL})
+    
+

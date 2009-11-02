@@ -91,6 +91,8 @@ INSTALLED_APPS = (
     'server.south',
     'server.book',
     'server.reader',
+    #openid
+    'server.consumer',
 )
 
 try:
