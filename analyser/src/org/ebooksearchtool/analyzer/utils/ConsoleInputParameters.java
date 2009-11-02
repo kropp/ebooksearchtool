@@ -40,7 +40,7 @@ public class ConsoleInputParameters {
                     }
                     case 'n':{
                         PropertiesIO.getPropertiesFromFile("analyzer.properties");
-                        NetworkSocketIO.createServer("localhost", 
+                        NetworkSocketIO.createServer("localhost",
                                 AnalyzerProperties.getPropertieAsNumber("crawlerPort"));
                         NetworkSocketIO.createClient(AnalyzerProperties.getPropertie("serverAddress"),
                                 AnalyzerProperties.getPropertieAsNumber("serverPort"),

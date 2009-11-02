@@ -1,5 +1,7 @@
 package org.ebooksearchtool.analyzer;
 
+import java.net.SocketException;
+
 /**
  *
  * @author Алексей

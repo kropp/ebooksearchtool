@@ -24,7 +24,7 @@ public class NetworkSocketIO{
 //        Object timeout = new Object();
 //        while(true){
             try {
-                Socket socket = new Socket("192.168.2.104", socketNumber);
+                Socket socket = new Socket(address, socketNumber);
                 ClientSocketThread client = new ClientSocketThread(socket);
                 client.start();
             } catch (UnknownHostException ex) {

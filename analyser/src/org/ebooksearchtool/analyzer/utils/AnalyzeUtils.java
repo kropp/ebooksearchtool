@@ -149,4 +149,20 @@ public class AnalyzeUtils {
 
        return sb.toString();
    }
+
+//    // <editor-fold defaultstate="collapsed" desc="Author utils">
+//    private static HashSet<String> myAuthors;
+//    static{
+//        myAuthors.add("by");
+//        myAuthors.add("author/");
+//    }
+//
+//    public static boolean isAuthor(Lexema lex){
+//        String str = lex.getValue();
+//        for(String elem : myAuthors){
+//            return str.indexOf(elem) != -1 ? true : false;
+//        }
+//        return false;
+//    }
+//    // </editor-fold>
 }
