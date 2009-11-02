@@ -1,9 +1,7 @@
-'''
-'''
 
 import xml.etree.ElementTree as etree
-from string import split
 from xml.parsers.expat import ExpatError
+from string import split
 
 from django.core.exceptions import *
 from django.http import HttpResponse

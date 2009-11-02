@@ -140,6 +140,7 @@ def xml_exec_insert(xml):
     transaction.commit()
     return result
             
+
 def xml_exec_get(xml):
     "Executes xml-request, returns books"
     if xml.tag != 'book':

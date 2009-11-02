@@ -4,12 +4,8 @@
     <lang></lang>
 
     <authors>
-        <author>
-            <name></name>
-            <alias></alias>
-            <alias></alias>
-            <alias></alias>
-        </author>
+        <author> </author>
+        <author> </author>
     </authors>
 
     <files>
@@ -19,6 +15,7 @@
             <type></type>
             <time_found></time_found>
             <last_check></last_check>
+
             <more_info></more_info>
             <img_link></img_link>
         </file>

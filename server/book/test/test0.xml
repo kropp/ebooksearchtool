@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<book1>
-    <title></title>
+<book>
+    <title>title</title>
     <lang></lang>
 
     <authors>
-        <author>
-            <name></name>
-            <alias></alias>
-            <alias></alias>
-            <alias></alias>
-        </author>
+        <author>author</author>
+        <author id="2" />
     </authors>
 
     <files>
@@ -26,4 +22,4 @@
     <annotation></annotation>
     <annotation></annotation>
 
-</book1>
+</book>
