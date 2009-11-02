@@ -21,9 +21,11 @@ public:
 	const std::string& getSummary() const;
 	const std::string& getUri() const;
 	const std::string& getLink() const;
-	
+    const std::string& getCoverPath() const;	
+
 	void addAuthor(const Author* author);
 	void setLink(const std::string& link);
+	void setCoverPath(const std::string& path);
 
 private:
 	const std::string myTitle;
@@ -32,6 +34,7 @@ private:
 	std::vector<const Author*> myAuthors;
 	const std::string myUri;
 	std::string myLink;
+	std::string myCoverPath;
 };
 
 
@@ -87,5 +90,14 @@ inline const std::string& Book::getLink() const {
 inline const std::string& Author::getUri() const {
 	return myUri;
 }
+
+inline const std::string& Book::getCoverPath() const {
+    return myCoverPath;
+}
+
+inline void Book::setCoverPath(const std::string& path) {
+    myCoverPath = path;
+}
+
 
 #endif //_BOOK_AUTHOR_H_

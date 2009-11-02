@@ -32,7 +32,10 @@ bool AtomHandler::startElement (const QString& , const QString& , const QString&
 	if ((name == "link") && (attributes.value("type") == "application/epub+zip")) {
         myBooksLink = attributes.value("href");
 	}
-	//<link type="application/atom+xml" rel="next" title="Next Page" href="http://feedbooks.com/books/search.atom?page=2&amp;query=Doyle"/>
+	if ((name == "link") && (attributes.value("type") == "image/png") && (attributes.value("rel") == "http://opds-spec.org/cover")) {
+        myBooksCover = attributes.value("href");
+	}
+
 	return true;
 }
 
@@ -51,6 +54,7 @@ bool AtomHandler::endElement (const QString&, const QString&, const QString& str
 		                          myBooksUri.toStdString());
 		    book->addAuthor(author);
 		    book->setLink(myBooksLink.toStdString());
+            book->setCoverPath(myBooksCover.toStdString());
 		    myData->addBook(book);
 		    myIsEntry = false;	
 	} else if (str == "title") {

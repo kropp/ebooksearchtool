@@ -11,7 +11,7 @@ MainWindow::MainWindow() {
     myCentralWidget = new CentralWidget(this);
 	setCentralWidget(myCentralWidget);
     setWindowTitle("ebooksearchtool");
-	showMaximized();
+	//showMaximized();
 	// set header
 }
 

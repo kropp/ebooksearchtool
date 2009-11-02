@@ -30,6 +30,7 @@ private:
 	QString myAuthorsUri;	
 	QString myBooksUri;
 	QString myBooksLink;
+    QString myBooksCover;
 
 friend class AtomParser;
 };
