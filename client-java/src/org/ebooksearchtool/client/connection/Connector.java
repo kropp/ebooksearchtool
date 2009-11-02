@@ -1,7 +1,5 @@
 package org.ebooksearchtool.client.connection;
 
-import org.ebooksearchtool.client.view.Viewer;
-
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -38,9 +36,11 @@ public class Connector{
     public void getFileFromURL(String fileName) {
         
         try {
+        	System.out.println("C1 ANS");
             connection = Url.openConnection();
+            System.out.println("C1 ANS O");
             PrintWriter pw1 = new PrintWriter(new OutputStreamWriter(new FileOutputStream(fileName), "utf-8"));
-            
+            System.out.println("C1 ANS PW");
             int i = 0;
             int end = connection.getContentLength();
             char ch;
@@ -55,10 +55,11 @@ public class Connector{
         } catch (IOException e) {
             try {
 
+System.out.println("C2 ANS");
                 connection = Url.openConnection(new Proxy(Proxy.Type.HTTP, new InetSocketAddress(myIP, myPort)));
-                
+                System.out.println("C2 O");                
                 PrintWriter pw1 = new PrintWriter(new OutputStreamWriter(new FileOutputStream(fileName), "utf-8"));
-
+                System.out.println("C2 PW");
                 //File outFile = new File(fileName);
                 //FileOutputStream outStream = new FileOutputStream(outFile);
                 
@@ -68,6 +69,7 @@ public class Connector{
                 	//outStream.write(connection.getInputStream().read());
                     pw1.print((char)connection.getInputStream().read());
                     ++i;
+                    System.out.println(i);
                 }
                 pw1.close();
      
@@ -86,32 +88,42 @@ public class Connector{
 public void getBookFromURL(String fileName) {
         
         try {
+        	System.out.println("C1 FILE");
             connection = Url.openConnection();
+            System.out.println("C1 FILE O");
             File outFile = new File(fileName);
-                FileOutputStream outStream = new FileOutputStream(outFile);
-                InputStream IS = connection.getInputStream();
+            System.out.println("C1 FILE OS");
+            FileOutputStream outStream = new FileOutputStream(outFile);
+            System.out.println("C1 FILE OS of");
+            InputStream IS = connection.getInputStream();
+            System.out.println("C1 FILE IS");
 
-                int i = 0;
-                while (i != -1)
-               {
-                	i = IS.read();
-                	outStream.write(i);
+            int i = 0;
+            System.out.println("C1 FILE down");
+            while (i != -1)
+            {
+              	i = IS.read();
+               	outStream.write(i);
                     //pw1.print((char)connection.getInputStream().read());
-
-                }
-                outStream.close();
+               	
+            }
+            outStream.close();
+            
         } catch (IOException e) {
             try {
-
+            	System.out.println("C2 C FILE");
                 connection = Url.openConnection(new Proxy(Proxy.Type.HTTP, new InetSocketAddress(myIP, myPort)));
                 
                 //PrintWriter pw1 = new PrintWriter(new OutputStreamWriter(new FileOutputStream(fileName), "utf-8"));
-
+                System.out.println("C2 OF File");
                 File outFile = new File(fileName);
+                System.out.println("C2 FILE O");
                 FileOutputStream outStream = new FileOutputStream(outFile);
+                System.out.println("C2 FILE OS");
                 InputStream IS = connection.getInputStream();
-                
+                System.out.println("C2 IS FILE");
                 int i = 0;
+                System.out.println("C1 FILE Down");
                 while (i != -1)
                {
                 	i = IS.read();

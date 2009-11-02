@@ -42,12 +42,16 @@ public class Controller {
     public void getQueryAnswer(String queryWord, String queryOption) throws IOException, SAXException, ParserConfigurationException {
         Query query = new Query();
         String adress = query.getQueryAdress(queryWord, queryOption);
+        System.out.println("Q");
         Connector connect = new Connector(mySettings.getServer()+adress, mySettings.getIP(), mySettings.getPort());
+        System.out.println("C");
         connect.getFileFromURL("answer_file.xml");
+        System.out.println("GF");
         Parser parser = new Parser();
         SAXHandler handler = new SAXHandler(myBooks);
         parser.parse("answer_file.xml", handler);
-
+        System.out.println("P");
+        
     }
 
     public Settings getSettings() throws SAXException, ParserConfigurationException, IOException {

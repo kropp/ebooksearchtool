@@ -84,9 +84,13 @@ public class Window {
                     String queryOption = (String)myQueryCombo.getSelectedItem();
                     myController.getQueryAnswer(queryWord, queryOption);
 
-                    BookPanel BP = new BookPanel(myController.getData().getBooks().get(0), myController.getSettings().getIP(), myController.getSettings().getPort());
-                    myTextPan.add(BP.getRootPanel());
-                    myFrame.setVisible(true);
+                    
+                    for(int i = 0; i < myController.getData().getBooks().size(); ++i){
+                    	BookPanel BP = new BookPanel(myController.getData().getBooks().get(i), myController.getSettings().getIP(), myController.getSettings().getPort());
+                    	myTextPan.add(BP.getRootPanel());
+                    	myFrame.setVisible(true);
+                    	System.out.println("BP " + i);
+                    }
 
 /*                    JTextArea[] info = new JTextArea[myController.getData().getBooks().size()];
                     infB = new JButton[myController.getData().getBooks().size()];

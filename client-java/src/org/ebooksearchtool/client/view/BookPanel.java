@@ -5,11 +5,13 @@ import org.ebooksearchtool.client.connection.Connector;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 
 /**
  * Created by IntelliJ IDEA.
- * User: Администратор
+ * User: 
  * Date: 31.10.2009
  * Time: 12:23:09
  * To change this template use File | Settings | File Templates.
@@ -19,12 +21,16 @@ public class BookPanel {
     private JPanel myRootPanel;
     private JLabel myImageLable;
     private Book myBook;
-    private JPanel myInfoPanel;
+    private Box myInfoPanel;
     private JLabel myTitle;
     private JLabel myAuthor;
     private JPanel myButtonPanel;
     private JButton myMoreButton, myDelButton, myLibButton, myDownloadPdfButton, myDownloadEpubButton;
     private JCheckBox myCheckBox;
+    private JPanel myMoreInfoPanel;
+    private JLabel myDateLabel;
+    private JLabel myGenreLabel;
+    private JTextArea mySummaryArea;
 
     public BookPanel(Book book, String IP, int port) throws IOException {
 
@@ -58,23 +64,48 @@ public class BookPanel {
         myDownloadPdfButton = new JButton("Download pdf");
         myButtonPanel.add(myDownloadPdfButton);
 
-        myInfoPanel = new JPanel();
-        BoxLayout box = new BoxLayout(myInfoPanel, BoxLayout.Y_AXIS);
+        myInfoPanel = new Box(BoxLayout.Y_AXIS);
+        /*BoxLayout box = new BoxLayout(myInfoPanel, BoxLayout.Y_AXIS);
         
-        myInfoPanel.setLayout(box);
+        myInfoPanel.setLayout(box);*/
         myInfoPanel.add(myTitle);
-        myTitle.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        myTitle.setAlignmentX(JLabel.LEFT_ALIGNMENT);
         myInfoPanel.add(myAuthor);
-        myAuthor.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        myAuthor.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+
+        myMoreInfoPanel = new JPanel();
+        myInfoPanel.add(myMoreInfoPanel);
 
 
         myInfoPanel.add(myButtonPanel);
+        myButtonPanel.setAlignmentX(JPanel.LEFT_ALIGNMENT);
 
         myRootPanel.add(myInfoPanel);
-
+        
+        
         myCheckBox = new JCheckBox();
-        myRootPanel.add(myCheckBox, "Center");
+        myRootPanel.add(myCheckBox);
         myCheckBox.setAlignmentX(JCheckBox.CENTER_ALIGNMENT);
+        
+        myMoreButton.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) {
+    			myMoreInfoPanel.setLayout(new BoxLayout(myMoreInfoPanel, BoxLayout.Y_AXIS));
+    			
+    			myDateLabel = new JLabel(myBook.getDate());
+    			myMoreInfoPanel.add(myDateLabel);
+    			
+    			myGenreLabel = new JLabel(myBook.getGenre());
+    			myMoreInfoPanel.add(myGenreLabel);
+    			
+    			mySummaryArea = new JTextArea(myBook.getSummary());
+    			mySummaryArea.setLineWrap(true);
+    			//mySummaryArea.setBounds(new Rectangle(myInfoPanel.getWidth(), 0));
+    			myMoreInfoPanel.add(mySummaryArea);
+    			
+    			myMoreInfoPanel.setVisible(true);
+				
+			}
+        });
         
     }
 
