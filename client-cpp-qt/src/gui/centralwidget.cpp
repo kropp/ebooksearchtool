@@ -53,7 +53,6 @@ CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myFile(0) {
 	mainLayout->addWidget(myView, 1, 0, 15, 5);
 	setLayout(mainLayout);
 
-	setWindowTitle(tr("Search book tool"));
 	myQueryLineEdit->setFocus();
 }
 

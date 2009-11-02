@@ -10,6 +10,7 @@ MainWindow::MainWindow() {
     // createStatusBar
     myCentralWidget = new CentralWidget(this);
 	setCentralWidget(myCentralWidget);
+    setWindowTitle("ebooksearchtool");
 	showMaximized();
 	// set header
 }
