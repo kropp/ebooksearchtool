@@ -162,12 +162,6 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
     protected void downloadRobotsTxt(String host) {
         File file = myCacheFile[Math.abs(host.hashCode()) % FILES_NUMBER];
         BufferedWriter bw = null;
-        try {
-            bw = new BufferedWriter(new FileWriter(file, true));
-        } catch (IOException e) {
-            myLogger.log(Logger.MessageType.ERRORS, file + " cannot be written");
-            return;
-        }
         URI robotstxt = null;
         try {
             robotstxt = new URI("http://" + host + "/robots.txt");
@@ -178,17 +172,22 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
         String content = myNetwork.download(robotstxt, "text/plain", false);
         if (content == null) {
             try {
-                bw.write(host);
-                bw.newLine();
-                bw.close();
+                synchronized (file) {
+                    if (isDisallowed(host, robotstxt) < 0) {
+                        bw = new BufferedWriter(new FileWriter(file, true));
+                        bw.write(host);
+                        bw.newLine();
+                        bw.close();
+                    }
+                }
             } catch (IOException ioe) { }
             return;
         }
         String[] lines = content.split("\n");
         boolean me = false;
+        StringBuffer sb = new StringBuffer();
         try {
-            bw.write(host);
-            bw.newLine();
+            sb.append(host).append("\n");
             for (String s : lines) {
                 s = s.replaceAll(" +", " ").toLowerCase();
                 int end = s.indexOf('#');
@@ -201,14 +200,12 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
                     if (s.startsWith("disallow:")) {
                         s = s.substring(9).trim();
                         if (s.length() > 0) {
-                            bw.write(" - " + s);
-                            bw.newLine();
+                            sb.append(" - ").append(s).append("\n");
                         }
                     } else if (s.startsWith("allow:")) {
                         s = s.substring(6).trim();
                         if (s.length() > 0) {
-                            bw.write(" + " + s);
-                            bw.newLine();
+                            sb.append(" + ").append(s).append("\n");
                         }
                     } else if (s.startsWith("request-rate:")) {
                         s = s.substring(13).trim();
@@ -246,8 +243,7 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
                                 continue;
                             }
                             if (r != null) {
-                                bw.write(" r " + r);
-                                bw.newLine();
+                                sb.append(" r ").append(r).append("\n");
                             }
                         }
                     } else if (s.startsWith("visit-time:")) {
@@ -261,14 +257,19 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
                                 continue;
                             }
                             if (r != null) {
-                                bw.write(" t " + r);
-                                bw.newLine();
+                                sb.append(" t ").append(r).append("\n");
                             }
                         }
                     }
                 }
             }
-            bw.close();
+            synchronized (file) {
+                if (isDisallowed(host, robotstxt) < 0) {
+                    bw = new BufferedWriter(new FileWriter(file, true));
+                    bw.write(sb.toString());
+                    bw.close();
+                }
+            }
             myLogger.log(Logger.MessageType.DOWNLOADED_ROBOTS_TXT, "downloaded " + robotstxt);
         } catch (IOException ioe) {
             return;
