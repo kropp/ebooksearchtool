@@ -32,9 +32,21 @@ def get_by_id(entirety, node):
 
 
 def get_author_queryset(xml):
-    '''Makes QuerySet for Author from xml request
-    Returns QuerySet'''
-    return Q()
+    '''Makes Q object for Author from xml request
+    Returns Q object'''
+
+    q = Q()
+
+    # for each author
+    for node in xml.getchildren():
+        author = get_by_id(Author, node)
+        if author:
+            q = q & Q(author__id=author.id)
+        else:
+            name = replace_delim_to_space(node.text)
+            q = q & Q(author__name__icontains=name)
+
+    return q
 
 
 def get_file_queryset(xml):
