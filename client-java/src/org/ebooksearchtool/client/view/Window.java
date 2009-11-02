@@ -72,7 +72,9 @@ public class Window {
     	myQueryPanel.add(mySearchButton);
     	//myDataPanel = new JPanel();
     	myDataTextArea = new JTextArea();
-    	myTextPan = new JPanel(new GridLayout(0, 1));
+    	myTextPan = new JPanel();
+    	BoxLayout box = new BoxLayout(myTextPan, BoxLayout.Y_AXIS);
+    	myTextPan.setLayout(box);
         myPanel1.add(new JScrollPane(myTextPan), "Center");
         myDataTextArea.setEditable(false);
 
@@ -84,10 +86,13 @@ public class Window {
                     String queryOption = (String)myQueryCombo.getSelectedItem();
                     myController.getQueryAnswer(queryWord, queryOption);
 
+                    BookPanel[] BP = new BookPanel[myController.getData().getBooks().size()];
                     
                     for(int i = 0; i < myController.getData().getBooks().size(); ++i){
-                    	BookPanel BP = new BookPanel(myController.getData().getBooks().get(i), myController.getSettings().getIP(), myController.getSettings().getPort());
-                    	myTextPan.add(BP.getRootPanel());
+                    	BP[i] = new BookPanel(myController.getData().getBooks().get(i), myController.getSettings().getIP(), myController.getSettings().getPort());
+                    	JPanel bookPan = BP[i].getRootPanel();
+                    	myTextPan.add(bookPan);
+                    	bookPan.setVisible(true);
                     	myFrame.setVisible(true);
                     	System.out.println("BP " + i);
                     }
@@ -155,7 +160,7 @@ public class Window {
         });
 
 
-        myFrame.setSize(600, 700);
+        myFrame.setSize(700, 700);
         myFrame.setLocation(10,10);
         myFrame.setVisible(true);
     }

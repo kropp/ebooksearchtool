@@ -18,9 +18,12 @@ import java.io.IOException;
  */
 public class BookPanel {
 
+	private Book myBook;
+	private String myIP;
+	private int myPort;
+	
     private JPanel myRootPanel;
     private JLabel myImageLable;
-    private Book myBook;
     private Box myInfoPanel;
     private JLabel myTitle;
     private JLabel myAuthor;
@@ -28,6 +31,7 @@ public class BookPanel {
     private JButton myMoreButton, myDelButton, myLibButton, myDownloadPdfButton, myDownloadEpubButton;
     private JCheckBox myCheckBox;
     private JPanel myMoreInfoPanel;
+    private JLabel myLangLabel;
     private JLabel myDateLabel;
     private JLabel myGenreLabel;
     private JTextArea mySummaryArea;
@@ -35,6 +39,8 @@ public class BookPanel {
     public BookPanel(Book book, String IP, int port) throws IOException {
 
         myBook = book;
+        myIP = IP;
+        myPort = port;
 
         myRootPanel = new JPanel();
         myRootPanel.setLayout(new BoxLayout(myRootPanel ,BoxLayout.X_AXIS));
@@ -91,20 +97,66 @@ public class BookPanel {
     		public void actionPerformed(ActionEvent e) {
     			myMoreInfoPanel.setLayout(new BoxLayout(myMoreInfoPanel, BoxLayout.Y_AXIS));
     			
-    			myDateLabel = new JLabel(myBook.getDate());
+    			myLangLabel = new JLabel("Language: " + myBook.getLanguage());
+    			myLangLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+    			myMoreInfoPanel.add(myLangLabel);
+    			
+    			myDateLabel = new JLabel("Date of publishing: " + myBook.getDate());
+    			myDateLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
     			myMoreInfoPanel.add(myDateLabel);
     			
-    			myGenreLabel = new JLabel(myBook.getGenre());
+    			myGenreLabel = new JLabel("Genre: " + myBook.getGenre());
+    			myGenreLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
     			myMoreInfoPanel.add(myGenreLabel);
     			
     			mySummaryArea = new JTextArea(myBook.getSummary());
     			mySummaryArea.setLineWrap(true);
-    			//mySummaryArea.setBounds(new Rectangle(myInfoPanel.getWidth(), 0));
+    			mySummaryArea.setAlignmentX(JPanel.LEFT_ALIGNMENT);
     			myMoreInfoPanel.add(mySummaryArea);
     			
-    			myMoreInfoPanel.setVisible(true);
+    			myRootPanel.repaint();
+    			
 				
 			}
+        });
+        
+        myDelButton.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) {
+    			myRootPanel.setVisible(false);
+    		}
+        });
+        
+        myLibButton.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) {
+    			myLibButton.setEnabled(false);
+    			myRootPanel.setVisible(true);
+    		}
+        });
+        
+        myDownloadEpubButton.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) {
+    			Connector connector;
+				try {
+					connector = new Connector(myBook.getEpubLink(), myIP, myPort);
+					connector.getBookFromURL(myBook.getTitle() + ".epub");
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}    	        
+    		}
+        });
+        
+        myDownloadPdfButton.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) {
+    			Connector connector;
+				try {
+					connector = new Connector(myBook.getPdfLink(), myIP, myPort);
+					connector.getBookFromURL(myBook.getTitle() + ".pdf");
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}    	        
+    		}
         });
         
     }
