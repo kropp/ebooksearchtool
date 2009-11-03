@@ -5,7 +5,7 @@
 #include <QFileInfo>
 #include <QPushButton>
 #include <QCheckBox>
-#include <QButtonGroup>
+#include <QGroupBox>
 
 #include "bookwidget.h"
 #include "../data/book_author.h"
@@ -15,37 +15,44 @@
 
 
 BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent) ,myBook(book) {
-    //myHttpConnection = new HttpConnection(this);
-	//connect(myHttpConnection, SIGNAL(requestFinished(int, bool)), this, SLOT(setCover()));
+   // myHttpConnection = new HttpConnection(this);
+    //connect(myHttpConnection, SIGNAL(requestFinished(int, bool)), this, SLOT(setCover()));
     //downloadCover();
-
+   
     myCheckBox = new QCheckBox();
-    myTitleLabel = new QLabel(myBook->getTitle().c_str());
-    myAuthorLabel = new QLabel(myBook->getAuthor()->getName().c_str());
-    QString summary(myBook->getTitle().c_str());
-    summary.prepend("Summary: ");    
-    QLabel* cover = new QLabel("COVER");
+    QLabel* title = new QLabel(myBook->getTitle().c_str());
+    QLabel* author = new QLabel(myBook->getAuthor()->getName().c_str());
+    QLabel* cover = new QLabel("COVER");// попробовать любую картинку вместо обложки вставить
+    //QPalette coverPalette;
+    //coverPalette.setBrush(cover->backgroundRole(), QBrush(QPixmap("view/images/book.jpeg")));
+    //cover->setPalette(coverPalette);
+    //cover->setAutoFillBackground(true);
 
-    QIcon* deleteIcon = new QIcon("view/images/delete.jpeg");
-    QIcon* toLibraryIcon = new QIcon("view/images/tolibrary.jpeg");
-    QIcon* readIcon = new QIcon("view/images/read.jpeg");
+    QGroupBox* buttonGroup = new QGroupBox(this);
+    QHBoxLayout* buttonLayout = new QHBoxLayout();
+    setButtons(buttonLayout);
+    buttonGroup->setLayout(buttonLayout);
 
-    QPushButton* deleteButton = new QPushButton(*deleteIcon, "", this);    
-    QPushButton* toLibraryButton = new QPushButton(*toLibraryIcon, "", this);    
-    QPushButton* readButton = new QPushButton(*readIcon, "", this);    
-	
     QGridLayout* mainLayout = new QGridLayout();
-
     mainLayout->addWidget(myCheckBox, 0, 0, 3, 1);
     mainLayout->addWidget(cover, 0, 1, 3, 1);
-    mainLayout->addWidget(myTitleLabel, 0, 2);
-    mainLayout->addWidget(myAuthorLabel, 1, 2);
-    //mainLayout->addWidget(summaryLabel, 2, 2);
-    mainLayout->addWidget(deleteButton, 0, 3);
-    mainLayout->addWidget(toLibraryButton, 1, 3);
-    mainLayout->addWidget(readButton, 2, 3);
+    mainLayout->addWidget(title, 0, 2, Qt::AlignLeft);
+    mainLayout->addWidget(author, 1, 2, Qt::AlignLeft);
+    mainLayout->addWidget(buttonGroup, 0, 3);
+  
+ //    mainLayout->setRowStretch(0, 1);
+//    mainLayout->setRowStretch(1, 10);
+//    mainLayout->setRowStretch(2, 10);
+//    mainLayout->setRowStretch(3, 1);
+
+    QPalette palette;
+    palette.setColor(this->backgroundRole(), Qt::white);
+    setPalette(palette);
+    setAutoFillBackground(true);
 
     setLayout(mainLayout);
+// TODO отображение обложки
+// разная ширина столбцов
 }
 
 BookWidget::~BookWidget() {}
@@ -69,3 +76,30 @@ void BookWidget::setCover() {
 */
 }
 
+void BookWidget::setButtons(QLayout* layout) const {
+    QIcon* deleteIcon = new QIcon("view/images/delete.jpeg");
+    QPushButton* deleteButton = new QPushButton(*deleteIcon, "");
+
+    QIcon* toLibraryIcon = new QIcon("view/images/tolibrary.jpeg");
+    QPushButton* toLibraryButton = new QPushButton(*toLibraryIcon, " ");
+
+    QIcon* readIcon = new QIcon("view/images/read.jpeg");
+    QPushButton* readButton = new QPushButton(*readIcon, " ");
+
+    applyButtonSettings(toLibraryButton);    
+    applyButtonSettings(deleteButton);    
+    applyButtonSettings(readButton);    
+
+    layout->addWidget(deleteButton);
+    layout->addWidget(toLibraryButton);
+    layout->addWidget(readButton);
+
+    layout->setSpacing(1);  
+}
+
+void BookWidget::applyButtonSettings(QPushButton* button) const {
+    button->resize(button->iconSize());
+    button->setIconSize(QSize(50, 50));
+    button->setFixedSize(QSize(60, 60));
+    button->setFlat(true);
+}

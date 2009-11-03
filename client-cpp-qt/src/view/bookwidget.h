@@ -23,6 +23,10 @@ public:
 
 private:
     void downloadCover();
+    void applyButtonSettings(QPushButton* button) const;
+    void setButtons(QLayout* layout) const;
+
+
 
 private slots:
 //    void paint() const;
@@ -30,14 +34,9 @@ private slots:
 
 private:
     const Book* myBook;
-    QLabel* myTitleLabel;
-    QLabel* myAuthorLabel;
-    QCheckBox* myCheckBox;
-    //QButtonGroup* myButtonGroup;
-   // QIcon* myCover;
-   // QPushButton* myCoverButton;
+
+    QCheckBox* myCheckBox; // потому что будет важно его состояние
     //HttpConnection* myHttpConnection;
     //QFile* myFile;
- //   QHBoxLayout* myMainLayout;
 };
 #endif //_BOOK_WIDGET_H_
