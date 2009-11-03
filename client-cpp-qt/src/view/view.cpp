@@ -3,8 +3,8 @@
 #include <QLabel>
 
 View::View(QWidget* parent, Data* data) : QWidget(parent), myData(data) {
-    myLayout = new QVBoxLayout();
-    setLayout(myLayout);
+    myBooksLayout = new QVBoxLayout();
+    setLayout(myBooksLayout);
 }
 
 void View::setData(Data* data) {
@@ -15,10 +15,11 @@ void View::setData(Data* data) {
 void View::update() {
 // рисуем те книги, которые добавились в модель
     if (myData != 0) {
+        makeHeader();
         size_t size = myData->getSize();
-        for (size_t i = myLayout->count(); i < size; ++i) {
+        for (size_t i = myBooksLayout->count(); i < size; ++i) {
             BookWidget* widget = new BookWidget(this, myData->getBook(i));
-            myLayout->addWidget(widget);
+            myBooksLayout->addWidget(widget);
             widget->show();
         }
     }
@@ -26,18 +27,22 @@ void View::update() {
 
 void View::repaint() {
 //remove all Widgets from layout
-    const int count = myLayout->count();
+    const int count = myBooksLayout->count();
     for (size_t i = 0; i < count; ++i) {
-        myLayout->removeItem(myLayout->itemAt(0));    
+        myBooksLayout->removeItem(myBooksLayout->itemAt(0));    
     }    
 //add new Widgets
     if (myData != 0) {
         size_t size = myData->getSize();
         for (size_t i = 0; i < size; ++i) {
             BookWidget* widget = new BookWidget(this, myData->getBook(i));
-            myLayout->addWidget(widget);
+            myBooksLayout->addWidget(widget);
             widget->show();
         }
     }
 }
 
+void View::makeHeader() const {
+    //QHBoxLayout* upLayout = new QHBoxLayout();
+    //upLayout->addWidget();
+}
