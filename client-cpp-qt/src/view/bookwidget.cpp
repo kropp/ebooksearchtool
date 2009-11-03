@@ -40,7 +40,7 @@ BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent) ,myB
     mainLayout->addWidget(author, 1, 2, Qt::AlignLeft);
     mainLayout->addWidget(buttonGroup, 0, 3);
   
- //    mainLayout->setRowStretch(0, 1);
+//    mainLayout->setRowStretch(0, 1);
 //    mainLayout->setRowStretch(1, 10);
 //    mainLayout->setRowStretch(2, 10);
 //    mainLayout->setRowStretch(3, 1);
@@ -76,7 +76,7 @@ void BookWidget::setCover() {
 */
 }
 
-void BookWidget::setButtons(QLayout* layout) const {
+void BookWidget::setButtons(QHBoxLayout* layout) const {
     QIcon* deleteIcon = new QIcon("view/images/delete.jpeg");
     QPushButton* deleteButton = new QPushButton(*deleteIcon, "");
 

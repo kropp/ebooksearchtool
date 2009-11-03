@@ -24,7 +24,7 @@ public:
 private:
     void downloadCover();
     void applyButtonSettings(QPushButton* button) const;
-    void setButtons(QLayout* layout) const;
+    void setButtons(QHBoxLayout* layout) const;
 
 
 

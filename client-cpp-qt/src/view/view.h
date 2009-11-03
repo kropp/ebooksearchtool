@@ -18,6 +18,7 @@ public:
 public:
     Data* getData() const;
     void setData(Data* data);
+    void repaint();
     void update();
 
 private:    
