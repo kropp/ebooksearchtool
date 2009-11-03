@@ -17,7 +17,7 @@ public:
 	HttpConnection(QObject* parent);
 	
 public:
-	void downloadFile(QString url, QFile* file);
+	void download(QString url, QIODevice* out);
     QString getServer() const;
 
 private:

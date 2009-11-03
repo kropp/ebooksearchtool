@@ -15,7 +15,7 @@ HttpConnection::HttpConnection(QObject* parent = 0) : QHttp(parent) {
     configurate();
 }
 
-void HttpConnection::downloadFile(QString urlStr, QFile* file) {
+void HttpConnection::download(QString urlStr, QIODevice* out) {
     if (ourProxy != "undefined") { 
         setProxy(ourProxy, ourPort);
 	}
@@ -23,7 +23,7 @@ void HttpConnection::downloadFile(QString urlStr, QFile* file) {
 	QString query(urlStr);
 	query.remove("http://");
 	query.remove(ourServer); //оставляю только запрос
-	myHttpGetId = get(query, file);
+	myHttpGetId = get(query, out);
 }
     
 void HttpConnection::configurate() {

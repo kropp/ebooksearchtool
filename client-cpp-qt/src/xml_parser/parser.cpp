@@ -3,9 +3,9 @@
 
 AtomParser::AtomParser() : myNextAtomPage(0) {}
 
-void AtomParser::parse(QFile* file, Data* data) {
+void AtomParser::parse(QIODevice* input, Data* data) {
 	AtomHandler handler(data);
-	QXmlInputSource source(file);
+	QXmlInputSource source(input);
 	QXmlSimpleReader reader;
 	reader.setContentHandler(&handler);
 	reader.parse(source);

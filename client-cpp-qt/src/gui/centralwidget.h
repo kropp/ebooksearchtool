@@ -6,7 +6,7 @@
 
 
 class QDialogButtonBox;
-class QFile;
+class QBuffer;
 class QComboBox;
 class QHttp;
 class QHttpResponseHeader;
@@ -47,7 +47,7 @@ private:
 
     bool myNewRequest;
 	HttpConnection* myHttpConnection;
-	QFile *myFile; 
+	QBuffer *myBuffer; 
 
 	View* myView;
 

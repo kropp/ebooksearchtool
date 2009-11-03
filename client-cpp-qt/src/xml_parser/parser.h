@@ -1,7 +1,7 @@
 #ifndef _PARSER_H_
 #define _PARSER_H_
 
-class QFile;
+class QIODevice;
 class Data;
 class QString;
 
@@ -11,7 +11,7 @@ public:
 	AtomParser();
 	
 public:
-	void parse(QFile* file, Data* data);
+	void parse(QIODevice* input, Data* data);
 	const QString* getNextAtomPage() const;
 
 private:

@@ -7,7 +7,7 @@
 #include "../model/model.h"
 
 
-CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myFile(0) {
+CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myBuffer(0) {
     myNewRequest = true;
 	myUrlLineEdit = new QLineEdit("http://");
 	myUrlLabel = new QLabel(tr("URL:"));
@@ -59,16 +59,18 @@ CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myFile(0) {
 void CentralWidget::downloadFile() {
 	mySearchButton->setEnabled(false);
 	
-	if (myFile != 0) {
-		delete myFile;
-	}
+	if (!myBuffer) {
+        myBuffer = new QBuffer();
+    } else {   
+        myBuffer->setData("", 0);	
+    }
+
 	if (!myQueryLineEdit->text().isEmpty()) {
 		myUrlLineEdit->setText(queryToUrl());
 	}
-	
-	myFile = new QFile("downloaded.atom");
-	myFile->open(QIODevice::WriteOnly); //может и не суметь открыть
-	myHttpConnection->downloadFile(myUrlLineEdit->text(), myFile);
+    myBuffer->open(QBuffer::WriteOnly);
+	myHttpConnection->download(myUrlLineEdit->text(), myBuffer);
+    myBuffer->close();
 }
 
 void CentralWidget::downloadFile(const QString& url) {
@@ -95,8 +97,6 @@ void CentralWidget::enableSearchButton() {
 }
 
 void CentralWidget::httpRequestFinished(int , bool) {
-	
-	myFile->close();
 	mySearchButton->setEnabled(true);
 	if (myUrlLineEdit->text().contains("atom")) {
 		parseDownloadedFile();
@@ -107,16 +107,12 @@ void CentralWidget::httpRequestFinished(int , bool) {
 
 void CentralWidget::parseDownloadedFile() {
 	AtomParser parser;
-	myFile = new QFile("downloaded.atom");
- 	myFile->open(QIODevice::ReadOnly);
 	if (myNewRequest) {
 	    Data* data = new Data();
 	    myView->setData(data);
     }
-    parser.parse(myFile, myView->getData());
+    parser.parse(myBuffer, myView->getData());
     myView->update();	
-    //myView->show();
-	myFile->close();
    // const QString* url = parser.getNextAtomPage();
     //if (url) {
      //   myNewRequest = false;
