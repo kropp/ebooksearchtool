@@ -9,7 +9,7 @@ from server.spec.utils import replace_delim_to_space
 from server.book.entirety import AuthorEntirety, FileEntirety, BookEntirety
 from server.exception import *
 from server.book.models import *
-from server.logger import main_logger
+from server.spec.logger import main_logger
 
 def check_request(requst_type, xml):
     "Checks xml request"
