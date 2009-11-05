@@ -1,2 +1,2 @@
-def insert_user_information:
+def insert_user_information():
     pass
