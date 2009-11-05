@@ -2,6 +2,8 @@ from django.db import models
 
 from spec.langcode import LANG_CODE 
 
+from django.contrib import admin
+
 NAME_LENGTH = 255
 LINK_LENGTH = 4000
 TEXT_LENGTH = 10000
@@ -69,3 +71,17 @@ class Author(models.Model):
 
     def __unicode__(self):
         return self.name
+        
+admin.site.register(Annotation)
+
+admin.site.register(Book)
+
+admin.site.register(Author)
+
+admin.site.register(BookFile)
+
+admin.site.register(Series)
+
+admin.site.register(Alias)
+
+admin.site.register(Tag)
