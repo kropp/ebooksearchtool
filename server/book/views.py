@@ -9,7 +9,7 @@ from django.shortcuts import render_to_response
 from django.template import Context
 
 from server.spec.utils import convert_delim
-from server.exception import *
+from server.spec.exception import *
 from server.book.action_handler import xml_exec_get, xml_exec_insert, ACTION
 
 def books_to_response(books):

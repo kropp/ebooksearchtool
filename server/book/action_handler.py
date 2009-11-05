@@ -7,8 +7,7 @@ from django.db import transaction
 from django.core.exceptions import *
 
 from server.spec.utils import replace_delim_to_space
-from server.book.entirety import AuthorEntirety, FileEntirety, BookEntirety
-from server.exception import *
+from server.spec.exception import *
 from server.book.models import *
 from server.spec.logger import main_logger
 
