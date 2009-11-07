@@ -6,7 +6,6 @@ from django.db.models import Q
 from django.core.exceptions import *
 
 from server.spec.utils import replace_delim_to_space
-from server.book.entirety import AuthorEntirety, FileEntirety, BookEntirety
 from server.spec.exception import *
 from server.book.models import *
 from server.spec.logger import main_logger
@@ -52,7 +51,14 @@ def get_author_queryset(xml):
 def get_file_queryset(xml):
     '''Makes QuerySet for File from xml request
     Returns QuerySet'''
-    pass
+
+    q = Q()
+
+    # for each file
+    for node in xml.getchildren():
+        file = get_by_id(BookFile, node)
+#        if file:
+#            q = q & Q(b
 
 
 def get_book_queryset(xml):
