@@ -149,7 +149,9 @@ public class BookInfo {
 
         return str.toString();
     }
+    // </editor-fold>
 
+    // <editor-fold defaultstate="collapsed" desc="Get methods for requests">
     //TODO:Доделать, спросить по поводу Unknown полей.
     public String getBookInfoForRequest(){
         StringBuilder str = new StringBuilder();
@@ -179,6 +181,30 @@ public class BookInfo {
         }
         str.append("</book>");
 
+        return str.toString();
+    }
+
+    public String getBookInfoForBookIDRequest(String id){
+        StringBuilder str = new StringBuilder();
+        str.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
+        str.append("</book>");
+
+        return str.toString();
+    }
+
+    //TODO:Уточнить, как формировать запрос по id
+    public String getBookInfoForFileIDRequest(String id){
+        StringBuilder str = new StringBuilder(getBookInfo());
+        int index = str.indexOf("File");
+        str.insert(index + 4, " id=\"" + id + "\"");
+        return str.toString();
+    }
+
+    public String getBookInfoForAuthorIDRequest(String id){
+        StringBuilder str = new StringBuilder(getBookInfo());
+        int index = str.indexOf("Author");
+        str.insert(index + 4, " id=\"" + id + "\"");
         return str.toString();
     }
     // </editor-fold>

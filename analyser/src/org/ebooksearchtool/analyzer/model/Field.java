@@ -1,7 +1,6 @@
 package org.ebooksearchtool.analyzer.model;
 
 import java.util.HashMap;
-import java.util.Map.Entry;
 
 /**
  * @author Aleksey Podoplsky
@@ -9,16 +8,31 @@ import java.util.Map.Entry;
 
 public class Field {
     private String myInfo;
+    private String myID;
     private HashMap<String,String> myParameters;
 
     public Field(){
         myInfo = "";
         myParameters = new HashMap<String,String>();
+        myID = "";
     }
 
     public Field(String info, HashMap<String, String> param){
         myInfo = info;
         myParameters = param;
+        myID = "";
+    }
+
+    public Field(String info, HashMap<String, String> param, String id){
+        myInfo = info;
+        myParameters = param;
+        myID = id;
+    }
+
+    public Field(String id){
+        myInfo = "";
+        myParameters = new HashMap<String,String>();
+        myID = id;
     }
 
     /**
@@ -55,5 +69,19 @@ public class Field {
 
     public String getParameterByName(String paramName) {
         return myParameters.get(paramName);
+    }
+
+    /**
+     * @return the myID
+     */
+    public String getID() {
+        return myID;
+    }
+
+    /**
+     * @param myID the myID to set
+     */
+    public void setID(String myID) {
+        this.myID = myID;
     }
 }

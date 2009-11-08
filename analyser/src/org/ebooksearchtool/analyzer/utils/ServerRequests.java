@@ -2,11 +2,8 @@ package org.ebooksearchtool.analyzer.utils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.Map;
 import org.ebooksearchtool.analyzer.io.Logger;
 import org.ebooksearchtool.analyzer.model.BookInfo;
-import org.ebooksearchtool.analyzer.model.Field;
 
 /**
  * @author Алексей
@@ -15,68 +12,23 @@ import org.ebooksearchtool.analyzer.model.Field;
 public class ServerRequests {
 
     public static String formBookInfo(BookInfo info) {
-        StringBuilder str = new StringBuilder();
-        String message = encodeSpecialSymbols(info.getBookInfo());
-        str.append("POST " + "/data/insert " + "HTTP/1.0");
-        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
-        str.append("Host: " + AnalyzerProperties.getPropertie("serverAddress") +
-                ":" + AnalyzerProperties.getPropertie("serverPort"));
-        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
-        str.append("Content-Type: application/x-www-form-urlencoded");
-        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
-        str.append("Content-Length: " + getContentLength(message));
-        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
-        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
-        str.append("xml=" + message);
-        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
-        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
-
-        System.out.println(str.toString());
-        return str.toString();
+        return format(encodeSpecialSymbols(info.getBookInfo()));
     }
 
     public static String formBookInfoRequest(BookInfo info) {
-        StringBuilder str = new StringBuilder();
-        //TODO: Сделать функцию для запроса данных у сервера
-        String message = encodeSpecialSymbols(info.getBookInfo());
-        str.append("POST " + "/data/get " + "HTTP/1.0");
-        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
-        str.append("Host: " + AnalyzerProperties.getPropertie("serverAddress") +
-                ":" + AnalyzerProperties.getPropertie("serverPort"));
-        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
-        str.append("Content-Type: application/x-www-form-urlencoded");
-        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
-        str.append("Content-Length: " + getContentLength(message));
-        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
-        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
-        str.append("xml=" + message);
-        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
-        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
-
-        System.out.println(str.toString());
-        return str.toString();
+        return format(encodeSpecialSymbols(info.getBookInfoForRequest()));
     }
 
-    //TODO: Доделать request для сервера
-    public static String timeFoundRequest(BookInfo info) {
-        StringBuilder str = new StringBuilder();
-        String message = encodeSpecialSymbols(info.getBookInfoForRequest());
-        str.append("POST " + "/data/insert " + "HTTP/1.0");
-        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
-        str.append("Host: " + AnalyzerProperties.getPropertie("serverAddress") +
-                ":" + AnalyzerProperties.getPropertie("serverPort"));
-        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
-        str.append("Content-Type: application/x-www-form-urlencoded");
-        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
-        str.append("Content-Length: " + getContentLength(message));
-        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
-        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
-        str.append("xml=" + message);
-        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
-        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
+    public static String formBookByIDRequest(BookInfo info, String id){
+        return format(encodeSpecialSymbols(info.getBookInfoForBookIDRequest(id)));
+    }
 
-        System.out.println(str.toString());
-        return str.toString();
+    public static String formBookByFileIDRequest(BookInfo info, String id){
+        return format(encodeSpecialSymbols(info.getBookInfoForFileIDRequest(id)));
+    }
+
+    public static String formBookByAuthorIDRequest(BookInfo info, String id){
+        return format(encodeSpecialSymbols(info.getBookInfoForAuthorIDRequest(id)));
     }
 
     private static long getContentLength(String str){
@@ -90,5 +42,25 @@ public class ServerRequests {
             Logger.setToErrorLog(ex.getMessage());
         }
         return null;
+    }
+
+    private static String format(String message){
+        StringBuilder str = new StringBuilder();
+        str.append("POST " + "/data/insert " + "HTTP/1.0");
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
+        str.append("Host: " + AnalyzerProperties.getPropertie("serverAddress") +
+                ":" + AnalyzerProperties.getPropertie("serverPort"));
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
+        str.append("Content-Type: application/x-www-form-urlencoded");
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
+        str.append("Content-Length: " + getContentLength(message));
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
+        str.append("xml=" + message);
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
+
+        System.out.println(str.toString());
+        return str.toString();
     }
 }
