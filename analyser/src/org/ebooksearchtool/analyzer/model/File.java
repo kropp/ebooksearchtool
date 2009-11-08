@@ -1,5 +1,8 @@
 package org.ebooksearchtool.analyzer.model;
 
+import java.util.Map;
+import java.util.Map.Entry;
+
 /**
  * @author Алексей
  */
@@ -137,6 +140,34 @@ public class File {
      */
     public void setLastChek(String mylastChek) {
         this.myLastChek = mylastChek;
+    }
+
+    public static File formFileFromMap(Map<String, String> map){
+        File file = new File();
+        for(Entry<String, String> en : map.entrySet()){
+            if(en.getKey().equals("Link")){
+                file.setLink(en.getValue());
+            }
+            if(en.getKey().equals("Size")){
+                file.setSize(en.getValue());
+            }
+            if(en.getKey().equals("ImgLink")){
+                file.setImgLink(en.getValue());
+            }
+            if(en.getKey().equals("Type")){
+                file.setType(en.getValue());
+            }
+            if(en.getKey().equals("LastChek")){
+                file.setLastChek(en.getValue());
+            }
+            if(en.getKey().equals("MoreInfo")){
+                file.setMoreInfo(en.getValue());
+            }
+            if(en.getKey().equals("TimeFound")){
+                file.setTimeFound(en.getValue());
+            }
+        }
+        return file;
     }
     // </editor-fold>
 }

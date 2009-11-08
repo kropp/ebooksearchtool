@@ -2,8 +2,11 @@ package org.ebooksearchtool.analyzer.utils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 import org.ebooksearchtool.analyzer.io.Logger;
 import org.ebooksearchtool.analyzer.model.BookInfo;
+import org.ebooksearchtool.analyzer.model.Field;
 
 /**
  * @author Алексей
