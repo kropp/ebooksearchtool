@@ -10,6 +10,33 @@ from server.spec.exception import *
 from server.book.models import *
 from server.spec.logger import main_logger
 
+def get_q(object, type, arg):
+    "Makes Q object for 'object' with search type from 'type' \
+    sets 'arg' like argument"
+
+    if object == 'title':
+        if type == 'icontains':
+            return Q(title__icontains=arg)
+    elif object == 'author__name':
+        if type == 'icontains':
+            return Q(author__name__icontains=arg)
+
+    elif object == 'file__timefound':
+        if type == '=':
+            return Q(file__timefound=arg)
+        elif type == '>':
+            return Q(file__timefound__gt=arg)
+        elif type == '<':
+            return Q(file__timefound__lt=arg)
+        
+    
+    #        raise InputDataServerException("Unknow type for object 'title'")
+
+
+    
+
+
+
 def check_request(requst_type, xml):
     "Checks xml request"
     pass    
@@ -28,6 +55,23 @@ def get_by_id(entirety, node):
     except KeyError:
         pass
     return None
+
+
+def make_q_from_tag(node, default_search_type='icontains'):
+    '''Makes Q objects for tag'''
+
+    # Try get Q by id
+    q = get_by_id(node.tag, node)
+    if q:
+        return q
+
+    search_type = node.get('type', default_search_type)
+
+    return get_q(node.tag, search_type, node.text.strip())
+
+
+
+
 
 
 def get_author_queryset(xml):
@@ -57,8 +101,20 @@ def get_file_queryset(xml):
     # for each file
     for node in xml.getchildren():
         file = get_by_id(BookFile, node)
-#        if file:
-#            q = q & Q(b
+        if file:
+            q = q & Q(book_file__id=file.id)
+        else:
+            for file_det_node in node.getchildren():
+                if file_det_node.tag == 'link':
+                    link = replace_delim_to_space(file_det_node.text)
+                    q = q & Q(book_file__link=link)
+                elif file_det_node.tag == 'size':
+                    size = replace_delim_to_space(file_det_node.text)
+                    q = q & Q(book_file__size=size)
+                elif file_det_node.tag == 'type':
+                    type = replace_delim_to_space(file_det_node.text)
+                    q = q & Q(book_file__type=type)
+                    
 
 
 def get_book_queryset(xml):
