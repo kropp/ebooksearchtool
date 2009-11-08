@@ -36,9 +36,11 @@ public class Window {
     private int ind;
     private JComboBox myQueryCombo;
     private JProgressBar myProgressBar;
+    private JPanel myCentralPanel;
+    private JButton myMoreButton;
+    private JToolBar myToolBar;
     
-    private JButton[] infB;
-    
+
     private Controller myController;
 
     public JFrame getFrame() {
@@ -58,10 +60,19 @@ public class Window {
         myFrame.setContentPane(myPanel1);
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-    	myPanel1.setLayout(new BorderLayout());
+        myPanel1.setLayout(new BorderLayout());
+        myCentralPanel = new JPanel(new BorderLayout());
+        myPanel1.add(myCentralPanel, "Center");
+
+
     	myQueryPanel = new JPanel();
     	myQueryPanel.setLayout(new BoxLayout(myQueryPanel ,BoxLayout.X_AXIS));
-    	myPanel1.add(myQueryPanel, "North");
+    	myCentralPanel.add(myQueryPanel, "North");
+
+        myToolBar = new JToolBar();
+        myToolBar.add(new JButton(new ImageIcon("ico\\library_30.gif")));
+        myPanel1.add(myToolBar, "North");
+
     	myQueryField = new JTextField();
     	myQueryField.setSize(40, 10);
     	myQueryPanel.add(myQueryField);
@@ -71,13 +82,15 @@ public class Window {
     	mySearchButton = new JButton();
     	mySearchButton.setText("SEARCH");
     	myQueryPanel.add(mySearchButton);
-    	//myDataPanel = new JPanel();
-    	myDataTextArea = new JTextArea();
     	myTextPan = new JPanel();
     	BoxLayout box = new BoxLayout(myTextPan, BoxLayout.Y_AXIS);
     	myTextPan.setLayout(box);
-        myPanel1.add(new JScrollPane(myTextPan), "Center");
-        myDataTextArea.setEditable(false);
+        myCentralPanel.add(new JScrollPane(myTextPan), "Center");
+
+        JPanel morePanel = new JPanel(new FlowLayout());
+        myMoreButton = new JButton("More books");
+        morePanel.add(myMoreButton);
+        myCentralPanel.add(morePanel, "South");
         
         final DefaultBoundedRangeModel model = new DefaultBoundedRangeModel(0, 0, 0, 100);
         myProgressBar = new JProgressBar(model);

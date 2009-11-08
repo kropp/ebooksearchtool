@@ -5,6 +5,8 @@ import org.ebooksearchtool.client.model.Settings;
 import org.ebooksearchtool.client.connection.Connector;
 
 import javax.swing.*;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -76,6 +78,7 @@ public class BookPanel {
         myButtonPanel.add(myDownloadPdfButton);
 
         myInfoPanel = new Box(BoxLayout.Y_AXIS);
+        myInfoPanel.setBorder(new SoftBevelBorder(BevelBorder.RAISED));
         /*BoxLayout box = new BoxLayout(myInfoPanel, BoxLayout.Y_AXIS);
         
         myInfoPanel.setLayout(box);*/
@@ -99,6 +102,8 @@ public class BookPanel {
         myCheckBox.setPreferredSize(new Dimension(100, 100));
         myRootPanel.add(myCheckBox);
         myCheckBox.setAlignmentX(JCheckBox.CENTER_ALIGNMENT);
+
+        myRootPanel.setBorder(new SoftBevelBorder(BevelBorder.RAISED));
         
         myMoreButton.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
