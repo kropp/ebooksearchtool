@@ -15,9 +15,18 @@ public class Data {
 
     private List<Book> myBooks = new ArrayList<Book>();
     private List<Author> myAuthors = new ArrayList<Author>();
+    private String myNextPage = new String();
 
     public Data(){}
 
+    public void setNextPage(String adress){
+    	myNextPage = adress;
+    }
+    
+    public String getNextPage(){
+    	return myNextPage;
+    }
+    
     public void setBookTitle(int elementIndex, String value){
         myBooks.get(elementIndex).setTitle(value);
     }

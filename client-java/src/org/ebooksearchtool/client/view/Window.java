@@ -90,6 +90,7 @@ public class Window {
         JPanel morePanel = new JPanel(new FlowLayout());
         myMoreButton = new JButton("More books");
         morePanel.add(myMoreButton);
+        myMoreButton.setVisible(false);
         myCentralPanel.add(morePanel, "South");
         
         final DefaultBoundedRangeModel model = new DefaultBoundedRangeModel(0, 0, 0, 100);
@@ -100,7 +101,7 @@ public class Window {
         
         
         ActionListener act = new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(final ActionEvent e) {
 
                 
             	Thread process = new Thread(new Runnable() {
@@ -113,8 +114,14 @@ public class Window {
             			String queryOption = (String)myQueryCombo.getSelectedItem();
             			model.setValue(8);
             			myProgressBar.setString("Recieving data... 5%");
+            			int lastNumber = myController.getData().getBooks().size();
+            			String prevPage = myController.getData().getNextPage();
             			try {
-							myController.getQueryAnswer(queryWord, queryOption);
+            				if(e.getSource() != myMoreButton){
+            					myController.getQueryAnswer(queryWord, queryOption);
+            				}else{
+            					myController.getNextData();
+            				}
 						} catch (IOException e) {
 							e.printStackTrace();
 						} catch (SAXException e) {
@@ -124,9 +131,10 @@ public class Window {
 						}
             			model.setValue(30);
 
+            			
             			BookPanel[] BP = new BookPanel[myController.getData().getBooks().size()];
             			model.setValue(35);
-            			for(int i = 0; i < myController.getData().getBooks().size(); ++i){
+            			for(int i = lastNumber; i < myController.getData().getBooks().size(); ++i){
             				try {
 								BP[i] = new BookPanel(myController.getData().getBooks().get(i), myController.getSettings());
 								model.setValue(model.getValue() + 5);
@@ -145,6 +153,12 @@ public class Window {
             			}
             			model.setValue(100);
                         myProgressBar.setString("");
+                        if(!"".equals(myController.getData().getNextPage())){
+                        	myMoreButton.setVisible(true);
+                        	if(prevPage.equals(myController.getData().getNextPage())){
+                        		myMoreButton.setVisible(false);
+                        	}
+                        }
             		}
             	});
             	process.start();
@@ -154,6 +168,7 @@ public class Window {
         
         mySearchButton.addActionListener(act);
         myQueryField.addActionListener(act);
+        myMoreButton.addActionListener(act);
 
         myNetMenu.addActionListener(new ActionListener() {
 

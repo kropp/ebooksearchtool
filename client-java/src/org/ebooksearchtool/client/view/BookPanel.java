@@ -38,7 +38,7 @@ public class BookPanel {
     private JLabel myGenreLabel;
     private JTextArea mySummaryArea;
     
-    private boolean isMoreInfoShown = false;
+    private boolean myIsMoreInfoShown = false;
 
     public BookPanel(Book book, Settings set) throws IOException {
 
@@ -110,7 +110,7 @@ public class BookPanel {
         
         myMoreButton.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
-    			if(!isMoreInfoShown){
+    			if(!myIsMoreInfoShown){
                     int curWidth = myInfoPanel.getWidth();
     				myMoreInfoPanel.setLayout(new BoxLayout(myMoreInfoPanel, BoxLayout.Y_AXIS));
     			
@@ -131,14 +131,14 @@ public class BookPanel {
     				mySummaryArea.setAlignmentX(JPanel.LEFT_ALIGNMENT);
     				myMoreInfoPanel.add(mySummaryArea);
     				
-    				isMoreInfoShown = true;
+    				myIsMoreInfoShown = true;
     				myMoreInfoPanel.setVisible(true);
 
     				myRootPanel.updateUI();
     			}else{
     				myMoreInfoPanel.setVisible(false);
                     myMoreInfoPanel.removeAll();
-    				isMoreInfoShown = false;
+    				myIsMoreInfoShown = false;
     				myRootPanel.updateUI();
     			}
     			

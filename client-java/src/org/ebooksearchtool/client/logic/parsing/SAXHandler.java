@@ -69,6 +69,9 @@ public class SAXHandler extends DefaultHandler{
                         myData.setBookImage(myData.getBooks().size()-1, attributes.getValue(j+2));
                     }else if(myIsEntryTag && attributes.getLocalName(j).equals("term")){
                         myData.setBookGenre(myData.getBooks().size()-1, attributes.getValue(j));
+                    }else if(attributes.getValue(j).equals("Next Page")){
+                    	myData.setNextPage(new String(attributes.getValue(j+1)));
+                    	
                     }
                 }
                     

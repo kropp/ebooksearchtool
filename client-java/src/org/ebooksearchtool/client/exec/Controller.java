@@ -50,6 +50,14 @@ public class Controller {
         parser.parse("answer_file.xml", handler);
         
     }
+    
+    public void getNextData() throws IOException, SAXException, ParserConfigurationException{
+    	Connector connect = new Connector(myBooks.getNextPage(), mySettings);
+        connect.getFileFromURL("answer_file.xml");
+        Parser parser = new Parser();
+        SAXHandler handler = new SAXHandler(myBooks);
+        parser.parse("answer_file.xml", handler);
+    }
 
     public Settings getSettings() throws SAXException, ParserConfigurationException, IOException {
         return mySettings;
@@ -82,5 +90,5 @@ public class Controller {
     public Data getData(){
         return myBooks;
     }
-
+    
 }
