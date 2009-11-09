@@ -9,13 +9,9 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -30,16 +26,17 @@ public class Window {
     private JPanel myQueryPanel;
     private JTextField myQueryField;
     private JButton mySearchButton;
-    private JTextArea myDataTextArea;
     private JMenuItem myNetMenu;
     private JPanel myTextPan;
-    private int ind;
     private JComboBox myQueryCombo;
     private JProgressBar myProgressBar;
     private JPanel myCentralPanel;
     private JButton myMoreButton;
     private JToolBar myToolBar;
+    private JLabel myNumberInfo;
+    private JPanel myMorePanel;
     
+    private int myActionIndex;
 
     private Controller myController;
 
@@ -70,7 +67,7 @@ public class Window {
     	myCentralPanel.add(myQueryPanel, "North");
 
         myToolBar = new JToolBar();
-        myToolBar.add(new JButton(new ImageIcon("../ico/library_30.gif")));
+        myToolBar.add(new JButton(new ImageIcon(getClass().getResource("/ico/library_30.gif"))));
         myPanel1.add(myToolBar, "North");
 
     	myQueryField = new JTextField();
@@ -87,11 +84,13 @@ public class Window {
     	myTextPan.setLayout(box);
         myCentralPanel.add(new JScrollPane(myTextPan), "Center");
 
-        JPanel morePanel = new JPanel(new FlowLayout());
+        myMorePanel = new JPanel(new FlowLayout());
         myMoreButton = new JButton("More books");
-        morePanel.add(myMoreButton);
-        myMoreButton.setVisible(false);
-        myCentralPanel.add(morePanel, "South");
+        myNumberInfo = new JLabel();
+        myMorePanel.add(myMoreButton);
+        myMorePanel.add(myNumberInfo);
+        myMorePanel.setVisible(false);
+        myCentralPanel.add(myMorePanel, "South");
         
         final DefaultBoundedRangeModel model = new DefaultBoundedRangeModel(0, 0, 0, 100);
         myProgressBar = new JProgressBar(model);
@@ -118,9 +117,12 @@ public class Window {
             			String prevPage = myController.getData().getNextPage();
             			try {
             				if(e.getSource() != myMoreButton){
+            					myTextPan.removeAll();
             					myController.getQueryAnswer(queryWord, queryOption);
+            					myActionIndex = 1;
             				}else{
             					myController.getNextData();
+            					myActionIndex++;
             				}
 						} catch (IOException e) {
 							e.printStackTrace();
@@ -130,7 +132,7 @@ public class Window {
 							e.printStackTrace();
 						}
             			model.setValue(30);
-
+            			myProgressBar.setString("Recieving data... " + model.getValue() + "%");
             			
             			BookPanel[] BP = new BookPanel[myController.getData().getBooks().size()];
             			model.setValue(35);
@@ -154,9 +156,11 @@ public class Window {
             			model.setValue(100);
                         myProgressBar.setString("");
                         if(!"".equals(myController.getData().getNextPage())){
-                        	myMoreButton.setVisible(true);
+                        	myNumberInfo.setText("Total books found: " + myController.getData().getTotalBooksNumber() + 
+                        							" Books viewed: " + 18 * myActionIndex);
+                        	myMorePanel.setVisible(true);
                         	if(prevPage.equals(myController.getData().getNextPage())){
-                        		myMoreButton.setVisible(false);
+                        		myMorePanel.setVisible(false);
                         	}
                         }
             		}

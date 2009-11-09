@@ -63,20 +63,21 @@ public class BookPanel {
 
         myButtonPanel = new JPanel();
         myButtonPanel.setLayout(new FlowLayout());
-        myMoreButton = new JButton(new ImageIcon("../ico/info_30.gif"));
+        myMoreButton = new JButton(new ImageIcon(getClass().getResource("/ico/info_30.gif")));
         myMoreButton.setPreferredSize(new Dimension(30, 30));
         
+        
         myButtonPanel.add(myMoreButton);
-        myDelButton = new JButton(new ImageIcon("../ico/delete_30.gif"));
+        myDelButton = new JButton(new ImageIcon(getClass().getResource("/ico/delete_30.gif")));
         myDelButton.setPreferredSize(new Dimension(30, 30));
         myButtonPanel.add(myDelButton);
-        myLibButton = new JButton(new ImageIcon("../ico/library_30.gif"));
+        myLibButton = new JButton(new ImageIcon(getClass().getResource("/ico/library_30.gif")));
         myLibButton.setPreferredSize(new Dimension(30, 30));
         myButtonPanel.add(myLibButton);
-        myDownloadEpubButton = new JButton(new ImageIcon("../ico/epub_30.gif"));
+        myDownloadEpubButton = new JButton(new ImageIcon(getClass().getResource("/ico/epub_30.gif")));
         myDownloadEpubButton.setPreferredSize(new Dimension(30, 30));
         myButtonPanel.add(myDownloadEpubButton);
-        myDownloadPdfButton = new JButton(new ImageIcon("../ico/pdf_30.gif"));
+        myDownloadPdfButton = new JButton(new ImageIcon(getClass().getResource("/ico/pdf_30.gif")));
         myDownloadPdfButton.setPreferredSize(new Dimension(30, 30));
         myButtonPanel.add(myDownloadPdfButton);
 
@@ -164,7 +165,7 @@ public class BookPanel {
     			Connector connector;
 				try {
 					connector = new Connector(myBook.getEpubLink(), mySettings);
-					connector.getBookFromURL("books" + myBook.getTitle() + ".epub");
+					connector.getBookFromURL("books/" + myBook.getTitle() + ".epub");
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}    	        
@@ -176,7 +177,7 @@ public class BookPanel {
     			Connector connector;
 				try {
 					connector = new Connector(myBook.getPdfLink(), mySettings);
-					connector.getBookFromURL("books" + myBook.getTitle() + ".pdf");
+					connector.getBookFromURL("books/" + myBook.getTitle() + ".pdf");
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}    	        

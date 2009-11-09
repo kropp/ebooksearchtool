@@ -16,6 +16,7 @@ public class Data {
     private List<Book> myBooks = new ArrayList<Book>();
     private List<Author> myAuthors = new ArrayList<Author>();
     private String myNextPage = new String();
+    private int myTotalBooksNumber;
 
     public Data(){}
 
@@ -25,6 +26,14 @@ public class Data {
     
     public String getNextPage(){
     	return myNextPage;
+    }
+    
+    public void setTotalBooksNumber(int number){
+    	myTotalBooksNumber = number;
+    }
+    
+    public int getTotalBooksNumber(){
+    	return myTotalBooksNumber;
     }
     
     public void setBookTitle(int elementIndex, String value){

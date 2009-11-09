@@ -22,6 +22,7 @@ public class SAXHandler extends DefaultHandler{
     private AuthorTags myAuthorTags = new AuthorTags();
     private boolean myIsContinue = false;           //Helps with parsing non-ASCII characters
     private Author myCurAuthor;
+    private boolean myIsTotalTag;
 
     public SAXHandler(Data Books){
 
@@ -43,6 +44,10 @@ public class SAXHandler extends DefaultHandler{
         if("entry".equals(qName)){
             myIsEntryTag = true;
             myData.addBook(new Book());
+        }
+        
+        if("opensearch:totalResults".equals(qName)){
+        	myIsTotalTag = true;
         }
 
         if("author".equals(qName) && myIsEntryTag){
@@ -84,6 +89,11 @@ public class SAXHandler extends DefaultHandler{
     @Override
     public void characters(char[] ch, int start, int length) throws SAXException
     {
+    	
+    	if (myIsTotalTag){
+    		myData.setTotalBooksNumber(Integer.parseInt(new String(ch, start, length)));
+    	}
+    	
         if (myIsEntryTag){
             for(int i = 0; i < myBookTags.getTags().length; ++i){
                 if(myBookTags.getTags()[i].getStatus()) {
@@ -135,6 +145,11 @@ public class SAXHandler extends DefaultHandler{
         if("entry".equals(qName)){
             myIsEntryTag = false;
         }
+        
+        if("opensearch:totalResults".equals(qName)){
+        	myIsTotalTag = false;
+        }
+        
         if("author".equals(qName) && myIsEntryTag){
             boolean authorExists = false;
             for(int j = 0; j < myData.getAuthors().size(); ++j){
