@@ -14,6 +14,7 @@ class CrawlerThread extends Thread {
     private boolean myStopping = false;
     private boolean myWaitingForQueue = false;
     private URI myDownloadingURI = null;
+    private boolean myDoNotInterruptInAnyCase = false;
     
     CrawlerThread(Crawler crawler, int index) {
         myCrawler = crawler;
@@ -30,6 +31,14 @@ class CrawlerThread extends Thread {
     
     public URI getDownloadingURI() {
         return myDownloadingURI;
+    }
+    
+    public void setDoNotInterruptInAnyCase(boolean doNotInterruptInAnyCase) {
+        myDoNotInterruptInAnyCase = doNotInterruptInAnyCase;
+    }
+    
+    public boolean getDoNotInterruptInAnyCase() {
+        return myDoNotInterruptInAnyCase;
     }
     
     public void run() {
@@ -57,7 +66,7 @@ class CrawlerThread extends Thread {
             if (uri == null) break;
             myAction = "downloading the page at: " + uri;
             myDownloadingURI = uri;
-            String page = network.download(uri, "text/html", true);
+            String page = network.download(uri, "text/html", true, myIndex);
             myDownloadingURI = null;
             if (myStopping) break;
             if (page == null) continue;

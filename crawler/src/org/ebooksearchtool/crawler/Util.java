@@ -1,14 +1,24 @@
 package org.ebooksearchtool.crawler;
 
+import java.io.File;
 import java.net.*;
 import java.text.*;
 import java.util.*;
 
 public class Util {
 
+    public static final File CACHE_DIR = new File("cache");
+    
     private static Calendar ourCalendar = new GregorianCalendar(TimeZone.getTimeZone("America/New_York"));
     private static DateFormat ourTimeFormat = new SimpleDateFormat("HH:mm:ss");
     private static DateFormat ourDateFormat = new SimpleDateFormat("dd.MM.yyyy");
+    
+    public static boolean init() {
+        if (!Util.CACHE_DIR.exists()) {
+            return CACHE_DIR.mkdir();
+        }
+        return true;
+    }
     
     public static List<URI> createSimilarLinks(URI uri) {
         List<URI> answer = new ArrayList<URI>();

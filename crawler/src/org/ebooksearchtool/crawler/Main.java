@@ -61,6 +61,10 @@ public class Main {
                 fnfe.printStackTrace();
                 System.exit(0);
             }
+            if (!Util.init()) {
+                System.err.println("initialization failed");
+                System.exit(0);
+            }
             Crawler crawler = new Crawler(properties, starts, output);
             Thread crawlingThread = new Thread(crawler);
             crawlingThread.start();

@@ -79,7 +79,7 @@ public class Crawler implements Runnable {
             logOptions.put(Logger.MessageType.MISC, "true".equals(properties.getProperty("log_misc")));
             
             myLogger = new Logger(loggerOutput, logToScreenEnabled, logOptions);
-            ourNetwork = new Network(proxy, connectionTimeout, userAgent, myLogger);
+            ourNetwork = new Network(this, proxy, connectionTimeout, userAgent, myLogger);
             myRobots = new ManyFilesRobotsExclusion(ourNetwork, myLogger);
             myQueue = new LinksQueue(ourMaxQueueSize);
             myVisited = new VisitedLinksSet(ourMaxLinksCount);
@@ -133,6 +133,10 @@ public class Crawler implements Runnable {
         return myLogger;
     }
     
+    CrawlerThread getCrawlerThread(int index) {
+        return myThread[index];
+    }
+    
 
     private long myCrawledPagesNumber = 0;
     public synchronized long getCrawledPagesNumber() {
@@ -170,8 +174,9 @@ public class Crawler implements Runnable {
                 Arrays.fill(toKill, false);
                 boolean killSomeone = false;
                 for (int i = 0; i < ourThreadsCount; i++) {
-                    if (downloadingURI[i] != null && downloadingURI[i].equals(myThread[i].getDownloadingURI())) {
+                    if (downloadingURI[i] != null && downloadingURI[i].equals(myThread[i].getDownloadingURI()) && !myThread[i].getDoNotInterruptInAnyCase()) {
                         myLogger.log(Logger.MessageType.ERRORS, " thread #" + i + " is waiting too long for: " + downloadingURI[i]);
+                        myThread[i].interrupt();
                         myThread[i].finish();
                         toKill[i] = true;
                         killSomeone = true;
@@ -204,11 +209,11 @@ public class Crawler implements Runnable {
             myThread[i].stop();
         }
         
-        myRobots.finish();
         myOutput.println("</books>");
         System.out.println();
         System.out.println("finished");
         myLogger.finish();
+        ourNetwork.finish();
         if (ourAnalyzerEnabled) {
             try {
                 if (myAnalyzerSocket != null) {
