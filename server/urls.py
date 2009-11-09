@@ -19,9 +19,14 @@ urlpatterns = patterns('',
     (r'^data/insert/?$', data_modify, {'action': ACTION['insert'],}),
 
     # interface for search
-    (r'^books/search.atom/?$', 'server.views.search_request_to_server'),
-    (r'^book.atom/id(\d{1,})/?$', 'server.views.book_request_to_server'),
-    (r'^author.atom/id(\d{1,})/?$', 'server.views.author_request_to_server'),
+    (r'^books/search.atom/?$', 'server.views.search_request_to_server', {'type': 'atom',}),
+    (r'^books/search/?$', 'server.views.search_request_to_server', {'type': 'xhtml',}),
+    
+    (r'^book.atom/id(\d{1,})/?$', 'server.views.book_request_to_server', {'type': 'atom',}),
+    (r'^book/id(\d{1,})/?$', 'server.views.book_request_to_server', {'type': 'xhtml',}),
+    
+    (r'^author.atom/id(\d{1,})/?$', 'server.views.author_request_to_server', {'type': 'atom',}),
+    (r'^author/id(\d{1,})/?$', 'server.views.author_request_to_server', {'type': 'xhtml',}),
     
     #admin
     (r'^admin/(.*)', admin.site.root),
@@ -31,7 +36,7 @@ urlpatterns = patterns('',
     (r'^opensearch/?$', 'server.views.opensearch_description'),
     
     #user_information
-    (r'^user/insert/?$', 'server.reader.views.insert_user_information'),
+#    (r'^user/insert/?$', 'server.reader.views.insert_user_information'),
     
     #openid
     (r'^$', 'django.views.generic.simple.direct_to_template', {'template': 'home.html'}),

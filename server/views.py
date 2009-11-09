@@ -9,19 +9,7 @@ from book.models import *
 from spec.utils import SERVER_URL
 
 
-def search_to_opds(query, title, author, books, items_per_page, total, next, start_index):
-
-    return render_to_response('opds/client_response_search.xml', {'books': books, 'query': query, 'title': title, 'author':author, 'server':SERVER_URL, 'items_per_page':items_per_page, 'total':total, 'next':next, 'start_index': start_index })
-
-def book_to_opds(book):
-
-    return render_to_response('opds/client_response_book.xml', {'book': book, 'server':SERVER_URL})
-
-def author_to_opds(author):
-
-    return render_to_response('opds/client_response_author.xml', {'author': author, 'server':SERVER_URL})
-
-def search_request_to_server(request):
+def search_request_to_server(request, type):
     try:
         items_per_page = int(request.GET['items_per_page'])
     except KeyError:
@@ -68,23 +56,32 @@ def search_request_to_server(request):
         
     total = books.count()
     
-    return search_to_opds(query, title, author, books[start_index:start_index+items_per_page], items_per_page, total, next, start_index)
+    if type == "atom":
+        return render_to_response('book/opds/client_response_search.xml', {'books': books, 'query': query, 'title': title, 'author':author, 'server':SERVER_URL, 'items_per_page':items_per_page, 'total':total, 'next':next, 'start_index': start_index })
+        
+    if type == "xhtml":
+        return render_to_response('book/xhtml/client_response_search.xml', {'books': books, 'query': query, 'title': title, 'author':author, 'server':SERVER_URL, 'items_per_page':items_per_page, 'total':total, 'next':next, 'start_index': start_index })
 
-def book_request_to_server(request, book_id):
+def book_request_to_server(request, book_id, type):
     try:
         book = Book.objects.get(id=book_id)
     except ObjectDoesNotExist:
         pass
     
-    return book_to_opds(book)
+    if type == "atom":
+        return render_to_response('book/opds/client_response_book.xml', {'book': book, 'server':SERVER_URL})
+    if type == "xhtml":
+        return render_to_response('book/xhtml/client_response_book.xml', {'book': book, 'server':SERVER_URL})
 
-def author_request_to_server(request, author_id):
+def author_request_to_server(request, author_id, type):
     try:
         author = Author.objects.get(id=author_id)
     except ObjectDoesNotExist:
         pass
-    
-    return author_to_opds(author)
+    if type == "atom":
+        return render_to_response('book/opds/client_response_author.xml', {'author': author, 'server':SERVER_URL})
+    if type == "xhtml":
+        return render_to_response('book/xhtml/client_response_author.xml', {'author': author, 'server':SERVER_URL})
 
 def opensearch_description(request):
     return render_to_response("data/opensearchdescription.xml", {'server':SERVER_URL})

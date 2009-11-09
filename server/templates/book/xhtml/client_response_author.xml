@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head profile="http://www.w3.org/1999/xhtml/vocab">
+  <!-- Meta --> 
+  <title> {{ author.name }}</title>
+
+  <!-- Links --> 
+  <link rel="search" type="application/opensearchdescription+xml" title="Opensearch description" href="/opensearch.xml" />
+  <link rel="related" type="application/atom+xml;profile=opds" title="Feedbooks: OPDS catalog" href="/catalog.atom" />
+  <link rel="service" type="application/atomsvc+xml" href="/user/books.atomsvc" />
+  
+  
+  <!-- CSS --> 
+<!--
+  <link rel="stylesheet" href="/stylesheets/screen.css" type="text/css" media="screen, projection" /> 
+  <link rel="stylesheet" href="/stylesheets/print.css" type="text/css" media="print" /> 
+  <link href="/stylesheets/normal.css?1255441690" media="screen" rel="stylesheet" type="text/css" />
+  
+  <link rel="stylesheet" href="/stylesheets/facebox.css" type="text/css" media="screen, projection">
+
+-->
+  
+</head>
+
+<body>
+<div class="container">
+  <div class="span-17">
+    <h1 class="bottom fb-blue">{{ author.name }} <span class="small gray"><!-- count books--></span></h1>
+  </div>
+</div>
+
+<div class="container">
+  <h3 class="fb-blue">Books Available <img src="/images/layout/spinner.gif" id="activity-books" alt="Activity Indicator" style="display: none;" /></h3>
+</div>
+
+
+{% for book in author.book.all %}
+{{ book.title }}
+<div class="span-2 append-bottom">
+  {% for book_file in book.book_file.all %}
+      <a href="/book/{{ book.id }}"><img alt="{{ book.title }}" class="cover" src="{{book_file.img_link}}" title="{{ book.title }}" /></a> 
+  {% endfor %}  
+  
+  <div class="span-15 prepend-1 append-bottom last">
+
+
+    <div class="float-right small">
+        {% for tag in book.tag.all %}
+            <category term="{{ tag }}"/>
+        {% endfor %}
+    </div>
+
+    
+    <h3 class="fb-blue small-bottom-margin"><a href="/book/id{{ book.id }}">{{ book.title }}</a></h3>
+    <h4 class="charcoal">by 
+      {% for author in book.author_set.all %}
+         <em><a href="/author/id{{ author.id }}" class="gray">{{ author.name }}</a></em>
+      {% endfor %}
+    </h4>    
+    
+    {% for annotation in book.annotation.all %}
+            <annotation> {{ annotation }} </annotation>
+    {% endfor %}
+  </div>
+
+      
+      <hr class="space" />
+</div>
+{% endfor %}
+
+</body>
+</html>
+

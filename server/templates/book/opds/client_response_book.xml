@@ -11,7 +11,7 @@
     <updated></updated>
     
     {% for tag in book.tag.all %}
-        <category>book.tag</category>
+        <category>{{ tag }}</category>
     {% endfor %}
 
     <dcterms:source></dcterms:source>
