@@ -54,7 +54,7 @@
 
   <div class="span-2 append-bottom">
   {% for book_file in book.book_file.all %}
-  <a href="/book/{{ book.id }}"><img alt="{{ book.title }}" class="cover" src="{{book_file.img_link}}" title="{{ book.title }}" /></a> 
+      <a href="/book/{{ book.id }}"><img alt="{{ book.title }}" class="cover" src="{{book_file.img_link}}" title="{{ book.title }}" /></a> 
   {% endfor %}  
   
   </div>

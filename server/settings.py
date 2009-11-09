@@ -78,6 +78,8 @@ MIDDLEWARE_CLASSES = (
 )
 #    'django.middleware.common.CommonMiddleware',
 
+CACHE_MIDDLEWARE_SECONDS = 1
+CACHE_MIDDLEWARE_KEY_PREFIX = ''
 
 ROOT_URLCONF = 'server.urls'
 
