@@ -65,13 +65,17 @@ def make_q_from_tag(node, object, default_search_type=''):
     return get_q(object, text_search, search_type)
 
 def get_authors_q(node):
-    q = q()
+    q = Q()
     for author_node in node.getchildren():
-        q = q & make_q_from_tag(author_node, 'author_name', 'icontains')
+        if author_node.get('id', 0):
+            qf = make_q_from_tag(author_node, 'author')
+        else:
+            qf = make_q_from_tag(author_node, 'author__name', 'icontains')
+        q = q & qf
     return q
 
 def get_files_q(node):
-    q = q()
+    q = Q()
     for file_node in node.getchildren():
         qf = make_q_from_tag(file_node, 'book_file')
         # if not Q by id
@@ -82,6 +86,8 @@ def get_files_q(node):
                 
                 if det_node.tag == 'size':
                     qf = qf & make_q_from_tag(det_node, 'book_file__size')
+
+        q = q & qf
                     
     return q
 

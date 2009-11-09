@@ -7,7 +7,7 @@ from django.db.models import Q
 
 from book.models import *
 from book.action_handler import *
-from book.get_action import get_by_id, get_author_queryset, get_file_queryset, get_book_queryset, get_q, make_q_from_tag
+from book.get_action import get_by_id, get_author_queryset, get_file_queryset, get_book_queryset, get_q, make_q_from_tag, get_authors_q
 
 def exception_catcher(f, exception):
     '''Trys to exec f() and except exeption;
@@ -60,6 +60,23 @@ class GetActionTest(TestCase):
         qm = Q(tag__id='4')
         self.failUnlessEqual(q.__str__(), qm.__str__())
 
+
+    def test_get_authors_q(self):
+        xml_string = '''
+        <authors>
+            <author>name</author>
+            <author type=""> name2 </author>
+            <author id="4">name3</author>
+        </authors>'''
+
+        xml = etree.fromstring(xml_string)
+        q = get_authors_q(xml)
+
+        qm = Q(author__name__icontains='name') \
+           & Q(author__name='name2') \
+           & Q(author__id='4')
+        self.failUnlessEqual(q.__str__(), qm.__str__())
+        
 
 #    def test_get_by_id(self):
 #        print 1
