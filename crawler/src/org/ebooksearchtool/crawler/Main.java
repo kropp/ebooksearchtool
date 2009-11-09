@@ -27,6 +27,7 @@ public class Main {
         {"threads_count", "10"},
         {"thread_timeout_for_link", "20000"},
         {"thread_finish_time", "10000"},
+        {"waiting_for_access_timeout", "5000"},
 
         {"log_file", ""},
         {"log_to_screen", "true"},

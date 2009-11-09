@@ -8,12 +8,12 @@ import java.util.concurrent.*;
 public class Network {
 	
     private static final File LAST_ACCESS_FILE = new File(Util.CACHE_DIR + "/lastaccess");
-    private static final int MAX_WAIT_FOR_ACCESS = 5000;    // maximum time to wait for the host to be able to connect again
 	private static final int BUFFER_SIZE = 16384;
 	
     private final Crawler myCrawler;
 	private final Proxy myProxy;
 	private final int myConnectionTimeout;
+    private final int myWaitingForAccessTimeout;
 	private final String myUserAgent;
     private final Logger myLogger;
     private final Map<String, Long> myLastAccess = new HashMap<String, Long>();
@@ -21,10 +21,11 @@ public class Network {
     private final ConcurrentMap<String, URI> myLastAccessBlockingMap = new ConcurrentHashMap<String, URI>();
     private final Object myLastAccessLock = new Object();
 	
-	public Network(Crawler crawler, Proxy proxy, int connectionTimeout, String userAgent, Logger logger) {
+	public Network(Crawler crawler, Proxy proxy, int connectionTimeout, int waitingForAccessTimeout, String userAgent, Logger logger) {
         myCrawler = crawler;
 		myProxy = proxy;
 		myConnectionTimeout = connectionTimeout;
+        myWaitingForAccessTimeout = waitingForAccessTimeout;
 		myUserAgent = userAgent;
         myLogger = logger;
         try {
@@ -79,7 +80,6 @@ public class Network {
     public String download(URI uri, String wantedContentType, boolean logErrors, int threadID) {
         try {
             String host = uri.getHost();
-            /*
             long nextAccess = getNextAccessTime(host);
             if (nextAccess > Long.MIN_VALUE) {
                 myCrawler.getCrawlerThread(threadID).setDoNotInterruptInAnyCase(true);
@@ -97,10 +97,11 @@ public class Network {
                 nextAccess = getNextAccessTime(host);
                 long now = Util.getCurrentTimeInMillis();
                 if (nextAccess > now) {
-                    if (nextAccess < now + MAX_WAIT_FOR_ACCESS) {
+                    if (nextAccess < now + myWaitingForAccessTimeout) {
                         try {
                             Thread.sleep(nextAccess - now);
                         } catch (InterruptedException e) {
+                            myLastAccessBlockingMap.remove(host, uri);
                             synchronized (myLastAccessLock) {
                                 myLastAccessLock.notify();
                             }
@@ -108,6 +109,7 @@ public class Network {
                             return null;
                         }
                     } else {
+                        myLastAccessBlockingMap.remove(host, uri);
                         synchronized (myLastAccessLock) {
                             myLastAccessLock.notify();
                         }
@@ -121,14 +123,12 @@ public class Network {
                     setLastAccessTime(host, now);
                     setNextAccessTime(host, now + diff);
                 }
-                boolean f = myLastAccessBlockingMap.remove(host, uri);
-                assert f;
+                myLastAccessBlockingMap.remove(host, uri);
                 synchronized (myLastAccessLock) {
                     myLastAccessLock.notify();
                 }
                 myCrawler.getCrawlerThread(threadID).setDoNotInterruptInAnyCase(false);
             }
-            */
             
             URLConnection connection = uri.toURL().openConnection(myProxy);
             connection.setConnectTimeout(myConnectionTimeout);

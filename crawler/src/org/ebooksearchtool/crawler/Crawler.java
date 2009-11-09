@@ -59,6 +59,7 @@ public class Crawler implements Runnable {
                 ourAnalyzerPort = -1;
             }
             int connectionTimeout = Integer.parseInt(properties.getProperty("connection_timeout"));
+            int waitingForAccessTimeout = Integer.parseInt(properties.getProperty("waiting_for_access_timeout"));
             String userAgent = properties.getProperty("user_agent");
             int maxLinksCount = Integer.parseInt(properties.getProperty("max_links_count"));
             ourMaxLinksCount = maxLinksCount == 0 ? Integer.MAX_VALUE : maxLinksCount;
@@ -79,7 +80,7 @@ public class Crawler implements Runnable {
             logOptions.put(Logger.MessageType.MISC, "true".equals(properties.getProperty("log_misc")));
             
             myLogger = new Logger(loggerOutput, logToScreenEnabled, logOptions);
-            ourNetwork = new Network(this, proxy, connectionTimeout, userAgent, myLogger);
+            ourNetwork = new Network(this, proxy, connectionTimeout, waitingForAccessTimeout, userAgent, myLogger);
             myRobots = new ManyFilesRobotsExclusion(ourNetwork, myLogger);
             myQueue = new LinksQueue(ourMaxQueueSize);
             myVisited = new VisitedLinksSet(ourMaxLinksCount);
