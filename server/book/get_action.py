@@ -1,5 +1,7 @@
 '''Action handler of get request;'''
 
+from string import join
+
 from django.db import IntegrityError
 from django.db import transaction
 from django.db.models import Q
@@ -10,28 +12,17 @@ from server.spec.exception import *
 from server.book.models import *
 from server.spec.logger import main_logger
 
-def get_q(object, type, arg):
+
+
+def get_q(object, arg, type=''):
     "Makes Q object for 'object' with search type from 'type' \
     sets 'arg' like argument"
-
-    if object == 'title':
-        if type == 'icontains':
-            return Q(title__icontains=arg)
-    elif object == 'author__name':
-        if type == 'icontains':
-            return Q(author__name__icontains=arg)
-
-    elif object == 'file__timefound':
-        if type == '=':
-            return Q(file__timefound=arg)
-        elif type == '>':
-            return Q(file__timefound__gt=arg)
-        elif type == '<':
-            return Q(file__timefound__lt=arg)
-        
-    
-    #        raise InputDataServerException("Unknow type for object 'title'")
-
+    obj_str = object
+    if type:
+        obj_str = obj_str + '__' + type
+    q = Q()
+    q.add((obj_str, arg), 'AND')
+    return q
 
     
 
@@ -41,6 +32,7 @@ def check_request(requst_type, xml):
     "Checks xml request"
     pass    
 
+        
 
 def get_by_id(entirety, node):
     "Trys to get entirety by id in attribute; Returns None if id is not defined"
@@ -57,20 +49,69 @@ def get_by_id(entirety, node):
     return None
 
 
-def make_q_from_tag(node, default_search_type='icontains'):
+
+
+def make_q_from_tag(node, object, default_search_type='icontains'):
     '''Makes Q objects for tag'''
+    id = node.get('id', 0)
+    # if tag has attribute 'id'
+    if id:
+        search_type = ''
+        text_search=id
+        object = object
+    else:
+        search_type = node.get('type', default_search_type)
+        text_search=node.text.strip()
+    return get_q(object, text_search, search_type)
 
-    # Try get Q by id
-    q = get_by_id(node.tag, node)
-    if q:
-        return q
+def get_authors_q(node):
+    q = q()
+    for author_node in node.getchildren():
+        q = q & make_q_from_tag(author_node)
+    return q
 
-    search_type = node.get('type', default_search_type)
+def get_files_q(node):
+    q = q()
+    for file_node in node.getchildren():
+        q = q & make_q_from_tag(author_node)
+    return q
 
-    return get_q(node.tag, search_type, node.text.strip())
 
 
+def get_q_from_xml(xml):
+    '''Makes QuerySet for Book from xml request
+    Returns QuerySet'''
 
+    # if they are book id, return it
+    book = get_by_id(Book, xml)
+    if book:
+        return [book]
+
+    q = Q()
+    
+    # for by all tags in <book>
+    for node in xml.getchildren():
+        # if we found the tag 'title', add qeuryset to q
+        if node.tag == 'title':
+            q = q & make_q_from_tag(node)
+                
+        # if we found the tag 'lang', add qeuryset to q
+        elif node.tag == 'lang':
+            q = q & make_q_from_tag(node, default_search_type='')
+
+        # if we found the tag 'annotation', add qeuryset to q
+        elif node.tag == 'annotation':
+            q = q & make_q_from_tag(node)
+            
+
+        # if we found the tag 'authors', add qeuryset to q
+        elif node.tag == 'authors':
+            q = q & get_authors_q(node)
+
+        # if we found the tag 'files', add qeuryset to q
+        elif node.tag == 'files':
+            q = q & get_files_q(node)
+    
 
 
 
@@ -114,7 +155,15 @@ def get_file_queryset(xml):
                 elif file_det_node.tag == 'type':
                     type = replace_delim_to_space(file_det_node.text)
                     q = q & Q(book_file__type=type)
-                    
+
+                # TODO insert code for last_check and time_found
+
+                elif file_det_node.tag == 'more_info':
+                    more_info = file_det_node.text.strip()
+                    q = q & Q(book_file__more_info__icontains=more_info)
+
+                # TODO insert code for link_img
+
 
 
 def get_book_queryset(xml):
