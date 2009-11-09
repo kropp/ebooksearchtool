@@ -1,6 +1,6 @@
 from string import join, split
 
-SERVER_URL = "127.0.0.1:8000"
+SERVER_URL = "http://only.mawhrin.net/ebooks"
 
 def convert_delim(strs, delimiter=' '):
     '''Convert all \\r \\n \\t to delimiter.
