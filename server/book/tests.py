@@ -30,7 +30,7 @@ class GetActionTest(TestCase):
         qm = Q(title__icontains='query')
         self.failUnlessEqual(q.__str__(), qm.__str__())
 
-        q = get_q(['file', 'size'], 'query')
+        q = get_q('file__size', 'query')
         qm = Q(file__size='query')
         self.failUnlessEqual(q.__str__(), qm.__str__())
 
@@ -39,35 +39,27 @@ class GetActionTest(TestCase):
         # simple test
         xml_string = '<tag> text</tag>'
         xml = etree.fromstring(xml_string)
-        q = make_q_from_tag(xml)
+        q = make_q_from_tag(xml, 'tag')
 
-        qm = Q(tag__icontains='text')
+        qm = Q(tag='text')
         self.failUnlessEqual(q.__str__(), qm.__str__())
 
         # test with search type
         xml_string = '<tag type="gt"> text </tag>'
         xml = etree.fromstring(xml_string)
-        q = make_q_from_tag(xml)
+        q = make_q_from_tag(xml, 'tag__name')
 
-        qm = Q(tag__gt='text')
+        qm = Q(tag__name__gt='text')
         self.failUnlessEqual(q.__str__(), qm.__str__())
-
-        # test with search type and several object
-        xml_string = '<tag type="gt"> text </tag>'
-        xml = etree.fromstring(xml_string)
-        q = make_q_from_tag(xml, parent=['file'])
-
-        qm = Q(file__tag__gt='text')
-        self.failUnlessEqual(q.__str__(), qm.__str__())
-
 
         # test with search type and several object
         xml_string = '<tag id="4"> text </tag>'
         xml = etree.fromstring(xml_string)
-        q = make_q_from_tag(xml, parent=['file'])
+        q = make_q_from_tag(xml, 'tag')
 
-        qm = Q(file__tag__id='4')
+        qm = Q(tag__id='4')
         self.failUnlessEqual(q.__str__(), qm.__str__())
+
 
 #    def test_get_by_id(self):
 #        print 1

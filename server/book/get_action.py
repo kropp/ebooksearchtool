@@ -51,14 +51,14 @@ def get_by_id(entirety, node):
 
 
 
-def make_q_from_tag(node, object, default_search_type='icontains'):
+def make_q_from_tag(node, object, default_search_type=''):
     '''Makes Q objects for tag'''
     id = node.get('id', 0)
     # if tag has attribute 'id'
     if id:
         search_type = ''
         text_search=id
-        object = object
+        object = object + '__id'
     else:
         search_type = node.get('type', default_search_type)
         text_search=node.text.strip()
@@ -67,13 +67,22 @@ def make_q_from_tag(node, object, default_search_type='icontains'):
 def get_authors_q(node):
     q = q()
     for author_node in node.getchildren():
-        q = q & make_q_from_tag(author_node)
+        q = q & make_q_from_tag(author_node, 'author_name', 'icontains')
     return q
 
 def get_files_q(node):
     q = q()
     for file_node in node.getchildren():
-        q = q & make_q_from_tag(author_node)
+        qf = make_q_from_tag(file_node, 'book_file')
+        # if not Q by id
+        if not qf.children:
+            for det_node in file_node.getchildren():
+                if det_node.tag == 'link':
+                    qf = qf & make_q_from_tag(det_node, 'book_file__link')
+                
+                if det_node.tag == 'size':
+                    qf = qf & make_q_from_tag(det_node, 'book_file__size')
+                    
     return q
 
 
@@ -93,15 +102,15 @@ def get_q_from_xml(xml):
     for node in xml.getchildren():
         # if we found the tag 'title', add qeuryset to q
         if node.tag == 'title':
-            q = q & make_q_from_tag(node)
+            q = q & make_q_from_tag(node, 'title', 'icontains')
                 
         # if we found the tag 'lang', add qeuryset to q
         elif node.tag == 'lang':
-            q = q & make_q_from_tag(node, default_search_type='')
+            q = q & make_q_from_tag(node, 'lang')
 
         # if we found the tag 'annotation', add qeuryset to q
         elif node.tag == 'annotation':
-            q = q & make_q_from_tag(node)
+            q = q & make_q_from_tag(node, 'annotation__name', 'icontains')
             
 
         # if we found the tag 'authors', add qeuryset to q
