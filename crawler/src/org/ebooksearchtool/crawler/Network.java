@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 import java.util.concurrent.*;
+import javax.net.ssl.*;
 
 public class Network {
 	
@@ -45,6 +46,23 @@ public class Network {
             myLogger.log(Logger.MessageType.ERRORS, LAST_ACCESS_FILE + " cannot be initialized");
             System.exit(1);
         }
+        
+        // configure HttpsURLConnection so that it trusts all certificates
+        TrustManager[] trustAllCerts = new TrustManager[] {
+            new X509TrustManager() {
+                public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                    return null;
+                }
+                public void checkClientTrusted(java.security.cert.X509Certificate[] certs, String authType) { }
+                public void checkServerTrusted(java.security.cert.X509Certificate[] certs, String authType) { }
+            }
+        };
+        try {
+            SSLContext context = SSLContext.getInstance("SSL");
+            context.init(null, trustAllCerts, new java.security.SecureRandom());
+            HttpsURLConnection.setDefaultSSLSocketFactory(context.getSocketFactory());
+        } catch (Exception e) { }
+            
 	}
     
     public long getLastAccessTime(String host) {
