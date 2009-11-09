@@ -1,26 +1,30 @@
 package org.ebooksearchtool.analyzer.algorithms.subalgorithms;
 
 import java.util.ArrayList;
+import java.util.List;
+import org.ebooksearchtool.analyzer.algorithms.AuthorsSimpleParser;
+import org.ebooksearchtool.analyzer.model.Author;
 import org.ebooksearchtool.analyzer.model.Lexema;
 
 /**
  * @author Алексей
  */
 
-public class epubTitleExtractor {
+public class AuthorExtractor {
 
-    public static String extractTitle(ArrayList<Lexema> lexems){
+     public static List<Author> extractAuthors (ArrayList<Lexema> lexems){
         int length = lexems.size();
         int index = 0;
         for (index = 0; index < length; index++) {
-            if(lexems.get(index).getValue().indexOf("book-page-title") != -1){
+            if(lexems.get(index).getValue().indexOf("author/") != -1){
                 break;
             }
         }
 
-        if (index < length){
-            StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
+        List<Author> authors = new ArrayList<Author>();
 
+        if(index < length){            
             Lexema lex = new Lexema(lexems.get(index).getValue());
             index++;
 
@@ -34,10 +38,12 @@ public class epubTitleExtractor {
             }
             sb.append(lex.getValue());
 
-            return trim(sb);
+            authors = AuthorsSimpleParser.parse(trim(sb));
         }else{
-            return "";
+            authors.add(new Author());
         }
+        return authors;
+
     }
 
     private static String trim(StringBuilder sb){

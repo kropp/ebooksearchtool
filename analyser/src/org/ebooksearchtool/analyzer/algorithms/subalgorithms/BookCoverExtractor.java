@@ -42,6 +42,13 @@ public class BookCoverExtractor {
     }
 
     private static String trim(StringBuilder s, String str){
+        if (str.equals("")){
+            if(s.indexOf("http") == -1){
+                return "";
+            }else{
+                return trimURL(s.toString());
+            }
+        }
         while(s.length() != 0 && s.indexOf("/") != 0){
             s.delete(0, 1);
         }
@@ -75,7 +82,7 @@ public class BookCoverExtractor {
             }
 
         }
-        return "URL not found";//TODO: А как это работает?
+        return "";
     }
 
     private static boolean isManySlashes(String input){

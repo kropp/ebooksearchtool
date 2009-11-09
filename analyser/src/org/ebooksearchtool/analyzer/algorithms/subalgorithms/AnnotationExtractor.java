@@ -8,7 +8,7 @@ import org.ebooksearchtool.analyzer.model.Lexema;
  * @author Алексей
  */
 
-public class epubAnnotationExtractor {
+public class AnnotationExtractor {
 
     public static List<String> extractAnnotation(ArrayList<Lexema> lexems){
         int length = lexems.size();

@@ -18,7 +18,6 @@ import org.ebooksearchtool.analyzer.utils.AnalyzerProperties;
 public class PropertiesIO {
     public static void getPropertiesFromFile(String file){
         try {
-            //TODO: В перспективе надо брать название property файла из параметров командной строки
             Properties prop = new Properties();
             prop.load(new BufferedReader(new FileReader(file)));
             Set<Entry<Object, Object>> entrys = prop.entrySet();

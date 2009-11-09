@@ -10,7 +10,7 @@ public class AnalyzerProperties{
 
     private static HashMap<String,String> ourProperties;
     
-    //TODO: Потом убрать, пока ради теста
+    //Default Parametrs
     static{
         ourProperties = new HashMap<String, String>();
         ourProperties.put("numberOfAnalyzerThreads", "10");

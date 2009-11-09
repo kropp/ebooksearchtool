@@ -48,9 +48,11 @@ public class MunseyHandler extends DefaultHandler{
         if(ourAnnotationElementFlag == true){
             ourBookInfo.addAnnotation(new String(ch, start, length).trim());
         }
-        //TODO:Вариант с уборкой неизвестных языков
         if(ourLanguageElementFlag == true){
-            ourBookInfo.setLanguage(new String(ch, start, length).trim());
+            String str = new String(ch, start, length).trim();
+            if(AnalyzeUtils.isLanguage(str)){
+                ourBookInfo.setLanguage(str);
+            }
         }
     }
 

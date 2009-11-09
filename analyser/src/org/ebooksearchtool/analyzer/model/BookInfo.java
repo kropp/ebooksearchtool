@@ -244,7 +244,6 @@ public class BookInfo {
             while(tempB.indexOf("<file") != -1){
                 File file = new File();
                 index = sb.indexOf("<file");
-                //TODO: Добавить работу с Aliases
                 temp = tempB.substring(index);
 
                 temp = tempB.substring(index);
@@ -369,7 +368,8 @@ public class BookInfo {
         return str.toString();
     }
 
-    //TODO:Уточнить, как формировать запрос по id
+    //Пока что выдает всю информацию по КНИГЕ (куча книг и файлов, в которые в
+    //которые входит данный)
     public String getBookInfoForFileIDRequest(String id){
         StringBuilder str = new StringBuilder(getBookInfo());
         int index = str.indexOf("File");

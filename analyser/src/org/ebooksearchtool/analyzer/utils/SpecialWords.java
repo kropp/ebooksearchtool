@@ -8,44 +8,42 @@ import java.util.HashSet;
 
 public class SpecialWords {
 
-    private static HashSet ourSeparators = new HashSet();
+    private static HashSet<String> ourSeparators = new HashSet<String>();
     static{
         ourSeparators.add(",");
         //ourSeparators.add("'");
-        ourSeparators.add(',');
         //ourSeparators.add('\'');
     }
 
-    private static HashSet ourJoiners = new HashSet();
+    private static HashSet<String> ourJoiners = new HashSet<String>();
     static{
         ourJoiners.add("and");
         ourJoiners.add("и");
-        ourJoiners.add('и');
     }
 
-    private static HashSet ourNeedToTrim = new HashSet();
+    private static HashSet<String> ourNeedToTrim = new HashSet<String>();
     static{
-        ourNeedToTrim.add(')');
-        ourNeedToTrim.add('(');
-        ourNeedToTrim.add('[');
-        ourNeedToTrim.add(']');
+        ourNeedToTrim.add(")");
+        ourNeedToTrim.add("(");
+        ourNeedToTrim.add("[");
+        ourNeedToTrim.add("]");
     }
+    //TODO:Сепаратор переделать или убрать совсем, это TYPE сепаратор!!!
+//    private static HashSet<String> ourTypesSeparators = new HashSet<String>();
+//    static{
+//        ourTypesSeparators.add("!sep!");
+//    }
 
-    private static HashSet ourTypesSeparators = new HashSet();
-    static{
-        ourTypesSeparators.add("!sep!");
-    }
-
-    public static boolean isTypesSeparator(String value){
-        if(ourTypesSeparators.contains(value)){
-            return true;
-        }else{
-            return false;
-        }
-    }
+//    public static boolean isTypesSeparator(String value){
+//        if(ourTypesSeparators.contains(value)){
+//            return true;
+//        }else{
+//            return false;
+//        }
+//    }
 
     public static boolean isNeedToTrim(char value){
-        if(ourNeedToTrim.contains(value)){
+        if(ourNeedToTrim.contains(value + "")){
             return true;
         }else{
             return false;
@@ -61,7 +59,7 @@ public class SpecialWords {
     }
 
     public static boolean isSepatator(char value){
-       if(ourSeparators.contains(value)){
+       if(ourSeparators.contains(value + "")){
             return true;
         }else{
             return false;
@@ -77,7 +75,7 @@ public class SpecialWords {
     }
 
     public static boolean isJoiner(char value){
-        if(ourJoiners.contains(value)){
+        if(ourJoiners.contains(value + "")){
             return true;
         }else{
             return false;

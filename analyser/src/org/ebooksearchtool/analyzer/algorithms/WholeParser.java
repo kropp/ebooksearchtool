@@ -27,10 +27,10 @@ public class WholeParser implements IParser{
         myBookInfo.getFiles().get(0).setType(FormatExtractor.extractFormat(temp));
         myBookInfo.getFiles().get(0).setSize(SizeExtractor.extractSize(temp));
         myBookInfo.getFiles().get(0).setImgLink(BookCoverExtractor.extractBookCover(temp));
-        myBookInfo.setAnnotations(epubAnnotationExtractor.extractAnnotation(temp));
+        myBookInfo.setAnnotations(AnnotationExtractor.extractAnnotation(temp));
         myBookInfo.setLanguage(LanguageExtractor.extractLanguage(temp));
-        myBookInfo.setAuthors(epubAuthorExtractor.extractAuthors(temp));
-        myBookInfo.setTitle(epubTitleExtractor.extractTitle(temp));
+        myBookInfo.setAuthors(AuthorExtractor.extractAuthors(temp));
+        myBookInfo.setTitle(TitleExtractor.extractTitle(temp));
         //Конец гарантий
 
         reqBook = BookInfo.getBookInfoFromRequest(
