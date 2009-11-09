@@ -31,6 +31,10 @@ public class ServerRequests {
         return format(encodeSpecialSymbols(info.getBookInfoForAuthorIDRequest(id)));
     }
 
+    public static String formBookByBookIDReplace(BookInfo info, String id){
+        return format(encodeSpecialSymbols(info.getBookInfoForBookIDReplace(id)));
+    }
+
     private static long getContentLength(String str){
         return str.length() + 4;
     }

@@ -6,9 +6,6 @@
     <authors>
         <author>
             <name></name>
-            <alias></alias>
-            <alias></alias>
-            <alias></alias>
         </author>
     </authors>
 
@@ -17,6 +14,8 @@
             <link></link>
             <size></size>
             <type></type>
+            <time_found></time_found>
+            <last_chek></last_chek>
             <more_info></more_info>
             <img_link></img_link>
         </file>

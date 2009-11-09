@@ -1,6 +1,7 @@
 package org.ebooksearchtool.analyzer.network;
 
 import java.util.List;
+import org.ebooksearchtool.analyzer.algorithms.WholeParser;
 import org.ebooksearchtool.analyzer.algorithms.WholeStringSimpleParser;
 import org.ebooksearchtool.analyzer.io.Logger;
 import org.ebooksearchtool.analyzer.model.Author;
@@ -30,7 +31,7 @@ public class AnalyzerThread extends Thread {
             while(true){
                 try {
                     myLock.wait();
-                    WholeStringSimpleParser ws = new WholeStringSimpleParser();
+                    WholeParser ws = new WholeParser();
                     BookInfo info = ws.parse(myMessage);
                     printInfo(info);
                     //TODO: Добавить разбор ответов от сервера  

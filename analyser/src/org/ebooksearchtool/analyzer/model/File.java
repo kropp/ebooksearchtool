@@ -8,6 +8,7 @@ import java.util.Map.Entry;
  */
 
 public class File {
+    private String myID;
     private String myLink;
     private String mySize;
     private String myType;
@@ -17,6 +18,7 @@ public class File {
     private String myImgLink;
 
     public File(){
+        myID = "";
         myLink = "";
         mySize = "";
         myType = "";
@@ -28,14 +30,18 @@ public class File {
 
     public File(String link, String size, String type, String moreInfo,
             String imageLink){
+        myID = "";
         myLink = link;
         mySize = size;
         myType = type;
+        myTimeFound = "";
+        myLastChek = "";
         myMoreInfo = moreInfo;
         myImgLink = imageLink;
     }
 
     public File(String link){
+        myID = "";
         myLink = link;
         mySize = "";
         myType = "";
@@ -170,6 +176,20 @@ public class File {
             }
         }
         return file;
+    }
+
+    /**
+     * @return the myID
+     */
+    public String getID() {
+        return myID;
+    }
+
+    /**
+     * @param myID the myID to set
+     */
+    public void setID(String myID) {
+        this.myID = myID;
     }
     // </editor-fold>
 }

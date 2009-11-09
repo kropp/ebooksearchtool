@@ -182,10 +182,17 @@ public class BookInfo {
         String temp = "";
         StringBuilder tempB = new StringBuilder();
         int endIndex = 0;
-        if(sb.indexOf("<book>") != -1 && sb.indexOf("</book>") != -1){
-            int index = sb.indexOf("<book>");
+        if(sb.indexOf("<book") != -1 && sb.indexOf("</book>") != -1){
+            int index = sb.indexOf("<book");
             if(index > 0){
                 sb.delete(0, index);
+            }
+            index = sb.indexOf("<book id=\"");
+            if(index != -1){
+                temp = sb.substring(index + "<book id=\"".length());
+                endIndex = temp.indexOf(">") - 1;
+                temp = temp.substring(0, endIndex);
+                book.setID(temp);
             }
             //Title
             index = sb.indexOf("<title>");
@@ -208,19 +215,27 @@ public class BookInfo {
             tempB = new StringBuilder(sb.substring(index + "<authors>".length()));
             //Второй скобки нет из-за возможного id
             while(tempB.indexOf("<author") != -1){
+                Author author = new Author();
                 index = sb.indexOf("<author");
                 //TODO: Добавить работу с Aliases
                 temp = tempB.substring(index);
+                index = temp.indexOf("id=\"");
+                temp = temp.substring(index + "id=\"".length());
+                endIndex = temp.indexOf(">") - 1;
+                temp = temp.substring(0, endIndex);
+                author.setID(temp);
+
                 index = temp.indexOf("<name>");
                 if(index != -1){
                     temp = temp.substring(index);
                     index = temp.indexOf(">") + 1;
                     temp = temp.substring(index);
                     endIndex = temp.indexOf("<") - 1;
-                    temp = temp.substring(index, endIndex + index);
-                    book.addAuthor(new Author(temp));
-                    tempB.delete(0, tempB.indexOf("</author>") + "</author>".length());
+                    temp = temp.substring(index, endIndex + index);                  
                 }
+                author.setName(temp);
+                book.addAuthor(author);
+                tempB.delete(0, tempB.indexOf("</author>") + "</author>".length());
             }
             //Files
             index = sb.indexOf("<files>");
@@ -231,6 +246,14 @@ public class BookInfo {
                 index = sb.indexOf("<file");
                 //TODO: Добавить работу с Aliases
                 temp = tempB.substring(index);
+
+                temp = tempB.substring(index);
+                index = temp.indexOf("id=\"");
+                temp = temp.substring(index + "id=\"".length());
+                endIndex = temp.indexOf(">") - 1;
+                temp = temp.substring(0, endIndex);
+                file.setID(temp);
+
                 index = temp.indexOf("<link>");
                 if(index != -1){
                     temp = temp.substring(index);
@@ -358,6 +381,22 @@ public class BookInfo {
         StringBuilder str = new StringBuilder(getBookInfo());
         int index = str.indexOf("Author");
         str.insert(index + 4, " id=\"" + id + "\"");
+        return str.toString();
+    }
+
+    public String getBookInfoForBookIDReplace(String id){
+        StringBuilder str = new StringBuilder();
+        str.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
+        str.append("<book id=\"" + id + ">");
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
+        str.append(writeTitle());
+        str.append(writeLanguage());
+        str.append(writeAuthors());
+        str.append(writeFilesForRequest());
+        str.append(writeAnnotations());
+        str.append("</book>");
+
         return str.toString();
     }
     // </editor-fold>
