@@ -11,6 +11,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.io.File;
 
 /**
  * Created by IntelliJ IDEA.
@@ -50,10 +51,10 @@ public class BookPanel {
         
 
         Connector connector = new Connector(myBook.getImage(), mySettings);
-        connector.getBookFromURL("images/" + myBook.getTitle() + ".jpg");
+        connector.getBookFromURL("images" + File.separatorChar + myBook.getTitle() + ".jpg");
 
         myImageLable = new JLabel();
-        myImageLable.setIcon(new ImageIcon("images/" + myBook.getTitle() + ".jpg"));
+        myImageLable.setIcon(new ImageIcon("images" + File.separatorChar + myBook.getTitle() + ".jpg"));
         myImageLable.setPreferredSize(new Dimension(80, 100));
         myRootPanel.add(myImageLable);
 
@@ -165,7 +166,7 @@ public class BookPanel {
     			Connector connector;
 				try {
 					connector = new Connector(myBook.getEpubLink(), mySettings);
-					connector.getBookFromURL("books/" + myBook.getTitle() + ".epub");
+					connector.getBookFromURL("books" + File.separatorChar + myBook.getTitle() + ".epub");
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}    	        
@@ -177,7 +178,7 @@ public class BookPanel {
     			Connector connector;
 				try {
 					connector = new Connector(myBook.getPdfLink(), mySettings);
-					connector.getBookFromURL("books/" + myBook.getTitle() + ".pdf");
+					connector.getBookFromURL("books" + File.separatorChar + myBook.getTitle() + ".pdf");
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}    	        

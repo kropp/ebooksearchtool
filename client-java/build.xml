@@ -8,8 +8,10 @@
     <property name="jarfile" location="${dist}/client.jar"/>
     <property name="manifest" location="${res}/MANIFEST.MF"/>
     <property name="lib" location="${lib}/client.jar"/>
-	<property name="gif" location="ico/library_30.gif"/>
 
+    <patternset id="resources">
+        <include name="**/?*.gif"/>
+    </patternset>
 
     <target name="init">
         <mkdir dir="${build}"/>
@@ -18,11 +20,12 @@
 
     <target name="compile" depends="init">
         <javac srcdir="${src}" destdir="${build}" classpath=".;${lib}"/>
-	<copy todir="${build}" flatten="true"/>
-		<fileset dir="src">
-       	 		<inlude name="library_30.gif" />
-      		</fileset>     
-	<copy/>
+	    <copy todir="${build}">
+            <fileset dir="${src}">
+                <patternset refid="resources"/>
+                <type type="file"/>
+            </fileset>
+        </copy>
     </target>
 
     <target name="dist" depends="clean,compile">

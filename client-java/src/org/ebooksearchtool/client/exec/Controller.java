@@ -28,6 +28,12 @@ public class Controller {
         myBooks = new Data();
         mySettings = new Settings();
 
+        File images = new File("images");
+        images.mkdir();
+        File books = new File("books");
+        books.mkdir();
+        
+
         try {
         	mySettings.setServer(getSettingsFromFile().getServer());
             mySettings.setProxyEnabled(getSettingsFromFile().isProxyEnabled());
