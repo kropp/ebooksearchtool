@@ -7,13 +7,15 @@ import org.ebooksearchtool.crawler.AbstractLinksQueue;
 
 public class LinksQueue extends AbstractLinksQueue {
 
-    private final BlockingQueue<URI> myQueue = new LinkedBlockingQueue<URI>();
+//    private final BlockingQueue<URI> myQueue = new LinkedBlockingQueue<URI>();
+    private final BlockingQueue<URI> myQueue;
     private final int myMaxSize;
     
     private static int ourTimeToWait = 1000;
     
     public LinksQueue(int maxSize) {
         myMaxSize = maxSize;
+        myQueue = new PriorityBlockingQueue<URI>(maxSize, new LinksComparator());
     }
     
     public void offer(URI uri) {
