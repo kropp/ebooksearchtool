@@ -100,7 +100,7 @@ INSTALLED_APPS = (
     'server.book',
     'server.reader',
     #openid
-    'django_authopenid',
+    'server.django_authopenid',
 )
 
 try:
