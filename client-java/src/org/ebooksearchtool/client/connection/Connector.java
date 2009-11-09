@@ -59,7 +59,7 @@ public class Connector{
                 {
                     pw1.print((char)connection.getInputStream().read());
                     ++i;
-                    System.out.println(i);
+                    
                 }
                 pw1.close();
         	}

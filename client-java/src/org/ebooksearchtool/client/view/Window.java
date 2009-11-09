@@ -70,7 +70,7 @@ public class Window {
     	myCentralPanel.add(myQueryPanel, "North");
 
         myToolBar = new JToolBar();
-        myToolBar.add(new JButton(new ImageIcon("ico\\library_30.gif")));
+        myToolBar.add(new JButton(new ImageIcon("../ico/library_30.gif")));
         myPanel1.add(myToolBar, "North");
 
     	myQueryField = new JTextField();

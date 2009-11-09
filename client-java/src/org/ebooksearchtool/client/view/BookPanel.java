@@ -37,6 +37,8 @@ public class BookPanel {
     private JLabel myDateLabel;
     private JLabel myGenreLabel;
     private JTextArea mySummaryArea;
+    
+    private boolean isMoreInfoShown = false;
 
     public BookPanel(Book book, Settings set) throws IOException {
 
@@ -48,10 +50,10 @@ public class BookPanel {
         
 
         Connector connector = new Connector(myBook.getImage(), mySettings);
-        connector.getBookFromURL("images\\" + myBook.getTitle() + ".jpg");
+        connector.getBookFromURL("images/" + myBook.getTitle() + ".jpg");
 
         myImageLable = new JLabel();
-        myImageLable.setIcon(new ImageIcon("images\\" + myBook.getTitle() + ".jpg"));
+        myImageLable.setIcon(new ImageIcon("images/" + myBook.getTitle() + ".jpg"));
         myImageLable.setPreferredSize(new Dimension(80, 100));
         myRootPanel.add(myImageLable);
 
@@ -61,19 +63,20 @@ public class BookPanel {
 
         myButtonPanel = new JPanel();
         myButtonPanel.setLayout(new FlowLayout());
-        myMoreButton = new JButton(new ImageIcon("ico\\info_30.gif"));
+        myMoreButton = new JButton(new ImageIcon("../ico/info_30.gif"));
         myMoreButton.setPreferredSize(new Dimension(30, 30));
+        
         myButtonPanel.add(myMoreButton);
-        myDelButton = new JButton(new ImageIcon("ico\\delete_30.gif"));
+        myDelButton = new JButton(new ImageIcon("../ico/delete_30.gif"));
         myDelButton.setPreferredSize(new Dimension(30, 30));
         myButtonPanel.add(myDelButton);
-        myLibButton = new JButton(new ImageIcon("ico\\library_30.gif"));
+        myLibButton = new JButton(new ImageIcon("../ico/library_30.gif"));
         myLibButton.setPreferredSize(new Dimension(30, 30));
         myButtonPanel.add(myLibButton);
-        myDownloadEpubButton = new JButton(new ImageIcon("ico\\epub_30.gif"));
+        myDownloadEpubButton = new JButton(new ImageIcon("../ico/epub_30.gif"));
         myDownloadEpubButton.setPreferredSize(new Dimension(30, 30));
         myButtonPanel.add(myDownloadEpubButton);
-        myDownloadPdfButton = new JButton(new ImageIcon("ico\\pdf_30.gif"));
+        myDownloadPdfButton = new JButton(new ImageIcon("../ico/pdf_30.gif"));
         myDownloadPdfButton.setPreferredSize(new Dimension(30, 30));
         myButtonPanel.add(myDownloadPdfButton);
 
@@ -107,7 +110,7 @@ public class BookPanel {
         
         myMoreButton.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
-    			if(myMoreButton.getText().equals("More")){
+    			if(!isMoreInfoShown){
                     int curWidth = myInfoPanel.getWidth();
     				myMoreInfoPanel.setLayout(new BoxLayout(myMoreInfoPanel, BoxLayout.Y_AXIS));
     			
@@ -128,14 +131,14 @@ public class BookPanel {
     				mySummaryArea.setAlignmentX(JPanel.LEFT_ALIGNMENT);
     				myMoreInfoPanel.add(mySummaryArea);
     				
-    				myMoreButton.setText("Hide");
+    				isMoreInfoShown = true;
     				myMoreInfoPanel.setVisible(true);
 
     				myRootPanel.updateUI();
     			}else{
     				myMoreInfoPanel.setVisible(false);
                     myMoreInfoPanel.removeAll();
-    				myMoreButton.setText("More");
+    				isMoreInfoShown = false;
     				myRootPanel.updateUI();
     			}
     			
