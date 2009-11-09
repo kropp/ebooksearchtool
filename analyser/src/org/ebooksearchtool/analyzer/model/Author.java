@@ -9,21 +9,31 @@ import java.util.List;
 public class Author {
     private String myName;
     private List<String> myAliases;
+    private String myID;
 
     public Author(){
-        myName = "Unknown author";
+        myName = "";
         myAliases = null;
+        myID="";
     }
     
     public Author(String name){
         myName = name;
         myAliases = null;
+        myID = "";
     }
     
      public Author(String name, List<String> aliases){
         myName = name;
         myAliases = aliases;
+        myID = "";
     }
+
+     public Author(int ID){
+         myName = "";
+         myAliases = null;
+         myID = Integer.toString(ID);
+     }
 
     /**
      * @return the myName
@@ -51,7 +61,21 @@ public class Author {
      */
     public void setAliases(List<String> myAliases) {
         this.myAliases = myAliases;
-    }    
+    }
+
+     /**
+     * @return the myID
+     */
+    public String getID() {
+        return myID;
+    }
+
+    /**
+     * @param myID the myID to set
+     */
+    public void setID(String myID) {
+        this.myID = myID;
+    }
 
     @Override
     public boolean equals(Object obj) {

@@ -19,7 +19,7 @@ public class LanguageExtractor {
                 }
             }
         }
-        return new String("Unknown language");
+        return new String("");
     }
 
     private static String trim(String s){

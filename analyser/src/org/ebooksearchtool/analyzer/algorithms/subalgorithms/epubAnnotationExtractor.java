@@ -40,7 +40,7 @@ public class epubAnnotationExtractor {
 
         if(annotations.get(0).isEmpty()){
             annotations.clear();
-            annotations.add(new String("Unknown annotation"));
+            annotations.add(new String(""));
         }
 
         return annotations;

@@ -53,7 +53,7 @@ public class SizeExtractor {
                 return lex;
             }
         }
-        return new String("Unknown size");
+        return new String("");
     }
 
     private static boolean hasSize(String str){

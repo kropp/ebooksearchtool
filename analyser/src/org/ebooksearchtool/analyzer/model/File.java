@@ -17,13 +17,13 @@ public class File {
     private String myImgLink;
 
     public File(){
-        myLink = "Unknown link";
-        mySize = "Unknown size";
-        myType = "Unknown type";
-        myTimeFound = "Unknown time found";
-        myLastChek = "Unknown last chek";
-        myMoreInfo = "Unknown info";
-        myImgLink = "Unknown image link";
+        myLink = "";
+        mySize = "";
+        myType = "";
+        myTimeFound = "";
+        myLastChek = "";
+        myMoreInfo = "";
+        myImgLink = "";
     }
 
     public File(String link, String size, String type, String moreInfo,
@@ -37,10 +37,10 @@ public class File {
 
     public File(String link){
         myLink = link;
-        mySize = "Unknown size";
-        myType = "Unknown type";
-        myMoreInfo = "Unknown info";
-        myImgLink = "Unknown image link";
+        mySize = "";
+        myType = "";
+        myMoreInfo = "";
+        myImgLink = "";
     }
 
     // <editor-fold defaultstate="collapsed" desc="Get and Set methods">

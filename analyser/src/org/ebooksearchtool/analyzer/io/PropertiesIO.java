@@ -39,7 +39,10 @@ public class PropertiesIO {
                 HashMap<String,String> properties = AnalyzerProperties.getProperties();
                 Set<String> keys = properties.keySet();
                 for(String key : keys){
-                    bw.write(key + "=" + properties.get(key));
+                    if(!key.contains("system")){
+                        bw.write(key + "=" + properties.get(key));
+                        bw.newLine();
+                    }
                 }
             } catch (IOException ex) {
                 Logger.setToErrorLog(ex.getMessage());

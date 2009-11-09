@@ -29,7 +29,7 @@ public class TitleExtractor {
             index++;
         }
         if(sb.length() == 0){
-            return "Unknown title";
+            return "";
         }
 
         return sb.toString();

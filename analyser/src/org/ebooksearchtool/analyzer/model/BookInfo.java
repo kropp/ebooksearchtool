@@ -9,6 +9,7 @@ import org.ebooksearchtool.analyzer.utils.AnalyzerProperties;
  */
 
 public class BookInfo {
+    private String myID;
     private List<Author> myAuthors;
     private String myTitle;
     private List<File> myFiles;
@@ -20,37 +21,18 @@ public class BookInfo {
     public static final int FILE = 2;
     public static final int LANGUAGE = 3;
     public static final int ANNOTATIONS = 4;
+    public static final int ID = 100;
 
     public BookInfo(){
+        myID = "";
         myAuthors = new ArrayList<Author>();
         //myAuthors.add(new Author());
-        myTitle = "Unknown title";
+        myTitle = "";
         myFiles = new ArrayList<File>();
         //myFiles.add(new File());
-        myLanguage = "Unknown language";
+        myLanguage = "";
         myAnnotations = new ArrayList<String>();
-        myAnnotations.add("Unknown annotation");
-    }
-
-    /**
-     * This constructor returns empty BookInfo if flag equals true and special
-     * fully empty message for requests if flag equals false.
-     * @param flag indicate which type of message need to return.
-     */
-
-    public BookInfo(boolean flag){
-        if(flag){
-            new BookInfo();
-        }else{
-            myAuthors = new ArrayList<Author>();
-            //myAuthors.add(new Author());
-            myTitle = "";
-            myFiles = new ArrayList<File>();
-            //myFiles.add(new File());
-            myLanguage = "";
-            myAnnotations = new ArrayList<String>();
-            myAnnotations.add("");
-        }
+        myAnnotations.add("");
     }
 
     public BookInfo(List<Author> authors, String title, List<File> files,
@@ -60,6 +42,18 @@ public class BookInfo {
         myFiles = files;
         myLanguage = language;
         myAnnotations = annotations;
+    }
+
+    public BookInfo(int id){
+        myID = Integer.toBinaryString(id);
+        myAuthors = new ArrayList<Author>();
+        //myAuthors.add(new Author());
+        myTitle = "";
+        myFiles = new ArrayList<File>();
+        //myFiles.add(new File());
+        myLanguage = "";
+        myAnnotations = new ArrayList<String>();
+        myAnnotations.add("");
     }
 
     // <editor-fold defaultstate="collapsed" desc="Get and Set methods">
@@ -133,8 +127,51 @@ public class BookInfo {
     public void setAnnotations(List<String> myAnnotations) {
         this.myAnnotations = myAnnotations;
     }
-    
+
+    /**
+     * @return the myID
+     */
+    public String getID() {
+        return myID;
+    }
+
+    /**
+     * @param myID the myID to set
+     */
+    public void setID(String myID) {
+        this.myID = myID;
+    }
+
+    // </editor-fold>
+
     public String getBookInfo(){
+        StringBuilder str = new StringBuilder();
+        str.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
+        str.append("<book>");
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
+        if(!myTitle.equals("")){
+            str.append(writeTitle());
+        }
+        if(!myLanguage.equals("")){
+            str.append(writeLanguage());
+        }
+        if(!myAuthors.isEmpty() && !myAuthors.get(0).equals("")){
+            str.append(writeAuthors());
+        }
+        if(!myFiles.isEmpty()){
+            str.append(writeFiles());
+        }
+        if(!myAnnotations.isEmpty() && !myAnnotations.get(0).equals("")){
+            str.append(writeAnnotations());
+        }
+        str.append("</book>");
+
+        return str.toString();
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="Get methods for requests">
+    public String getBookInfoForRequest(){
         StringBuilder str = new StringBuilder();
         str.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
         str.append(AnalyzerProperties.getPropertie("systemSeparator"));
@@ -143,42 +180,8 @@ public class BookInfo {
         str.append(writeTitle());
         str.append(writeLanguage());
         str.append(writeAuthors());
-        str.append(writeFiles());
+        str.append(writeFilesForRequest());
         str.append(writeAnnotations());
-        str.append("</book>");
-
-        return str.toString();
-    }
-    // </editor-fold>
-
-    // <editor-fold defaultstate="collapsed" desc="Get methods for requests">
-    //TODO:Доделать, спросить по поводу Unknown полей.
-    public String getBookInfoForRequest(){
-        StringBuilder str = new StringBuilder();
-        str.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
-        str.append("<book>");
-        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
-        if(!myTitle.equals("Unknown title") ){
-            str.append(writeTitle());
-        }else{
-            myTitle = "";
-        }
-        if(!myLanguage.equals("") && !myLanguage.equals("Unknown language")){
-            str.append(writeLanguage());
-        }else{
-            myLanguage = "";
-        }
-        if(myAuthors.size() != 0 && !myAuthors.get(0).getName().equals("Unknown author")){
-            str.append(writeAuthors());
-        }else{
-            myAuthors = new ArrayList<Author>();
-            myAuthors.add(new Author(""));
-        }
-        str.append(writeFiles());
-        if(myAuthors.size() != 0 && !myAuthors.get(0).getName().equals("Unknown annotation")){
-            str.append(writeAnnotations());
-        }
         str.append("</book>");
 
         return str.toString();
@@ -187,6 +190,7 @@ public class BookInfo {
     public String getBookInfoForBookIDRequest(String id){
         StringBuilder str = new StringBuilder();
         str.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+        str.append("<book id=\"" + id + "\">");
         str.append(AnalyzerProperties.getPropertie("systemSeparator"));
         str.append("</book>");
 
@@ -265,7 +269,7 @@ public class BookInfo {
         return str.toString();
     }
 
-    private String writeFiles(){
+    private String writeFilesForRequest(){
         StringBuilder str = new StringBuilder();
         List<File> files = getFiles();
         int length = files.size();
@@ -303,6 +307,66 @@ public class BookInfo {
             str.append("<img_link>");
             str.append(file.getImgLink());
             str.append("</img_link>");
+            str.append(AnalyzerProperties.getPropertie("systemSeparator"));
+            str.append("</file>");
+            str.append(AnalyzerProperties.getPropertie("systemSeparator"));
+        }
+        str.append("</files>");
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
+
+        return str.toString();
+    }
+
+    private String writeFiles(){
+        StringBuilder str = new StringBuilder();
+        List<File> files = getFiles();
+        int length = files.size();
+
+        str.append("<files>");
+        str.append(AnalyzerProperties.getPropertie("systemSeparator"));
+        for (int i = 0; i < length; i++) {
+            File file = files.get(i);
+            str.append("<file>");
+            str.append(AnalyzerProperties.getPropertie("systemSeparator"));
+            str.append("<link>");
+            str.append(file.getLink());
+            str.append("</link>");
+            str.append(AnalyzerProperties.getPropertie("systemSeparator"));
+            if(!file.getSize().equals("")){
+                str.append("<size>");
+                str.append(file.getSize());
+                str.append("</size>");
+            }
+            str.append(AnalyzerProperties.getPropertie("systemSeparator"));
+            if(!file.getType().equals("")){
+                str.append("<type>");
+                str.append(file.getType());
+                str.append("</type>");
+            }
+            str.append(AnalyzerProperties.getPropertie("systemSeparator"));
+            if(!file.getTimeFound().equals("")){
+                str.append("<time_found>");
+                str.append(file.getTimeFound());
+                str.append("</time_found>");
+            }
+            str.append(AnalyzerProperties.getPropertie("systemSeparator"));
+            if(!file.getLastChek().equals("")){
+                str.append("<last_check>");
+                str.append(file.getLastChek());
+                str.append("</last_check>");
+            }
+            str.append(AnalyzerProperties.getPropertie("systemSeparator"));
+            if(!file.getMoreInfo().equals("")){
+                str.append("<more_info>");
+                str.append(file.getMoreInfo());
+                str.append("</more_info>");
+            }
+            str.append(AnalyzerProperties.getPropertie("systemSeparator"));
+            if(!file.getImgLink().equals("")){
+                str.append("<img_link>");
+                str.append(file.getImgLink());
+                str.append("</img_link>");
+            }
             str.append(AnalyzerProperties.getPropertie("systemSeparator"));
             str.append("</file>");
             str.append(AnalyzerProperties.getPropertie("systemSeparator"));

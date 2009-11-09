@@ -41,8 +41,8 @@ public class MunseyHandler extends DefaultHandler{
         }
         if(ourLinkElementFlag == true){
             ArrayList<Lexema> temp = Lexema.convertToLexems(new String(ch, start, length).trim());
-            ourBookInfo.addFile(new File(URLsExtractor.extractURL(temp), "Unknown size",
-                    FormatExtractor.extractFormat(temp), "Unknown info", "Unknown image link"));
+            ourBookInfo.addFile(new File(URLsExtractor.extractURL(temp), "",
+                    FormatExtractor.extractFormat(temp), "", ""));
         }
         if(ourAnnotationElementFlag == true){
             ourBookInfo.addAnnotation(new String(ch, start, length).trim());

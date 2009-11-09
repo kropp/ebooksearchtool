@@ -36,7 +36,7 @@ public class epubTitleExtractor {
 
             return trim(sb);
         }else{
-            return "Unknown title";
+            return "";
         }
     }
 

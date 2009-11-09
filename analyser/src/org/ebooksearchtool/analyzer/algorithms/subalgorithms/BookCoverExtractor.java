@@ -9,7 +9,6 @@ import org.ebooksearchtool.analyzer.model.Lexema;
 
 public class BookCoverExtractor {
 
-    //TODO: Подумать, как брать ее с сайта, ПОКА ЧТО НЕ СПОЛЬЗОВАТЬ!!!
     public static String extractBookCover(ArrayList<Lexema> lexems){
         int length = lexems.size();
         int index = 0;
@@ -38,7 +37,7 @@ public class BookCoverExtractor {
 
             return trim(sb, extractURL(lexems));
         }else{
-            return "Unknown book cover";
+            return "";
         }
     }
 
@@ -63,10 +62,6 @@ public class BookCoverExtractor {
             sb.append(s);
         }
 
-        if(sb.length() == 0){
-            sb.append("Unknown book cover");
-        }
-
         return sb.toString();
     }
 
@@ -80,7 +75,7 @@ public class BookCoverExtractor {
             }
 
         }
-        return "URL not found";
+        return "URL not found";//TODO: А как это работает?
     }
 
     private static boolean isManySlashes(String input){

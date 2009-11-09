@@ -34,7 +34,7 @@ public class AnalyzerThread extends Thread {
                     BookInfo info = ws.parse(myMessage);
                     printInfo(info);
                     //TODO: Добавить разбор ответов от сервера  
-                    if(!info.getTitle().equals("Unknown title")){
+                    if(!info.getTitle().equals("")){
                         String message = ClientSocketThread.sendRequest(ServerRequests.formBookInfo(info));
                         Logger.setToLog(message);
                         System.out.println(message);

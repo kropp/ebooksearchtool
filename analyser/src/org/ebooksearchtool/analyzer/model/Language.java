@@ -12,7 +12,7 @@ public class Language {
     private List<String> myShortDescriptions;
 
     public Language(){
-        myFullDescription = "Unknown language";
+        myFullDescription = "";
         myShortDescriptions = new ArrayList<String>();
     }
 
