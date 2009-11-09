@@ -170,6 +170,155 @@ public class BookInfo {
         return str.toString();
     }
 
+    /**
+     * Returns BookInfo from server answer message or null if messege don't
+     * contain BookInfo
+     * @param message to parse to BookInfo
+     * @return BookInfo if parse succesfull or null otherwise.
+     */
+    public static BookInfo getBookInfoFromRequest(String message){
+        BookInfo book = new BookInfo();
+        StringBuilder sb = new StringBuilder(message);
+        String temp = "";
+        StringBuilder tempB = new StringBuilder();
+        int endIndex = 0;
+        if(sb.indexOf("<book>") != -1 && sb.indexOf("</book>") != -1){
+            int index = sb.indexOf("<book>");
+            if(index > 0){
+                sb.delete(0, index);
+            }
+            //Title
+            index = sb.indexOf("<title>");
+            if(index != -1){
+                temp = sb.substring(index);
+                endIndex = temp.indexOf("<");
+                temp = sb.substring(index + "<title>".length() + 1, endIndex + index - 1);
+                book.setTitle(temp);
+            }
+            //Language
+            index = sb.indexOf("<language>");
+            if(index != -1){
+                temp = sb.substring(index);
+                endIndex = temp.indexOf("<");
+                temp = sb.substring(index + "<language>".length() + 1, endIndex + index - 1);
+                book.setLanguage(temp);
+            }
+            //Authors
+            index = sb.indexOf("<authors>");
+            tempB = new StringBuilder(sb.substring(index + "<authors>".length()));
+            //Второй скобки нет из-за возможного id
+            while(tempB.indexOf("<author") != -1){
+                index = sb.indexOf("<author");
+                //TODO: Добавить работу с Aliases
+                temp = tempB.substring(index);
+                index = temp.indexOf("<name>");
+                if(index != -1){
+                    temp = temp.substring(index);
+                    index = temp.indexOf(">") + 1;
+                    temp = temp.substring(index);
+                    endIndex = temp.indexOf("<") - 1;
+                    temp = temp.substring(index, endIndex + index);
+                    book.addAuthor(new Author(temp));
+                    tempB.delete(0, tempB.indexOf("</author>") + "</author>".length());
+                }
+            }
+            //Files
+            index = sb.indexOf("<files>");
+            tempB = new StringBuilder(sb.substring(index + "<files>".length()));
+            //Второй скобки нет из-за возможного id
+            while(tempB.indexOf("<file") != -1){
+                File file = new File();
+                index = sb.indexOf("<file");
+                //TODO: Добавить работу с Aliases
+                temp = tempB.substring(index);
+                index = temp.indexOf("<link>");
+                if(index != -1){
+                    temp = temp.substring(index);
+                    index = temp.indexOf(">") + 1;
+                    temp = temp.substring(index);
+                    endIndex = temp.indexOf("<") - 1;
+                    temp = temp.substring(index, endIndex + index);
+                    file.setLink(temp);
+                }
+                index = temp.indexOf("<size>");
+                if(index != -1){
+                    temp = temp.substring(index);
+                    index = temp.indexOf(">") + 1;
+                    temp = temp.substring(index);
+                    endIndex = temp.indexOf("<") - 1;
+                    temp = temp.substring(index, endIndex + index);
+                    file.setSize(temp);
+                }
+                index = temp.indexOf("<type>");
+                if(index != -1){
+                    temp = temp.substring(index);
+                    index = temp.indexOf(">") + 1;
+                    temp = temp.substring(index);
+                    endIndex = temp.indexOf("<") - 1;
+                    temp = temp.substring(index, endIndex + index);
+                    file.setType(temp);
+                }
+                index = temp.indexOf("<time_found>");
+                if(index != -1){
+                    temp = temp.substring(index);
+                    index = temp.indexOf(">") + 1;
+                    temp = temp.substring(index);
+                    endIndex = temp.indexOf("<") - 1;
+                    temp = temp.substring(index, endIndex + index);
+                    file.setTimeFound(temp);
+                }
+                index = temp.indexOf("<last_chek>");
+                if(index != -1){
+                    temp = temp.substring(index);
+                    index = temp.indexOf(">") + 1;
+                    temp = temp.substring(index);
+                    endIndex = temp.indexOf("<") - 1;
+                    temp = temp.substring(index, endIndex + index);
+                    file.setLastChek(temp);
+                }
+                index = temp.indexOf("<more_info>");
+                if(index != -1){
+                    temp = temp.substring(index);
+                    index = temp.indexOf(">") + 1;
+                    temp = temp.substring(index);
+                    endIndex = temp.indexOf("<") - 1;
+                    temp = temp.substring(index, endIndex + index);
+                    file.setMoreInfo(temp);
+                }
+                index = temp.indexOf("<img_link>");
+                if(index != -1){
+                    temp = temp.substring(index);
+                    index = temp.indexOf(">") + 1;
+                    temp = temp.substring(index);
+                    endIndex = temp.indexOf("<") - 1;
+                    temp = temp.substring(index, endIndex + index);
+                    file.setImgLink(temp);
+                }
+                book.addFile(file);
+                tempB.delete(0, tempB.indexOf("</file>") + "</file>".length());
+            }
+            //Annotations
+            index = sb.indexOf("<annotation>");
+            tempB = new StringBuilder(sb.substring(index));
+            while(tempB.indexOf("<annotation>") != -1){
+                index = sb.indexOf("<annotation>");
+                if(index != -1){
+                    temp = temp.substring(index);
+                    index = temp.indexOf(">") + 1;
+                    temp = temp.substring(index);
+                    endIndex = temp.indexOf("<") - 1;
+                    temp = temp.substring(index, endIndex + index);
+                    book.addAnnotation(temp);
+                    tempB.delete(0, tempB.indexOf("</annotation>") + "</annotation>".length());
+                }
+            }
+
+            return book;
+        }else{
+            return null;
+        }
+    }
+
     // <editor-fold defaultstate="collapsed" desc="Get methods for requests">
     public String getBookInfoForRequest(){
         StringBuilder str = new StringBuilder();

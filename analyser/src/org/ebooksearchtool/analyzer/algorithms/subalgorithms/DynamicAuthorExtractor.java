@@ -10,7 +10,7 @@ import org.ebooksearchtool.analyzer.model.Lexema;
  * @author Aleksey Podoplsky
  */
 
-public class epub2AuthorExtractor {
+public class DynamicAuthorExtractor {
      public static List<Author> extractAuthors (ArrayList<Lexema> lexems){
         String url = URLsExtractor.extractURL(lexems);
 
