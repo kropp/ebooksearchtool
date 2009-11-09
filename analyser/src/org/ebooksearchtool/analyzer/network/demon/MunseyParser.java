@@ -1,4 +1,4 @@
-package org.ebooksearchtool.analyzer.algorithms;
+package org.ebooksearchtool.analyzer.network.demon;
 
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;

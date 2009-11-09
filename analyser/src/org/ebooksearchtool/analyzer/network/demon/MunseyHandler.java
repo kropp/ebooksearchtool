@@ -1,9 +1,10 @@
-package org.ebooksearchtool.analyzer.algorithms;
+package org.ebooksearchtool.analyzer.network.demon;
 
 /**
  * @author Алексей
  */
 
+import org.ebooksearchtool.analyzer.algorithms.*;
 import java.util.ArrayList;
 import org.ebooksearchtool.analyzer.algorithms.subalgorithms.FormatExtractor;
 import org.ebooksearchtool.analyzer.algorithms.subalgorithms.URLsExtractor;

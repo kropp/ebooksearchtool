@@ -1,5 +1,6 @@
 package org.ebooksearchtool.analyzer.network;
 
+import org.ebooksearchtool.analyzer.network.demon.DemonThread;
 import org.ebooksearchtool.analyzer.utils.NetUtils;
 import java.io.*;
 import java.net.*;

@@ -65,7 +65,9 @@ public class ClientSocketThread extends Thread{
                 myWriter.flush();
             }
         } catch (IOException ex) {
-                Logger.setToErrorLog(ex.getMessage());
+            Logger.setToErrorLog(ex.getMessage());
+        } catch (NullPointerException ex){
+            Logger.setToErrorLog("No server connection found. Please chek the server connection.");
         }
         if(message.length() == 0){
             return "Reciving error";

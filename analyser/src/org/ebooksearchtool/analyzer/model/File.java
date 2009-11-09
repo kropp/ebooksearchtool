@@ -39,6 +39,8 @@ public class File {
         myLink = link;
         mySize = "";
         myType = "";
+        myTimeFound = "";
+        myLastChek = "";
         myMoreInfo = "";
         myImgLink = "";
     }

@@ -1,4 +1,4 @@
-package org.ebooksearchtool.analyzer.network;
+package org.ebooksearchtool.analyzer.network.demon;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,7 +9,6 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.TimeZone;
-import org.ebooksearchtool.analyzer.algorithms.MunseyParser;
 import org.ebooksearchtool.analyzer.io.Logger;
 import org.ebooksearchtool.analyzer.utils.AnalyzerProperties;
 
