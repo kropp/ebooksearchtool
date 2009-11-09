@@ -30,7 +30,7 @@ urlpatterns = patterns('',
     
     #admin
     (r'^admin/(.*)', admin.site.root),
-    (r'^admin/doc/', include('django.contrib.admindocs.urls')),
+#    (r'^admin/doc/', include('django.contrib.admindocs.urls')),
     
     #opensearchdescription
     (r'^opensearch/?$', 'server.views.opensearch_description'),
