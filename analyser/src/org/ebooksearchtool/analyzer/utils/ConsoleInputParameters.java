@@ -68,10 +68,20 @@ public class ConsoleInputParameters {
                 }
                 break;
             }
+            case 'p':{
+                if(args.length > 1){
+                    PropertiesIO.getPropertiesFromFile(args[1]);
+                }
+                String[] arr = new String[1];
+                arr[0] = "-tn";
+                org.ebooksearchtool.analyzer.utils.ConsoleInputParameters.switchMode(arr);
+            }
             default:{}
         }
         }else{
-            System.out.print("Wrong parameters");
+            String[] arr = new String[1];
+            arr[0] = "-tn";
+            org.ebooksearchtool.analyzer.utils.ConsoleInputParameters.switchMode(arr);
         }
     }
 }
