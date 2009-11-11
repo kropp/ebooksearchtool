@@ -39,4 +39,9 @@ public class NetworkSocketIO{
 //            }
 //        }
     }
+
+    public static void createUI(){
+        UIThread ui = new UIThread();
+        ui.start();
+    }
 }

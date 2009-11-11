@@ -13,6 +13,10 @@ import org.xml.sax.SAXException;
 
 public class MunseyParser{
 
+    /**
+     * Parse munsey.xml from file described by input string
+     * @param input file contains munsey.xml
+     */
     public void parse(String input){
         try {
             SAXParserFactory factory1 = SAXParserFactory.newInstance();

@@ -1,7 +1,11 @@
 package org.ebooksearchtool.analyzer.network.demon;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -49,16 +53,21 @@ public class DemonThread extends Thread{
                             address = new URL("http://www.munseys.com/munsey.xml");
                             URLConnection connect = address.openConnection();
 
-                            StringBuilder sb = new StringBuilder();
-                            int currPosition = 0;
-                            int end = connect.getContentLength();
-                            InputStream input = connect.getInputStream();
-                            while (currPosition != -1 && currPosition < end){
-                                sb.append(input.read());
-                                ++currPosition;
-                            }
+//                            OutputStream out = new FileOutputStream(new File("munsey.xml"));
+//                            long i = 0;
+//                            long end = connect.getContentLength();
+//                            if(end < 0){
+//                                throw new IOException("Connection faild");
+//                            }
+//                            Logger.setToLog("Demon file download started: " + address);
+//                            while (i<end){
+//                                int b = connect.getInputStream().read();
+//                                out.write(b);
+//                                i++;
+//                            }
+//                            out.close();
                             MunseyParser parser = new MunseyParser();
-                            parser.parse(sb.toString());
+                            parser.parse("munsey.xml");
                         } catch (IOException ex) {
                             Logger.setToErrorLog(ex.getMessage());
                         }

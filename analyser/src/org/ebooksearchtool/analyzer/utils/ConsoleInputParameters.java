@@ -47,6 +47,7 @@ public class ConsoleInputParameters {
                         NetworkSocketIO.createClient(AnalyzerProperties.getPropertie("serverAddress"),
                                 AnalyzerProperties.getPropertieAsNumber("serverPort"),
                                 AnalyzerProperties.getPropertieAsNumber("serverConnectionTimeout"));
+                        NetworkSocketIO.createUI();
                     }
                 }
                 break;

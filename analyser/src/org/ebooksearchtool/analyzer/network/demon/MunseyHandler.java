@@ -7,6 +7,7 @@ package org.ebooksearchtool.analyzer.network.demon;
 import org.ebooksearchtool.analyzer.algorithms.*;
 import java.util.ArrayList;
 import org.ebooksearchtool.analyzer.algorithms.subalgorithms.FormatExtractor;
+import org.ebooksearchtool.analyzer.algorithms.subalgorithms.LanguageExtractor;
 import org.ebooksearchtool.analyzer.algorithms.subalgorithms.URLsExtractor;
 import org.ebooksearchtool.analyzer.io.Logger;
 import org.xml.sax.helpers.DefaultHandler;
@@ -42,16 +43,23 @@ public class MunseyHandler extends DefaultHandler{
         }
         if(ourLinkElementFlag == true){
             ArrayList<Lexema> temp = Lexema.convertToLexems(new String(ch, start, length).trim());
-            ourBookInfo.addFile(new File(URLsExtractor.extractURL(temp), "",
+            String link = URLsExtractor.extractURL(temp);
+            if(link.length() != 0){
+            ourBookInfo.addFile(new File(link, "",
                     FormatExtractor.extractFormat(temp), "", ""));
+            }
         }
         if(ourAnnotationElementFlag == true){
             ourBookInfo.addAnnotation(new String(ch, start, length).trim());
         }
         if(ourLanguageElementFlag == true){
-            String str = new String(ch, start, length).trim();
-            if(AnalyzeUtils.isLanguage(str)){
-                ourBookInfo.setLanguage(str);
+            ArrayList<Lexema> temp = new ArrayList<Lexema>();
+            temp.add(new Lexema("Language"));
+            temp.addAll(Lexema.convertToLexems(new String(ch, start, length).trim()));
+            String lang = LanguageExtractor.extractLanguage(temp);
+            if(lang.length() != 0){
+            ourBookInfo.addFile(new File(lang, "",
+                    FormatExtractor.extractFormat(temp), "", ""));
             }
         }
     }
@@ -62,6 +70,12 @@ public class MunseyHandler extends DefaultHandler{
     {
         if(qName.equals("row")){
             ourRightElementFlag = false;
+            if(!ourBookInfo.getFiles().isEmpty()){
+                String message = ClientSocketThread.sendRequest(ServerRequests.formBookInfo(ourBookInfo));
+                Logger.setToLog(message);
+                Logger.setToLog("Book Information succsesfully sent to server:" + AnalyzeUtils.bookInfoToString(ourBookInfo));
+                ourBookInfo = new BookInfo();
+            }
         }
         if(qName.equals("field")){
             ourAuthorElementFlag = false;
@@ -73,9 +87,6 @@ public class MunseyHandler extends DefaultHandler{
 //        if(!ourBookInfo.equals(new BookInfo())){
 //
 //        }
-        String message = ClientSocketThread.sendRequest(ServerRequests.formBookInfo(ourBookInfo));
-        Logger.setToLog(message);
-        Logger.setToLog("Book Information succsesfully sent to server:" + AnalyzeUtils.bookInfoToString(ourBookInfo));
     }
     
     @Override

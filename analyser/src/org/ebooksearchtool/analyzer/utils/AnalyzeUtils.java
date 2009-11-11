@@ -69,13 +69,13 @@ public class AnalyzeUtils {
         int length = str.length();
         int index = 0;
         StringBuilder buff = new StringBuilder();
-        StringBuilder pattern = new StringBuilder("-");
+        String pattern = "-";
         for (int i = 0; i < 3; i++) {
             while(index < length && str.charAt(index) != ' ' && str.charAt(index) != '\t' ){
                 buff.append(str.charAt(index));
                 index++;
             }
-            if(!buff.equals(pattern)){
+            if(buff.indexOf(pattern) == -1){
                 lang.addShortDescription(buff.toString());
             }
             buff.delete(0, length);
@@ -84,11 +84,10 @@ public class AnalyzeUtils {
         while(index < length - 1 && str.charAt(index) != ' ' && str.charAt(index) != '\t'){
                 index++;
         }
-        while(index < length - 1 && str.charAt(index) != ' ' && str.charAt(index) != '\t' &&
-                (str.charAt(index + 1) == '+' || isNumber(str.charAt(index + 1)))){
+        while(index < length - 1 && (str.charAt(index) == ' ' || str.charAt(index) == '\t' ||
+                str.charAt(index) == '+' || isNumber(str.charAt(index)))){
                 index++;
         }
-        index++;
         while(str.charAt(index) != ' ' && str.charAt(index) != '\t'){
             buff.append(str.charAt(index));
             index++;
@@ -97,7 +96,9 @@ public class AnalyzeUtils {
                 || buff.toString().equals("Finnish") || buff.toString().equals("Hiri")
                 || buff.toString().equals("Sichuan") || buff.toString().equals("Central")
                 || buff.toString().equals("South")){
-            while(str.charAt(index) != ' '){
+            buff.append(str.charAt(index));
+            index++;
+            while(str.charAt(index) != ' ' && str.charAt(index) != ',' && str.charAt(index) != '\t'){
                 buff.append(str.charAt(index));
                 index++;
             }

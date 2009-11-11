@@ -72,6 +72,8 @@ public class ServerSocketThread extends Thread{
             bw.close();
             mySocket.close();
             myServerSocket.close();
+            //TODO:Переделать выход из Analyzera
+            System.exit(0);
         }
         }catch(IOException ex){
             Logger.getLogger(ServerSocketThread.class.getName()).log(Level.SEVERE, null, ex);

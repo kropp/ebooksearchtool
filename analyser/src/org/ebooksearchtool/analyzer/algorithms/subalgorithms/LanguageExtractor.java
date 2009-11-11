@@ -14,7 +14,7 @@ public class LanguageExtractor {
         int length = lexems.size();
         for (int i = 0; i < length; i++) {
             if(lexems.get(i).getValue().indexOf("Language") != -1){
-                if(i < length -1 && AnalyzeUtils.isLanguage(trim(lexems.get(i+1).getValue()))){
+                if(i < length - 1 && AnalyzeUtils.isLanguage(trim(lexems.get(i+1).getValue()))){
                     return AnalyzeUtils.normalizeLanguage(trim(lexems.get(i+1).getValue()));
                 }
             }
@@ -27,10 +27,7 @@ public class LanguageExtractor {
         while(sb.length() != 0 && sb.indexOf(" ") == 0){
             sb.delete(0, 1);
         }
-        while(sb.length() != 0 && sb.indexOf("<") != (sb.length() - 1)){
-            sb.delete(sb.length() - 1, sb.length());
-        }
-        if(sb.length() != 0){
+        while(sb.length() != 0 && sb.indexOf("<") != -1){
             sb.delete(sb.length() - 1, sb.length());
         }
         

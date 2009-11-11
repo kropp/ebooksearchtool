@@ -55,10 +55,9 @@ public class FormatExtractor {
         while(sb.indexOf("http") != 0){
             sb.delete(0, 1);
         }
-        while(sb.indexOf("\"") != (sb.length() - 1)){
+        while(sb.length() != 0 && sb.indexOf("\"") != -1){
             sb.delete(sb.length() - 1, sb.length());
         }
-        sb.delete(sb.length() - 1, sb.length());
 
         return sb.toString();
     }
