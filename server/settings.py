@@ -107,15 +107,15 @@ INSTALLED_APPS = (
 #    'server.django_authopenid',
 )
 
-try:
-    from local_settings import *
-except Exception:
-	  pass
-
 # path to log file
 LOG_FILENAME = 'main.log'
 
 MAX_LOG_SIZE = 1024*100
 BACKUP_COUNT = 10
 
+
+try:
+    from local_settings import *
+except Exception:
+	  pass
 

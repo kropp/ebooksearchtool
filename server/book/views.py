@@ -1,5 +1,7 @@
-
-import xml.etree.ElementTree as etree
+try:
+    import xml.etree.ElementTree as etree
+except ImportError:
+    import elementtree.ElementTree as etree
 from xml.parsers.expat import ExpatError
 from string import split
 
