@@ -70,10 +70,10 @@
     </div>
 
     
-    <h3 class="fb-blue small-bottom-margin"><a href="/book/id{{ book.id }}">{{ book.title }}</a></h3>
+    <h3 class="fb-blue small-bottom-margin"><a href="book/id{{ book.id }}">{{ book.title }}</a></h3>
     <h4 class="charcoal">by 
       {% for author in book.author_set.all %}
-         <em><a href="/author/id{{ author.id }}" class="gray">{{ author.name }}</a></em>
+         <em><a href="author/id{{ author.id }}" class="gray">{{ author.name }}</a></em>
       {% endfor %}
     </h4>    
     {% for annotation in book.annotation.all %}
