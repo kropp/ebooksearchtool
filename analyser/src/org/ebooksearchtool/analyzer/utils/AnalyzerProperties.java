@@ -18,7 +18,7 @@ public class AnalyzerProperties{
         ourProperties.put("systemSeparator", System.getProperty("line.separator"));
         ourProperties.put("demonRepeatConditionsChekTime", "3600000");
         ourProperties.put("demonHourWhenRefresh", "15");
-        ourProperties.put("serverAddress", "192.168.2.104");
+        ourProperties.put("serverAddress", "localhost");
         ourProperties.put("serverPort", "8000");
         ourProperties.put("crawlerPort", "9999");
         ourProperties.put("serverConnectionTimeout", "1000");

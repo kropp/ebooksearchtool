@@ -53,19 +53,19 @@ public class DemonThread extends Thread{
                             address = new URL("http://www.munseys.com/munsey.xml");
                             URLConnection connect = address.openConnection();
 
-//                            OutputStream out = new FileOutputStream(new File("munsey.xml"));
-//                            long i = 0;
-//                            long end = connect.getContentLength();
-//                            if(end < 0){
-//                                throw new IOException("Connection faild");
-//                            }
-//                            Logger.setToLog("Demon file download started: " + address);
-//                            while (i<end){
-//                                int b = connect.getInputStream().read();
-//                                out.write(b);
-//                                i++;
-//                            }
-//                            out.close();
+                            OutputStream out = new FileOutputStream(new File("munsey.xml"));
+                            long i = 0;
+                            long end = connect.getContentLength();
+                            if(end < 0){
+                                throw new IOException("Connection faild");
+                            }
+                            Logger.setToLog("Demon file download started: " + address);
+                            while (i<end){
+                                int b = connect.getInputStream().read();
+                                out.write(b);
+                                i++;
+                            }
+                            out.close();
                             MunseyParser parser = new MunseyParser();
                             parser.parse("munsey.xml");
                         } catch (IOException ex) {

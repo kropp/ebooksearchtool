@@ -3,6 +3,7 @@ package org.ebooksearchtool.analyzer.network;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Scanner;
 import org.ebooksearchtool.analyzer.io.Logger;
 
 /**
@@ -15,17 +16,16 @@ public class UIThread extends Thread{
 
     @Override
     public synchronized void run(){
-        try {
-            while(true){
-                BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-                String str = br.readLine();
-                if(str.contains("exit")){
+        while(true){
+            String input = "";
+            Scanner scanner = new Scanner(System.in);
+            while (true) {
+                input = scanner.nextLine();
+                if (input.contains("exit")) {
                     Logger.setToLog("Analyzer stoped by user.");
                     System.exit(0);
                 }
             }
-        } catch (IOException ex) {
-            Logger.setToErrorLog(ex.getMessage());
         }
     }
 }
