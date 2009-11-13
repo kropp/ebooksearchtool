@@ -75,11 +75,12 @@ class CrawlerThread extends Thread {
             List<URI> links = HTMLParser.parseLinks(uri, page, maxLinksFromPage);
             if (myStopping) break;
             for (URI link : links) {
-                myAction = "creating similar links to: " + link;
-                Collection<URI> similarLinks = Util.createSimilarLinks(link);
+                myAction = "normalizing link: " + link;
+                link = Util.normalize(link);
                 if (myStopping) break;
+                if (link == null) continue;
                 myAction = "adding the link to the set: " + link;
-                boolean success = visited.addIfNotContains(similarLinks, link);
+                boolean success = visited.addIfNotContains(link);
                 if (success) {
                     myAction = "checking if link is probably a book: " + link;
                     if (Util.isBook(link)) {

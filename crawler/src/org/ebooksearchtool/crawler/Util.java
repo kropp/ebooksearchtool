@@ -20,21 +20,29 @@ public class Util {
         return true;
     }
     
-    public static List<URI> createSimilarLinks(URI uri) {
-        List<URI> answer = new ArrayList<URI>();
-        answer.add(uri);
+    public static URI normalize(URI uri) {
         try {
-            String s = uri.toString();
-            if (s.endsWith("/")) {
-                answer.add(new URI(s.substring(0, s.length() - 1)));
-            } else {
-                answer.add(new URI(s + "/"));
+            String scheme = uri.getScheme();
+            if (!"http".equals(scheme) && !"https".equals(scheme) && !"ftp".equals(scheme)) {
+                return null;
             }
-            //TODO: /index.html, /index.htm, /index.php, #...
+            uri = new URI(scheme, uri.getHost().toLowerCase(), uri.getPath(), uri.getFragment());
+            String s = uri.toString();
+            int x = s.indexOf('#');
+            if (x >= 0) {
+                s = s.substring(0, x);
+                uri = new URI(s);
+            }
+            if (s.endsWith("/")) {
+                uri = new URI(s.substring(0, s.length() - 1));
+            }
+            if (s.indexOf("?PHPSESSID=") >= 0) return null;
+            //TODO: /index.html, /index.htm, /index.php
+            return uri;
         } catch (Exception e) {
             System.err.println(" error: creating similar links to " + uri);
         }
-        return answer;
+        return null;
     }
     
     public static boolean isBook(URI uri) {

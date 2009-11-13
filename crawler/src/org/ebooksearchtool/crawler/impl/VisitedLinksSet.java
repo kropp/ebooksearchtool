@@ -65,17 +65,8 @@ public class VisitedLinksSet extends AbstractVisitedLinksSet {
         return true;
     }
     
-    public boolean contains(Collection<? extends URI> c) {
-        for (URI uri : c) {
-            if (contains(uri)) {
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    public synchronized boolean addIfNotContains(Collection<? extends URI> c, URI uri) {
-        if (contains(c)) {
+    public synchronized boolean addIfNotContains(URI uri) {
+        if (contains(uri)) {
             return false;
         }
         return add(uri);

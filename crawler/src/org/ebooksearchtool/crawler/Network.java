@@ -99,7 +99,7 @@ public class Network {
         try {
             String host = uri.getHost();
             long nextAccess = getNextAccessTime(host);
-            if (nextAccess > Long.MIN_VALUE) {
+            if (nextAccess > Long.MIN_VALUE && threadID != -1) {
                 myCrawler.getCrawlerThread(threadID).setDoNotInterruptInAnyCase(true);
                 while (true) {
                     URI u = myLastAccessBlockingMap.putIfAbsent(host, uri);
