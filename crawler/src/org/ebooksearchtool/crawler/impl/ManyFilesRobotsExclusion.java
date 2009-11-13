@@ -3,6 +3,7 @@ package org.ebooksearchtool.crawler.impl;
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import java.util.regex.*;
 import org.ebooksearchtool.crawler.AbstractRobotsExclusion;
 import org.ebooksearchtool.crawler.Network;
 import org.ebooksearchtool.crawler.Logger;
@@ -10,6 +11,7 @@ import org.ebooksearchtool.crawler.Util;
 
 public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
     
+    public static final File ROBOTS_CACHE_DIR = Util.CACHE_DIR;
     public static final int FILES_NUMBER = 256;
         
     private final Network myNetwork;
@@ -26,14 +28,24 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
         try {
             myCacheFile = new File[FILES_NUMBER];
             int digits = (FILES_NUMBER + "").length();
+            if (!ROBOTS_CACHE_DIR.exists()) {
+                ROBOTS_CACHE_DIR.mkdir();
+            }
+            File[] cacheFiles = ROBOTS_CACHE_DIR.listFiles(new FilenameFilter() {
+                private final Pattern myPattern = Pattern.compile("[0-9]+\\.txt");
+                public boolean accept(File dir, String name) {
+                    return myPattern.matcher(name).matches();
+                }
+            });
+            boolean reCreateAllFiles = cacheFiles.length != FILES_NUMBER;
             for (int i = 0; i < FILES_NUMBER; i++) {
-                myCacheFile[i] = new File(Util.CACHE_DIR + "/" + String.format("%0" + digits + "d", i) + ".txt");
-                if (!myCacheFile[i].exists()) {
+                myCacheFile[i] = new File(ROBOTS_CACHE_DIR + "/" + String.format("%0" + digits + "d", i) + ".txt");
+                if (reCreateAllFiles && !myCacheFile[i].exists()) {
                     new PrintWriter(myCacheFile[i]).close();
                 }
             }
         } catch (Exception e) {
-            myLogger.log(Logger.MessageType.ERRORS, Util.CACHE_DIR + " cannot be initialized");
+            myLogger.log(Logger.MessageType.ERRORS, ROBOTS_CACHE_DIR + " cannot be initialized");
             System.exit(1);
         }
     }

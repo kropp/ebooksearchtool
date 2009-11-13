@@ -1,7 +1,8 @@
 package org.ebooksearchtool.crawler;
 
 import java.net.URI;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import net.htmlparser.jericho.*;
 
 class HTMLParser {
@@ -32,7 +33,7 @@ class HTMLParser {
     }
     
     
-    static List<URI> parseLinks(URI referrer, String page, int maxLinks) {
+    static List<URI> parseLinks(URI referrer, String page) {
         List<URI> answer = new ArrayList<URI>();
         Source source = new Source(page);
         source.setLogger(null);
@@ -47,7 +48,6 @@ class HTMLParser {
                         String href = attributes.getValue("href");
                         if (href != null) {
                             maybeAddLink(answer, referrer, href);
-                            if (answer.size() == maxLinks) return answer;
                         }
                     } else if ("meta".equals(tagName)) {
                         for (Attribute attribute : attributes) {

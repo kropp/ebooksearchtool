@@ -10,7 +10,7 @@ public class Main {
     public static final File DUMP_FILE = new File("dump.txt");
     
     public static final String[][] DEFAULT_PROPERTIES = {
-        {"connection_timeout", "3000"},
+        {"connection_timeout", "5000"},
         {"user_agent", "ebooksearchtool"},
 
         {"analyzer_enabled", "true"},
@@ -23,7 +23,7 @@ public class Main {
 
         {"max_links_count", "0"},
         {"max_links_from_page", "0"},
-        {"max_queue_size", "0"},
+        {"max_queue_size", "1000"},
         {"threads_count", "10"},
         {"thread_timeout_for_link", "20000"},
         {"thread_finish_time", "10000"},

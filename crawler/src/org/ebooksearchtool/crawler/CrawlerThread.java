@@ -1,9 +1,7 @@
 package org.ebooksearchtool.crawler;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
-import org.ebooksearchtool.crawler.impl.*;
+import java.net.URI;
+import java.util.List;
 
 class CrawlerThread extends Thread {
     
@@ -72,9 +70,11 @@ class CrawlerThread extends Thread {
             if (page == null) continue;
             logger.log(Logger.MessageType.CRAWLED_PAGES, String.format("% 4d %d %s %d", myIndex, myCrawler.getCrawledPagesNumber(), uri, page.length()));
             myAction = "getting links out of: " + uri;
-            List<URI> links = HTMLParser.parseLinks(uri, page, maxLinksFromPage);
+            List<URI> links = HTMLParser.parseLinks(uri, page);
+            int canAddMoreLinks = maxLinksFromPage;
             if (myStopping) break;
             for (URI link : links) {
+                if (canAddMoreLinks == 0) break;
                 myAction = "normalizing link: " + link;
                 link = Util.normalize(link);
                 if (myStopping) break;
@@ -95,7 +95,9 @@ class CrawlerThread extends Thread {
                         if (myStopping) break;
                         if (permitted) {
                             myAction = "adding the link to the queue: " + link;
-                            queue.offer(link);
+                            if (queue.offer(link)) {
+                                canAddMoreLinks--;
+                            }
                         }
                     }
                 }

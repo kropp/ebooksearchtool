@@ -1,7 +1,8 @@
 package org.ebooksearchtool.crawler;
 
 import java.io.File;
-import java.net.*;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.*;
 import java.util.*;
 
@@ -14,7 +15,7 @@ public class Util {
     private static DateFormat ourDateFormat = new SimpleDateFormat("dd.MM.yyyy");
     
     public static boolean init() {
-        if (!Util.CACHE_DIR.exists()) {
+        if (!CACHE_DIR.exists()) {
             return CACHE_DIR.mkdir();
         }
         return true;
@@ -22,12 +23,16 @@ public class Util {
     
     public static URI normalize(URI uri) {
         try {
-            String scheme = uri.getScheme();
+            String scheme = uri.getScheme().toLowerCase();
             if (!"http".equals(scheme) && !"https".equals(scheme) && !"ftp".equals(scheme)) {
                 return null;
             }
             uri = new URI(scheme, uri.getHost().toLowerCase(), uri.getPath(), uri.getFragment());
             String s = uri.toString();
+            if (s.length() > 128) {
+                ///TODO: invent something more clever
+                return null;
+            }
             int x = s.indexOf('#');
             if (x >= 0) {
                 s = s.substring(0, x);
@@ -40,7 +45,7 @@ public class Util {
             //TODO: /index.html, /index.htm, /index.php
             return uri;
         } catch (Exception e) {
-            System.err.println(" error: creating similar links to " + uri);
+            System.err.println(" error: normalizing " + uri);
         }
         return null;
     }

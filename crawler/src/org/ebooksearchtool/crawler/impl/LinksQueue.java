@@ -5,40 +5,57 @@ import java.util.*;
 import org.ebooksearchtool.crawler.AbstractLinksQueue;
 
 public class LinksQueue extends AbstractLinksQueue {
-
-    private final Queue<URI> myQueue;
-    private final int myMaxSize;
     
-    private static int ourTimeToWait = 200;
+    private final LinksComparator myLinksComparator = new LinksComparator();
+    private final SortedSet<URI> mySet;
+    private final int myMaxSize;
     
     public LinksQueue(int maxSize) {
         myMaxSize = maxSize;
-        myQueue = new PriorityQueue<URI>(maxSize, new LinksComparator());
+        mySet = new TreeSet<URI>(myLinksComparator);
     }
     
-    public synchronized void offer(URI uri) {
-        if (myQueue.size() < myMaxSize) {
-            myQueue.offer(uri);
+    public synchronized boolean offer(URI uri) {
+        if (mySet.size() < myMaxSize) {
+            mySet.add(uri);
+            notify();
+            return true;
+        } else {
+            URI last = mySet.last();
+            if (myLinksComparator.compare(uri, last) < 0) {
+                mySet.remove(last);
+                mySet.add(uri);
+                notify();
+                return true;
+            }
         }
+        return false;
     }
     
     public synchronized URI poll() {
-        URI uri = myQueue.poll();
-        if (uri == null) {
+        URI uri = null;
+        try {
+            uri = mySet.first();
+        } catch (NoSuchElementException e) {
             try {
-                Thread.sleep(ourTimeToWait);
+                wait();
             } catch (InterruptedException ie) { }
-            uri = myQueue.poll();
+            try {
+                uri = mySet.first();
+            } catch (NoSuchElementException ee) { }
+        }
+        if (uri != null) {
+            mySet.remove(uri);
         }
         return uri;
     }
     
     public boolean isEmpty() {
-        return myQueue.isEmpty();
+        return mySet.isEmpty();
     }
     
     public int size() {
-        return myQueue.size();
+        return mySet.size();
     }
     
 }

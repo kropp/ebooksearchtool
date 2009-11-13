@@ -4,7 +4,7 @@ import java.net.URI;
 
 public abstract class AbstractLinksQueue {
 
-    public abstract void offer(URI s);
+    public abstract boolean offer(URI s);
     
     public abstract URI poll();
     
