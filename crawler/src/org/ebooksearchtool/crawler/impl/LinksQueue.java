@@ -2,36 +2,35 @@ package org.ebooksearchtool.crawler.impl;
 
 import java.net.URI;
 import java.util.*;
-import java.util.concurrent.*;
 import org.ebooksearchtool.crawler.AbstractLinksQueue;
 
 public class LinksQueue extends AbstractLinksQueue {
 
-//    private final BlockingQueue<URI> myQueue = new LinkedBlockingQueue<URI>();
-    private final BlockingQueue<URI> myQueue;
+    private final Queue<URI> myQueue;
     private final int myMaxSize;
     
-    private static int ourTimeToWait = 1000;
+    private static int ourTimeToWait = 200;
     
     public LinksQueue(int maxSize) {
         myMaxSize = maxSize;
-        myQueue = new PriorityBlockingQueue<URI>(maxSize, new LinksComparator());
+        myQueue = new PriorityQueue<URI>(maxSize, new LinksComparator());
     }
     
-    public void offer(URI uri) {
+    public synchronized void offer(URI uri) {
         if (myQueue.size() < myMaxSize) {
-            try {
-                myQueue.put(uri);
-            } catch (InterruptedException e) { }
+            myQueue.offer(uri);
         }
     }
     
-    public URI poll() {
-        try {
-            return myQueue.poll(ourTimeToWait, TimeUnit.MILLISECONDS);
-        } catch (InterruptedException e) {
-            return null;
+    public synchronized URI poll() {
+        URI uri = myQueue.poll();
+        if (uri == null) {
+            try {
+                Thread.sleep(ourTimeToWait);
+            } catch (InterruptedException ie) { }
+            uri = myQueue.poll();
         }
+        return uri;
     }
     
     public boolean isEmpty() {

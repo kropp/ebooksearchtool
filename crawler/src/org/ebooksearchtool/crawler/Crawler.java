@@ -232,14 +232,16 @@ public class Crawler implements Runnable {
             sb.append("  pages crawled = " + myCrawledPagesNumber + "\n");
             sb.append("    books found = " + myFoundBooksNumber + "\n");
             for (int i = 0; i < ourThreadsCount; i++) {
-                sb.append(String.format("%4d  %s\n", i, myThread[i].getAction()));
+                if (myThread[i] != null) {
+                    sb.append(String.format("%4d  %s\n", i, myThread[i].getAction()));
+                }
             }
             System.out.println(sb);
             PrintWriter pw = new PrintWriter(file);
             pw.println(sb);
             pw.close();
             return true;
-        } catch (IOException e) {
+        } catch (Exception e) {
             return false;
         }
     }
