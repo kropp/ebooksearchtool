@@ -118,7 +118,12 @@ public class Window {
             			try {
             				if(e.getSource() != myMoreButton){
             					myTextPan.removeAll();
-            					myController.getQueryAnswer(queryWord, queryOption);
+            					if(!myController.getQueryAnswer(queryWord, queryOption)){
+                                    model.setValue(100);
+                                    myTextPan.add(new JLabel("Connection failed"));
+                                    myProgressBar.setString("");
+                                    return;
+                                }
             					myActionIndex = 1;
             				}else{
             					myController.getNextData();

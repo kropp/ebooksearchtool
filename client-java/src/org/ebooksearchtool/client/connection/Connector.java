@@ -33,7 +33,7 @@ public class Connector{
         mySettings = set;
     }
 
-    public void getFileFromURL(String fileName) {
+    public boolean getFileFromURL(String fileName) {
         
         try {
         	if(!mySettings.isProxyEnabled()){
@@ -63,18 +63,19 @@ public class Connector{
                 }
                 pw1.close();
         	}
+            return true;
         } catch (IOException e) {
             
-            	System.out.println("connection error");
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            return false;
+
         }
 
 
 
     }
     
-public void getBookFromURL(String fileName) {
+public boolean getBookFromURL(String fileName) {
         
         try {
         	if(!mySettings.isProxyEnabled()){
@@ -107,11 +108,13 @@ public void getBookFromURL(String fileName) {
                 }
                 outStream.close();
         	}
+            return true;
             
         } catch (IOException e1) {
-            	System.out.println("connection error");
-                e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            
+
+            e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            return false;
+
         }
         //connection = Url.openConnection(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("192.168.0.2", 3128)));
 

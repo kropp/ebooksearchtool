@@ -46,14 +46,18 @@ public class Controller {
     }
 
 	
-    public void getQueryAnswer(String queryWord, String queryOption) throws IOException, SAXException, ParserConfigurationException {
+    public boolean getQueryAnswer(String queryWord, String queryOption) throws IOException, SAXException, ParserConfigurationException {
         Query query = new Query();
         String adress = query.getQueryAdress(queryWord, queryOption);
         Connector connect = new Connector(mySettings.getServer()+adress, mySettings);
-        connect.getFileFromURL("answer_file.xml");
-        Parser parser = new Parser();
-        SAXHandler handler = new SAXHandler(myBooks);
-        parser.parse("answer_file.xml", handler);
+        if(connect.getFileFromURL("answer_file.xml")){
+            Parser parser = new Parser();
+            SAXHandler handler = new SAXHandler(myBooks);
+            parser.parse("answer_file.xml", handler);
+            return true;
+        }else{
+            return false;
+        }
         
     }
     
@@ -85,11 +89,11 @@ public class Controller {
         pw.close();
     }
     
-    public void getBookFile(int bookIndex) throws IOException{
+    public boolean getBookFile(int bookIndex) throws IOException{
     	
     	Connector connect = new Connector(myBooks.getBooks().get(bookIndex).getPdfLink(), mySettings);
     	
-    	connect.getBookFromURL(myBooks.getBooks().get(bookIndex).getTitle() + ".pdf");
+    	return connect.getBookFromURL(myBooks.getBooks().get(bookIndex).getTitle() + ".pdf");
     	
     }
 
