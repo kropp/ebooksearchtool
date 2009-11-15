@@ -120,7 +120,7 @@ public class Window {
             					myTextPan.removeAll();
             					if(!myController.getQueryAnswer(queryWord, queryOption)){
                                     model.setValue(100);
-                                    myTextPan.add(new JLabel("Connection failed"));
+                                    JOptionPane.showMessageDialog(new JDialog(), "Connection failed", "error", JOptionPane.ERROR_MESSAGE);
                                     myProgressBar.setString("");
                                     return;
                                 }
