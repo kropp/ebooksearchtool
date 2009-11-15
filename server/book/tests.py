@@ -7,7 +7,7 @@ from django.db.models import Q
 
 from book.models import *
 from book.action_handler import *
-from book.get_action import get_by_id, get_author_queryset, get_file_queryset, get_book_queryset, get_q, make_q_from_tag, get_authors_q
+from book.get_action import get_by_id, get_q, make_q_from_tag, get_authors_q
 
 def exception_catcher(f, exception):
     '''Trys to exec f() and except exeption;
