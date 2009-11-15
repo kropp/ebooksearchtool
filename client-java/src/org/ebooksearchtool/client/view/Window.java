@@ -23,9 +23,13 @@ import java.io.IOException;
 public class Window {
     private JFrame myFrame;
     private JPanel myPanel1 = new JPanel();
+    private JPanel myQueryButtonPanel;
     private JPanel myQueryPanel;
+    private JPanel myQueryPlusPanel;
     private JTextField myQueryField;
     private JButton mySearchButton;
+    private JButton myPlusButton;
+    private JLabel mySearchLabel;
     private JMenuItem myNetMenu;
     private JPanel myTextPan;
     private JComboBox myQueryCombo;
@@ -37,6 +41,8 @@ public class Window {
     private JPanel myMorePanel;
     
     private int myActionIndex;
+    private int myPlusAction = 0;
+    private String myAdress;
 
     private Controller myController;
 
@@ -62,9 +68,20 @@ public class Window {
         myPanel1.add(myCentralPanel, "Center");
 
 
-    	myQueryPanel = new JPanel();
-    	myQueryPanel.setLayout(new BoxLayout(myQueryPanel ,BoxLayout.X_AXIS));
+        myQueryPanel = new JPanel();
+        myQueryPanel.setLayout(new BoxLayout(myQueryPanel,BoxLayout.Y_AXIS));
+    	myQueryButtonPanel = new JPanel();
+    	myQueryButtonPanel.setLayout(new BoxLayout(myQueryButtonPanel,BoxLayout.X_AXIS));
+        myQueryPlusPanel = new JPanel();
+        myQueryPlusPanel.setLayout(new BoxLayout(myQueryPlusPanel,BoxLayout.X_AXIS));
+        myQueryPanel.add(myQueryButtonPanel);
+        myQueryPanel.add(myQueryPlusPanel);
     	myCentralPanel.add(myQueryPanel, "North");
+
+        myPlusButton = new JButton("+");
+        mySearchLabel = new JLabel();
+        myQueryPlusPanel.add(myPlusButton);
+        myQueryPlusPanel.add(mySearchLabel);
 
         myToolBar = new JToolBar();
         myToolBar.add(new JButton(new ImageIcon(getClass().getResource("/ico/library_30.gif"))));
@@ -72,13 +89,13 @@ public class Window {
 
     	myQueryField = new JTextField();
     	myQueryField.setSize(40, 10);
-    	myQueryPanel.add(myQueryField);
+    	myQueryButtonPanel.add(myQueryField);
         String[] query = new String[] { "General", "Author", "Title" };
         myQueryCombo = new JComboBox(query);
-        myQueryPanel.add(myQueryCombo);
+        myQueryButtonPanel.add(myQueryCombo);
     	mySearchButton = new JButton();
     	mySearchButton.setText("SEARCH");
-    	myQueryPanel.add(mySearchButton);
+    	myQueryButtonPanel.add(mySearchButton);
     	myTextPan = new JPanel();
     	BoxLayout box = new BoxLayout(myTextPan, BoxLayout.Y_AXIS);
     	myTextPan.setLayout(box);
@@ -96,8 +113,11 @@ public class Window {
         myProgressBar = new JProgressBar(model);
         myProgressBar.setStringPainted(true);
         myPanel1.add(myProgressBar, "South");
+        /*
+        myPlusButton.addActionListener(new ActionListener() {
 
-        
+            public void actionPerformed(ActionEvent e) {
+          */
         
         ActionListener act = new ActionListener() {
             public void actionPerformed(final ActionEvent e) {

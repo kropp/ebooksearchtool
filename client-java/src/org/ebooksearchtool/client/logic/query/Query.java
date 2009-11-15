@@ -24,4 +24,16 @@ public class Query {
 
 	}
 
+    public String addQueryAdress(String queryWord, String queryOption, String adress){
+
+        if(queryOption.equals("General")){
+            return adress + "+" + queryWord;
+        }else if(queryOption.equals("Author")){
+            return adress + "+author:" + queryWord;
+        }else{
+            return adress + "+title:" + queryWord;
+        }
+
+    }
+
 }
