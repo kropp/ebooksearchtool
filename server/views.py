@@ -97,7 +97,7 @@ def all_books_request_to_server(request, type):
     
     try:
         page = int(request.GET['page'])
-        start_index = items_per_page * page
+        start_index = items_per_page * (page - 1)
     except KeyError:
         page = 1
         start_index = 0
