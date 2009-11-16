@@ -17,7 +17,7 @@ def search_request_to_server(request, type):
     
     try:
         page = int(request.GET['page'])
-        start_index = items_per_page * page
+        start_index = items_per_page * (page - 1)
     except KeyError:
         page = 1
         start_index = 0
@@ -41,8 +41,8 @@ def search_request_to_server(request, type):
     except KeyError:
         title = None        
 
-    print title
-
+#    print request.path
+#    print request.META['QUERY_STRING']
     try:
     # search in author.name, alias
         author = request.GET['author']

@@ -99,8 +99,7 @@
     {% else %}
         {% if query %}
             <a href="search?page={{ind}};items_per_page={{items_per_page}};query={{ query }}" rel="next">{{ind}}</a>
-        {% else %}
-        
+        {% else %}        
             {% if author and title %}
                 <a href="search?page={{ind}};items_per_page={{items_per_page}};author={{ author }};title={{ title }}" rel="next">{{ind}}</a>
             {% else %}
