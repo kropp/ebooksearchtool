@@ -81,9 +81,15 @@ public class BookPanel {
         myButtonPanel.add(myLibButton);
         myDownloadEpubButton = new JButton(new ImageIcon(getClass().getResource("/ico/epub_30.gif")));
         myDownloadEpubButton.setPreferredSize(new Dimension(30, 30));
+        if(myBook.getEpubLink() == null){
+        	myDownloadEpubButton.setEnabled(false);
+        }
         myButtonPanel.add(myDownloadEpubButton);
         myDownloadPdfButton = new JButton(new ImageIcon(getClass().getResource("/ico/pdf_30.gif")));
         myDownloadPdfButton.setPreferredSize(new Dimension(30, 30));
+        if(myBook.getPdfLink() == null){
+        	myDownloadPdfButton.setEnabled(false);
+        }
         myButtonPanel.add(myDownloadPdfButton);
 
         myInfoPanel = new Box(BoxLayout.Y_AXIS);

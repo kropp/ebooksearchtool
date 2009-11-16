@@ -51,12 +51,9 @@ public class Controller {
         
         Connector connect = new Connector(mySettings.getServer() + adress, mySettings);
         if(connect.getFileFromURL("answer_file.xml")){
-        	System.out.println("c1");
             Parser parser = new Parser();
             SAXHandler handler = new SAXHandler(myBooks);
-            System.out.println("c2");
             parser.parse("answer_file.xml", handler);
-            System.out.println("c3");
             return true;
         }else{
             return false;

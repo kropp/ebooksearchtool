@@ -175,17 +175,11 @@ public class Window {
             		public void run() {
             			model.setValue(0);
             			myProgressBar.setString("Sending request... 0%");
-            			System.out.println("1");
-            		
-            			
-            			System.out.println("2");
             			model.setValue(5);
             			
-            			System.out.println("3");
             			model.setValue(8);
             			myProgressBar.setString("Recieving data... 5%");
             			int lastNumber = myController.getData().getBooks().size();
-            			System.out.println("4");
             			String prevPage = myController.getData().getNextPage();
             			try {
             				if(e.getSource() != myMoreButton){
@@ -197,7 +191,6 @@ public class Window {
                                     myProgressBar.setString("");
                                     return;
                                 }
-            					System.out.println("5");
             					myActionIndex = 1;
             				}else{
             					myController.getNextData();
