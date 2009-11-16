@@ -26,6 +26,7 @@ urlpatterns = patterns('',
     
     #all books
     (r'^books.atom/all/?$', 'server.views.all_books_request_to_server', {'type': 'atom',}),
+    (r'^books/all/?$', 'server.views.all_books_request_to_server', {'type': 'xhtml',}),
     
     #admin
     (r'^admin/(.*)', admin.site.root),

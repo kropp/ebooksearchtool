@@ -102,7 +102,7 @@ def all_books_request_to_server(request, type):
     q = Q()
     query = "All books"
     author = None
-    title = ""
+    title = None
 
     books = Book.objects.all()
     
