@@ -14,6 +14,8 @@ urlpatterns = patterns('',
     (r'^data/get/?$', data_modify, {'action': ACTION['get'],}),
     (r'^data/insert/?$', data_modify, {'action': ACTION['insert'],}),
 
+###    (r'^data
+
     # interface for search
     (r'^search.atom/?$', 'server.views.search_request_to_server', {'type': 'atom',}),
     (r'^search/?$', 'server.views.search_request_to_server', {'type': 'xhtml',}),

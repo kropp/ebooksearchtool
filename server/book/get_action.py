@@ -45,7 +45,9 @@ def make_q_from_tag(node, object_name, default_search_type=''):
         object_name = object_name + '__id'
     else:
         search_type = node.get('type', default_search_type)
-        arg_search = node.text.strip()
+        arg_search = ''
+        if node.text:
+            arg_search = node.text.strip()
     return get_q(object_name, arg_search, search_type)
 
 
@@ -65,19 +67,19 @@ def get_files_q(node):
     '''Makes Q object for files in node'''
     q_obj = Q()
     for file_node in node.getchildren():
-        q_obj_file = make_q_from_tag(file_node, 'book_file')
-        # if not Q by id
-        if not q_obj_file.children:
+        if file_node.get('id', 0):
+            q_obj = q_obj & Q(book_file__id=file_node.get('id'))
+        else:
+            # if not Q by id
             for det_node in file_node.getchildren():
                 if det_node.tag == 'link':
-                    q_obj_file = q_obj_file & make_q_from_tag(det_node,
-                                                              'book_file__link')
+                    q_obj = q_obj \
+                          & make_q_from_tag(det_node, 'book_file__link', '')
                 
                 if det_node.tag == 'size':
-                    q_obj_file = q_obj_file & make_q_from_tag(det_node,
-                                                              'book_file__size')
+                    q_obj = q_obj \
+                          & make_q_from_tag(det_node, 'book_file__size', '') 
 
-        q_obj = q_obj & q_obj_file
     return q_obj
 
 
@@ -117,6 +119,7 @@ def get_q_from_xml(xml):
         elif node.tag == 'files':
             q_obj = q_obj & get_files_q(node)
     
+    return Book.filter(q_obj)
 
 
 

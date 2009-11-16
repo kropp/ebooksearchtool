@@ -24,7 +24,7 @@ def books_to_response(books):
 
 def data_modify(request, action):
     '''Gets inf from POST, sends to action handler, builds response'''
-
+    print "+++ data modify +++"
     dict = {}
 
     try:
@@ -55,12 +55,14 @@ def data_modify(request, action):
             
 
     except ServerException, ex:
+        print ex
         dict['error'] = ex.__doc__
         dict['class'] = ex.__class__
         dict['message'] = ex.message
-#    except Exception, ex:
-#     #   dict['error'] = 'Unknown error: ' + ex.__doc__
-#        dict['class'] = ex.__class__
-#        dict['message'] = ex.message
+    except Exception, ex:
+        print ex
+     #   dict['error'] = 'Unknown error: ' + ex.__doc__
+        dict['class'] = ex.__class__
+        dict['message'] = ex.message
         
     return render_to_response('data/main_response.xml', Context(dict))

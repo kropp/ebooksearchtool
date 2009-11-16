@@ -92,7 +92,11 @@ def xml_exec_insert_unsafe(xml):
                 files.append(file)
 
         if node.tag == 'annotation':
-            annotations = Annotation.objects.get_or_create(name=node.text)
+            annotation_text = node.text.strip()
+            if annotation_text:
+                print '------annotation: ', annotation_text
+                annotation = Annotation.objects.get_or_create(name=annotation_text)[0]
+                annotations.append(annotation)
         
     found_book = Book.objects.filter(title=book.title, lang=book.lang)
     for author in authors:
@@ -118,6 +122,7 @@ def xml_exec_insert_unsafe(xml):
         book.book_file.add(file)
 
     for annotation in annotations:
+        print "add annotation to db"
         book.annotation.add(annotation)
 
     book.save()
@@ -129,6 +134,7 @@ def xml_exec_insert_unsafe(xml):
 @transaction.commit_manually
 def xml_exec_insert(xml):
     "Executes xml-request"
+    print "Start transaction"
     try:
         result = xml_exec_insert_unsafe(xml)
     except:
