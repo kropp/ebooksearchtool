@@ -1,9 +1,7 @@
 package org.ebooksearchtool.analyzer.network.demon;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URL;
@@ -49,28 +47,28 @@ public class DemonThread extends Thread{
                                 Logger.setToErrorLog(ex.getMessage());
                             }
                         }
-                        try {
-                            address = new URL("http://www.munseys.com/munsey.xml");
-                            URLConnection connect = address.openConnection();
-
-                            OutputStream out = new FileOutputStream(new File("munsey.xml"));
-                            long i = 0;
-                            long end = connect.getContentLength();
-                            if(end < 0){
-                                throw new IOException("Connection faild");
-                            }
-                            Logger.setToLog("Demon file download started: " + address);
-                            while (i<end){
-                                int b = connect.getInputStream().read();
-                                out.write(b);
-                                i++;
-                            }
-                            out.close();
+                        //try {
+//                            address = new URL("http://www.munseys.com/munsey.xml");
+//                            URLConnection connect = address.openConnection();
+//
+//                            OutputStream out = new FileOutputStream(new File("munsey.xml"));
+//                            long i = 0;
+//                            long end = connect.getContentLength();
+//                            if(end < 0){
+//                                throw new IOException("Connection faild");
+//                            }
+//                            Logger.setToLog("Demon file download started: " + address);
+//                            while (i<end){
+//                                int b = connect.getInputStream().read();
+//                                out.write(b);
+//                                i++;
+//                            }
+//                            out.close();
                             MunseyParser parser = new MunseyParser();
                             parser.parse("munsey.xml");
-                        } catch (IOException ex) {
-                            Logger.setToErrorLog(ex.getMessage());
-                        }
+//                        } catch (IOException ex) {
+//                            Logger.setToErrorLog(ex.getMessage());
+//                        }
                     }else{
                         while(calendar.get(Calendar.HOUR_OF_DAY) > 1){
                             try {

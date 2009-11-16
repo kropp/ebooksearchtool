@@ -32,7 +32,7 @@ public class BookInfo {
         //myFiles.add(new File());
         myLanguage = "";
         myAnnotations = new ArrayList<String>();
-        myAnnotations.add("");
+        //myAnnotations.add("");
     }
 
     public BookInfo(List<Author> authors, String title, List<File> files,
@@ -53,7 +53,7 @@ public class BookInfo {
         //myFiles.add(new File());
         myLanguage = "";
         myAnnotations = new ArrayList<String>();
-        myAnnotations.add("");
+        //myAnnotations.add("");
     }
 
     // <editor-fold defaultstate="collapsed" desc="Get and Set methods">
@@ -156,7 +156,7 @@ public class BookInfo {
         if(!myLanguage.equals("")){
             str.append(writeLanguage());
         }
-        if(!myAuthors.isEmpty() && !myAuthors.get(0).equals("")){
+        if(!myAuthors.isEmpty() && !myAuthors.get(0).getName().equals("")){
             str.append(writeAuthors());
         }
         if(!myFiles.isEmpty()){

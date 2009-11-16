@@ -23,10 +23,10 @@ public class ServerSocketThread extends Thread{
     public ServerSocketThread(ServerSocket sSocket){
         myServerSocket = sSocket;
         myThreads = new ArrayList<AnalyzerThread>();
-        for (int i = 0; i < Integer.parseInt(AnalyzerProperties.getPropertie("numberOfAnalyzerThreads")); i++) {
+        for (int i = 0; i < AnalyzerProperties.getPropertieAsNumber("numberOfAnalyzerThreads"); i++) {
             myThreads.add(new AnalyzerThread());
         }
-        for (int i = 0; i < Integer.parseInt(AnalyzerProperties.getPropertie("numberOfAnalyzerThreads")); i++) {
+        for (int i = 0; i < AnalyzerProperties.getPropertieAsNumber("numberOfAnalyzerThreads"); i++) {
             myThreads.get(i).start();
         }
     }
