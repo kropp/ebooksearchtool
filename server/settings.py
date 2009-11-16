@@ -1,4 +1,5 @@
 # Django settings for server project.
+import os.path
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -84,8 +85,10 @@ CACHE_MIDDLEWARE_KEY_PREFIX = ''
 ROOT_URLCONF = 'server.urls'
 
 TEMPLATE_DIRS = (
-    'ebooks/templates',
-    'templates',
+#    'ebooks/templates',
+#    'templates',
+    os.path.join(os.path.dirname(__file__), 'templates').replace('\\','/'),
+
     '/home/geometer/ebooksearch/server/templates',
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
