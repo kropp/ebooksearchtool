@@ -58,8 +58,7 @@ public class MunseyHandler extends DefaultHandler{
             temp.addAll(Lexema.convertToLexems(new String(ch, start, length).trim()));
             String lang = LanguageExtractor.extractLanguage(temp);
             if(lang.length() != 0){
-            ourBookInfo.addFile(new File(lang, "",
-                    FormatExtractor.extractFormat(temp), "", ""));
+            ourBookInfo.setLanguage(lang);
             }
         }
     }

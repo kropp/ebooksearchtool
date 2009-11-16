@@ -50,7 +50,7 @@ public class ServerRequests {
 
     private static String format(String message){
         StringBuilder str = new StringBuilder();
-        str.append("POST " + "/data/insert " + "HTTP/1.0");
+        str.append("POST " + "/ebooks/data/insert " + "HTTP/1.0");
         str.append(AnalyzerProperties.getPropertie("systemSeparator"));
         str.append("Host: " + AnalyzerProperties.getPropertie("serverAddress") +
                 ":" + AnalyzerProperties.getPropertie("serverPort"));

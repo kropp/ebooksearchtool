@@ -33,8 +33,8 @@ public class WholeParser implements IParser{
         myBookInfo.setTitle(TitleExtractor.extractTitle(temp));
         //Конец гарантий
 
-        reqBook = BookInfo.getBookInfoFromRequest(
-                ClientSocketThread.sendRequest(ServerRequests.formBookInfoRequest(myBookInfo)));
+//        reqBook = BookInfo.getBookInfoFromRequest(
+//                ClientSocketThread.sendRequest(ServerRequests.formBookInfoRequest(myBookInfo)));
 
         if(reqBook == null){
             return myBookInfo;

@@ -10,13 +10,15 @@ import org.ebooksearchtool.analyzer.io.Logger;
 
 public class NetworkSocketIO{
 
+    //TODO:Подумать над завершением программы при exception
     public static void createServer(String address, int socketNumber){
        try {
             ServerSocket socket = new ServerSocket(socketNumber);
             ServerSocketThread server = new ServerSocketThread(socket);
             server.start();
         } catch (IOException ex) {
-            Logger.setToErrorLog(ex.getMessage());
+            Logger.setToErrorLog(ex.getMessage() + " " + address + ":" + socketNumber);
+            System.exit(0);
         }
     }
 
@@ -28,9 +30,11 @@ public class NetworkSocketIO{
                 ClientSocketThread client = new ClientSocketThread(socket);
                 client.start();
             } catch (UnknownHostException ex) {
-                Logger.setToErrorLog(ex.getMessage());
+                Logger.setToErrorLog(ex.getMessage() + " " + address + ":" + socketNumber);
+                System.exit(0);
             } catch (IOException ex) {
-                Logger.setToErrorLog(ex.getMessage());
+                Logger.setToErrorLog(ex.getMessage() + " " + address + ":" + socketNumber);
+                System.exit(0);
             }
 //            try {
 //                timeout.wait(timeToWait);

@@ -39,7 +39,7 @@ public class DemonThread extends Thread{
             while(true){
                 try{
                     if(!myTodayUpdateFlag){
-                        while(calendar.get(Calendar.HOUR_OF_DAY) >
+                        while(calendar.get(Calendar.HOUR_OF_DAY) <
                                 AnalyzerProperties.getPropertieAsNumber("demonHourWhenRefresh")){
                             try {
                                 waiter.wait(AnalyzerProperties.getPropertieAsNumber("demonRepeatConditionsChekTime"));
@@ -47,7 +47,8 @@ public class DemonThread extends Thread{
                                 Logger.setToErrorLog(ex.getMessage());
                             }
                         }
-                        //try {
+                        //TODO:Сейчас работает с локальным файлом, в итоге должен скачивать его. Доделать удаление фала, если он не докачан
+//                        try {
 //                            address = new URL("http://www.munseys.com/munsey.xml");
 //                            URLConnection connect = address.openConnection();
 //
@@ -68,6 +69,10 @@ public class DemonThread extends Thread{
                             parser.parse("munsey.xml");
 //                        } catch (IOException ex) {
 //                            Logger.setToErrorLog(ex.getMessage());
+//                        }finally{
+//                            if(out != null){
+//                                out.close();
+//                            }
 //                        }
                     }else{
                         while(calendar.get(Calendar.HOUR_OF_DAY) > 1){

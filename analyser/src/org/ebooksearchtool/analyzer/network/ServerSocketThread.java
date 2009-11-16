@@ -77,6 +77,7 @@ public class ServerSocketThread extends Thread{
         }
         }catch(IOException ex){
             Logger.getLogger(ServerSocketThread.class.getName()).log(Level.SEVERE, null, ex);
+            System.exit(0);
         }
     }
 }
