@@ -30,7 +30,7 @@
         {% endif %}
     {% endif %}
     
-    <link type="application/opensearchdescription+xml" rel="search" title="Open Search Description" href="/opensearch.xml"/>
+    <link type="application/opensearchdescription+xml" rel="search" title="Open Search Description" href="/opensearch"/>
 
     
     <title>Search results for: 
@@ -86,8 +86,10 @@
 
         <link type="application/atom+xml;type=entry" rel="alternate" title="Full entry" href="book.atom/id{{ book.id }}"/>
         {% for book_file in book.book_file.all %}
-            <link type="{{ book_file.type }}" href="{{ book_file.link }}" />
-            <link type="image/png" rel="http://opds-spec.org/cover" href="{{book_file.img_link}}"/>
+            <link type="application/{{ book_file.type }}" href="{{ book_file.link }}" />
+            {%if book_file.img_link%}
+                <link type="image/png" rel="http://opds-spec.org/cover" href="{{book_file.img_link}}"/>
+            {%endif%}                
         {% endfor %}  
        
     </entry>

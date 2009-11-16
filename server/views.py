@@ -57,12 +57,13 @@ def search_request_to_server(request, type):
         books = Book.objects.none()
         
     total = books.count()
+    seq = range(1, total/items_per_page+2)
     
     if type == "atom":
         return render_to_response('book/opds/client_response_search.xml', {'books': books[start_index:start_index+items_per_page], 'query': query, 'title': title, 'author':author, 'server':SERVER_URL, 'items_per_page':items_per_page, 'total':total, 'next':next, 'curr': next - 1 })
         
     if type == "xhtml":
-        return render_to_response('book/xhtml/client_response_search.xml', {'books': books[start_index:start_index+items_per_page], 'query': query, 'title': title, 'author':author, 'server':SERVER_URL, 'items_per_page':items_per_page, 'total':total, 'next':next, 'curr': next - 1 })
+        return render_to_response('book/xhtml/client_response_search.xml', {'books': books[start_index:start_index+items_per_page], 'query': query, 'title': title, 'author':author, 'server':SERVER_URL, 'items_per_page':items_per_page, 'total':total, 'next':next, 'curr': next - 1, 'seq':seq, })
 
 def book_request_to_server(request, book_id, type):
     try:
@@ -105,14 +106,16 @@ def all_books_request_to_server(request, type):
     query = None
     author = None
     title = None
-
+    
     books = Book.objects.all()
     
     total = books.count()
+    
+    seq = range(1, total/items_per_page+1)
     
     if type == "atom":
         return render_to_response('book/opds/client_response_search.xml', {'books': books[start_index:start_index+items_per_page], 'query': query, 'title': title, 'author':author, 'server':SERVER_URL, 'items_per_page':items_per_page, 'total':total, 'next':next, 'curr': next - 1 })
         
     if type == "xhtml":
-        return render_to_response('book/xhtml/client_response_search.xml', {'books': books[start_index:start_index+items_per_page], 'query': query, 'title': title, 'author':author, 'server':SERVER_URL, 'items_per_page':items_per_page, 'total':total, 'next':next, 'curr': next - 1 })
+        return render_to_response('book/xhtml/client_response_search.xml', {'books': books[start_index:start_index+items_per_page], 'query': query, 'title': title, 'author':author, 'server':SERVER_URL, 'items_per_page':items_per_page, 'total':total, 'next':next, 'curr': next - 1, 'seq':seq, })
 
