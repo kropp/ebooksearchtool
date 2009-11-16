@@ -25,8 +25,8 @@ urlpatterns = patterns('',
     (r'^author/id(\d{1,})/?$', 'server.views.author_request_to_server', {'type': 'xhtml',}),
     
     #all books
-    (r'^books.atom/all/?$', 'server.views.all_books_request_to_server', {'type': 'atom',}),
-    (r'^books/all/?$', 'server.views.all_books_request_to_server', {'type': 'xhtml',}),
+    (r'^all.atom/?$', 'server.views.all_books_request_to_server', {'type': 'atom',}),
+    (r'^all/?$', 'server.views.all_books_request_to_server', {'type': 'xhtml',}),
     
     #admin
     (r'^admin/(.*)', admin.site.root),
