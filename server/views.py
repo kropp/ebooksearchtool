@@ -41,6 +41,8 @@ def search_request_to_server(request, type):
     except KeyError:
         title = None        
 
+    print title
+
     try:
     # search in author.name, alias
         author = request.GET['author']
@@ -57,10 +59,10 @@ def search_request_to_server(request, type):
     total = books.count()
     
     if type == "atom":
-        return render_to_response('book/opds/client_response_search.xml', {'books': books, 'query': query, 'title': title, 'author':author, 'server':SERVER_URL, 'items_per_page':items_per_page, 'total':total, 'next':next, 'start_index': start_index })
+        return render_to_response('book/opds/client_response_search.xml', {'books': books[start_index:start_index+items_per_page], 'query': query, 'title': title, 'author':author, 'server':SERVER_URL, 'items_per_page':items_per_page, 'total':total, 'next':next, 'curr': next - 1 })
         
     if type == "xhtml":
-        return render_to_response('book/xhtml/client_response_search.xml', {'books': books, 'query': query, 'title': title, 'author':author, 'server':SERVER_URL, 'items_per_page':items_per_page, 'total':total, 'next':next, 'start_index': start_index })
+        return render_to_response('book/xhtml/client_response_search.xml', {'books': books[start_index:start_index+items_per_page], 'query': query, 'title': title, 'author':author, 'server':SERVER_URL, 'items_per_page':items_per_page, 'total':total, 'next':next, 'curr': next - 1 })
 
 def book_request_to_server(request, book_id, type):
     try:
@@ -100,7 +102,7 @@ def all_books_request_to_server(request, type):
         start_index = 0
     next = page + 1
     q = Q()
-    query = "All books"
+    query = None
     author = None
     title = None
 
@@ -109,8 +111,8 @@ def all_books_request_to_server(request, type):
     total = books.count()
     
     if type == "atom":
-        return render_to_response('book/opds/client_response_search.xml', {'books': books, 'query': query, 'title': title, 'author':author, 'server':SERVER_URL, 'items_per_page':items_per_page, 'total':total, 'next':next, 'start_index': start_index })
+        return render_to_response('book/opds/client_response_search.xml', {'books': books[start_index:start_index+items_per_page], 'query': query, 'title': title, 'author':author, 'server':SERVER_URL, 'items_per_page':items_per_page, 'total':total, 'next':next, 'curr': next - 1 })
         
     if type == "xhtml":
-        return render_to_response('book/xhtml/client_response_search.xml', {'books': books, 'query': query, 'title': title, 'author':author, 'server':SERVER_URL, 'items_per_page':items_per_page, 'total':total, 'next':next, 'start_index': start_index })
+        return render_to_response('book/xhtml/client_response_search.xml', {'books': books[start_index:start_index+items_per_page], 'query': query, 'title': title, 'author':author, 'server':SERVER_URL, 'items_per_page':items_per_page, 'total':total, 'next':next, 'curr': next - 1 })
 

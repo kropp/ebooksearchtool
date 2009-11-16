@@ -91,6 +91,10 @@
     <link href="{{ server }}/books/search.atom?items_per_page={{items_per_page}};query={{ query }}" rel="self"></link>
     <link rel="next" href="{{ server }}/books/search.atom?page={{next}};items_per_page={{items_per_page}};query={{ query }}"/>
 -->    
+
+<div class="pagination"><span class="disabled prev_page">&lsaquo;&lsaquo;</span> <span class="current">1</span> <a href="search?page={{next}};items_per_page={{items_per_page}}" rel="next">2</a></div>
+
+
 </body>
 </html>
 
