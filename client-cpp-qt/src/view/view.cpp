@@ -9,15 +9,15 @@ View::View(QWidget* parent, Data* data) : QWidget(parent), myData(data) {
 
 void View::setData(Data* data) {
     myData = data;
-	repaint();
 }
 
 void View::update() {
 // рисуем те книги, которые добавились в модель
+    clear();
     if (myData != 0) {
         makeHeader();
         size_t size = myData->getSize();
-        for (size_t i = myBooksLayout->count(); i < size; ++i) {
+        for (size_t i = 0; i < size; ++i) {
             BookWidget* widget = new BookWidget(this, myData->getBook(i));
             myBooksLayout->addWidget(widget);
             widget->show();
@@ -25,12 +25,21 @@ void View::update() {
     }
 }
 
-void View::repaint() {
-//remove all Widgets from layout
-    const int count = myBooksLayout->count();
+void View::clear() {
+// remove all widgets from layout
+    const size_t count = myBooksLayout->count();
     for (size_t i = 0; i < count; ++i) {
-        myBooksLayout->removeItem(myBooksLayout->itemAt(0));    
+        myBooksLayout->removeWidget((BookWidget*)myBooksLayout->itemAt(0));    
     }    
+}
+
+//void View::display() const {
+
+//}
+
+
+/*void View::repaint() {
+//remove all Widgets from layout
 //add new Widgets
     if (myData != 0) {
         size_t size = myData->getSize();
@@ -40,7 +49,7 @@ void View::repaint() {
             widget->show();
         }
     }
-}
+}*/
 
 void View::makeHeader() const {
     //QHBoxLayout* upLayout = new QHBoxLayout();

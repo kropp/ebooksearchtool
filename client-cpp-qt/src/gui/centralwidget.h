@@ -13,9 +13,9 @@ class QHttpResponseHeader;
 class QLabel;
 class QLineEdit;
 class QTextEdit;
-class QProgressDialog;
+//class QProgressDialog;
 class QPushButton;
-class QAuthenticator;
+//class QAuthenticator;
 
 
 class CentralWidget : public QWidget {
