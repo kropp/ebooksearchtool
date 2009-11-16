@@ -29,6 +29,7 @@ public class Connector{
     Settings mySettings;
 
     public Connector(String adress, Settings set) throws IOException {
+    	System.out.println(adress);
         Url = new URL(adress);
         mySettings = set;
     }
@@ -37,6 +38,7 @@ public class Connector{
         
         try {
         	if(!mySettings.isProxyEnabled()){
+        		System.out.println(Url);
                 connection = Url.openConnection();
                 PrintWriter pw1 = new PrintWriter(new OutputStreamWriter(new FileOutputStream(fileName), "utf-8"));
                 int i = 0;
@@ -51,16 +53,21 @@ public class Connector{
                 }
                 pw1.close();
         	}else{
+        		System.out.println(Url.getFile());
                 connection = Url.openConnection(new Proxy(Proxy.Type.HTTP, new InetSocketAddress(mySettings.getIP(), mySettings.getPort())));
+                System.out.println("con1");
                 PrintWriter pw1 = new PrintWriter(new OutputStreamWriter(new FileOutputStream(fileName), "utf-8"));
                 
                 int i = 0;
-                while (i != connection.getContentLength() )
+                System.out.println(connection.getContentLength());
+                while (i != -1 )
                 {
-                    pw1.print((char)connection.getInputStream().read());
-                    ++i;
+                	i = connection.getInputStream().read();
+                    pw1.print((char)i);
                     
+                    System.out.println(i);
                 }
+                System.out.println("con2");
                 pw1.close();
         	}
             return true;

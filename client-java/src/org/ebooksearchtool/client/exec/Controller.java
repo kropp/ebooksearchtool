@@ -48,13 +48,16 @@ public class Controller {
 
 	
     public boolean getQueryAnswer(String queryWord, String queryOption) throws IOException, SAXException, ParserConfigurationException {
-        Query query = new Query();
+        Query query = new Query(mySettings);
         String adress = query.getQueryAdress(queryWord, queryOption);
-        Connector connect = new Connector(mySettings.getServer()+adress, mySettings);
+        Connector connect = new Connector(mySettings.getServer() + adress, mySettings);
         if(connect.getFileFromURL("answer_file.xml")){
+        	System.out.println("c1");
             Parser parser = new Parser();
             SAXHandler handler = new SAXHandler(myBooks);
+            System.out.println("c2");
             parser.parse("answer_file.xml", handler);
+            System.out.println("c3");
             return true;
         }else{
             return false;

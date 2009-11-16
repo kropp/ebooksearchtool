@@ -91,7 +91,7 @@ public class SAXHandler extends DefaultHandler{
     {
     	
     	if (myIsTotalTag){
-    		myData.setTotalBooksNumber(Integer.parseInt(new String(ch, start, length)));
+    		myData.setTotalBooksNumber(Integer.parseInt((new String(ch, start, length)).trim()));
     	}
     	
         if (myIsEntryTag){

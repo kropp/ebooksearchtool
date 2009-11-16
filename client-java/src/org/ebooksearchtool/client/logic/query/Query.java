@@ -2,25 +2,37 @@ package org.ebooksearchtool.client.logic.query;
 
 import java.io.IOException;
 
+import org.ebooksearchtool.client.model.Settings;
+
 public class Query {
 	
-	String userQuery;
+	Settings mySettings;
 	
-	public Query(){
+	public Query(Settings sets){
 		
-		userQuery = "Tolstoy";
+		mySettings = sets;
 		
 	}
 	
 	public String getQueryAdress(String queryWord, String queryOption)  throws IOException{
 
-        if(queryOption.equals("General")){
-            return "/books/search.atom?query="/*"http://192.168.2.104:8001/books/search.atom/query="*/ + queryWord;
-        }else if(queryOption.equals("Author")){
-            return "/books/search.atom?query=author:" + queryWord;
-        }else{
-            return "/books/search.atom?query=title:" + queryWord;
-        }
+		if(mySettings.getServer().equals("http://feedbooks.com")){
+			if(queryOption.equals("General")){
+				return "/books/search.atom?query=" + queryWord;
+			}else if(queryOption.equals("Author")){
+				return "/books/search.atom?query=author:" + queryWord;
+			}else{
+				return "/books/search.atom?query=title:" + queryWord;
+			}
+		}else{
+			if(queryOption.equals("General")){
+				return "/ebooks/search.atom?query=" + queryWord;
+			}else if(queryOption.equals("Author")){
+				return "/ebooks/search.atom?author=" + queryWord;
+			}else{
+				return "/ebooks/search.atom?title=" + queryWord;
+			}
+		}
 
 	}
 
