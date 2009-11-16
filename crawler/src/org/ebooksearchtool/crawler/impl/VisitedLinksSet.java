@@ -1,7 +1,8 @@
 package org.ebooksearchtool.crawler.impl;
 
 import java.net.URI;
-import java.util.*;
+import java.util.BitSet;
+import java.util.Random;
 import org.ebooksearchtool.crawler.AbstractVisitedLinksSet;
 
 public class VisitedLinksSet extends AbstractVisitedLinksSet {

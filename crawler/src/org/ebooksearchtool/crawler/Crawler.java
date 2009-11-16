@@ -36,7 +36,7 @@ public class Crawler implements Runnable {
         myStarts = starts;
         try {
             Proxy proxy;
-            if ("true".equals(properties.getProperty("proxy_enabled"))) {
+            if (Boolean.parseBoolean(properties.getProperty("proxy_enabled"))) {
                 String type = properties.getProperty("proxy_type").toLowerCase();
                 Proxy.Type proxyType = null;
                 if ("http".equals(type)) {
@@ -50,7 +50,7 @@ public class Crawler implements Runnable {
             } else {
                 proxy = Proxy.NO_PROXY;
             }
-            if ("true".equals(properties.getProperty("analyzer_enabled"))) {
+            if (Boolean.parseBoolean(properties.getProperty("analyzer_enabled"))) {
                 String port = properties.getProperty("analyzer_port");
                 ourAnalyzerEnabled = true;
                 ourAnalyzerPort = Integer.parseInt(port);
@@ -70,14 +70,14 @@ public class Crawler implements Runnable {
             ourThreadsCount = Integer.parseInt(properties.getProperty("threads_count"));
             ourThreadTimeoutForLink = Integer.parseInt(properties.getProperty("thread_timeout_for_link"));
             ourThreadFinishTime = Integer.parseInt(properties.getProperty("thread_finish_time"));
-            boolean logToScreenEnabled = "true".equals(properties.getProperty("log_to_screen"));
+            boolean logToScreenEnabled = Boolean.parseBoolean(properties.getProperty("log_to_screen"));
             String loggerOutput = properties.getProperty("log_file");
             Map<Logger.MessageType, Boolean> logOptions = new HashMap<Logger.MessageType, Boolean>();
-            logOptions.put(Logger.MessageType.DOWNLOADED_ROBOTS_TXT, "true".equals(properties.getProperty("log_downloaded_robots_txt")));
-            logOptions.put(Logger.MessageType.CRAWLED_PAGES, "true".equals(properties.getProperty("log_crawled_pages")));
-            logOptions.put(Logger.MessageType.FOUND_BOOKS, "true".equals(properties.getProperty("log_found_books")));
-            logOptions.put(Logger.MessageType.ERRORS, "true".equals(properties.getProperty("log_errors")));
-            logOptions.put(Logger.MessageType.MISC, "true".equals(properties.getProperty("log_misc")));
+            logOptions.put(Logger.MessageType.DOWNLOADED_ROBOTS_TXT, Boolean.parseBoolean(properties.getProperty("log_downloaded_robots_txt")));
+            logOptions.put(Logger.MessageType.CRAWLED_PAGES, Boolean.parseBoolean(properties.getProperty("log_crawled_pages")));
+            logOptions.put(Logger.MessageType.FOUND_BOOKS, Boolean.parseBoolean(properties.getProperty("log_found_books")));
+            logOptions.put(Logger.MessageType.ERRORS, Boolean.parseBoolean(properties.getProperty("log_errors")));
+            logOptions.put(Logger.MessageType.MISC, Boolean.parseBoolean(properties.getProperty("log_misc")));
             
             myLogger = new Logger(loggerOutput, logToScreenEnabled, logOptions);
             ourNetwork = new Network(this, proxy, connectionTimeout, waitingForAccessTimeout, userAgent, myLogger);

@@ -2,6 +2,7 @@ package org.ebooksearchtool.crawler;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import net.htmlparser.jericho.*;
 
@@ -67,6 +68,7 @@ class HTMLParser {
                 }
             }
         }
+        Collections.shuffle(answer);
         return answer;
     }
     
