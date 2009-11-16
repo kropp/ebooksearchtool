@@ -86,4 +86,31 @@ def author_request_to_server(request, author_id, type):
 def opensearch_description(request):
     return render_to_response("data/opensearchdescription.xml", {'server':SERVER_URL})
     
+def all_books_request_to_server(request, type):
+    try:
+        items_per_page = int(request.GET['items_per_page'])
+    except KeyError:
+        items_per_page = 20
+    
+    try:
+        page = int(request.GET['page'])
+        start_index = items_per_page * page
+    except KeyError:
+        page = 1
+        start_index = 0
+    next = page + 1
+    q = Q()
+    query = "All books"
+    author = None
+    title = ""
+
+    books = Book.objects.all()
+    
+    total = books.count()
+    
+    if type == "atom":
+        return render_to_response('book/opds/client_response_search.xml', {'books': books, 'query': query, 'title': title, 'author':author, 'server':SERVER_URL, 'items_per_page':items_per_page, 'total':total, 'next':next, 'start_index': start_index })
+        
+    if type == "xhtml":
+        return render_to_response('book/xhtml/client_response_search.xml', {'books': books, 'query': query, 'title': title, 'author':author, 'server':SERVER_URL, 'items_per_page':items_per_page, 'total':total, 'next':next, 'start_index': start_index })
 

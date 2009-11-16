@@ -24,6 +24,9 @@ urlpatterns = patterns('',
     (r'^author.atom/id(\d{1,})/?$', 'server.views.author_request_to_server', {'type': 'atom',}),
     (r'^author/id(\d{1,})/?$', 'server.views.author_request_to_server', {'type': 'xhtml',}),
     
+    #all books
+    (r'^books.atom/all/?$', 'server.views.all_books_request_to_server', {'type': 'atom',}),
+    
     #admin
     (r'^admin/(.*)', admin.site.root),
 #    (r'^admin/doc/', include('django.contrib.admindocs.urls')),
