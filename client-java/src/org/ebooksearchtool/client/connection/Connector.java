@@ -58,12 +58,13 @@ public class Connector{
                 System.out.println("con1");
                 PrintWriter pw1 = new PrintWriter(new OutputStreamWriter(new FileOutputStream(fileName), "utf-8"));
                 
-                int i = 0;
+                int i = connection.getInputStream().read();
                 System.out.println(connection.getContentLength());
                 while (i != -1 )
                 {
+                	pw1.print((char)i);
                 	i = connection.getInputStream().read();
-                    pw1.print((char)i);
+                    
                     
                     System.out.println(i);
                 }

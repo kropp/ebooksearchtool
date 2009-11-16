@@ -49,8 +49,8 @@ public class BookPanel {
         myRootPanel = new JPanel();
         myRootPanel.setLayout(new BoxLayout(myRootPanel ,BoxLayout.X_AXIS));
         
-        if(!myBook.getImage().equals("None")){
-        File cover = new File("images" + File.separatorChar + myBook.getTitle() + ".jpg");
+        if(myBook.getImage() != null && !"".equals(myBook.getImage()) && !myBook.getImage().equals("None")){
+        	File cover = new File("images" + File.separatorChar + myBook.getTitle() + ".jpg");
         	if(!cover.exists()){
             	Connector connector = new Connector(myBook.getImage(), mySettings);
             	connector.getBookFromURL("images" + File.separatorChar + myBook.getTitle() + ".jpg");

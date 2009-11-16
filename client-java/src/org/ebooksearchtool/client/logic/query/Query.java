@@ -38,13 +38,23 @@ public class Query {
 
     public String addQueryAdress(String queryWord, String queryOption, String adress){
 
-        if(queryOption.equals("General")){
-            return adress + "+" + queryWord;
-        }else if(queryOption.equals("Author")){
-            return adress + "+author:" + queryWord;
-        }else{
-            return adress + "+title:" + queryWord;
-        }
+    	if(mySettings.getServer().equals("http://feedbooks.com")){
+    		if(queryOption.equals("General")){
+            	return adress + "+" + queryWord;
+        	}else if(queryOption.equals("Author")){
+            	return adress + "+author:" + queryWord;
+        	}else{
+            	return adress + "+title:" + queryWord;
+        	}
+    	}else{
+    		if(queryOption.equals("General")){
+                return adress + ";query=" + queryWord;
+            }else if(queryOption.equals("Author")){
+                return adress + ";author=" + queryWord;
+            }else{
+                return adress + ";title=" + queryWord;
+            }
+    	}
 
     }
 

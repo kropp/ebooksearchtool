@@ -2,7 +2,10 @@
 package org.ebooksearchtool.client.view;
 
 import org.ebooksearchtool.client.exec.Controller;
+import org.ebooksearchtool.client.logic.query.Query;
 import org.xml.sax.SAXException;
+
+import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
 import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
@@ -12,6 +15,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by IntelliJ IDEA.
@@ -28,7 +32,7 @@ public class Window {
     private JPanel myQueryPlusPanel;
     private JTextField myQueryField;
     private JButton mySearchButton;
-    
+    private JButton myQueryButton;
     private JButton myPlusButton;
     private JLabel mySearchLabel;
     private JMenuItem myNetMenu;
@@ -40,6 +44,8 @@ public class Window {
     private JToolBar myToolBar;
     private JLabel myNumberInfo;
     private JPanel myMorePanel;
+    
+    private Query myQuery;
     
     private int myActionIndex;
     private int myPlusAction = 0;
@@ -74,15 +80,12 @@ public class Window {
     	myQueryButtonPanel = new JPanel();
     	myQueryButtonPanel.setLayout(new BoxLayout(myQueryButtonPanel,BoxLayout.X_AXIS));
         myQueryPlusPanel = new JPanel();
-        myQueryPlusPanel.setLayout(new BoxLayout(myQueryPlusPanel,BoxLayout.X_AXIS));
+        myQueryPlusPanel.setLayout(new FlowLayout()/*BoxLayout(myQueryPlusPanel,BoxLayout.X_AXIS)*/);
         myQueryPanel.add(myQueryButtonPanel);
         myQueryPanel.add(myQueryPlusPanel);
     	myCentralPanel.add(myQueryPanel, "North");
 
-        myPlusButton = new JButton("+");
-        mySearchLabel = new JLabel();
-        myQueryPlusPanel.add(myPlusButton);
-        myQueryPlusPanel.add(mySearchLabel);
+        
 
         myToolBar = new JToolBar();
         myToolBar.add(new JButton(new ImageIcon(getClass().getResource("/ico/library_30.gif"))));
@@ -94,9 +97,16 @@ public class Window {
         String[] query = new String[] { "General", "Author", "Title" };
         myQueryCombo = new JComboBox(query);
         myQueryButtonPanel.add(myQueryCombo);
+        myQueryButton = new JButton();
+    	myQueryButton.setText("+");
     	mySearchButton = new JButton();
     	mySearchButton.setText("SEARCH");
-    	myQueryButtonPanel.add(mySearchButton);
+    	mySearchButton.setEnabled(false);
+    	myQueryButtonPanel.add(myQueryButton);
+    	myQueryPlusPanel.add(mySearchButton);
+    	mySearchLabel = new JLabel();
+        myQueryPlusPanel.add(mySearchLabel);
+    	
     	myTextPan = new JPanel();
     	BoxLayout box = new BoxLayout(myTextPan, BoxLayout.Y_AXIS);
     	myTextPan.setLayout(box);
@@ -114,11 +124,48 @@ public class Window {
         myProgressBar = new JProgressBar(model);
         myProgressBar.setStringPainted(true);
         myPanel1.add(myProgressBar, "South");
-        /*
-        myPlusButton.addActionListener(new ActionListener() {
+        
+        
+        ActionListener setAdress = new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-          */
+            	
+            	try {
+					myQuery = new Query(myController.getSettings());
+				} catch (SAXException e2) {
+					
+					e2.printStackTrace();
+				} catch (ParserConfigurationException e2) {
+					
+					e2.printStackTrace();
+				} catch (IOException e2) {
+					
+					e2.printStackTrace();
+				}
+            	if(myAdress==null){
+            		String queryWord = myQueryField.getText();
+            		String queryOption = (String)myQueryCombo.getSelectedItem();
+            		try {
+						myAdress = myQuery.getQueryAdress(queryWord, queryOption);
+					} catch (IOException e1) {
+						
+						e1.printStackTrace();
+					}
+            		mySearchLabel.setText(queryOption + ":" + queryWord);
+            		mySearchButton.setEnabled(true);
+            		myQueryField.setText("");
+            	}else{
+            		String queryWord = myQueryField.getText();
+            		String queryOption = (String)myQueryCombo.getSelectedItem();
+            		myAdress = myQuery.addQueryAdress(queryWord, queryOption, myAdress);
+            		mySearchLabel.setText(mySearchLabel.getText() + " " + queryOption + ":" + queryWord);
+            		myQueryField.setText("");
+            	}
+            }
+        };
+        
+        
+          
         
         ActionListener act = new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
@@ -130,10 +177,10 @@ public class Window {
             			myProgressBar.setString("Sending request... 0%");
             			System.out.println("1");
             		
-            			String queryWord = myQueryField.getText();
+            			
             			System.out.println("2");
             			model.setValue(5);
-            			String queryOption = (String)myQueryCombo.getSelectedItem();
+            			
             			System.out.println("3");
             			model.setValue(8);
             			myProgressBar.setString("Recieving data... 5%");
@@ -143,7 +190,7 @@ public class Window {
             			try {
             				if(e.getSource() != myMoreButton){
             					myTextPan.removeAll();
-            					if(!myController.getQueryAnswer(queryWord, queryOption)){
+            					if(!myController.getQueryAnswer(myAdress)){
             						
                                     model.setValue(100);
                                     JOptionPane.showMessageDialog(new JDialog(), "Connection failed", "error", JOptionPane.ERROR_MESSAGE);
@@ -186,6 +233,8 @@ public class Window {
             				myFrame.setVisible(true);
             			}
             			model.setValue(100);
+            			mySearchButton.setEnabled(false);
+            			myAdress = null;
                         myProgressBar.setString("");
                         if(!"".equals(myController.getData().getNextPage())){
                         	myNumberInfo.setText("Total books found: " + myController.getData().getTotalBooksNumber() + 
@@ -203,7 +252,8 @@ public class Window {
         };
         
         mySearchButton.addActionListener(act);
-        myQueryField.addActionListener(act);
+        myQueryField.addActionListener(setAdress);
+        myQueryButton.addActionListener(setAdress);
         myMoreButton.addActionListener(act);
 
         myNetMenu.addActionListener(new ActionListener() {

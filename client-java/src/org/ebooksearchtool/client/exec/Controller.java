@@ -47,9 +47,8 @@ public class Controller {
     }
 
 	
-    public boolean getQueryAnswer(String queryWord, String queryOption) throws IOException, SAXException, ParserConfigurationException {
-        Query query = new Query(mySettings);
-        String adress = query.getQueryAdress(queryWord, queryOption);
+    public boolean getQueryAnswer(String adress) throws IOException, SAXException, ParserConfigurationException {
+        
         Connector connect = new Connector(mySettings.getServer() + adress, mySettings);
         if(connect.getFileFromURL("answer_file.xml")){
         	System.out.println("c1");
