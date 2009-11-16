@@ -27,11 +27,11 @@
         <link type="{{ book_file.type }}" href="{{ book_file.link }}" />
     {% endfor %}
     
+    {% for annotation in book.annotation.all %}
     <summary>
-        {% for annotation in book.annotation.all %}
-        <annotation> {{ annotation }} </annotation>
-        {% endfor %}
+        {{ annotation }} 
     </summary>
+    {% endfor %}
 
 </entry>
 

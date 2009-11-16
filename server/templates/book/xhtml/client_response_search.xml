@@ -18,7 +18,7 @@
   <meta http-equiv="X-UA-Compatible" content="chrome=1" />
   
   <!-- Links --> 
-  <link rel="search" type="application/opensearchdescription+xml" title="Opensearch description" href="/opensearch.xml" />
+  <link rel="search" type="application/opensearchdescription+xml" title="Opensearch description" href="opensearch.xml" />
 
   <!-- CSS 
   <link rel="stylesheet" href="/stylesheets/screen.css" type="text/css" media="screen, projection" /> 
@@ -54,7 +54,7 @@
 
   <div class="span-2 append-bottom">
   {% for book_file in book.book_file.all %}
-      <a href="/book/{{ book.id }}"><img alt="{{ book.title }}" class="cover" src="{{book_file.img_link}}" title="{{ book.title }}" /></a> 
+      <a href="book/id{{ book.id }}"><img alt="{{ book.title }}" class="cover" src="{{book_file.img_link}}" title="{{ book.title }}" /></a> 
   {% endfor %}  
   
   </div>

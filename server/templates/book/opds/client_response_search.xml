@@ -22,10 +22,10 @@
     {% endif %}
     </title>
     
-    <id></id>
+    <!--id></id>
     <updated></updated>
     <icon></icon>
-    <author></author>
+    <author></author-->
     
     <opensearch:totalResults> {{ total }} </opensearch:totalResults>
     <opensearch:itemsPerPage> {{ items_per_page }} </opensearch:itemsPerPage>
@@ -39,13 +39,15 @@
         <dcterms:language> {{ book.lang }} </dcterms:language>
         <id> {{ book.id }} </id>
         <link> {{ server }}/book.atom/id{{ book.id }}</link>
-        <dcterms:issued></dcterms:issued>
-        <updated></updated>
+        <!--dcterms:issued></dcterms:issued>
+        <dcterms:source></dcterms:source>
+        <updated></updated-->
+        
         {% for tag in book.tag.all %}
             <category term="tag"/>
         {% endfor %}
 
-        <dcterms:source></dcterms:source>
+        
 
         {% for author in book.author_set.all %}
         <author>
@@ -54,10 +56,9 @@
         </author>
         {% endfor %}
         
+        
         <summary>
-            {% for annotation in book.annotation.all %}
-            <annotation> {{ annotation }} </annotation>
-            {% endfor %}
+            {{ book.annotation.all.0 }}
         </summary>
 
         <link type="application/atom+xml;type=entry" rel="alternate" title="Full entry" href="book.atom/id{{ book.id }}"/>
