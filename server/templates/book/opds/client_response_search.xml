@@ -64,7 +64,8 @@
         <link type="application/atom+xml;type=entry" rel="alternate" title="Full entry" href="book.atom/id{{ book.id }}"/>
         {% for book_file in book.book_file.all %}
             <link type="{{ book_file.type }}" href="{{ book_file.link }}" />
-        {% endfor %}
+            <link type="image/png" rel="http://opds-spec.org/cover" href="{{book_file.img_link}}"/>
+        {% endfor %}  
        
     </entry>
     {% endfor %}
