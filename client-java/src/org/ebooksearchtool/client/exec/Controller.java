@@ -40,6 +40,7 @@ public class Controller {
             mySettings.setIP(getSettingsFromFile().getIP());
             mySettings.setPort(getSettingsFromFile().getPort());
         } catch (FileNotFoundException exeption){
+        	
             setSettings("http://feedbooks.com", true, "192.168.0.2", 3128);
         }
 
@@ -82,6 +83,7 @@ public class Controller {
 
     public void setSettings(String server, boolean proxy, String IP, int port) throws FileNotFoundException, UnsupportedEncodingException {
         mySettings.setServer(server);
+        mySettings.setProxyEnabled(proxy);
     	mySettings.setIP(IP);
         mySettings.setPort(port);
         PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream("settings.xml"), "utf-8"));

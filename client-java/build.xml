@@ -1,13 +1,11 @@
-<project name="client" default="clean" basedir=".">
+<project name="client" default="dist" basedir=".">
     <property name="src" location="src"/>
     <property name="build" location="build"/>
     <property name="dist" location="bin"/>
     <property name="res" location="res"/>
-    <property name="lib" location="lib"/>
 
     <property name="jarfile" location="${dist}/client.jar"/>
     <property name="manifest" location="${res}/MANIFEST.MF"/>
-    <property name="lib" location="${lib}/client.jar"/>
 
     <patternset id="resources">
         <include name="**/?*.gif"/>
@@ -15,11 +13,10 @@
 
     <target name="init">
         <mkdir dir="${build}"/>
-        <mkdir dir="${lib}"/>
     </target>
 
     <target name="compile" depends="init">
-        <javac srcdir="${src}" destdir="${build}" classpath=".;${lib}"/>
+        <javac srcdir="${src}" destdir="${build}"/>
 	    <copy todir="${build}">
             <fileset dir="${src}">
                 <patternset refid="resources"/>
@@ -28,14 +25,14 @@
         </copy>
     </target>
 
-    <target name="dist" depends="clean,compile">
+    <target name="dist" depends="compile">
         <mkdir dir="${dist}"/>
         <jar jarfile="${jarfile}" basedir="${build}" manifest="${manifest}"/>
     </target>
 
     <target name="clean">
         <delete dir="${build}"/>
-        <delete dir="${dist}"/>
+        
     </target>
 
     
