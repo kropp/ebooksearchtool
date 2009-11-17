@@ -9,12 +9,16 @@ BookActionsButtonBox::BookActionsButtonBox(QWidget* parent) : QGroupBox(parent) 
 void BookActionsButtonBox::setButtons(QHBoxLayout* layout) const {
     QIcon* deleteIcon = new QIcon("view/images/delete.jpeg");
     QPushButton* deleteButton = new QPushButton(*deleteIcon, "");
+    deleteButton->setToolTip("delete");
 
     QIcon* toLibraryIcon = new QIcon("view/images/tolibrary.jpeg");
     QPushButton* toLibraryButton = new QPushButton(*toLibraryIcon, " ");
+    toLibraryButton->setToolTip("move to library");
 
     QIcon* readIcon = new QIcon("view/images/read.jpeg");
     QPushButton* readButton = new QPushButton(*readIcon, " ");
+    readButton->setToolTip("read");
+
 
     applyButtonSettings(toLibraryButton);    
     applyButtonSettings(deleteButton);    
