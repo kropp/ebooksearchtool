@@ -10,6 +10,7 @@
 #include "bookwidget.h"
 #include "../data/book_author.h"
 #include "../network/httpconnection.h"
+#include "bookActionButtons.h"
 
 #include <iostream>
 
@@ -28,23 +29,15 @@ BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent) ,myB
     //cover->setPalette(coverPalette);
     //cover->setAutoFillBackground(true);
 
-    QGroupBox* buttonGroup = new QGroupBox(this);
-    QHBoxLayout* buttonLayout = new QHBoxLayout();
-    setButtons(buttonLayout);
-    buttonGroup->setLayout(buttonLayout);
+    myButtonGroup = new BookActionsButtonBox(this);
 
     QGridLayout* mainLayout = new QGridLayout();
     mainLayout->addWidget(myCheckBox, 0, 0, 3, 1);
     mainLayout->addWidget(cover, 0, 1, 3, 1);
     mainLayout->addWidget(title, 0, 2, Qt::AlignLeft);
     mainLayout->addWidget(author, 1, 2, Qt::AlignLeft);
-    mainLayout->addWidget(buttonGroup, 0, 3);
+    mainLayout->addWidget(myButtonGroup, 0, 3);
   
-//    mainLayout->setRowStretch(0, 1);
-//    mainLayout->setRowStretch(1, 10);
-//    mainLayout->setRowStretch(2, 10);
-//    mainLayout->setRowStretch(3, 1);
-
     QPalette palette;
     palette.setColor(this->backgroundRole(), Qt::white);
     setPalette(palette);
@@ -76,30 +69,4 @@ void BookWidget::setCover() {
 */
 }
 
-void BookWidget::setButtons(QHBoxLayout* layout) const {
-    QIcon* deleteIcon = new QIcon("view/images/delete.jpeg");
-    QPushButton* deleteButton = new QPushButton(*deleteIcon, "");
 
-    QIcon* toLibraryIcon = new QIcon("view/images/tolibrary.jpeg");
-    QPushButton* toLibraryButton = new QPushButton(*toLibraryIcon, " ");
-
-    QIcon* readIcon = new QIcon("view/images/read.jpeg");
-    QPushButton* readButton = new QPushButton(*readIcon, " ");
-
-    applyButtonSettings(toLibraryButton);    
-    applyButtonSettings(deleteButton);    
-    applyButtonSettings(readButton);    
-
-    layout->addWidget(deleteButton);
-    layout->addWidget(toLibraryButton);
-    layout->addWidget(readButton);
-
-    layout->setSpacing(1);  
-}
-
-void BookWidget::applyButtonSettings(QPushButton* button) const {
-    button->resize(button->iconSize());
-    button->setIconSize(QSize(50, 50));
-    button->setFixedSize(QSize(60, 60));
-    button->setFlat(true);
-}

@@ -12,6 +12,7 @@ class QPushButton;
 class QHBoxLayout;
 class QCheckBox;
 class QButtonGroup;
+class BookActionsButtonBox;
 
 class BookWidget : public QWidget {
 
@@ -23,10 +24,6 @@ public:
 
 private:
     void downloadCover();
-    void applyButtonSettings(QPushButton* button) const;
-    void setButtons(QHBoxLayout* layout) const;
-
-
 
 private slots:
 //    void paint() const;
@@ -34,6 +31,7 @@ private slots:
 
 private:
     const Book* myBook;
+    BookActionsButtonBox* myButtonGroup;
 
     QCheckBox* myCheckBox; // потому что будет важно его состояние
     //HttpConnection* myHttpConnection;
