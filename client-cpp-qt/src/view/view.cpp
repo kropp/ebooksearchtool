@@ -1,8 +1,9 @@
 #include "view.h"
 #include "bookwidget.h"
 #include <QLabel>
+#include <QDebug>
 
-View::View(QWidget* parent, Data* data) : QWidget(parent), myData(data) {
+View::View(QWidget* parent, Data* data) : QWidget(parent), myData(data) { 
     myBooksLayout = new QVBoxLayout();
     setLayout(myBooksLayout);
 }
@@ -12,11 +13,10 @@ void View::setData(Data* data) {
 }
 
 void View::update() {
-// рисуем те книги, которые добавились в модель
     clear();
     if (myData != 0) {
         makeHeader();
-        size_t size = myData->getSize();
+        const size_t size = (myData->getSize() < 5) ? myData->getSize() : 5;
         for (size_t i = 0; i < size; ++i) {
             BookWidget* widget = new BookWidget(this, myData->getBook(i));
             myBooksLayout->addWidget(widget);
@@ -32,11 +32,6 @@ void View::clear() {
         myBooksLayout->removeWidget((BookWidget*)myBooksLayout->itemAt(0));    
     }    
 }
-
-//void View::display() const {
-
-//}
-
 
 /*void View::repaint() {
 //remove all Widgets from layout

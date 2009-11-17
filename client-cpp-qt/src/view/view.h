@@ -8,7 +8,8 @@
 #include <QWidget>
 #include <QVBoxLayout>
 
-class Data; 
+class Data;
+//class QScrollArea;
 
 class View : public QWidget {
 
@@ -19,7 +20,6 @@ public:
     Data* getData() const;
     void setData(Data* data);
     void clear();
-    void display() const;
     void update();
 
 private:    

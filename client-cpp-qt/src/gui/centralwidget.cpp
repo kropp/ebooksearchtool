@@ -22,21 +22,6 @@ CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myBuffer(0) {
 	mySearchButton->setDefault(true);
 
 	myView = new View(this, 0);
-///////////////////	
-/*	QLabel* imageLabel = new QLabel;
-	QImage image("view/images/read.jpeg");
-	imageLabel->setPixmap(QPixmap::fromImage(image));
-    myScrollArea = new QScrollArea();
-    myScrollArea->setBackgroundRole(QPalette::Dark);
-    myScrollArea->setWidget(imageLabel);
-*/
-
-/////////////////
-
-//    myScrollArea = new QScrollArea();
-//    myScrollArea->setBackgroundRole(QPalette::Dark);
-//    myScrollArea->setWidget(myView);
-//    myScrollArea->viewport()->setAutoFillBackground(true);
 
 	myHttpConnection = new HttpConnection(this); // а может мне соединение не понадобится - отложить создание!
     myUrlLineEdit->insert(myHttpConnection->getServer());
@@ -131,7 +116,7 @@ void CentralWidget::parseDownloadedFile() {
     parser.parse(myBuffer, myView->getData());
     myBuffer->close();
     myView->update();	
-    
+
 
    // const QString* url = parser.getNextAtomPage();
     //if (url) {

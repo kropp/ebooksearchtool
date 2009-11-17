@@ -13,9 +13,7 @@ class QHttpResponseHeader;
 class QLabel;
 class QLineEdit;
 class QTextEdit;
-//class QProgressDialog;
 class QPushButton;
-//class QAuthenticator;
 
 
 class CentralWidget : public QWidget {
