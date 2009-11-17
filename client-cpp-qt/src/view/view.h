@@ -24,12 +24,12 @@ public:
 
 private:    
     void addWidget(QWidget* widget);
-    void makeHeader() const;
+    void makeHeader();
 
 private:
     Data* myData;
     QVBoxLayout* myBooksLayout;
-    //QVBoxLayout* myHeaderLayout;
+    QHBoxLayout* myHeaderLayout;
 };
 
 inline Data* View::getData() const {

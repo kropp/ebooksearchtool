@@ -15,6 +15,7 @@ private:
     void applyButtonSettings(QPushButton* button) const;
 
 friend class BookWidget;
+friend class View;
 };
 
 #endif //_BOOK_ACTION_BUTTON_BOX_H_

@@ -2,6 +2,7 @@
 #define _BOOK_WIDGET_H_
 
 #include <QWidget>
+#include "bookActionButtons.h"
 
 class QLabel;
 class Book;
@@ -11,8 +12,6 @@ class QIcon;
 class QPushButton;
 class QHBoxLayout;
 class QCheckBox;
-class QButtonGroup;
-class BookActionsButtonBox;
 
 class BookWidget : public QWidget {
 

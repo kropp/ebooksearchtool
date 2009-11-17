@@ -4,8 +4,6 @@
 #include "../xml_parser/parser.h"
 #include "../network/httpconnection.h"
 #include "../data/data.h"
-#include "../model/model.h"
-
 
 CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myBuffer(0) {
     myNewRequest = true;
