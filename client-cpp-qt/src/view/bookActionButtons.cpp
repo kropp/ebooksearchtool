@@ -2,31 +2,34 @@
 
 BookActionsButtonBox::BookActionsButtonBox(QWidget* parent) : QGroupBox(parent) {
     QHBoxLayout* buttonLayout = new QHBoxLayout();
-    setButtons(buttonLayout);
+    createButtons(buttonLayout);
     setLayout(buttonLayout);
+    connect(myDeleteButton, SIGNAL(pressed()), this, SIGNAL(remove()));
+    connect(myToLibraryButton, SIGNAL(pressed()), this, SIGNAL(toLibrary()));
+    connect(myReadButton, SIGNAL(pressed()), this, SIGNAL(read()));
 }
 
-void BookActionsButtonBox::setButtons(QHBoxLayout* layout) const {
+void BookActionsButtonBox::createButtons(QHBoxLayout* layout) {
     QIcon* deleteIcon = new QIcon("view/images/delete.jpeg");
-    QPushButton* deleteButton = new QPushButton(*deleteIcon, "");
-    deleteButton->setToolTip("delete");
+    myDeleteButton = new QPushButton(*deleteIcon, "");
+    myDeleteButton->setToolTip("delete");
 
     QIcon* toLibraryIcon = new QIcon("view/images/tolibrary.jpeg");
-    QPushButton* toLibraryButton = new QPushButton(*toLibraryIcon, " ");
-    toLibraryButton->setToolTip("move to library");
+    myToLibraryButton = new QPushButton(*toLibraryIcon, " ");
+    myToLibraryButton->setToolTip("add to library");
 
     QIcon* readIcon = new QIcon("view/images/read.jpeg");
-    QPushButton* readButton = new QPushButton(*readIcon, " ");
-    readButton->setToolTip("read");
+    myReadButton = new QPushButton(*readIcon, " ");
+    myReadButton->setToolTip("read");
 
 
-    applyButtonSettings(toLibraryButton);    
-    applyButtonSettings(deleteButton);    
-    applyButtonSettings(readButton);    
+    applyButtonSettings(myToLibraryButton);    
+    applyButtonSettings(myDeleteButton);    
+    applyButtonSettings(myReadButton);    
 
-    layout->addWidget(deleteButton);
-    layout->addWidget(toLibraryButton);
-    layout->addWidget(readButton);
+    layout->addWidget(myDeleteButton);
+    layout->addWidget(myToLibraryButton);
+    layout->addWidget(myReadButton);
 
     layout->setSpacing(1);  
 }

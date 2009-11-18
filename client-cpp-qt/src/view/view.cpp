@@ -33,7 +33,6 @@ void View::update() {
         myBooks.push_back(widget);
         myBooksLayout->addWidget(widget);
     }
-
 }
 
 void View::clear() {
