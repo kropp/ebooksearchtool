@@ -36,7 +36,7 @@ private slots:
 private:
     Data* myData;
     size_t myBooksNumber;
-    QVector<BookWidget*> myBooks;
+    QList<BookWidget*> myBooks;
 
     QVBoxLayout* myBooksLayout;
     QHBoxLayout* myHeaderLayout;

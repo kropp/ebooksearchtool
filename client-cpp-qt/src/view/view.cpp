@@ -22,17 +22,18 @@ void View::setData(Data* data) {
 
 void View::update() {
     clear();
-    if (myData != 0) {
-        const size_t size = (myData->getSize() < 5) ? myData->getSize() : 5;
-        myBooks.reserve(size);
-        myBooksNumber = size;
-        updateHeader();
-        for (size_t i = 0; i < size; ++i) {
-            BookWidget* widget = new BookWidget(this, myData->getBook(i));
-            myBooks.push_back(widget);
-            myBooksLayout->addWidget(widget);
-        }
+    if (!myData) {
+        return;
     }
+    const size_t size = (myData->getSize() < 5) ? myData->getSize() : 5;
+    myBooksNumber = size;
+    updateHeader();
+    for (size_t i = 0; i < size; ++i) {
+        BookWidget* widget = new BookWidget(this, myData->getBook(i));
+        myBooks.push_back(widget);
+        myBooksLayout->addWidget(widget);
+    }
+
 }
 
 void View::clear() {
