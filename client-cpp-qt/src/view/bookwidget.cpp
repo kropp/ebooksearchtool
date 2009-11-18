@@ -60,10 +60,8 @@ void BookWidget::setCover() {
 */
 }
 
-void BookWidget::mark() {
-
-    myCheckBox->setTristate();
-    qDebug() << "book widget mark done";
+void BookWidget::mark(int state) {
+    myCheckBox->setCheckState(state);
 }
 
 const Book& BookWidget::getBook() const {

@@ -36,13 +36,14 @@ private slots:
 private:
     Data* myData;
     size_t myBooksNumber;
+    QVector<BookWidget*> myBooks;
 
     QVBoxLayout* myBooksLayout;
     QHBoxLayout* myHeaderLayout;
     QVBoxLayout* myMainLayout;
 
     QLabel* myFoundLabel;
-		QLabel* myShownLabel;
+	QLabel* myShownLabel;
     QCheckBox* myCheckBox;
 };
 

@@ -22,13 +22,12 @@ public:
     virtual ~BookWidget();
 
     const Book& getBook() const;
-    void mark();
+    void mark(int state);
 
 private:
     void downloadCover();
 
 private slots:
-//    void paint() const;
     void setCover();
 
 private:
