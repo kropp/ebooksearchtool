@@ -2,7 +2,7 @@
 #include "bookwidget.h"
 #include <QLabel>
 #include <QCheckBox>
-//#include <QDebug>
+#include <QDebug>
 
 View::View(QWidget* parent, Data* data) : QWidget(parent), myData(data) { 
     myHeaderLayout = new QHBoxLayout();
@@ -26,12 +26,13 @@ void View::update() {
         return;
     }
     const size_t size = (myData->getSize() < 5) ? myData->getSize() : 5;
-    updateHeader();
     for (size_t i = 0; i < size; ++i) {
         BookWidget* widget = new BookWidget(this, myData->getBook(i));
         myBooks.push_back(widget);
+        qDebug() << "update: myBooks size = " << myBooks.size();
         myBooksLayout->addWidget(widget);
     }
+    updateHeader();
     connectWithButtons();
 }
 
@@ -56,6 +57,7 @@ void View::updateHeader() {
     int index = shown.lastIndexOf(" ") + 1;
     shown.remove(index, shown.size() - index);
     shown.push_back(QString::number(myBooks.size()));
+    qDebug() << "size of myBooks for label SHOWN " << myBooks.size();
     myShownLabel->setText(shown);
 
     QString found = myFoundLabel->text();
@@ -92,7 +94,9 @@ void View::connectWithButtons() const {
 
 void View::remove(BookWidget* widget) {
     int index = myBooks.indexOf(widget);
+    qDebug() << "to remove index  " << index; 
     myBooksLayout->removeItem(myBooksLayout->itemAt(index));
+    qDebug() << "removed";
     myBooks.removeAt(index);
 }
 
