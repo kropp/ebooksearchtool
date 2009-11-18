@@ -39,10 +39,15 @@ void View::clear() {
 
 void View::updateHeader() {
     QString shown = myShownLabel->text();
-		shown.replace(QString::number(0), QString::number(myBooksNumber));
+		int index = shown.lastIndexOf(" ") + 1;
+    shown.remove(index, shown.size() - index);
+		shown.push_back(QString::number(myBooksNumber));
 		myShownLabel->setText(shown);
+
     QString found = myFoundLabel->text();
-    found.replace(QString::number(0), QString::number(myData->getTotalEntries()));
+		index = found.lastIndexOf(" ") + 1;
+    found.remove(index, found.size() - index);
+		found.push_back(QString::number(myData->getTotalEntries()));
     myFoundLabel->setText(found);
 }
 
