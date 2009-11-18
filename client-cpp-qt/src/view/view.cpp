@@ -1,6 +1,7 @@
 #include "view.h"
 #include "bookwidget.h"
 #include <QLabel>
+#include <QCheckBox>
 //#include <QDebug>
 
 View::View(QWidget* parent, Data* data) : QWidget(parent), myData(data), myBooksNumber(0) { 
@@ -23,12 +24,12 @@ void View::update() {
     clear();
     if (myData != 0) {
         const size_t size = (myData->getSize() < 5) ? myData->getSize() : 5;
+				myBooksNumber = size;
+        updateHeader();
         for (size_t i = 0; i < size; ++i) {
             BookWidget* widget = new BookWidget(this, myData->getBook(i));
             myBooksLayout->addWidget(widget);
         }
-				myBooksNumber = size;
-        updateHeader();
     }
 }
 
@@ -56,8 +57,13 @@ void View::updateHeader() {
 
 void View::makeHeader() {
     BookActionsButtonBox* buttons = new BookActionsButtonBox(this);
-    myHeaderLayout->addWidget(buttons);
-    QString found("FOUND: 0");
+    myCheckBox = new QCheckBox();
+		QVBoxLayout* buttonLayout = new QVBoxLayout();
+		buttonLayout->addWidget(buttons);
+		buttonLayout->addWidget(myCheckBox);
+		myHeaderLayout->addLayout(buttonLayout);
+    
+		QString found("FOUND: 0");
     QString shown("SHOWN: 0");
     myFoundLabel = new QLabel(found);
     myShownLabel = new QLabel(shown);

@@ -10,6 +10,7 @@
 
 class Data;
 class QLabel;
+class QCheckBox;
 
 class View : public QWidget {
 
@@ -27,14 +28,20 @@ private:
     void makeHeader();
     void updateHeader();
 
+private slots:
+    void markAllBook();
+
 private:
     Data* myData;
+    size_t myBooksNumber;
+
     QVBoxLayout* myBooksLayout;
     QHBoxLayout* myHeaderLayout;
     QVBoxLayout* myMainLayout;
-		QLabel* myFoundLabel;
+
+    QLabel* myFoundLabel;
 		QLabel* myShownLabel;
-    size_t myBooksNumber;
+    QCheckBox* myCheckBox;
 };
 
 inline Data* View::getData() const {
