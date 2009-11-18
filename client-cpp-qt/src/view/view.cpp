@@ -4,7 +4,7 @@
 #include <QCheckBox>
 //#include <QDebug>
 
-View::View(QWidget* parent, Data* data) : QWidget(parent), myData(data), myBooksNumber(0) { 
+View::View(QWidget* parent, Data* data) : QWidget(parent), myData(data) { 
     myHeaderLayout = new QHBoxLayout();
     myBooksLayout = new QVBoxLayout();
     myMainLayout = new QVBoxLayout();
@@ -26,13 +26,13 @@ void View::update() {
         return;
     }
     const size_t size = (myData->getSize() < 5) ? myData->getSize() : 5;
-    myBooksNumber = size;
     updateHeader();
     for (size_t i = 0; i < size; ++i) {
         BookWidget* widget = new BookWidget(this, myData->getBook(i));
         myBooks.push_back(widget);
         myBooksLayout->addWidget(widget);
     }
+    connectWithButtons();
 }
 
 void View::clear() {
@@ -55,7 +55,7 @@ void View::updateHeader() {
     QString shown = myShownLabel->text();
     int index = shown.lastIndexOf(" ") + 1;
     shown.remove(index, shown.size() - index);
-    shown.push_back(QString::number(myBooksNumber));
+    shown.push_back(QString::number(myBooks.size()));
     myShownLabel->setText(shown);
 
     QString found = myFoundLabel->text();
@@ -82,3 +82,26 @@ void View::makeHeader() {
     myHeaderLayout->addWidget(myFoundLabel);
     myHeaderLayout->addWidget(myShownLabel);
 }
+
+void View::connectWithButtons() const {
+    size_t size = myBooks.size();
+    for (size_t i = 0; i < size; ++i) {
+        connect(myBooks[i], SIGNAL(remove(BookWidget*)), this, SLOT(remove(BookWidget*)));
+    }
+}
+
+void View::remove(BookWidget* widget) {
+    int index = myBooks.indexOf(widget);
+    myBooksLayout->removeItem(myBooksLayout->itemAt(index));
+    myBooks.removeAt(index);
+}
+
+void View::toLibrary(BookWidget*) {
+
+}
+
+void View::read(BookWidget*) {
+
+}
+
+

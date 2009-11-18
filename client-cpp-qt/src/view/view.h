@@ -29,13 +29,18 @@ private:
     void addWidget(QWidget* widget);
     void makeHeader();
     void updateHeader();
+    void connectWithButtons() const;
+
 
 private slots:
     void markAllBooks(int);
+    void remove(BookWidget*);
+    void toLibrary(BookWidget*);
+    void read(BookWidget*);
+    
 
 private:
     Data* myData;
-    size_t myBooksNumber;
     QList<BookWidget*> myBooks;
 
     QVBoxLayout* myBooksLayout;
