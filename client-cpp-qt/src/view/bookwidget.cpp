@@ -1,19 +1,10 @@
-#include <QLabel>
-#include <QGridLayout>
-#include <QUrl>
-#include <QFile>
-#include <QFileInfo>
-#include <QPushButton>
-#include <QCheckBox>
-#include <QGroupBox>
+#include <QtGui>
+//#include <QDebug>
 
 #include "bookwidget.h"
 #include "../data/book_author.h"
 #include "../network/httpconnection.h"
 #include "bookActionButtons.h"
-
-#include <iostream>
-
 
 BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent) ,myBook(book) {
    // myHttpConnection = new HttpConnection(this);
@@ -70,3 +61,6 @@ void BookWidget::setCover() {
 }
 
 
+const Book& BookWidget::getBook() const {
+	return *myBook;
+}

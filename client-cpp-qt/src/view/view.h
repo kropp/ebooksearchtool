@@ -31,7 +31,8 @@ private:
     Data* myData;
     QVBoxLayout* myBooksLayout;
     QHBoxLayout* myHeaderLayout;
-    QLabel* myFoundLabel;
+    QVBoxLayout* myMainLayout;
+		QLabel* myFoundLabel;
 		QLabel* myShownLabel;
     size_t myBooksNumber;
 };

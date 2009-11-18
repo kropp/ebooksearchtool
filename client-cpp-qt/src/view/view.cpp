@@ -1,11 +1,15 @@
 #include "view.h"
 #include "bookwidget.h"
 #include <QLabel>
-#include <QDebug>
+//#include <QDebug>
 
 View::View(QWidget* parent, Data* data) : QWidget(parent), myData(data), myBooksNumber(0) { 
+    myHeaderLayout = new QHBoxLayout();
     myBooksLayout = new QVBoxLayout();
-    setLayout(myBooksLayout);
+    myMainLayout = new QVBoxLayout();
+		myMainLayout->addLayout(myHeaderLayout);
+		myMainLayout->addLayout(myBooksLayout);
+		setLayout(myMainLayout);
 }
 
 void View::setData(Data* data) {
@@ -22,7 +26,6 @@ void View::update() {
         for (size_t i = 0; i < size; ++i) {
             BookWidget* widget = new BookWidget(this, myData->getBook(i));
             myBooksLayout->addWidget(widget);
-            widget->show();
         }
 				myBooksNumber = size;
         updateHeader();
@@ -30,11 +33,11 @@ void View::update() {
 }
 
 void View::clear() {
-// remove all widgets from layout
+// remove all widgets from book layout
     const size_t count = myBooksLayout->count();
-    for (size_t i = 0; i < count; ++i) {
-        myBooksLayout->removeWidget((BookWidget*)myBooksLayout->itemAt(0));    
-    }    
+		for (size_t i = 0; i < count; ++i) {
+        myBooksLayout->removeItem(myBooksLayout->itemAt(0));
+		}    
 }
 
 void View::updateHeader() {
@@ -52,7 +55,6 @@ void View::updateHeader() {
 }
 
 void View::makeHeader() {
-    myHeaderLayout = new QHBoxLayout();
     BookActionsButtonBox* buttons = new BookActionsButtonBox(this);
     myHeaderLayout->addWidget(buttons);
     QString found("FOUND: 0");
@@ -61,5 +63,4 @@ void View::makeHeader() {
     myShownLabel = new QLabel(shown);
     myHeaderLayout->addWidget(myFoundLabel);
     myHeaderLayout->addWidget(myShownLabel);
-	  myBooksLayout->addLayout(myHeaderLayout);
 }
