@@ -10,7 +10,7 @@ class QPushButton;
 
 class BookActionsButtonBox : public QGroupBox {
 
-Q_OBJECT
+    Q_OBJECT
 
 private:
     BookActionsButtonBox(QWidget* parent);

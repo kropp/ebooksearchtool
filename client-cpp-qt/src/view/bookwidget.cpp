@@ -21,6 +21,9 @@ BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent) ,myB
     //cover->setAutoFillBackground(true);
 
     myButtonGroup = new BookActionsButtonBox(this);
+    connect(myButtonGroup, SIGNAL(remove()), this, SLOT(remove()));
+    connect(myButtonGroup, SIGNAL(toLibrary()), this, SLOT(toLibrary()));
+    connect(myButtonGroup, SIGNAL(read()), this, SLOT(read()));
 
     QGridLayout* mainLayout = new QGridLayout();
     mainLayout->addWidget(myCheckBox, 0, 0, 3, 1);
@@ -59,6 +62,19 @@ void BookWidget::setCover() {
     myMainLayout->addWidget(myCoverButton);
 */
 }
+
+void BookWidget::remove() {
+    emit remove(this);
+}
+
+void BookWidget::toLibrary() {
+    emit toLibrary(this);
+}
+
+void BookWidget::read() {
+    emit read(this);
+}
+
 
 void BookWidget::mark(int state) {
     myCheckBox->setCheckState(state);

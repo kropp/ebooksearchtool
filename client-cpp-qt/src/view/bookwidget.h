@@ -29,7 +29,15 @@ private:
 
 private slots:
     void setCover();
+    void remove();
+    void toLibrary();
+    void read();
 
+signals:
+    void remove(BookWidget*);
+    void toLibrary(BookWidget*);
+    void read(BookWidget*);
+    
 private:
     const Book* myBook;
     BookActionsButtonBox* myButtonGroup;
