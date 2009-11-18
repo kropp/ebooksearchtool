@@ -3,25 +3,29 @@
 #include <QLabel>
 #include <QDebug>
 
-View::View(QWidget* parent, Data* data) : QWidget(parent), myData(data) { 
+View::View(QWidget* parent, Data* data) : QWidget(parent), myData(data), myBooksNumber(0) { 
     myBooksLayout = new QVBoxLayout();
     setLayout(myBooksLayout);
-    makeHeader();
 }
 
 void View::setData(Data* data) {
-    myData = data;
+    if (!myData) {
+       makeHeader();
+		}
+		myData = data;
 }
 
 void View::update() {
     clear();
     if (myData != 0) {
         const size_t size = (myData->getSize() < 5) ? myData->getSize() : 5;
-        for (size_t i = 1; i < size; ++i) {
+        for (size_t i = 0; i < size; ++i) {
             BookWidget* widget = new BookWidget(this, myData->getBook(i));
             myBooksLayout->addWidget(widget);
             widget->show();
         }
+				myBooksNumber = size;
+        updateHeader();
     }
 }
 
@@ -33,27 +37,24 @@ void View::clear() {
     }    
 }
 
-/*void View::repaint() {
-//remove all Widgets from layout
-//add new Widgets
-    if (myData != 0) {
-        size_t size = myData->getSize();
-        for (size_t i = 0; i < size; ++i) {
-            BookWidget* widget = new BookWidget(this, myData->getBook(i));
-            myBooksLayout->addWidget(widget);
-            widget->show();
-        }
-    }
-}*/
+void View::updateHeader() {
+    QString shown = myShownLabel->text();
+		shown.replace(QString::number(0), QString::number(myBooksNumber));
+		myShownLabel->setText(shown);
+    QString found = myFoundLabel->text();
+    found.replace(QString::number(0), QString::number(myData->getTotalEntries()));
+    myFoundLabel->setText(found);
+}
 
 void View::makeHeader() {
     myHeaderLayout = new QHBoxLayout();
     BookActionsButtonBox* buttons = new BookActionsButtonBox(this);
     myHeaderLayout->addWidget(buttons);
-    QLabel* found = new QLabel(tr("FOUND"));
-    QLabel* shown = new QLabel(tr("SHOWN"));
-    myHeaderLayout->addWidget(found);
-    myHeaderLayout->addWidget(shown);
-    myBooksLayout->addLayout(myHeaderLayout);
-    //upLayout->addWidget();
+    QString found("FOUND: 0");
+    QString shown("SHOWN: 0");
+    myFoundLabel = new QLabel(found);
+    myShownLabel = new QLabel(shown);
+    myHeaderLayout->addWidget(myFoundLabel);
+    myHeaderLayout->addWidget(myShownLabel);
+	  myBooksLayout->addLayout(myHeaderLayout);
 }

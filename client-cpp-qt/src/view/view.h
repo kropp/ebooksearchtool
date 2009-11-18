@@ -9,7 +9,7 @@
 #include <QVBoxLayout>
 
 class Data;
-//class QScrollArea;
+class QLabel;
 
 class View : public QWidget {
 
@@ -25,11 +25,15 @@ public:
 private:    
     void addWidget(QWidget* widget);
     void makeHeader();
+    void updateHeader();
 
 private:
     Data* myData;
     QVBoxLayout* myBooksLayout;
     QHBoxLayout* myHeaderLayout;
+    QLabel* myFoundLabel;
+		QLabel* myShownLabel;
+    size_t myBooksNumber;
 };
 
 inline Data* View::getData() const {
