@@ -20,7 +20,9 @@ class BookWidget : public QWidget {
 public:
     BookWidget(QWidget* parent, const Book* book);
     virtual ~BookWidget();
+
     const Book& getBook() const;
+    void mark();
 
 private:
     void downloadCover();

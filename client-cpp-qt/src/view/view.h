@@ -14,6 +14,8 @@ class QCheckBox;
 
 class View : public QWidget {
 
+ Q_OBJECT
+
 public:
     View(QWidget* parent, Data* data);
 
@@ -29,7 +31,7 @@ private:
     void updateHeader();
 
 private slots:
-    void markAllBook();
+    void markAllBooks(int);
 
 private:
     Data* myData;
