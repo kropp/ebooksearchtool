@@ -5,6 +5,7 @@
 #include "../data/book_author.h"
 #include "../network/httpconnection.h"
 #include "bookActionButtons.h"
+#include "moreLessTextLabel.h"
 
 BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent) ,myBook(book) {
    // myHttpConnection = new HttpConnection(this);
@@ -15,6 +16,8 @@ BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent) ,myB
     QLabel* title = new QLabel(myBook->getTitle().c_str());
     QLabel* author = new QLabel(myBook->getAuthor()->getName().c_str());
     QLabel* cover = new QLabel("COVER");// попробовать любую картинку вместо обложки вставить
+    MoreLessTextLabel* summary = new MoreLessTextLabel(QString::fromStdString(myBook->getSummary()).left(15),
+                                                       QString::fromStdString(myBook->getSummary()), this);
     //QPalette coverPalette;
     //coverPalette.setBrush(cover->backgroundRole(), QBrush(QPixmap("view/images/book.jpeg")));
     //cover->setPalette(coverPalette);
@@ -31,6 +34,7 @@ BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent) ,myB
     mainLayout->addWidget(title, 0, 2, Qt::AlignLeft);
     mainLayout->addWidget(author, 1, 2, Qt::AlignLeft);
     mainLayout->addWidget(myButtonGroup, 0, 3);
+    mainLayout->addWidget(summary, 2, 1, 1, 4);
   
     QPalette palette;
     palette.setColor(this->backgroundRole(), Qt::white);
