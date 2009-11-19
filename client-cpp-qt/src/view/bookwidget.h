@@ -43,7 +43,7 @@ private:
     BookActionsButtonBox* myButtonGroup;
 
     QCheckBox* myCheckBox; // потому что будет важно его состояние
-    //HttpConnection* myHttpConnection;
-    //QFile* myFile;
+    
+		//QFile* myFile;
 };
 #endif //_BOOK_WIDGET_H_
