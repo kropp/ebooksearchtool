@@ -2,10 +2,9 @@
 #include <QPushButton>
 #include <QHBoxLayout>
 
-#include "showhidetext.h"
+#include "moreLessTextLabel.h"
 
-
-ShowHideText::ShowHideText(const QString& line, const QString& text, QWidget* parent) :QLabel(parent) {
+MoreLessTextLabel::MoreLessTextLabel(const QString& line, const QString& text, QWidget* parent) :QLabel(parent) {
     myLine = line; 
     myLine.append("<a href=\"link\"> ... </a>");
     myText = text; 

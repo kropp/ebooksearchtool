@@ -1,19 +1,19 @@
-#ifndef _SHOW_HIDE_TEXT_H_
-#define _SHOW_HIDE_TEXT_H_
+#ifndef _MORE_LESS_TEXT_LABEL_H_
+#define _MORE_LESS_TEXT_LABEL_H_
 
 #include <QLabel>
 
 // сначала отображает текст myLine в конце гиперссылка "...", при нажатии на нее,
 // текст меняется на myText, вид ссылки изменяется.
 
-class ShowHideText : public QLabel {
+class MoreLessTextLabel : public QLabel {
     
 public:
-    ShowHideText(const QString& line, const QString& text, QWidget* parent);
+    MoreLessTextLabel(const QString& line, const QString& text, QWidget* parent);
     
 private:
     QString myLine;
     QString myText;
 };
 
-#endif //_SHOW_HIDE_TEXT_H_
+#endif //_MORE_LESS_TEXT_LABEL_H_
