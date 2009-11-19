@@ -1,26 +1,19 @@
 #ifndef _SHOW_HIDE_TEXT_H_
 #define _SHOW_HIDE_TEXT_H_
 
-#include <QWidget>
+#include <QLabel>
 
-class QLabel;
-class QPushButton;
+// сначала отображает текст myLine в конце гиперссылка "...", при нажатии на нее,
+// текст меняется на myText, вид ссылки изменяется.
 
-class ShowHideText : public QWidget {
-    
-    Q_OBJECT
+class ShowHideText : public QLabel {
     
 public:
-    ShowHideText(const QString& text1, const QString& text2, QWidget* parent);
-    
-private slots:
-    void changeText();
+    ShowHideText(const QString& line, const QString& text, QWidget* parent);
     
 private:
-    const QString& myLine;
-    const QString& myText;
-    QPushButton* myButton;
-    QLabel* myLabel;
+    QString myLine;
+    QString myText;
 };
 
 #endif //_SHOW_HIDE_TEXT_H_
