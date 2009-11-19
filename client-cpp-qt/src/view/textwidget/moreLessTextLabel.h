@@ -8,8 +8,13 @@
 
 class MoreLessTextLabel : public QLabel {
     
+    Q_OBJECT
+    
 public:
     MoreLessTextLabel(const QString& line, const QString& text, QWidget* parent);
+    
+private slots:
+    void changeText();
     
 private:
     QString myLine;

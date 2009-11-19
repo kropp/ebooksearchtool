@@ -1,6 +1,7 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QHBoxLayout>
+#include <QDebug>
 
 #include "moreLessTextLabel.h"
 
@@ -8,19 +9,18 @@ MoreLessTextLabel::MoreLessTextLabel(const QString& line, const QString& text, Q
     myLine = line; 
     myLine.append("<a href=\"link\"> ... </a>");
     myText = text; 
+    myText.append("  <a href=\"link\"> | </a>");
     setTextFormat(Qt::RichText);
     setText(myLine);
- //прилепить к текстам гиперссылки
-   
-//    connect(myButton, SIGNAL(pressed()), this, SLOT(changeText()));
-// еще один сигнал - изменить надпись на кнопке
+
+    connect(this, SIGNAL(linkActivated(const QString&)), this, SLOT(changeText())); 
 }
 
-//void ShowHideText::changeText() {
- //   if (myLabel->text() == myLine) {
-        //myLabel->setText(myText);
-//    } else {
-     //   myLabel->setText(myLine);
-  //  }
-//}
+void MoreLessTextLabel::changeText() {
+    if (text() == myLine) {
+        setText(myText);
+    } else {
+        setText(myLine);
+    }
+}
 
