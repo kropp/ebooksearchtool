@@ -7,7 +7,9 @@
 
 ShowHideText::ShowHideText(const QString& line, const QString& text, QWidget* parent) :QLabel(parent) {
     myLine = line; 
+    myLine.append("<a href=\"link\"> ... </a>");
     myText = text; 
+    setTextFormat(Qt::RichText);
     setText(myLine);
  //прилепить к текстам гиперссылки
    
