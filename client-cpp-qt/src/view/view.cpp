@@ -28,6 +28,7 @@ void View::update() {
     const size_t size = (myData->getSize() < 5) ? myData->getSize() : 5;
     for (size_t i = 0; i < size; ++i) {
         BookWidget* widget = new BookWidget(this, myData->getBook(i));
+        //widget->setSizePolicy(QSizePolicy::Minimum);
         myBooks.push_back(widget);
         myBooksLayout->addWidget(widget);
     }
