@@ -1,6 +1,8 @@
 "Insert action handler"
 
-from server.book.models import Book, Author, Alias
+import md5
+
+from server.book.models import Book, Author, Alias, BookFile
 
 def strip_str(str):
     '''Removes leading, endig space from string,
@@ -8,6 +10,11 @@ def strip_str(str):
     if str:
         return str.strip()
     return ''
+
+def set_if_notempty(value, key):
+    "Sets to value key, if key isn't empty"
+    if key:
+        value = key
 
 
 def get_authors(node):
@@ -27,9 +34,9 @@ def get_authors(node):
                 if author_name:
                     author = Author.objects.get_or_create(name=author_name)[0]
 
-            if details_node.tag == 'alias':
+            if details_node.tag == 'alias' and author:
                 alias_name = strip_str(details_node.text)
-                if alias_name and author:
+                if alias_name:
                     alias = Alias.objects.get_or_create(name=alias_name)[0]
                     author.alias.add(alias)
         # add author to list, if it is created or found
@@ -40,26 +47,56 @@ def get_authors(node):
 
 def get_files(node):
     '''Creates or finds files, returns files list'''
-    files = []
+    book_files = []
 
     for file_node in node.getchildren():
-        file = None
+        book_file = None
 
         # look in tag file
         for details_node in file_node.getchildren():
-            pass 
+            # create or find file with link from tag
+            if details_node.tag == 'link':
+                link = strip_str(details_node.text)
+                if link:
+                    link_hash = md5.new(link).hexdigest()
+                    book_file = BookFile.objects.get_or_create(link=link,
+                                                        link_hash=link_hash)[0]
 
-        # add author to list, if it is created or found
-        if file:
-            files.append(file)
-    return files
+            # add size filed if exists book_file and size is int
+            if details_node.tag == 'size' and book_file:
+                size = strip_str(details_node.text)
+                try:
+                    size = int(size)
+                    book_file.size = size
+                except ValueError:
+                    pass
+                
+            if details_node.tag == 'type' and book_file:
+                type = strip_str(details_node.text)
+                # TODO check type
+                if type:
+                    book_file.type = type
+
+            if details_node.tag == 'more_info' and book_file:
+                set_if_notempty(book_file.more_info,
+                                strip_str(details_node.text))
+
+            if details_node.tag == 'img_link' and book_file:
+                set_if_notempty(book_file.img_link,
+                                strip_str(details_node.text))
+
+        # add book_file to list, if it is created or found
+        if book_file:
+            book_file.save()
+            book_files.append(book_file)
+    return book_files
 
 
 def xml_exec_insert(xml):
-    "Insert xml request to dsta base"
+    "Insert xml request to dsta base, returns list of warning strings"
     
-    if xml.tag != 'book':
-        raise InputDataServerException("Not found root tag 'book'")
+    #if xml.tag != 'book':
+    #    raise InputDataServerException("Not found root tag 'book'")
 
     book = Book(title='', lang='')
     authors = []
@@ -73,4 +110,7 @@ def xml_exec_insert(xml):
         if node.tag == 'lang':
             # TODO add check of correct lang (from LANG_CODE)
             book.lang = strip_str(node.text)
+
+    # TODO make warnings
+    return []
         

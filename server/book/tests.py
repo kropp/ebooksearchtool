@@ -209,3 +209,37 @@ class InsertActionTest(TestCase):
         self.failUnlessEqual(BookFile.objects.all()[0].id, file.id)
         self.failUnlessEqual(0, file.size)
 
+    def test_get_files_check_size(self):
+        "Tests checking size field"
+        xml_string = '''
+       <files>
+        <file>
+            <link> http://link  </link>
+            <size>wrong</size>
+        </file>
+        <file>
+            <link> http://link1  </link>
+            <size>645</size>
+        </file>
+       </files>
+''';
+        xml = etree.fromstring(xml_string)
+        files = get_files(xml)
+        self.failUnlessEqual(BookFile.objects.all()[0].size, 0)
+        self.failUnlessEqual(BookFile.objects.all()[1].size, 645)
+
+    def test_get_files_check_empty(self):
+        "Tests empty file if link is empty"
+        xml_string = '''
+       <files>
+        <file>
+            <link> </link>
+            <size>84</size>
+        </file>
+       </files>
+''';
+        xml = etree.fromstring(xml_string)
+        files = get_files(xml)
+        self.failUnlessEqual(BookFile.objects.all().count(), 0)
+
+
