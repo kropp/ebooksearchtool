@@ -81,6 +81,10 @@ void BookWidget::read() {
     emit read(this);
 }
 
+bool BookWidget::isMarked() const {
+    return myCheckBox->checkState();
+}
+
 
 void BookWidget::mark(int state) {
     myCheckBox->setCheckState((Qt::CheckState)state);

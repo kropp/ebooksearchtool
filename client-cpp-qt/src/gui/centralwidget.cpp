@@ -72,7 +72,7 @@ void CentralWidget::downloadFile() {
 
 }
 
-void CentralWidget::downloadFile(const QString& url) {
+void CentralWidget::downloadFile(const QString&) {
    /* std::cout << "slot file download\n";
 
 	if (myFile != 0) {

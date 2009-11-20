@@ -22,6 +22,8 @@ public:
     virtual ~BookWidget();
 
     const Book& getBook() const;
+    bool isMarked() const;
+    
     void mark(int state);
 
 private:

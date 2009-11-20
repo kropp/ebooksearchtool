@@ -66,14 +66,15 @@ void View::updateHeader() {
 }
 
 void View::makeHeader() {
-    BookActionsButtonBox* buttons = new BookActionsButtonBox(this);
+    myBookActionsButtonBox = new BookActionsButtonBox(this);
     myCheckBox = new QCheckBox();
 	QVBoxLayout* buttonLayout = new QVBoxLayout();
-	buttonLayout->addWidget(buttons);
+	buttonLayout->addWidget(myBookActionsButtonBox);
 	buttonLayout->addWidget(myCheckBox);
 	myHeaderLayout->addLayout(buttonLayout);
    
     connect(myCheckBox, SIGNAL(stateChanged(int)), this, SLOT(markAllBooks(int)));
+    connect(myBookActionsButtonBox, SIGNAL(remove()), this, SLOT(removeChecked()));
 
     QString found("FOUND: 0");
     QString shown("SHOWN: 0");
@@ -107,5 +108,15 @@ void View::read(BookWidget*) {
 // скачиваю его(если его нет на локальном диске)
 // открываю подходящей читалкой
 }
+
+void View::removeChecked() {
+    for (int i = 0; i < myBooks.size(); ++i) {
+        if (myBooks[i]->isMarked()) {
+            remove(myBooks[i]);
+            --i;
+        }
+    }
+}
+
 
 

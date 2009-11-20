@@ -11,6 +11,7 @@
 class Data;
 class QLabel;
 class QCheckBox;
+class BookActionsButtonBox;
 
 class View : public QWidget {
 
@@ -37,6 +38,7 @@ private slots:
     void remove(BookWidget*);
     void toLibrary(BookWidget*);
     void read(BookWidget*);
+    void removeChecked();
     
 
 private:
@@ -50,6 +52,7 @@ private:
     QLabel* myFoundLabel;
     QLabel* myShownLabel;
     QCheckBox* myCheckBox;
+    BookActionsButtonBox* myBookActionsButtonBox;
 };
 
 inline Data* View::getData() const {
