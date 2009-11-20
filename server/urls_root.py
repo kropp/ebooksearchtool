@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import *
 
-from server.book.views import data_modify 
-from server.book.action_handler import ACTION
+from book.views import data_modify 
+from book.action_handler import ACTION
 
 from django.contrib import admin
 
@@ -14,21 +14,19 @@ urlpatterns = patterns('',
     (r'^data/get/?$', data_modify, {'action': ACTION['get'],}),
     (r'^data/insert/?$', data_modify, {'action': ACTION['insert'],}),
 
-###    (r'^data
-
     # interface for search
-    (r'^search.atom/?$', 'server.views.search_request_to_server', {'type': 'atom',}),
-    (r'^search/?$', 'server.views.search_request_to_server', {'type': 'xhtml',}),
+    (r'^search.atom/?$', 'server.views.search_request_to_server', {'response_type': 'atom',}),
+    (r'^search/?$', 'server.views.search_request_to_server', {'response_type': 'xhtml',}),
     
-    (r'^book.atom/id(\d{1,})/?$', 'server.views.book_request_to_server', {'type': 'atom',}),
-    (r'^book/id(\d{1,})/?$', 'server.views.book_request_to_server', {'type': 'xhtml',}),
+    (r'^book.atom/id(\d{1,})/?$', 'server.views.book_request_to_server', {'response_type': 'atom',}),
+    (r'^book/id(\d{1,})/?$', 'server.views.book_request_to_server', {'response_type': 'xhtml',}),
     
-    (r'^author.atom/id(\d{1,})/?$', 'server.views.author_request_to_server', {'type': 'atom',}),
-    (r'^author/id(\d{1,})/?$', 'server.views.author_request_to_server', {'type': 'xhtml',}),
+    (r'^author.atom/id(\d{1,})/?$', 'server.views.author_request_to_server', {'response_type': 'atom',}),
+    (r'^author/id(\d{1,})/?$', 'server.views.author_request_to_server', {'response_type': 'xhtml',}),
     
     #all books
-    (r'^all.atom/?$', 'server.views.all_books_request_to_server', {'type': 'atom',}),
-    (r'^all/?$', 'server.views.all_books_request_to_server', {'type': 'xhtml',}),
+    (r'^all.atom/?$', 'server.views.all_books_request_to_server', {'response_type': 'atom',}),
+    (r'^all/?$', 'server.views.all_books_request_to_server', {'response_type': 'xhtml',}),
     
     #admin
     (r'^admin/(.*)', admin.site.root),
