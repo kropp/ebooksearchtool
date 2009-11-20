@@ -10,7 +10,7 @@ from book.models import *
 from book.action_handler import *
 from book.get_action import get_by_id, get_q, make_q_from_tag, get_authors_q, get_files_q
 
-from book.insert_action import get_authors
+from book.insert_action import get_authors, get_files
 
 class GetActionTest(TestCase):
     def GetActionTest(self):
@@ -186,4 +186,26 @@ class InsertActionTest(TestCase):
         self.failUnlessEqual(author.alias.all()[3].name, 'Alias9')
 
 
+    def test_get_files_insert_new(self):
+        "Tests insert new fiels"
+        xml_string = '''
+       <files>
+        <file>
+            <link> http://link  </link>
+            <size></size>
+            <type></type>
+            <time_found></time_found>
+            <last_check></last_check>
+
+            <more_info></more_info>
+            <img_link></img_link>
+        </file>
+       </files>
+''';
+        xml = etree.fromstring(xml_string)
+        files = get_files(xml)
+
+        file = BookFile.objects.get(link='http://link')
+        self.failUnlessEqual(BookFile.objects.all()[0].id, file.id)
+        self.failUnlessEqual(0, file.size)
 

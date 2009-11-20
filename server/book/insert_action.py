@@ -52,7 +52,7 @@ def get_files(node):
         # add author to list, if it is created or found
         if file:
             files.append(file)
-    return authors
+    return files
 
 
 def xml_exec_insert(xml):
