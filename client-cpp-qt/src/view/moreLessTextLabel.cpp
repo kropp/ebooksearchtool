@@ -11,6 +11,7 @@ MoreLessTextLabel::MoreLessTextLabel(const QString& line, const QString& text, Q
     myText = text; 
     myText.append("  <a href=\"link\"> | </a>");
     setTextFormat(Qt::RichText);
+    setWordWrap(true);
     setText(myLine);
 
     connect(this, SIGNAL(linkActivated(const QString&)), this, SLOT(changeText())); 

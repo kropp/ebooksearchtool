@@ -48,7 +48,7 @@ private:
     QVBoxLayout* myMainLayout;
 
     QLabel* myFoundLabel;
-	QLabel* myShownLabel;
+    QLabel* myShownLabel;
     QCheckBox* myCheckBox;
 };
 

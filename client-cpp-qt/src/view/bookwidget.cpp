@@ -16,8 +16,10 @@ BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent) ,myB
     QLabel* title = new QLabel(myBook->getTitle().c_str());
     QLabel* author = new QLabel(myBook->getAuthor()->getName().c_str());
     QLabel* cover = new QLabel("COVER");// попробовать любую картинку вместо обложки вставить
-    MoreLessTextLabel* summary = new MoreLessTextLabel(QString::fromStdString(myBook->getSummary()).left(15),
-                                                       QString::fromStdString(myBook->getSummary()), this);
+    QString summary = QString::fromStdString(myBook->getSummary());
+    summary.prepend("Summary: ");
+    QString begin = summary.left(50);
+    MoreLessTextLabel* annotation = new MoreLessTextLabel(begin, summary, this);
     //QPalette coverPalette;
     //coverPalette.setBrush(cover->backgroundRole(), QBrush(QPixmap("view/images/book.jpeg")));
     //cover->setPalette(coverPalette);
@@ -34,7 +36,7 @@ BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent) ,myB
     mainLayout->addWidget(title, 0, 2, Qt::AlignLeft);
     mainLayout->addWidget(author, 1, 2, Qt::AlignLeft);
     mainLayout->addWidget(myButtonGroup, 0, 3);
-    mainLayout->addWidget(summary, 2, 1, 1, 4);
+    mainLayout->addWidget(annotation, 2, 1, 1, 4);
   
     QPalette palette;
     palette.setColor(this->backgroundRole(), Qt::white);
@@ -81,7 +83,7 @@ void BookWidget::read() {
 
 
 void BookWidget::mark(int state) {
-    myCheckBox->setCheckState(state);
+    myCheckBox->setCheckState((Qt::CheckState)state);
 }
 
 const Book& BookWidget::getBook() const {
