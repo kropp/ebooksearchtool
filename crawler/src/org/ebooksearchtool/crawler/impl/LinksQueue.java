@@ -7,7 +7,6 @@ import org.ebooksearchtool.crawler.AbstractLinksQueue;
 public class LinksQueue extends AbstractLinksQueue {
     
     private final LinksComparator myLinksComparator = new LinksComparator();
-    private final Object myLock = new Object();
     private final SortedSet<URI> mySet;
     private final int myMaxSize;
     
@@ -16,50 +15,47 @@ public class LinksQueue extends AbstractLinksQueue {
         mySet = new TreeSet<URI>(myLinksComparator);
     }
     
-    public boolean offer(URI uri) {
-        boolean answer;
-        synchronized (myLock) {
-            if (mySet.size() < myMaxSize) {
-                answer = mySet.add(uri);
-            } else {
-                URI last = mySet.last();
-                if (myLinksComparator.compare(uri, last) < 0) {
-                    mySet.remove(last);
-                    answer = mySet.add(uri);
-                } else {
-                    answer = false;
-                }
+    public synchronized boolean offer(URI uri) {
+        if (mySet.size() < myMaxSize) {
+            mySet.add(uri);
+            notify();
+            return true;
+        } else {
+            URI last = mySet.last();
+            if (myLinksComparator.compare(uri, last) < 0) {
+                mySet.remove(last);
+                mySet.add(uri);
+                notify();
+                return true;
             }
         }
-        return answer;
+        return false;
     }
     
-    public URI poll() {
+    public synchronized URI poll() {
         URI uri = null;
-        while (true) {
+        try {
+            uri = mySet.first();
+        } catch (NoSuchElementException e) {
             try {
-                synchronized (myLock) {
-                    uri = mySet.first();
-                    mySet.remove(uri);
-                }
-            } catch (NoSuchElementException e) {
-                break;
-            }
-            break;
+                wait();
+            } catch (InterruptedException ie) { }
+            try {
+                uri = mySet.first();
+            } catch (NoSuchElementException ee) { }
+        }
+        if (uri != null) {
+            mySet.remove(uri);
         }
         return uri;
     }
     
     public boolean isEmpty() {
-        synchronized (myLock) {
-            return mySet.isEmpty();
-        }
+        return mySet.isEmpty();
     }
     
     public int size() {
-        synchronized (myLock) {
-            return mySet.size();
-        }
+        return mySet.size();
     }
     
 }

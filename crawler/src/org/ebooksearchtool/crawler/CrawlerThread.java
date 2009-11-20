@@ -50,11 +50,18 @@ class CrawlerThread extends Thread {
         while (true) {
             myAction = "taking an URI from the queue";
             URI uri = null;
-            myWaitingForQueue = true; //TODO: check if all threads are waiting
+            myWaitingForQueue = true;
             while (uri == null) {
                 uri = queue.poll();
+                synchronized (queue) {
+                    if (uri != null) {
+                        myWaitingForQueue = false;
+                        break;
+                    }
+                }
+                if (myCrawler.allThreadsAreWaitingForQueue()) break;
             }
-            myWaitingForQueue = false;
+            if (uri == null) break;
             myAction = "downloading the page at: " + uri;
             myDownloadingURI = uri;
             String page = network.download(uri, "text/html", true, myIndex);

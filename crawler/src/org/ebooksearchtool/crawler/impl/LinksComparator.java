@@ -6,12 +6,17 @@ import java.net.URI;
 public class LinksComparator implements Comparator<URI> {
 
     public int compare(URI a, URI b) {
-        int diff = linkValue(b) - linkValue(a);
-        if (diff != 0) return diff;
-        /*
-        diff = a.hashCode() - b.hashCode();
-        if (diff != 0) return diff;
-        */
+        int fa, fb;
+        fa = linkValue(a);
+        fb = linkValue(b);
+        if (fa != fb) {
+            return fb < fa ? -1 : 1;
+        }
+        fa = a.hashCode();
+        fb = b.hashCode();
+        if (fa != fb) {
+            return fa < fb ? -1 : 1;
+        }
         return a.compareTo(b);
     }
     
