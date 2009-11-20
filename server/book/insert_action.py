@@ -17,6 +17,8 @@ def get_authors(node):
     for author_node in node.getchildren():
         author = None
 
+        # TODO add by id 
+
         # look in tag author
         for details_node in author_node.getchildren():
             # create or find author with name from tag
@@ -33,6 +35,23 @@ def get_authors(node):
         # add author to list, if it is created or found
         if author:
             authors.append(author)
+    return authors
+
+
+def get_files(node):
+    '''Creates or finds files, returns files list'''
+    files = []
+
+    for file_node in node.getchildren():
+        file = None
+
+        # look in tag file
+        for details_node in file_node.getchildren():
+            pass 
+
+        # add author to list, if it is created or found
+        if file:
+            files.append(file)
     return authors
 
 
