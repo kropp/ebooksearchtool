@@ -1,10 +1,22 @@
 #ifndef _NETWORK_MANAGER_H_
 #define _NETWORK_MANAGER_H_
 
-class HttpConnection;
-// singleton
+#include <QObject>
 
-class NetworkManager {
+class HttpConnection;
+class QString;
+class QIODevice;
+class QHttp;
+
+class NetworkManager : public QObject {
+
+    Q_OBJECT
+
+private:
+    static QString ourConfigFilePath;
+    static QString ourProxy;
+    static int ourPort;    
+    static QString ourServer;
 
 private:
     static NetworkManager* instance;
@@ -12,11 +24,20 @@ private:
 public:
     static NetworkManager* getInstance();
 
+public:
+    void configurate();
+	void download(QString url, QIODevice* out);
+	QString getServer() const;
+
+signals:
+    void requestFinished(int, bool);
+
 private:
     NetworkManager();
-    
+   // virtual ~NetworkManager();
+        
 private:
-    HttpConnection* myHttpConnection;   
+    QHttp* myHttpConnection;   
 };
 
 #endif //_NETWORK_MANAGER_H_

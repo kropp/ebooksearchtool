@@ -2,7 +2,7 @@
 
 #include "centralwidget.h"
 #include "../xml_parser/parser.h"
-#include "../network/httpconnection.h"
+#include "../network/networkmanager.h"
 #include "../data/data.h"
 
 CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myBuffer(0) {
@@ -21,11 +21,11 @@ CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myBuffer(0) {
 
 	myView = new View(this, 0);
 
-	myHttpConnection = new HttpConnection(this); // а может мне соединение не понадобится - отложить создание!
-    myUrlLineEdit->insert(myHttpConnection->getServer());
+	myNetworkManager = NetworkManager::getInstance(); // а может мне соединение не понадобится - отложить создание!
+    myUrlLineEdit->insert(myNetworkManager->getServer());
 
 	connect(myQueryLineEdit, SIGNAL(textChanged(const QString &)), this, SLOT(enableSearchButton()));
-	connect(myHttpConnection, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
+	//connect(myNetworkManager, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
 
 	connect(mySearchButton, SIGNAL(clicked()), this, SLOT(downloadFile())); 
 	connect(mySearchButton, SIGNAL(clicked()), this, SLOT(setNewRequest()));
@@ -67,7 +67,7 @@ void CentralWidget::downloadFile() {
 	if (!myQueryLineEdit->text().isEmpty()) {
 		myUrlLineEdit->setText(queryToUrl());
 	}
-	myHttpConnection->download(myUrlLineEdit->text(), myBuffer);
+	myNetworkManager->download(myUrlLineEdit->text(), myBuffer);
     myBuffer->close();
 
 }
@@ -125,7 +125,7 @@ void CentralWidget::parseDownloadedFile() {
 
 QString CentralWidget::queryToUrl() const {
 	QString urlStr("http://");
-    urlStr.append(myHttpConnection->getServer());
+    urlStr.append(myNetworkManager->getServer());
     urlStr.append("/books/search.atom?query=");
     const QString tag = mySearchTags->currentText();
     if ((tag == "author") || (tag == "title")) {

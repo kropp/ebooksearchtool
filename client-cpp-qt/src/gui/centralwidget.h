@@ -1,7 +1,6 @@
 #ifndef _CENTRAL_WIDGET_H_
 #define _CENTRAL_WIDGET_H_
 
-#include "../network/httpconnection.h"
 #include "../view/view.h" 
 
 
@@ -14,6 +13,7 @@ class QLabel;
 class QLineEdit;
 class QTextEdit;
 class QPushButton;
+class NetworkManager;
 
 
 class CentralWidget : public QWidget {
@@ -44,8 +44,8 @@ private:
 	QDialogButtonBox *myButtonBox;
 
     bool myNewRequest;
-	HttpConnection* myHttpConnection;
 	QBuffer *myBuffer; 
+    NetworkManager* myNetworkManager;
 
 	View* myView;
 
