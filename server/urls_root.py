@@ -1,4 +1,5 @@
-from django.conf.urls.defaults import *
+from django.conf.urls.defaults import include
+from django.conf.urls.defaults import patterns
 
 from book.views import data_modify 
 from book.action_handler import ACTION
