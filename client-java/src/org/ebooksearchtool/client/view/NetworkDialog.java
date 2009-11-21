@@ -21,94 +21,174 @@ import java.io.UnsupportedEncodingException;
  * Time: 21:57:00
  * To change this template use File | Settings | File Templates.
  */
-public class NetworkDialog {
+public class NetworkDialog extends JDialog{
 
-    JFrame myFrame = new JFrame("Network settings");
-    JPanel myPanel;
-    JLabel myTitle;
     JTextField myServerText;
     JTextField myIPText;
     JTextField myPortText;
-    JPanel myIpPanel;
-    JPanel myPortPanel;
     JCheckBox myProxyCheck;
+    JButton myOk, myCancel;
 
     private Controller myController;
 
     public NetworkDialog(Controller controller) throws IOException, SAXException, ParserConfigurationException {
 
+        super(new JFrame(), "Register");
+        this.setLocation(150, 150);
+
         myController = controller;
 
-        myPanel = new JPanel();
-        myFrame.setContentPane(myPanel);
-        myFrame.setSize(400, 300);
-        myFrame.setLocation(20,20);
-        myFrame.setVisible(true);
-        myFrame.setAlwaysOnTop(true);
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent we) {
+                dispose();
+            }
+        });
 
-        myPanel.setLayout(new BorderLayout());
-        myTitle = new JLabel("Set Proxy Properties");
-        JPanel pan1 = new JPanel(new FlowLayout());
-        myPanel.add(pan1, "North");
-        pan1.add(myTitle);
-        JPanel mainPan = new JPanel(new GridLayout(4, 2));
-        myPanel.add(mainPan, "Center");
-        
-        mainPan.add(new JLabel("server"));
-        myServerText = new JTextField();
-        mainPan.add(myServerText);
-        mainPan.add(new JLabel("Use proxy"));
+        JPanel main = new JPanel();
+        main.setLayout(new BoxLayout(main, BoxLayout.Y_AXIS));
+        main.setBorder(BorderFactory.createEmptyBorder(12,12,12,12));
+
+        JPanel server = new JPanel();
+        server.setLayout(new BoxLayout(server, BoxLayout.X_AXIS));
+
+        JLabel serverLabel = new JLabel("server:");
+        server.add(serverLabel);
+        server.add(Box.createVerticalStrut(12));
+        myServerText = new JTextField(25);
+        server.add(myServerText);
+
+        JPanel proxy = new JPanel();
+        proxy.setLayout(new BoxLayout(proxy, BoxLayout.X_AXIS));
+
+        JLabel proxyLabel = new JLabel("use proxy");
+        proxy.add(proxyLabel);
+        proxy.add(Box.createHorizontalStrut(12));
         myProxyCheck = new JCheckBox();
-        mainPan.add(myProxyCheck);
-        mainPan.add(new JLabel("IP"));
-        myIPText = new JTextField();
-        mainPan.add(myIPText);
-        mainPan.add(new JLabel("port"));
-        myPortText = new JTextField();
-        mainPan.add(myPortText);
-        myProxyCheck.setSelected(myController.getSettings().isProxyEnabled());
-        if(myProxyCheck.isSelected()){
-            myIPText.setEnabled(true);
-            myPortText.setEnabled(true);
-        }else{
-            myIPText.setEnabled(false);
-            myPortText.setEnabled(false);
+        proxy.add(myProxyCheck);
+
+        JPanel IP = new JPanel();
+        IP.setLayout(new BoxLayout(IP, BoxLayout.X_AXIS));
+
+        JLabel ipLabel = new JLabel("IP:");
+        IP.add(ipLabel);
+        IP.add(Box.createHorizontalStrut(12));
+        myIPText = new JTextField(25);
+        IP.add(myIPText);
+
+        JPanel port = new JPanel();
+        port.setLayout(new BoxLayout(port, BoxLayout.X_AXIS));
+
+        JLabel portLabel = new JLabel("port:");
+        port.add(portLabel);
+        port.add(Box.createHorizontalStrut(12));
+        myPortText = new JTextField(25);
+        port.add(myPortText);
+
+        JPanel flow = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
+        JPanel grid = new JPanel(new GridLayout(1, 2, 5, 0));
+
+        myOk = new JButton("Apply");
+        myCancel = new JButton("Cancel");
+        grid.add(myOk);
+        grid.add(myCancel);
+        flow.add(grid);
+
+        server.setAlignmentX(Component.LEFT_ALIGNMENT);
+        IP.setAlignmentX(Component.LEFT_ALIGNMENT);
+        port.setAlignmentX(Component.LEFT_ALIGNMENT);
+        proxy.setAlignmentX(Component.LEFT_ALIGNMENT);
+        main.setAlignmentX(Component.LEFT_ALIGNMENT);
+        flow.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        myServerText.setAlignmentY(Component.CENTER_ALIGNMENT);
+        myPortText.setAlignmentY(Component.CENTER_ALIGNMENT);
+        myProxyCheck.setAlignmentY(Component.CENTER_ALIGNMENT);
+        myIPText.setAlignmentY(Component.CENTER_ALIGNMENT);
+        proxyLabel.setAlignmentY(Component.CENTER_ALIGNMENT);
+        portLabel.setAlignmentY(Component.CENTER_ALIGNMENT);
+        serverLabel.setAlignmentY(Component.CENTER_ALIGNMENT);
+        ipLabel.setAlignmentY(Component.CENTER_ALIGNMENT);
+
+        Component[] comps = {serverLabel, proxyLabel, ipLabel, portLabel};
+        int labelWidth = 0;
+        Dimension dim = new Dimension();
+        
+        for(int i = 0; i < 4; ++i){
+            if(labelWidth < comps[i].getPreferredSize().width){
+                labelWidth = comps[i].getPreferredSize().width;
+                dim = comps[i].getPreferredSize();
+            }
         }
 
-        myProxyCheck.addActionListener(new ActionListener() {
-    		public void actionPerformed(ActionEvent e) {
-                if(myProxyCheck.isSelected()){
-                    myIPText.setEnabled(true);
-                    myPortText.setEnabled(true);
-                }else{
-                    myIPText.setEnabled(false);
-                    myPortText.setEnabled(false);
-                }
-    			myPanel.updateUI();
-    		}
-        });
-        
+        for(int i = 0; i < 4; ++i){
+            comps[i].setPreferredSize(dim);
+            comps[i].setMaximumSize(dim);
+            comps[i].setMinimumSize(dim);
+        }
+
+        Insets margin = myOk.getMargin();
+        margin.left = 12;
+        margin.right = 12;
+        myOk.setMargin(margin);
+
+        margin = myCancel.getMargin();
+        margin.left = 12;
+        margin.right = 12;
+        myCancel.setMargin(margin);
+
+        Dimension size = myServerText.getPreferredSize();
+        size.width = myServerText.getMaximumSize().width;
+        myServerText.setMaximumSize(size);
+
+        size = myIPText.getPreferredSize();
+        size.width = myIPText.getMaximumSize().width;
+        myIPText.setMaximumSize(size);
+
+        main.add(server);
+        main.add(Box.createVerticalStrut(12));
+        main.add(proxy);
+        main.add(Box.createVerticalStrut(12));
+        main.add(IP);
+        main.add(Box.createVerticalStrut(12));
+        main.add(port);
+        main.add(Box.createVerticalStrut(17));
+        main.add(flow);
 
         myServerText.setText(myController.getSettings().getServer());
+        myProxyCheck.setSelected(myController.getSettings().isProxyEnabled());
         myIPText.setText(myController.getSettings().getIP());
         myPortText.setText(String.valueOf(myController.getSettings().getPort()));
 
-        myFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        getContentPane().add(main);
+        pack();
+        setLocation(200, 200);
+        setVisible(true);
 
-        myServerText.setEditable(true);
-        
-        myFrame.addWindowListener(new WindowAdapter() {
-        	public void windowClosing(WindowEvent e) {
-            	try {
-					myController.setSettings(myServerText.getText(),myProxyCheck.isSelected(), myIPText.getText(), Integer.parseInt(myPortText.getText()));
-				} catch (NumberFormatException e1) {
-					e1.printStackTrace();
-				} catch (FileNotFoundException e1) {					
-					e1.printStackTrace();
-				} catch (UnsupportedEncodingException e1) {					
-					e1.printStackTrace();
-				}
-        	}
+        myCancel.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+
+                dispose();
+
+            }
+
+        });
+
+        myOk.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+
+                try {
+                    myController.setSettings(myServerText.getText(), myProxyCheck.isSelected(), myIPText.getText(), Integer.parseInt(myPortText.getText()));
+                } catch (FileNotFoundException e1) {
+                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (UnsupportedEncodingException e1) {
+                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+                dispose();
+
+            }
+
         });
         
     }
