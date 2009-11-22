@@ -15,7 +15,7 @@ from book.models import *
 from book.action_handler import *
 from book.get_action import get_by_id, get_q, make_q_from_tag, get_authors_q, get_files_q
 
-from book.insert_action import get_authors, get_files, get_book_inf
+from book.insert_action import get_authors, get_files, get_book_inf, save_book_inf
 
 from server.spec.exception import InputDataServerException
 
@@ -259,4 +259,108 @@ class InsertActionTest(TestCase):
         ''';
         xml = etree.fromstring(xml_string)
         self.assertRaises(InputDataServerException, get_book_inf, xml)
+
+    def test_book_inf(self):
+        "Tests getting book inf"
+        xml_string = '''
+        <book>
+            <title>Book title   </title>
+            <lang>en</lang>
+        </book>
+        ''';
+        xml = etree.fromstring(xml_string)
+        (book, authors, book_files, annotations) = get_book_inf(xml)
+        self.failUnlessEqual(book.title, 'Book title')
+        self.failUnlessEqual(book.lang, 'en')
+
+    def test_book_inf_authors(self):
+        "Tests getting book authors"
+        Author(name='Name').save()
+        xml_string = '''
+        <book>
+            <title>Book title   </title>
+            <authors>
+                <author>
+                    <name>Name2</name>
+                    <alias>Alias</alias>
+                </author>
+                <author>
+                    <name>Name</name>
+                    <alias>Alias</alias>
+                </author>
+                <author>
+                    <name>  
+                    </name>
+                </author>
+            </authors>
+        </book>
+        ''';
+        xml = etree.fromstring(xml_string)
+        (book, authors, book_files, annotations) = get_book_inf(xml)
+        self.failUnlessEqual(authors[0], Author.objects.all()[1])
+        self.failUnlessEqual(authors[1], Author.objects.all()[0])
+        self.failUnlessEqual(Author.objects.all().count(), 2)
+
+    def test_book_inf_files(self):
+        "Tests getting book_files"
+        link_hash = md5.md5('link').hexdigest()
+        BookFile(link='link', link_hash=link_hash).save()
+        xml_string = '''
+        <book>
+            <title>Book title   </title>
+            <files>
+            <file>
+                <link>link  </link>
+                <size>wrong</size>
+            </file>
+            <file>
+            <link>link2</link>
+            <size>645</size>
+            </file>
+        </files>
+        </book>
+        ''';
+        xml = etree.fromstring(xml_string)
+        (book, authors, book_files, annotations) = get_book_inf(xml)
+        self.failUnlessEqual(book_files[0], BookFile.objects.all()[0])
+        self.failUnlessEqual(book_files[1], BookFile.objects.all()[1])
+        self.failUnlessEqual(BookFile.objects.all().count(), 2)
+        
+
+    def test_save_book_info_book(self):
+        'Tests creating and updating book'
+        book = Book(title='title', lang='en')
+        save_book_inf(book, [], [], [])
+        self.failUnlessEqual(Book.objects.all()[0].title, 'title')
+        self.failUnlessEqual(Book.objects.all()[0].lang, 'en')
+        self.failUnlessEqual(Book.objects.all().count(), 1)
+
+        # test update lang
+        book = Book(title='title2', lang='')
+        book.save()
+        book.lang = 'fr'
+        save_book_inf(book, [], [], [])
+        self.failUnlessEqual(Book.objects.all()[1].title, 'title2')
+        self.failUnlessEqual(Book.objects.all()[1].lang, 'fr')
+        self.failUnlessEqual(BookFile.objects.all().count(), 2)
+
+    def atest_save_book_info_add_author(self):
+        'tests adding authors to book'
+        book = Book(title='title', lang='en')
+        Author(name='auhtor name').save()
+        Author(name='auhtor name2').save()
+        save_book_inf(book, Author.objects.all(), [], [])
+        
+        self.failUnlessEqual(Author.objects.all()[0], Book.objects.all()[0].author_set.all()[0])
+        self.failUnlessEqual(Author.objects.all()[1], Book.objects.all()[0].author_set.all()[1])
+
+        book = Book(title='title', lang='')
+        author3 = Author(name='auhtor name3')
+        author3.save()
+        save_book_inf(book, Author.objects.all(), [], [])
+        
+        self.failUnlessEqual(Book.objects.all().count(), 3)
+        self.failUnlessEqual(Author.objects.all()[0], Book.objects.all()[0].author_set.all()[0])
+        self.failUnlessEqual(Author.objects.all()[1], Book.objects.all()[0].author_set.all()[1])
+        self.failUnlessEqual(Author.objects.all()[2], Book.objects.all()[0].author_set.all()[2])
 

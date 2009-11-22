@@ -155,27 +155,32 @@ def get_book_inf(xml):
     return (book, authors, book_files, annotations)
 
 
-def xml_exec_insert(xml):
-    "Insert xml request to dsta base, returns list of warning strings"
-    
-    #if xml.tag != 'book':
-    #    raise InputDataServerException("Not found root tag 'book'")
-
+def save_book_inf(book, authors, book_files, annotations):
+    'Creates or updates book information'
     messages = []
-
-    (book, authors, book_files, annotations) = get_book_inf(xml)
 
 #    if not is_author_created:
     # try to find the book by this authors
-    q_obj = Q(title=book.title, lang__in=[book.lang, ''])
+    q_obj = Q(title=book.title)
+    if book.lang:
+        q_obj = q_obj & Q(lang__in=[book.lang, ''])
     for author in authors:
         q_obj = q_obj & Q(author=author)
-    found_book = Book.objects.filter(q_obj)
+    found_books = Book.objects.filter(q_obj)
+    print 'found books', found_books
 
-    if found_book.count() == 1 \
-    and found_book.author_set.count() == len(authors):
+    if found_books.count() == 1 \
+    and found_books[0].author_set.count() == len(authors):
         # we've found the book in database
-        book = found_book
+        # set lang to book
+        print book.lang
+        if book.lang:
+            found_books[0].lang = book.lang
+            print found_books[0].lang
+            found_books[0].save()
+            print found_books[0].lang
+        book = found_books[0]
+        print book.lang
         messages.append(('INFO', 'Book updated'))
     else:
         # not found the book in database, then save it
@@ -192,6 +197,18 @@ def xml_exec_insert(xml):
     for annotation in annotations:
         book.annotation.add(annotation)
 
+
+def xml_exec_insert(xml):
+    "Insert xml request to dsta base, returns list of warning strings"
+    
+    #if xml.tag != 'book':
+    #    raise InputDataServerException("Not found root tag 'book'")
+
+    messages = []
+
+    (book, authors, book_files, annotations) = get_book_inf(xml)
+
+    save_book_inf(book, authors, book_files, annotations)
 
     # TODO make warnings
     return messages
