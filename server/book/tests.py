@@ -3,6 +3,11 @@ try:
 except ImportError:
     import elementtree.ElementTree as etree
 
+try:
+    from hashlib import md5
+except ImportError:
+    import md5
+
 from django.test import TestCase
 from django.db.models import Q
 
@@ -10,14 +15,15 @@ from book.models import *
 from book.action_handler import *
 from book.get_action import get_by_id, get_q, make_q_from_tag, get_authors_q, get_files_q
 
-from book.insert_action import get_authors, get_files
+from book.insert_action import get_authors, get_files, get_book_inf
+
+from server.spec.exception import InputDataServerException
 
 class GetActionTest(TestCase):
-    def GetActionTest(self):
-       pass 
-
 
     def test_get_q(self):
+        md5.md5("sd").hexdigest()
+
         q = get_q('title', 'query', 'icontains')
         qm = Q(title__icontains='query')
         self.failUnlessEqual(q.__str__(), qm.__str__())
@@ -125,7 +131,7 @@ class InsertActionTest(TestCase):
 
     def test_get_authors_inser_new(self):
         xml = etree.fromstring(xml_string_insert_new)
-        authors = get_authors(xml)
+        authors = (get_authors(xml))[0]
 #        authors.order_by(id)
 
         author = authors[0]
@@ -242,4 +248,15 @@ class InsertActionTest(TestCase):
         files = get_files(xml)
         self.failUnlessEqual(BookFile.objects.all().count(), 0)
 
+
+    def test_get_book_inf_raise_except(self):
+        "Tests raising InputDataServerException exception"
+        xml_string = '''
+        <book>
+            <title>
+            </title>
+        </book>
+        ''';
+        xml = etree.fromstring(xml_string)
+        self.assertRaises(InputDataServerException, get_book_inf, xml)
 
