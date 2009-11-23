@@ -154,7 +154,7 @@ public class Crawler implements Runnable {
         for (String start : myStarts) {
             URI uri = Util.createURI(start);
             if (myRobots.canGo(uri)) {
-                myVisited.addIfNotContains(uri);
+                myVisited.addIfNotContains(uri, false);
                 myQueue.offer(uri);
             }
         }

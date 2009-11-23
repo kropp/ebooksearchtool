@@ -108,12 +108,13 @@ class CrawlerThread extends Thread {
                 if (myStopping) break;
                 if (link == null) continue;
                 myAction = "adding the link to the set: " + link;
-                boolean success = visited.addIfNotContains(link);
+                boolean success = visited.addIfNotContains(link, queue.isLargeSource(link.getHost()));
                 if (success) {
                     myAction = "checking if link is probably a book: " + link;
                     if (Util.isBook(link)) {
                         myAction = "writing information about a book: " + link;
                         myCrawler.writeBookToOutput(link, uri, page);
+                        queue.hostHasOneMoreBook(uri.getHost());
                         logger.log(Logger.MessageType.FOUND_BOOKS, String.format("% 4d  book #%d: %s", myIndex, myCrawler.getFoundBooksNumber(), link));
                     } else {
                         myAction = "checking if i can go to: " + link;

@@ -12,7 +12,7 @@ import org.ebooksearchtool.crawler.Util;
 public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
     
     public static final File ROBOTS_CACHE_DIR = Util.CACHE_DIR;
-    public static final int FILES_NUMBER = 256;
+    public static final int FILES_NUMBER = 8192;
         
     private final Network myNetwork;
     private final Logger myLogger;

@@ -12,4 +12,9 @@ public abstract class AbstractLinksQueue {
     
     public abstract int size();
     
+    
+    public abstract void hostHasOneMoreBook(String host);
+    
+    public abstract boolean isLargeSource(String host);
+    
 }

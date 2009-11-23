@@ -11,12 +11,12 @@ public abstract class AbstractRobotsExclusion {
     
     /*  returns -1 if no robots.txt is stored for this server,
                  0 if url is not disallowed,
-                 1 if url is disallowed                       */
+                 1 if url is disallowed                                */
     protected abstract int isDisallowed(String host, URI uri);
     
     /*  creates information about robots.txt located on the server.
         if there is no robots.txt, information about total allowance
-        must be generated anyway.                             */
+        must be generated anyway.                                      */
     protected abstract void downloadRobotsTxt(String host);
     
     boolean canGo(URI uri) {

@@ -50,48 +50,49 @@ public class Main {
             System.err.println("cannot open file " + PROPERTIES_FILE + ", using default values instead");
         }
         
-        if (args.length > 0) {
-            final String[] starts = new String[args.length];
-            for (int i = 0; i < args.length; i++) {
-                starts[i] = args[i].startsWith("http://") ? args[i] : "http://" + args[i];
-            }
-            PrintWriter output = null;
-            try {
-                output = new PrintWriter(FOUND_BOOKS_FILE);
-            } catch (FileNotFoundException fnfe) {
-                fnfe.printStackTrace();
-                System.exit(0);
-            }
-            if (!Util.init()) {
-                System.err.println("initialization failed");
-                System.exit(0);
-            }
-            Crawler crawler = new Crawler(properties, starts, output);
-            Thread crawlingThread = new Thread(crawler);
-            crawlingThread.start();
-            String keyboardInput = null;
-            Scanner keyboardScanner = new Scanner(System.in);
-            String input = "";
-            while (true) {
-                input = keyboardScanner.nextLine();
-                if (input.length() == 0) {
-                    if (crawler.dumpCurrentState(DUMP_FILE)) {
-                        System.out.println("current state dumped successfully to " + DUMP_FILE);
-                    } else {
-                        System.out.println("there were problems while dumping current state to " + DUMP_FILE);
-                    }
-                } else break;
-            }
-            System.out.println("exit: " + input);
-            crawlingThread.interrupt();
-            try {
-                crawlingThread.join();
-            } catch (InterruptedException ie) { }
-            output.close();
-            System.exit(0);
-        } else {
+        if (args.length == 0) {
             System.out.println("usage:\n  java -jar Crawler.jar www.example.com www.example.net www.example.org\n  input empty string and press Enter to ask Crawler what is he doing\n  input any non-empty string and press Enter to exit");
+            return;
         }
+        
+        final String[] starts = new String[args.length];
+        for (int i = 0; i < args.length; i++) {
+            starts[i] = args[i].startsWith("http://") ? args[i] : "http://" + args[i];
+        }
+        PrintWriter output = null;
+        try {
+            output = new PrintWriter(FOUND_BOOKS_FILE);
+        } catch (FileNotFoundException fnfe) {
+            fnfe.printStackTrace();
+            System.exit(0);
+        }
+        if (!Util.init()) {
+            System.err.println("initialization failed");
+            System.exit(0);
+        }
+        Crawler crawler = new Crawler(properties, starts, output);
+        Thread crawlingThread = new Thread(crawler);
+        crawlingThread.start();
+        String keyboardInput = null;
+        Scanner keyboardScanner = new Scanner(System.in);
+        String input = "";
+        while (true) {
+            input = keyboardScanner.nextLine();
+            if (input.length() == 0) {
+                if (crawler.dumpCurrentState(DUMP_FILE)) {
+                    System.out.println("current state dumped successfully to " + DUMP_FILE);
+                } else {
+                    System.out.println("there were problems while dumping current state to " + DUMP_FILE);
+                }
+            } else break;
+        }
+        System.out.println("exit: " + input);
+        crawlingThread.interrupt();
+        try {
+            crawlingThread.join();
+        } catch (InterruptedException ie) { }
+        output.close();
+        System.exit(0);
     }
     
 }

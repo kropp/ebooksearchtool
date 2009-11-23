@@ -1,10 +1,17 @@
 package org.ebooksearchtool.crawler.impl;
 
 import java.util.Comparator;
+import java.util.Map;
 import java.net.URI;
 
-public class LinksComparator implements Comparator<URI> {
-
+class LinksComparator implements Comparator<URI> {
+    
+    private final Map<String, Integer> myHasBooks;
+    
+    LinksComparator(Map<String, Integer> hasBooks) {
+        myHasBooks = hasBooks;
+    }
+    
     public int compare(URI a, URI b) {
         int fa, fb;
         fa = linkValue(a);
@@ -20,13 +27,17 @@ public class LinksComparator implements Comparator<URI> {
         return a.compareTo(b);
     }
     
-    
     private static final String[] BAD_SITES = new String[]
-    {"facebook", "wikipedia", "tumblr", "rutube", "endless", "amazon", "flickr"};
+    {"facebook", "wikipedia", "/wiki", "tumblr", "rutube", "endless",
+     "amazon", "flickr", "blogspot", "wordpress", "livejournal"};
     private static final String[] GOOD_DOMAINS = new String[]
     {"com", "net", "org", "info", "edu", "gov", "biz", "ru", "uk", "us"};
     
-    public static int linkValue(URI uri) {
+    private int linkValue(URI uri) {
+        Integer thisHostHasBooks = myHasBooks.get(uri.getHost());
+        if (thisHostHasBooks != null) {
+            return thisHostHasBooks * 20;
+        }
         String s = uri.toString();
         for (String badSite : BAD_SITES) {
             if (s.indexOf(badSite) >= 0) return -100;
@@ -44,7 +55,8 @@ public class LinksComparator implements Comparator<URI> {
             }
             if (!isGoodDomain) return -5;
         }
-        if (s.indexOf("epub") >= 0 || s.indexOf("book") >= 0) return 5;
+        if (s.indexOf("epub") >= 0 || s.indexOf("ebook") >= 0) return 10;
+        if (s.indexOf("book") >= 0) return 5;
         return 0;
     }
     

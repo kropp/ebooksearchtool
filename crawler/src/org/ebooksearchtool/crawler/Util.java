@@ -36,14 +36,20 @@ public class Util {
             int x = s.indexOf('#');
             if (x >= 0) {
                 s = s.substring(0, x);
-                uri = new URI(s);
             }
             if (s.endsWith("/")) {
-                uri = new URI(s.substring(0, s.length() - 1));
+                s = s.substring(0, s.length() - 1);
             }
-            if (s.indexOf("?PHPSESSID=") >= 0) return null;
+            x = s.indexOf("?PHPSESSID=");
+            if (x >= 0) {
+                s = s.substring(0, x);
+            }
+            x = s.indexOf(";jsessionid=");
+            if (x >= 0) {
+                s = s.substring(0, x);
+            }
             ///TODO: /index.html, /index.htm, /index.php
-            return uri;
+            return new URI(s);
         } catch (Exception e) {
             System.err.println(" error: normalizing " + uri);
         }

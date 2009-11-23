@@ -11,8 +11,10 @@ import org.ebooksearchtool.crawler.AbstractVisitedLinksSet;
 public class VisitedLinksSet extends AbstractVisitedLinksSet {
     
     public static final int MAX_LINKS_FROM_HOST = 50;
-    public static final long HOST_STATS_CLEANUP_PERIOD = 30000;
-    private Map<String, Integer> myHostCount;// = new HashMap<String, Integer>();
+    public static final int MAX_LINKS_FROM_LARGE_SOURCE = 300;
+    public static final long HOST_STATS_CLEANUP_PERIOD = 60000;
+    
+    private Map<String, Integer> myHostCount;
     private long myLastCleanupTime = 0;
     
     private final BitSet myBitSet;
@@ -79,7 +81,7 @@ public class VisitedLinksSet extends AbstractVisitedLinksSet {
         return true;
     }
     
-    public synchronized boolean addIfNotContains(URI uri) {
+    public synchronized boolean addIfNotContains(URI uri, boolean isLargeSource) {
         if (contains(uri)) {
             return false;
         }
@@ -87,9 +89,10 @@ public class VisitedLinksSet extends AbstractVisitedLinksSet {
         if (myLastCleanupTime + HOST_STATS_CLEANUP_PERIOD < now) {
             myLastCleanupTime = now;
             myHostCount = new HashMap<String, Integer>();
-        } 
+        }
+        int maxLinks = isLargeSource ? MAX_LINKS_FROM_LARGE_SOURCE : MAX_LINKS_FROM_HOST;
         Integer thisCount = myHostCount.get(uri.getHost());
-        if (thisCount != null && thisCount > MAX_LINKS_FROM_HOST) {
+        if (thisCount != null && thisCount > maxLinks) {
             return false;
         }
         return add(uri);
