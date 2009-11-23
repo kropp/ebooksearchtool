@@ -144,4 +144,28 @@ def all_books_request_to_server(request, response_type):
          'title': title, 'author':author, 'server':SERVER_URL, 'total':total,
          'items_per_page':items_per_page, 'next':next, 'curr': next - 1, 
          'seq':seq, })
+         
+def catalog_request_to_server(request, response_type):
+    return render_to_response('book/opds/client_response_catalog.xml')
+    
+def books_by_authors_request_to_server(request, response_type):
+    try:
+        letter = request.GET['letter']
+    except KeyError:
+        alphabet_string = "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z"
+        return render_to_response('book/opds/client_response_books_by_author.xml', 
+        {'alphabet': alphabet_string})
+        
+    request_to_server = Q(name__istartswith=letter)
+    authors = Author.objects.filter(request_to_server).distinct()
+    return render_to_response('book/opds/client_response_books_by_author_letter.xml',
+        {'authors': authors})
+        
+def author_books_request_to_server(request, author_id, response_type):
+    try:
+        author = Author.objects.get(id=author_id)
+    except ObjectDoesNotExist:
+        pass
+    return render_to_response('book/opds/client_response_author_books.xml', 
+        {'author': author})
 
