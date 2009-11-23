@@ -11,6 +11,7 @@ import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -48,7 +49,6 @@ public class Window {
     private Query myQuery;
     
     private int myActionIndex;
-    private int myPlusAction = 0;
     private String myAdress;
 
     private Controller myController;
@@ -80,7 +80,8 @@ public class Window {
     	myQueryButtonPanel = new JPanel();
     	myQueryButtonPanel.setLayout(new BoxLayout(myQueryButtonPanel,BoxLayout.X_AXIS));
         myQueryPlusPanel = new JPanel();
-        myQueryPlusPanel.setLayout(new FlowLayout()/*BoxLayout(myQueryPlusPanel,BoxLayout.X_AXIS)*/);
+        myQueryPlusPanel.setLayout(new /*FlowLayout()*/BoxLayout(myQueryPlusPanel,BoxLayout.X_AXIS));
+        myQueryPlusPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         myQueryPanel.add(myQueryButtonPanel);
         myQueryPanel.add(myQueryPlusPanel);
     	myCentralPanel.add(myQueryPanel, "North");
@@ -104,6 +105,7 @@ public class Window {
     	mySearchButton.setEnabled(false);
     	myQueryButtonPanel.add(myQueryButton);
     	myQueryPlusPanel.add(mySearchButton);
+    	mySearchButton.setAlignmentX(Component.LEFT_ALIGNMENT);
     	mySearchLabel = new JLabel();
         myQueryPlusPanel.add(mySearchLabel);
     	

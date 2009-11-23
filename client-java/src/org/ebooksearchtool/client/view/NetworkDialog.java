@@ -33,8 +33,7 @@ public class NetworkDialog extends JDialog{
 
     public NetworkDialog(Controller controller) throws IOException, SAXException, ParserConfigurationException {
 
-        super(new JFrame(), "Register");
-        this.setLocation(150, 150);
+        super(new JFrame(), "Network Options");
 
         myController = controller;
 
@@ -158,9 +157,13 @@ public class NetworkDialog extends JDialog{
         myProxyCheck.setSelected(myController.getSettings().isProxyEnabled());
         myIPText.setText(myController.getSettings().getIP());
         myPortText.setText(String.valueOf(myController.getSettings().getPort()));
+        myIPText.setEnabled(myProxyCheck.isSelected());
+        myPortText.setEnabled(myProxyCheck.isSelected());
 
         getContentPane().add(main);
         pack();
+
+//        getRootPane().setWindowDecorationStyle(JRootPane.INFORMATION_DIALOG);
         setLocation(200, 200);
         setVisible(true);
 
@@ -187,6 +190,17 @@ public class NetworkDialog extends JDialog{
                 }
                 dispose();
 
+            }
+
+        });
+        
+        myProxyCheck.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+
+                myIPText.setEnabled(myProxyCheck.isSelected());
+                myPortText.setEnabled(myProxyCheck.isSelected());
+                
             }
 
         });

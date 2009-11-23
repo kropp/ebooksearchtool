@@ -58,7 +58,9 @@ public class BookPanel {
         }
 
         myImageLable = new JLabel();
-        myImageLable.setIcon(new ImageIcon("images" + File.separatorChar + myBook.getTitle() + ".jpg"));
+        ImageIcon img = new ImageIcon("images" + File.separatorChar + myBook.getTitle() + ".jpg");
+        
+        myImageLable.setIcon(img);
         myImageLable.setPreferredSize(new Dimension(80, 100));
         myRootPanel.add(myImageLable);
 
