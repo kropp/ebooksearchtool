@@ -256,6 +256,7 @@ public class Window {
             public void actionPerformed(ActionEvent e) {
 
                 try {
+                	JDialog.setDefaultLookAndFeelDecorated(true);
                     NetworkDialog dialogFrame = new NetworkDialog(myController);
                 } catch (IOException e1) {
                     e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.

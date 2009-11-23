@@ -34,7 +34,7 @@ public class NetworkDialog extends JDialog{
     public NetworkDialog(Controller controller) throws IOException, SAXException, ParserConfigurationException {
 
         super(new JFrame(), "Network Options");
-
+        
         myController = controller;
 
         addWindowListener(new WindowAdapter() {
@@ -52,7 +52,7 @@ public class NetworkDialog extends JDialog{
 
         JLabel serverLabel = new JLabel("server:");
         server.add(serverLabel);
-        server.add(Box.createVerticalStrut(12));
+        server.add(Box.createHorizontalStrut(12));
         myServerText = new JTextField(25);
         server.add(myServerText);
 
@@ -160,12 +160,14 @@ public class NetworkDialog extends JDialog{
         myIPText.setEnabled(myProxyCheck.isSelected());
         myPortText.setEnabled(myProxyCheck.isSelected());
 
-        getContentPane().add(main);
-        pack();
+        getContentPane().add(main);       
 
-//        getRootPane().setWindowDecorationStyle(JRootPane.INFORMATION_DIALOG);
+        getRootPane().setWindowDecorationStyle(JRootPane.INFORMATION_DIALOG);
+        pack();
         setLocation(200, 200);
         setVisible(true);
+        setModal(true);
+        setResizable(false);
 
         myCancel.addActionListener(new ActionListener() {
 
