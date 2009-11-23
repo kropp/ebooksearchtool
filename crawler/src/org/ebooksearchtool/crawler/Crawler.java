@@ -97,7 +97,7 @@ public class Crawler implements Runnable {
             } catch (IOException e) {
                 try {
                     analyzerSocket.close();
-                } catch (IOException f) { }
+                } catch (Exception f) { }
                 analyzerSocket = null;
                 analyzerWriter = null;
                 myLogger.log(Logger.MessageType.ERRORS, " error: connect to analyzer failed, continuing without it");
