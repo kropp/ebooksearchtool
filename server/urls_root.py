@@ -34,8 +34,10 @@ urlpatterns = patterns('',
     #book catalog
     (r'^catalog.atom/?$', 'server.views.catalog_request_to_server', {'response_type': 'atom',}),
     
-    #books sorted by authors
+    #books sorted by authors, languages, subjects
     (r'^discover/authors.atom/?$', 'server.views.books_by_authors_request_to_server', {'response_type': 'atom',}),
+    (r'^discover/languages.atom/?$', 'server.views.books_by_languages_request_to_server', {'response_type': 'atom',}),
+    (r'^discover/subjects.atom/?$', 'server.views.books_by_tags_request_to_server', {'response_type': 'atom',}),
     
     #admin
     (r'^admin/(.*)', admin.site.root),

@@ -1,7 +1,5 @@
 from string import join, split
 
-SERVER_URL = "http://only.mawhrin.net/ebooks"
-
 def convert_delim(strs, delimiter=' '):
     '''Convert all \\r \\n \\t to delimiter.
        Input parametr: strs is one string or list of strings'''

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="/stylesheets/catalog.xsl"?>
+
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:thr="http://purl.org/syndication/thread/1.0" xml:lang="en-US" xmlns:app="http://www.w3.org/2007/app" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns="http://www.w3.org/2005/Atom" xmlns:dcterms="http://purl.org/dc/terms/">
+
+    <link href="discover/languages.atom?" rel="alternate"></link>
+    
+    <link href="discover/languages.atom?" rel="self"/>
+    
+    <link type="application/opensearchdescription+xml" rel="search" title="Open Search Description" href="opensearch"/>
+
+    
+    <title> Books by language </title>
+    
+    <!--id></id>
+    <updated></updated>
+    <icon></icon>
+    <author></author-->
+    
+{#    {% for lang in languages %} #}
+    <entry>
+        <title> en </title>
+        <link type="application/atom+xml" href="../search.atom?lang=en"/>
+        <updated></updated>
+        <id>../search.atom?lang=en</id>
+        <content type="text"></content>
+    </entry>
+    
+    <entry>
+        <title> ru </title>
+        <link type="application/atom+xml" href="../search.atom?lang=ru"/>
+        <updated></updated>
+        <id>../search.atom?lang=ru</id>
+        <content type="text"></content>
+    </entry>
+{#    {% endfor %} #}
+
+</feed>
