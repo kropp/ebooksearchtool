@@ -22,7 +22,7 @@ public class LinksComparator implements Comparator<URI> {
     
     
     private static final String[] BAD_SITES = new String[]
-    {"facebook", "wikipedia", "tumblr", "rutube", "endless"};
+    {"facebook", "wikipedia", "tumblr", "rutube", "endless", "amazon", "flickr"};
     private static final String[] GOOD_DOMAINS = new String[]
     {"com", "net", "org", "info", "edu", "gov", "biz", "ru", "uk", "us"};
     

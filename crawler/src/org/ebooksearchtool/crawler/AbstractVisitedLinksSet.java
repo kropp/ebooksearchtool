@@ -4,8 +4,6 @@ import java.net.URI;
 
 public abstract class AbstractVisitedLinksSet {
     
-    public abstract boolean add(URI uri);
-    
     public abstract boolean contains(URI uri);
     
     public abstract boolean addIfNotContains(URI uri);

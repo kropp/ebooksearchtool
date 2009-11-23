@@ -1,12 +1,20 @@
 package org.ebooksearchtool.crawler.impl;
 
+import java.util.Map;
+import java.util.HashMap;
+
 import java.net.URI;
 import java.util.BitSet;
 import java.util.Random;
 import org.ebooksearchtool.crawler.AbstractVisitedLinksSet;
 
 public class VisitedLinksSet extends AbstractVisitedLinksSet {
-
+    
+    public static final int MAX_LINKS_FROM_HOST = 50;
+    public static final long HOST_STATS_CLEANUP_PERIOD = 30000;
+    private Map<String, Integer> myHostCount;// = new HashMap<String, Integer>();
+    private long myLastCleanupTime = 0;
+    
     private final BitSet myBitSet;
     private final int myMaxNumberOfElements;
     private final int myHashCount = 10;
@@ -42,7 +50,7 @@ public class VisitedLinksSet extends AbstractVisitedLinksSet {
         return answer;
     }
     
-    public synchronized boolean add(URI uri) {
+    private boolean add(URI uri) {
         if (myNumberOfElements == myMaxNumberOfElements) {
             return false;
         }
@@ -52,6 +60,11 @@ public class VisitedLinksSet extends AbstractVisitedLinksSet {
             myBitSet.set((int)(Math.abs(h) % mySize));
         }
         myNumberOfElements++;
+        Integer thisCount = myHostCount.get(uri.getHost());
+        if (thisCount == null) {
+            thisCount = 0;
+        }
+        myHostCount.put(uri.getHost(), thisCount + 1);
         return true;
     }
     
@@ -68,6 +81,15 @@ public class VisitedLinksSet extends AbstractVisitedLinksSet {
     
     public synchronized boolean addIfNotContains(URI uri) {
         if (contains(uri)) {
+            return false;
+        }
+        long now = System.currentTimeMillis();
+        if (myLastCleanupTime + HOST_STATS_CLEANUP_PERIOD < now) {
+            myLastCleanupTime = now;
+            myHostCount = new HashMap<String, Integer>();
+        } 
+        Integer thisCount = myHostCount.get(uri.getHost());
+        if (thisCount != null && thisCount > MAX_LINKS_FROM_HOST) {
             return false;
         }
         return add(uri);

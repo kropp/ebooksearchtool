@@ -139,12 +139,12 @@ public class Crawler implements Runnable {
     }
     
 
-    private long myCrawledPagesNumber = 0;
+    private volatile long myCrawledPagesNumber = 0;
     public synchronized long getCrawledPagesNumber() {
         return myCrawledPagesNumber++;
     }
     
-    private long myFoundBooksNumber = 0;
+    private volatile long myFoundBooksNumber = 0;
     public synchronized long getFoundBooksNumber() {
         return myFoundBooksNumber++;
     }
@@ -154,7 +154,7 @@ public class Crawler implements Runnable {
         for (String start : myStarts) {
             URI uri = Util.createURI(start);
             if (myRobots.canGo(uri)) {
-                myVisited.add(uri);
+                myVisited.addIfNotContains(uri);
                 myQueue.offer(uri);
             }
         }
@@ -246,6 +246,17 @@ public class Crawler implements Runnable {
         }
     }
     
+    public synchronized Set<String> getThreadsHosts() {
+        Set<String> answer = new HashSet<String>();
+        for (int i = 0; i < ourThreadsCount; i++) {
+            if (myThread[i] == null) continue;
+            URI uri = myThread[i].getDownloadingURI();
+            if (uri != null) {
+                answer.add(uri.getHost());
+            }
+        }
+        return answer;
+    }
     
     synchronized void writeBookToOutput(URI source, URI referrer, String referrerPage) {
         String link = source.toString().replaceAll("&", "&amp;");

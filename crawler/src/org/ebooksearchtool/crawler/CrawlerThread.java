@@ -1,7 +1,9 @@
 package org.ebooksearchtool.crawler;
 
 import java.net.URI;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 class CrawlerThread extends Thread {
     
@@ -39,6 +41,30 @@ class CrawlerThread extends Thread {
         return myDoNotInterruptInAnyCase;
     }
     
+    private static class URICrawlingOrderComparator implements Comparator<URI> {
+        private Set<String> myOtherThreadsHosts;
+        
+        public void setOtherThreadsHosts(Set<String> otherThreadsHosts) {
+            myOtherThreadsHosts = otherThreadsHosts;
+        }
+        
+        public int compare(URI first, URI second) {
+            if (first == null) {
+                return second == null ? 0 : 1;
+            } else if (second == null) {
+                return -1;
+            }
+            boolean firstBusy = myOtherThreadsHosts.contains(first);
+            boolean secondBusy = myOtherThreadsHosts.contains(second);
+            if (firstBusy) {
+                return secondBusy ? 0 : 1;
+            } else if (secondBusy) {
+                return -1;
+            }
+            return 0;
+        }
+    }
+    
     public void run() {
         myAction = "preparing";
         final AbstractLinksQueue queue = myCrawler.getQueue();
@@ -47,11 +73,13 @@ class CrawlerThread extends Thread {
         final Network network = myCrawler.getNetwork();
         final Logger logger = myCrawler.getLogger();
         final int maxLinksFromPage = myCrawler.getMaxLinksFromPage();
+        final URICrawlingOrderComparator myCrawlingOrderComparator = new URICrawlingOrderComparator();
         while (true) {
             myAction = "taking an URI from the queue";
             URI uri = null;
             myWaitingForQueue = true;
             while (uri == null) {
+                myCrawlingOrderComparator.setOtherThreadsHosts(myCrawler.getThreadsHosts());
                 uri = queue.poll();
                 synchronized (queue) {
                     if (uri != null) {

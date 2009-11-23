@@ -42,7 +42,7 @@ public class Util {
                 uri = new URI(s.substring(0, s.length() - 1));
             }
             if (s.indexOf("?PHPSESSID=") >= 0) return null;
-            //TODO: /index.html, /index.htm, /index.php
+            ///TODO: /index.html, /index.htm, /index.php
             return uri;
         } catch (Exception e) {
             System.err.println(" error: normalizing " + uri);
