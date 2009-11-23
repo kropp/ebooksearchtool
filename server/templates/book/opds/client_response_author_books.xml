@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="/stylesheets/catalog.xsl"?>
+
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:thr="http://purl.org/syndication/thread/1.0" xml:lang="en-US" xmlns:app="http://www.w3.org/2007/app" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns="http://www.w3.org/2005/Atom" xmlns:dcterms="http://purl.org/dc/terms/">
+
+    <link href="authors/id{{author.id}}/books.atom" rel="alternate"></link>
+    
+    <link href="authors/id{{author.id}}/books.atom" rel="self"/>
+    
+    <link type="application/opensearchdescription+xml" rel="search" title="Open Search Description" href="/opensearch"/>
+
+    
+    <title> {{ author.name }} </title>
+    
+    <!--id></id>
+    <updated></updated>
+    <icon></icon>
+    <author></author-->
+{% for book in author.book.all %}
+<entry>
+
+    <title>{{ book.title }}</title>
+
+    <link type="application/atom+xml" href="../../book.atom/id{{ book.id }}"/>
+
+
+    <id>{{ book.id }}</id>
+
+    <updated></updated>
+    <dcterms:language>{{ book.lang }}</dcterms:language>
+    
+    {% for tag in book.tag.all %}
+        <category term="{{ tag }}"/>
+    {% endfor %}
+
+    <summary> {{ book.annotation.all.0 }} </summary>
+
+    {% for book_file in book.book_file.all %}
+      <link type="application/{{ book_file.type }}" href="{{ book_file.link }}"/>
+    {% endfor %}  
+
+    <link type="image/png" rel="http://opds-spec.org/cover" href="{{book_file.img_link}}" /> 
+    <link type="application/atom+xml;type=entry" rel="alternate" title="Full entry" href="book/id{{ book.id }}"/>
+
+</entry>
+{% endfor %}
+</feed>
