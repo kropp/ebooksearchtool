@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <books>
     {% for book in books %}
-    <book>
+    <book id="{{ book.id }}">
         <title> {{ book.title }} </title>
         <lang> {{ book.lang }} </lang>
 
         <authors>
             {% for author in book.author_set.all %}
-            <author>
+            <author id="{{ author.id }}">
                 <name> {{ author.name }}</name>
                 <aliases>
-                    {% for alias in author.aliase.all %}    
-                    <alias> {{ alias.name }}</alias>
+                    {% for alias in author.alias.all %}    
+                    <alias id="{{ alias.id }}"> {{ alias.name }}</alias>
                     {% endfor %}
                 </aliases>
             </author>
@@ -20,7 +20,7 @@
 
         <files>
             {% for file in book.book_file.all %}
-            <file>
+            <file id="{{ file.id }}">
                 <link> {{ file.link }} </link>
                 {% if file.size %}
                 <size> {{ file.size }} </size>
@@ -40,11 +40,9 @@
             {% endfor %}
         </files>
         
-        <annotations>
-            {% for annotation in book.annotation.all %}
-            <annotation> {{ annotation.name }} </annotation>
-            {% endfor %}
-        </annotations>
+        {% for annotation in book.annotation.all %}
+        <annotation id="{{ annotation.id }}"> {{ annotation.name }} </annotation>
+        {% endfor %}
     </book>
     {% endfor %}
 </books>

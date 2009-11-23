@@ -78,13 +78,13 @@ def get_files_q(node):
                 
                 if det_node.tag == 'size':
                     q_obj = q_obj \
-                          & make_q_from_tag(det_node, 'book_file__size', '') 
+                          & make_q_from_tag(det_node, 'book_file__size', '')
 
     return q_obj
 
 
 
-def get_q_from_xml(xml):
+def xml_exec_get(xml):
     '''Makes QuerySet for Book from xml request
     Returns QuerySet'''
 
@@ -119,7 +119,7 @@ def get_q_from_xml(xml):
         elif node.tag == 'files':
             q_obj = q_obj & get_files_q(node)
     
-    return Book.filter(q_obj)
+    return Book.objects.filter(q_obj)
 
 
 

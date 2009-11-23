@@ -12,8 +12,9 @@ from django.template import Context
 
 from spec.utils import convert_delim
 from spec.exception import *
-from book.action_handler import xml_exec_get, ACTION
+from book.action_handler import ACTION
 from book.insert_action import xml_exec_insert
+from book.get_action import xml_exec_get
 
 def books_to_response(books):
     '''function convert book_entirety to response'''
