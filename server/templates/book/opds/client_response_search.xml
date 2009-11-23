@@ -34,14 +34,20 @@
 
     
     <title>Search results for: 
-    {% if query %}
-        Query "{{ query }}";
+    {% if title.query %}
+        Query "{{ title.query }}";
     {% endif %}
-    {% if title %}
-        Title "{{ title }}";
+    {% if title.tit %}
+        Title "{{ title.tit }}";
     {% endif %} 
-    {% if author %}
-        Author "{{ author }}";
+    {% if title.author %}
+        Author "{{ title.author }}";
+    {% endif %}
+    {% if title.lang %}
+        Language "{{ title.lang }}";
+    {% endif %}
+    {% if title.tag %}
+        Tag "{{ title.tag }}";
     {% endif %}
     </title>
     

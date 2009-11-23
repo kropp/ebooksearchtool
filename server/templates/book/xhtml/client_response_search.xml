@@ -3,16 +3,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head profile="http://www.w3.org/1999/xhtml/vocab">
-  <title>Search results for: 
-    {% if query %}
-        Query "{{ query }}";
+    <title>Search results for: 
+    {% if title.query %}
+        Query "{{ title.query }}";
     {% endif %}
-    {% if title %}
-        Title "{{ title }}";
+    {% if title.tit %}
+        Title "{{ title.tit }}";
     {% endif %} 
-    {% if author %}
-        Author "{{ author }}";
-    {% endif %}</title>
+    {% if title.author %}
+        Author "{{ title.author }}";
+    {% endif %}
+    {% if title.lang %}
+        Language "{{ title.lang }}";
+    {% endif %}
+    {% if title.tag %}
+        Tag "{{ title.tag }}";
+    {% endif %}
+    </title>
   
   <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />
   <meta http-equiv="X-UA-Compatible" content="chrome=1" />
@@ -37,14 +44,20 @@
         <div class="span-19">
             <h1 class="fb-blue bottom">Search results for: </h1>
             <h2 class="gray">
-                {% if query %}
-                    Query "{{ query }}";
+                {% if title.query %}
+                    Query "{{ title.query }}";
                 {% endif %}
-                {% if title %}
-                    Title "{{ title }}";
+                {% if title.tit %}
+                    Title "{{ title.tit }}";
                 {% endif %} 
-                {% if author %}
-                    Author "{{ author }}";
+                {% if title.author %}
+                    Author "{{ title.author }}";
+                {% endif %}
+                {% if title.lang %}
+                    Language "{{ title.lang }}";
+                {% endif %}
+                {% if title.tag %}
+                    Tag "{{ title.tag }}";
                 {% endif %}
             </h2>
         </div>

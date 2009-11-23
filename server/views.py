@@ -25,9 +25,11 @@ def search_request_to_server(request, response_type):
         start_index = 0
     next = page + 1
     request_to_server = Q()
+    main_title = {}
     try:
     # search in title, author.name, alias, annotation, more_info (book_file)
         query = request.GET['query']
+        main_title['query']= query
         for word in query.split():
             request_to_server = request_to_server | Q(title__icontains=word) \
               | Q(author__name__icontains=word) \
@@ -40,6 +42,7 @@ def search_request_to_server(request, response_type):
     # search in title
         title = request.GET['title']
         request_to_server = request_to_server & Q(title__icontains=title) 
+        main_title={'tit': title}
     except KeyError:
         title = None        
 
@@ -47,24 +50,25 @@ def search_request_to_server(request, response_type):
     # search in author.name, alias
         author = request.GET['author']
         request_to_server = request_to_server\
-         & (Q(author__name__icontains=author) \
-         | Q(author__alias__name__icontains=author))
+                          & (Q(author__name__icontains=author) \
+                          | Q(author__alias__name__icontains=author))
+        main_title['author'] = author
     except KeyError:
         author = None    
         
     try:
     # search in lang
         lang = request.GET['lang']
-        request_to_server = request_to_server\
-         & Q(lang=lang)
+        request_to_server = request_to_server & Q(lang=lang)
+        main_title['lang']=lang
     except KeyError:
         lang = None   
 
     try:
     # search in tag
         tag = request.GET['tag']
-        request_to_server = request_to_server\
-         & Q(tag__name=tag)
+        request_to_server = request_to_server & Q(tag__name=tag)
+        main_title['tag']=tag
     except KeyError:
         tag = None          
 
@@ -79,13 +83,13 @@ def search_request_to_server(request, response_type):
     if response_type == "atom":
         return render_to_response('book/opds/client_response_search.xml', 
             {'books': books[start_index:start_index+items_per_page], 
-            'query': query, 'title': title, 'author':author,  'curr': next - 1, 
+            'title': main_title,  'curr': next - 1, 
             'items_per_page':items_per_page, 'total':total, 'next':next, })
         
     if response_type == "xhtml":
         return render_to_response('book/xhtml/client_response_search.xml', 
             {'books': books[start_index:start_index+items_per_page], 
-            'query': query, 'title': title, 'author':author, 'total':total,
+            'title': main_title, 'total':total,
             'items_per_page':items_per_page, 'next':next, 'curr': next - 1, 
             'seq':seq, })
 
