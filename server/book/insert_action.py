@@ -8,8 +8,8 @@ import logging
 
 from django.db.models import Q
 
-from server.book.models import Book, Author, Alias, BookFile
-from server.spec.exception import InputDataServerException
+from book.models import Book, Author, Alias, BookFile
+from spec.exception import InputDataServerException
 
 analyzer_log = logging.getLogger("analyser_logger")
 
@@ -183,12 +183,13 @@ def save_book_inf(book, authors, book_files, annotations):
     if found_books.count() == 1 \
     and found_books[0].author_set.count() == len(authors):
         # we've found the book in database
+        found_book = found_books[0]
+        
         # set lang to book
         if book.lang:
-            found_book = found_books[0]
             found_book.lang = book.lang
+            found_book.save()
 
-        found_book.save()
         book = found_book
         messages.append(('INFO', 'Book updated'))
     else:

@@ -6,10 +6,10 @@ from django.db import IntegrityError
 from django.db import transaction
 from django.core.exceptions import *
 
-from server.spec.utils import replace_delim_to_space
-from server.spec.exception import *
-from server.book.models import *
-from server.spec.logger import main_logger
+from spec.utils import replace_delim_to_space
+from spec.exception import *
+from book.models import *
+from spec.logger import main_logger
 
 ACTION = {
     'get': 1,

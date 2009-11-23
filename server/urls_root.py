@@ -16,18 +16,18 @@ urlpatterns = patterns('',
     (r'^data/insert/?$', data_modify, {'action': ACTION['insert'],}),
 
     # interface for search
-    (r'^search.atom/?$', 'server.views.search_request_to_server', {'response_type': 'atom',}),
-    (r'^search/?$', 'server.views.search_request_to_server', {'response_type': 'xhtml',}),
+    (r'^search.atom/?$', 'views.search_request_to_server', {'response_type': 'atom',}),
+    (r'^search/?$', 'views.search_request_to_server', {'response_type': 'xhtml',}),
     
-    (r'^book.atom/id(\d{1,})/?$', 'server.views.book_request_to_server', {'response_type': 'atom',}),
-    (r'^book/id(\d{1,})/?$', 'server.views.book_request_to_server', {'response_type': 'xhtml',}),
+    (r'^book.atom/id(\d{1,})/?$', 'views.book_request_to_server', {'response_type': 'atom',}),
+    (r'^book/id(\d{1,})/?$', 'views.book_request_to_server', {'response_type': 'xhtml',}),
     
-    (r'^author.atom/id(\d{1,})/?$', 'server.views.author_request_to_server', {'response_type': 'atom',}),
-    (r'^author/id(\d{1,})/?$', 'server.views.author_request_to_server', {'response_type': 'xhtml',}),
+    (r'^author.atom/id(\d{1,})/?$', 'views.author_request_to_server', {'response_type': 'atom',}),
+    (r'^author/id(\d{1,})/?$', 'views.author_request_to_server', {'response_type': 'xhtml',}),
     
     #all books
-    (r'^all.atom/?$', 'server.views.all_books_request_to_server', {'response_type': 'atom',}),
-    (r'^all/?$', 'server.views.all_books_request_to_server', {'response_type': 'xhtml',}),
+    (r'^all.atom/?$', 'views.all_books_request_to_server', {'response_type': 'atom',}),
+    (r'^all/?$', 'views.all_books_request_to_server', {'response_type': 'xhtml',}),
     
     #admin
     (r'^admin/(.*)', admin.site.root),
@@ -37,7 +37,7 @@ urlpatterns = patterns('',
     (r'^opensearch/?$', 'server.views.opensearch_description'),
     
     #user_information
-#    (r'^user/insert/?$', 'server.reader.views.insert_user_information'),
+#    (r'^user/insert/?$', 'reader.views.insert_user_information'),
     
     #openid
     (r'^$', 'django.views.generic.simple.direct_to_template', {'template': 'home.html'}),

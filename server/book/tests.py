@@ -17,7 +17,7 @@ from book.get_action import get_by_id, get_q, make_q_from_tag, get_authors_q, ge
 
 from book.insert_action import get_authors, get_files, get_book_inf, save_book_inf
 
-from server.spec.exception import InputDataServerException
+from spec.exception import InputDataServerException
 
 class GetActionTest(TestCase):
 

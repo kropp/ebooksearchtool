@@ -2,7 +2,7 @@
 import logging
 import logging.handlers
 
-from server.settings import *
+from settings import *
 
 # create logger
 main_logger = logging.getLogger("main_logger")

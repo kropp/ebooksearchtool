@@ -1,4 +1,4 @@
-from server.book.models import *
+from book.models import *
 
 admin.site.register(Annotation)
 

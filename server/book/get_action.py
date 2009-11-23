@@ -1,10 +1,10 @@
 '''Action handler of get request;'''
 
-from server.django.db.models import Q
-from server.django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Q
+from django.core.exceptions import ObjectDoesNotExist
 
-from server.spec.exception import InputDataServerException
-from server.book.models import Book
+from spec.exception import InputDataServerException
+from book.models import Book
 
 
 def get_q(object_name, arg, search_type=''):
@@ -29,7 +29,7 @@ def get_by_id(entirety, node):
     except ObjectDoesNotExist:
         raise InputDataServerException(
               "The %s with id = %s does not exist in database"
-              % (entirety.__name__, obj_id)) 
+              % (entirety.__name__, obj_id))
     except KeyError:
         pass
     return None

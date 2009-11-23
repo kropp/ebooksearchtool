@@ -4,9 +4,15 @@ from django.conf.urls.defaults import patterns
 
 from django.contrib import admin
 
+try:
+    from settings import ROOT_URL
+except ImportError:
+    ROOT_URL = r''
+
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    (r'^ebooks/', include('urls_root')),
+    (ROOT_URL, include('urls_root')),
 )
+
 

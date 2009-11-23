@@ -10,10 +10,10 @@ from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.template import Context
 
-from server.spec.utils import convert_delim
-from server.spec.exception import *
-from server.book.action_handler import xml_exec_get, ACTION
-from server.book.insert_action import xml_exec_insert
+from spec.utils import convert_delim
+from spec.exception import *
+from book.action_handler import xml_exec_get, ACTION
+from book.insert_action import xml_exec_insert
 
 def books_to_response(books):
     '''function convert book_entirety to response'''

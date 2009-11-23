@@ -82,7 +82,7 @@ MIDDLEWARE_CLASSES = (
 CACHE_MIDDLEWARE_SECONDS = 1
 CACHE_MIDDLEWARE_KEY_PREFIX = ''
 
-ROOT_URLCONF = 'server.urls'
+ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (
 #    'ebooks/templates',
@@ -96,18 +96,18 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
-    'django.contrib.auth', 
+    'django.contrib.auth',
 	'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
 
     'django.contrib.admin',
 #    'django.contrib.admindocs',
-    'server.south',
-    'server.book',
-    'server.reader',
+    'south',
+    'book',
+    'reader',
     #openid
-#    'server.django_authopenid',
+#    'django_authopenid',
 )
 
 # path to log file
@@ -117,8 +117,11 @@ MAX_LOG_SIZE = 1024*100
 BACKUP_COUNT = 10
 
 
+# root url
+#ROOT_URL = r'^ebooks/'
+
 try:
     from local_settings import *
 except Exception:
-	  pass
+    pass
 
