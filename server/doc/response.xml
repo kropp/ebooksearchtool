@@ -1,0 +1,15 @@
+<response>
+
+    <!-- ok, warning, error -->
+    <status> </status>
+
+    <!-- Different messages, like debug information, book.id etc -->
+    <info> </info>
+
+    <!-- You'll see it only if there is some error or warning -->
+    <warning> </warning>
+
+    <!-- You'll see it only if there is some error -->
+    <error> </error>
+
+</response>
