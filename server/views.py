@@ -185,7 +185,9 @@ def author_books_request_to_server(request, author_id, response_type):
         
 def books_by_languages_request_to_server(request, response_type):
     """builds opds and xhtml response for books by lang request"""
-    languages=Book.objects.all()
+    lang=Book.objects.values_list('lang')
+    languages = set(lang)
+    languages =  [x[0] for x in languages]
     return render_to_response('book/opds/client_response_books_by_lang.xml', 
         {'languages':languages})
         
