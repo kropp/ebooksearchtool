@@ -160,15 +160,7 @@ public class NetworkDialog extends JDialog{
         myIPText.setEnabled(myProxyCheck.isSelected());
         myPortText.setEnabled(myProxyCheck.isSelected());
 
-        getContentPane().add(main);       
-
-        getRootPane().setWindowDecorationStyle(JRootPane.INFORMATION_DIALOG);
-        pack();
-        setModal(true);
-        setLocation(200, 200);
-        setVisible(true);
         
-        setResizable(false);
 
         myCancel.addActionListener(new ActionListener() {
 
@@ -183,7 +175,7 @@ public class NetworkDialog extends JDialog{
         myOk.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-
+            	
                 try {
                     myController.setSettings(myServerText.getText(), myProxyCheck.isSelected(), myIPText.getText(), Integer.parseInt(myPortText.getText()));
                 } catch (FileNotFoundException e1) {
@@ -207,6 +199,16 @@ public class NetworkDialog extends JDialog{
             }
 
         });
+        
+        getContentPane().add(main);       
+
+        getRootPane().setWindowDecorationStyle(JRootPane.INFORMATION_DIALOG);
+        pack();
+        setModal(true);
+        setLocation(200, 200);
+        setVisible(true);
+        
+        setResizable(false);
         
     }
 

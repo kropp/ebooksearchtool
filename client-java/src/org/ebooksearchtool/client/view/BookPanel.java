@@ -10,6 +10,8 @@ import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.io.IOException;
 import java.io.File;
 
@@ -59,6 +61,7 @@ public class BookPanel {
 
         myImageLable = new JLabel();
         ImageIcon img = new ImageIcon("images" + File.separatorChar + myBook.getTitle() + ".jpg");
+         
         
         myImageLable.setIcon(img);
         myImageLable.setPreferredSize(new Dimension(80, 100));
@@ -201,6 +204,10 @@ public class BookPanel {
 
     public JPanel getRootPanel(){
         return myRootPanel;
+    }
+    
+    public boolean isSelected(){
+    	return myCheckBox.isSelected(); 
     }
 
 }

@@ -46,6 +46,10 @@ public class Window {
     private JLabel myNumberInfo;
     private JPanel myMorePanel;
     private JButton myEraseButton;
+    private JButton myToolLibrary;
+    private JButton myToolDelete;
+    
+    private BookPanel[] myBookPanels = null;
     
     private Query myQuery;
     
@@ -82,7 +86,7 @@ public class Window {
     	myQueryButtonPanel.setLayout(new BoxLayout(myQueryButtonPanel,BoxLayout.X_AXIS));
         myQueryPlusPanel = new JPanel();
         myQueryPlusPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0)/*BoxLayout(myQueryPlusPanel,BoxLayout.X_AXIS)*/);
-        //myQueryPlusPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
         myQueryPanel.add(Box.createVerticalStrut(5));
         myQueryPanel.add(myQueryButtonPanel);
         myQueryPanel.add(Box.createVerticalStrut(5));
@@ -93,7 +97,10 @@ public class Window {
         
 
         myToolBar = new JToolBar();
-        myToolBar.add(new JButton(new ImageIcon(getClass().getResource("/ico/library_30.gif"))));
+        myToolDelete = new JButton(new ImageIcon(getClass().getResource("/ico/delete_30.gif")));
+        myToolBar.add(myToolDelete);
+        myToolLibrary = new JButton(new ImageIcon(getClass().getResource("/ico/library_30.gif")));
+        myToolBar.add(myToolLibrary);
         myPanel1.add(myToolBar, "North");
 
     	myQueryField = new JTextField();
@@ -146,6 +153,27 @@ public class Window {
         myProgressBar.setStringPainted(true);
         myPanel1.add(myProgressBar, "South");
         
+        ActionListener library = new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+         
+            	
+            	
+            }
+        };
+        
+        ActionListener delete = new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+         
+            	if(myBookPanels != null){
+            		for(int i = 0; i < myBookPanels.length; ++i){
+            			myBookPanels[i].getRootPanel().setVisible(!myBookPanels[i].isSelected());
+            		}
+            	}
+            	
+            }
+        };
         
         ActionListener setAdress = new ActionListener() {
 
@@ -237,11 +265,11 @@ public class Window {
             			model.setValue(30);
             			myProgressBar.setString("Recieving data... " + model.getValue() + "%");
             			
-            			BookPanel[] BP = new BookPanel[myController.getData().getBooks().size()];
+            			myBookPanels = new BookPanel[myController.getData().getBooks().size()];
             			model.setValue(35);
             			for(int i = lastNumber; i < myController.getData().getBooks().size(); ++i){
             				try {
-								BP[i] = new BookPanel(myController.getData().getBooks().get(i), myController.getSettings());
+								myBookPanels[i] = new BookPanel(myController.getData().getBooks().get(i), myController.getSettings());
 								model.setValue(model.getValue() + 5);
 								myProgressBar.setString("Viewing book... " + model.getValue() + "%");
             				} catch (IOException e) {
@@ -251,13 +279,14 @@ public class Window {
 							} catch (ParserConfigurationException e) {
 								e.printStackTrace();
 							}
-            				JPanel bookPan = BP[i].getRootPanel();
+            				JPanel bookPan = myBookPanels[i].getRootPanel();
             				myTextPan.add(bookPan);
             				bookPan.setVisible(true);
             				myFrame.setVisible(true);
             			}
             			model.setValue(100);
             			mySearchButton.setEnabled(false);
+            			myEraseButton.setEnabled(false);
             			myAdress = null;
                         myProgressBar.setString("");
                         if(!"".equals(myController.getData().getNextPage())){
@@ -280,6 +309,7 @@ public class Window {
         myQueryButton.addActionListener(setAdress);
         myMoreButton.addActionListener(act);
         myEraseButton.addActionListener(erase);
+        myToolDelete.addActionListener(delete);
 
         myNetMenu.addActionListener(new ActionListener() {
 
