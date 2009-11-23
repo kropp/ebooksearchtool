@@ -17,6 +17,7 @@ formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(messag
 handler.setFormatter(formatter)
 main_logger.addHandler(handler)
 
-main_logger.info("Start log")
-print "logging"
 
+analyser_logger = logging.getLogger("analyser_logger")
+analyser_logger.setLevel(logging.DEBUG)
+analyser_logger.addHandler(handler)

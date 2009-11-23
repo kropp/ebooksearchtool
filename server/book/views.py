@@ -12,7 +12,8 @@ from django.template import Context
 
 from server.spec.utils import convert_delim
 from server.spec.exception import *
-from server.book.action_handler import xml_exec_get, xml_exec_insert, ACTION
+from server.book.action_handler import xml_exec_get, ACTION
+from server.book.insert_action import xml_exec_insert
 
 def books_to_response(books):
     '''function convert book_entirety to response'''
@@ -26,6 +27,7 @@ def data_modify(request, action):
     '''Gets inf from POST, sends to action handler, builds response'''
     print "+++ data modify +++"
     dict = {}
+    messages = []
 
     try:
         if request.method != 'POST':
@@ -45,8 +47,7 @@ def data_modify(request, action):
             books = xml_exec_get(xml)
             return books_to_response(books)
         elif action == ACTION['insert']:
-            result = xml_exec_insert(xml)
-            pass
+            messages = xml_exec_insert(xml)
         else:
             # TODO insert error here
             pass

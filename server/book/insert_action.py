@@ -4,12 +4,14 @@ try:
     from hashlib import md5
 except ImportError:
     from md5 import new as md5
+import logging
 
 from django.db.models import Q
 
 from server.book.models import Book, Author, Alias, BookFile
 from server.spec.exception import InputDataServerException
 
+analyzer_log = logging.getLogger("analyser_logger")
 
 def strip_str(tstr):
     '''Removes leading, endig space from string,
@@ -53,6 +55,8 @@ def get_authors(node):
         # add author to list, if it is created or found
         if author:
             authors.append(author)
+        else:
+            analyzer_log.warning("One author is not added. (Empty name)")
     return (authors, is_created_global)
 
 
@@ -83,7 +87,8 @@ def get_files(node):
                     size = int(size)
                     book_file.size = size
                 except ValueError:
-                    pass
+                    analyzer_log.warning("size is not integer. \
+book_file.link='%s'" % (book_file.link))
                 
             if details_node.tag == 'type' and book_file:
                 file_type = strip_str(details_node.text)
@@ -103,6 +108,8 @@ def get_files(node):
         if book_file:
             book_file.save()
             book_files.append(book_file)
+        else:
+            analyzer_log.warning("One book_file is not added. (Empty link)")
     return book_files
 
 
@@ -150,13 +157,18 @@ def get_book_inf(xml):
         # TODO make correct warnings
         messages.append(('ERROR',
                          'In request there is not the title of the book'))
+        analyzer_log.warning('In request there is not the title of the book')
         raise InputDataServerException("The book hasn't got the title")
 
     return (book, authors, book_files, annotations)
 
 
 def save_book_inf(book, authors, book_files, annotations):
-    'Creates or updates book information'
+    '''
+    Trys to find book by title and its authors.
+    Creates book, if not found.
+    Adds all information to book, saves it to database.
+    '''
     messages = []
 
 #    if not is_author_created:
@@ -167,20 +179,17 @@ def save_book_inf(book, authors, book_files, annotations):
     for author in authors:
         q_obj = q_obj & Q(author=author)
     found_books = Book.objects.filter(q_obj)
-    print 'found books', found_books
 
     if found_books.count() == 1 \
     and found_books[0].author_set.count() == len(authors):
         # we've found the book in database
         # set lang to book
-        print book.lang
         if book.lang:
-            found_books[0].lang = book.lang
-            print found_books[0].lang
-            found_books[0].save()
-            print found_books[0].lang
-        book = found_books[0]
-        print book.lang
+            found_book = found_books[0]
+            found_book.lang = book.lang
+
+        found_book.save()
+        book = found_book
         messages.append(('INFO', 'Book updated'))
     else:
         # not found the book in database, then save it
@@ -206,8 +215,10 @@ def xml_exec_insert(xml):
 
     messages = []
 
+    # get infromation about the book from the request
     (book, authors, book_files, annotations) = get_book_inf(xml)
 
+    # save infomation to database
     save_book_inf(book, authors, book_files, annotations)
 
     # TODO make warnings
