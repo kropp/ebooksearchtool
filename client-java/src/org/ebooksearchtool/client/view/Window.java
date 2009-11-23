@@ -45,6 +45,7 @@ public class Window {
     private JToolBar myToolBar;
     private JLabel myNumberInfo;
     private JPanel myMorePanel;
+    private JButton myEraseButton;
     
     private Query myQuery;
     
@@ -60,7 +61,7 @@ public class Window {
     public Window() throws SAXException, ParserConfigurationException, IOException {
 
         myController = new Controller();
-        myFrame = new JFrame("MainWindow");
+        myFrame = new JFrame("ebooksearchtool");
         JMenuBar myMenuBar;
         myMenuBar = new JMenuBar();
         myMenuBar.add(new JMenu("Settings"));
@@ -80,10 +81,13 @@ public class Window {
     	myQueryButtonPanel = new JPanel();
     	myQueryButtonPanel.setLayout(new BoxLayout(myQueryButtonPanel,BoxLayout.X_AXIS));
         myQueryPlusPanel = new JPanel();
-        myQueryPlusPanel.setLayout(new /*FlowLayout()*/BoxLayout(myQueryPlusPanel,BoxLayout.X_AXIS));
-        myQueryPlusPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        myQueryPlusPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0)/*BoxLayout(myQueryPlusPanel,BoxLayout.X_AXIS)*/);
+        //myQueryPlusPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        myQueryPanel.add(Box.createVerticalStrut(5));
         myQueryPanel.add(myQueryButtonPanel);
+        myQueryPanel.add(Box.createVerticalStrut(5));
         myQueryPanel.add(myQueryPlusPanel);
+        myQueryPanel.add(Box.createVerticalStrut(5));
     	myCentralPanel.add(myQueryPanel, "North");
 
         
@@ -98,13 +102,28 @@ public class Window {
         String[] query = new String[] { "General", "Author", "Title" };
         myQueryCombo = new JComboBox(query);
         myQueryButtonPanel.add(myQueryCombo);
-        myQueryButton = new JButton();
-    	myQueryButton.setText("+");
-    	mySearchButton = new JButton();
-    	mySearchButton.setText("SEARCH");
+        myQueryButton = new JButton("+");
+    	
+    	
+    	mySearchButton = new JButton("SEARCH");
     	mySearchButton.setEnabled(false);
+    	myEraseButton = new JButton("ERASE");
+    	myEraseButton.setEnabled(false);
+    	
+    	myEraseButton.setPreferredSize(mySearchButton.getPreferredSize());
+    	myEraseButton.setMaximumSize(mySearchButton.getPreferredSize());
+    	myEraseButton.setMinimumSize(mySearchButton.getPreferredSize());
+    	
+    	myQueryButtonPanel.add(Box.createHorizontalStrut(5));
     	myQueryButtonPanel.add(myQueryButton);
+    	myQueryButton.setPreferredSize(myQueryButton.getPreferredSize());
+    	myQueryButton.setMaximumSize(myQueryButton.getPreferredSize());
+    	myQueryButton.setMinimumSize(myQueryButton.getPreferredSize());
+    	
+    	myQueryPlusPanel.add(myEraseButton);
+    	myQueryPlusPanel.add(Box.createHorizontalStrut(5));
     	myQueryPlusPanel.add(mySearchButton);
+    	myQueryPlusPanel.add(Box.createHorizontalStrut(15));
     	mySearchButton.setAlignmentX(Component.LEFT_ALIGNMENT);
     	mySearchLabel = new JLabel();
         myQueryPlusPanel.add(mySearchLabel);
@@ -155,6 +174,7 @@ public class Window {
 					}
             		mySearchLabel.setText(queryOption + ":" + queryWord);
             		mySearchButton.setEnabled(true);
+            		myEraseButton.setEnabled(true);
             		myQueryField.setText("");
             	}else{
             		String queryWord = myQueryField.getText();
@@ -166,7 +186,16 @@ public class Window {
             }
         };
         
-        
+        ActionListener erase = new ActionListener() {
+            public void actionPerformed(final ActionEvent e) {
+            	
+            	myAdress = null;
+            	mySearchLabel.setText("");
+            	mySearchButton.setEnabled(false);
+            	myEraseButton.setEnabled(false);
+            	
+            }
+        };
           
         
         ActionListener act = new ActionListener() {
@@ -250,6 +279,7 @@ public class Window {
         myQueryField.addActionListener(setAdress);
         myQueryButton.addActionListener(setAdress);
         myMoreButton.addActionListener(act);
+        myEraseButton.addActionListener(erase);
 
         myNetMenu.addActionListener(new ActionListener() {
 

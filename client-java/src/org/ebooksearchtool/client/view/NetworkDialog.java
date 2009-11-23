@@ -164,9 +164,10 @@ public class NetworkDialog extends JDialog{
 
         getRootPane().setWindowDecorationStyle(JRootPane.INFORMATION_DIALOG);
         pack();
+        setModal(true);
         setLocation(200, 200);
         setVisible(true);
-        setModal(true);
+        
         setResizable(false);
 
         myCancel.addActionListener(new ActionListener() {
