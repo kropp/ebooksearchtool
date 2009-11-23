@@ -29,7 +29,7 @@ def search_request_to_server(request, response_type):
     try:
     # search in title, author.name, alias, annotation, more_info (book_file)
         query = request.GET['query']
-        main_title['query']= query
+        main_title['query'] = query
         for word in query.split():
             request_to_server = request_to_server | Q(title__icontains=word) \
               | Q(author__name__icontains=word) \
@@ -42,7 +42,7 @@ def search_request_to_server(request, response_type):
     # search in title
         title = request.GET['title']
         request_to_server = request_to_server & Q(title__icontains=title) 
-        main_title={'tit': title}
+        main_title['tit'] = title
     except KeyError:
         title = None        
 
@@ -60,7 +60,7 @@ def search_request_to_server(request, response_type):
     # search in lang
         lang = request.GET['lang']
         request_to_server = request_to_server & Q(lang=lang)
-        main_title['lang']=lang
+        main_title['lang'] = lang
     except KeyError:
         lang = None   
 
@@ -68,7 +68,7 @@ def search_request_to_server(request, response_type):
     # search in tag
         tag = request.GET['tag']
         request_to_server = request_to_server & Q(tag__name=tag)
-        main_title['tag']=tag
+        main_title['tag'] = tag
     except KeyError:
         tag = None          
 
@@ -98,6 +98,7 @@ def book_request_to_server(request, book_id, response_type):
     try:
         book = Book.objects.get(id=book_id)
     except ObjectDoesNotExist:
+        #TODO
         pass
     
     if response_type == "atom":
@@ -112,6 +113,7 @@ def author_request_to_server(request, author_id, response_type):
     try:
         author = Author.objects.get(id=author_id)
     except ObjectDoesNotExist:
+        #TODO
         pass
     if response_type == "atom":
         return render_to_response('book/opds/client_response_author.xml', 
@@ -189,7 +191,7 @@ def author_books_request_to_server(request, author_id, response_type):
         
 def books_by_languages_request_to_server(request, response_type):
     """builds opds and xhtml response for books by lang request"""
-    lang=Book.objects.values_list('lang')
+    lang = Book.objects.values_list('lang')
     languages = set(lang)
     languages =  [x[0] for x in languages]
     return render_to_response('book/opds/client_response_books_by_lang.xml', 
@@ -197,6 +199,6 @@ def books_by_languages_request_to_server(request, response_type):
         
 def books_by_tags_request_to_server(request, response_type):
     """builds opds and xhtml response for books by tags request"""
-    tags=Tag.objects.all()
+    tags = Tag.objects.all()
     return render_to_response('book/opds/client_response_books_by_tag.xml', 
         {'tags':tags})        
