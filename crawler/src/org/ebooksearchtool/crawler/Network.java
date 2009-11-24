@@ -38,13 +38,14 @@ public class Network {
             while ((s1 = br.readLine()) != null) {
                 s2 = br.readLine();
                 s3 = br.readLine();
-                myLastAccess.put(s1, Long.parseLong(s2));
-                myNextAccess.put(s1, Long.parseLong(s3));
+                long last = Long.parseLong(s2);
+                long next = Long.parseLong(s3);
+                myLastAccess.put(s1, last);
+                myNextAccess.put(s1, next);
             }
             br.close();
         } catch (Exception e) {
-            myLogger.log(Logger.MessageType.ERRORS, LAST_ACCESS_FILE + " cannot be initialized");
-            System.exit(1);
+            myLogger.log(Logger.MessageType.ERRORS, LAST_ACCESS_FILE + " could not be initialized, some data may be missing");
         }
         
         // configure HttpsURLConnection so that it trusts all certificates
@@ -170,7 +171,10 @@ public class Network {
         } catch (IOException e) {
             if (logErrors) {
                 myLogger.log(Logger.MessageType.ERRORS, " network error on " + uri);
-                myLogger.log(Logger.MessageType.ERRORS, " " + e.getMessage());
+                String message = e.getMessage();
+                if (message == null ? uri != null : !message.equals(uri.toString())) {
+                    myLogger.log(Logger.MessageType.ERRORS, " " + message);
+                }
             }
             return null;
         }

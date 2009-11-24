@@ -19,9 +19,9 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
     
     private File[] myCacheFile;
     
-    /*  stores all cached robots.txt in a number of files:
-        0.txt, 1.txt, ..., {FILES_NUMBER - 1}.txt,
-        where the number chosen for the given server is its name's hashcode modulo FILES_NUMBER */
+    /*  stores all cached robots.txt in a number of files: 0.txt, 1.txt, ...,
+        {FILES_NUMBER - 1}.txt, where the number chosen for the given server
+        is its name's hashcode modulo FILES_NUMBER                           */
     public ManyFilesRobotsExclusion(Network network, Logger logger) {
         myNetwork = network;
         myLogger = logger;
@@ -45,13 +45,13 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
                 }
             }
         } catch (Exception e) {
-            myLogger.log(Logger.MessageType.ERRORS, ROBOTS_CACHE_DIR + " cannot be initialized");
+            myLogger.log(Logger.MessageType.ERRORS, ROBOTS_CACHE_DIR + " cannot be initialized, exiting");
             System.exit(1);
         }
     }
     
     protected synchronized int isDisallowed(String host, URI uri) {
-        File file = myCacheFile[Math.abs(host.hashCode()) % FILES_NUMBER];
+        final File file = myCacheFile[Math.abs(host.hashCode()) % FILES_NUMBER];
         BufferedReader br = null;
         try {
             br = new BufferedReader(new FileReader(file));
@@ -122,7 +122,7 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
     }
     
     protected void downloadRobotsTxt(String host) {
-        File file = myCacheFile[Math.abs(host.hashCode()) % FILES_NUMBER];
+        final File file = myCacheFile[Math.abs(host.hashCode()) % FILES_NUMBER];
         BufferedWriter bw = null;
         URI robotstxt = null;
         try {
