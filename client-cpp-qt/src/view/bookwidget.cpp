@@ -1,29 +1,38 @@
 #include <QtGui>
-//#include <QDebug>
 
 #include "bookwidget.h"
 #include "../data/book_author.h"
-//#include "../network/networkmanager.h"
 #include "bookActionButtons.h"
 #include "moreLessTextLabel.h"
 
-BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent) ,myBook(book) {
-   // myHttpConnection = new HttpConnection(this);
-    //connect(myHttpConnection, SIGNAL(requestFinished(int, bool)), this, SLOT(setCover()));
+#include <QDebug>
+
+BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent), myBook(book) {
+    myConnection = NetworkManager::getInstance();
+//    myBuffer = new QBuffer();
+ //   myBuffer->open(QIODevice::WriteOnly);
+  //  myRequestId = myConnection->download(QString::fromStdString(myBook->getCoverLink()), myBuffer);
+   // qDebug() << "book widget cover link " << QString::fromStdString(myBook->getCoverLink());
+    //qDebug() << "my request id " << myRequestId;
+    connect(myConnection, SIGNAL(requestFinished(int, bool)), this, SLOT(setCover(int)));
     //downloadCover();
    
     myCheckBox = new QCheckBox();
     QLabel* title = new QLabel(myBook->getTitle().c_str());
     QLabel* author = new QLabel(myBook->getAuthor()->getName().c_str());
-    QLabel* cover = new QLabel("COVER");// попробовать любую картинку вместо обложки вставить
+    myCover = new QLabel("COVER");// попробовать любую картинку вместо обложки вставить
+    QPalette coverPalette;
+    coverPalette.setBrush(myCover->backgroundRole(), QBrush(QPixmap("view/images/read.jpeg")));
+    myCover->setPalette(coverPalette);
+    myCover->setAutoFillBackground(true);
+
+    //-----------
+    //setCover(1);
+    //---------
     QString summary = QString::fromStdString(myBook->getSummary());
     summary.prepend("Summary: ");
     QString begin = summary.left(50);
     MoreLessTextLabel* annotation = new MoreLessTextLabel(begin, summary, this);
-    //QPalette coverPalette;
-    //coverPalette.setBrush(cover->backgroundRole(), QBrush(QPixmap("view/images/book.jpeg")));
-    //cover->setPalette(coverPalette);
-    //cover->setAutoFillBackground(true);
 
     myButtonGroup = new BookActionsButtonBox(this);
     connect(myButtonGroup, SIGNAL(remove()), this, SLOT(remove()));
@@ -32,7 +41,7 @@ BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent) ,myB
 
     QGridLayout* mainLayout = new QGridLayout();
     mainLayout->addWidget(myCheckBox, 0, 0, 3, 1);
-    mainLayout->addWidget(cover, 0, 1, 3, 1);
+    mainLayout->addWidget(myCover, 0, 1, 2, 1, Qt::AlignLeft);
     mainLayout->addWidget(title, 0, 2, Qt::AlignLeft);
     mainLayout->addWidget(author, 1, 2, Qt::AlignLeft);
     mainLayout->addWidget(myButtonGroup, 0, 3);
@@ -61,12 +70,19 @@ void BookWidget::downloadCover() {
 */
 }
 
-void BookWidget::setCover() {
-/*    std::cout << "slot: setting cover\n";    
-    myCover = new QIcon(myFile->fileName());    
-    myCoverButton = new QPushButton(*myCover, " ", this);
-    myMainLayout->addWidget(myCoverButton);
-*/
+void BookWidget::setCover(int) {
+//    if (myRequestId != requestId) {
+  //      return;
+    //}
+    myBuffer->close();
+    qDebug() << "slot: setting cover started\n";    
+    QPalette palette;
+    palette.setBrush(myCover->backgroundRole(), QBrush(QPixmap("view/images/read.jpeg")));
+    myCover->setPalette(palette);
+    myCover->setAutoFillBackground(true);
+    //myCover = new QIcon(myFile->fileName());    
+    //myCoverButton = new QPushButton(*myCover, " ", this);
+    //myMainLayout->addWidget(myCoverButton);
 }
 
 void BookWidget::remove() {

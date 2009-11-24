@@ -36,7 +36,7 @@ QString NetworkManager::getServer() const {
     return ourServer;
 }
 
-void NetworkManager::download(QString urlStr, QIODevice* out) {
+int NetworkManager::download(QString urlStr, QIODevice* out) {
 	myHttpConnection->setHost(ourServer, 80);
     if (ourProxy != "undefined") { 
         myHttpConnection->setProxy(ourProxy, ourPort);
@@ -44,6 +44,6 @@ void NetworkManager::download(QString urlStr, QIODevice* out) {
 	QString query(urlStr);
 	query.remove("http://");
 	query.remove(ourServer); //оставляю только запрос
-	myHttpConnection->get(query, out);
+	return myHttpConnection->get(query, out);
 }
 

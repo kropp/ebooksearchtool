@@ -29,7 +29,7 @@ public:
 
 public:
 	void configurate();
-	void download(QString url, QIODevice* out);
+	int download(QString url, QIODevice* out);
 	QString getServer() const;
 
 signals:

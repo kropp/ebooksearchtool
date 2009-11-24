@@ -21,7 +21,7 @@ public:
 	const std::string& getSummary() const;
 	const std::string& getUri() const;
 	const std::string& getLink() const;
-    const std::string& getCoverPath() const;	
+    const std::string& getCoverLink() const;	
 
 	void addAuthor(const Author* author);
 	void setLink(const std::string& link);
@@ -91,7 +91,7 @@ inline const std::string& Author::getUri() const {
 	return myUri;
 }
 
-inline const std::string& Book::getCoverPath() const {
+inline const std::string& Book::getCoverLink() const {
     return myCoverPath;
 }
 
