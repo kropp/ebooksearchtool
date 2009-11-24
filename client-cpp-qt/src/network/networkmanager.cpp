@@ -1,7 +1,7 @@
 #include <QSettings>
 #include <QString>
 #include <QHttp>
-#include <QDebug>
+//#include <QDebug>
 
 #include "networkmanager.h"
 
@@ -25,14 +25,11 @@ NetworkManager::NetworkManager() {
     connect(myHttpConnection, SIGNAL(requestFinished(int, bool)), this, SIGNAL(requestFinished(int, bool)));
 }
 
-//NetworkManager::~NetworkManager() {}
-
 void NetworkManager::configurate() {
     QSettings settings(ourConfigFilePath, QSettings::IniFormat);
     ourProxy = settings.value("network/proxy").toString();
     ourPort = settings.value("network/port").toInt();
     ourServer = settings.value("network/server").toString();
-    qDebug() << "server from config file " << ourServer;
 }
 
 QString NetworkManager::getServer() const {
@@ -40,10 +37,10 @@ QString NetworkManager::getServer() const {
 }
 
 void NetworkManager::download(QString urlStr, QIODevice* out) {
+	myHttpConnection->setHost(ourServer, 80);
     if (ourProxy != "undefined") { 
         myHttpConnection->setProxy(ourProxy, ourPort);
 	}
-	myHttpConnection->setHost(ourServer, 80); // не работает с ourPort
 	QString query(urlStr);
 	query.remove("http://");
 	query.remove(ourServer); //оставляю только запрос

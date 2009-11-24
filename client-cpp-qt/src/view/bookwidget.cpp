@@ -3,7 +3,7 @@
 
 #include "bookwidget.h"
 #include "../data/book_author.h"
-#include "../network/httpconnection.h"
+//#include "../network/networkmanager.h"
 #include "bookActionButtons.h"
 #include "moreLessTextLabel.h"
 

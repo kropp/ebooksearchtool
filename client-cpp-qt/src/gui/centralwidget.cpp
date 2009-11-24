@@ -25,7 +25,7 @@ CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myBuffer(0) {
     myUrlLineEdit->insert(myNetworkManager->getServer());
 
 	connect(myQueryLineEdit, SIGNAL(textChanged(const QString &)), this, SLOT(enableSearchButton()));
-	//connect(myNetworkManager, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
+	connect(myNetworkManager, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
 
 	connect(mySearchButton, SIGNAL(clicked()), this, SLOT(downloadFile())); 
 	connect(mySearchButton, SIGNAL(clicked()), this, SLOT(setNewRequest()));
@@ -69,7 +69,6 @@ void CentralWidget::downloadFile() {
 	}
 	myNetworkManager->download(myUrlLineEdit->text(), myBuffer);
     myBuffer->close();
-
 }
 
 void CentralWidget::downloadFile(const QString&) {
