@@ -8,7 +8,7 @@
 class QLabel;
 class Book;
 class HttpConnection;
-class QBuffer;
+class QFile;
 class QImage;
 class QPushButton;
 class QHBoxLayout;
@@ -26,9 +26,6 @@ public:
     bool isMarked() const;
     
     void mark(int state);
-
-private:
-    void downloadCover();
 
 private slots:
     void setCover(int requestId);
@@ -50,7 +47,9 @@ private:
     
     NetworkManager *myConnection;
     int myRequestId;
-    QBuffer* myBuffer;
+    QDataStream* myDataStream;
+    QFile* myFile;    
+    QString myFileName;
 };
 
 #endif //_BOOK_WIDGET_H_
