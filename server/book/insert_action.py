@@ -8,10 +8,11 @@ import logging
 
 from django.db.models import Q
 
-from book.models import Book, Author, Alias, BookFile
+from book.models import Book, Author, Alias, BookFile, Annotation
 from spec.exception import InputDataServerException
 
 analyzer_log = logging.getLogger("analyser_logger")
+MAIN_LOG = logging.getLogger("main_logger")
 
 def strip_str(tstr):
     '''Removes leading, endig space from string,
@@ -149,8 +150,11 @@ def get_book_inf(xml):
             book_files = get_files(node)
         
         if node.tag == 'annotation' and book.title:
-            # TODO
-            pass
+            annotation_txt = strip_str(node.text)
+            if annotation_txt:
+                annotation = \
+                    Annotation.objects.get_or_create(name=annotation_txt)[0]
+                annotations.append(annotation)
 
     # if there are not the title of the book, return warning
     if not book.title:
@@ -221,6 +225,9 @@ def xml_exec_insert(xml):
 
     # save infomation to database
     save_book_inf(book, authors, book_files, annotations)
+
+    MAIN_LOG.info("Added book " + book.title)
+
 
     # TODO make warnings
     return messages

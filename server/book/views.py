@@ -15,13 +15,15 @@ from book.action_handler import ACTION
 from book.insert_action import xml_exec_insert
 from book.get_action import xml_exec_get
 
-LOG = logging.getLogger("main_logger")
+MAIN_LOG = logging.getLogger("main_logger")
 
 def data_modify(request, action):
     '''Gets inf from POST, sends to action handler, builds response'''
     print "+++ data modify +++"
     context_dict = {}
     messages = []
+
+    MAIN_LOG.info("Got connection")
 
     try:
         # check request
@@ -52,16 +54,14 @@ def data_modify(request, action):
 
 
     except ServerException, ex:
-        print ex
         context_dict['error'] = ex.__doc__
         context_dict['class'] = ex.__class__
         context_dict['message'] = ex.message
-        LOG.warning(ex)
+        MAIN_LOG.warning(ex)
     except Exception, ex:
-        print ex
      #   dict['error'] = 'Unknown error: ' + ex.__doc__
         context_dict['class'] = ex.__class__
         context_dict['message'] = ex.message
-        LOG.warning(ex)
+        MAIN_LOG.warning(ex)
         
     return render_to_response('data/main_response.xml', Context(context_dict))
