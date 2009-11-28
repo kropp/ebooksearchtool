@@ -39,21 +39,19 @@ public class Connector{
         	if(!mySettings.isProxyEnabled()){
                 connection = Url.openConnection();
                 PrintWriter pw1 = new PrintWriter(new OutputStreamWriter(new FileOutputStream(fileName), "utf-8"));
-                int i = connection.getContentLength();
+                int i = connection.getInputStream().read();
                 while (i!=-1){
                 	pw1.print((char)i);
                     i = connection.getInputStream().read();
             	                                       
                 }
                 pw1.close();
-        	}else{;
+        	}else{
                 connection = Url.openConnection(new Proxy(Proxy.Type.HTTP, new InetSocketAddress(mySettings.getIP(), mySettings.getPort())));
                 PrintWriter pw1 = new PrintWriter(new OutputStreamWriter(new FileOutputStream(fileName), "utf-8"));
                 
                 int i = connection.getInputStream().read();
-                System.out.println(connection.getContentLength());
-                while (i != -1 )
-                {
+                while (i != -1 ){
                 	pw1.print((char)i);
                 	i = connection.getInputStream().read();
                 }
