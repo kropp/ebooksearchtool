@@ -41,7 +41,7 @@ def search_request_to_server(request, response_type):
     try:
     # search in title
         title = request.GET['title']
-        request_to_server = request_to_server & Q(title__icontains=title) 
+        request_to_server = request_to_server & Q(title__icontains=title)
         main_title['tit'] = title
     except KeyError:
         title = None        
@@ -81,16 +81,16 @@ def search_request_to_server(request, response_type):
     seq = range(1, total/items_per_page+2)
     
     if response_type == "atom":
-        return render_to_response('book/opds/client_response_search.xml', 
-            {'books': books[start_index:start_index+items_per_page], 
-            'title': main_title,  'curr': next - 1, 
+        return render_to_response('book/opds/client_response_search.xml',
+            {'books': books[start_index:start_index+items_per_page],
+            'title': main_title,  'curr': next - 1,
             'items_per_page':items_per_page, 'total':total, 'next':next, })
         
     if response_type == "xhtml":
-        return render_to_response('book/xhtml/client_response_search.xml', 
-            {'books': books[start_index:start_index+items_per_page], 
+        return render_to_response('book/xhtml/client_response_search.xml',
+            {'books': books[start_index:start_index+items_per_page],
             'title': main_title, 'total':total,
-            'items_per_page':items_per_page, 'next':next, 'curr': next - 1, 
+            'items_per_page':items_per_page, 'next':next, 'curr': next - 1,
             'seq':seq, })
 
 def book_request_to_server(request, book_id, response_type):
@@ -102,10 +102,10 @@ def book_request_to_server(request, book_id, response_type):
         pass
     
     if response_type == "atom":
-        return render_to_response('book/opds/client_response_book.xml', 
+        return render_to_response('book/opds/client_response_book.xml',
             {'book': book, })
     if response_type == "xhtml":
-        return render_to_response('book/xhtml/client_response_book.xml', 
+        return render_to_response('book/xhtml/client_response_book.xml',
             {'book': book, })
 
 def author_request_to_server(request, author_id, response_type):
@@ -116,10 +116,10 @@ def author_request_to_server(request, author_id, response_type):
         #TODO
         pass
     if response_type == "atom":
-        return render_to_response('book/opds/client_response_author.xml', 
+        return render_to_response('book/opds/client_response_author.xml',
             {'author': author,})
     if response_type == "xhtml":
-        return render_to_response('book/xhtml/client_response_author.xml', 
+        return render_to_response('book/xhtml/client_response_author.xml',
             {'author': author,})
 
 def opensearch_description(request):
@@ -151,15 +151,15 @@ def all_books_request_to_server(request, response_type):
     seq = range(1, total/items_per_page+1)
     
     if response_type == "atom":
-        return render_to_response('book/opds/client_response_search.xml', 
-            {'books': books[start_index:start_index+items_per_page], 
+        return render_to_response('book/opds/client_response_search.xml',
+            {'books': books[start_index:start_index+items_per_page],
             'query': query, 'title': title, 'author':author, 'total':total,
             'items_per_page':items_per_page,  'next':next, 'curr': next - 1 })
         
     if response_type == "xhtml":
-        return render_to_response('book/xhtml/client_response_search.xml', 
+        return render_to_response('book/xhtml/client_response_search.xml',
         {'books': books[start_index:start_index+items_per_page], 'query': query,
-         'title': title, 'author':author, 'total':total, 'curr': next - 1, 
+         'title': title, 'author':author, 'total':total, 'curr': next - 1,
          'items_per_page':items_per_page, 'next':next, 'seq':seq, })
          
 def catalog_request_to_server(request, response_type):
@@ -172,7 +172,7 @@ def books_by_authors_request_to_server(request, response_type):
         letter = request.GET['letter']
     except KeyError:
         alphabet_string = "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z"
-        return render_to_response('book/opds/client_response_books_by_author.xml', 
+        return render_to_response('book/opds/client_response_books_by_author.xml',
         {'alphabet': alphabet_string})
         
     request_to_server = Q(name__istartswith=letter)
@@ -186,7 +186,7 @@ def author_books_request_to_server(request, author_id, response_type):
         author = Author.objects.get(id=author_id)
     except ObjectDoesNotExist:
         pass
-    return render_to_response('book/opds/client_response_author_books.xml', 
+    return render_to_response('book/opds/client_response_author_books.xml',
         {'author': author})
         
 def books_by_languages_request_to_server(request, response_type):
@@ -194,11 +194,11 @@ def books_by_languages_request_to_server(request, response_type):
     lang = Book.objects.values_list('lang')
     languages = set(lang)
     languages =  [x[0] for x in languages]
-    return render_to_response('book/opds/client_response_books_by_lang.xml', 
+    return render_to_response('book/opds/client_response_books_by_lang.xml',
         {'languages':languages})
         
 def books_by_tags_request_to_server(request, response_type):
     """builds opds and xhtml response for books by tags request"""
     tags = Tag.objects.all()
-    return render_to_response('book/opds/client_response_books_by_tag.xml', 
-        {'tags':tags})        
+    return render_to_response('book/opds/client_response_books_by_tag.xml',
+        {'tags':tags})

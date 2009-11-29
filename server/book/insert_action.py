@@ -1,4 +1,4 @@
-"Insert action handler"
+"Insert action handler for analyzer interface"
 
 try:
     from hashlib import md5

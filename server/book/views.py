@@ -5,25 +5,32 @@ except ImportError:
     import elementtree.ElementTree as etree
 from xml.parsers.expat import ExpatError
 import logging
+from sys import exc_info
+from traceback import print_exc
 
 from django.shortcuts import render_to_response
 from django.template import Context
 
 from spec.exception import RequestFileServerException, \
-RequestServerException, ServerException
-from book.action_handler import ACTION
+RequestServerException, ServerException, InnerServerException
 from book.insert_action import xml_exec_insert
 from book.get_action import xml_exec_get
 
 MAIN_LOG = logging.getLogger("main_logger")
 
+
+ACTION = {
+    'get': 1,
+    'insert': 2,
+}
+
 def data_modify(request, action):
     '''Gets inf from POST, sends to action handler, builds response'''
-    print "+++ data modify +++"
     context_dict = {}
     messages = []
 
-    MAIN_LOG.info("Got connection")
+    MAIN_LOG.info("Got connection from analyzer")
+    messages.append(('debug', 'Starting'))
 
     try:
         # check request
@@ -47,21 +54,39 @@ def data_modify(request, action):
                                       {'books': books})
         elif action == ACTION['insert']:
             messages = xml_exec_insert(xml)
-            context_dict['message'] = 'ok'
         else:
-            # TODO insert error here
-            pass
+            raise InnerServerException("Unknow action")
 
+    except InnerServerException, ex:
+        exception_type, exception_value, exception_traceback = exc_info()
+        msg_body = "%s: %s" % (exception_type, exception_value)
+        messages.append(('error', msg_body))
+        MAIN_LOG.exception(ex)
 
-    except ServerException, ex:
-        context_dict['error'] = ex.__doc__
-        context_dict['class'] = ex.__class__
-        context_dict['message'] = ex.message
-        MAIN_LOG.warning(ex)
+    except ServerException:
+        exception_type, exception_value, exception_traceback = exc_info()
+        msg_body = "%s: %s" % (exception_type, exception_value)
+        messages.append(('error', msg_body))
+        MAIN_LOG.warning(msg_body)
+
     except Exception, ex:
-     #   dict['error'] = 'Unknown error: ' + ex.__doc__
-        context_dict['class'] = ex.__class__
-        context_dict['message'] = ex.message
-        MAIN_LOG.warning(ex)
+        exception_type, exception_value, exception_traceback = exc_info()
+        msg_body = "%s: %s" % (exception_type, exception_value)
+        messages.append(('error', msg_body))
+        MAIN_LOG.exception(ex)
         
+    # computation of operation status 
+    msg_types = (msg_type for msg_type, msg in messages)
+    if 'error' in msg_types:
+        status = 'error'
+    elif 'warning' in msg_types:
+        status = 'warning'
+    else:
+        status = 'ok'
+
+    # load all vars to context
+    context_dict = {
+        'status': status,
+        'messages': messages,}
+
     return render_to_response('data/main_response.xml', Context(context_dict))

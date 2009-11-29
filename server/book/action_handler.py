@@ -11,10 +11,6 @@ from spec.exception import *
 from book.models import *
 from spec.logger import main_logger
 
-ACTION = {
-    'get': 1,
-    'insert': 2,
-}
 
 #def xml_exec_insert_unsafe(xml):
 #    "Execute xml-insert-request unsafe"
