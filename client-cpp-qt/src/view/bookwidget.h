@@ -4,6 +4,7 @@
 #include <QWidget>
 #include "bookActionButtons.h"
 #include "../network/networkmanager.h"
+#include "moreLessTextLabel.h"
 
 class QLabel;
 class Book;
@@ -23,8 +24,13 @@ public:
 
     const Book& getBook() const;
     bool isMarked() const;
-    
+
     void mark(int state);
+
+signals:
+    void remove(BookWidget*);
+    void toLibrary(BookWidget*);
+    void read(BookWidget*);
 
 private slots:
     void setCover(int requestId);
@@ -32,22 +38,19 @@ private slots:
     void toLibrary();
     void read();
 
-signals:
-    void remove(BookWidget*);
-    void toLibrary(BookWidget*);
-    void read(BookWidget*);
+private: 
+    void downloadCover();
+    const MoreLessTextLabel* makeSummary();
+    void setBackground();
     
 private:
     const Book* myBook;
     
     QCheckBox* myCheckBox;
     QLabel* myCover;
-    BookActionsButtonBox* myButtonGroup;
+    QFile* myCoverFile;    
     
-    NetworkManager *myConnection;
     int myRequestId;
-    QDataStream* myDataStream;
-    QFile* myFile;    
 };
 
 #endif //_BOOK_WIDGET_H_
