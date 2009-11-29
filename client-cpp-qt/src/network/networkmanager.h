@@ -35,6 +35,12 @@ public:
 signals:
     void requestFinished(int, bool);
 
+//Debug
+/*private slots:
+    void started(int);
+    void finished(int, bool);
+*/
+
 private:
     NetworkManager();
         

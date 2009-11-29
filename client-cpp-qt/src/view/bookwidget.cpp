@@ -5,7 +5,7 @@
 #include "bookActionButtons.h"
 #include "moreLessTextLabel.h"
 
-#include <QDebug>
+//#include <QDebug>
 #include <QFile>
 
 BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent), myBook(book) {
@@ -14,14 +14,14 @@ BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent), myB
     const QString coverLink = QString::fromStdString(myBook->getCoverLink());
     QString fileName = coverLink.right(coverLink.size() - coverLink.lastIndexOf('/') - 1);
     fileName = fileName.left(fileName.indexOf('?'));
-    qDebug() << "link " << coverLink;
-    qDebug() << "fileName " << fileName;
+//    qDebug() << "link " << coverLink;
+ //   qDebug() << "fileName " << fileName;
     myFile = new QFile(fileName);
-    myFile->open(QIODevice::ReadWrite);
+    myFile->open(QIODevice::WriteOnly);
 
     myRequestId = myConnection->download(coverLink, myFile);
-    //qDebug() << "my request id " << myRequestId;
-    //connect(myConnection, SIGNAL(requestFinished(int, bool)), this, SLOT(setCover(int)));
+    qDebug() << "my request id " << myRequestId;
+    connect(myConnection, SIGNAL(requestFinished(int, bool)), this, SLOT(setCover(int)));
    
     myCheckBox = new QCheckBox();
     QLabel* title = new QLabel(myBook->getTitle().c_str());
@@ -55,11 +55,12 @@ BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent), myB
 }
 
 void BookWidget::setCover(int requestId) {
-//    qDebug() << "signal request finished accepted";    
+    qDebug() << "signal request finished accepted " << requestId;    
     if (myRequestId != requestId) {
         return;
     }
     myFile->close();
+    
     qDebug() << "slot: setting cover started";    
     QPalette coverPalette;
 //    coverPalette.setBrush(myCover->backgroundRole(), QBrush(QPixmap("view/images/read.jpeg")));
