@@ -43,9 +43,10 @@ private:
 	QPushButton *mySearchButton;
 	QDialogButtonBox *myButtonBox;
 
-    bool myNewRequest;
 	QBuffer *myBuffer; 
     NetworkManager* myNetworkManager;
+    int myRequestId;
+    bool myNewRequest;
 
 	View* myView;
 

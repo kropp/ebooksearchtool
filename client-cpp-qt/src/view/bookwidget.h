@@ -20,7 +20,6 @@ class BookWidget : public QWidget {
 
 public:
     BookWidget(QWidget* parent, const Book* book);
-    virtual ~BookWidget();
 
     const Book& getBook() const;
     bool isMarked() const;

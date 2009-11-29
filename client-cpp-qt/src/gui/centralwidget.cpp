@@ -67,7 +67,7 @@ void CentralWidget::downloadFile() {
 	if (!myQueryLineEdit->text().isEmpty()) {
 		myUrlLineEdit->setText(queryToUrl());
 	}
-	myNetworkManager->download(myUrlLineEdit->text(), myBuffer);
+	myRequestId = myNetworkManager->download(myUrlLineEdit->text(), myBuffer);
     myBuffer->close();
 }
 
@@ -94,7 +94,10 @@ void CentralWidget::enableSearchButton() {
 	//mySearchButton->setEnabled(!myUrlLineEdit->text().isEmpty());
 }
 
-void CentralWidget::httpRequestFinished(int , bool) {
+void CentralWidget::httpRequestFinished(int requestId , bool) {
+    if (requestId != myRequestId) {
+        return;
+    }
 	mySearchButton->setEnabled(true);
 	if (myUrlLineEdit->text().contains("atom")) {
 		parseDownloadedFile();

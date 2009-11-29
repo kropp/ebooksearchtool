@@ -14,14 +14,14 @@ BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent), myB
     const QString coverLink = QString::fromStdString(myBook->getCoverLink());
     QString fileName = coverLink.right(coverLink.size() - coverLink.lastIndexOf('/') - 1);
     fileName = fileName.left(fileName.indexOf('?'));
-    //qDebug() << "link " << coverLink;
-    //qDebug() << "fileName " << fileName;
+    qDebug() << "link " << coverLink;
+    qDebug() << "fileName " << fileName;
     myFile = new QFile(fileName);
     myFile->open(QIODevice::ReadWrite);
 
     myRequestId = myConnection->download(coverLink, myFile);
     //qDebug() << "my request id " << myRequestId;
-    connect(myConnection, SIGNAL(requestFinished(int, bool)), this, SLOT(setCover(int)));
+    //connect(myConnection, SIGNAL(requestFinished(int, bool)), this, SLOT(setCover(int)));
    
     myCheckBox = new QCheckBox();
     QLabel* title = new QLabel(myBook->getTitle().c_str());
@@ -53,8 +53,6 @@ BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent), myB
 
     setLayout(mainLayout);
 }
-
-BookWidget::~BookWidget() {}
 
 void BookWidget::setCover(int requestId) {
 //    qDebug() << "signal request finished accepted";    

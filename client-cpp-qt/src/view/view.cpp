@@ -2,7 +2,7 @@
 #include "bookwidget.h"
 #include <QLabel>
 #include <QCheckBox>
-//#include <QDebug>
+#include <QDebug>
 
 View::View(QWidget* parent, Data* data) : QWidget(parent), myData(data) { 
     myHeaderLayout = new QHBoxLayout();
@@ -28,6 +28,7 @@ void View::update() {
     const size_t size = (myData->getSize() < 5) ? myData->getSize() : 5;
     for (size_t i = 0; i < size; ++i) {
         BookWidget* widget = new BookWidget(this, myData->getBook(i));
+        qDebug() << "View: create Widget in update() " << i;
         //widget->setSizePolicy(QSizePolicy::Minimum);
         myBooks.push_back(widget);
         myBooksLayout->addWidget(widget);
