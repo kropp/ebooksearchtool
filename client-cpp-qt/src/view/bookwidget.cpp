@@ -10,25 +10,24 @@
 
 BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent), myBook(book) {
     myConnection = NetworkManager::getInstance();
-    myFileName = QString::fromStdString(myBook->getTitle());
-    myFileName.append(".jpeg");
-    myFile = new QFile(myFileName);
-    myDataStream = new QDataStream(myFile);
-    //myBuffer->open(QIODevice::WriteOnly);
-    myRequestId = myConnection->download(QString::fromStdString(myBook->getCoverLink()), myDataStream->device());
-  //  qDebug() << "book widget cover link " << QString::fromStdString(myBook->getCoverLink());
+        
+    const QString coverLink = QString::fromStdString(myBook->getCoverLink());
+    QString fileName = coverLink.right(coverLink.size() - coverLink.lastIndexOf('/') - 1);
+    fileName = fileName.left(fileName.indexOf('?'));
+    //qDebug() << "link " << coverLink;
+    //qDebug() << "fileName " << fileName;
+    myFile = new QFile(fileName);
+    myFile->open(QIODevice::ReadWrite);
+
+    myRequestId = myConnection->download(coverLink, myFile);
     //qDebug() << "my request id " << myRequestId;
     connect(myConnection, SIGNAL(requestFinished(int, bool)), this, SLOT(setCover(int)));
-    //downloadCover();
    
     myCheckBox = new QCheckBox();
     QLabel* title = new QLabel(myBook->getTitle().c_str());
     QLabel* author = new QLabel(myBook->getAuthor()->getName().c_str());
     myCover = new QLabel("COVER");// попробовать любую картинку вместо обложки вставить
 
-    //-----------
-    //setCover(1);
-    //---------
     QString summary = QString::fromStdString(myBook->getSummary());
     summary.prepend("Summary: ");
     QString begin = summary.left(50);
@@ -53,8 +52,6 @@ BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent), myB
     setAutoFillBackground(true);
 
     setLayout(mainLayout);
-// TODO отображение обложки
-// разная ширина столбцов
 }
 
 BookWidget::~BookWidget() {}
@@ -64,11 +61,12 @@ void BookWidget::setCover(int requestId) {
     if (myRequestId != requestId) {
         return;
     }
-///    myBuffer->close();
+    myFile->close();
     qDebug() << "slot: setting cover started";    
     QPalette coverPalette;
 //    coverPalette.setBrush(myCover->backgroundRole(), QBrush(QPixmap("view/images/read.jpeg")));
-    coverPalette.setBrush(myCover->backgroundRole(), QBrush(QPixmap(myFileName)));
+    coverPalette.setBrush(myCover->backgroundRole(), QBrush(QPixmap(myFile->fileName())));
+    
     myCover->setPalette(coverPalette);
     myCover->setAutoFillBackground(true);
     //myCover = new QIcon(myFile->fileName());    

@@ -41,7 +41,7 @@ signals:
 private:
     const Book* myBook;
     
-    QCheckBox* myCheckBox; // потому что будет важно его состояние
+    QCheckBox* myCheckBox;
     QLabel* myCover;
     BookActionsButtonBox* myButtonGroup;
     
@@ -49,7 +49,6 @@ private:
     int myRequestId;
     QDataStream* myDataStream;
     QFile* myFile;    
-    QString myFileName;
 };
 
 #endif //_BOOK_WIDGET_H_

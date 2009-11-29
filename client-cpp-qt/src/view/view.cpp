@@ -118,6 +118,3 @@ void View::removeChecked() {
         }
     }
 }
-
-
-
