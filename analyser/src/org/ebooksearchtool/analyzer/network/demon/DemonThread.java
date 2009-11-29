@@ -31,61 +31,64 @@ public class DemonThread extends Thread{
 
     @Override
     public synchronized void run(){
-        URL address;
-        Object waiter = new Object();
-        Calendar calendar = new GregorianCalendar(TimeZone.getDefault());
+        //TODO:Сделать возможным запуск демона во время работы программы.
+        if(AnalyzerProperties.getPropertieAsBoolean("demon_is_enable")){
+            URL address;
+            Object waiter = new Object();
+            Calendar calendar = new GregorianCalendar(TimeZone.getDefault());
 
-        synchronized(waiter){
-            while(true){
-                try{
-                    if(!myTodayUpdateFlag){
-                        while(calendar.get(Calendar.HOUR_OF_DAY) <
-                                AnalyzerProperties.getPropertieAsNumber("demonHourWhenRefresh")){
-                            try {
-                                waiter.wait(AnalyzerProperties.getPropertieAsNumber("demonRepeatConditionsChekTime"));
-                            } catch (InterruptedException ex) {
-                                Logger.setToErrorLog(ex.getMessage());
+            synchronized(waiter){
+                while(true){
+                    try{
+                        if(!myTodayUpdateFlag){
+                            while(calendar.get(Calendar.HOUR_OF_DAY) <
+                                    AnalyzerProperties.getPropertieAsNumber("demonHourWhenRefresh")){
+                                try {
+                                    waiter.wait(AnalyzerProperties.getPropertieAsNumber("demonRepeatConditionsChekTime"));
+                                } catch (InterruptedException ex) {
+                                    Logger.setToErrorLog(ex.getMessage());
+                                }
                             }
-                        }
-                        //TODO:Сейчас работает с локальным файлом, в итоге должен скачивать его. Доделать удаление фала, если он не докачан
-//                        try {
-//                            address = new URL("http://www.munseys.com/munsey.xml");
-//                            URLConnection connect = address.openConnection();
-//
-//                            OutputStream out = new FileOutputStream(new File("munsey.xml"));
-//                            long i = 0;
-//                            long end = connect.getContentLength();
-//                            if(end < 0){
-//                                throw new IOException("Connection faild");
-//                            }
-//                            Logger.setToLog("Demon file download started: " + address);
-//                            while (i<end){
-//                                int b = connect.getInputStream().read();
-//                                out.write(b);
-//                                i++;
-//                            }
-//                            out.close();
-                            MunseyParser parser = new MunseyParser();
-                            parser.parse("munsey.xml");
-//                        } catch (IOException ex) {
-//                            Logger.setToErrorLog(ex.getMessage());
-//                        }finally{
-//                            if(out != null){
-//                                out.close();
-//                            }
-//                        }
-                    }else{
-                        while(calendar.get(Calendar.HOUR_OF_DAY) > 1){
-                            try {
-                                waiter.wait(AnalyzerProperties.getPropertieAsNumber("demonRepeatConditionsChekTime"));
-                            } catch (InterruptedException ex) {
-                                Logger.setToErrorLog(ex.getMessage());
+                            //TODO:Сейчас работает с локальным файлом, в итоге должен скачивать его. Доделать удаление фала, если он не докачан
+    //                        try {
+    //                            address = new URL("http://www.munseys.com/munsey.xml");
+    //                            URLConnection connect = address.openConnection();
+    //
+    //                            OutputStream out = new FileOutputStream(new File("munsey.xml"));
+    //                            long i = 0;
+    //                            long end = connect.getContentLength();
+    //                            if(end < 0){
+    //                                throw new IOException("Connection faild");
+    //                            }
+    //                            Logger.setToLog("Demon file download started: " + address);
+    //                            while (i<end){
+    //                                int b = connect.getInputStream().read();
+    //                                out.write(b);
+    //                                i++;
+    //                            }
+    //                            out.close();
+                                MunseyParser parser = new MunseyParser();
+                                parser.parse("munsey.xml");
+    //                        } catch (IOException ex) {
+    //                            Logger.setToErrorLog(ex.getMessage());
+    //                        }finally{
+    //                            if(out != null){
+    //                                out.close();
+    //                            }
+    //                        }
+                        }else{
+                            while(calendar.get(Calendar.HOUR_OF_DAY) > 1){
+                                try {
+                                    waiter.wait(AnalyzerProperties.getPropertieAsNumber("demonRepeatConditionsChekTime"));
+                                } catch (InterruptedException ex) {
+                                    Logger.setToErrorLog(ex.getMessage());
+                                }
                             }
+                            myTodayUpdateFlag = false;
                         }
-                        myTodayUpdateFlag = false;
+                    }catch(NullPointerException ex){
+                            Logger.setToErrorLog(ex.getMessage());
                     }
-                }catch(NullPointerException ex){
-                        Logger.setToErrorLog(ex.getMessage());
                 }
             }
         }

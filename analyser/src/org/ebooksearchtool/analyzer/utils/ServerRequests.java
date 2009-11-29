@@ -11,6 +11,7 @@ import org.ebooksearchtool.analyzer.model.BookInfo;
 
 public class ServerRequests {
 
+    //TODO:Изменить формат(2 варианта)
     public static String formBookInfo(BookInfo info) {
         return format(encodeSpecialSymbols(info.getBookInfo()));
     }

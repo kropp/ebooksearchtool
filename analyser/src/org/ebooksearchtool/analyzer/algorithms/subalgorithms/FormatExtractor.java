@@ -26,7 +26,7 @@ public class FormatExtractor {
                     ch = buff.charAt(position);
                 }
                 if(build.length() != 0){
-                    build.reverse();
+                    (trimFormat(build)).reverse();
                     return build.toString();
                 }
             }
@@ -60,5 +60,13 @@ public class FormatExtractor {
         }
 
         return sb.toString();
+    }
+
+    //TODO:Сделать вообще для всех символов, отличных от букв и цифр.
+    private static StringBuilder trimFormat(StringBuilder sb){
+        while(sb.length() > 0 && sb.indexOf("?") != -1){
+            sb.deleteCharAt(0);
+        }
+        return sb;
     }
 }

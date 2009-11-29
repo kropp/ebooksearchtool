@@ -23,6 +23,7 @@ public class AnalyzerProperties{
         ourProperties.put("crawlerPort", "9999");
         ourProperties.put("serverConnectionTimeout", "1000");
         ourProperties.put("languagesList", "languages.lang");
+        ourProperties.put("demon_is_enable", "false");
     }
 
     public static void setPropertie(String key, String value){
@@ -39,6 +40,17 @@ public class AnalyzerProperties{
         Integer in = Integer.parseInt(ourProperties.get(key));
         if(in != null){
             return in;
+        }
+        throw new NullPointerException("No such property");
+    }
+
+    public static boolean getPropertieAsBoolean(String key) throws NullPointerException{
+        if(ourProperties.get(key).equals("true") || ourProperties.get(key).equals("True")){
+            return true;
+        }else{
+            if(ourProperties.get(key).equals("false") || ourProperties.get(key).equals("False")){
+                return false;
+            }
         }
         throw new NullPointerException("No such property");
     }

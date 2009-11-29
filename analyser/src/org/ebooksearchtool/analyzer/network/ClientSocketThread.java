@@ -81,7 +81,7 @@ public class ClientSocketThread extends Thread{
             Logger.setToErrorLog("No server connection found. Please chek the server connection.");
         }
         if(message.length() == 0){
-            return "Reciving error. Mesage";
+            return "Reciving error. Message";
         }
 
         return message;
