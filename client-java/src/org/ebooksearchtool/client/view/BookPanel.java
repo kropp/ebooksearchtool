@@ -22,9 +22,9 @@ import java.io.File;
  * Time: 12:23:09
  * To change this template use File | Settings | File Templates.
  */
-public class BookPanel {
+public class BookPanel implements Comparable {
 
-	private Book myBook;
+	public Book myBook;
 	private Settings mySettings;
 	
     private JPanel myRootPanel;
@@ -208,6 +208,13 @@ public class BookPanel {
     
     public boolean isSelected(){
     	return myCheckBox.isSelected(); 
+    }
+
+    public int compareTo(Object obj){
+
+        BookPanel tmp = (BookPanel)obj;
+        return this.myBook.getTitle().compareTo(tmp.myBook.getTitle());
+
     }
 
 }

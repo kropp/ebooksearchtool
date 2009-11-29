@@ -17,6 +17,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Vector;
+import java.util.Collections;
 
 /**
  * Created by IntelliJ IDEA.
@@ -48,8 +51,9 @@ public class Window {
     private JButton myEraseButton;
     private JButton myToolLibrary;
     private JButton myToolDelete;
+    private JButton myToolSort;
     
-    private BookPanel[] myBookPanels = null;
+    private Vector<BookPanel> myBookPanels = new Vector<BookPanel>();
     
     private Query myQuery;
     
@@ -99,6 +103,8 @@ public class Window {
         myToolBar = new JToolBar();
         myToolDelete = new JButton(new ImageIcon(getClass().getResource("/ico/delete_30.gif")));
         myToolBar.add(myToolDelete);
+        myToolSort = new JButton(new ImageIcon(getClass().getResource("/ico/sort_30.png")));
+        myToolBar.add(myToolSort);
         myToolLibrary = new JButton(new ImageIcon(getClass().getResource("/ico/library_30.gif")));
         myToolBar.add(myToolLibrary);
         myPanel1.add(myToolBar, "North");
@@ -157,8 +163,29 @@ public class Window {
 
             public void actionPerformed(ActionEvent e) {
          
+
             	
-            	
+            }
+        };
+
+        ActionListener sort = new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+
+                if(myBookPanels != null){
+                    System.out.println(myBookPanels.size());
+            		Collections.sort(myBookPanels);
+            	}
+
+                myTextPan.removeAll();
+
+                for(int i = 0; i < myBookPanels.size(); ++i){
+                    JPanel bookPan = myBookPanels.get(i).getRootPanel();
+            		myTextPan.add(bookPan);
+            		bookPan.setVisible(true);
+            		myFrame.setVisible(true);
+                }
+
             }
         };
         
@@ -167,8 +194,8 @@ public class Window {
             public void actionPerformed(ActionEvent e) {
          
             	if(myBookPanels != null){
-            		for(int i = 0; i < myBookPanels.length; ++i){
-            			myBookPanels[i].getRootPanel().setVisible(!myBookPanels[i].isSelected());
+            		for(int i = 0; i < myBookPanels.size(); ++i){
+            			myBookPanels.get(i).getRootPanel().setVisible(!myBookPanels.get(i).isSelected());
             		}
             	}
             	
@@ -243,6 +270,7 @@ public class Window {
             			try {
             				if(e.getSource() != myMoreButton){
             					myTextPan.removeAll();
+                                myBookPanels = new Vector<BookPanel>();
             					if(!myController.getQueryAnswer(myAdress)){
             						
                                     model.setValue(100);
@@ -265,11 +293,11 @@ public class Window {
             			model.setValue(30);
             			myProgressBar.setString("Recieving data... " + model.getValue() + "%");
             			
-            			myBookPanels = new BookPanel[myController.getData().getBooks().size()];
+            			//myBookPanels = new BookPanel[myController.getData().getBooks().size()];
             			model.setValue(35);
             			for(int i = lastNumber; i < myController.getData().getBooks().size(); ++i){
             				try {
-								myBookPanels[i] = new BookPanel(myController.getData().getBooks().get(i), myController.getSettings());
+								myBookPanels.add(new BookPanel(myController.getData().getBooks().get(i), myController.getSettings()));
 								model.setValue(model.getValue() + 5);
 								myProgressBar.setString("Viewing book... " + model.getValue() + "%");
             				} catch (IOException e) {
@@ -279,7 +307,7 @@ public class Window {
 							} catch (ParserConfigurationException e) {
 								e.printStackTrace();
 							}
-            				JPanel bookPan = myBookPanels[i].getRootPanel();
+            				JPanel bookPan = myBookPanels.get(i).getRootPanel();
             				myTextPan.add(bookPan);
             				bookPan.setVisible(true);
             				myFrame.setVisible(true);
@@ -310,6 +338,7 @@ public class Window {
         myMoreButton.addActionListener(act);
         myEraseButton.addActionListener(erase);
         myToolDelete.addActionListener(delete);
+        myToolSort.addActionListener(sort);
 
         myNetMenu.addActionListener(new ActionListener() {
 
