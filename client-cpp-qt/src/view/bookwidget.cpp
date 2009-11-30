@@ -45,14 +45,23 @@ void BookWidget::setCover(int requestId) {
 }
 
 void BookWidget::setCover() {
+/*
     QLabel* cover = new QLabel("        ", this);
     QPalette coverPalette;
     coverPalette.setBrush(cover->backgroundRole(), QBrush(QPixmap(myCoverFile->fileName())));
     cover->setScaledContents(true);
     cover->setPalette(coverPalette);
     cover->setAutoFillBackground(true);
+*/
 
-    myMainLayout->addWidget(cover, 0, 1, 2, 1, Qt::AlignLeft);
+    QIcon* coverIcon = new QIcon(myCoverFile->fileName());
+    QPushButton* coverButton = new QPushButton(*coverIcon, "");
+    coverButton->resize(coverButton->iconSize());
+    coverButton->setIconSize(QSize(60, 100));
+    coverButton->setFixedSize(QSize(60, 100));
+    coverButton->setFlat(true);
+
+    myMainLayout->addWidget(coverButton, 0, 1, 2, 1, Qt::AlignLeft);
 }
 
 void BookWidget::remove() {
