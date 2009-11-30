@@ -41,6 +41,7 @@ private slots:
     void remove(BookWidget*);
     void toLibrary(BookWidget*);
     void read(int requestId);
+    void read();
     void removeChecked();
     void downloadBook(BookWidget*);    
 

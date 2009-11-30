@@ -8,7 +8,7 @@
 #include <QPicture>
 
 
-#include <QDebug>
+//#include <QDebug>
 
 BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent), myBook(book) {
 // create all content
@@ -37,7 +37,6 @@ BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent), myB
 }
 
 void BookWidget::setCover(int requestId) {
-    qDebug() << "SLOT setCover requsetId = " << requestId;
     if (myRequestId != requestId) {
         return;
     }
@@ -79,7 +78,6 @@ void BookWidget::downloadCover() {
     //if such file exists - just open it and return;
     if (QFile::exists(fileName)) {  
         myCoverFile = new QFile(fileName);
-        qDebug() << "file  " << fileName << "  already exists" ;
         setCover();
         return;
     }

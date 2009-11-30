@@ -112,19 +112,28 @@ void View::read(int id) {
         return;
     }
     myFile->close();
+    read();
+}
+
+void View::read() {
     QProcess* process = new QProcess(); //(this); и обрабатывать сигнал об уничтожении родительского процесса
     process->start(QString::fromStdString("evince"), QStringList(myFile->fileName()));
+    
 }
 
 void View::downloadBook(BookWidget* widget) {
     const Book& book = widget->getBook();
     QString link = QString::fromStdString(book.getLink());
+    QString fileName = link.right(link.size() - link.lastIndexOf('/') - 1);
     
     // если файл с таким именем уже существует, то надо читать его
+    if (QFile::exists(fileName)) {
+        myFile = new QFile(fileName);
+        read();
+        return;
+    }
     
-    myFile = new QFile(link.right(link.size() - link.lastIndexOf('/') - 1));
-  //  qDebug() << "view SLOT read book link " << link;
-   // qDebug() << "fileName " << myFile->fileName();
+    myFile = new QFile(fileName);
     myFile->open(QIODevice::WriteOnly);
     NetworkManager* connection = NetworkManager::getInstance();
     connect(connection, SIGNAL(requestFinished(int, bool)), this, SLOT(read(int)));  
