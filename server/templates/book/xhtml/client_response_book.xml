@@ -72,6 +72,7 @@
                         {{ book_file.type }}
                     {% else%}
                         unrecognized type
+                    {% endif %}
                         </a></h3>
                 {% endfor %}
         </div>
