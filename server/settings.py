@@ -106,6 +106,7 @@ INSTALLED_APPS = (
     'south',
     'book',
     'reader',
+    'tests',
     #openid
 #    'django_authopenid',
 )

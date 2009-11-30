@@ -39,8 +39,9 @@
     <div class="container append-bottom box">
       <div class="span-6">
 
-          <a href="id{{ book.id }}"><img alt="{{ book.title }}" class="cover" src="{{book_file.all.0.img_link}}" title="{{ book.title }}" /></a> 
-         
+          {% for book_file in book.book_file.all %}
+              <a href="/book/id{{ book.id }}"><img alt="{{ book.title }}" class="cover" src="{{book_file.img_link}}" title="{{ book.title }}" /></a> 
+          {% endfor %}
       </div>
       <div class="span-11 invisible-colborder">
 

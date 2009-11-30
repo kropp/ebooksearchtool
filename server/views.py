@@ -10,8 +10,15 @@ from book.models import Book
 from book.models import Author
 from book.models import Tag
 
-def search_request_to_server(request, response_type):
+from django.http import Http404
+
+def search_request_to_server(request, response_type, is_all):
     """ builds opds and xhtml response for search request"""
+    try:
+        is_all = request.GET['is_all']
+    except KeyError:
+        pass
+          
     try:
         items_per_page = int(request.GET['items_per_page'])
     except KeyError:
@@ -76,6 +83,14 @@ def search_request_to_server(request, response_type):
     
     if len(request_to_server) == 0:
         books = Book.objects.none()
+
+    if is_all == "yes":
+        next = page + 1
+        query = None
+        author = None
+        title = None
+        
+        books = Book.objects.all()
         
     total = books.count()
     seq = range(1, total/items_per_page+2)
@@ -98,8 +113,7 @@ def book_request_to_server(request, book_id, response_type):
     try:
         book = Book.objects.get(id=book_id)
     except ObjectDoesNotExist:
-        #TODO
-        pass
+        raise Http404
     
     if response_type == "atom":
         return render_to_response('book/opds/client_response_book.xml',
@@ -109,59 +123,22 @@ def book_request_to_server(request, book_id, response_type):
             {'book': book, })
 
 def author_request_to_server(request, author_id, response_type):
-    """ builds opds and xhtml response for author id request"""
+    """builds opds and xhtml response for all author's books request"""
     try:
         author = Author.objects.get(id=author_id)
     except ObjectDoesNotExist:
-        #TODO
-        pass
+        raise Http404
     if response_type == "atom":
-        return render_to_response('book/opds/client_response_author.xml',
-            {'author': author,})
+        return render_to_response('book/opds/client_response_author_books.xml',
+        {'author': author})
     if response_type == "xhtml":
-        return render_to_response('book/xhtml/client_response_author.xml',
-            {'author': author,})
+        return render_to_response('book/xhtml/client_response_author_books.xml',
+        {'author': author})
 
 def opensearch_description(request):
     """returns xml open search description"""
     return render_to_response("data/opensearchdescription.xml", )
     
-def all_books_request_to_server(request, response_type):
-    """builds opds and xhtml response for all books request"""
-    try:
-        items_per_page = int(request.GET['items_per_page'])
-    except KeyError:
-        items_per_page = 20
-    
-    try:
-        page = int(request.GET['page'])
-        start_index = items_per_page * (page - 1)
-    except KeyError:
-        page = 1
-        start_index = 0
-    next = page + 1
-    query = None
-    author = None
-    title = None
-    
-    books = Book.objects.all()
-    
-    total = books.count()
-    
-    seq = range(1, total/items_per_page+1)
-    
-    if response_type == "atom":
-        return render_to_response('book/opds/client_response_search.xml',
-            {'books': books[start_index:start_index+items_per_page],
-            'query': query, 'title': title, 'author':author, 'total':total,
-            'items_per_page':items_per_page,  'next':next, 'curr': next - 1 })
-        
-    if response_type == "xhtml":
-        return render_to_response('book/xhtml/client_response_search.xml',
-        {'books': books[start_index:start_index+items_per_page], 'query': query,
-         'title': title, 'author':author, 'total':total, 'curr': next - 1,
-         'items_per_page':items_per_page, 'next':next, 'seq':seq, })
-         
 def catalog_request_to_server(request, response_type):
     """builds opds and xhtml response for catalog request"""
     if response_type == "atom":
@@ -190,19 +167,6 @@ def books_by_authors_request_to_server(request, response_type):
     if response_type == "xhtml":
         return render_to_response('book/xhtml/client_response_books_by_author_letter.xml',
         {'authors': authors})
-        
-def author_books_request_to_server(request, author_id, response_type):
-    """builds opds and xhtml response for all author's books request"""
-    try:
-        author = Author.objects.get(id=author_id)
-    except ObjectDoesNotExist:
-        pass
-    if response_type == "atom":
-        return render_to_response('book/opds/client_response_author_books.xml',
-        {'author': author})
-    if response_type == "xhtml":
-        return render_to_response('book/xhtml/client_response_author_books.xml',
-        {'author': author})
             
 def books_by_languages_request_to_server(request, response_type):
     """builds opds and xhtml response for books by lang request"""

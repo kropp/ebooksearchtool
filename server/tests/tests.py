@@ -6,18 +6,82 @@ Replace these with more appropriate tests for your application.
 """
 
 from django.test import TestCase
+from django.test.client import Client
 
-class SimpleTest(TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
-        self.failUnlessEqual(1 + 1, 2)
+from book.models import Author
+from book.models import Book
 
-__test__ = {"doctest": """
-Another way to test that 1 + 1 is equal to 2.
+class OpenTestCase(TestCase):
+    def test_opensearch(self):
+        client = Client()
+        response = client.get('/opensearch/')
+        print 'status code for open search', response.status_code
+        self.failUnlessEqual(response.status_code, 200)
+        
+    def test_all_books_xhtml(self):
+        client = Client()
+        response = client.get('/all/')
+        print 'status code for all books', response.status_code
+        self.failUnlessEqual(response.status_code, 200)   
 
->>> 1 + 1 == 2
-True
-"""}
+    def test_all_books_opds(self):
+        client = Client()
+        response = client.get('/all.atom/')
+        print 'status code for all books in opds', response.status_code
+        self.failUnlessEqual(response.status_code, 200)         
 
+    def test_catalog_xhtml(self):
+        client = Client()
+        response = client.get('/catalog/')
+        print 'status code for catalog', response.status_code
+        self.failUnlessEqual(response.status_code, 200)    
+        
+    def test_catalog_opds(self):
+        client = Client()
+        response = client.get('/catalog.atom/')
+        print 'status code for catalog in opds', response.status_code
+        self.failUnlessEqual(response.status_code, 200)   
+        
+    def test_author(self):
+        client = Client()
+        author = Author(name="Author")
+        author.save()
+        author_id = author.id
+
+        response = client.get('/author.atom/id%s/' %(author_id,))
+        print 'status code for good author request in atom', response.status_code
+        self.failUnlessEqual(response.status_code, 200)
+        
+        response = client.get('/author/id%s/' %(author_id,))
+        print 'status code for good author request in xhtml', response.status_code
+        self.failUnlessEqual(response.status_code, 200)
+
+        response = client.get('/author.atom/id%s/' %(author_id + 1,))
+        print 'status code for bad author request in atom', response.status_code
+        self.failUnlessEqual(response.status_code, 404)                          
+
+        response = client.get('/author/id%s/' %(author_id + 1,))
+        print 'status code for bad author request in xhtml', response.status_code
+        self.failUnlessEqual(response.status_code, 404)                          
+
+    def test_book(self):
+        client = Client()
+        book = Book(title="Book")
+        book.save()
+        book_id = book.id
+        
+        response = client.get('/book.atom/id%s/' %(book_id,))
+        print 'status code for good book request in atom', response.status_code
+        self.failUnlessEqual(response.status_code, 200)
+
+        response = client.get('/book/id%s/' %(book_id,))
+        print 'status code for good book request in xhtml', response.status_code
+        self.failUnlessEqual(response.status_code, 200)
+
+        response = client.get('/book.atom/id%s/' %(book_id + 1,))
+        print 'status code for bad book request in atom', response.status_code
+        self.failUnlessEqual(response.status_code, 404)                          
+        
+        response = client.get('/book/id%s/' %(book_id + 1,))
+        print 'status code for bad book request in xhtml', response.status_code
+        self.failUnlessEqual(response.status_code, 404)                          

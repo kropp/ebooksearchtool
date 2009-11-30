@@ -15,9 +15,15 @@ urlpatterns = patterns('',
 
     # interface for search
     (r'^search.atom/?$', 'views.search_request_to_server',
-        {'response_type': 'atom',}),
+        {'response_type': 'atom', 'is_all': 'no'}),
     (r'^search/?$', 'views.search_request_to_server',
-        {'response_type': 'xhtml',}),
+        {'response_type': 'xhtml', 'is_all': 'no'}),
+        
+    #all books
+    (r'^all.atom/?$', 'views.search_request_to_server',
+        {'response_type': 'atom', 'is_all': 'yes'}),
+    (r'^all/?$', 'views.search_request_to_server',
+        {'response_type': 'xhtml', 'is_all': 'yes'}),        
     
     # requests
     (r'^book.atom/id(\d{1,})/?$', 'views.book_request_to_server',
@@ -28,17 +34,6 @@ urlpatterns = patterns('',
     (r'^author.atom/id(\d{1,})/?$', 'views.author_request_to_server',
         {'response_type': 'atom',}),
     (r'^author/id(\d{1,})/?$', 'views.author_request_to_server',
-        {'response_type': 'xhtml',}),
-    
-    (r'^authors/id(\d{1,})/books.atom?$', 'views.author_books_request_to_server',
-        {'response_type': 'atom',}),
-    (r'^authors/id(\d{1,})/books?$', 'views.author_books_request_to_server',
-        {'response_type': 'xhtml',}),        
-    
-    #all books
-    (r'^all.atom/?$', 'views.all_books_request_to_server',
-        {'response_type': 'atom',}),
-    (r'^all/?$', 'views.all_books_request_to_server',
         {'response_type': 'xhtml',}),
     
     #book catalog
