@@ -31,10 +31,7 @@ public:
 
 private:    
     void addWidget(QWidget* widget);
-    void makeHeader();
-    void updateHeader();
     void connectWithButtons() const;
-
 
 private slots:
     void markAllBooks(int);
@@ -50,11 +47,7 @@ private:
     QList<BookWidget*> myBooks;
 
     QVBoxLayout* myBooksLayout;
-    QHBoxLayout* myHeaderLayout;
-    QVBoxLayout* myMainLayout;
 
-    QLabel* myFoundLabel;
-    QLabel* myShownLabel;
     QCheckBox* myCheckBox;
     BookActionsButtonBox* myBookActionsButtonBox;
 

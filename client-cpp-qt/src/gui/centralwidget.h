@@ -8,10 +8,10 @@ class QDialogButtonBox;
 class QBuffer;
 class QComboBox;
 class QHttp;
-class QHttpResponseHeader;
-class QLabel;
+//class QHttpResponseHeader;
+//class QLabel;
 class QLineEdit;
-class QTextEdit;
+//class QTextEdit;
 class QPushButton;
 class NetworkManager;
 
@@ -35,11 +35,11 @@ private:
 	QString queryToUrl() const;
 
 private:
-	QLabel *myStatusLabel;
 	QLineEdit *myQueryLineEdit;
 	QComboBox  *mySearchTags;
 	QPushButton *mySearchButton;
-	QDialogButtonBox *myButtonBox;
+
+    QDialogButtonBox *myButtonBox;
 
 	QBuffer *myBuffer; 
     NetworkManager* myNetworkManager;

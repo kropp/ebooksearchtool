@@ -9,10 +9,9 @@ CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myBuffer(0) {
     myNewRequest = true;
 	myQueryLineEdit = new QLineEdit();
     mySearchTags = new QComboBox(this);
-    mySearchTags->addItem("general");
-    mySearchTags->addItem("title");
-    mySearchTags->addItem("author");
- 	myStatusLabel = new QLabel(tr("Please enter a title or an author's name of the book you want to find"));
+    mySearchTags->addItem("everywhere");
+    mySearchTags->addItem("by title");
+    mySearchTags->addItem("by author");
 
 	mySearchButton = new QPushButton(tr("Search"));
 	mySearchButton->setDefault(true);
@@ -29,14 +28,10 @@ CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myBuffer(0) {
 	
 	//connect(myView, SIGNAL(urlRequest(const QString&)), this, SLOT(downloadFile(const QString&)));
 
-	QHBoxLayout *secondLayout = new QHBoxLayout;
-	secondLayout->addWidget(myQueryLineEdit);
-	secondLayout->addWidget(mySearchTags);
-	secondLayout->addWidget(mySearchButton);
-	
-	QVBoxLayout *topLayout = new QVBoxLayout;
-	topLayout->addLayout(secondLayout);
-	topLayout->addWidget(myStatusLabel);
+	QHBoxLayout *topLayout = new QHBoxLayout;
+	topLayout->addWidget(myQueryLineEdit);
+	topLayout->addWidget(mySearchTags);
+	topLayout->addWidget(mySearchButton);
 	
 	QGridLayout *mainLayout = new QGridLayout;
 	mainLayout->addLayout(topLayout, 0, 0, 1, 3);
