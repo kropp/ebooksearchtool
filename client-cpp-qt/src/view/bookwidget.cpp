@@ -5,11 +5,11 @@
 #include "bookActionButtons.h"
 
 #include <QFile>
+#include <QPicture>
 
 BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent), myBook(book) {
 // create all content
     myCheckBox = new QCheckBox();
-    myCover = new QLabel(" _______ ");
     downloadCover();
     QLabel* title = new QLabel(myBook->getTitle().c_str());
     QLabel* author = new QLabel(myBook->getAuthor()->getName().c_str());
@@ -22,16 +22,15 @@ BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent), myB
     connect(buttonGroup, SIGNAL(read()), this, SLOT(read()));
 
 // set all content
-    QGridLayout* mainLayout = new QGridLayout();
-    mainLayout->addWidget(myCheckBox, 0, 0, 3, 1);
-    mainLayout->addWidget(myCover, 0, 1, 2, 1, Qt::AlignLeft);
-    mainLayout->addWidget(title, 0, 2, Qt::AlignLeft);
-    mainLayout->addWidget(author, 1, 2, Qt::AlignLeft);
-    mainLayout->addWidget(buttonGroup, 0, 3);
-    mainLayout->addWidget(summary, 2, 1, 1, 4);
+    myMainLayout = new QGridLayout();
+    myMainLayout->addWidget(myCheckBox, 0, 0, 3, 1);
+    myMainLayout->addWidget(title, 0, 2, Qt::AlignLeft);
+    myMainLayout->addWidget(author, 1, 2, Qt::AlignLeft);
+    myMainLayout->addWidget(buttonGroup, 0, 3);
+    myMainLayout->addWidget(summary, 2, 1, 1, 4);
   
     setBackground(); 
-    setLayout(mainLayout);
+    setLayout(myMainLayout);
 }
 
 void BookWidget::setCover(int requestId) {
@@ -40,11 +39,14 @@ void BookWidget::setCover(int requestId) {
     }
     myCoverFile->close();
     
+    QLabel* cover = new QLabel("-------------", this);
     QPalette coverPalette;
-    coverPalette.setBrush(myCover->backgroundRole(), QBrush(QPixmap(myCoverFile->fileName())));
-    
-    myCover->setPalette(coverPalette);
-    myCover->setAutoFillBackground(true);
+    coverPalette.setBrush(cover->backgroundRole(), QBrush(QPixmap(myCoverFile->fileName())));
+    cover->setScaledContents(true);
+    cover->setPalette(coverPalette);
+    cover->setAutoFillBackground(true);
+
+    myMainLayout->addWidget(cover, 0, 1, 2, 1, Qt::AlignLeft);
 }
 
 void BookWidget::remove() {

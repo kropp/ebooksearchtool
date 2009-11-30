@@ -114,7 +114,7 @@ void View::read(int id) {
     myFile->close();
 //    qDebug() << "want to read File " << myFile->fileName();
     QProcess* process = new QProcess(this);
-    process->start(QString::fromStdString("FBReader"), QStringList(myFile->fileName()));
+    process->start(QString::fromStdString("evince"), QStringList(myFile->fileName()));
 // открываю подходящей читалкой
 }
 

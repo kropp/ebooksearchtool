@@ -29,7 +29,7 @@ bool AtomHandler::startElement (const QString& , const QString& , const QString&
 	    return true;    
     }	
 // if myIsEntry
-	if ((name == "link") && (attributes.value("type") == "application/epub+zip")) {
+	if ((name == "link") && (attributes.value("type") == "application/pdf")) {
         myBooksLink = attributes.value("href");
 	}
 	if ((name == "link") && (attributes.value("type") == "image/png") && (attributes.value("rel") == "http://opds-spec.org/thumbnail")) {

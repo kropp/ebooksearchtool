@@ -47,8 +47,8 @@ private:
 private:
     const Book* myBook;
     
+    QGridLayout* myMainLayout;
     QCheckBox* myCheckBox;
-    QLabel* myCover;
     QFile* myCoverFile;    
     
     int myRequestId;
