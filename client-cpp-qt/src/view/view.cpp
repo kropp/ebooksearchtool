@@ -112,10 +112,8 @@ void View::read(int id) {
         return;
     }
     myFile->close();
-//    qDebug() << "want to read File " << myFile->fileName();
-    QProcess* process = new QProcess(this);
+    QProcess* process = new QProcess(); //(this); и обрабатывать сигнал об уничтожении родительского процесса
     process->start(QString::fromStdString("evince"), QStringList(myFile->fileName()));
-// открываю подходящей читалкой
 }
 
 void View::downloadBook(BookWidget* widget) {
