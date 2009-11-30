@@ -19,6 +19,7 @@ urlpatterns = patterns('',
     (r'^search/?$', 'views.search_request_to_server',
         {'response_type': 'xhtml',}),
     
+    # requests
     (r'^book.atom/id(\d{1,})/?$', 'views.book_request_to_server',
         {'response_type': 'atom',}),
     (r'^book/id(\d{1,})/?$', 'views.book_request_to_server',
@@ -31,6 +32,8 @@ urlpatterns = patterns('',
     
     (r'^authors/id(\d{1,})/books.atom?$', 'views.author_books_request_to_server',
         {'response_type': 'atom',}),
+    (r'^authors/id(\d{1,})/books?$', 'views.author_books_request_to_server',
+        {'response_type': 'xhtml',}),        
     
     #all books
     (r'^all.atom/?$', 'views.all_books_request_to_server',
@@ -41,14 +44,24 @@ urlpatterns = patterns('',
     #book catalog
     (r'^catalog.atom/?$', 'server.views.catalog_request_to_server',
         {'response_type': 'atom',}),
+    (r'^catalog/?$', 'server.views.catalog_request_to_server',
+        {'response_type': 'xhtml',}),        
     
     #books sorted by authors, languages, subjects
     (r'^discover/authors.atom/?$', 'views.books_by_authors_request_to_server',
         {'response_type': 'atom',}),
+    (r'^discover/authors/?$', 'views.books_by_authors_request_to_server',
+        {'response_type': 'xhtml',}),
+        
     (r'^discover/languages.atom/?$', 'views.books_by_languages_request_to_server',
         {'response_type': 'atom',}),
+    (r'^discover/languages/?$', 'views.books_by_languages_request_to_server',
+        {'response_type': 'xhtml',}),        
+        
     (r'^discover/subjects.atom/?$', 'views.books_by_tags_request_to_server',
         {'response_type': 'atom',}),
+    (r'^discover/subjects/?$', 'views.books_by_tags_request_to_server',
+        {'response_type': 'xhtml',}),        
     
     #admin
     (r'^admin/(.*)', admin.site.root),

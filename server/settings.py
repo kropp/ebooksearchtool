@@ -110,6 +110,8 @@ INSTALLED_APPS = (
 #    'django_authopenid',
 )
 
+TEST_RUNNER = 'test_runner.run_tests'
+
 # path to log file
 LOG_FILENAME = 'main.log'
 

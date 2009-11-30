@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head profile="http://www.w3.org/1999/xhtml/vocab">
+    <title> Catalog </title>
+    
+    <!-- Links --> 
+    <link rel="search" type="application/opensearchdescription+xml" title="Opensearch description" href="opensearch" />
+</head>
+
+<body>
+<div id="header">
+  
+    <div class="container">
+        <div class="span-19">
+            <h1 class="fb-blue bottom">Catalog: </h1>
+        </div>
+    </div>
+
+  <h3 class="fb-blue small-bottom-margin"><a href="discover/authors">Authors</a></h3>
+  Alpha index of the authors available
+  <h3 class="fb-blue small-bottom-margin"><a href="discover/languages">Languages</a></h3>
+  Filter books in a specific language 
+  <h3 class="fb-blue small-bottom-margin"><a href="discover/subjects">Subjects</a></h3> 
+  Browse through books based on their subjects
+</div>
+
+</body>
+</html>
+

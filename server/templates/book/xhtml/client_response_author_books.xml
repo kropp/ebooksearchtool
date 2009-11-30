@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head profile="http://www.w3.org/1999/xhtml/vocab">
+    <title> {{ author.name }} </title>
+    
+    <!-- Links --> 
+    <link rel="search" type="application/opensearchdescription+xml" title="Opensearch description" href="opensearch" />
+</head>
+
+<body>
+<div id="header">
+  
+    <div class="container">
+        <div class="span-19">
+            <h1 class="fb-blue bottom">{{ author.name }}: </h1>
+        </div>
+    </div>
+   
+{% for book in author.book.all %}
+
+  <div class="span-2 append-bottom">
+  
+      <a href="../../book/id{{ book.id }}"><img alt="{{ book.title }}" class="cover" src="{{book.book_file.all.0.img_link}}" title="{{ book.title }}" /></a> 
+  
+  </div>
+
+
+  <div class="span-15 prepend-1 append-bottom last">
+
+
+    <div class="float-right small">
+        {% for tag in book.tag.all %}
+            <category term="{{ tag }}"/>
+        {% endfor %}
+    </div>
+
+    
+    <h3 class="fb-blue small-bottom-margin"><a href="../../book/id{{ book.id }}">{{ book.title }}</a></h3>
+    <h4 class="charcoal">by 
+      {% for author in book.author_set.all %}
+         <em><a href="../../author/id{{ author.id }}" class="gray">{{ author.name }}</a></em>
+      {% endfor %}
+    </h4>    
+    {% for annotation in book.annotation.all %}
+            <annotation> {{ annotation }} </annotation>
+    {% endfor %}
+  </div>
+
+      
+      <hr class="space" />
+
+{% endfor %}
+
+
+<!--    <link href="search.atom?" rel="alternate"></link>
+    <link href="search.atom?items_per_page={{items_per_page}};query={{ query }}" rel="self"></link>
+    <link rel="next" href="search.atom?page={{next}};items_per_page={{items_per_page}};query={{ query }}"/>
+-->    
+
+</body>
+</html>

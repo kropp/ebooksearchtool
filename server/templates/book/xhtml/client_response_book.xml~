@@ -38,19 +38,19 @@
   <div class="blue-background full-width">
     <div class="container append-bottom box">
       <div class="span-6">
-
-          <a href="id{{ book.id }}"><img alt="{{ book.title }}" class="cover" src="{{book_file.all.0.img_link}}" title="{{ book.title }}" /></a> 
-         
+          {% for book_file in book.book_file.all %}
+          <a href="id{{ book.id }}"><img alt="{{ book.title }}" class="cover" src="{{book_file.img_link}}" title="{{ book.title }}" /></a> 
+          {% endfor %}
       </div>
       <div class="span-11 invisible-colborder">
 
         <h3>Description</h3>
         <div class="small">
-          <p><strong>Language:</strong> <a href="../search?lang={{ book.lang }}">{{ book.lang }}</a> </p>
+          <p><strong>Language:</strong> <a href="{{ book.lang }}">en</a> </p>
           <p>
             <strong>Tags:</strong>
                 {% for tag in book.tag.all %}
-                    <a href="../search?tag={{ tag}}"> {{ tag }} </a>
+                    <a href="/book/id{{ book.id }}"> {{ tag }} </a>
                 {% endfor %}
           </p>
 
@@ -63,13 +63,6 @@
                 {% endfor %}          
             </div>          
         </p>
-        <div class="span-4 last">
-            <h3>Download&nbsp;:</h3>
-                {% for book_file in book.book_file.all %}
-                    <h3><a href="{{ book_file.link }}" class="{{ book_file.type }}">{{ book_file.type }}</a></h3>
-                {% endfor %}
-        </div>
-
       </div>
 
     </div>

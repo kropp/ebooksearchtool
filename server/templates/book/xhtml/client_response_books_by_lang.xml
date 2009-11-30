@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head profile="http://www.w3.org/1999/xhtml/vocab">
+    <title> Books by language  </title>
+    
+    <!-- Links --> 
+    <link rel="search" type="application/opensearchdescription+xml" title="Opensearch description" href="opensearch" />
+</head>
+
+<body>
+<div id="header">
+  
+    <div class="container">
+        <div class="span-19">
+            <h1 class="fb-blue bottom">Books by language: </h1>
+        </div>
+    </div>
+
+    {% for lang in languages %} 
+        <h3 class="fb-blue small-bottom-margin"><a href="../search?lang={{ lang }}">{{ lang }}</a></h3>
+    {% endfor %} 
+
+</feed>
