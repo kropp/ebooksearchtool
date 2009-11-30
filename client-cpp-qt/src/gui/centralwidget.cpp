@@ -7,8 +7,6 @@
 
 CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myBuffer(0) {
     myNewRequest = true;
-	myUrlLineEdit = new QLineEdit("http://");
-	myUrlLabel = new QLabel(tr("URL:"));
 	myQueryLineEdit = new QLineEdit();
     mySearchTags = new QComboBox(this);
     mySearchTags->addItem("general");
@@ -22,7 +20,6 @@ CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myBuffer(0) {
 	myView = new View(this, 0);
 
 	myNetworkManager = NetworkManager::getInstance(); // а может мне соединение не понадобится - отложить создание!
-    myUrlLineEdit->insert(myNetworkManager->getServer());
 
 	connect(myQueryLineEdit, SIGNAL(textChanged(const QString &)), this, SLOT(enableSearchButton()));
 	connect(myNetworkManager, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
@@ -30,12 +27,7 @@ CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myBuffer(0) {
 	connect(mySearchButton, SIGNAL(clicked()), this, SLOT(downloadFile())); 
 	connect(mySearchButton, SIGNAL(clicked()), this, SLOT(setNewRequest()));
 	
-	//connect(myView, SIGNAL(urlRequest(const QString&)), myUrlLineEdit, SLOT(setText(const QString&)));
 	//connect(myView, SIGNAL(urlRequest(const QString&)), this, SLOT(downloadFile(const QString&)));
-	
-	QHBoxLayout *firstLayout = new QHBoxLayout;
-	firstLayout->addWidget(myUrlLabel);
-	firstLayout->addWidget(myUrlLineEdit);
 
 	QHBoxLayout *secondLayout = new QHBoxLayout;
 	secondLayout->addWidget(myQueryLineEdit);
@@ -43,7 +35,6 @@ CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myBuffer(0) {
 	secondLayout->addWidget(mySearchButton);
 	
 	QVBoxLayout *topLayout = new QVBoxLayout;
-	topLayout->addLayout(firstLayout);
 	topLayout->addLayout(secondLayout);
 	topLayout->addWidget(myStatusLabel);
 	
@@ -64,10 +55,7 @@ void CentralWidget::downloadFile() {
         myBuffer->setData("", 0);	
     }
 
-	if (!myQueryLineEdit->text().isEmpty()) {
-		myUrlLineEdit->setText(queryToUrl());
-	}
-	myRequestId = myNetworkManager->download(myUrlLineEdit->text(), myBuffer);
+	myRequestId = myNetworkManager->download(queryToUrl(), myBuffer);
     myBuffer->close();
 }
 
@@ -99,11 +87,7 @@ void CentralWidget::httpRequestFinished(int requestId , bool) {
         return;
     }
 	mySearchButton->setEnabled(true);
-	if (myUrlLineEdit->text().contains("atom")) {
-		parseDownloadedFile();
-	} else if (myUrlLineEdit->text().contains("epub")) {
-		//myView->open(myFile->fileName());
-	}
+	parseDownloadedFile();
 }
 
 void CentralWidget::parseDownloadedFile() {

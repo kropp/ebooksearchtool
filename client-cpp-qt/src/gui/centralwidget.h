@@ -36,8 +36,6 @@ private:
 
 private:
 	QLabel *myStatusLabel;
-	QLabel *myUrlLabel;
-	QLineEdit *myUrlLineEdit;
 	QLineEdit *myQueryLineEdit;
 	QComboBox  *mySearchTags;
 	QPushButton *mySearchButton;
