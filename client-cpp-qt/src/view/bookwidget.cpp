@@ -7,10 +7,12 @@
 #include <QFile>
 #include <QPicture>
 
+
+#include <QDebug>
+
 BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent), myBook(book) {
 // create all content
     myCheckBox = new QCheckBox();
-    downloadCover();
     QLabel* title = new QLabel(myBook->getTitle().c_str());
     QLabel* author = new QLabel(myBook->getAuthor()->getName().c_str());
     MoreLessTextLabel* summary = makeSummary();
@@ -28,18 +30,23 @@ BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent), myB
     myMainLayout->addWidget(author, 1, 2, Qt::AlignLeft);
     myMainLayout->addWidget(buttonGroup, 0, 3);
     myMainLayout->addWidget(summary, 2, 1, 1, 4);
-  
+ 
+    downloadCover();
     setBackground(); 
     setLayout(myMainLayout);
 }
 
 void BookWidget::setCover(int requestId) {
+    qDebug() << "SLOT setCover requsetId = " << requestId;
     if (myRequestId != requestId) {
         return;
     }
     myCoverFile->close();
-    
-    QLabel* cover = new QLabel("-------------", this);
+    setCover();
+}
+
+void BookWidget::setCover() {
+    QLabel* cover = new QLabel("        ", this);
     QPalette coverPalette;
     coverPalette.setBrush(cover->backgroundRole(), QBrush(QPixmap(myCoverFile->fileName())));
     cover->setScaledContents(true);
@@ -69,6 +76,13 @@ void BookWidget::downloadCover() {
     const QString coverLink = QString::fromStdString(myBook->getCoverLink());
     QString fileName = coverLink.right(coverLink.size() - coverLink.lastIndexOf('/') - 1);
     fileName = fileName.left(fileName.indexOf('?'));
+    //if such file exists - just open it and return;
+    if (QFile::exists(fileName)) {  
+        myCoverFile = new QFile(fileName);
+        qDebug() << "file  " << fileName << "  already exists" ;
+        setCover();
+        return;
+    }
     myCoverFile = new QFile(fileName);
     myCoverFile->open(QIODevice::WriteOnly);
 

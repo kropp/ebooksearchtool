@@ -41,6 +41,7 @@ private slots:
 
 private: 
     void downloadCover();
+    void setCover();
     MoreLessTextLabel* makeSummary();
     void setBackground();
     
