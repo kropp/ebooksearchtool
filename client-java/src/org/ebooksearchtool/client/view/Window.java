@@ -53,6 +53,7 @@ public class Window {
     private JButton myToolDelete;
     private JButton myToolSort;
     private JButton myToolBack;
+    private JButton myToolForward;
     
     private Vector<Vector<BookPanel>> myBookPanels = new Vector<Vector<BookPanel>>();
     
@@ -106,6 +107,9 @@ public class Window {
         myToolBack = new JButton(new ImageIcon(getClass().getResource("/ico/back_30.gif")));
         myToolBar.add(myToolBack);
         myToolBack.setEnabled(false);
+        myToolForward = new JButton(new ImageIcon(getClass().getResource("/ico/forward_30.gif")));
+        myToolBar.add(myToolForward);
+        myToolForward.setEnabled(false);
         myToolDelete = new JButton(new ImageIcon(getClass().getResource("/ico/delete_30.gif")));
         myToolBar.add(myToolDelete);
         myToolDelete.setEnabled(false);
@@ -181,7 +185,11 @@ public class Window {
 
                 if(myBookPanels != null){
                 	Vector<BookPanel> newView = new Vector<BookPanel>();
-                	newView = (Vector)(myBookPanels.lastElement().clone());
+                	newView = (Vector)(myBookPanels.get(myBackIndex).clone());
+                	for(int i = myBackIndex + 1; i < myBookPanels.size(); ++i){
+                		myBookPanels.removeElementAt(i);
+                	}
+                	
                 	myBookPanels.add(newView);
             		Collections.sort(myBookPanels.lastElement());
             	}
@@ -195,6 +203,7 @@ public class Window {
             		myFrame.setVisible(true);
                 }
                 myToolBack.setEnabled(true);
+                myToolForward.setEnabled(false);
                 ++myBackIndex;
 
             }
@@ -205,15 +214,29 @@ public class Window {
             public void actionPerformed(ActionEvent e) {
             	if(myBookPanels != null){
             		Vector<BookPanel> newView = new Vector<BookPanel>();
-            		newView = (Vector)(myBookPanels.lastElement().clone());
+            		newView = (Vector)(myBookPanels.get(myBackIndex).clone());
+            		for(int i = myBackIndex + 1; i < myBookPanels.size(); ++i){
+                		myBookPanels.removeElementAt(i);
+                	}
             		myBookPanels.add(newView);
          
-            	
+            		myTextPan.removeAll();
+            		
             		for(int i = 0; i < myBookPanels.lastElement().size(); ++i){
-            			myBookPanels.lastElement().get(i).getRootPanel().setVisible(!myBookPanels.lastElement().get(i).isSelected());
+            			if(myBookPanels.lastElement().get(i).isSelected()){
+            				myBookPanels.lastElement().remove(i);
+            				--i;
+            			}
             		}
+            		for(int i = 0; i < myBookPanels.lastElement().size(); ++i){
+                        JPanel bookPan = myBookPanels.lastElement().get(i).getRootPanel();
+                		myTextPan.add(bookPan);
+                		bookPan.setVisible(true);
+                		myFrame.setVisible(true);
+                    }
             	}
             	myToolBack.setEnabled(true);
+            	myToolForward.setEnabled(false);
             	++myBackIndex;
             }
         };
@@ -222,11 +245,10 @@ public class Window {
 
             public void actionPerformed(ActionEvent e) {
             	
-            	myBookPanels.removeElementAt(myBookPanels.size() - 1);
             	myTextPan.removeAll();
             	
-           		for(int i = 0; i < myBookPanels.lastElement().size(); ++i){
-           			JPanel bookPan = myBookPanels.lastElement().get(i).getRootPanel();
+           		for(int i = 0; i < myBookPanels.get(myBackIndex-1).size(); ++i){
+           			JPanel bookPan = myBookPanels.get(myBackIndex-1).get(i).getRootPanel();
            			myTextPan.add(bookPan);
             		bookPan.setVisible(true);
             		myFrame.setVisible(true);
@@ -236,6 +258,28 @@ public class Window {
            		if(myBackIndex == 0){
            			myToolBack.setEnabled(false);
            		}
+           		myToolForward.setEnabled(true);
+            }
+        };
+        
+        ActionListener forward = new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+            	
+            	myTextPan.removeAll();
+            	
+           		for(int i = 0; i < myBookPanels.get(myBackIndex+1).size(); ++i){
+           			JPanel bookPan = myBookPanels.get(myBackIndex+1).get(i).getRootPanel();
+           			myTextPan.add(bookPan);
+            		bookPan.setVisible(true);
+            		myFrame.setVisible(true);
+           		}
+           		myTextPan.updateUI();
+           		++myBackIndex;
+           		if(myBackIndex == myBookPanels.size() - 1){
+           			myToolForward.setEnabled(false);
+           		}
+           		myToolBack.setEnabled(true);
             }
         };
         
@@ -383,6 +427,7 @@ public class Window {
         myToolDelete.addActionListener(delete);
         myToolSort.addActionListener(sort);
         myToolBack.addActionListener(back);
+        myToolForward.addActionListener(forward);
 
         myNetMenu.addActionListener(new ActionListener() {
 
