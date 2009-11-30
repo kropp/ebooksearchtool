@@ -2,6 +2,8 @@
 #define _BOOK_WIDGET_H_
 
 #include <QWidget>
+#include <QCheckBox>
+
 #include "bookActionButtons.h"
 #include "../network/networkmanager.h"
 #include "moreLessTextLabel.h"
@@ -13,7 +15,6 @@ class QFile;
 class QImage;
 class QPushButton;
 class QHBoxLayout;
-class QCheckBox;
 
 class BookWidget : public QWidget {
 
@@ -40,7 +41,7 @@ private slots:
 
 private: 
     void downloadCover();
-    const MoreLessTextLabel* makeSummary();
+    MoreLessTextLabel* makeSummary();
     void setBackground();
     
 private:
@@ -52,5 +53,13 @@ private:
     
     int myRequestId;
 };
+
+inline const Book& BookWidget::getBook() const {
+	return *myBook;
+}
+
+inline bool BookWidget::isMarked() const {
+    return myCheckBox->checkState();
+}
 
 #endif //_BOOK_WIDGET_H_

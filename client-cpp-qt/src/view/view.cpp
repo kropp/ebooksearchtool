@@ -2,6 +2,9 @@
 #include "bookwidget.h"
 #include <QLabel>
 #include <QCheckBox>
+#include <QFile>
+#include <QProcess>
+
 #include <QDebug>
 
 View::View(QWidget* parent, Data* data) : QWidget(parent), myData(data) { 
@@ -88,7 +91,8 @@ void View::connectWithButtons() const {
     size_t size = myBooks.size();
     for (size_t i = 0; i < size; ++i) {
         connect(myBooks[i], SIGNAL(remove(BookWidget*)), this, SLOT(remove(BookWidget*)));
-    }
+        connect(myBooks[i], SIGNAL(read(BookWidget*)), this, SLOT(downloadBook(BookWidget*)));
+   }
 }
 
 void View::remove(BookWidget* widget) {
@@ -103,10 +107,30 @@ void View::toLibrary(BookWidget*) {
 
 }
 
-void View::read(BookWidget*) {
-// просто вытаскиваю ссылку на ресурс
-// скачиваю его(если его нет на локальном диске)
+void View::read(int id) {
+    if (myRequestId != id) {
+        return;
+    }
+    myFile->close();
+//    qDebug() << "want to read File " << myFile->fileName();
+    QProcess* process = new QProcess(this);
+    process->start(QString::fromStdString("FBReader"), QStringList(myFile->fileName()));
 // открываю подходящей читалкой
+}
+
+void View::downloadBook(BookWidget* widget) {
+    const Book& book = widget->getBook();
+    QString link = QString::fromStdString(book.getLink());
+    
+    // если файл с таким именем уже существует, то надо читать его
+    
+    myFile = new QFile(link.right(link.size() - link.lastIndexOf('/') - 1));
+  //  qDebug() << "view SLOT read book link " << link;
+   // qDebug() << "fileName " << myFile->fileName();
+    myFile->open(QIODevice::WriteOnly);
+    NetworkManager* connection = NetworkManager::getInstance();
+    connect(connection, SIGNAL(requestFinished(int, bool)), this, SLOT(read(int)));  
+    myRequestId = connection->download(link, myFile);
 }
 
 void View::removeChecked() {

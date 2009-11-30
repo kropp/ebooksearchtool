@@ -9,11 +9,11 @@
 BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent), myBook(book) {
 // create all content
     myCheckBox = new QCheckBox();
-    myCover = new QLabel(" _________ ");
+    myCover = new QLabel(" _______ ");
     downloadCover();
     QLabel* title = new QLabel(myBook->getTitle().c_str());
     QLabel* author = new QLabel(myBook->getAuthor()->getName().c_str());
-    const MoreLessTextLabel* summary = makeSummary();
+    MoreLessTextLabel* summary = makeSummary();
     BookActionsButtonBox* buttonGroup = new BookActionsButtonBox(this);
 
 // connect buttons with actions
@@ -59,17 +59,8 @@ void BookWidget::read() {
     emit read(this);
 }
 
-bool BookWidget::isMarked() const {
-    return myCheckBox->checkState();
-}
-
-
 void BookWidget::mark(int state) {
     myCheckBox->setCheckState((Qt::CheckState)state);
-}
-
-const Book& BookWidget::getBook() const {
-	return *myBook;
 }
 
 void BookWidget::downloadCover() {
@@ -84,7 +75,7 @@ void BookWidget::downloadCover() {
     connect(connection, SIGNAL(requestFinished(int, bool)), this, SLOT(setCover(int)));  
 }
 
-const MoreLessTextLabel* BookWidget::makeSummary() {
+MoreLessTextLabel* BookWidget::makeSummary() {
     QString summary = QString::fromStdString(myBook->getSummary());
     summary.prepend("Summary: ");
     QString begin = summary.left(50);
@@ -93,7 +84,7 @@ const MoreLessTextLabel* BookWidget::makeSummary() {
 
 void BookWidget::setBackground() {
     QPalette palette;
-    palette.setColor(this->backgroundRole(), Qt::white);  // move to argument
+    palette.setColor(this->backgroundRole(), Qt::white);  // to move color to argument
     setPalette(palette);
     setAutoFillBackground(true);
 }

@@ -8,10 +8,13 @@
 #include <QWidget>
 #include <QVBoxLayout>
 
-class Data;
 class QLabel;
 class QCheckBox;
+class QFile;
+
+class Data;
 class BookActionsButtonBox;
+
 
 class View : public QWidget {
 
@@ -37,9 +40,9 @@ private slots:
     void markAllBooks(int);
     void remove(BookWidget*);
     void toLibrary(BookWidget*);
-    void read(BookWidget*);
+    void read(int requestId);
     void removeChecked();
-    
+    void downloadBook(BookWidget*);    
 
 private:
     Data* myData;
@@ -53,6 +56,9 @@ private:
     QLabel* myShownLabel;
     QCheckBox* myCheckBox;
     BookActionsButtonBox* myBookActionsButtonBox;
+
+    QFile* myFile;
+    int myRequestId;
 };
 
 inline Data* View::getData() const {
