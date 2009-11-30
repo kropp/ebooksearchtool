@@ -12,7 +12,7 @@ public class NetUtils {
         connect.setDoInput(true);
         connect.setDoOutput(true);
         connect.setRequestMethod("POST");
-        connect.setRequestProperty( "Content-type", "application/x-www-form-urlencoded" );
+        connect.setRequestProperty( "Content-type", "application/x-www-form-urlencoded; charset=UTF-8" );
         connect.setRequestProperty( "Content-length", String.valueOf(ServerRequests.getContentLength(s)));
         PrintWriter pw = new PrintWriter(connect.getOutputStream());
         pw.println(s);

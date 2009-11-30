@@ -36,6 +36,8 @@ public class ClientSocketThread extends Thread{
 
             System.out.println("Server connected on:");
             System.out.println(myURL);
+            System.out.println("");
+            Logger.setToLog("Server connected on: " + myURL);
 
             while(true){
                 synchronized(myLock){
@@ -53,7 +55,6 @@ public class ClientSocketThread extends Thread{
 
     public static synchronized String sendRequest(String request){
         String message = "";
-        BufferedReader br = null;
         try {
             try {
                 myConnection = (HttpURLConnection) myURL.openConnection();
@@ -61,11 +62,7 @@ public class ClientSocketThread extends Thread{
                 message = URLDecoder.decode(NetUtils.reciveServerMessage(myConnection), "UTF-8");
             } catch (IOException ex) {
                 Logger.setToErrorLog(ex.getMessage());
-            }finally{
-                br.close();
             }
-        } catch (IOException ex) {
-            Logger.setToErrorLog(ex.getMessage());
         } catch (NullPointerException ex){
             Logger.setToErrorLog("No server connection found. Please chek the server connection.");
         }

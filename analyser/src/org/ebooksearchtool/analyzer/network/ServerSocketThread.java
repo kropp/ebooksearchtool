@@ -6,8 +6,7 @@ import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.ebooksearchtool.analyzer.io.Logger;
 import org.ebooksearchtool.analyzer.utils.AnalyzerProperties;
 
 /**
@@ -47,7 +46,10 @@ public class ServerSocketThread extends Thread{
             bw = new BufferedWriter(new OutputStreamWriter(mySocket.getOutputStream()));
             String buffer = "";
 
-            System.out.print(mySocket.getPort());
+            System.out.println("Crawler connected on:");
+            System.out.println(mySocket.getInetAddress().toString() + ":" + mySocket.getPort());
+            System.out.println();
+            Logger.setToLog("Crawler connected on: " + mySocket.getInetAddress().toString() + ":" + mySocket.getPort());
 
             while(true){
                 buffer = NetUtils.reciveCrawlerMessage(br);
@@ -66,7 +68,7 @@ public class ServerSocketThread extends Thread{
 //                }
             }
         } catch (IOException ex) {
-            Logger.getLogger(ServerSocketThread.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.setToLog(ex.getMessage());
         }finally{
             br.close();
             bw.close();
@@ -76,7 +78,7 @@ public class ServerSocketThread extends Thread{
             System.exit(0);
         }
         }catch(IOException ex){
-            Logger.getLogger(ServerSocketThread.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.setToLog(ex.getMessage());
             System.exit(0);
         }
     }
