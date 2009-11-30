@@ -64,7 +64,7 @@ def get_authors(node, messages=None):
             authors.append(author)
         else:
             analyzer_log.warning("One author is not added. (Empty name)")
-            messages.append(('WARNING',
+            messages.append(('warning',
                             "One author is not added. (Empty name)"))
     return (authors, is_created_global)
 
@@ -99,7 +99,7 @@ def get_files(node, messages=None):
                     book_file.size = size
                 except ValueError:
                     analyzer_log.warning("size is not integer. \
-book_file.link='%s'" % (book_file.link))
+                       book_file.link='%s'" % (book_file.link))
                 
             if details_node.tag == 'type' and book_file:
                 file_type = strip_str(details_node.text)
@@ -121,7 +121,7 @@ book_file.link='%s'" % (book_file.link))
             book_files.append(book_file)
         else:
             analyzer_log.warning("One book_file is not added. (Empty link)")
-            messages.append(('WARNING',
+            messages.append(('warning',
                             "One book_file is not added. (Empty link)"))
     return book_files
 
@@ -209,13 +209,13 @@ def save_book_inf(book, authors, book_files, annotations):
             found_book.save()
 
         book = found_book
-        messages.append(('INFO', 'Book updated'))
+        messages.append(('info', 'Book updated'))
     else:
         # not found the book in database, then save it
         book.save()
-        messages.append(('INFO', 'Book created'))
+        messages.append(('info', 'Book created'))
 
-    messages.append(('INFO', 'book.id=%i' % (book.id)))
+    messages.append(('info', 'book.id=%i' % (book.id)))
 
             
     # add authors, book_files, annotations to the book
