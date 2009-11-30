@@ -3,13 +3,17 @@
   <status>{{ status }}</status>
 
   {% for msg_type, msg in messages %}
-    {% ifequal msg_type "error" %}
+    {% ifequal msg_type "ERROR" %}
       <error>{{ msg }}</error>
     {% else %}
-      {% ifequal msg_type "warning" %}
+      {% ifequal msg_type "WARNING" %}
       <warning>{{ msg }}</warning>
       {% else %}
+        {% ifequal msg_type "INFO" %}
+      <info>{{ msg }}</info>
+        {% else %}
       <debug>{{ msg }}</debug>
+        {% endifequal %}
       {% endifequal %}
     {% endifequal %}
   {% endfor %}

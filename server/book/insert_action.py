@@ -7,6 +7,7 @@ except ImportError:
 import logging
 
 from django.db.models import Q
+from django.db import transaction
 
 from book.models import Book, Author, Alias, BookFile, Annotation
 from spec.exception import InputDataServerException
@@ -114,7 +115,7 @@ book_file.link='%s'" % (book_file.link))
     return book_files
 
 
-def get_book_inf(xml):
+def get_book_inf(xml, messages=None):
     '''
     Reads information from xml, finds or creates the book author,
     the book files, annotations, etc
@@ -125,12 +126,13 @@ def get_book_inf(xml):
 
     Or raises InputDataServerException, if the book title not found.
     '''
+    if messages == None:
+        messages = []
+
     book = Book(title='', lang='')
     authors = []
     book_files = []
     annotations = []
-
-    messages = []
 
     # unused flag
     #is_author_created = False
@@ -156,13 +158,15 @@ def get_book_inf(xml):
                     Annotation.objects.get_or_create(name=annotation_txt)[0]
                 annotations.append(annotation)
 
-    # if there are not the title of the book, return warning
+    # if there are not the title of the book, raise exception
     if not book.title:
-        # TODO make correct warnings
-        messages.append(('ERROR',
-                         'In request there is not the title of the book'))
         analyzer_log.warning('In request there is not the title of the book')
-        raise InputDataServerException("The book hasn't got the title")
+        raise InputDataServerException(
+           'In request there is not the title of the book')
+    # if there are not the book_file, raise exception
+    elif not book_files:
+        analyzer_log.warning('In request there is not the book_file')
+        raise InputDataServerException('In request there is not the book_file')
 
     return (book, authors, book_files, annotations)
 
@@ -175,7 +179,6 @@ def save_book_inf(book, authors, book_files, annotations):
     '''
     messages = []
 
-#    if not is_author_created:
     # try to find the book by this authors
     q_obj = Q(title=book.title)
     if book.lang:
@@ -184,8 +187,8 @@ def save_book_inf(book, authors, book_files, annotations):
         q_obj = q_obj & Q(author=author)
     found_books = Book.objects.filter(q_obj)
 
-    if found_books.count() == 1 \
-    and found_books[0].author_set.count() == len(authors):
+    if found_books.count() == 1 and \
+       found_books[0].author_set.count() == len(authors):
         # we've found the book in database
         found_book = found_books[0]
         
@@ -200,6 +203,9 @@ def save_book_inf(book, authors, book_files, annotations):
         # not found the book in database, then save it
         book.save()
         messages.append(('INFO', 'Book created'))
+
+    messages.append(('INFO', 'book.id=%i' % (book.id)))
+
             
     # add authors, book_files, annotations to the book
     for author in authors:
@@ -211,24 +217,47 @@ def save_book_inf(book, authors, book_files, annotations):
     for annotation in annotations:
         book.annotation.add(annotation)
 
+    return messages
 
-def xml_exec_insert(xml):
-    "Insert xml request to dsta base, returns list of warning strings"
+
+def xml_exec_insert_unsafe(xml):
+    "Insert xml request to database, returns list of warning strings"
+
+    messages = []
     
     #if xml.tag != 'book':
     #    raise InputDataServerException("Not found root tag 'book'")
 
-    messages = []
-
     # get infromation about the book from the request
-    (book, authors, book_files, annotations) = get_book_inf(xml)
+    (book, authors, book_files, annotations) = get_book_inf(xml, messages)
 
     # save infomation to database
-    save_book_inf(book, authors, book_files, annotations)
+    save_messages = save_book_inf(book, authors, book_files, annotations)
+
+    for msg in save_messages:
+        messages.append(msg)
 
     MAIN_LOG.info("Added book " + book.title)
-
-
+    
     # TODO make warnings
     return messages
-        
+
+
+@transaction.commit_manually
+def xml_exec_insert(xml):
+    '''
+    Executes xml request for insert to database.
+    Returns list of warning, error messages.
+    '''
+    try:
+        messages = xml_exec_insert_unsafe(xml)
+    except:
+        transaction.rollback()
+        raise
+    transaction.commit()
+    messages.append(('DEBUG', "transaction.commit()"))
+    
+    return messages;
+
+
+

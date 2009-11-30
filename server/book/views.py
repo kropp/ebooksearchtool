@@ -15,6 +15,7 @@ from spec.exception import RequestFileServerException, \
 RequestServerException, ServerException, InnerServerException
 from book.insert_action import xml_exec_insert
 from book.get_action import xml_exec_get
+import spec.logger
 
 MAIN_LOG = logging.getLogger("main_logger")
 

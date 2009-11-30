@@ -175,6 +175,9 @@ class InsertActionTest(TestCase):
         <book>
             <title>
             </title>
+            <file>
+              <link>link</link>
+            </file>
         </book>
         ''';
         xml = etree.fromstring(xml_string)
@@ -186,6 +189,11 @@ class InsertActionTest(TestCase):
         <book>
             <title>Book title   </title>
             <lang>en</lang>
+            <files>
+              <file>
+                <link>link</link>
+              </file>
+            </files>
         </book>
         ''';
         xml = etree.fromstring(xml_string)
@@ -213,6 +221,11 @@ class InsertActionTest(TestCase):
                     </name>
                 </author>
             </authors>
+            <files>
+              <file>
+                <link>link</link>
+              </file>
+            </files>
         </book>
         ''';
         xml = etree.fromstring(xml_string)
