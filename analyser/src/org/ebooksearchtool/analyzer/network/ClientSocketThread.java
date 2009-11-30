@@ -8,7 +8,6 @@ import java.net.URL;
 import java.net.URLDecoder;
 import org.ebooksearchtool.analyzer.io.Logger;
 import org.ebooksearchtool.analyzer.utils.AnalyzerProperties;
-import org.ebooksearchtool.analyzer.utils.BookInfoFormer;
 
 /**
  * @author Алексей
@@ -48,12 +47,13 @@ public class ClientSocketThread extends Thread{
                     try {
                         myLock.wait();
                     } catch (InterruptedException ex) {
-                        Logger.setToErrorLog(ex.getMessage());
+                        Logger.setToErrorLog(ex.getMessage() + ". Client Thread was interrupted.");
                     }
                 }
             }
         } catch (IOException ex) {
-            Logger.setToErrorLog(ex.getMessage());
+            Logger.setToErrorLog(ex.getMessage() +
+                    ". Connection to server failed in client thread initialization.");
         }
 }
 
@@ -69,13 +69,13 @@ public class ClientSocketThread extends Thread{
                 NetUtils.sendMessage(myConnection, request);
                 message = URLDecoder.decode(NetUtils.reciveServerMessage(myConnection), "UTF-8");
             } catch (IOException ex) {
-                Logger.setToErrorLog(ex.getMessage());
+                Logger.setToErrorLog(ex.getMessage() + ". Connection to server failed.");
             }
         } catch (NullPointerException ex){
             Logger.setToErrorLog("No server connection found. Please chek the server connection.");
         }
         if(message.length() == 0){
-            return "Reciving error. Message is empty.";
+            return "Error in reciving response. Message from server is empty.";
         }
 
         return message;

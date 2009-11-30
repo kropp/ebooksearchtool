@@ -37,18 +37,23 @@ public class SizeExtractor {
                     lex = lex.substring(1, lex.length());
                 }
 
-                
-                if(lex.indexOf("KB") != -1){
-                    lex = lex.substring(0, lex.length() - 2);
-                    long size = (long) Double.parseDouble(lex);
-                    size*=1024;
-                    lex = String.valueOf(size);
+                if(lex.length() - 2 > 0){
+                    if(lex.indexOf("KB") != -1){
+
+                            lex = lex.substring(0, lex.length() - 2);
+                            long size = (long) Double.parseDouble(lex);
+                            size*=1024;
+                            lex = String.valueOf(size);
+
+                    }else{
+                        lex = lex.substring(0, lex.length() - 2);
+                        long size = (long) Double.parseDouble(lex);
+                        size*=1024;
+                        size*=1024;
+                        lex = String.valueOf(size);
+                    }
                 }else{
-                    lex = lex.substring(0, lex.length() - 2);
-                    long size = (long) Double.parseDouble(lex);
-                    size*=1024;
-                    size*=1024;
-                    lex = String.valueOf(size);
+                    return "";
                 }
                 return lex;
             }

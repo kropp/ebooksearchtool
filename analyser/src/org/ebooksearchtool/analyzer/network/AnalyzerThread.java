@@ -38,17 +38,25 @@ public class AnalyzerThread extends Thread {
                     if(!info.getTitle().equals("")){
                         String message = ClientSocketThread.sendRequest
                                 (BookInfoFormer.formBookInfo(info), ClientSocketThread.INSERT_REQUEST);
-                        Logger.setToLog(message);
+                        if(serverAnswersAnalyze(message)){
+                            Logger.setToLog("Book Information succsesfully sent to server:" +
+                                    AnalyzerProperties.getPropertie("systemSeparator") +
+                                    AnalyzeUtils.bookInfoToString(info) +
+                                    AnalyzerProperties.getPropertie("systemSeparator") +
+                                    "Server answer is: " +
+                                    AnalyzerProperties.getPropertie("systemSeparator") +
+                                    message);
+                        }else{
+                            Logger.setToLog("Book Information don't sent to server:");
+                        }
                         System.out.println(message);
-                        Logger.setToLog("Book Information succsesfully sent to server:" +
-                                AnalyzerProperties.getPropertie("systemSeparator") + AnalyzeUtils.bookInfoToString(info));
                         myMessage = "";
                     }else{
                         Logger.setToLog("Book Information can't be sent to server(Unknown title):" +
                                 AnalyzerProperties.getPropertie("systemSeparator") + AnalyzeUtils.bookInfoToString(info));
                     }
                 } catch (InterruptedException ex) {
-                    Logger.setToErrorLog(ex.getMessage());
+                    Logger.setToErrorLog(ex.getMessage() + ". Analyzer thread had been interrupted.");
                 }
             }
         }
@@ -89,5 +97,12 @@ public class AnalyzerThread extends Thread {
        for (int i = 0; i < length; i++) {
            System.out.println(annotations.get(i));
        }
-   }
+    }
+
+    private boolean serverAnswersAnalyze(String message){
+       if(message.indexOf("<status>ok") != 0){
+           return true;
+       }
+       return false;
+    }
 }
