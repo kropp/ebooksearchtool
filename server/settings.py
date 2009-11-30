@@ -115,9 +115,12 @@ TEST_RUNNER = 'test_runner.run_tests'
 # path to log file
 LOG_FILENAME = 'main.log'
 
-MAX_LOG_SIZE = 1024*100
+MAX_LOG_SIZE = 1024*1000
 BACKUP_COUNT = 10
 
+# analyzer ip
+# set ANALYZER_IP='', if you don't need to check it
+ANALYZER_IP = ''#'192.168.211.26'
 
 # root url
 #ROOT_URL = r'^ebooks/'

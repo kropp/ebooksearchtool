@@ -13,6 +13,7 @@ from traceback import print_exc
 from django.shortcuts import render_to_response
 from django.template import Context
 
+from settings import ANALYZER_IP
 from spec.exception import RequestFileServerException, \
 RequestServerException, ServerException, InnerServerException
 from book.insert_action import xml_exec_insert
@@ -36,6 +37,12 @@ def data_modify(request, action):
     messages.append(('debug', 'Starting'))
 
     try:
+
+        # check IP adress
+        if ANALYZER_IP and request.META['REMOTE_ADDR'] != ANALYZER_IP:
+            raise RequestServerException('Bad IP adress. Your IP is %s' %
+                                            (request.META['REMOTE_ADDR']))
+
         # check request
         if request.method != 'POST':
             raise RequestServerException('Use POST method in request')
