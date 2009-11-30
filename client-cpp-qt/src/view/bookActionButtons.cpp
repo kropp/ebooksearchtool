@@ -4,6 +4,7 @@ BookActionsButtonBox::BookActionsButtonBox(QWidget* parent) : QGroupBox(parent) 
     QHBoxLayout* buttonLayout = new QHBoxLayout();
     createButtons(buttonLayout);
     setLayout(buttonLayout);
+    setFlat(true);
     connect(myDeleteButton, SIGNAL(pressed()), this, SIGNAL(remove()));
     connect(myToLibraryButton, SIGNAL(pressed()), this, SIGNAL(toLibrary()));
     connect(myReadButton, SIGNAL(pressed()), this, SIGNAL(read()));

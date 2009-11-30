@@ -4,12 +4,18 @@
 #include <QCheckBox>
 #include <QFile>
 #include <QProcess>
+#include <QSettings>
 
 #include <QDebug>
+
+QString View::ourConfigFilePath = "../.config.ini";
 
 View::View(QWidget* parent, Data* data) : QWidget(parent), myData(data) { 
     myBooksLayout = new QVBoxLayout();
 	setLayout(myBooksLayout);
+    QSettings settings(ourConfigFilePath, QSettings::IniFormat);
+    myReader = settings.value("view/reader").toString();
+    qDebug() << "view reader from settings " << myReader;
 }
 
 void View::setData(Data* data) {
@@ -76,7 +82,8 @@ void View::read(int id) {
 
 void View::read() {
     QProcess* process = new QProcess(); //(this); и обрабатывать сигнал об уничтожении родительского процесса
-    process->start(QString::fromStdString("evince"), QStringList(myFile->fileName()));
+    qDebug() << "trying to open file by " << myReader;
+    process->start(myReader, QStringList(myFile->fileName()));
     
 }
 

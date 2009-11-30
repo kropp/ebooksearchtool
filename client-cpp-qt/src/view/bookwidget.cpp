@@ -32,7 +32,7 @@ BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent), myB
     myMainLayout->addWidget(summary, 2, 1, 1, 4);
  
     downloadCover();
-    setBackground(); 
+//    setBackground(); 
     setLayout(myMainLayout);
 }
 

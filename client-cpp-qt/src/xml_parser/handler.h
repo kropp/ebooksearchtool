@@ -9,6 +9,9 @@
 
 class AtomHandler : public QXmlDefaultHandler {
 
+private: 
+    static QString ourConfigFilePath;
+
 private:
 	AtomHandler(Data* data);
 	
@@ -31,6 +34,7 @@ private:
 	QString myBooksUri;
 	QString myBooksLink;
     QString myBooksCover;
+    QString myFormat;
 
 friend class AtomParser;
 };

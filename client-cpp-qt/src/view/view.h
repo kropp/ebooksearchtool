@@ -20,6 +20,9 @@ class View : public QWidget {
 
  Q_OBJECT
 
+private:
+    static QString ourConfigFilePath;// = "../.config.ini";
+
 public:
     View(QWidget* parent, Data* data);
 
@@ -52,6 +55,7 @@ private:
     BookActionsButtonBox* myBookActionsButtonBox;
 
     QFile* myFile;
+    QString myReader;
     int myRequestId;
 };
 

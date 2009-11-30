@@ -1,9 +1,14 @@
 #include "handler.h"
 
+QString AtomHandler::ourConfigFilePath = "../.config.ini";
+
 AtomHandler::AtomHandler(Data* data) {
     myData = data;
     myIsEntry = false;
     myNextAtomPage = 0;
+    
+    QSettings settings(ourConfigFilePath, QSettings::IniFormat);
+    myFormat = settings.value("parser/format").toString();
 }
 
 
@@ -15,7 +20,7 @@ bool AtomHandler::characters (const QString& strText) {
 bool AtomHandler::startElement (const QString& , const QString& , const QString& name, const QXmlAttributes& attributes) {
     if (!myIsEntry) {
 	    if ((name == "link") && 
-	       (attributes.value("type") == "application/atom+xml") && 
+	       (attributes.value("type") == "application/"+myFormat) && 
 		   (attributes.value("rel") == "next") && 
 		   (attributes.value("title") == "Next Page"))  {
 		    if (myNextAtomPage == 0) {
