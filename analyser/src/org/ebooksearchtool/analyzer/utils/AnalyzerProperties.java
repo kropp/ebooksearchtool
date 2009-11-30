@@ -24,6 +24,8 @@ public class AnalyzerProperties{
         ourProperties.put("serverConnectionTimeout", "1000");
         ourProperties.put("languagesList", "languages.lang");
         ourProperties.put("demon_is_enable", "false");
+        ourProperties.put("server_insert_distanation", "/data/insert");
+        ourProperties.put("default_protocol", "http");
     }
 
     public static void setPropertie(String key, String value){

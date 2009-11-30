@@ -26,16 +26,15 @@ public class NetworkSocketIO{
 //        Object timeout = new Object();
 //        while(true){
             try {
-                Socket socket = new Socket(address, socketNumber);
-                ClientSocketThread client = new ClientSocketThread(socket);
+                ClientSocketThread client = new ClientSocketThread(address, socketNumber);
                 client.start();
-            } catch (UnknownHostException ex) {
+            } catch (MalformedURLException ex) {
                 Logger.setToErrorLog(ex.getMessage() + " " + address + ":" + socketNumber);
                 System.exit(0);
-            } catch (IOException ex) {
-                Logger.setToErrorLog(ex.getMessage() + " " + address + ":" + socketNumber);
-                System.exit(0);
-            }
+            }// catch (IOException ex) {
+//                Logger.setToErrorLog(ex.getMessage() + " " + address + ":" + socketNumber);
+//                System.exit(0);
+//            }
 //            try {
 //                timeout.wait(timeToWait);
 //            } catch (InterruptedException ex) {

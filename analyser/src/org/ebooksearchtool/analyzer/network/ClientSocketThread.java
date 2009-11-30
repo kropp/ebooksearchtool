@@ -1,15 +1,14 @@
 package org.ebooksearchtool.analyzer.network;
 
-import java.util.logging.Level;
+import java.net.MalformedURLException;
 import org.ebooksearchtool.analyzer.utils.NetUtils;
 import java.io.*;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.net.SocketAddress;
+import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.net.URLDecoder;
 import org.ebooksearchtool.analyzer.io.Logger;
+import org.ebooksearchtool.analyzer.utils.AnalyzerProperties;
+import org.ebooksearchtool.analyzer.utils.ServerRequests;
 
 /**
  * @author Алексей
@@ -17,63 +16,53 @@ import org.ebooksearchtool.analyzer.io.Logger;
 
 public class ClientSocketThread extends Thread{
 
-    private static Socket mySocket;
-    private static int myPort;
-    private static String myHost;
-    private static BufferedReader myReader;
-    private static BufferedWriter myWriter;
+    private static URL myURL;
+    private static HttpURLConnection myConnection;
     private static final Object myLock = new Object();
 
-    public ClientSocketThread(Socket sSocket){
-        mySocket = sSocket;
-        myPort = sSocket.getPort();
-        myHost = sSocket.getInetAddress().getHostAddress();
-        myReader = null;
-        myWriter = null;
+    public ClientSocketThread(String address, int port) throws MalformedURLException{
+        myURL = new URL(AnalyzerProperties.getPropertie("default_protocol") +
+                "://" + address + ":" + port +
+                AnalyzerProperties.getPropertie("server_insert_distanation"));
+        myConnection = null;
     }
 
     @Override
     public synchronized void run(){
-        try{
-            try {
-                myReader = new BufferedReader(new InputStreamReader(mySocket.getInputStream()));
-                myWriter = new BufferedWriter(new OutputStreamWriter(mySocket.getOutputStream()));
+        try {
+            myConnection = (HttpURLConnection) myURL.openConnection();
+            myConnection.setDoInput(true);
+            myConnection.setDoOutput(true);
 
-                System.out.print(mySocket.getPort());
+            System.out.println("Server connected on:");
+            System.out.println(myURL);
 
-                while(true){
-                    synchronized(myLock){
-                        try {
-                            myLock.wait();
-                        } catch (InterruptedException ex) {
-                            Logger.setToErrorLog(ex.getMessage());
-                        }
+            while(true){
+                synchronized(myLock){
+                    try {
+                        myLock.wait();
+                    } catch (InterruptedException ex) {
+                        Logger.setToErrorLog(ex.getMessage());
                     }
                 }
-            } catch (IOException ex) {
-                Logger.setToErrorLog(ex.getMessage());
-            }finally{
-                myReader.close();
-                myWriter.close();
-                mySocket.close();
             }
-        }catch(IOException ex){
+        } catch (IOException ex) {
             Logger.setToErrorLog(ex.getMessage());
         }
-    }
+}
 
     public static synchronized String sendRequest(String request){
         String message = "";
+        BufferedReader br = null;
         try {
             try {
-                NetUtils.sendMessage(myWriter, request);
-                message = URLDecoder.decode(NetUtils.reciveServerMessage(myReader), "UTF-8");
-                //reInitiateSocket();
-                System.out.println(message);
+                myConnection = (HttpURLConnection) myURL.openConnection();
+                NetUtils.sendMessage(myConnection, request);
+                message = URLDecoder.decode(NetUtils.reciveServerMessage(myConnection), "UTF-8");
             } catch (IOException ex) {
                 Logger.setToErrorLog(ex.getMessage());
             }finally{
-                myWriter.flush();
+                br.close();
             }
         } catch (IOException ex) {
             Logger.setToErrorLog(ex.getMessage());
@@ -81,22 +70,9 @@ public class ClientSocketThread extends Thread{
             Logger.setToErrorLog("No server connection found. Please chek the server connection.");
         }
         if(message.length() == 0){
-            return "Reciving error. Message";
+            return "Reciving error. Message is empty.";
         }
 
         return message;
-    }
-
-    private static void reInitiateSocket(){
-        try {
-            mySocket.close();
-            myReader.close();
-            myWriter.close();
-            mySocket = new Socket(myHost, myPort);
-            myReader = new BufferedReader(new InputStreamReader(mySocket.getInputStream()));
-            myWriter = new BufferedWriter(new OutputStreamWriter(mySocket.getOutputStream()));
-        } catch (IOException ex) {
-            Logger.setToErrorLog(ex.getMessage());
-        }
     }
 }

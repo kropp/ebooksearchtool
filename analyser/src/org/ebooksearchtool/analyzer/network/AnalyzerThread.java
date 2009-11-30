@@ -41,7 +41,6 @@ public class AnalyzerThread extends Thread {
                         System.out.println(message);
                         Logger.setToLog("Book Information succsesfully sent to server:" +
                                 AnalyzerProperties.getPropertie("systemSeparator") + AnalyzeUtils.bookInfoToString(info));
-                        System.out.println(message);
                         myMessage = "";
                     }else{
                         Logger.setToLog("Book Information can't be sent to server(Unknown title):" +

@@ -1,16 +1,23 @@
 package org.ebooksearchtool.analyzer.utils;
 
 import java.io.*;
+import java.net.HttpURLConnection;
 
 /**
  * @author Алексей
  */
 
 public class NetUtils {
-    public static void sendMessage(BufferedWriter os, String s) throws IOException {
-        os.write(s);
-        os.newLine();
-        os.flush();
+    public static void sendMessage(HttpURLConnection connect, String s) throws IOException {
+        connect.setDoInput(true);
+        connect.setDoOutput(true);
+        connect.setRequestMethod("POST");
+        connect.setRequestProperty( "Content-type", "application/x-www-form-urlencoded" );
+        connect.setRequestProperty( "Content-length", String.valueOf(ServerRequests.getContentLength(s)));
+        PrintWriter pw = new PrintWriter(connect.getOutputStream());
+        pw.println(s);
+        pw.flush();
+        pw.close();
     }
 
    public static String convertBytesToString(byte[] b){
@@ -33,13 +40,15 @@ public class NetUtils {
         return str.toString();
     }
 
-   public static String reciveServerMessage(BufferedReader is) throws IOException {
+   public static String reciveServerMessage(HttpURLConnection connect) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(connect.getInputStream()));
         String input = "";
         StringBuilder str = new StringBuilder();
-        while(str.indexOf("</response>") == -1){
-            input = is.readLine();
+        while(str.indexOf("</response>") == -1 ){
+            input = br.readLine();
             str.append(input);
         }
+        br.close();
         return str.toString();
     }
 
