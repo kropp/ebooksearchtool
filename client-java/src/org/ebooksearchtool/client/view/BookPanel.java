@@ -24,7 +24,7 @@ import java.io.File;
  */
 public class BookPanel implements Comparable {
 
-	public Book myBook;
+	private Book myBook;
 	private Settings mySettings;
 	
     private JPanel myRootPanel;
@@ -99,6 +99,7 @@ public class BookPanel implements Comparable {
 
         myInfoPanel = new Box(BoxLayout.Y_AXIS);
         myInfoPanel.setBorder(new SoftBevelBorder(BevelBorder.RAISED));
+        
         /*BoxLayout box = new BoxLayout(myInfoPanel, BoxLayout.Y_AXIS);
         
         myInfoPanel.setLayout(box);*/
@@ -118,10 +119,15 @@ public class BookPanel implements Comparable {
         myRootPanel.add(myInfoPanel);
         
         
+        JPanel checkPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         myCheckBox = new JCheckBox();
-        myCheckBox.setPreferredSize(new Dimension(100, 100));
-        myRootPanel.add(myCheckBox);
+        //checkPanel.setPreferredSize(new Dimension(100, 100));
+        //myCheckBox.setPreferredSize(new Dimension(100, 100));
+        
+        checkPanel.add(myCheckBox);
         myCheckBox.setAlignmentX(JCheckBox.CENTER_ALIGNMENT);
+        myCheckBox.setAlignmentY(JCheckBox.CENTER_ALIGNMENT);
+        myRootPanel.add(myCheckBox);
 
         myRootPanel.setBorder(new SoftBevelBorder(BevelBorder.RAISED));
         
@@ -149,8 +155,8 @@ public class BookPanel implements Comparable {
     				myMoreInfoPanel.add(mySummaryArea);
     				
     				myIsMoreInfoShown = true;
+    				
     				myMoreInfoPanel.setVisible(true);
-
     				myRootPanel.updateUI();
     			}else{
     				myMoreInfoPanel.setVisible(false);

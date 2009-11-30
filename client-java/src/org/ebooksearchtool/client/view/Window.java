@@ -103,7 +103,7 @@ public class Window {
         myToolBar = new JToolBar();
         myToolDelete = new JButton(new ImageIcon(getClass().getResource("/ico/delete_30.gif")));
         myToolBar.add(myToolDelete);
-        myToolSort = new JButton(new ImageIcon(getClass().getResource("/ico/sort_30.png")));
+        myToolSort = new JButton(new ImageIcon(getClass().getResource("/ico/sort_30.gif")));
         myToolBar.add(myToolSort);
         myToolLibrary = new JButton(new ImageIcon(getClass().getResource("/ico/library_30.gif")));
         myToolBar.add(myToolLibrary);
@@ -271,6 +271,7 @@ public class Window {
             				if(e.getSource() != myMoreButton){
             					myTextPan.removeAll();
                                 myBookPanels = new Vector<BookPanel>();
+                                lastNumber = 0;
             					if(!myController.getQueryAnswer(myAdress)){
             						
                                     model.setValue(100);
