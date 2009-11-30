@@ -102,4 +102,8 @@ public class Controller {
         return myBooks;
     }
     
+    public void clearModel(){
+    	myBooks = new Data();		//TODO save model to XML
+    }
+    
 }

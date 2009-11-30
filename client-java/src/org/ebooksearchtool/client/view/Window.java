@@ -52,12 +52,14 @@ public class Window {
     private JButton myToolLibrary;
     private JButton myToolDelete;
     private JButton myToolSort;
+    private JButton myToolBack;
     
-    private Vector<BookPanel> myBookPanels = new Vector<BookPanel>();
+    private Vector<Vector<BookPanel>> myBookPanels = new Vector<Vector<BookPanel>>();
     
     private Query myQuery;
     
     private int myActionIndex;
+    private int myBackIndex = 0;
     private String myAdress;
 
     private Controller myController;
@@ -101,10 +103,15 @@ public class Window {
         
 
         myToolBar = new JToolBar();
+        myToolBack = new JButton(new ImageIcon(getClass().getResource("/ico/back_30.gif")));
+        myToolBar.add(myToolBack);
+        myToolBack.setEnabled(false);
         myToolDelete = new JButton(new ImageIcon(getClass().getResource("/ico/delete_30.gif")));
         myToolBar.add(myToolDelete);
+        myToolDelete.setEnabled(false);
         myToolSort = new JButton(new ImageIcon(getClass().getResource("/ico/sort_30.gif")));
         myToolBar.add(myToolSort);
+        myToolSort.setEnabled(false);
         myToolLibrary = new JButton(new ImageIcon(getClass().getResource("/ico/library_30.gif")));
         myToolBar.add(myToolLibrary);
         myPanel1.add(myToolBar, "North");
@@ -173,18 +180,22 @@ public class Window {
             public void actionPerformed(ActionEvent e) {
 
                 if(myBookPanels != null){
-                    System.out.println(myBookPanels.size());
-            		Collections.sort(myBookPanels);
+                	Vector<BookPanel> newView = new Vector<BookPanel>();
+                	newView = (Vector)(myBookPanels.lastElement().clone());
+                	myBookPanels.add(newView);
+            		Collections.sort(myBookPanels.lastElement());
             	}
 
                 myTextPan.removeAll();
 
-                for(int i = 0; i < myBookPanels.size(); ++i){
-                    JPanel bookPan = myBookPanels.get(i).getRootPanel();
+                for(int i = 0; i < myBookPanels.lastElement().size(); ++i){
+                    JPanel bookPan = myBookPanels.lastElement().get(i).getRootPanel();
             		myTextPan.add(bookPan);
             		bookPan.setVisible(true);
             		myFrame.setVisible(true);
                 }
+                myToolBack.setEnabled(true);
+                ++myBackIndex;
 
             }
         };
@@ -192,13 +203,39 @@ public class Window {
         ActionListener delete = new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-         
             	if(myBookPanels != null){
-            		for(int i = 0; i < myBookPanels.size(); ++i){
-            			myBookPanels.get(i).getRootPanel().setVisible(!myBookPanels.get(i).isSelected());
+            		Vector<BookPanel> newView = new Vector<BookPanel>();
+            		newView = (Vector)(myBookPanels.lastElement().clone());
+            		myBookPanels.add(newView);
+         
+            	
+            		for(int i = 0; i < myBookPanels.lastElement().size(); ++i){
+            			myBookPanels.lastElement().get(i).getRootPanel().setVisible(!myBookPanels.lastElement().get(i).isSelected());
             		}
             	}
+            	myToolBack.setEnabled(true);
+            	++myBackIndex;
+            }
+        };
+        
+        ActionListener back = new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
             	
+            	myBookPanels.removeElementAt(myBookPanels.size() - 1);
+            	myTextPan.removeAll();
+            	
+           		for(int i = 0; i < myBookPanels.lastElement().size(); ++i){
+           			JPanel bookPan = myBookPanels.lastElement().get(i).getRootPanel();
+           			myTextPan.add(bookPan);
+            		bookPan.setVisible(true);
+            		myFrame.setVisible(true);
+           		}
+           		myTextPan.updateUI();
+           		--myBackIndex;
+           		if(myBackIndex == 0){
+           			myToolBack.setEnabled(false);
+           		}
             }
         };
         
@@ -270,7 +307,9 @@ public class Window {
             			try {
             				if(e.getSource() != myMoreButton){
             					myTextPan.removeAll();
-                                myBookPanels = new Vector<BookPanel>();
+                                myBookPanels = new Vector<Vector<BookPanel>>();
+                                myBookPanels.add(new Vector<BookPanel>());
+                                myController.clearModel();
                                 lastNumber = 0;
             					if(!myController.getQueryAnswer(myAdress)){
             						
@@ -294,11 +333,10 @@ public class Window {
             			model.setValue(30);
             			myProgressBar.setString("Recieving data... " + model.getValue() + "%");
             			
-            			//myBookPanels = new BookPanel[myController.getData().getBooks().size()];
             			model.setValue(35);
             			for(int i = lastNumber; i < myController.getData().getBooks().size(); ++i){
             				try {
-								myBookPanels.add(new BookPanel(myController.getData().getBooks().get(i), myController.getSettings()));
+								myBookPanels.lastElement().add(new BookPanel(myController.getData().getBooks().get(i), myController.getSettings()));
 								model.setValue(model.getValue() + 5);
 								myProgressBar.setString("Viewing book... " + model.getValue() + "%");
             				} catch (IOException e) {
@@ -308,7 +346,7 @@ public class Window {
 							} catch (ParserConfigurationException e) {
 								e.printStackTrace();
 							}
-            				JPanel bookPan = myBookPanels.get(i).getRootPanel();
+            				JPanel bookPan = myBookPanels.lastElement().get(i).getRootPanel();
             				myTextPan.add(bookPan);
             				bookPan.setVisible(true);
             				myFrame.setVisible(true);
@@ -316,6 +354,8 @@ public class Window {
             			model.setValue(100);
             			mySearchButton.setEnabled(false);
             			myEraseButton.setEnabled(false);
+            			myToolDelete.setEnabled(true);
+            			myToolSort.setEnabled(true);
             			myAdress = null;
                         myProgressBar.setString("");
                         if(!"".equals(myController.getData().getNextPage())){
@@ -333,6 +373,8 @@ public class Window {
             
         };
         
+        
+        
         mySearchButton.addActionListener(act);
         myQueryField.addActionListener(setAdress);
         myQueryButton.addActionListener(setAdress);
@@ -340,6 +382,7 @@ public class Window {
         myEraseButton.addActionListener(erase);
         myToolDelete.addActionListener(delete);
         myToolSort.addActionListener(sort);
+        myToolBack.addActionListener(back);
 
         myNetMenu.addActionListener(new ActionListener() {
 
