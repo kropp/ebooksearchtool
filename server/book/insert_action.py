@@ -28,8 +28,13 @@ def set_if_notempty(value, key):
         value = key
 
 
-def get_authors(node):
-    '''Creates or finds authors, returns authors list'''
+def get_authors(node, messages=None):
+    '''
+    Creates or finds authors, returns authors list
+    Appends warning, error to messages
+    '''
+    if messages == None:
+        messages = []
     authors = []
 
     for author_node in node.getchildren():
@@ -59,12 +64,16 @@ def get_authors(node):
             authors.append(author)
         else:
             analyzer_log.warning("One author is not added. (Empty name)")
+            messages.append(('WARNING',
+                            "One author is not added. (Empty name)"))
     return (authors, is_created_global)
 
 
 
-def get_files(node):
+def get_files(node, messages=None):
     '''Creates or finds files, returns files list'''
+    if messages == None:
+        messages = []
     book_files = []
 
     for file_node in node.getchildren():
@@ -112,6 +121,8 @@ book_file.link='%s'" % (book_file.link))
             book_files.append(book_file)
         else:
             analyzer_log.warning("One book_file is not added. (Empty link)")
+            messages.append(('WARNING',
+                            "One book_file is not added. (Empty link)"))
     return book_files
 
 
@@ -146,7 +157,7 @@ def get_book_inf(xml, messages=None):
             book.lang = strip_str(node.text)
 
         if node.tag == 'authors' and book.title:
-            (authors, is_author_created) = get_authors(node)
+            (authors, is_author_created) = get_authors(node, messages)
 
         if node.tag == 'files' and book.title:
             book_files = get_files(node)
@@ -239,7 +250,6 @@ def xml_exec_insert_unsafe(xml):
 
     MAIN_LOG.info("Added book " + book.title)
     
-    # TODO make warnings
     return messages
 
 
@@ -256,8 +266,8 @@ def xml_exec_insert(xml):
         raise
     transaction.commit()
     messages.append(('DEBUG', "transaction.commit()"))
-    
-    return messages;
+
+    return messages
 
 
 

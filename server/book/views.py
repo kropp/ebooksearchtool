@@ -1,4 +1,6 @@
 "Views for analyzer"
+# -*- coding: utf-8 -*-
+
 try:
     import xml.etree.ElementTree as etree
 except ImportError:
@@ -44,7 +46,8 @@ def data_modify(request, action):
 
         # parse request
         try:
-            xml = etree.fromstring(xml_request)
+            xml = etree.fromstring(xml_request.encode('utf-8'))
+
         except ExpatError, ex:
             raise RequestFileServerException(ex.message)
 
