@@ -7,7 +7,7 @@ import org.ebooksearchtool.analyzer.io.Logger;
 import org.ebooksearchtool.analyzer.model.Author;
 import org.ebooksearchtool.analyzer.model.BookInfo;
 import org.ebooksearchtool.analyzer.model.File;
-import org.ebooksearchtool.analyzer.utils.ServerRequests;
+import org.ebooksearchtool.analyzer.utils.BookInfoFormer;
 import org.ebooksearchtool.analyzer.utils.AnalyzeUtils;
 import org.ebooksearchtool.analyzer.utils.AnalyzerProperties;
 
@@ -36,7 +36,8 @@ public class AnalyzerThread extends Thread {
                     printInfo(info);
                     //TODO: Добавить разбор ответов от сервера  
                     if(!info.getTitle().equals("")){
-                        String message = ClientSocketThread.sendRequest(ServerRequests.formBookInfo(info));
+                        String message = ClientSocketThread.sendRequest
+                                (BookInfoFormer.formBookInfo(info), ClientSocketThread.INSERT_REQUEST);
                         Logger.setToLog(message);
                         System.out.println(message);
                         Logger.setToLog("Book Information succsesfully sent to server:" +

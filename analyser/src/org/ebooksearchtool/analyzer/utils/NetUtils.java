@@ -13,7 +13,7 @@ public class NetUtils {
         connect.setDoOutput(true);
         connect.setRequestMethod("POST");
         connect.setRequestProperty( "Content-type", "application/x-www-form-urlencoded; charset=UTF-8" );
-        connect.setRequestProperty( "Content-length", String.valueOf(ServerRequests.getContentLength(s)));
+        connect.setRequestProperty( "Content-length", String.valueOf(getContentLength(s)));
         PrintWriter pw = new PrintWriter(connect.getOutputStream());
         pw.println(s);
         pw.flush();
@@ -60,5 +60,9 @@ public class NetUtils {
             bytes[i] = (byte)temp[i];
         }
         return bytes;
+    }
+
+   public static long getContentLength(String str){
+        return str.length() + 4;
     }
 }

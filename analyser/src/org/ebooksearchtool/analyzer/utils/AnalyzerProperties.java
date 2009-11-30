@@ -25,6 +25,7 @@ public class AnalyzerProperties{
         ourProperties.put("languagesList", "languages.lang");
         ourProperties.put("demon_is_enable", "false");
         ourProperties.put("server_insert_distanation", "/data/insert");
+        ourProperties.put("server_get_distanation", "/data/get");
         ourProperties.put("default_protocol", "http");
     }
 

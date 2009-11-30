@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import org.ebooksearchtool.analyzer.algorithms.subalgorithms.*;
 import org.ebooksearchtool.analyzer.model.*;
 import org.ebooksearchtool.analyzer.network.ClientSocketThread;
-import org.ebooksearchtool.analyzer.utils.ServerRequests;
+import org.ebooksearchtool.analyzer.utils.BookInfoFormer;
 
 /**
  * @author Aleksey Podoplsky
@@ -34,7 +34,7 @@ public class WholeParser implements IParser{
         //Конец гарантий
 
 //        reqBook = BookInfo.getBookInfoFromRequest(
-//                ClientSocketThread.sendRequest(ServerRequests.formBookInfoRequest(myBookInfo)));
+//                ClientSocketThread.sendRequest(BookInfoFormer.formBookInfoRequest(myBookInfo)));
 
         if(reqBook == null){
             return myBookInfo;
