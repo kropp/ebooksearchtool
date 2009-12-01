@@ -20,7 +20,6 @@ public class Network {
     private final Map<String, Long> myLastAccess = new HashMap<String, Long>();
     private final Map<String, Long> myNextAccess = new HashMap<String, Long>();
     private final ConcurrentMap<String, URI> myLastAccessBlockingMap = new ConcurrentHashMap<String, URI>();
-    private final Object myLastAccessLock = new Object();
 	
 	public Network(Crawler crawler, Proxy proxy, int connectionTimeout, int waitingForAccessTimeout, String userAgent, Logger logger) {
         myCrawler = crawler;
@@ -106,8 +105,8 @@ public class Network {
                     URI u = myLastAccessBlockingMap.putIfAbsent(host, uri);
                     if (u == null) break;
                     try {
-                        synchronized (myLastAccessLock) {
-                            myLastAccessLock.wait();
+                        synchronized (this) {
+                            wait();
                         }
                     } catch (InterruptedException ie) {
                         return null;
@@ -121,16 +120,16 @@ public class Network {
                             Thread.sleep(nextAccess - now);
                         } catch (InterruptedException e) {
                             myLastAccessBlockingMap.remove(host, uri);
-                            synchronized (myLastAccessLock) {
-                                myLastAccessLock.notify();
+                            synchronized (this) {
+                                notify();
                             }
                             myCrawler.getCrawlerThread(threadID).setDoNotInterruptInAnyCase(false);
                             return null;
                         }
                     } else {
                         myLastAccessBlockingMap.remove(host, uri);
-                        synchronized (myLastAccessLock) {
-                            myLastAccessLock.notify();
+                        synchronized (this) {
+                            notify();
                         }
                         myCrawler.getCrawlerThread(threadID).setDoNotInterruptInAnyCase(false);
                         return null;
@@ -143,8 +142,8 @@ public class Network {
                     setNextAccessTime(host, now + diff);
                 }
                 myLastAccessBlockingMap.remove(host, uri);
-                synchronized (myLastAccessLock) {
-                    myLastAccessLock.notify();
+                synchronized (this) {
+                    notify();
                 }
                 myCrawler.getCrawlerThread(threadID).setDoNotInterruptInAnyCase(false);
             }

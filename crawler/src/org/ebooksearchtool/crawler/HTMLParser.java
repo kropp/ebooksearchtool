@@ -55,10 +55,12 @@ class HTMLParser {
                             String name = attributes.getValue("name");
                             if (name != null && "robots".equals(name.toLowerCase())) {
                                 String content = attributes.getValue("content");
-                                String[] terms = content.split(" *, *");
-                                for (String term : terms) {
-                                    if ("noindex".equals(term.toLowerCase()) || "nofollow".equals(term.toLowerCase())) {
-                                        return new ArrayList<URI>();
+                                if (content != null) {
+                                    String[] terms = content.split(" *, *");
+                                    for (String term : terms) {
+                                        if ("noindex".equals(term.toLowerCase()) || "nofollow".equals(term.toLowerCase())) {
+                                            return new ArrayList<URI>();
+                                        }
                                     }
                                 }
                             }

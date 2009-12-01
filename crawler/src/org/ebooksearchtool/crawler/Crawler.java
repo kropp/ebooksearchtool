@@ -29,7 +29,7 @@ public class Crawler implements Runnable {
     private final AbstractVisitedLinksSet myVisited;
     private final Logger myLogger;
     
-    private CrawlerThread[] myThread;
+    private final CrawlerThread[] myThread;
     
     Crawler(Properties properties, String[] starts, PrintWriter output) {
         myOutput = output;
@@ -84,6 +84,7 @@ public class Crawler implements Runnable {
             myRobots = new ManyFilesRobotsExclusion(ourNetwork, myLogger);
             myQueue = new LinksQueue(ourMaxQueueSize);
             myVisited = new VisitedLinksSet(ourMaxLinksCount);
+            myThread = new CrawlerThread[ourThreadsCount];
         } catch (Exception e) {
             throw new RuntimeException("bad format of properties file: " + e.getMessage());
         }
@@ -161,7 +162,6 @@ public class Crawler implements Runnable {
         myOutput.println("<books>");
         
         
-        myThread = new CrawlerThread[ourThreadsCount];
         for (int i = 0; i < ourThreadsCount; i++) {
             myThread[i] = new CrawlerThread(this, i);
             myThread[i].start();
@@ -244,18 +244,6 @@ public class Crawler implements Runnable {
         } catch (Exception e) {
             return false;
         }
-    }
-    
-    public synchronized Set<String> getThreadsHosts() {
-        Set<String> answer = new HashSet<String>();
-        for (int i = 0; i < ourThreadsCount; i++) {
-            if (myThread[i] == null) continue;
-            URI uri = myThread[i].getDownloadingURI();
-            if (uri != null) {
-                answer.add(uri.getHost());
-            }
-        }
-        return answer;
     }
     
     synchronized void writeBookToOutput(URI source, URI referrer, String referrerPage) {

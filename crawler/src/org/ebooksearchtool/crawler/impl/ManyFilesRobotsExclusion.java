@@ -12,7 +12,8 @@ import org.ebooksearchtool.crawler.Util;
 public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
     
     public static final File ROBOTS_CACHE_DIR = Util.CACHE_DIR;
-    public static final int FILES_NUMBER = 8192;
+    public static final int FILES_NUMBER = 4096;
+    public static final int MAX_ROBOTS_TXT_LENGTH = 4096;
         
     private final Network myNetwork;
     private final Logger myLogger;
@@ -93,7 +94,7 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
                         if (time1 <= time && time <= time2) {
                             long docs = Long.parseLong(ss[0]);
                             long seconds = Long.parseLong(ss[1]);
-                            long waitBetweenRequests = 1000L * (seconds + docs - 1) / docs;
+                            long waitBetweenRequests = (1000 * seconds + docs - 1) / docs;
                             long lastAccess = myNetwork.getLastAccessTime(host);
                             long nextAccess = myNetwork.getNextAccessTime(host);
                             if (nextAccess <= lastAccess) {
@@ -226,10 +227,15 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
                     }
                 }
             }
+            String toWrite = sb.toString();
+            // do not cache very big robots.txt: treat them as "Disallow: /"
+            if (sb.length() > MAX_ROBOTS_TXT_LENGTH) {
+                toWrite = host + "\n - /\n";
+            }
             synchronized (file) {
                 if (isDisallowed(host, robotstxt) < 0) {
                     bw = new BufferedWriter(new FileWriter(file, true));
-                    bw.write(sb.toString());
+                    bw.write(toWrite);
                     bw.close();
                 }
             }

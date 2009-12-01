@@ -10,8 +10,8 @@ import org.ebooksearchtool.crawler.AbstractVisitedLinksSet;
 
 public class VisitedLinksSet extends AbstractVisitedLinksSet {
     
-    public static final int MAX_LINKS_FROM_HOST = 50;
-    public static final int MAX_LINKS_FROM_LARGE_SOURCE = 300;
+    public static final int MAX_LINKS_FROM_HOST = 40;
+    public static final int MAX_LINKS_FROM_LARGE_SOURCE = 60;
     public static final long HOST_STATS_CLEANUP_PERIOD = 60000;
     
     private Map<String, Integer> myHostCount;
