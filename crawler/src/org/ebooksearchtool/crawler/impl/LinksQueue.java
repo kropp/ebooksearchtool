@@ -13,6 +13,7 @@ public class LinksQueue extends AbstractLinksQueue {
     private final int myMaxSize;
     private final Map<String, Integer> myHasBooks; ///TODO: some different data structure?..
     private final Map<String, Set<URI>> myLinksFromHost;
+    private final Random myRandom;
     
     public LinksQueue(int maxSize) {
         myMaxSize = maxSize;
@@ -20,6 +21,7 @@ public class LinksQueue extends AbstractLinksQueue {
         myLinksComparator = new LinksComparator(myHasBooks);
         mySet = new TreeSet<URI>(myLinksComparator);
         myLinksFromHost = new HashMap<String, Set<URI>>();
+        myRandom = new Random();
     }
     
     private void remove(URI uri) {
@@ -38,7 +40,10 @@ public class LinksQueue extends AbstractLinksQueue {
             add = true;
         } else {
             URI last = mySet.last();
-            if (myLinksComparator.compare(uri, last) < 0) {
+            int cmp = myLinksComparator.compare(uri, last);
+            // add our link, if it is better than the worst link in the set,
+            // or, if it is as good as the worst link, add in 50% cases
+            if (cmp < 0 || (cmp == 0 && myRandom.nextBoolean())) {
                 remove(last);
                 add = true;
             }
