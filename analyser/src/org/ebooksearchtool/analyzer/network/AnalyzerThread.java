@@ -30,7 +30,9 @@ public class AnalyzerThread extends Thread {
         synchronized(myLock){
             while(true){
                 try {
-                    myLock.wait();
+                    while ("".equals(myMessage)) {
+                        myLock.wait();
+                    }
                     WholeParser ws = new WholeParser();
                     BookInfo info = ws.parse(myMessage);
                     printInfo(info);
@@ -50,11 +52,11 @@ public class AnalyzerThread extends Thread {
                             Logger.setToLog("Book Information don't sent to server:");
                         }
                         System.out.println(message);
-                        myMessage = "";
                     }else{
                         Logger.setToLog("Book Information can't be sent to server(Unknown title):" +
                                 AnalyzerProperties.getPropertie("systemSeparator") + AnalyzeUtils.bookInfoToString(info));
                     }
+                    myMessage = "";
                 } catch (InterruptedException ex) {
                     Logger.setToErrorLog(ex.getMessage() + ". Analyzer thread had been interrupted.");
                 }
