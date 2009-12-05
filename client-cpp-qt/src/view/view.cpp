@@ -6,25 +6,21 @@
 #include <QProcess>
 #include <QSettings>
 
-#include <QDebug>
+//#include <QDebug>
 
 QString View::ourConfigFilePath = "../.config.ini";
 
 View::View(QWidget* parent, Data* data) : QWidget(parent), myData(data) { 
-    myBooksLayout = new QVBoxLayout();
+    myBooksLayout = new QVBoxLayout(this);
 	setLayout(myBooksLayout);
-    QSettings settings(ourConfigFilePath, QSettings::IniFormat);
-    myReader = settings.value("view/reader").toString();
-    qDebug() << "view reader from settings " << myReader;
+    readSettings();
 }
 
 void View::setData(Data* data) {
-    qDebug() << "View::SetData";
     myData = data;
 }
 
 void View::update() {
-    qDebug() << "View::update";
     clear();
     if (!myData) {
         return;
@@ -34,19 +30,21 @@ void View::update() {
         BookWidget* widget = new BookWidget(this, myData->getBook(i));
         myBooks.push_back(widget);
         myBooksLayout->addWidget(widget);
-    }
+}
     connectWithButtons();
 }
 
 void View::clear() {
 // remove all widgets from book layout
-    qDebug() << "View::clear";
+// ??it may be done faster. method for clearing layout.
     const size_t count = myBooksLayout->count();
-		for (size_t i = 0; i < count; ++i) {
+		for (size_t i = count; i > 0; --i) {
         myBooksLayout->removeItem(myBooksLayout->itemAt(0));
-	    qDebug() << "item removed";
-	}
-	myBooks.clear();
+	    BookWidget* widget = myBooks.back();
+        myBooks.pop_back();
+        delete widget;
+    }
+   // myBooks.clear();
 }
 
 void View::markAllBooks(int state) {
@@ -86,9 +84,13 @@ void View::read(int id) {
 
 void View::read() {
     QProcess* process = new QProcess(); //(this); и обрабатывать сигнал об уничтожении родительского процесса
-    qDebug() << "trying to open file by " << myReader;
     process->start(myReader, QStringList(myFile->fileName()));
     
+}
+
+void View::readSettings() {
+    QSettings settings(ourConfigFilePath, QSettings::IniFormat);
+    myReader = settings.value("view/reader").toString();
 }
 
 void View::downloadBook(BookWidget* widget) {

@@ -33,6 +33,7 @@ public:
     void update();
 
 private:    
+    void readSettings();
     void addWidget(QWidget* widget);
     void connectWithButtons() const;
 
