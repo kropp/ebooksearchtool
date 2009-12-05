@@ -41,6 +41,7 @@ void View::clear() {
     const size_t count = myBooksLayout->count();
 		for (size_t i = 0; i < count; ++i) {
         myBooksLayout->removeItem(myBooksLayout->itemAt(0));
+	    qDebug() << "item removed";
 	}
 	myBooks.clear();
 }

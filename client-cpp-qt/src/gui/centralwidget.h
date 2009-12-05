@@ -3,18 +3,13 @@
 
 #include "../view/view.h" 
 
-
 class QDialogButtonBox;
 class QBuffer;
 class QComboBox;
 class QHttp;
-//class QHttpResponseHeader;
-//class QLabel;
 class QLineEdit;
-//class QTextEdit;
 class QPushButton;
 class NetworkManager;
-
 
 class CentralWidget : public QWidget {
     
@@ -33,6 +28,7 @@ private slots:
 
 private:
 	QString queryToUrl() const;
+    void fillComboBox();
 
 private:
 	QLineEdit *myQueryLineEdit;

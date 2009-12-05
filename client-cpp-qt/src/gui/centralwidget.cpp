@@ -7,12 +7,9 @@
 
 CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myBuffer(0) {
     myNewRequest = true;
-	myQueryLineEdit = new QLineEdit();
+	myQueryLineEdit = new QLineEdit(this);
     mySearchTags = new QComboBox(this);
-    mySearchTags->addItem("everywhere");
-    mySearchTags->addItem("by title");
-    mySearchTags->addItem("by author");
-
+    fillComboBox();
 	mySearchButton = new QPushButton(tr("Search"));
 	mySearchButton->setDefault(true);
 
@@ -123,3 +120,8 @@ void CentralWidget::setNewRequest() {
     myNewRequest = true;
 }
 
+void CentralWidget::fillComboBox() {
+    mySearchTags->addItem("everywhere");
+    mySearchTags->addItem("by title");
+    mySearchTags->addItem("by author");
+}
