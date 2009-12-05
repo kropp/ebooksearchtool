@@ -19,10 +19,12 @@ View::View(QWidget* parent, Data* data) : QWidget(parent), myData(data) {
 }
 
 void View::setData(Data* data) {
-	myData = data;
+    qDebug() << "View::SetData";
+    myData = data;
 }
 
 void View::update() {
+    qDebug() << "View::update";
     clear();
     if (!myData) {
         return;
@@ -38,6 +40,7 @@ void View::update() {
 
 void View::clear() {
 // remove all widgets from book layout
+    qDebug() << "View::clear";
     const size_t count = myBooksLayout->count();
 		for (size_t i = 0; i < count; ++i) {
         myBooksLayout->removeItem(myBooksLayout->itemAt(0));

@@ -5,12 +5,12 @@
 #include "../network/networkmanager.h"
 #include "../data/data.h"
 
-CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myBuffer(0) {
+CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myBuffer(0), myData(0) {
     myNewRequest = true;
 	myQueryLineEdit = new QLineEdit(this);
-    mySearchTags = new QComboBox(this);
+    myComboBox = new QComboBox(this);
     fillComboBox();
-	mySearchButton = new QPushButton(tr("Search"));
+	mySearchButton = new QPushButton(tr("Search"), this);
 	mySearchButton->setDefault(true);
 
 	myView = new View(this, 0);
@@ -21,13 +21,11 @@ CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myBuffer(0) {
 	connect(myNetworkManager, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
 
 	connect(mySearchButton, SIGNAL(clicked()), this, SLOT(downloadFile())); 
-	connect(mySearchButton, SIGNAL(clicked()), this, SLOT(setNewRequest()));
-	
 	//connect(myView, SIGNAL(urlRequest(const QString&)), this, SLOT(downloadFile(const QString&)));
 
 	QHBoxLayout *topLayout = new QHBoxLayout;
 	topLayout->addWidget(myQueryLineEdit);
-	topLayout->addWidget(mySearchTags);
+	topLayout->addWidget(myComboBox);
 	topLayout->addWidget(mySearchButton);
 	
 	QGridLayout *mainLayout = new QGridLayout;
@@ -39,7 +37,8 @@ CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myBuffer(0) {
 }
 
 void CentralWidget::downloadFile() {
-	mySearchButton->setEnabled(false);
+    myNewRequest = true;
+	//mySearchButton->setEnabled(false);
 	
 	if (!myBuffer) {
         myBuffer = new QBuffer();
@@ -85,14 +84,16 @@ void CentralWidget::httpRequestFinished(int requestId , bool) {
 void CentralWidget::parseDownloadedFile() {
 	AtomParser parser;
 	if (myNewRequest) {
-	    Data* data = new Data();
-	    myView->setData(data);
+	    if (!myData) {
+            delete myData;
+        }
+        myData = new Data();
+	    myView->setData(myData);
     }
     myBuffer->open(QIODevice::ReadOnly);
     parser.parse(myBuffer, myView->getData());
     myBuffer->close();
     myView->update();	
-
 
    // const QString* url = parser.getNextAtomPage();
     //if (url) {
@@ -105,7 +106,7 @@ QString CentralWidget::queryToUrl() const {
 	QString urlStr("http://");
     urlStr.append(myNetworkManager->getServer());
     urlStr.append("/books/search.atom?query=");
-    const QString tag = mySearchTags->currentText();
+    const QString tag = myComboBox->currentText();
     if ((tag == "author") || (tag == "title")) {
         urlStr.append(tag);
         urlStr.append(":");
@@ -116,12 +117,8 @@ QString CentralWidget::queryToUrl() const {
 	return urlStr;
 }
 
-void CentralWidget::setNewRequest() {
-    myNewRequest = true;
-}
-
 void CentralWidget::fillComboBox() {
-    mySearchTags->addItem("everywhere");
-    mySearchTags->addItem("by title");
-    mySearchTags->addItem("by author");
+    myComboBox->addItem("everywhere");
+    myComboBox->addItem("by title");
+    myComboBox->addItem("by author");
 }

@@ -24,7 +24,6 @@ private slots:
 	void httpRequestFinished(int requestId, bool error);
 	void enableSearchButton();
 	void parseDownloadedFile();
-	void setNewRequest();
 
 private:
 	QString queryToUrl() const;
@@ -32,7 +31,7 @@ private:
 
 private:
 	QLineEdit *myQueryLineEdit;
-	QComboBox  *mySearchTags;
+	QComboBox  *myComboBox;
 	QPushButton *mySearchButton;
 
     QDialogButtonBox *myButtonBox;
@@ -41,7 +40,8 @@ private:
     NetworkManager* myNetworkManager;
     int myRequestId;
     bool myNewRequest;
-
+   
+    Data* myData;
 	View* myView;
 
 friend class MainWindow;
