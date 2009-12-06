@@ -4,7 +4,7 @@
 // emit signal after reducting and pressing "Enter"
 
 class QLineEdit;
-class QComboBox;
+//class QComboBox;
 class QPushButton;
 
 class SearchWidget : public QWidget {
@@ -16,6 +16,6 @@ public:
 
 private:
     QLineEdit* myLineEdit;
-    QComboBox* myComboBox;
+  //  QComboBox* myComboBox;
     QPushButton* myPushButton;
 };
