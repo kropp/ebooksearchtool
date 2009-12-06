@@ -14,7 +14,10 @@ MainWindow::MainWindow() {
     readSettings();
     myCentralWidget = new CentralWidget(this);
 	setCentralWidget(myCentralWidget);
-	mySearchWidget->setFocus();
+
+    connect(mySearchWidget, SIGNAL(search(QString)), myCentralWidget, SLOT(downloadFile(QString))); 
+	
+    mySearchWidget->setFocus();
     setWindowTitle("ebooksearchtool");
 	showMaximized();
 	// set header

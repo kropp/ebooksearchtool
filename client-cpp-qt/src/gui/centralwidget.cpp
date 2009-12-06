@@ -8,15 +8,12 @@
 
 CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myBuffer(0), myData(0) {
     myNewRequest = true;
-//    mySearchWidget = new SearchWidget(this);
 	myView = new View(this, 0);
 
-	myNetworkManager = NetworkManager::getInstance(); // а может мне соединение не понадобится - отложить создание!
+	myNetworkManager = NetworkManager::getInstance(); 
 
-	//connect(myQueryLineEdit, SIGNAL(textChanged(const QString &)), this, SLOT(enableSearchButton()));
 	connect(myNetworkManager, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
 
-//	connect(mySearchButton, SIGNAL(clicked()), this, SLOT(downloadFile())); 
 	//connect(myView, SIGNAL(urlRequest(const QString&)), this, SLOT(downloadFile(const QString&)));
 
 	QVBoxLayout *mainLayout = new QVBoxLayout();
@@ -65,9 +62,6 @@ void CentralWidget::downloadFile(const QString&) {
 	//myHttpConnection->downloadFile(url, file);
 //}
 
-void CentralWidget::enableSearchButton() {
-	//mySearchButton->setEnabled(!myUrlLineEdit->text().isEmpty());
-}
 
 void CentralWidget::httpRequestFinished(int requestId , bool) {
     if (requestId != myRequestId) {
