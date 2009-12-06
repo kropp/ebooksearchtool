@@ -4,40 +4,31 @@
 #include "../xml_parser/parser.h"
 #include "../network/networkmanager.h"
 #include "../data/data.h"
+#include "searchwidget.h"
 
 CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myBuffer(0), myData(0) {
     myNewRequest = true;
-	myQueryLineEdit = new QLineEdit(this);
-    myComboBox = new QComboBox(this);
-    fillComboBox();
-	mySearchButton = new QPushButton(tr("Search"), this);
-	mySearchButton->setDefault(true);
-
+//    mySearchWidget = new SearchWidget(this);
 	myView = new View(this, 0);
 
 	myNetworkManager = NetworkManager::getInstance(); // а может мне соединение не понадобится - отложить создание!
 
-	connect(myQueryLineEdit, SIGNAL(textChanged(const QString &)), this, SLOT(enableSearchButton()));
+	//connect(myQueryLineEdit, SIGNAL(textChanged(const QString &)), this, SLOT(enableSearchButton()));
 	connect(myNetworkManager, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
 
-	connect(mySearchButton, SIGNAL(clicked()), this, SLOT(downloadFile())); 
+//	connect(mySearchButton, SIGNAL(clicked()), this, SLOT(downloadFile())); 
 	//connect(myView, SIGNAL(urlRequest(const QString&)), this, SLOT(downloadFile(const QString&)));
 
-	QHBoxLayout *topLayout = new QHBoxLayout;
-	topLayout->addWidget(myQueryLineEdit);
-	topLayout->addWidget(myComboBox);
-	topLayout->addWidget(mySearchButton);
-	
-	QGridLayout *mainLayout = new QGridLayout;
-	mainLayout->addLayout(topLayout, 0, 0, 1, 3);
-	mainLayout->addWidget(myView, 1, 0, 15, 5);
+	QVBoxLayout *mainLayout = new QVBoxLayout();
+//	mainLayout->addWidget(mySearchWidget, 0, 0, 1, 3);
+	mainLayout->addWidget(myView);//, 1, 0, 15, 5);
 	setLayout(mainLayout);
 
-	myQueryLineEdit->setFocus();
+//	mySearchWidget->setFocus();
 }
 
 void CentralWidget::downloadFile() {
-    qDebug() << "CentralWidget::downloadFile " << myQueryLineEdit->text();
+  //  qDebug() << "CentralWidget::downloadFile " << myQueryLineEdit->text();
     myNewRequest = true;
 	//mySearchButton->setEnabled(false);
 	
@@ -83,7 +74,7 @@ void CentralWidget::httpRequestFinished(int requestId , bool) {
         return;
     }
     qDebug() << "CentralWidget::httpRequestFinished give buffer to parser";
-	mySearchButton->setEnabled(true);
+	//mySearchButton->setEnabled(true);
 	parseDownloadedFile();
 }
 
@@ -110,21 +101,18 @@ void CentralWidget::parseDownloadedFile() {
 
 QString CentralWidget::queryToUrl() const {
 	QString urlStr("http://");
-    urlStr.append(myNetworkManager->getServer());
+/*    urlStr.append(myNetworkManager->getServer());
     urlStr.append("/books/search.atom?query=");
     const QString tag = myComboBox->currentText();
     if ((tag == "author") || (tag == "title")) {
         urlStr.append(tag);
         urlStr.append(":");
     }
+    
     QString queryStr = myQueryLineEdit->text();
     queryStr.replace(" ", "+");
     urlStr.append(queryStr);
-	return urlStr;
+*/
+return urlStr;
 }
 
-void CentralWidget::fillComboBox() {
-    myComboBox->addItem("everywhere");
-    myComboBox->addItem("by title");
-    myComboBox->addItem("by author");
-}

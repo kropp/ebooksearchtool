@@ -5,6 +5,7 @@
 
 class QAction;
 class CentralWidget;
+class SearchWidget;
 
 class MainWindow : public QMainWindow {
 
@@ -25,6 +26,7 @@ private:
     void readSettings();
         
 private:
+    SearchWidget* mySearchWidget;
     CentralWidget* myCentralWidget;
 
     QAction* myExitAction;

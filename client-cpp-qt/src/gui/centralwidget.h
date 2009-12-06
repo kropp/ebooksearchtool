@@ -5,11 +5,8 @@
 
 class QDialogButtonBox;
 class QBuffer;
-class QComboBox;
-class QHttp;
-class QLineEdit;
-class QPushButton;
 class NetworkManager;
+class SearchWidget;
 
 class CentralWidget : public QWidget {
     
@@ -30,11 +27,9 @@ private:
     void fillComboBox();
 
 private:
-	QLineEdit *myQueryLineEdit;
-	QComboBox  *myComboBox;
-	QPushButton *mySearchButton;
+//    SearchWidget* mySearchWidget;
 
-    QDialogButtonBox *myButtonBox;
+//    QDialogButtonBox *myButtonBox;
 
 	QBuffer *myBuffer; 
     NetworkManager* myNetworkManager;

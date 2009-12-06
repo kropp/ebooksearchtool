@@ -2,8 +2,10 @@
 
 #include "mainwindow.h"
 #include "centralwidget.h"
+#include "searchwidget.h"
 
 MainWindow::MainWindow() {
+    mySearchWidget = new SearchWidget(this);
     createActions();
     createMenu();
     createToolBar();
@@ -11,6 +13,7 @@ MainWindow::MainWindow() {
     readSettings();
     myCentralWidget = new CentralWidget(this);
 	setCentralWidget(myCentralWidget);
+	mySearchWidget->setFocus();
     setWindowTitle("ebooksearchtool");
 	showMaximized();
 	// set header
@@ -56,8 +59,7 @@ void MainWindow::createToolBar() {
     QToolBar* viewToolBar = addToolBar(tr("View"));
     viewToolBar->addAction(myBackAction);
     viewToolBar->addAction(myStopAction);
-    //back
-    //stop loading
+    viewToolBar->addWidget(mySearchWidget);
 }
 
 void MainWindow::createStatusBar() {
