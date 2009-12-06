@@ -7,6 +7,8 @@
   
 SearchWidget::SearchWidget(QWidget* parent) : QWidget(parent) {
 	myLineEdit = new QLineEdit(this);
+//TODO don't set concrete size!!
+    myLineEdit->setMaximumWidth(150);
     myComboBox = new QComboBox(this);
     fillComboBox();
 	myPushButton = new QPushButton(tr("Search"), this);
@@ -18,6 +20,8 @@ SearchWidget::SearchWidget(QWidget* parent) : QWidget(parent) {
     mainLayout->addWidget(myComboBox);
     mainLayout->addWidget(myLineEdit);
     mainLayout->addWidget(myPushButton);
+//TODO don't set concrete size!!
+    setMaximumWidth(350);
     setLayout(mainLayout);
 }
 

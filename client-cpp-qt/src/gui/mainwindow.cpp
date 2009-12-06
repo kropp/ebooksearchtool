@@ -6,6 +6,7 @@
 
 MainWindow::MainWindow() {
     mySearchWidget = new SearchWidget(this);
+//    mySearchWidget->resize(10, 100);
     createActions();
     createMenu();
     createToolBar();
