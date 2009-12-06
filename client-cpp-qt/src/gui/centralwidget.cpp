@@ -37,6 +37,7 @@ CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myBuffer(0), my
 }
 
 void CentralWidget::downloadFile() {
+    qDebug() << "CentralWidget::downloadFile " << myQueryLineEdit->text();
     myNewRequest = true;
 	//mySearchButton->setEnabled(false);
 	
@@ -47,7 +48,11 @@ void CentralWidget::downloadFile() {
     }
 
 	myRequestId = myNetworkManager->download(queryToUrl(), myBuffer);
-    myBuffer->close();
+    qDebug() << "CentralWidget::downloadFile requestID" << myRequestId;
+
+    if (myBuffer->isOpen()) {
+        myBuffer->close();
+    }
 }
 
 void CentralWidget::downloadFile(const QString&) {
@@ -77,6 +82,7 @@ void CentralWidget::httpRequestFinished(int requestId , bool) {
     if (requestId != myRequestId) {
         return;
     }
+    qDebug() << "CentralWidget::httpRequestFinished give buffer to parser";
 	mySearchButton->setEnabled(true);
 	parseDownloadedFile();
 }

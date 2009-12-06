@@ -21,8 +21,8 @@ class View : public QWidget {
  Q_OBJECT
 
 private:
-    static QString ourConfigFilePath;// = "../.config.ini";
-
+    static QString ourConfigFilePath;
+    
 public:
     View(QWidget* parent, Data* data);
 

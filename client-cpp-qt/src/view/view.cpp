@@ -6,7 +6,7 @@
 #include <QProcess>
 #include <QSettings>
 
-//#include <QDebug>
+#include <QDebug>
 
 QString View::ourConfigFilePath = "../.config.ini";
 
@@ -84,8 +84,8 @@ void View::read(int id) {
 
 void View::read() {
     QProcess* process = new QProcess(); //(this); и обрабатывать сигнал об уничтожении родительского процесса
+    qDebug() << "View::read " << myReader << "  " << myFile->fileName();
     process->start(myReader, QStringList(myFile->fileName()));
-    
 }
 
 void View::readSettings() {
