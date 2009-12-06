@@ -29,19 +29,35 @@ void MainWindow::createActions() {
     
     mySettinsAction = new QAction(tr("Settings..."), this);
     myFullScreenAction = new QAction(tr("Full screen"), this);
+    
+    myBackAction = new QAction(tr("Back"), this);
+    myBackAction->setIcon(QIcon("view/images/back.png"));
+
+    myStopAction = new QAction(tr("Stop"), this);
+    myStopAction->setIcon(QIcon("view/images/stop.jpeg"));
 }
 
 void MainWindow::createMenu() {
     QMenu* fileMenu = menuBar()->addMenu(tr("File"));
     fileMenu->addAction(myExitAction);
+    
     QMenu* viewMenu = menuBar()->addMenu(tr("View"));
     viewMenu->addAction(myFullScreenAction);
+    viewMenu->addAction(myStopAction);
+    
     QMenu* editMenu = menuBar()->addMenu(tr("Edit"));
     editMenu->addAction(mySettinsAction);
+    
+    QMenu* historyMenu = menuBar()->addMenu(tr("History"));
+    historyMenu->addAction(myBackAction);
 }
 
 void MainWindow::createToolBar() {
-
+    QToolBar* viewToolBar = addToolBar(tr("View"));
+    viewToolBar->addAction(myBackAction);
+    viewToolBar->addAction(myStopAction);
+    //back
+    //stop loading
 }
 
 void MainWindow::createStatusBar() {

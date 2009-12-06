@@ -30,6 +30,8 @@ private:
     QAction* myExitAction;
     QAction* myFullScreenAction;
     QAction* mySettinsAction;
+    QAction* myBackAction;
+    QAction* myStopAction;
 };
 
 #endif //_MAIN_WINDOW_H_
