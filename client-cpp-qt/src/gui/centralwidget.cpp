@@ -9,7 +9,6 @@
 CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myBuffer(0), myData(0) {
     myNewRequest = true;
 	myView = new View(this, 0);
-
 	myNetworkManager = NetworkManager::getInstance(); 
 
 	connect(myNetworkManager, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
@@ -17,17 +16,13 @@ CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myBuffer(0), my
 	//connect(myView, SIGNAL(urlRequest(const QString&)), this, SLOT(downloadFile(const QString&)));
 
 	QVBoxLayout *mainLayout = new QVBoxLayout();
-//	mainLayout->addWidget(mySearchWidget, 0, 0, 1, 3);
 	mainLayout->addWidget(myView);//, 1, 0, 15, 5);
 	setLayout(mainLayout);
-
-//	mySearchWidget->setFocus();
 }
 
-void CentralWidget::downloadFile() {
-  //  qDebug() << "CentralWidget::downloadFile " << myQueryLineEdit->text();
+void CentralWidget::downloadFile(const QString& query) {
+    qDebug() << "CentralWidget::downloadFile " << query;
     myNewRequest = true;
-	//mySearchButton->setEnabled(false);
 	
 	if (!myBuffer) {
         myBuffer = new QBuffer();
@@ -35,7 +30,7 @@ void CentralWidget::downloadFile() {
         myBuffer->setData("", 0);	
     }
 
-	myRequestId = myNetworkManager->download(queryToUrl(), myBuffer);
+	myRequestId = myNetworkManager->download(queryToUrl(query), myBuffer);
     qDebug() << "CentralWidget::downloadFile requestID" << myRequestId;
 
     if (myBuffer->isOpen()) {
@@ -43,7 +38,8 @@ void CentralWidget::downloadFile() {
     }
 }
 
-void CentralWidget::downloadFile(const QString&) {
+// для подкачки файла  по конкретной ссылке
+//void CentralWidget::downloadFile(const QString&) {
    /* std::cout << "slot file download\n";
 
 	if (myFile != 0) {
@@ -56,7 +52,7 @@ void CentralWidget::downloadFile(const QString&) {
 
 	myFile->open(QIODevice::WriteOnly); //может и не суметь открыть
 	myHttpConnection->downloadFile(url, myFile);*/
-}
+//}
 
 //void CentralWidget::downloadFile(const QString& url, QFile& file) {
 	//myHttpConnection->downloadFile(url, file);
@@ -93,20 +89,21 @@ void CentralWidget::parseDownloadedFile() {
     //}
 }
 
-QString CentralWidget::queryToUrl() const {
+QString CentralWidget::queryToUrl(const QString& query) const {
 	QString urlStr("http://");
-/*    urlStr.append(myNetworkManager->getServer());
+    urlStr.append(myNetworkManager->getServer());
+    //TODO - не руками строку вбивать - к тому же она от сервера зависит
     urlStr.append("/books/search.atom?query=");
-    const QString tag = myComboBox->currentText();
-    if ((tag == "author") || (tag == "title")) {
+  //  const QString tag = myComboBox->currentText();
+/*    if ((tag == "author") || (tag == "title")) {
         urlStr.append(tag);
         urlStr.append(":");
     }
-    
-    QString queryStr = myQueryLineEdit->text();
+*/    
+    QString queryStr = query;
     queryStr.replace(" ", "+");
     urlStr.append(queryStr);
-*/
-return urlStr;
+
+    return urlStr;
 }
 

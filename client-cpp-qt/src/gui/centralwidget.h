@@ -16,13 +16,12 @@ private:
     CentralWidget(QWidget* parent);
     
 private slots:
-	void downloadFile();
-	void downloadFile(const QString& url);
+	void downloadFile(const QString& query);
 	void httpRequestFinished(int requestId, bool error);
 	void parseDownloadedFile();
 
 private:
-	QString queryToUrl() const;
+	QString queryToUrl(const QString& query) const;
     void fillComboBox();
 
 private:
