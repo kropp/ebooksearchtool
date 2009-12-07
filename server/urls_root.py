@@ -56,7 +56,12 @@ urlpatterns = patterns('',
     (r'^discover/subjects.atom/?$', 'views.books_by_tags_request_to_server',
         {'response_type': 'atom',}),
     (r'^discover/subjects/?$', 'views.books_by_tags_request_to_server',
-        {'response_type': 'xhtml',}),        
+        {'response_type': 'xhtml',}),   
+        
+    (r'^discover/search/?$', 'views.books_search'),  
+    
+    # no book cover available
+    (r'^pic/nobookcover/?$', 'views.no_book_cover'),         
     
     #admin
     (r'^admin/(.*)', admin.site.root),

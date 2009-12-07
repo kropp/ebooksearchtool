@@ -11,6 +11,7 @@ from book.models import Author
 from book.models import Tag
 
 from django.http import Http404
+from django.http import HttpResponse
 
 def search_request_to_server(request, response_type, is_all):
     """ builds opds and xhtml response for search request"""
@@ -192,4 +193,13 @@ def books_by_tags_request_to_server(request, response_type):
     if response_type == "xhtml":
         return render_to_response('book/xhtml/client_response_books_by_tag.xml',
         {'tags':tags})
+        
+def books_search(request):
+    """go to search page"""
+    return render_to_response('book/xhtml/client_response_search_request.xml')
+    
+def no_book_cover(request):
+    image_data = open("pic/no_cover.gif", "rb").read()
+    return HttpResponse(image_data, mimetype="image/png")
+
                     

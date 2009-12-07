@@ -17,7 +17,9 @@
             <h1 class="fb-blue bottom">Catalog: </h1>
         </div>
     </div>
-
+  
+  <h3 class="fb-blue small-bottom-margin"><a href="discover/search">Search</a></h3>
+  Search books
   <h3 class="fb-blue small-bottom-margin"><a href="discover/authors">Authors</a></h3>
   Alpha index of the authors available
   <h3 class="fb-blue small-bottom-margin"><a href="discover/languages">Languages</a></h3>

@@ -43,7 +43,13 @@
     <div class="container">
         <div class="span-19">
             <h1 class="fb-blue bottom">Search results for: </h1>
-            <h2 class="gray">
+            <form name="test" action="../../search">
+              Query: <input type="text" name="query" value="{{ title.query }}">
+            <!--  <input type="text" name="author"-->
+              <input type="submit" value="Search" >
+            </form><br/>
+
+<!--            <h2 class="gray">
                 {% if title.query %}
                     Query "{{ title.query }}";
                 {% endif %}
@@ -60,19 +66,22 @@
                     Tag "{{ title.tag }}";
                 {% endif %}
             </h2>
-        </div>
+-->        </div>
     </div>
 
 {% for book in books %}
+<div align="left">
+<hr class="space" />
 
-  <div class="span-2 append-bottom">
-  
-      <a href="book/id{{ book.id }}"><img alt="{{ book.title }}" class="cover" src="{{book.book_file.all.0.img_link}}" title="{{ book.title }}" /></a> 
-  
-  </div>
+      {% if not book.book_file.all.0.img_link %}
+        <a href="book/id{{ book.id }}"><img alt="{{ book.title }}" class="cover" width="120" height="180" hspace="10" src="/pic/nobookcover" title="{{ book.title }}" /></a>
+      {% else %}
+        <a href="book/id{{ book.id }}"><img alt="{{ book.title }}" class="cover" width="120" height="180" hspace="10"  src="{{book.book_file.all.0.img_link}}" title="{{ book.title }}" /></a> 
+      {% endif %}  
 
 
-  <div class="span-15 prepend-1 append-bottom last">
+
+
 
 
     <div class="float-right small">
@@ -93,8 +102,8 @@
     {% endfor %}
   </div>
 
+    
       
-      <hr class="space" />
 
 {% endfor %}
 
