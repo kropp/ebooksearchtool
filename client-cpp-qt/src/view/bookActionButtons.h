@@ -19,13 +19,13 @@ private:
     void applyButtonSettings(QPushButton* button) const;
 
 signals:
-    void remove();
     void toLibrary();
+    void download();
     void read();
     
 private:
-    QPushButton* myDeleteButton;
     QPushButton* myToLibraryButton;
+    QPushButton* myDownloadButton;
     QPushButton* myReadButton;
 
 friend class BookWidget;

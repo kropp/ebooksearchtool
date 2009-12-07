@@ -5,30 +5,30 @@ BookActionsButtonBox::BookActionsButtonBox(QWidget* parent) : QGroupBox(parent) 
     createButtons(buttonLayout);
     setLayout(buttonLayout);
     setFlat(true);
-    connect(myDeleteButton, SIGNAL(pressed()), this, SIGNAL(remove()));
     connect(myToLibraryButton, SIGNAL(pressed()), this, SIGNAL(toLibrary()));
+    connect(myDownloadButton, SIGNAL(pressed()), this, SIGNAL(download()));
     connect(myReadButton, SIGNAL(pressed()), this, SIGNAL(read()));
 }
 
 void BookActionsButtonBox::createButtons(QHBoxLayout* layout) {
-    QIcon* deleteIcon = new QIcon("view/images/book_delete.png");
-    myDeleteButton = new QPushButton(*deleteIcon, "");
-    myDeleteButton->setToolTip("delete");
-
     QIcon* toLibraryIcon = new QIcon("view/images/book_add.png");
     myToLibraryButton = new QPushButton(*toLibraryIcon, " ");
     myToLibraryButton->setToolTip("add to library");
+    
+    QIcon* downloadIcon = new QIcon("view/images/download.png");
+    myDownloadButton = new QPushButton(*downloadIcon, "");
+    myDownloadButton->setToolTip("download");
 
     QIcon* readIcon = new QIcon("view/images/book_open.png");
     myReadButton = new QPushButton(*readIcon, " ");
     myReadButton->setToolTip("read");
 
     applyButtonSettings(myToLibraryButton);    
-    applyButtonSettings(myDeleteButton);    
+    applyButtonSettings(myDownloadButton);    
     applyButtonSettings(myReadButton);    
 
-    layout->addWidget(myDeleteButton);
     layout->addWidget(myToLibraryButton);
+    layout->addWidget(myDownloadButton);
     layout->addWidget(myReadButton);
 
     layout->setSpacing(1);  

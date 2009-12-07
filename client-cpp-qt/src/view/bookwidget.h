@@ -28,14 +28,14 @@ public:
 //    void mark(int state);
 
 signals:
-    void remove(BookWidget*);
     void toLibrary(BookWidget*);
+    void download(BookWidget*);
     void read(BookWidget*);
 
 private slots:
     void setCover(int requestId);
-    void remove();
     void toLibrary();
+    void download();
     void read();
 
 private: 

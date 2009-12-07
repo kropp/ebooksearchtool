@@ -20,7 +20,7 @@ BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent), myB
     BookActionsButtonBox* buttonGroup = new BookActionsButtonBox(this);
 
 // connect buttons with actions
-    connect(buttonGroup, SIGNAL(remove()), this, SLOT(remove()));
+    connect(buttonGroup, SIGNAL(download()), this, SLOT(download()));
     connect(buttonGroup, SIGNAL(toLibrary()), this, SLOT(toLibrary()));
     connect(buttonGroup, SIGNAL(read()), this, SLOT(read()));
 
@@ -65,12 +65,12 @@ void BookWidget::setCover() {
     myMainLayout->addWidget(coverButton, 0, 0, 3, 1, Qt::AlignLeft);
 }
 
-void BookWidget::remove() {
-    emit remove(this);
-}
-
 void BookWidget::toLibrary() {
     emit toLibrary(this);
+}
+
+void BookWidget::download() {
+    emit download(this);
 }
 
 void BookWidget::read() {
