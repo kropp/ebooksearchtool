@@ -29,10 +29,14 @@ BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent), myB
    // myMainLayout->addWidget(myCheckBox, 0, 0, 3, 1);
     myMainLayout->addWidget(title, 0, 1, Qt::AlignLeft);
     myMainLayout->addWidget(author, 1, 1, Qt::AlignLeft);
-    myMainLayout->addWidget(buttonGroup, 0, 3);
     myMainLayout->addWidget(summary, 2, 1);
+    myMainLayout->addWidget(buttonGroup, 0, 3, Qt::AlignLeft);
     
-    myMainLayout->setSpacing(2);
+    myMainLayout->setColumnStretch(0, 1);
+    myMainLayout->setColumnStretch(1, 7);
+    myMainLayout->setColumnStretch(2, 2);
+
+    myMainLayout->setHorizontalSpacing(0);
     downloadCover();
 //    setBackground(); 
     setLayout(myMainLayout);
@@ -96,6 +100,7 @@ QLabel* BookWidget::makeSummary() {
     QLabel* summaryLabel = new QLabel(summary.prepend(tr("Summary: ")));
     summaryLabel->setTextFormat(Qt::RichText);
     summaryLabel->setWordWrap(true);
+    // TODO еще задать выравнивание строк по ширине
     return summaryLabel;
    // QString begin = summary.left(50);
    // return new MoreLessTextLabel(begin, summary, this);
