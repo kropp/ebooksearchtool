@@ -5,23 +5,18 @@ import org.ebooksearchtool.client.logic.query.*;
 import org.ebooksearchtool.client.logic.parsing.*;
 import org.ebooksearchtool.client.model.Data;
 import org.ebooksearchtool.client.model.Settings;
+import org.ebooksearchtool.client.utils.XMLBuilder;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 
 
-/**
- * Created by IntelliJ IDEA.
- * User: 
- * Date: 01.10.2009
- * Time: 21:29:17
- * To change this template use File | Settings | File Templates.
- */
 public class Controller {
 
     Data myBooks;
     Settings mySettings;
+    int myRequestCount;
 
     public Controller() throws SAXException, ParserConfigurationException, IOException {
 
@@ -33,6 +28,16 @@ public class Controller {
         File books = new File("books");
         books.mkdir();
         
+        myRequestCount = 0;
+        for(;;){
+        	File answer = new File(Integer.toString(myRequestCount)+".xml");
+        	if(answer.exists()){
+        		++myRequestCount;
+        	}else{
+        		answer.delete();
+        		break;
+        	}
+        }
 
         try {
         	mySettings.setServer(getSettingsFromFile().getServer());
@@ -90,19 +95,22 @@ public class Controller {
         pw.close();
     }
     
-    public boolean getBookFile(int bookIndex) throws IOException{
+ /*   public boolean getBookFile(int bookIndex) throws IOException{
     	
     	Connector connect = new Connector(myBooks.getBooks().get(bookIndex).getPdfLink(), mySettings);
     	
     	return connect.getBookFromURL(myBooks.getBooks().get(bookIndex).getTitle() + ".pdf");
     	
-    }
+    }*/
 
     public Data getData(){
         return myBooks;
     }
     
     public void clearModel(){
+    	XMLBuilder builder = new XMLBuilder();
+    	builder.makeXML(myBooks, Integer.toString(myRequestCount)+".xml");
+    	++myRequestCount;
     	myBooks = new Data();		//TODO save model to XML
     }
     

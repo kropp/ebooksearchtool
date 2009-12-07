@@ -1,12 +1,5 @@
 package org.ebooksearchtool.client.model;
 
-/**
- * Created by IntelliJ IDEA.
- * User: �������������
- * Date: 01.10.2009
- * Time: 22:59:55
- * To change this template use File | Settings | File Templates.
- */
 public class Book {
 
     private String myTitle;

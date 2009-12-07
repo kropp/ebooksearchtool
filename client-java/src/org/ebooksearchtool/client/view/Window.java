@@ -378,7 +378,7 @@ public class Window {
             			model.setValue(35);
             			for(int i = lastNumber; i < myController.getData().getBooks().size(); ++i){
             				try {
-								myBookPanels.lastElement().add(new BookPanel(myController.getData().getBooks().get(i), myController.getSettings(), model, myProgressBar));
+								myBookPanels.lastElement().add(new BookPanel(myController.getData().getBooks().get(i), myController.getSettings(), model));
 								model.setValue(model.getValue() + 5);
 								myProgressBar.setString("Viewing book... " + model.getValue() + "%");
             				} catch (IOException e) {

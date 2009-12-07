@@ -28,7 +28,6 @@ public class BookPanel implements Comparable {
 	private Settings mySettings;
 	
 	private DefaultBoundedRangeModel ourModel;
-//	private JProgressBar ourProgressBar;
 	
     private JPanel myRootPanel;
     private JLabel myImageLable;
@@ -46,12 +45,11 @@ public class BookPanel implements Comparable {
     
     private boolean myIsMoreInfoShown = false;
 
-    public BookPanel(Book book, Settings set, DefaultBoundedRangeModel model, JProgressBar bar) throws IOException {
+    public BookPanel(Book book, Settings set, DefaultBoundedRangeModel model) throws IOException {
 
         myBook = book;
         mySettings = set;
         ourModel = model;
-  //      ourProgressBar = bar;
 
         myRootPanel = new JPanel();
         myRootPanel.setLayout(new BoxLayout(myRootPanel ,BoxLayout.X_AXIS));
