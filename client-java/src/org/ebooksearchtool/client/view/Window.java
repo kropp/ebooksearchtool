@@ -21,13 +21,6 @@ import java.util.Arrays;
 import java.util.Vector;
 import java.util.Collections;
 
-/**
- * Created by IntelliJ IDEA.
- * User: �������������
- * Date: 11.10.2009
- * Time: 13:59:33
- * To change this template use File | Settings | File Templates.
- */
 public class Window {
     private JFrame myFrame;
     private JPanel myPanel1 = new JPanel();
@@ -105,18 +98,23 @@ public class Window {
 
         myToolBar = new JToolBar();
         myToolBack = new JButton(new ImageIcon(getClass().getResource("/ico/back_30.gif")));
+        myToolBack.setToolTipText("Back");
         myToolBar.add(myToolBack);
         myToolBack.setEnabled(false);
         myToolForward = new JButton(new ImageIcon(getClass().getResource("/ico/forward_30.gif")));
+        myToolForward.setToolTipText("Forward");
         myToolBar.add(myToolForward);
         myToolForward.setEnabled(false);
         myToolDelete = new JButton(new ImageIcon(getClass().getResource("/ico/delete_30.gif")));
+        myToolDelete.setToolTipText("Delete selected books from list");
         myToolBar.add(myToolDelete);
         myToolDelete.setEnabled(false);
         myToolSort = new JButton(new ImageIcon(getClass().getResource("/ico/sort_30.gif")));
+        myToolSort.setToolTipText("Sort books by title");
         myToolBar.add(myToolSort);
         myToolSort.setEnabled(false);
         myToolLibrary = new JButton(new ImageIcon(getClass().getResource("/ico/library_30.gif")));
+        myToolLibrary.setToolTipText("Library");
         myToolBar.add(myToolLibrary);
         myPanel1.add(myToolBar, "North");
 
@@ -345,7 +343,7 @@ public class Window {
             			model.setValue(5);
             			
             			model.setValue(8);
-            			myProgressBar.setString("Recieving data... 5%");
+            			myProgressBar.setString("Receiving data... 5%");
             			int lastNumber = myController.getData().getBooks().size();
             			String prevPage = myController.getData().getNextPage();
             			try {

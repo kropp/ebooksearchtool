@@ -74,23 +74,28 @@ public class BookPanel implements Comparable {
         myButtonPanel = new JPanel();
         myButtonPanel.setLayout(new FlowLayout());
         myMoreButton = new JButton(new ImageIcon(getClass().getResource("/ico/info_30.gif")));
+        myMoreButton.setToolTipText("Information about book");
         myMoreButton.setPreferredSize(new Dimension(30, 30));
         
         
         myButtonPanel.add(myMoreButton);
         myDelButton = new JButton(new ImageIcon(getClass().getResource("/ico/delete_30.gif")));
+        myDelButton.setToolTipText("Delete book from list");
         myDelButton.setPreferredSize(new Dimension(30, 30));
         myButtonPanel.add(myDelButton);
         myLibButton = new JButton(new ImageIcon(getClass().getResource("/ico/library_30.gif")));
+        myLibButton.setToolTipText("Add to library");
         myLibButton.setPreferredSize(new Dimension(30, 30));
         myButtonPanel.add(myLibButton);
         myDownloadEpubButton = new JButton(new ImageIcon(getClass().getResource("/ico/epub_30.gif")));
+        myDownloadEpubButton.setToolTipText("Download ePub book");
         myDownloadEpubButton.setPreferredSize(new Dimension(30, 30));
         if(myBook.getEpubLink() == null){
         	myDownloadEpubButton.setEnabled(false);
         }
         myButtonPanel.add(myDownloadEpubButton);
         myDownloadPdfButton = new JButton(new ImageIcon(getClass().getResource("/ico/pdf_30.gif")));
+        myDownloadPdfButton.setToolTipText("Download pdf book");
         myDownloadPdfButton.setPreferredSize(new Dimension(30, 30));
         if(myBook.getPdfLink() == null){
         	myDownloadPdfButton.setEnabled(false);
@@ -150,6 +155,7 @@ public class BookPanel implements Comparable {
     				myMoreInfoPanel.add(myGenreLabel);
     			
     				mySummaryArea = new JTextArea(myBook.getSummary());
+    				mySummaryArea.setBackground(myMoreInfoPanel.getBackground());
     				mySummaryArea.setLineWrap(true);
     				mySummaryArea.setAlignmentX(JPanel.LEFT_ALIGNMENT);
     				myMoreInfoPanel.add(mySummaryArea);
