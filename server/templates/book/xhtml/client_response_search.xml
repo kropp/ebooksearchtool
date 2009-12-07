@@ -20,6 +20,13 @@
         Tag "{{ title.tag }}";
     {% endif %}
     </title>
+
+<style type="text/css">
+    
+    img.cover {margin-top: 3px; max-height: 110px;}
+
+</style>
+ 
   
   <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />
   <meta http-equiv="X-UA-Compatible" content="chrome=1" />
@@ -70,25 +77,25 @@
     </div>
 
 {% for book in books %}
-<div align="left">
+
 <hr class="space" />
 
+<div class="span-19 prepend-1 last prepend-top">
+
+<span>
       {% if not book.book_file.all.0.img_link %}
-        <a href="book/id{{ book.id }}"><img alt="{{ book.title }}" class="cover" width="120" height="180" hspace="10" src="/pic/nobookcover" title="{{ book.title }}" /></a>
+        <a href="book/id{{ book.id }}"><img alt="{{ book.title }}" class="cover" align="left" hspace="10" src="/pic/nobookcover" title="{{ book.title }}" /></a>
       {% else %}
-        <a href="book/id{{ book.id }}"><img alt="{{ book.title }}" class="cover" width="120" height="180" hspace="10"  src="{{book.book_file.all.0.img_link}}" title="{{ book.title }}" /></a> 
+        <a href="book/id{{ book.id }}"><img alt="{{ book.title }}" class="cover" align="left" hspace="10"  src="{{book.book_file.all.0.img_link}}" title="{{ book.title }}" /></a> 
       {% endif %}  
 
 
 
-
-
-
-    <div class="float-right small">
+<!--    <div class="float-right small"-->
         {% for tag in book.tag.all %}
             <category term="{{ tag }}"/>
         {% endfor %}
-    </div>
+<!--    </div-->
 
     
     <h3 class="fb-blue small-bottom-margin"><a href="book/id{{ book.id }}">{{ book.title }}</a></h3>
@@ -97,13 +104,15 @@
          <em><a href="author/id{{ author.id }}" class="gray">{{ author.name }}</a></em>
       {% endfor %}
     </h4>    
-    {% for annotation in book.annotation.all %}
-            <annotation> {{ annotation }} </annotation>
-    {% endfor %}
-  </div>
-
+    <br/>
+    {% if not book.annotation.all.0 %}
+         <br/>
+    {% else %}
+        <annotation> {{ book.annotation.all.0 }} </annotation>
+    {% endif %}
+</span>
     
-      
+      </div>
 
 {% endfor %}
 
