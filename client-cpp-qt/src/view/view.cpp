@@ -30,6 +30,7 @@ void View::update() {
         BookWidget* widget = new BookWidget(this, myData->getBook(i));
         myBooks.push_back(widget);
         myBooksLayout->addWidget(widget);
+        qDebug() << "View::update widget added";
     }
     connectWithButtons();
 }

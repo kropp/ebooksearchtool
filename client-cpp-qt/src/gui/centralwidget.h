@@ -8,6 +8,7 @@ class QBuffer;
 class NetworkManager;
 class SearchWidget;
 class QProgressBar;
+class QScrollArea;
 
 class CentralWidget : public QWidget {
     
@@ -40,9 +41,10 @@ private:
    
     Data* myData;
 	View* myView;
-    
-    QProgressBar* myProgressBar;
+    QScrollArea* myScrollArea;
 
+    QProgressBar* myProgressBar;
+    
 friend class MainWindow;
 };
 

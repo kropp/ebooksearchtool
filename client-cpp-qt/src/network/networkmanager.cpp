@@ -38,6 +38,7 @@ QString NetworkManager::getServer() const {
 }
 
 int NetworkManager::download(QString url, QIODevice* out, QProgressBar* progressBar)  {
+    //progressBar->show();
     return download(url, out); 
 }
 
