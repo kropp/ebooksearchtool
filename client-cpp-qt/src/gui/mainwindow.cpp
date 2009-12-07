@@ -38,10 +38,10 @@ void MainWindow::createActions() {
     myFullScreenAction = new QAction(tr("Full screen"), this);
     
     myBackAction = new QAction(tr("Back"), this);
-    myBackAction->setIcon(QIcon("view/images/back.png"));
+//    myBackAction->setIcon(QIcon("view/images/back.png"));
 
     myStopAction = new QAction(tr("Stop"), this);
-    myStopAction->setIcon(QIcon("view/images/stop.jpeg"));
+  //  myStopAction->setIcon(QIcon("view/images/stop.jpeg"));
 }
 
 void MainWindow::createMenu() {
@@ -61,8 +61,8 @@ void MainWindow::createMenu() {
 
 void MainWindow::createToolBar() {
     QToolBar* viewToolBar = addToolBar(tr("View"));
-    viewToolBar->addAction(myBackAction);
-    viewToolBar->addAction(myStopAction);
+   // viewToolBar->addAction(myBackAction);
+   // viewToolBar->addAction(myStopAction);
     viewToolBar->addWidget(mySearchWidget);
 }
 

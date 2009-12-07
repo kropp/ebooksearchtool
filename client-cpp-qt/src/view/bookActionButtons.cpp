@@ -11,18 +11,17 @@ BookActionsButtonBox::BookActionsButtonBox(QWidget* parent) : QGroupBox(parent) 
 }
 
 void BookActionsButtonBox::createButtons(QHBoxLayout* layout) {
-    QIcon* deleteIcon = new QIcon("view/images/delete.jpeg");
+    QIcon* deleteIcon = new QIcon("view/images/book_delete.png");
     myDeleteButton = new QPushButton(*deleteIcon, "");
     myDeleteButton->setToolTip("delete");
 
-    QIcon* toLibraryIcon = new QIcon("view/images/tolibrary.jpeg");
+    QIcon* toLibraryIcon = new QIcon("view/images/book_add.png");
     myToLibraryButton = new QPushButton(*toLibraryIcon, " ");
     myToLibraryButton->setToolTip("add to library");
 
-    QIcon* readIcon = new QIcon("view/images/read.jpeg");
+    QIcon* readIcon = new QIcon("view/images/book_open.png");
     myReadButton = new QPushButton(*readIcon, " ");
     myReadButton->setToolTip("read");
-
 
     applyButtonSettings(myToLibraryButton);    
     applyButtonSettings(myDeleteButton);    
@@ -37,7 +36,7 @@ void BookActionsButtonBox::createButtons(QHBoxLayout* layout) {
 
 void BookActionsButtonBox::applyButtonSettings(QPushButton* button) const {
     button->resize(button->iconSize());
-    button->setIconSize(QSize(50, 50));
-    button->setFixedSize(QSize(60, 60));
+    button->setIconSize(QSize(30, 30));
+    button->setFixedSize(QSize(30, 30));
     button->setFlat(true);
 }
