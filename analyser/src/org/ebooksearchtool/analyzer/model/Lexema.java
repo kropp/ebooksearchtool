@@ -6,7 +6,7 @@ package org.ebooksearchtool.analyzer.model;
 
 import org.ebooksearchtool.analyzer.utils.*;
 import java.util.ArrayList;
-import org.ebooksearchtool.analyzer.utils.SpecialWords.*;
+import org.ebooksearchtool.analyzer.model.SpecialWords.*;
 
 public class Lexema {
 

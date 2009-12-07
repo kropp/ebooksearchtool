@@ -4,7 +4,7 @@ import org.ebooksearchtool.analyzer.algorithms.subalgorithms.*;
 import org.ebooksearchtool.analyzer.model.Lexema;
 import java.util.ArrayList;
 import org.ebooksearchtool.analyzer.model.*;
-import org.ebooksearchtool.analyzer.utils.SpecialWords.*;
+import org.ebooksearchtool.analyzer.model.SpecialWords.*;
 
 /**
  * @author Alekset Podolskiy

@@ -1,5 +1,6 @@
 package org.ebooksearchtool.analyzer.network;
 
+import java.util.logging.Level;
 import org.ebooksearchtool.analyzer.network.demon.DemonThread;
 import org.ebooksearchtool.analyzer.utils.NetUtils;
 import java.io.*;
@@ -20,6 +21,7 @@ public class CrawlerConnector extends Thread{
     private List<AnalyzerThread> myThreads = null;
     private BufferedReader myBR = null;
     private BufferedWriter myBW = null;
+    private final Object myLock;
 
     public CrawlerConnector(ServerSocket sSocket){
         myServerSocket = sSocket;
@@ -30,6 +32,7 @@ public class CrawlerConnector extends Thread{
         for (int i = 0; i < AnalyzerProperties.getPropertieAsNumber("number_of_threads"); i++) {
             myThreads.get(i).start();
         }
+        myLock = new Object();
     }
 
     @Override
@@ -80,16 +83,28 @@ public class CrawlerConnector extends Thread{
     }
 
     private void establishConnection(){
-        try {
-            mySocket = myServerSocket.accept();
-            myBR = new BufferedReader(new InputStreamReader(mySocket.getInputStream()));
-            myBW = new BufferedWriter(new OutputStreamWriter(mySocket.getOutputStream()));
-            System.out.println("Crawler connected on:");
-            System.out.println(mySocket.getInetAddress().toString() + ":" + mySocket.getPort());
-            System.out.println();
-            Logger.setToLog("Crawler connected on: " + mySocket.getInetAddress().toString() + ":" + mySocket.getPort());
-        } catch (IOException ex) {
-            Logger.setToErrorLog(ex.getMessage() + ". Can't use CrawlerConnector. Chek connection.");
+        boolean isConnected = false;
+        while(!isConnected){
+            synchronized(myLock){
+                try {
+                    myLock.wait(AnalyzerProperties.getPropertieAsNumber("crawler_timeout"));
+                    try {
+                        mySocket = myServerSocket.accept();
+                        myBR = new BufferedReader(new InputStreamReader(mySocket.getInputStream()));
+                        myBW = new BufferedWriter(new OutputStreamWriter(mySocket.getOutputStream()));
+                        System.out.println("Crawler connected on:");
+                        System.out.println(mySocket.getInetAddress().toString() + ":" + mySocket.getPort());
+                        System.out.println();
+                        Logger.setToLog("Crawler connected on: " + mySocket.getInetAddress().toString() + ":" + mySocket.getPort());
+                        isConnected = true;
+                    } catch (IOException ex) {
+                        Logger.setToErrorLog(ex.getMessage() + ". Can't use CrawlerConnector. Chek connection." +
+                                "Connector will try reconnect.");
+                    }
+                } catch (InterruptedException ex) {
+                    Logger.setToErrorLog(ex.getMessage() + ". CarwlerConnector was interrupted.");
+                }
+            }
         }
     }
 }

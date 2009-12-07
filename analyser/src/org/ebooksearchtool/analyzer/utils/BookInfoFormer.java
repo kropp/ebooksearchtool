@@ -52,8 +52,12 @@ public class BookInfoFormer {
             StringBuilder message = new StringBuilder();
             message.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
             message.append(AnalyzerProperties.getPropertie("system_separator"));
+            message.append("<root>");
+            message.append(AnalyzerProperties.getPropertie("system_separator"));
             message.append("<who_are_you>");
             message.append("</who_are_you>");
+            message.append(AnalyzerProperties.getPropertie("system_separator"));
+            message.append("</root>");
             message.append(AnalyzerProperties.getPropertie("system_separator"));
             return "xml=" + URLEncoder.encode(message.toString(), "UTF-8");
         } catch (UnsupportedEncodingException ex) {

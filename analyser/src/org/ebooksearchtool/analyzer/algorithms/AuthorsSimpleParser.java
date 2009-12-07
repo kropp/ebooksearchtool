@@ -3,7 +3,7 @@ package org.ebooksearchtool.analyzer.algorithms;
 import org.ebooksearchtool.analyzer.model.Lexema;
 import java.util.ArrayList;
 import org.ebooksearchtool.analyzer.model.Author;
-import org.ebooksearchtool.analyzer.utils.SpecialWords.*;
+import org.ebooksearchtool.analyzer.model.SpecialWords.*;
 
 /**
  * @author Aleksey Podolskiy

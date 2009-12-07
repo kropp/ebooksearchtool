@@ -22,6 +22,7 @@ public class AnalyzerProperties{
         ourProperties.put("server_address", "localhost");
         ourProperties.put("server_port", "8000");
         ourProperties.put("crawler_port", "9999");
+        ourProperties.put("crawler_timeout", "10000");
         ourProperties.put("server_timeout", "1000");
         ourProperties.put("languages_list", "languages.lang");
         ourProperties.put("demon_is_enable", "false");

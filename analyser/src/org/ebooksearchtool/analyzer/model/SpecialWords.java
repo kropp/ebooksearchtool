@@ -1,4 +1,4 @@
-package org.ebooksearchtool.analyzer.utils;
+package org.ebooksearchtool.analyzer.model;
 
 import java.util.HashSet;
 
