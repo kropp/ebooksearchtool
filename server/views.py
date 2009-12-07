@@ -50,34 +50,38 @@ def search_request_to_server(request, response_type, is_all):
     try:
     # search in title
         title = request.GET['title']
-        request_to_server = request_to_server & Q(title__icontains=title)
-        main_title['tit'] = title
+        if title != '':
+            request_to_server = request_to_server & Q(title__icontains=title)
+            main_title['tit'] = title
     except KeyError:
         title = None        
 
     try:
     # search in author.name, alias
         author = request.GET['author']
-        request_to_server = request_to_server\
+        if author != '':
+            request_to_server = request_to_server\
                           & (Q(author__name__icontains=author) \
                           | Q(author__alias__name__icontains=author))
-        main_title['author'] = author
+            main_title['author'] = author
     except KeyError:
         author = None    
         
     try:
     # search in lang
         lang = request.GET['lang']
-        request_to_server = request_to_server & Q(lang=lang)
-        main_title['lang'] = lang
+        if lang != '':
+            request_to_server = request_to_server & Q(lang=lang)
+            main_title['lang'] = lang
     except KeyError:
         lang = None   
 
     try:
     # search in tag
         tag = request.GET['tag']
-        request_to_server = request_to_server & Q(tag__name=tag)
-        main_title['tag'] = tag
+        if tag != '':
+            request_to_server = request_to_server & Q(tag__name__icontains=tag)
+            main_title['tag'] = tag
     except KeyError:
         tag = None          
 
@@ -205,4 +209,6 @@ def no_book_cover(request):
     image_data = open("pic/no_cover.gif", "rb").read()
     return HttpResponse(image_data, mimetype="image/png")
 
-                    
+def extended_search(request):
+    """ extended search """
+    return render_to_response('book/xhtml/extended_search.xml')
