@@ -64,5 +64,12 @@ public class NetUtils {
 
    public static long getContentLength(String str){
         return str.length() + 4;
+   }
+
+   public static boolean serverAnswersAnalyze(String message){
+       if(message.indexOf("<status>ok") != -1){
+           return true;
+       }
+       return false;
     }
 }

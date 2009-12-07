@@ -8,6 +8,7 @@ import java.net.URL;
 import java.net.URLDecoder;
 import org.ebooksearchtool.analyzer.io.Logger;
 import org.ebooksearchtool.analyzer.utils.AnalyzerProperties;
+import org.ebooksearchtool.analyzer.utils.BookInfoFormer;
 
 /**
  * @author Алексей
@@ -37,10 +38,21 @@ public class ServerConnector extends Thread{
             myConnection.setDoInput(true);
             myConnection.setDoOutput(true);
 
+            //TODO:Доделать после поддержки сервером
+            //Server Timeout connection
             System.out.println("Server connected on:");
             System.out.println(myInsertURL);
             System.out.println("");
             Logger.setToLog("Server connected on: " + myInsertURL);
+//            while(!isConnectionEstablished()){
+//                synchronized(myLock){
+//                    try {
+//                        myLock.wait(AnalyzerProperties.getPropertieAsNumber("serverConnectionTimeout"));
+//                    } catch (InterruptedException ex) {
+//                        Logger.setToErrorLog(ex.getMessage() + ". ServerConnector thread was interrupted.");
+//                    }
+//                }
+//            }
 
             while(true){
                 synchronized(myLock){
@@ -79,5 +91,19 @@ public class ServerConnector extends Thread{
         }
 
         return message;
+    }
+
+    private boolean isConnectionEstablished(){
+        String message = ServerConnector.sendRequest
+                                (BookInfoFormer.initRequest(), ServerConnector.INSERT_REQUEST);
+
+        if(NetUtils.serverAnswersAnalyze(message)){
+            System.out.println("Server connected on:");
+            System.out.println(myInsertURL);
+            System.out.println("");
+            Logger.setToLog("Server connected on: " + myInsertURL);
+            return true;
+        }
+        return false;
     }
 }

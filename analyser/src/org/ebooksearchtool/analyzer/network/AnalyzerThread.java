@@ -10,6 +10,7 @@ import org.ebooksearchtool.analyzer.model.File;
 import org.ebooksearchtool.analyzer.utils.BookInfoFormer;
 import org.ebooksearchtool.analyzer.utils.AnalyzeUtils;
 import org.ebooksearchtool.analyzer.utils.AnalyzerProperties;
+import org.ebooksearchtool.analyzer.utils.NetUtils;
 
 /**
  * @author Алексей
@@ -40,22 +41,23 @@ public class AnalyzerThread extends Thread {
                     if(!info.getTitle().equals("")){
                         String message = ServerConnector.sendRequest
                                 (BookInfoFormer.formBookInfo(info), ServerConnector.INSERT_REQUEST);
-                        if(serverAnswersAnalyze(message)){
+                        if(NetUtils.serverAnswersAnalyze(message)){
                             Logger.setToLog("Book Information succsesfully sent to server:" +
-                                    AnalyzerProperties.getPropertie("systemSeparator") +
+                                    AnalyzerProperties.getPropertie("system_separator") +
                                     AnalyzeUtils.bookInfoToString(info) +
-                                    AnalyzerProperties.getPropertie("systemSeparator") +
+                                    AnalyzerProperties.getPropertie("system_separator") +
                                     "Server answer is: " +
-                                    AnalyzerProperties.getPropertie("systemSeparator") +
+                                    AnalyzerProperties.getPropertie("system_separator") +
                                     message);
                         }else{
                             Logger.setToLog("Book Information don't sent to server:" +
-                                    AnalyzerProperties.getPropertie("systemSeparator"));
+                                    AnalyzerProperties.getPropertie("system_separator") +
+                                    message);
                         }
                         System.out.println(message);
                     }else{
                         Logger.setToLog("Book Information can't be sent to server(Unknown title):" +
-                                AnalyzerProperties.getPropertie("systemSeparator") + AnalyzeUtils.bookInfoToString(info));
+                                AnalyzerProperties.getPropertie("system_separator") + AnalyzeUtils.bookInfoToString(info));
                     }
                     myMessage = "";
                 } catch (InterruptedException ex) {
@@ -100,12 +102,5 @@ public class AnalyzerThread extends Thread {
        for (int i = 0; i < length; i++) {
            System.out.println(annotations.get(i));
        }
-    }
-
-    private boolean serverAnswersAnalyze(String message){
-       if(message.indexOf("<status>ok") != -1){
-           return true;
-       }
-       return false;
     }
 }

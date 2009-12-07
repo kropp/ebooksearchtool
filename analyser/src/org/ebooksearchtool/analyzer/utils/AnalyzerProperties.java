@@ -15,7 +15,7 @@ public class AnalyzerProperties{
         ourProperties = new HashMap<String, String>();
         ourProperties.put("numberOfAnalyzerThreads", "10");
         ourProperties.put("logDirectoryName", "log");
-        ourProperties.put("systemSeparator", System.getProperty("line.separator"));
+        ourProperties.put("system_separator", System.getProperty("line.separator"));
         ourProperties.put("file_separator", System.getProperty("file.separator"));
         ourProperties.put("demonRepeatConditionsChekTime", "3600000");
         ourProperties.put("demonHourWhenRefresh", "15");

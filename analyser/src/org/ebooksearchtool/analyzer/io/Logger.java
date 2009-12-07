@@ -21,10 +21,10 @@ public class Logger {
                 long length = log.length();
                 log.readFully(new byte[(int)length]);
                 log.writeBytes(getCurrentTime());
-                log.writeBytes(AnalyzerProperties.getPropertie("systemSeparator"));
+                log.writeBytes(AnalyzerProperties.getPropertie("system_separator"));
                 log.writeBytes(message);
-                log.writeBytes(AnalyzerProperties.getPropertie("systemSeparator"));
-                log.writeBytes(AnalyzerProperties.getPropertie("systemSeparator"));
+                log.writeBytes(AnalyzerProperties.getPropertie("system_separator"));
+                log.writeBytes(AnalyzerProperties.getPropertie("system_separator"));
                 } catch (IOException ex) {
                     System.out.print(ex.toString());
                 }finally{
@@ -44,10 +44,10 @@ public class Logger {
                 long length = log.length();
                 log.readFully(new byte[(int)length]);
                 log.writeBytes(getCurrentTime());
-                log.writeBytes(AnalyzerProperties.getPropertie("systemSeparator"));
+                log.writeBytes(AnalyzerProperties.getPropertie("system_separator"));
                 log.writeBytes(message);
-                log.writeBytes(AnalyzerProperties.getPropertie("systemSeparator"));
-                log.writeBytes(AnalyzerProperties.getPropertie("systemSeparator"));
+                log.writeBytes(AnalyzerProperties.getPropertie("system_separator"));
+                log.writeBytes(AnalyzerProperties.getPropertie("system_separator"));
                 } catch (IOException ex) {
                     System.out.print(ex.toString());
                 }finally{

@@ -2,6 +2,7 @@ package org.ebooksearchtool.analyzer.utils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.logging.Level;
 import org.ebooksearchtool.analyzer.io.Logger;
 import org.ebooksearchtool.analyzer.model.BookInfo;
 
@@ -39,6 +40,22 @@ public class BookInfoFormer {
     private static String encodeSpecialSymbols(String message){
         try {
             return "xml=" + URLEncoder.encode(message, "UTF-8");
+        } catch (UnsupportedEncodingException ex) {
+            Logger.setToErrorLog(ex.getMessage() + ". Try to encode into unsupported" +
+                    "encoding in " + BookInfoFormer.class.getName() +" class.");
+        }
+        return null;
+    }
+
+    public static String initRequest(){
+        try {
+            StringBuilder message = new StringBuilder();
+            message.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+            message.append(AnalyzerProperties.getPropertie("system_separator"));
+            message.append("<who_are_you>");
+            message.append("</who_are_you>");
+            message.append(AnalyzerProperties.getPropertie("system_separator"));
+            return "xml=" + URLEncoder.encode(message.toString(), "UTF-8");
         } catch (UnsupportedEncodingException ex) {
             Logger.setToErrorLog(ex.getMessage() + ". Try to encode into unsupported" +
                     "encoding in " + BookInfoFormer.class.getName() +" class.");
