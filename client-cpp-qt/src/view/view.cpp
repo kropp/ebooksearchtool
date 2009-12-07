@@ -5,6 +5,7 @@
 #include <QFile>
 #include <QProcess>
 #include <QSettings>
+#include <QFileDialog>
 
 #include <QDebug>
 
@@ -59,7 +60,7 @@ void View::clear() {
 void View::connectWithButtons() const {
     size_t size = myBooks.size();
     for (size_t i = 0; i < size; ++i) {
-       // connect(myBooks[i], SIGNAL(remove(BookWidget*)), this, SLOT(remove(BookWidget*)));
+        connect(myBooks[i], SIGNAL(download(BookWidget*)), this, SLOT(download(BookWidget*)));
         connect(myBooks[i], SIGNAL(read(BookWidget*)), this, SLOT(downloadBook(BookWidget*)));
    }
 }
@@ -91,10 +92,11 @@ void View::read() {
 }
 
 void View::download(BookWidget* widget) {
-     QString *fileName = new QString(QFileDialog::getSaveFileName(this, tr("Download book"), tr(""), tr("Checkers Files (*.pdf)")));
+     qDebug() << "View slot download book";
+     QString fileName(QFileDialog::getSaveFileName(this, tr("Download book"), tr(""), tr("Checkers Files (*.pdf)")));
      // указывать формат, считанный из настроек
-     if (!fileName->isEmpty()) {
-        downloadBook(widget);     
+     if (!fileName.isEmpty()) {
+        downloadBook(widget, fileName);     
      }
 }
 

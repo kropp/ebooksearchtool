@@ -40,7 +40,7 @@ BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent), myB
     myMainLayout->setRowStretch(1, 1);
     myMainLayout->setRowStretch(2, 3);
 
-    myMainLayout->setHorizontalSpacing(0);
+    //myMainLayout->setHorizontalSpacing(2);
     downloadCover();
 //    setBackground(); 
     setLayout(myMainLayout);

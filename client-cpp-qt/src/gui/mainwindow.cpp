@@ -24,7 +24,7 @@ MainWindow::MainWindow() {
 
     mySearchWidget->setFocus();
     setWindowTitle("ebooksearchtool");
-	showMaximized();
+//	showMaximized();
 	// set header
 }
 

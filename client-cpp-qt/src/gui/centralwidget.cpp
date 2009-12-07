@@ -9,9 +9,9 @@
 CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myBuffer(0), myData(0) {
     myNewRequest = true;
     myView = new View(this, 0);
-    myScrollArea = new QScrollArea(this);
-    myScrollArea->setWidget(myView);
-    myView->show();
+//    myScrollArea = new QScrollArea(this);
+ //   myScrollArea->setWidget(myView);
+  //  myView->show();
     
     createProgressBar();
     myNetworkManager = NetworkManager::getInstance(); 
@@ -21,7 +21,7 @@ CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myBuffer(0), my
 	//connect(myView, SIGNAL(urlRequest(const QString&)), this, SLOT(downloadFile(const QString&)));
 
 	QVBoxLayout *mainLayout = new QVBoxLayout();
-	mainLayout->addWidget(myScrollArea);
+	mainLayout->addWidget(myView);
 	setLayout(mainLayout);
 }
 
@@ -85,7 +85,7 @@ void CentralWidget::parseDownloadedFile() {
     parser.parse(myBuffer, myView->getData());
     myBuffer->close();
     myView->update();	
-    myScrollArea->update();
+    //myScrollArea->update();
    // const QString* url = parser.getNextAtomPage();
     //if (url) {
      //   myNewRequest = false;
