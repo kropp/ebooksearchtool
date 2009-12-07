@@ -47,12 +47,13 @@ void View::clear() {
    // myBooks.clear();
 }
 
-void View::markAllBooks(int state) {
+/*void View::markAllBooks(int state) {
     const size_t size = myBooks.size();
 	for (size_t i = 0; i < size; ++i) {
-	    myBooks[i]->mark(state);	
+	    //myBooks[i]->mark(state);	
 	}
 }
+*/
 
 void View::connectWithButtons() const {
     size_t size = myBooks.size();
@@ -112,7 +113,7 @@ void View::downloadBook(BookWidget* widget) {
     myRequestId = connection->download(link, myFile);
 }
 
-void View::removeChecked() {
+/*void View::removeChecked() {
     for (int i = 0; i < myBooks.size(); ++i) {
         if (myBooks[i]->isMarked()) {
             remove(myBooks[i]);
@@ -120,3 +121,4 @@ void View::removeChecked() {
         }
     }
 }
+*/

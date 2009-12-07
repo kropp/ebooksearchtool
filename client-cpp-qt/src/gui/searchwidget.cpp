@@ -12,6 +12,7 @@ SearchWidget::SearchWidget(QWidget* parent) : QWidget(parent) {
     createPushButton();
     setWidgets();
     setMaximumWidth(175);
+//    setFrame(true);
 
     connect(myPushButton, SIGNAL(clicked()), this, SLOT(emitSearch()));
 }
@@ -22,6 +23,7 @@ SearchWidget::SearchWidget(QWidget* parent) : QWidget(parent) {
 
 void SearchWidget::createLineEdit() {
     myLineEdit = new QLineEdit(this);
+    myLineEdit->setFrame(false);
     //TODO don't set concrete size!!
     myLineEdit->setMaximumWidth(150);
 }
@@ -29,8 +31,8 @@ void SearchWidget::createLineEdit() {
 void SearchWidget::createPushButton() {
 	myPushButton = new QPushButton(QIcon("view/images/search.gif"), tr(""), this);
 //    myLineEdit->setBuddy(myPushButton);
-    myPushButton->setIconSize(QSize(20, 20));
-    myPushButton->setFixedSize(QSize(20, 20));
+    myPushButton->setIconSize(QSize(18, 18));
+    myPushButton->setFixedSize(QSize(18, 18));
     myPushButton->setFlat(true);
     //for being default search button need to have a focus
     myPushButton->setDefault(true);
@@ -41,7 +43,7 @@ void SearchWidget::setWidgets() {
 //    mainLayout->addWidget(myComboBox);
     mainLayout->addWidget(myLineEdit);
     mainLayout->addWidget(myPushButton);
-//    mainLayout->setSpacing(1);
+    mainLayout->setSpacing(1);
  //   mainLayout->setMargin(1);
     setLayout(mainLayout);
 }

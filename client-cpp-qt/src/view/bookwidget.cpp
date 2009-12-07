@@ -1,18 +1,17 @@
 #include <QtGui>
+#include <QFile>
+#include <QPicture>
 
 #include "bookwidget.h"
 #include "../data/book_author.h"
 #include "bookActionButtons.h"
-
-#include <QFile>
-#include <QPicture>
 
 
 //#include <QDebug>
 
 BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent), myBook(book) {
 // create all content
-    myCheckBox = new QCheckBox();
+    //myCheckBox = new QCheckBox();
     QLabel* title = new QLabel(myBook->getTitle().c_str());
     QLabel* author = new QLabel(myBook->getAuthor()->getName().c_str());
     MoreLessTextLabel* summary = makeSummary();
@@ -25,11 +24,11 @@ BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent), myB
 
 // set all content
     myMainLayout = new QGridLayout();
-    myMainLayout->addWidget(myCheckBox, 0, 0, 3, 1);
-    myMainLayout->addWidget(title, 0, 2, Qt::AlignLeft);
-    myMainLayout->addWidget(author, 1, 2, Qt::AlignLeft);
-    myMainLayout->addWidget(buttonGroup, 0, 3);
-    myMainLayout->addWidget(summary, 2, 1, 1, 4);
+   // myMainLayout->addWidget(myCheckBox, 0, 0, 3, 1);
+    myMainLayout->addWidget(title, 0, 1, Qt::AlignLeft);
+    myMainLayout->addWidget(author, 1, 1, Qt::AlignLeft);
+    myMainLayout->addWidget(buttonGroup, 0, 2);
+    myMainLayout->addWidget(summary, 2, 0, 1, 4);
  
     downloadCover();
 //    setBackground(); 
@@ -61,7 +60,7 @@ void BookWidget::setCover() {
     coverButton->setFixedSize(QSize(60, 100));
     coverButton->setFlat(true);
 
-    myMainLayout->addWidget(coverButton, 0, 1, 2, 1, Qt::AlignLeft);
+    myMainLayout->addWidget(coverButton, 0, 0, 2, 1, Qt::AlignLeft);
 }
 
 void BookWidget::remove() {
@@ -76,10 +75,10 @@ void BookWidget::read() {
     emit read(this);
 }
 
-void BookWidget::mark(int state) {
+/*void BookWidget::mark(int state) {
     myCheckBox->setCheckState((Qt::CheckState)state);
 }
-
+*/
 void BookWidget::downloadCover() {
     const QString coverLink = QString::fromStdString(myBook->getCoverLink());
     QString fileName = coverLink.right(coverLink.size() - coverLink.lastIndexOf('/') - 1);

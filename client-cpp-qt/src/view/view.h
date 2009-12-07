@@ -38,12 +38,12 @@ private:
     void connectWithButtons() const;
 
 private slots:
-    void markAllBooks(int);
+//    void markAllBooks(int);
     void remove(BookWidget*);
     void toLibrary(BookWidget*);
     void read(int requestId);
     void read();
-    void removeChecked();
+  //  void removeChecked();
     void downloadBook(BookWidget*);    
 
 private:

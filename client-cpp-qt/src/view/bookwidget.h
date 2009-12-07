@@ -10,7 +10,6 @@
 
 class QLabel;
 class Book;
-class HttpConnection;
 class QFile;
 class QImage;
 class QPushButton;
@@ -24,9 +23,9 @@ public:
     BookWidget(QWidget* parent, const Book* book);
 
     const Book& getBook() const;
-    bool isMarked() const;
+//    bool isMarked() const;
 
-    void mark(int state);
+//    void mark(int state);
 
 signals:
     void remove(BookWidget*);
@@ -49,7 +48,7 @@ private:
     const Book* myBook;
     
     QGridLayout* myMainLayout;
-    QCheckBox* myCheckBox;
+  //  QCheckBox* myCheckBox;
     QFile* myCoverFile;    
     
     int myRequestId;
@@ -59,8 +58,9 @@ inline const Book& BookWidget::getBook() const {
 	return *myBook;
 }
 
-inline bool BookWidget::isMarked() const {
+/*inline bool BookWidget::isMarked() const {
     return myCheckBox->checkState();
 }
+*/
 
 #endif //_BOOK_WIDGET_H_
