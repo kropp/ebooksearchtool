@@ -39,7 +39,7 @@ private:
 
 private slots:
 //    void markAllBooks(int);
-   // void remove(BookWidget*);
+    void download(BookWidget*);
     void toLibrary(BookWidget*);
     void read(int requestId);
     void read();

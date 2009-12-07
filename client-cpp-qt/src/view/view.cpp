@@ -90,16 +90,29 @@ void View::read() {
     process->start(myReader, QStringList(myFile->fileName()));
 }
 
+void View::download(BookWidget* widget) {
+     QString *fileName = new QString(QFileDialog::getSaveFileName(this, tr("Download book"), tr(""), tr("Checkers Files (*.pdf)")));
+     // указывать формат, считанный из настроек
+     if (!fileName->isEmpty()) {
+        downloadBook(widget);     
+     }
+}
+
 void View::readSettings() {
     QSettings settings(ourConfigFilePath, QSettings::IniFormat);
     myReader = settings.value("view/reader").toString();
 }
 
-void View::downloadBook(BookWidget* widget) {
+void View::downloadBook(BookWidget* widget, const QString& name) {
     const Book& book = widget->getBook();
     QString link = QString::fromStdString(book.getLink());
-    QString fileName = link.right(link.size() - link.lastIndexOf('/') - 1);
-    
+    QString fileName;
+    if (!name.isEmpty()) {
+        fileName = name;
+    } else {
+        fileName = link.right(link.size() - link.lastIndexOf('/') - 1);
+    }
+   // qDebug() <<
     // если файл с таким именем уже существует, то надо читать его
     if (QFile::exists(fileName)) {
         myFile = new QFile(fileName);
