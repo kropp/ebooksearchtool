@@ -13,36 +13,42 @@ from book.models import Book
 
 class OpenTestCase(TestCase):
     def test_opensearch(self):
+        """ tests opensearch response"""        
         client = Client()
         response = client.get('/opensearch/')
         print 'status code for open search', response.status_code
         self.failUnlessEqual(response.status_code, 200)
         
     def test_all_books_xhtml(self):
+        """ tests all books in xhtml"""        
         client = Client()
         response = client.get('/all/')
         print 'status code for all books', response.status_code
         self.failUnlessEqual(response.status_code, 200)   
 
     def test_all_books_opds(self):
+        """ tests all books in opds"""    
         client = Client()
         response = client.get('/all.atom/')
         print 'status code for all books in opds', response.status_code
         self.failUnlessEqual(response.status_code, 200)         
 
     def test_catalog_xhtml(self):
+        """ tests catalog response in xhtml"""
         client = Client()
         response = client.get('/catalog/')
         print 'status code for catalog', response.status_code
         self.failUnlessEqual(response.status_code, 200)    
         
     def test_catalog_opds(self):
+        """ tests catalog response in opds"""
         client = Client()
         response = client.get('/catalog.atom/')
         print 'status code for catalog in opds', response.status_code
         self.failUnlessEqual(response.status_code, 200)   
         
     def test_author(self):
+        """ tests author response"""
         client = Client()
         author = Author(name="Author")
         author.save()
@@ -65,6 +71,7 @@ class OpenTestCase(TestCase):
         self.failUnlessEqual(response.status_code, 404)                          
 
     def test_book(self):
+        """ tests book response"""
         client = Client()
         book = Book(title="Book")
         book.save()
@@ -87,6 +94,7 @@ class OpenTestCase(TestCase):
         self.failUnlessEqual(response.status_code, 404)                   
         
     def test_search(self):
+        """ tests search response"""
         client = Client()
         book = Book(title="Book")
         book.save()
@@ -100,8 +108,28 @@ class OpenTestCase(TestCase):
         self.failUnlessEqual(response.status_code, 200)
         
     def test_empty_search(self):
+        """ tests empty search request"""
         client = Client()        
         response = client.get('/search')        
         expected_response = open("./tests/expected_response/empty_search.xml", "rb").read()
         self.failUnlessEqual(response.content, expected_response)
 
+    def test_discover(self):
+        """ tests links from catalog"""
+        client = Client()
+        response = client.get('/discover/authors')
+        print 'status code for authors', response.status_code
+        self.failUnlessEqual(response.status_code, 200)
+
+        response = client.get('/discover/search')        
+        print 'status code for search', response.status_code
+        self.failUnlessEqual(response.status_code, 200)
+        
+        response = client.get('/discover/languages')        
+        print 'status code for languages', response.status_code
+        self.failUnlessEqual(response.status_code, 200)        
+        
+        response = client.get('/discover/subjects')        
+        print 'status code for tags', response.status_code
+        self.failUnlessEqual(response.status_code, 200)        
+        
