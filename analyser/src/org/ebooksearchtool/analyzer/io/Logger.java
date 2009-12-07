@@ -82,15 +82,13 @@ public class Logger {
 
     private static String getErrorLogPath(){
         return AnalyzerProperties.getPropertie("logDirectoryName") +
-                AnalyzerProperties.getPropertie("file.separator") +
-                AnalyzerProperties.getPropertie("file.separator") +
+                AnalyzerProperties.getPropertie("file_separator") +
                 "errorlog" + getCurrentDate() + ".txt";
     }
 
     private static String getLogPath(){
         return AnalyzerProperties.getPropertie("logDirectoryName") +
-                AnalyzerProperties.getPropertie("file.separator") +
-                AnalyzerProperties.getPropertie("file.separator") +
+                AnalyzerProperties.getPropertie("file_separator") +
                 "log" + getCurrentDate() + ".txt";
     }
 

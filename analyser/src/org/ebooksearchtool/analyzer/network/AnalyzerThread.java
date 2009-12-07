@@ -103,7 +103,7 @@ public class AnalyzerThread extends Thread {
     }
 
     private boolean serverAnswersAnalyze(String message){
-       if(message.indexOf("<status>ok") != 0){
+       if(message.indexOf("<status>ok") != -1){
            return true;
        }
        return false;

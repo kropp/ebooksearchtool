@@ -111,22 +111,22 @@ public class AnalyzeUtils {
         return lang;
     }
 
-    public static boolean isNumber(char ch){
-        switch(ch){
-            case '0':{return true;}
-            case '1':{return true;}
-            case '2':{return true;}
-            case '3':{return true;}
-            case '4':{return true;}
-            case '5':{return true;}
-            case '6':{return true;}
-            case '7':{return true;}
-            case '8':{return true;}
-            case '9':{return true;}
-            default :{return false;}
-        }
-    }
     //</editor-fold>
+//    public static boolean isNumber(char ch){
+//        switch(ch){
+//            case '0':{return true;}
+//            case '1':{return true;}
+//            case '2':{return true;}
+//            case '3':{return true;}
+//            case '4':{return true;}
+//            case '5':{return true;}
+//            case '6':{return true;}
+//            case '7':{return true;}
+//            case '8':{return true;}
+//            case '9':{return true;}
+//            default :{return false;}
+//        }
+//    }
 
     public static String bookInfoToString(BookInfo info){
        StringBuilder sb = new StringBuilder();
@@ -151,7 +151,7 @@ public class AnalyzeUtils {
        return sb.toString();
    }
 
-//    // <editor-fold defaultstate="collapsed" desc="Author utils">
+    //    // <editor-fold defaultstate="collapsed" desc="Author utils">
 //    private static HashSet<String> myAuthors;
 //    static{
 //        myAuthors.add("by");
@@ -166,4 +166,18 @@ public class AnalyzeUtils {
 //        return false;
 //    }
 //    // </editor-fold>
+
+    public static boolean isLetter(char let){
+        if(let >= 'a' && let <= 'z'){
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isNumber(char num){
+        if(num >= '0' && num <= '9'){
+            return true;
+        }
+        return false;
+    }
 }
