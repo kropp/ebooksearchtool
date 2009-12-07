@@ -180,4 +180,21 @@ public class AnalyzeUtils {
         }
         return false;
     }
+
+     public static boolean isManySlashes(String input){
+        int i = 0;
+        int position = input.indexOf("/");
+        StringBuilder sb = new StringBuilder(input);
+        while(position != -1){
+            i++;
+            sb.delete(0, position + 1);
+            position = sb.indexOf("/");
+        }
+
+        if(i > 2){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

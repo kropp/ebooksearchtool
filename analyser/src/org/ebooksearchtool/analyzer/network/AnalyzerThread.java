@@ -38,27 +38,7 @@ public class AnalyzerThread extends Thread {
                     BookInfo info = ws.parse(myMessage);
                     printInfo(info);
                     //TODO: Добавить разбор ответов от сервера  
-                    if(!info.getTitle().equals("")){
-                        String message = ServerConnector.sendRequest
-                                (BookInfoFormer.formBookInfo(info), ServerConnector.INSERT_REQUEST);
-                        if(NetUtils.serverAnswersAnalyze(message)){
-                            Logger.setToLog("Book Information succsesfully sent to server:" +
-                                    AnalyzerProperties.getPropertie("system_separator") +
-                                    AnalyzeUtils.bookInfoToString(info) +
-                                    AnalyzerProperties.getPropertie("system_separator") +
-                                    "Server answer is: " +
-                                    AnalyzerProperties.getPropertie("system_separator") +
-                                    message);
-                        }else{
-                            Logger.setToLog("Book Information don't sent to server:" +
-                                    AnalyzerProperties.getPropertie("system_separator") +
-                                    message);
-                        }
-                        System.out.println(message);
-                    }else{
-                        Logger.setToLog("Book Information can't be sent to server(Unknown title):" +
-                                AnalyzerProperties.getPropertie("system_separator") + AnalyzeUtils.bookInfoToString(info));
-                    }
+                    NetUtils.sendBookInfo(info);
                     myMessage = "";
                 } catch (InterruptedException ex) {
                     Logger.setToErrorLog(ex.getMessage() + ". Analyzer thread had been interrupted.");

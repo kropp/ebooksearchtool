@@ -16,29 +16,12 @@ public class URLsExtractor {
         String buff = "";
         for (int i = 0; i < length; i++) {
             buff = lexems.get(i).getValue();
-            if(buff.indexOf("http") != -1 || isManySlashes(buff)){
+            if(AnalyzeUtils.isManySlashes(buff)){
                 return trim(buff);
             }
 
         }
         return "";
-    }
-
-
-    private static boolean isManySlashes(String input){
-        int i = 0;
-        int position = input.indexOf("\\");
-        while(position != -1){
-            i++;
-            input.replaceFirst("\\", "a");
-            position = input.indexOf("\\");
-        }
-
-        if(i > 2){
-            return true;
-        }else{
-            return false;
-        }
     }
 
     private static String trim(String s){

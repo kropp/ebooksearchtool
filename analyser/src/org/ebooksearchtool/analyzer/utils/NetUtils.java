@@ -2,6 +2,9 @@ package org.ebooksearchtool.analyzer.utils;
 
 import java.io.*;
 import java.net.HttpURLConnection;
+import org.ebooksearchtool.analyzer.io.Logger;
+import org.ebooksearchtool.analyzer.model.BookInfo;
+import org.ebooksearchtool.analyzer.network.ServerConnector;
 
 /**
  * @author Алексей
@@ -71,5 +74,30 @@ public class NetUtils {
            return true;
        }
        return false;
+   }
+
+
+    public static void sendBookInfo(BookInfo info){
+        if(!info.getTitle().equals("")){
+            String message = ServerConnector.sendRequest
+                    (BookInfoFormer.formBookInfo(info), ServerConnector.INSERT_REQUEST);
+            if(NetUtils.serverAnswersAnalyze(message)){
+                Logger.setToLog("Book Information succsesfully sent to server:" +
+                        AnalyzerProperties.getPropertie("system_separator") +
+                        AnalyzeUtils.bookInfoToString(info) +
+                        AnalyzerProperties.getPropertie("system_separator") +
+                        "Server answer is: " +
+                        AnalyzerProperties.getPropertie("system_separator") +
+                        message);
+            }else{
+                Logger.setToLog("Book Information don't sent to server:" +
+                        AnalyzerProperties.getPropertie("system_separator") +
+                        message);
+            }
+            System.out.println(message);
+        }else{
+            Logger.setToLog("Book Information can't be sent to server(Unknown title):" +
+                    AnalyzerProperties.getPropertie("system_separator") + AnalyzeUtils.bookInfoToString(info));
+        }
     }
 }
