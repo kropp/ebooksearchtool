@@ -31,8 +31,9 @@ void SearchWidget::createLineEdit() {
 void SearchWidget::createPushButton() {
 	myPushButton = new QPushButton(QIcon("view/images/search.gif"), tr(""), this);
 //    myLineEdit->setBuddy(myPushButton);
-    myPushButton->setIconSize(QSize(18, 18));
-    myPushButton->setFixedSize(QSize(18, 18));
+    int size = myLineEdit->size().height();
+    myPushButton->setIconSize(QSize(size - 4, size - 4));
+    myPushButton->setFixedSize(QSize(size, size));
     myPushButton->setFlat(true);
     //for being default search button need to have a focus
     myPushButton->setAutoDefault(true);
@@ -43,7 +44,7 @@ void SearchWidget::setWidgets() {
 //    mainLayout->addWidget(myComboBox);
     mainLayout->addWidget(myLineEdit);
     mainLayout->addWidget(myPushButton);
-    mainLayout->setSpacing(1);
+    mainLayout->setSpacing(0);
  //   mainLayout->setMargin(1);
     setLayout(mainLayout);
 }

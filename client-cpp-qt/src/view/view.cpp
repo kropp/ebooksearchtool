@@ -30,7 +30,7 @@ void View::update() {
         BookWidget* widget = new BookWidget(this, myData->getBook(i));
         myBooks.push_back(widget);
         myBooksLayout->addWidget(widget);
-}
+    }
     connectWithButtons();
 }
 
@@ -58,18 +58,18 @@ void View::clear() {
 void View::connectWithButtons() const {
     size_t size = myBooks.size();
     for (size_t i = 0; i < size; ++i) {
-        connect(myBooks[i], SIGNAL(remove(BookWidget*)), this, SLOT(remove(BookWidget*)));
+       // connect(myBooks[i], SIGNAL(remove(BookWidget*)), this, SLOT(remove(BookWidget*)));
         connect(myBooks[i], SIGNAL(read(BookWidget*)), this, SLOT(downloadBook(BookWidget*)));
    }
 }
 
-void View::remove(BookWidget* widget) {
+/*void View::remove(BookWidget* widget) {
     int index = myBooks.indexOf(widget);
     if ((index >= 0) && (index < myBooks.size())) {
         myBooks.removeAt(index);
     }
     widget->hide();
-}
+}*/
 
 void View::toLibrary(BookWidget*) {
 
