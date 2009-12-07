@@ -34,18 +34,18 @@ public class ServerConnector extends Thread{
 
     @Override
     public synchronized void run(){
-//        try {
-            //myConnection = (HttpURLConnection) myInsertURL.openConnection(NetUtils.serverProxyInit());
+        try {
+            myConnection = (HttpURLConnection) myInsertURL.openConnection(NetUtils.serverProxyInit());
             myConnection.setDoInput(true);
             myConnection.setDoOutput(true);
 
             //TODO:Доделать после поддержки сервером
             //Server Timeout connection
-//            System.out.println("Server connected on:");
-//            System.out.println(myInsertURL);
-//            System.out.println("");
-//            Logger.setToLog("Server connected on: " + myInsertURL);
-          establishConnection();
+            System.out.println("Server connected on:");
+            System.out.println(myInsertURL);
+            System.out.println("");
+            Logger.setToLog("Server connected on: " + myInsertURL);
+          //establishConnection();
 
             while(true){
                 synchronized(myLock){
@@ -56,10 +56,10 @@ public class ServerConnector extends Thread{
                     }
                 }
             }
-//        } catch (IOException ex) {
-//            Logger.setToErrorLog(ex.getMessage() +
-//                    ". Connection to server failed in client thread initialization.");
-//        }
+        } catch (IOException ex) {
+            Logger.setToErrorLog(ex.getMessage() +
+                    ". Connection to server failed in client thread initialization.");
+        }
 }
 
     public static synchronized String sendRequest(String request, int requestType){
