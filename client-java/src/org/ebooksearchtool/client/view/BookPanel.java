@@ -27,6 +27,9 @@ public class BookPanel implements Comparable {
 	private Book myBook;
 	private Settings mySettings;
 	
+	private DefaultBoundedRangeModel ourModel;
+//	private JProgressBar ourProgressBar;
+	
     private JPanel myRootPanel;
     private JLabel myImageLable;
     private Box myInfoPanel;
@@ -43,10 +46,12 @@ public class BookPanel implements Comparable {
     
     private boolean myIsMoreInfoShown = false;
 
-    public BookPanel(Book book, Settings set) throws IOException {
+    public BookPanel(Book book, Settings set, DefaultBoundedRangeModel model, JProgressBar bar) throws IOException {
 
         myBook = book;
         mySettings = set;
+        ourModel = model;
+  //      ourProgressBar = bar;
 
         myRootPanel = new JPanel();
         myRootPanel.setLayout(new BoxLayout(myRootPanel ,BoxLayout.X_AXIS));
@@ -55,7 +60,7 @@ public class BookPanel implements Comparable {
         	File cover = new File("images" + File.separatorChar + myBook.getTitle() + ".jpg");
         	if(!cover.exists()){
             	Connector connector = new Connector(myBook.getImage(), mySettings);
-            	connector.getBookFromURL("images" + File.separatorChar + myBook.getTitle() + ".jpg");
+            	connector.getBookFromURL("images" + File.separatorChar + myBook.getTitle() + ".jpg", new DefaultBoundedRangeModel(0, 0, 0, 100));
         	}
         }
 
@@ -190,25 +195,36 @@ public class BookPanel implements Comparable {
         
         myDownloadEpubButton.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
-    			Connector connector;
-				try {
-					connector = new Connector(myBook.getEpubLink(), mySettings);
-					connector.getBookFromURL("books" + File.separatorChar + myBook.getTitle() + ".epub");
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}    	        
+    			
+    			Thread process = new Thread(new Runnable() {
+            		public void run() {
+            			Connector connector;
+            			try {
+            				connector = new Connector(myBook.getEpubLink(), mySettings);
+            				connector.getBookFromURL("books" + File.separatorChar + myBook.getTitle() + ".epub", ourModel);
+            			} catch (IOException e1) {
+            				e1.printStackTrace();
+            			}
+            		}
+    			});
+    			process.start();
     		}
         });
         
         myDownloadPdfButton.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
-    			Connector connector;
-				try {
-					connector = new Connector(myBook.getPdfLink(), mySettings);
-					connector.getBookFromURL("books" + File.separatorChar + myBook.getTitle() + ".pdf");
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}    	        
+    			Thread process = new Thread(new Runnable() {
+            		public void run() {
+            			Connector connector;
+            			try {
+            				connector = new Connector(myBook.getPdfLink(), mySettings);
+            				connector.getBookFromURL("books" + File.separatorChar + myBook.getTitle() + ".pdf", ourModel);
+            			} catch (IOException e1) {
+            				e1.printStackTrace();
+            			}
+            		}
+    			});
+    			process.start();  	        
     		}
         });
         

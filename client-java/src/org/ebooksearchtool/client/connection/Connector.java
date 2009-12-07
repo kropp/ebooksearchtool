@@ -15,6 +15,8 @@ import java.net.Proxy;
 import java.net.URL;
 import java.net.URLConnection;
 
+import javax.swing.BoundedRangeModel;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Admin
@@ -69,23 +71,29 @@ public class Connector{
 
     }
     
-public boolean getBookFromURL(String fileName) {
+public boolean getBookFromURL(String fileName, BoundedRangeModel model) {
         
         try {
         	if(!mySettings.isProxyEnabled()){
-            connection = Url.openConnection();
-            File outFile = new File(fileName);
-            FileOutputStream outStream = new FileOutputStream(outFile);
-            InputStream IS = connection.getInputStream();
+        		connection = Url.openConnection();
+        		File outFile = new File(fileName);
+        		FileOutputStream outStream = new FileOutputStream(outFile);
+        		InputStream IS = connection.getInputStream();
 
-            int i = 0;
-            while (i != -1)
-            {
-              	i = IS.read();
-               	outStream.write(i);
-
-            }
-            outStream.close();
+        		model.setValue(0);
+        		int proc = connection.getContentLength() / 100;
+        		int j = 0;
+        		int i = 0;
+        		while (i != -1){
+        			i = IS.read();
+        			outStream.write(i);
+        			++j;
+        			if(j == proc){
+        				model.setValue(model.getValue() + 1);
+        				j = 0;
+        			}
+        		}
+        		outStream.close();
         	}else{
                 connection = Url.openConnection(new Proxy(Proxy.Type.HTTP, new InetSocketAddress(mySettings.getIP(), mySettings.getPort())));
                 
@@ -93,12 +101,18 @@ public boolean getBookFromURL(String fileName) {
                 FileOutputStream outStream = new FileOutputStream(outFile);
                 InputStream IS = connection.getInputStream();
                 int i = 0;
-                while (i != -1)
-               {
+                model.setValue(0);
+        		int proc = connection.getContentLength() / 100;
+        		int j = 0;
+                while (i != -1){
                 	i = IS.read();
                 	outStream.write(i);
-                    //pw1.print((char)connection.getInputStream().read());
-                	
+                    //pw1.print((char)connection.getInputStream().read());     
+                	++j;
+        			if(j == proc){
+        				model.setValue(model.getValue() + 1);
+        				j = 0;
+        			}
                 }
                 outStream.close();
         	}
