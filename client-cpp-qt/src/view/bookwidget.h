@@ -41,7 +41,7 @@ private slots:
 private: 
     void downloadCover();
     void setCover();
-    MoreLessTextLabel* makeSummary();
+    QLabel* makeSummary();
     void setBackground();
     
 private:

@@ -12,9 +12,11 @@
 BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent), myBook(book) {
 // create all content
     //myCheckBox = new QCheckBox();
-    QLabel* title = new QLabel(myBook->getTitle().c_str());
-    QLabel* author = new QLabel(myBook->getAuthor()->getName().c_str());
-    MoreLessTextLabel* summary = makeSummary();
+    QLabel* title = new QLabel(QString::fromStdString(myBook->getTitle()));
+    QLabel* author = new QLabel(QString::fromStdString(myBook->getAuthor()->getName()));
+    QLabel* summary = makeSummary();
+
+//    MoreLessTextLabel* summary = makeSummary();
     BookActionsButtonBox* buttonGroup = new BookActionsButtonBox(this);
 
 // connect buttons with actions
@@ -27,9 +29,10 @@ BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent), myB
    // myMainLayout->addWidget(myCheckBox, 0, 0, 3, 1);
     myMainLayout->addWidget(title, 0, 1, Qt::AlignLeft);
     myMainLayout->addWidget(author, 1, 1, Qt::AlignLeft);
-    myMainLayout->addWidget(buttonGroup, 0, 2);
-    myMainLayout->addWidget(summary, 2, 0, 1, 4);
- 
+    myMainLayout->addWidget(buttonGroup, 0, 3);
+    myMainLayout->addWidget(summary, 2, 1);
+    
+    myMainLayout->setSpacing(2);
     downloadCover();
 //    setBackground(); 
     setLayout(myMainLayout);
@@ -44,15 +47,6 @@ void BookWidget::setCover(int requestId) {
 }
 
 void BookWidget::setCover() {
-/*
-    QLabel* cover = new QLabel("        ", this);
-    QPalette coverPalette;
-    coverPalette.setBrush(cover->backgroundRole(), QBrush(QPixmap(myCoverFile->fileName())));
-    cover->setScaledContents(true);
-    cover->setPalette(coverPalette);
-    cover->setAutoFillBackground(true);
-*/
-
     QIcon* coverIcon = new QIcon(myCoverFile->fileName());
     QPushButton* coverButton = new QPushButton(*coverIcon, "");
     coverButton->resize(coverButton->iconSize());
@@ -60,7 +54,7 @@ void BookWidget::setCover() {
     coverButton->setFixedSize(QSize(60, 100));
     coverButton->setFlat(true);
 
-    myMainLayout->addWidget(coverButton, 0, 0, 2, 1, Qt::AlignLeft);
+    myMainLayout->addWidget(coverButton, 0, 0, 3, 1, Qt::AlignLeft);
 }
 
 void BookWidget::remove() {
@@ -97,11 +91,14 @@ void BookWidget::downloadCover() {
     connect(connection, SIGNAL(requestFinished(int, bool)), this, SLOT(setCover(int)));  
 }
 
-MoreLessTextLabel* BookWidget::makeSummary() {
+QLabel* BookWidget::makeSummary() {
     QString summary = QString::fromStdString(myBook->getSummary());
-    summary.prepend("Summary: ");
-    QString begin = summary.left(50);
-    return new MoreLessTextLabel(begin, summary, this);
+    QLabel* summaryLabel = new QLabel(summary.prepend(tr("Summary: ")));
+    summaryLabel->setTextFormat(Qt::RichText);
+    summaryLabel->setWordWrap(true);
+    return summaryLabel;
+   // QString begin = summary.left(50);
+   // return new MoreLessTextLabel(begin, summary, this);
 }
 
 void BookWidget::setBackground() {
