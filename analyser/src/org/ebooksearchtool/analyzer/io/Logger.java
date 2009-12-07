@@ -74,20 +74,20 @@ public class Logger {
     }
 
     private static void makeDirectory(){
-        File directory = new File(AnalyzerProperties.getPropertie("logDirectoryName"));
+        File directory = new File(AnalyzerProperties.getPropertie("log_directory"));
         if(!directory.exists()){
             directory.mkdir();
         }
     }
 
     private static String getErrorLogPath(){
-        return AnalyzerProperties.getPropertie("logDirectoryName") +
+        return AnalyzerProperties.getPropertie("log_directory") +
                 AnalyzerProperties.getPropertie("file_separator") +
                 "errorlog" + getCurrentDate() + ".txt";
     }
 
     private static String getLogPath(){
-        return AnalyzerProperties.getPropertie("logDirectoryName") +
+        return AnalyzerProperties.getPropertie("log_directory") +
                 AnalyzerProperties.getPropertie("file_separator") +
                 "log" + getCurrentDate() + ".txt";
     }

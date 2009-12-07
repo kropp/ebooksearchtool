@@ -108,7 +108,7 @@ public class ServerConnector extends Thread{
          while(!isConnectionEstablished()){
             synchronized(myLock){
                 try {
-                    myLock.wait(AnalyzerProperties.getPropertieAsNumber("serverConnectionTimeout"));
+                    myLock.wait(AnalyzerProperties.getPropertieAsNumber("server_timeout"));
                 } catch (InterruptedException ex) {
                     Logger.setToErrorLog(ex.getMessage() + ". ServerConnector thread was interrupted.");
                 }

@@ -13,17 +13,17 @@ public class AnalyzerProperties{
     //Default Parametrs
     static{
         ourProperties = new HashMap<String, String>();
-        ourProperties.put("numberOfAnalyzerThreads", "10");
-        ourProperties.put("logDirectoryName", "log");
+        ourProperties.put("number_of_threads", "10");
+        ourProperties.put("log_directory", "log");
         ourProperties.put("system_separator", System.getProperty("line.separator"));
         ourProperties.put("file_separator", System.getProperty("file.separator"));
-        ourProperties.put("demonRepeatConditionsChekTime", "3600000");
-        ourProperties.put("demonHourWhenRefresh", "15");
-        ourProperties.put("serverAddress", "localhost");
-        ourProperties.put("serverPort", "8000");
-        ourProperties.put("crawlerPort", "9999");
-        ourProperties.put("serverConnectionTimeout", "1000");
-        ourProperties.put("languagesList", "languages.lang");
+        ourProperties.put("demon_refresh_timeout", "3600000");
+        ourProperties.put("demon_refresh_time", "15");
+        ourProperties.put("server_address", "localhost");
+        ourProperties.put("server_port", "8000");
+        ourProperties.put("crawler_port", "9999");
+        ourProperties.put("server_timeout", "1000");
+        ourProperties.put("languages_list", "languages.lang");
         ourProperties.put("demon_is_enable", "false");
         ourProperties.put("server_insert_distanation", "/data/insert");
         ourProperties.put("server_get_distanation", "/data/get");

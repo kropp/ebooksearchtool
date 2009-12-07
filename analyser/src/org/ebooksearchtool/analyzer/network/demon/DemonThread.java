@@ -45,9 +45,9 @@ public class DemonThread extends Thread {
                 while (true) {
                     if (!myTodayUpdateFlag) {
                         while (calendar.get(Calendar.HOUR_OF_DAY) <
-                                AnalyzerProperties.getPropertieAsNumber("demonHourWhenRefresh")) {
+                                AnalyzerProperties.getPropertieAsNumber("demon_refresh_time")) {
                             try {
-                                waiter.wait(AnalyzerProperties.getPropertieAsNumber("demonRepeatConditionsChekTime"));
+                                waiter.wait(AnalyzerProperties.getPropertieAsNumber("demon_refresh_timeout"));
                             } catch (InterruptedException ex) {
                                 Logger.setToErrorLog(ex.getMessage());
                             }
@@ -91,7 +91,7 @@ public class DemonThread extends Thread {
                     } else {
                         while (calendar.get(Calendar.HOUR_OF_DAY) > 1) {
                             try {
-                                waiter.wait(AnalyzerProperties.getPropertieAsNumber("demonRepeatConditionsChekTime"));
+                                waiter.wait(AnalyzerProperties.getPropertieAsNumber("demon_refresh_timeout"));
                             } catch (InterruptedException ex) {
                                 Logger.setToErrorLog(ex.getMessage() + ". Demon thread was interrupted.");
                             }

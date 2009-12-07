@@ -44,7 +44,7 @@ public class AnalyzeUtils {
         ArrayList<Language> languages = new ArrayList<Language>();
         try{
             try{
-                br = new BufferedReader(new FileReader(AnalyzerProperties.getPropertie("languagesList")));
+                br = new BufferedReader(new FileReader(AnalyzerProperties.getPropertie("languages_list")));
                 String str = br.readLine();
                 while(str.charAt(0) != 'a'){
                     str = str.substring(1);

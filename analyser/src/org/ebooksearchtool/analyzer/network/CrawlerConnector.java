@@ -24,10 +24,10 @@ public class CrawlerConnector extends Thread{
     public CrawlerConnector(ServerSocket sSocket){
         myServerSocket = sSocket;
         myThreads = new ArrayList<AnalyzerThread>();
-        for (int i = 0; i < AnalyzerProperties.getPropertieAsNumber("numberOfAnalyzerThreads"); i++) {
+        for (int i = 0; i < AnalyzerProperties.getPropertieAsNumber("number_of_threads"); i++) {
             myThreads.add(new AnalyzerThread());
         }
-        for (int i = 0; i < AnalyzerProperties.getPropertieAsNumber("numberOfAnalyzerThreads"); i++) {
+        for (int i = 0; i < AnalyzerProperties.getPropertieAsNumber("number_of_threads"); i++) {
             myThreads.get(i).start();
         }
     }

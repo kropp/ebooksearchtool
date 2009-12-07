@@ -43,10 +43,10 @@ public class ConsoleInputParameters {
                             PropertiesIO.getPropertiesFromFile(args[1]);
                         }
                         NetworkInitializator.createCrawlerConnector("localhost",
-                                AnalyzerProperties.getPropertieAsNumber("crawlerPort"));
-                        NetworkInitializator.createServerConnector(AnalyzerProperties.getPropertie("serverAddress"),
-                                AnalyzerProperties.getPropertieAsNumber("serverPort"),
-                                AnalyzerProperties.getPropertieAsNumber("serverConnectionTimeout"));
+                                AnalyzerProperties.getPropertieAsNumber("crawler_port"));
+                        NetworkInitializator.createServerConnector(AnalyzerProperties.getPropertie("server_address"),
+                                AnalyzerProperties.getPropertieAsNumber("server_port"),
+                                AnalyzerProperties.getPropertieAsNumber("server_timeout"));
                         NetworkInitializator.createUI();
                     }
                 }
