@@ -44,7 +44,7 @@ public class NetUtils {
         BufferedReader br = new BufferedReader(new InputStreamReader(connect.getInputStream()));
         String input = "";
         StringBuilder str = new StringBuilder();
-        while(str.indexOf("</response>") == -1 ){
+        while(str.indexOf("</response>") == -1 && str.indexOf("nullnullnullnull") == -1){
             input = br.readLine();
             str.append(input);
         }

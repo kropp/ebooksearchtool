@@ -44,15 +44,7 @@ public class ServerConnector extends Thread{
             System.out.println(myInsertURL);
             System.out.println("");
             Logger.setToLog("Server connected on: " + myInsertURL);
-//            while(!isConnectionEstablished()){
-//                synchronized(myLock){
-//                    try {
-//                        myLock.wait(AnalyzerProperties.getPropertieAsNumber("serverConnectionTimeout"));
-//                    } catch (InterruptedException ex) {
-//                        Logger.setToErrorLog(ex.getMessage() + ". ServerConnector thread was interrupted.");
-//                    }
-//                }
-//            }
+//          establishConnection();
 
             while(true){
                 synchronized(myLock){
@@ -82,9 +74,13 @@ public class ServerConnector extends Thread{
                 message = URLDecoder.decode(NetUtils.reciveServerMessage(myConnection), "UTF-8");
             } catch (IOException ex) {
                 Logger.setToErrorLog(ex.getMessage() + ". Connection to server failed in request sending.");
+                throw new NullPointerException(ex.getMessage());
             }
         } catch (NullPointerException ex){
-            Logger.setToErrorLog("No server connection found. Please chek the ServerConnector.");
+            Logger.setToErrorLog("No server connection found. Please chek the connection." +
+                    " Analyzer will try to reconnect.");
+            establishConnection();
+            message = sendRequest(request, requestType);
         }
         if(message.length() == 0){
             return "Error in reciving response. Message from server is empty.";
@@ -93,7 +89,7 @@ public class ServerConnector extends Thread{
         return message;
     }
 
-    private boolean isConnectionEstablished(){
+    private static boolean isConnectionEstablished(){
         String message = ServerConnector.sendRequest
                                 (BookInfoFormer.initRequest(), ServerConnector.INSERT_REQUEST);
 
@@ -105,5 +101,17 @@ public class ServerConnector extends Thread{
             return true;
         }
         return false;
+    }
+
+    private static void establishConnection(){
+         while(!isConnectionEstablished()){
+            synchronized(myLock){
+                try {
+                    myLock.wait(AnalyzerProperties.getPropertieAsNumber("serverConnectionTimeout"));
+                } catch (InterruptedException ex) {
+                    Logger.setToErrorLog(ex.getMessage() + ". ServerConnector thread was interrupted.");
+                }
+            }
+         }
     }
 }

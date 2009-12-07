@@ -18,6 +18,8 @@ public class CrawlerConnector extends Thread{
     private ServerSocket myServerSocket = null;
     private Socket mySocket = null;
     private List<AnalyzerThread> myThreads = null;
+    private BufferedReader myBR = null;
+    private BufferedWriter myBW = null;
 
     public CrawlerConnector(ServerSocket sSocket){
         myServerSocket = sSocket;
@@ -32,50 +34,62 @@ public class CrawlerConnector extends Thread{
 
     @Override
     public synchronized void run(){
-        BufferedReader br = null;
-        BufferedWriter bw = null;
         boolean requestToAnalyzeFlag = false;
         int requestToAnalyzeCount = 0;
-        try{
-            try {
-            DemonThread dt = new DemonThread();
-            dt.start();
+        DemonThread dt = new DemonThread();
+        dt.start();
 
+        while(true){
+            try{
+                try{
+                    establishConnection();
+                    String buffer = "";
+
+                    while(true){
+                        buffer = NetUtils.reciveCrawlerMessage(myBR);
+                        //Нужно только если тестить//System.out.println(buffer);
+                        while(!requestToAnalyzeFlag){
+                            if(requestToAnalyzeCount == 10){
+                                requestToAnalyzeCount = 0;
+                            }
+                            requestToAnalyzeFlag = myThreads.get(requestToAnalyzeCount).setMessage(buffer);
+                            requestToAnalyzeCount++;
+                        }
+                        requestToAnalyzeFlag = false;
+                    }
+                }catch(IOException ex){
+                    Logger.setToLog(ex.getMessage() + ". Error in using crawler connection. " +
+                            "Chek connection, Analyzer will try to reconnect.");
+                    if(myBR != null){
+                        myBR.close();
+                    }
+                    if(myBW != null){
+                        myBW.close();
+                    }
+                    if(mySocket != null){
+                        mySocket.close();
+                    }
+                    if(myServerSocket != null){
+                        myServerSocket.close();
+                    }
+                }
+            }catch(IOException ex){
+                //This catch only for compilator tranquillity. Exception never thrown.
+            }
+        }
+    }
+
+    private void establishConnection(){
+        try {
             mySocket = myServerSocket.accept();
-            br = new BufferedReader(new InputStreamReader(mySocket.getInputStream()));
-            bw = new BufferedWriter(new OutputStreamWriter(mySocket.getOutputStream()));
-            String buffer = "";
-
+            myBR = new BufferedReader(new InputStreamReader(mySocket.getInputStream()));
+            myBW = new BufferedWriter(new OutputStreamWriter(mySocket.getOutputStream()));
             System.out.println("Crawler connected on:");
             System.out.println(mySocket.getInetAddress().toString() + ":" + mySocket.getPort());
             System.out.println();
             Logger.setToLog("Crawler connected on: " + mySocket.getInetAddress().toString() + ":" + mySocket.getPort());
-
-            while(true){
-                buffer = NetUtils.reciveCrawlerMessage(br);
-                //Нужно только если тестить//System.out.println(buffer);
-                while(!requestToAnalyzeFlag){
-                    if(requestToAnalyzeCount == 10){
-                        requestToAnalyzeCount = 0;
-                    }
-                    requestToAnalyzeFlag = myThreads.get(requestToAnalyzeCount).setMessage(buffer);
-                    requestToAnalyzeCount++;
-                }
-                requestToAnalyzeFlag = false;
-            }
         } catch (IOException ex) {
-            Logger.setToLog(ex.getMessage() + ". Can't use CrawlerConnector. Chek connection.");
-        }finally{
-            br.close();
-            bw.close();
-            mySocket.close();
-            myServerSocket.close();
-            //TODO:Переделать выход из Analyzera
-            System.exit(0);
-        }
-        }catch(IOException ex){
-            Logger.setToLog(ex.getMessage() + ". Error in closing of corrupted crawler connection.");
-            System.exit(0);
+            Logger.setToErrorLog(ex.getMessage() + ". Can't use CrawlerConnector. Chek connection.");
         }
     }
 }
