@@ -32,6 +32,7 @@ def search_request_to_server(request, response_type, is_all):
         page = 1
         start_index = 0
     next = page + 1
+    
     request_to_server = Q()
     main_title = {}
     try:
@@ -86,7 +87,6 @@ def search_request_to_server(request, response_type, is_all):
         books = Book.objects.none()
 
     if is_all == "yes":
-        next = page + 1
         query = None
         author = None
         title = None
@@ -98,6 +98,9 @@ def search_request_to_server(request, response_type, is_all):
     seq = range(1, total/items_per_page+2)
     if total%items_per_page == 0:
         seq = range(1, total/items_per_page+1)
+        
+    if seq.__len__() == 1:
+        next = 0
     
     if response_type == "atom":
         return render_to_response('book/opds/client_response_search.xml',

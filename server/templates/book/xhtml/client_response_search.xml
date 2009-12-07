@@ -124,6 +124,8 @@
 
 <div class="pagination">
 
+{% ifnotequal next 0 %}
+
 {% for ind in seq%}
     {% ifequal ind curr %}
         <span class="current">{{curr}}</span>
@@ -148,6 +150,7 @@
         {% endif %}
     {% endifequal %}
 {%endfor%}
+{% endifnotequal %}
 </div>
 
 </body>
