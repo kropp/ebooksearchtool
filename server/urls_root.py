@@ -8,6 +8,9 @@ import views
 
 
 urlpatterns = patterns('',
+    #home
+    (r'^$', 'server.views.catalog_request_to_server',
+        {'response_type': 'xhtml',}),
 
     # interface for analizer/crawler
     (r'^data/get/?$', data_modify, {'action': ACTION['get'],}),

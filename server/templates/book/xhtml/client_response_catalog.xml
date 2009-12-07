@@ -26,6 +26,8 @@
   Filter books in a specific language 
   <h3 class="fb-blue small-bottom-margin"><a href="discover/subjects">Subjects</a></h3> 
   Browse through books based on their subjects
+  <h3 class="fb-blue small-bottom-margin"><a href="catalog.atom">OPDS catalog</a></h3>
+  Catalog in OPDS format
 </div>
 
 </body>
