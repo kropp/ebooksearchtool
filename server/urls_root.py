@@ -2,7 +2,7 @@ from django.conf.urls.defaults import include
 from django.conf.urls.defaults import patterns
 from django.contrib import admin
 
-from book.views import ACTION, data_modify
+from book.views import ACTION, data_modify, who
 
 import views
 
@@ -12,6 +12,7 @@ urlpatterns = patterns('',
     # interface for analizer/crawler
     (r'^data/get/?$', data_modify, {'action': ACTION['get'],}),
     (r'^data/insert/?$', data_modify, {'action': ACTION['insert'],}),
+    (r'^data/who/?$', who),
 
     # interface for search
     (r'^search.atom/?$', 'views.search_request_to_server',

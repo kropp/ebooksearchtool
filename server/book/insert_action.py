@@ -191,24 +191,25 @@ def save_book_inf(book, authors, book_files, annotations):
     messages = []
 
     # try to find the book by this authors
-    q_obj = Q(title=book.title)
+    found_books = Book.objects.filter(title=book.title)
     if book.lang:
-        q_obj = q_obj & Q(lang__in=[book.lang, ''])
+        found_books = found_books.filter(lang__in=[book.lang, ''])
     for author in authors:
-        q_obj = q_obj & Q(author=author)
-    found_books = Book.objects.filter(q_obj)
+        found_books = found_books.filter(author=author)
 
-    if found_books.count() == 1 and \
-       found_books[0].author_set.count() == len(authors):
-        # we've found the book in database
-        found_book = found_books[0]
-        
+    found_book_in_db = None
+    # find book with the same numbers of authors
+    for found_book in found_books:
+        if found_book.author_set.count() == len(authors):
+            found_book_in_db = found_book
+
+    if found_book_in_db:
         # set lang to book
         if book.lang:
-            found_book.lang = book.lang
-            found_book.save()
+            found_book_in_db.lang = book.lang
+            found_book_in_db.save()
 
-        book = found_book
+        book = found_book_in_db
         messages.append(('info', 'Book updated'))
     else:
         # not found the book in database, then save it

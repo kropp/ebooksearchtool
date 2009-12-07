@@ -28,6 +28,11 @@ ACTION = {
     'insert': 2,
 }
 
+def who():
+    '''Generates default page'''
+    pass
+
+
 def data_modify(request, action):
     '''Gets inf from POST, sends to action handler, builds response'''
     context_dict = {}
