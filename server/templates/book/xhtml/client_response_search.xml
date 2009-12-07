@@ -115,7 +115,7 @@
       </div>
 
 {% endfor %}
-
+<hr class="space" />
 
 <!--    <link href="search.atom?" rel="alternate"></link>
     <link href="search.atom?items_per_page={{items_per_page}};query={{ query }}" rel="self"></link>

@@ -84,4 +84,24 @@ class OpenTestCase(TestCase):
         
         response = client.get('/book/id%s/' %(book_id + 1,))
         print 'status code for bad book request in xhtml', response.status_code
-        self.failUnlessEqual(response.status_code, 404)                          
+        self.failUnlessEqual(response.status_code, 404)                   
+        
+    def test_search(self):
+        client = Client()
+        book = Book(title="Book")
+        book.save()
+        
+        response = client.get('/search?query=Book')        
+        print 'status code for good search request', response.status_code
+        self.failUnlessEqual(response.status_code, 200)
+        
+        response = client.get('/search.atom?query=Book')        
+        print 'status code for good search request', response.status_code
+        self.failUnlessEqual(response.status_code, 200)
+        
+    def test_empty_search(self):
+        client = Client()        
+        response = client.get('/search')        
+        expected_response = open("./tests/expected_response/empty_search.xml", "rb").read()
+        self.failUnlessEqual(response.content, expected_response)
+
