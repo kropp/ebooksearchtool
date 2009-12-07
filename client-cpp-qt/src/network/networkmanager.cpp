@@ -1,6 +1,7 @@
 #include <QSettings>
 #include <QString>
 #include <QHttp>
+#include <QProgressBar>
 //#include <QDebug>
 
 #include "networkmanager.h"
@@ -21,11 +22,11 @@ NetworkManager* NetworkManager::getInstance() {
 
 NetworkManager::NetworkManager() {
     myHttpConnection = new QHttp(this);
-    configurate();
+    readSettings();
     connect(myHttpConnection, SIGNAL(requestFinished(int, bool)), this, SIGNAL(requestFinished(int, bool)));
 }
 
-void NetworkManager::configurate() {
+void NetworkManager::readSettings() {
     QSettings settings(ourConfigFilePath, QSettings::IniFormat);
     ourProxy = settings.value("network/proxy").toString();
     ourPort = settings.value("network/port").toInt();
@@ -34,6 +35,10 @@ void NetworkManager::configurate() {
 
 QString NetworkManager::getServer() const {
     return ourServer;
+}
+
+int NetworkManager::download(QString url, QIODevice* out, QProgressBar* progressBar)  {
+    return download(url, out); 
 }
 
 int NetworkManager::download(QString urlStr, QIODevice* out) {

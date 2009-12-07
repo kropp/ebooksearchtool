@@ -7,6 +7,7 @@ class QDialogButtonBox;
 class QBuffer;
 class NetworkManager;
 class SearchWidget;
+class QProgressBar;
 
 class CentralWidget : public QWidget {
     
@@ -21,8 +22,11 @@ private slots:
 	void parseDownloadedFile();
 
 private:
-	QString queryToUrl(const QString& query) const;
+    QProgressBar* getProgressBar();
+    void createProgressBar();
+    QString queryToUrl(const QString& query) const;
     void fillComboBox();
+    
 
 private:
 //    SearchWidget* mySearchWidget;
@@ -36,8 +40,14 @@ private:
    
     Data* myData;
 	View* myView;
+    
+    QProgressBar* myProgressBar;
 
 friend class MainWindow;
 };
+
+inline QProgressBar* CentralWidget::getProgressBar() {
+    return myProgressBar;
+}
 
 #endif //_CENTRAL_WIDGET_H

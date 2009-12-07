@@ -36,7 +36,7 @@ private:
     CentralWidget* myCentralWidget;
 
     QLabel* myStatusLabel;
-    QProgressBar* myProgressBar;
+//    QProgressBar* myProgressBar;
 
     QAction* myExitAction;
     QAction* myFullScreenAction;

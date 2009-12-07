@@ -6,6 +6,7 @@
 
 MainWindow::MainWindow() {
     mySearchWidget = new SearchWidget(this);
+    myCentralWidget = new CentralWidget(this);
 //    mySearchWidget->setAlignment(Qt::AlignmentRight);
 //    mySearchWidget->resize(10, 100);
     createActions();
@@ -13,7 +14,6 @@ MainWindow::MainWindow() {
     createToolBar();
     createStatusBar();
     readSettings();
-    myCentralWidget = new CentralWidget(this);
 	setCentralWidget(myCentralWidget);
 
     connect(mySearchWidget, SIGNAL(search(QString)), myCentralWidget, SLOT(downloadFile(QString))); 
@@ -76,11 +76,10 @@ void MainWindow::createStatusBar() {
     myStatusLabel->setAlignment(Qt::AlignLeft);
     statusBar()->addWidget(myStatusLabel);
 
-    myProgressBar = new QProgressBar();
-    myProgressBar->setRange(0, 100);
-    myProgressBar->setAlignment(Qt::AlignRight);
+    QProgressBar* progressBar = myCentralWidget->getProgressBar();
+    progressBar->setAlignment(Qt::AlignRight);
     //myProgressBar->setValue(value);
-    statusBar()->addWidget(myProgressBar);
+    statusBar()->addWidget(progressBar);
 }
 
 void MainWindow::updateStatusBar() {
