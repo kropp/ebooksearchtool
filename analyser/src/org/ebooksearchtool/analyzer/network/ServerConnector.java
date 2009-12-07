@@ -1,6 +1,7 @@
 package org.ebooksearchtool.analyzer.network;
 
 import java.net.MalformedURLException;
+import java.util.logging.Level;
 import org.ebooksearchtool.analyzer.utils.NetUtils;
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -34,7 +35,7 @@ public class ServerConnector extends Thread{
     @Override
     public synchronized void run(){
         try {
-            myConnection = (HttpURLConnection) myInsertURL.openConnection();
+            myConnection = (HttpURLConnection) myInsertURL.openConnection(NetUtils.serverProxyInit());
             myConnection.setDoInput(true);
             myConnection.setDoOutput(true);
 
@@ -66,9 +67,9 @@ public class ServerConnector extends Thread{
         try {
             try {
                 if(requestType == INSERT_REQUEST){
-                    myConnection = (HttpURLConnection) myInsertURL.openConnection();
+                    myConnection = (HttpURLConnection) myInsertURL.openConnection(NetUtils.serverProxyInit());
                 }else{
-                    myConnection = (HttpURLConnection) myGetURL.openConnection();
+                    myConnection = (HttpURLConnection) myGetURL.openConnection(NetUtils.serverProxyInit());
                 }
                 NetUtils.sendMessage(myConnection, request);
                 message = URLDecoder.decode(NetUtils.reciveServerMessage(myConnection), "UTF-8");
@@ -91,7 +92,7 @@ public class ServerConnector extends Thread{
 
     private static boolean isConnectionEstablished(){
         String message = ServerConnector.sendRequest
-                                (BookInfoFormer.initRequest(), ServerConnector.INSERT_REQUEST);
+                                (BookInfoFormer.initRequest(), ServerConnector.GET_REQUEST);
 
         if(NetUtils.serverAnswersAnalyze(message)){
             System.out.println("Server connected on:");

@@ -4,6 +4,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
+import java.net.Proxy.Type;
+import java.net.SocketAddress;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -13,6 +17,7 @@ import java.util.List;
 import java.util.TimeZone;
 import org.ebooksearchtool.analyzer.io.Logger;
 import org.ebooksearchtool.analyzer.utils.AnalyzerProperties;
+import org.ebooksearchtool.analyzer.utils.NetUtils;
 
 /**
  * @author Алексей
@@ -52,11 +57,11 @@ public class DemonThread extends Thread {
                         try {
                             try {
                                 File munsey = new File("munsey.xml");
-                                if (munsey.createNewFile()) {
+                                if (munsey.exists()) {
                                     address = new URL("http://www.munseys.com/munsey.xml");
-                                    URLConnection connect = address.openConnection();
+                                    URLConnection connect = address.openConnection(NetUtils.proxyInit());
 
-                                    out = new FileOutputStream(new File("munsey.xml"));
+                                    out = new FileOutputStream(munsey);
                                     long i = 0;
                                     long end = connect.getContentLength();
                                     if (end < 0) {

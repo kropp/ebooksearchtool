@@ -28,6 +28,14 @@ public class AnalyzerProperties{
         ourProperties.put("server_insert_distanation", "/data/insert");
         ourProperties.put("server_get_distanation", "/data/get");
         ourProperties.put("default_protocol", "http");
+        ourProperties.put("proxy_enabled", "false");
+        ourProperties.put("proxy_type", "http");
+        ourProperties.put("proxy_host", "192.168.0.2");
+        ourProperties.put("proxy_port", "3128");
+        ourProperties.put("server_proxy_enabled", "false");
+        ourProperties.put("server_proxy_type", "http");
+        ourProperties.put("server_proxy_host", "192.168.0.2");
+        ourProperties.put("server_proxy_port", "3128");
     }
 
     public static void setPropertie(String key, String value){

@@ -2,6 +2,10 @@ package org.ebooksearchtool.analyzer.utils;
 
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
+import java.net.Proxy.Type;
+import java.net.SocketAddress;
 import org.ebooksearchtool.analyzer.io.Logger;
 import org.ebooksearchtool.analyzer.model.BookInfo;
 import org.ebooksearchtool.analyzer.network.ServerConnector;
@@ -100,4 +104,48 @@ public class NetUtils {
                     AnalyzerProperties.getPropertie("system_separator") + AnalyzeUtils.bookInfoToString(info));
         }
     }
+
+    //<editor-fold defaultstate="collapsed" desc="Proxy utils">
+    public static Proxy proxyInit(){
+        SocketAddress addr= new InetSocketAddress(AnalyzerProperties.getPropertie("proxy_host"),
+                AnalyzerProperties.getPropertieAsNumber("proxy_port"));
+        if(AnalyzerProperties.getPropertieAsBoolean("proxy_enable")){
+            return Proxy.NO_PROXY;
+        }
+
+        Type proxyType = null;
+        String type = AnalyzerProperties.getPropertie("proxy_type");
+        if(type.equals("http")){
+            proxyType = Proxy.Type.HTTP;
+        }else{
+            if(type.equals("socks")){
+                proxyType = Proxy.Type.SOCKS;
+            }else{
+                proxyType = Proxy.Type.DIRECT;
+            }
+        }
+        return new Proxy(proxyType, addr);
+    }
+
+    public static Proxy serverProxyInit(){
+        SocketAddress addr= new InetSocketAddress(AnalyzerProperties.getPropertie("server_proxy_host"),
+                AnalyzerProperties.getPropertieAsNumber("server_proxy_port"));
+        if(AnalyzerProperties.getPropertieAsBoolean("server_proxy_enable")){
+            return Proxy.NO_PROXY;
+        }
+
+        Type proxyType = null;
+        String type = AnalyzerProperties.getPropertie("server_proxy_type");
+        if(type.equals("http")){
+            proxyType = Proxy.Type.HTTP;
+        }else{
+            if(type.equals("socks")){
+                proxyType = Proxy.Type.SOCKS;
+            }else{
+                proxyType = Proxy.Type.DIRECT;
+            }
+        }
+        return new Proxy(proxyType, addr);
+    }
+    //</editor-fold>
 }
