@@ -14,7 +14,8 @@ class SearchWidget : public QWidget {
 public:
     SearchWidget(QWidget* parent);
     
-    void fillComboBox();
+public:
+    bool isSearching();
 
 signals:
     void search(QString query);
@@ -27,6 +28,8 @@ private:
     void createLineEdit();
     void createPushButton();
     void setWidgets();
+
+    void fillComboBox();
 
 private:
     QLineEdit* myLineEdit;

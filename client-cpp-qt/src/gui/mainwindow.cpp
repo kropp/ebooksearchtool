@@ -6,6 +6,7 @@
 
 MainWindow::MainWindow() {
     mySearchWidget = new SearchWidget(this);
+//    mySearchWidget->setAlignment(Qt::AlignmentRight);
 //    mySearchWidget->resize(10, 100);
     createActions();
     createMenu();
@@ -16,7 +17,11 @@ MainWindow::MainWindow() {
 	setCentralWidget(myCentralWidget);
 
     connect(mySearchWidget, SIGNAL(search(QString)), myCentralWidget, SLOT(downloadFile(QString))); 
-	
+    
+    connect(mySearchWidget, SIGNAL(search(QString)), this, SLOT(updateStatusLabel(QString))); 
+    
+//    connect(mySearchWidget, SIGNAL(search(QString)), this, updateStatusBar());
+
     mySearchWidget->setFocus();
     setWindowTitle("ebooksearchtool");
 	showMaximized();
@@ -67,7 +72,27 @@ void MainWindow::createToolBar() {
 }
 
 void MainWindow::createStatusBar() {
+    myStatusLabel = new QLabel("");
+    myStatusLabel->setAlignment(Qt::AlignLeft);
+    statusBar()->addWidget(myStatusLabel);
 
+    myProgressBar = new QProgressBar();
+    myProgressBar->setRange(0, 100);
+    myProgressBar->setAlignment(Qt::AlignRight);
+    //myProgressBar->setValue(value);
+    statusBar()->addWidget(myProgressBar);
+}
+
+void MainWindow::updateStatusBar() {
+    // label <- search что ищем
+    // if (поиск завершен)
+    // hide progress bar
+    // label <- найдено, показано
+}
+
+void MainWindow::updateStatusLabel(const QString& query) {
+    QString status = tr("Search: ");
+    myStatusLabel->setText(status.append(query));
 }
 
 void MainWindow::readSettings() {

@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+class QLabel;
+class QProgressBar;
 class QAction;
 class CentralWidget;
 class SearchWidget;
@@ -25,9 +27,16 @@ private:
     
     void readSettings();
         
+private slots:
+    void updateStatusBar();
+    void updateStatusLabel(const QString& );
+
 private:
     SearchWidget* mySearchWidget;
     CentralWidget* myCentralWidget;
+
+    QLabel* myStatusLabel;
+    QProgressBar* myProgressBar;
 
     QAction* myExitAction;
     QAction* myFullScreenAction;
