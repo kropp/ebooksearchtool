@@ -53,7 +53,7 @@ public class AnalyzerProperties{
         if(in != null){
             return in;
         }
-        throw new NullPointerException("No such property");
+        throw new NullPointerException("No such property.");
     }
 
     public static boolean getPropertieAsBoolean(String key) throws NullPointerException{
@@ -64,7 +64,7 @@ public class AnalyzerProperties{
                 return false;
             }
         }
-        throw new NullPointerException("No such property");
+        throw new NullPointerException("No such property.");
     }
 
     public static HashMap<String,String> getProperties(){

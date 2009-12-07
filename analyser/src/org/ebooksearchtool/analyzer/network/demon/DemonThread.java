@@ -57,7 +57,7 @@ public class DemonThread extends Thread {
                         try {
                             try {
                                 File munsey = new File("munsey.xml");
-                                if (munsey.exists()) {
+                                if (munsey.createNewFile()) {
                                     address = new URL("http://www.munseys.com/munsey.xml");
                                     URLConnection connect = address.openConnection(NetUtils.proxyInit());
 
