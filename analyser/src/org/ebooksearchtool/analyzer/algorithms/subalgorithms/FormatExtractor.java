@@ -32,7 +32,7 @@ public class FormatExtractor {
                 }
             }
         }
-        return "Format not found";
+        return "";
     }
 
     private static String trim(String s){
@@ -61,9 +61,8 @@ public class FormatExtractor {
         return sb.toString();
     }
 
-    //TODO:Сделать вообще для всех символов, отличных от букв и цифр.
     private static StringBuilder trimFormat(StringBuilder sb){
-        while(sb.length() > 0 && sb.indexOf("?") != -1){
+        while(sb.length() > 0 && AnalyzeUtils.hasSpecalSymbols(sb.toString())){
             sb.deleteCharAt(0);
         }
         return sb;

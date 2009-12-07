@@ -142,8 +142,9 @@ public class AnalyzeUtils {
        length = files.size();
        sb.append("Files: " + AnalyzerProperties.getPropertie("system_separator"));
        for (int i = 0; i < length; i++) {
-           sb.append("    Link: " + files.get(i).getLink() +"; " );
-           sb.append("Size: " + files.get(i).getSize() +"; " );
+           sb.append("    Link: " + files.get(i).getLink() + "; " );
+           sb.append("Size: " + files.get(i).getSize() + "; " );
+           sb.append("Image link: " + files.get(i).getImgLink() + "; " );
            sb.append("Type: " + files.get(i).getType() + AnalyzerProperties.getPropertie("system_separator"));
        }
        sb.append("Language: " + info.getLanguage() + AnalyzerProperties.getPropertie("system_separator"));
@@ -151,7 +152,7 @@ public class AnalyzeUtils {
        return sb.toString();
    }
 
-    //    // <editor-fold defaultstate="collapsed" desc="Author utils">
+//    <editor-fold defaultstate="collapsed" desc="Author utils">
 //    private static HashSet<String> myAuthors;
 //    static{
 //        myAuthors.add("by");
@@ -167,6 +168,7 @@ public class AnalyzeUtils {
 //    }
 //    // </editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="General utils">
     public static boolean isLetter(char let){
         if(let >= 'a' && let <= 'z'){
             return true;
@@ -197,4 +199,19 @@ public class AnalyzeUtils {
             return false;
         }
     }
+     
+     public static boolean hasSpecalSymbols(String str){
+         int count = 0;
+         int length = str.length();
+         for (int i = 0; i < length; i++) {
+             if(!isNumber(str.charAt(i)) && !isLetter(str.charAt(i))){
+                 count++;
+             }
+         }
+         if(count != 0){
+             return true;
+         }
+         return false;
+     }
+    // </editor-fold>
 }
