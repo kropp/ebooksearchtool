@@ -13,13 +13,13 @@ import org.ebooksearchtool.analyzer.utils.AnalyzerProperties;
  * @author Алексей
  */
 
-public class ServerSocketThread extends Thread{
+public class CrawlerConnector extends Thread{
 
     private ServerSocket myServerSocket = null;
     private Socket mySocket = null;
     private List<AnalyzerThread> myThreads = null;
 
-    public ServerSocketThread(ServerSocket sSocket){
+    public CrawlerConnector(ServerSocket sSocket){
         myServerSocket = sSocket;
         myThreads = new ArrayList<AnalyzerThread>();
         for (int i = 0; i < AnalyzerProperties.getPropertieAsNumber("numberOfAnalyzerThreads"); i++) {
@@ -62,13 +62,9 @@ public class ServerSocketThread extends Thread{
                     requestToAnalyzeCount++;
                 }
                 requestToAnalyzeFlag = false;
-                //TODO:Разобраться с вылетом сервера
-//                if(buffer.indexOf("quit") != -1){
-//                    break;
-//                }
             }
         } catch (IOException ex) {
-            Logger.setToLog(ex.getMessage());
+            Logger.setToLog(ex.getMessage() + ". Can't use CrawlerConnector. Chek connection.");
         }finally{
             br.close();
             bw.close();
@@ -78,7 +74,7 @@ public class ServerSocketThread extends Thread{
             System.exit(0);
         }
         }catch(IOException ex){
-            Logger.setToLog(ex.getMessage());
+            Logger.setToLog(ex.getMessage() + ". Error in closing of corrupted crawler connection.");
             System.exit(0);
         }
     }

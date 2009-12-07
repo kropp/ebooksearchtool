@@ -28,13 +28,15 @@ public class TestToFileWriter {
                     out.newLine();
                 }
             }catch (IOException ex){
-                Logger.setToErrorLog("Serializator: " + ex.getMessage());
+                Logger.setToErrorLog(ex.getMessage() + ". Can't write test to file " +
+                        "in " + TestToFileWriter.class.getName() + " class.");
                 return false;
             }finally{
                 out.close();
             }
         }catch(IOException ex){
-            Logger.setToErrorLog("Serializator: " + ex.getMessage());
+            Logger.setToErrorLog(ex.getMessage() + ". Can't write test to file " +
+                        "in " + TestToFileWriter.class.getName() + " class.");
         }
         return true;
     }
@@ -61,12 +63,14 @@ public class TestToFileWriter {
                 }
                
             }catch (IOException ex){
-                Logger.setToErrorLog("Serializator: " + ex.getMessage());
+                Logger.setToErrorLog(ex.getMessage() + ". Can't read test from file " +
+                        "in " + TestToFileWriter.class.getName() + " class.");
             }finally{
                 input.close();
             }
         }catch(IOException ex){
-            Logger.setToErrorLog("Serializator: " + ex.getMessage());
+            Logger.setToErrorLog(ex.getMessage() + ". Can't read test from file " +
+                        "in " + TestToFileWriter.class.getName() + " class.");
         }
         return data;
     }

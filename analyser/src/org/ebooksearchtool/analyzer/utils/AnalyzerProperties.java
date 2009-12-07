@@ -16,6 +16,7 @@ public class AnalyzerProperties{
         ourProperties.put("numberOfAnalyzerThreads", "10");
         ourProperties.put("logDirectoryName", "log");
         ourProperties.put("systemSeparator", System.getProperty("line.separator"));
+        ourProperties.put("fileSeparator", System.getProperty("file.separator"));
         ourProperties.put("demonRepeatConditionsChekTime", "3600000");
         ourProperties.put("demonHourWhenRefresh", "15");
         ourProperties.put("serverAddress", "localhost");

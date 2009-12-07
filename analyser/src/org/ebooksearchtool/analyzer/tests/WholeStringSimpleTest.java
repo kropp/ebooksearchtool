@@ -29,7 +29,8 @@ public class WholeStringSimpleTest {
                 bw.newLine();
             }
         } catch (IOException ex) {
-            Logger.setToErrorLog(ex.getMessage());
+            Logger.setToErrorLog(ex.getMessage() + ". Can't operate with test or" +
+                    "tested file in " + WholeStringSimpleTest.class.getName() + " class.");
         } finally {
             try {
                 br.close();

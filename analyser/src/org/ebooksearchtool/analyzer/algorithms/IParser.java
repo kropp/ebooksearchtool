@@ -3,7 +3,7 @@ package org.ebooksearchtool.analyzer.algorithms;
 import org.ebooksearchtool.analyzer.model.BookInfo;
 
 /**
- * @author Алексей
+ * @author Aleksey Podolskiy
  */
 
 public interface IParser {

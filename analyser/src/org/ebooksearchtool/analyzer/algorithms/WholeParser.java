@@ -3,11 +3,11 @@ package org.ebooksearchtool.analyzer.algorithms;
 import java.util.ArrayList;
 import org.ebooksearchtool.analyzer.algorithms.subalgorithms.*;
 import org.ebooksearchtool.analyzer.model.*;
-import org.ebooksearchtool.analyzer.network.ClientSocketThread;
+import org.ebooksearchtool.analyzer.network.ServerConnector;
 import org.ebooksearchtool.analyzer.utils.BookInfoFormer;
 
 /**
- * @author Aleksey Podoplsky
+ * @author Aleksey Podolskiy
  */
 
 public class WholeParser implements IParser{
@@ -34,7 +34,7 @@ public class WholeParser implements IParser{
         //Конец гарантий
 
 //        reqBook = BookInfo.getBookInfoFromRequest(
-//                ClientSocketThread.sendRequest(BookInfoFormer.formBookInfoRequest(myBookInfo)));
+//                ServerConnector.sendRequest(BookInfoFormer.formBookInfoRequest(myBookInfo)));
 
         if(reqBook == null){
             return myBookInfo;

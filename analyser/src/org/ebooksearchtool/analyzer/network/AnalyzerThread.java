@@ -38,8 +38,8 @@ public class AnalyzerThread extends Thread {
                     printInfo(info);
                     //TODO: Добавить разбор ответов от сервера  
                     if(!info.getTitle().equals("")){
-                        String message = ClientSocketThread.sendRequest
-                                (BookInfoFormer.formBookInfo(info), ClientSocketThread.INSERT_REQUEST);
+                        String message = ServerConnector.sendRequest
+                                (BookInfoFormer.formBookInfo(info), ServerConnector.INSERT_REQUEST);
                         if(serverAnswersAnalyze(message)){
                             Logger.setToLog("Book Information succsesfully sent to server:" +
                                     AnalyzerProperties.getPropertie("systemSeparator") +
@@ -49,7 +49,8 @@ public class AnalyzerThread extends Thread {
                                     AnalyzerProperties.getPropertie("systemSeparator") +
                                     message);
                         }else{
-                            Logger.setToLog("Book Information don't sent to server:");
+                            Logger.setToLog("Book Information don't sent to server:" +
+                                    AnalyzerProperties.getPropertie("systemSeparator"));
                         }
                         System.out.println(message);
                     }else{

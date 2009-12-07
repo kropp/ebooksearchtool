@@ -7,7 +7,7 @@ import org.ebooksearchtool.analyzer.model.*;
 import org.ebooksearchtool.analyzer.utils.SpecialWords.*;
 
 /**
- * @author Алексей
+ * @author Alekset Podolskiy
  */
 
 public class WholeStringSimpleParser implements IParser{

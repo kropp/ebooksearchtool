@@ -6,7 +6,7 @@ import org.ebooksearchtool.analyzer.model.Author;
 import org.ebooksearchtool.analyzer.utils.SpecialWords.*;
 
 /**
- * @author Алексей
+ * @author Aleksey Podolskiy
  */
 
 public class AuthorsSimpleParser{
@@ -48,7 +48,7 @@ public class AuthorsSimpleParser{
                 }else{
                     //Случай с соединителем
                     if(temp.get(1).getType().equals(StringType.joiner)){
-                        //TODO: До конца продумать случай однофамильцев
+                        //TODO: До конца продумать случай однофамильцев, падеж и колличество слов в имени.
                         if(temp.get(0).getValue().indexOf(" ") == -1){
                             int i = 2;
                             while(i < length && !temp.get(i).getType().equals(StringType.joiner) && !temp.get(i).getType().equals(StringType.separator)){

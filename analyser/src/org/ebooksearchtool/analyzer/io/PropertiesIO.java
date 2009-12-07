@@ -25,7 +25,8 @@ public class PropertiesIO {
                 AnalyzerProperties.setPropertie((String) entry.getKey(), (String) entry.getValue());
             }
         } catch (IOException ex) {
-            Logger.setToErrorLog(ex.getMessage());
+            Logger.setToErrorLog(ex.getMessage() + ". Can't get properties from " +
+                     file + " file.");
         }
     }
 
@@ -44,12 +45,15 @@ public class PropertiesIO {
                     }
                 }
             } catch (IOException ex) {
-                Logger.setToErrorLog(ex.getMessage());
+                Logger.setToErrorLog(ex.getMessage() + ". Can't get properties from " +
+                     file + " file.");
             }finally{
-                bw.close();
+                if(bw != null){
+                    bw.close();
+                }
             }
         }catch(IOException ex){
-            Logger.setToErrorLog(ex.getMessage());
+            //This catch only for compilator tranquillity. Exception never thrown.
         }
     }
 }

@@ -1,10 +1,8 @@
 package org.ebooksearchtool.analyzer;
 
-import java.net.SocketException;
-
 /**
  *
- * @author Алексей
+ * @author Aleksey Podolskiy
  */
 public class Main {
 

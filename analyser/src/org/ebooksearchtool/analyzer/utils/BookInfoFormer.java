@@ -40,7 +40,8 @@ public class BookInfoFormer {
         try {
             return "xml=" + URLEncoder.encode(message, "UTF-8");
         } catch (UnsupportedEncodingException ex) {
-            Logger.setToErrorLog(ex.getMessage());
+            Logger.setToErrorLog(ex.getMessage() + ". Try to encode into unsupported" +
+                    "encoding in " + BookInfoFormer.class.getName() +" class.");
         }
         return null;
     }

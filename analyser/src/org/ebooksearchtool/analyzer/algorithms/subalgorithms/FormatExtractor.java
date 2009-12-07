@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import org.ebooksearchtool.analyzer.model.Lexema;
 
 /**
- * @author Алексей
+ * @author Aleksey Podolskiy
  */
 
 public class FormatExtractor {

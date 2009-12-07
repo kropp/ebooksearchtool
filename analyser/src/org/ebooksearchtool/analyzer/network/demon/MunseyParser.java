@@ -24,11 +24,14 @@ public class MunseyParser{
             MunseyHandler dh = new MunseyHandler();
             pars1.parse(input, dh);
         } catch (IOException ex) {
-            Logger.setToErrorLog(ex.getMessage());
+            Logger.setToErrorLog(ex.getMessage() + ". Parser can't parse file. " +
+                    "IOException occurs in " + MunseyParser.class.getName() + " class.");
         } catch (ParserConfigurationException ex) {
-            Logger.setToErrorLog(ex.getMessage());
+            Logger.setToErrorLog(ex.getMessage() + ". Parser can't parse file. " +
+                    "ParserConfigurationException occurs in " + MunseyParser.class.getName() + " class.");
         } catch (SAXException ex) {
-            Logger.setToErrorLog(ex.getMessage());
+            Logger.setToErrorLog(ex.getMessage() + ". Parser can't parse file. " +
+                    "SAXException occurs in " + MunseyParser.class.getName() + " class.");
         }
     }
 

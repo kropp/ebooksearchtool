@@ -13,7 +13,7 @@ import org.ebooksearchtool.analyzer.utils.AnalyzerProperties;
  * @author Алексей
  */
 
-public class ClientSocketThread extends Thread{
+public class ServerConnector extends Thread{
 
     public static final int GET_REQUEST = 0;
     public static final int INSERT_REQUEST = 1;
@@ -23,7 +23,7 @@ public class ClientSocketThread extends Thread{
     private static HttpURLConnection myConnection;
     private static final Object myLock = new Object();
 
-    public ClientSocketThread(String address, int port) throws MalformedURLException{
+    public ServerConnector(String address, int port) throws MalformedURLException{
         myInsertURL = new URL(AnalyzerProperties.getPropertie("default_protocol") +
                 "://" + address + ":" + port +
                 AnalyzerProperties.getPropertie("server_insert_distanation"));
@@ -47,7 +47,7 @@ public class ClientSocketThread extends Thread{
                     try {
                         myLock.wait();
                     } catch (InterruptedException ex) {
-                        Logger.setToErrorLog(ex.getMessage() + ". Client Thread was interrupted.");
+                        Logger.setToErrorLog(ex.getMessage() + ". ServerConnector thread was interrupted.");
                     }
                 }
             }
@@ -69,10 +69,10 @@ public class ClientSocketThread extends Thread{
                 NetUtils.sendMessage(myConnection, request);
                 message = URLDecoder.decode(NetUtils.reciveServerMessage(myConnection), "UTF-8");
             } catch (IOException ex) {
-                Logger.setToErrorLog(ex.getMessage() + ". Connection to server failed.");
+                Logger.setToErrorLog(ex.getMessage() + ". Connection to server failed in request sending.");
             }
         } catch (NullPointerException ex){
-            Logger.setToErrorLog("No server connection found. Please chek the server connection.");
+            Logger.setToErrorLog("No server connection found. Please chek the ServerConnector.");
         }
         if(message.length() == 0){
             return "Error in reciving response. Message from server is empty.";

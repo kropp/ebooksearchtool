@@ -28,19 +28,6 @@ public class SpecialWords {
         ourNeedToTrim.add("[");
         ourNeedToTrim.add("]");
     }
-    //TODO:Сепаратор переделать или убрать совсем, это TYPE сепаратор!!!
-//    private static HashSet<String> ourTypesSeparators = new HashSet<String>();
-//    static{
-//        ourTypesSeparators.add("!sep!");
-//    }
-
-//    public static boolean isTypesSeparator(String value){
-//        if(ourTypesSeparators.contains(value)){
-//            return true;
-//        }else{
-//            return false;
-//        }
-//    }
 
     public static boolean isNeedToTrim(char value){
         if(ourNeedToTrim.contains(value + "")){

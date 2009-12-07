@@ -5,7 +5,7 @@ import java.util.List;
 import org.ebooksearchtool.analyzer.model.Lexema;
 
 /**
- * @author Алексей
+ * @author Aleksey Podolskiy
  */
 
 public class AnnotationExtractor {

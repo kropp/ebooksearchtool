@@ -31,7 +31,7 @@ public class Logger {
                     log.close();
                 }
         }catch(IOException ex){
-            System.out.println("Couldn't write to log.");
+            System.out.println("Can't write to log. " + ex.getMessage());
         }
     }
 
@@ -54,7 +54,7 @@ public class Logger {
                     log.close();
                 }
         }catch(IOException ex){
-            System.out.println("Couldn't write to log.");
+            System.out.println("Can't write to log. " + ex.getMessage());
         }
     }
 
@@ -81,11 +81,17 @@ public class Logger {
     }
 
     private static String getErrorLogPath(){
-        return AnalyzerProperties.getPropertie("logDirectoryName") + "\\errorlog" + getCurrentDate() + ".txt";
+        return AnalyzerProperties.getPropertie("logDirectoryName") +
+                AnalyzerProperties.getPropertie("file.separator") +
+                AnalyzerProperties.getPropertie("file.separator") +
+                "errorlog" + getCurrentDate() + ".txt";
     }
 
     private static String getLogPath(){
-        return AnalyzerProperties.getPropertie("logDirectoryName") + "\\log" + getCurrentDate() + ".txt";
+        return AnalyzerProperties.getPropertie("logDirectoryName") +
+                AnalyzerProperties.getPropertie("file.separator") +
+                AnalyzerProperties.getPropertie("file.separator") +
+                "log" + getCurrentDate() + ".txt";
     }
 
     private static String format(int i){

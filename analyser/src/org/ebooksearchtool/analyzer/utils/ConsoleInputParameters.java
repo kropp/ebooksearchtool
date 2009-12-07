@@ -10,7 +10,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 import org.ebooksearchtool.analyzer.io.Logger;
 import org.ebooksearchtool.analyzer.io.PropertiesIO;
-import org.ebooksearchtool.analyzer.network.NetworkSocketIO;
+import org.ebooksearchtool.analyzer.network.NetworkInitializator;
 import org.ebooksearchtool.analyzer.tests.TestBuilder;
 import org.ebooksearchtool.analyzer.tests.Tester;
 import org.ebooksearchtool.analyzer.tests.WholeStringSimpleTest;
@@ -42,12 +42,12 @@ public class ConsoleInputParameters {
                         if(args.length > 1){
                             PropertiesIO.getPropertiesFromFile(args[1]);
                         }
-                        NetworkSocketIO.createServer("localhost",
+                        NetworkInitializator.createCrawlerConnector("localhost",
                                 AnalyzerProperties.getPropertieAsNumber("crawlerPort"));
-                        NetworkSocketIO.createClient(AnalyzerProperties.getPropertie("serverAddress"),
+                        NetworkInitializator.createServerConnector(AnalyzerProperties.getPropertie("serverAddress"),
                                 AnalyzerProperties.getPropertieAsNumber("serverPort"),
                                 AnalyzerProperties.getPropertieAsNumber("serverConnectionTimeout"));
-                        NetworkSocketIO.createUI();
+                        NetworkInitializator.createUI();
                     }
                 }
                 break;
