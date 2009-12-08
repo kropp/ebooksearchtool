@@ -9,7 +9,7 @@ import views
 
 urlpatterns = patterns('',
     #home
-    (r'^$', 'server.views.catalog_request_to_server',
+    (r'^$', 'views.catalog_request_to_server',
         {'response_type': 'xhtml',}),
 
     # interface for analizer/crawler
@@ -27,7 +27,7 @@ urlpatterns = patterns('',
     (r'^all.atom/?$', 'views.search_request_to_server',
         {'response_type': 'atom', 'is_all': 'yes'}),
     (r'^all/?$', 'views.search_request_to_server',
-        {'response_type': 'xhtml', 'is_all': 'yes'}),        
+        {'response_type': 'xhtml', 'is_all': 'yes'}),
     
     # requests
     (r'^book.atom/id(\d{1,})/?$', 'views.book_request_to_server',
@@ -41,9 +41,9 @@ urlpatterns = patterns('',
         {'response_type': 'xhtml',}),
     
     #book catalog
-    (r'^catalog.atom/?$', 'server.views.catalog_request_to_server',
+    (r'^catalog.atom/?$', 'views.catalog_request_to_server',
         {'response_type': 'atom',}),
-    (r'^catalog/?$', 'server.views.catalog_request_to_server',
+    (r'^catalog/?$', 'views.catalog_request_to_server',
         {'response_type': 'xhtml',}),        
     
     #books sorted by authors, languages, subjects
@@ -73,7 +73,7 @@ urlpatterns = patterns('',
 #    (r'^admin/doc/', include('django.contrib.admindocs.urls')),
     
     #opensearchdescription
-    (r'^opensearch/?$', 'server.views.opensearch_description'),
+    (r'^opensearch/?$', 'views.opensearch_description'),
     
     #user_information
 #    (r'^user/insert/?$', 'reader.views.insert_user_information'),
