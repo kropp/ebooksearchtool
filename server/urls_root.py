@@ -15,7 +15,7 @@ urlpatterns = patterns('',
     # interface for analizer/crawler
     (r'^data/get/?$', data_modify, {'action': ACTION['get'],}),
     (r'^data/insert/?$', data_modify, {'action': ACTION['insert'],}),
-    (r'^data/who/?$', who),
+    (r'^data/?$', who),
 
     # interface for search
     (r'^search.atom/?$', 'views.search_request_to_server',

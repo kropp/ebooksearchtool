@@ -1,4 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <response>
-  <name>ebst server</name>
-  <version>0.1.568</version>
+  <name>{{ name }}</name>
+  <version>{{ version }}</version>
+  <build>{{ build }}</build>
 </response>

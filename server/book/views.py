@@ -13,7 +13,7 @@ from traceback import print_exc
 from django.shortcuts import render_to_response
 from django.template import Context
 
-from settings import ANALYZER_IP
+from settings import ANALYZER_IP, EBST_NAME, EBST_VERSION, EBST_VERSION_BUILD
 from spec.exception import RequestFileServerException, \
 RequestServerException, ServerException, InnerServerException
 from book.insert_action import xml_exec_insert
@@ -28,9 +28,12 @@ ACTION = {
     'insert': 2,
 }
 
-def who():
+def who(request):
     '''Generates default page'''
-    pass
+    context = Context({'name': EBST_NAME,
+                       'version': EBST_VERSION,
+                       'build': EBST_VERSION_BUILD})
+    return render_to_response('data/default.xml', context)
 
 
 def data_modify(request, action):

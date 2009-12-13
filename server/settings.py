@@ -123,6 +123,12 @@ BACKUP_COUNT = 10
 # set ANALYZER_IP='', if you don't need to check it
 ANALYZER_IP = ''#'192.168.211.26'
 
+# ebst server version
+EBST_VERSION = '0.1'
+EBST_VERSION_BUILD = '596'
+# ebst server name
+EBST_NAME = 'ebst server'
+
 # root url
 #ROOT_URL = r'^ebooks/'
 
