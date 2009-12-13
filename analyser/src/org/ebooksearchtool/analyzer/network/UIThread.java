@@ -20,6 +20,7 @@ public class UIThread extends Thread{
                 input = scanner.nextLine();
                 if (input.contains("exit")) {
                     Logger.setToLog("Analyzer stoped by user.");
+                    System.out.println("Analyzer stoped by user.");
                     System.exit(0);
                 }
             }

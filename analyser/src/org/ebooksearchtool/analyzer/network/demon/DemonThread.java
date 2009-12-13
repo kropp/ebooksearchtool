@@ -77,6 +77,7 @@ public class DemonThread extends Thread {
                                 }
                                 MunseyParser parser = new MunseyParser();
                                 parser.parse("munsey.xml");
+                                myTodayUpdateFlag = true;
                             } catch (IOException ex) {
                                 Logger.setToErrorLog(ex.getMessage() + ". Can't connect to " +
                                         "URL distanation or write to file in " + DemonThread.class.getName() + " class.");

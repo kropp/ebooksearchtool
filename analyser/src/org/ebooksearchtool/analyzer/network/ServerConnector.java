@@ -45,7 +45,7 @@ public class ServerConnector extends Thread{
             System.out.println(myInsertURL);
             System.out.println("");
             Logger.setToLog("Server connected on: " + myInsertURL);
-          //establishConnection();
+            //establishConnection();
 
             while(true){
                 synchronized(myLock){
