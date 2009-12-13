@@ -19,6 +19,9 @@ class BookWidget : public QWidget {
 
     Q_OBJECT
 
+private:
+    static const QSize ourSizeHint;
+
 public:
     BookWidget(QWidget* parent, const Book* book);
 
@@ -26,6 +29,7 @@ public:
 //    bool isMarked() const;
 
 //    void mark(int state);
+    QSize sizeHint() const;
 
 signals:
     void toLibrary(BookWidget*);

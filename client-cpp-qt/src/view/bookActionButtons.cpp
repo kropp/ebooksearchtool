@@ -10,6 +10,7 @@ BookActionsButtonBox::BookActionsButtonBox(QWidget* parent) : QGroupBox(parent) 
     connect(myToLibraryButton, SIGNAL(pressed()), this, SIGNAL(toLibrary()));
     connect(myDownloadButton, SIGNAL(pressed()), this, SIGNAL(download()));
     connect(myReadButton, SIGNAL(pressed()), this, SIGNAL(read()));
+    connect(myRemoveButton, SIGNAL(pressed()), this, SIGNAL(remove()));
 }
 
 void BookActionsButtonBox::createButtons(QHBoxLayout* layout) {
@@ -24,16 +25,29 @@ void BookActionsButtonBox::createButtons(QHBoxLayout* layout) {
     QIcon* readIcon = new QIcon("view/images/book_open.png");
     myReadButton = new QPushButton(*readIcon, " ");
     myReadButton->setToolTip("read");
+    
+    QIcon* removeIcon = new QIcon("view/images/book_remove.png");
+    myRemoveButton = new QPushButton(*removeIcon, " ");
+    myRemoveButton->setToolTip("remove");
 
+/*    QIcon* infoIcon = new QIcon("view/images/information.png");
+    myInfoButton = new QPushButton(*infoIcon, " ");
+    myInfoButton->setToolTip("extra information");
+    
+    applyButtonSettings(myInfoButton);    
+  */
+    applyButtonSettings(myRemoveButton);    
     applyButtonSettings(myToLibraryButton);    
     applyButtonSettings(myDownloadButton);    
     applyButtonSettings(myReadButton);    
 
+   // layout->addWidget(myInfoButton);
+    layout->addWidget(myRemoveButton);
     layout->addWidget(myToLibraryButton);
     layout->addWidget(myDownloadButton);
     layout->addWidget(myReadButton);
 
-    layout->setSpacing(0);  
+    layout->setSpacing(4);  
 }
 
 void BookActionsButtonBox::applyButtonSettings(QPushButton* button) const {
@@ -51,5 +65,5 @@ void BookActionsButtonBox::applyButtonSettings(QPushButton* button) const {
 
 QSize BookActionsButtonBox::sizeHint() const {
     QSize size = myReadButton->iconSize();
-    return QSize(size.width()*3 + 20, size.height() + 2);
+    return QSize(size.width()*5 + 20, size.height() + 2);
 }

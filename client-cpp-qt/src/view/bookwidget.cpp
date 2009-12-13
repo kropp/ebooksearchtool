@@ -9,6 +9,8 @@
 
 //#include <QDebug>
 
+const QSize BookWidget::ourSizeHint = QSize(60, 300);
+
 BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent), myBook(book) {
 // create all content
     //myCheckBox = new QCheckBox();
@@ -31,7 +33,7 @@ BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent), myB
     myMainLayout->addWidget(title, 0, 1, Qt::AlignLeft);
     myMainLayout->addWidget(author, 1, 1, Qt::AlignLeft);
   //  myMainLayout->addWidget(summary, 2, 1);
-    myMainLayout->addWidget(buttonGroup, 0, 3, 2, 1);// Qt::AlignLeft);
+    myMainLayout->addWidget(buttonGroup, 0, 3, 2, 1, Qt::AlignLeft);//, Qt::AlignHCenter);
     
     myMainLayout->setColumnStretch(0, 1);
     myMainLayout->setColumnStretch(1, 7);
@@ -43,8 +45,12 @@ BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent), myB
 
     //myMainLayout->setHorizontalSpacing(2);
     downloadCover();
-//    setBackground(); 
+    setBackground(); 
     setLayout(myMainLayout);
+}
+
+QSize BookWidget::sizeHint() const {
+    return ourSizeHint;
 }
 
 void BookWidget::setCover(int requestId) {
