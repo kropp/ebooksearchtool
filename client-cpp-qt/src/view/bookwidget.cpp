@@ -15,7 +15,7 @@ BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent), myB
     QLabel* title = new QLabel(QString::fromStdString(myBook->getTitle()).prepend("<H2>").append("</H2>"));
 //    title->setTextFormat(Qt::RichText);
     QLabel* author = new QLabel(QString::fromStdString(myBook->getAuthor()->getName()));
-    QLabel* summary = makeSummary();
+//    QLabel* summary = makeSummary();
 
 //    MoreLessTextLabel* summary = makeSummary();
     BookActionsButtonBox* buttonGroup = new BookActionsButtonBox(this);
@@ -30,8 +30,8 @@ BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent), myB
    // myMainLayout->addWidget(myCheckBox, 0, 0, 3, 1);
     myMainLayout->addWidget(title, 0, 1, Qt::AlignLeft);
     myMainLayout->addWidget(author, 1, 1, Qt::AlignLeft);
-    myMainLayout->addWidget(summary, 2, 1);
-    myMainLayout->addWidget(buttonGroup, 0, 3, Qt::AlignLeft);
+  //  myMainLayout->addWidget(summary, 2, 1);
+    myMainLayout->addWidget(buttonGroup, 0, 3, 2, 1);// Qt::AlignLeft);
     
     myMainLayout->setColumnStretch(0, 1);
     myMainLayout->setColumnStretch(1, 7);
@@ -59,11 +59,11 @@ void BookWidget::setCover() {
     QIcon* coverIcon = new QIcon(myCoverFile->fileName());
     QPushButton* coverButton = new QPushButton(*coverIcon, "");
     coverButton->resize(coverButton->iconSize());
-    coverButton->setIconSize(QSize(60, 100));
-    coverButton->setFixedSize(QSize(60, 100));
+    coverButton->setIconSize(QSize(40, 60));
+    coverButton->setFixedSize(QSize(40, 60));
     coverButton->setFlat(true);
 
-    myMainLayout->addWidget(coverButton, 0, 0, 3, 1, Qt::AlignLeft);
+    myMainLayout->addWidget(coverButton, 0, 0, 2, 1, Qt::AlignLeft);
 }
 
 void BookWidget::toLibrary() {

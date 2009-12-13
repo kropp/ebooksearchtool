@@ -1,5 +1,7 @@
 #include "bookActionButtons.h"
 
+#include <QDebug>
+
 BookActionsButtonBox::BookActionsButtonBox(QWidget* parent) : QGroupBox(parent) {
     QHBoxLayout* buttonLayout = new QHBoxLayout();
     createButtons(buttonLayout);
@@ -31,13 +33,23 @@ void BookActionsButtonBox::createButtons(QHBoxLayout* layout) {
     layout->addWidget(myDownloadButton);
     layout->addWidget(myReadButton);
 
-    layout->setSpacing(1);  
+    layout->setSpacing(0);  
 }
 
 void BookActionsButtonBox::applyButtonSettings(QPushButton* button) const {
-    button->resize(button->iconSize());
-    button->setIconSize(QSize(30, 30));
-    button->setFixedSize(QSize(30, 30));
+    // плохо - что размеры забиты руками
+    //button->setIconSize(QSize(40, 40));
+//    button->resize(button->iconSize());
+//    qDebug() << "icon size " << button->iconSize(); 
+    QSize size = button->iconSize();
+    button->setFixedSize(size.width() + 4, size.height() + 2);
     button->setFlat(true);
     button->setCursor(Qt::PointingHandCursor);
+    button->update();
+//    button->adjustSize();
+}
+
+QSize BookActionsButtonBox::sizeHint() const {
+    QSize size = myReadButton->iconSize();
+    return QSize(size.width()*3 + 20, size.height() + 2);
 }

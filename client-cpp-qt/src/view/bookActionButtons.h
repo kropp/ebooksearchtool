@@ -18,6 +18,9 @@ private:
     void createButtons(QHBoxLayout* layout);
     void applyButtonSettings(QPushButton* button) const;
 
+public:
+    QSize sizeHint() const;
+
 signals:
     void toLibrary();
     void download();
