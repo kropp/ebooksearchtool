@@ -13,28 +13,25 @@ QString View::ourConfigFilePath = "../.config.ini";
 
 View::View(QWidget* parent, Data* data) : QWidget(parent), myData(data) { 
     readSettings();
-
-//create layout's
-//    QVBoxLayout* mainLayout = new QVBoxLayout(this);
-  //  QHBoxLayout* headerLayout = new QHBoxLayout(this);
     myLayout = new QGridLayout(this);
 
 //make header    
     myCheckBox = new QCheckBox(this);
-    myBookActionsButtonBox = new BookActionsButtonBox(this);
-    hideHeader();
-   // headerLayout->setDirection(QBoxLayout::RightToLeft);
-    myLayout->addWidget(myCheckBox, 0, 3, Qt::AlignRight);
-    myLayout->addWidget(myBookActionsButtonBox, 0, 2);
-   
-   // headerLayout->addSpacing(375);
+    connect(myCheckBox, SIGNAL(stateChanged(int)), this, SLOT(markAllBooks(int)));
 
+    myBookActionsButtonBox = new BookActionsButtonBox(this);
+    connect(myBookActionsButtonBox, SIGNAL(toLibrary()), this, SLOT(toLibraryChecked()));
+    connect(myBookActionsButtonBox, SIGNAL(download()), this, SLOT(downloadChecked()));
+    connect(myBookActionsButtonBox, SIGNAL(remove()), this, SLOT(removeChecked()));
+
+    hideHeader();
+    myLayout->addWidget(myCheckBox, 0, 3, Qt::AlignRight);
+    myLayout->addWidget(myBookActionsButtonBox, 0, 2, Qt::AlignLeft);
+
+//format layout   
     myLayout->setColumnStretch(0, 1);
     myLayout->setColumnStretch(1, 4);
     myLayout->setColumnStretch(2, 2);
-//fill main layout
-   // mainLayout->addLayout(headerLayout);
-   // mainLayout->addLayout(myBooksLayout);
 
 	setLayout(myLayout);
 }
@@ -85,7 +82,7 @@ void View::clear() {
         delete widget;
     }
     */
-   for (size_t i = 0; i < myBooks.size(); ++i) {
+   for (int i = 0; i < myBooks.size(); ++i) {
        myBooks[i]->hide(); 
    }
    myBooks.clear();
@@ -178,6 +175,14 @@ void View::removeChecked() {
             --i;
         }
     }
+}
+    
+void View::downloadChecked() {
+    qDebug() << "View slot downloadChecked";
+}
+
+void View::toLibraryChecked() {
+    qDebug() << "View slot toLibraryChecked";
 }
 
 void View::hideHeader() {

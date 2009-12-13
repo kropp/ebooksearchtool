@@ -48,6 +48,9 @@ private slots:
     void read(int requestId);
     void read();
     void removeChecked();
+    void downloadChecked();
+    void toLibraryChecked();
+    
     void downloadBook(BookWidget*, const QString& fileName = QString());    
 
 private:
