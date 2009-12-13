@@ -36,7 +36,9 @@ void SearchWidget::createPushButton() {
     myPushButton->setFixedSize(QSize(size, size));
     myPushButton->setFlat(true);
     //for being default search button need to have a focus
-    myPushButton->setAutoDefault(true);
+    myPushButton->setDefault(true);
+    //myPushButton->setAutoDefault(true);
+    myPushButton->setCursor(Qt::PointingHandCursor);
 }
 
 void SearchWidget::setWidgets() {

@@ -39,4 +39,5 @@ void BookActionsButtonBox::applyButtonSettings(QPushButton* button) const {
     button->setIconSize(QSize(30, 30));
     button->setFixedSize(QSize(30, 30));
     button->setFlat(true);
+    button->setCursor(Qt::PointingHandCursor);
 }

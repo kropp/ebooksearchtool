@@ -25,7 +25,6 @@ MainWindow::MainWindow() {
     mySearchWidget->setFocus();
     setWindowTitle("ebooksearchtool");
 //	showMaximized();
-	// set header
 }
 
 void MainWindow::closeEvent(QCloseEvent* ) {
