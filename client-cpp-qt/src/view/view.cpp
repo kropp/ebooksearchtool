@@ -12,9 +12,28 @@
 QString View::ourConfigFilePath = "../.config.ini";
 
 View::View(QWidget* parent, Data* data) : QWidget(parent), myData(data) { 
-    myBooksLayout = new QVBoxLayout(this);
-	setLayout(myBooksLayout);
     readSettings();
+
+//create layout's
+    QVBoxLayout* mainLayout = new QVBoxLayout(this);
+    QHBoxLayout* headerLayout = new QHBoxLayout(this);
+    myBooksLayout = new QVBoxLayout(this);
+
+//make header    
+    myCheckBox = new QCheckBox(this);
+    myBookActionsButtonBox = new BookActionsButtonBox(this);
+    hideHeader();
+    headerLayout->setDirection(QBoxLayout::RightToLeft);
+    headerLayout->addWidget(myCheckBox);
+    headerLayout->addWidget(myBookActionsButtonBox);
+    hideHeader();
+    headerLayout->addSpacing(375);
+
+//fill main layout
+    mainLayout->addLayout(headerLayout);
+    mainLayout->addLayout(myBooksLayout);
+
+	setLayout(mainLayout);
 }
 
 void View::setData(Data* data) {
@@ -32,9 +51,17 @@ QSize View::sizeHint() const {
 void View::update() {
     clear();
     if (!myData) {
+        hideHeader();
         return;
     }
     const size_t size = (myData->getSize() < 5) ? myData->getSize() : 5;
+//don't show header if there are no books
+    if (size == 0) {
+        hideHeader();
+    } else {
+        showHeader();
+    }
+//show books
     for (size_t i = 0; i < size; ++i) {
         BookWidget* widget = new BookWidget(this, myData->getBook(i));
         myBooks.push_back(widget);
@@ -57,13 +84,13 @@ void View::clear() {
    // myBooks.clear();
 }
 
-/*void View::markAllBooks(int state) {
+void View::markAllBooks(int state) {
     const size_t size = myBooks.size();
 	for (size_t i = 0; i < size; ++i) {
-	    //myBooks[i]->mark(state);	
+	    myBooks[i]->mark(state);	
 	}
 }
-*/
+
 
 void View::connectWithButtons() const {
     size_t size = myBooks.size();
@@ -73,13 +100,13 @@ void View::connectWithButtons() const {
    }
 }
 
-/*void View::remove(BookWidget* widget) {
+void View::remove(BookWidget* widget) {
     int index = myBooks.indexOf(widget);
     if ((index >= 0) && (index < myBooks.size())) {
         myBooks.removeAt(index);
     }
     widget->hide();
-}*/
+}
 
 void View::toLibrary(BookWidget*) {
 
@@ -137,7 +164,7 @@ void View::downloadBook(BookWidget* widget, const QString& name) {
     myRequestId = connection->download(link, myFile);
 }
 
-/*void View::removeChecked() {
+void View::removeChecked() {
     for (int i = 0; i < myBooks.size(); ++i) {
         if (myBooks[i]->isMarked()) {
             remove(myBooks[i]);
@@ -145,4 +172,13 @@ void View::downloadBook(BookWidget* widget, const QString& name) {
         }
     }
 }
-*/
+
+void View::hideHeader() {
+    myCheckBox->hide();
+    myBookActionsButtonBox->hide();
+}
+
+void View::showHeader() {
+    myCheckBox->show();
+    myBookActionsButtonBox->show();
+}

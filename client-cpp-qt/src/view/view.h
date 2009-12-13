@@ -37,14 +37,17 @@ private:
     void readSettings();
     void addWidget(QWidget* widget);
     void connectWithButtons() const;
+    void hideHeader();
+    void showHeader();
 
 private slots:
-//    void markAllBooks(int);
+    void markAllBooks(int);
     void download(BookWidget*);
     void toLibrary(BookWidget*);
+    void remove(BookWidget*);
     void read(int requestId);
     void read();
-  //  void removeChecked();
+    void removeChecked();
     void downloadBook(BookWidget*, const QString& fileName = QString());    
 
 private:
