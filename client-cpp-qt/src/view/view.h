@@ -6,7 +6,7 @@
 #include "../data/data.h"
 #include "../view/bookwidget.h"
 #include <QWidget>
-#include <QVBoxLayout>
+#include <QGridLayout>
 
 class QLabel;
 class QCheckBox;
@@ -54,7 +54,7 @@ private:
     Data* myData;
     QList<BookWidget*> myBooks;
 
-    QVBoxLayout* myBooksLayout;
+    QGridLayout* myLayout;
 
     QCheckBox* myCheckBox;
     BookActionsButtonBox* myBookActionsButtonBox;

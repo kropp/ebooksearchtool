@@ -15,25 +15,28 @@ View::View(QWidget* parent, Data* data) : QWidget(parent), myData(data) {
     readSettings();
 
 //create layout's
-    QVBoxLayout* mainLayout = new QVBoxLayout(this);
-    QHBoxLayout* headerLayout = new QHBoxLayout(this);
-    myBooksLayout = new QVBoxLayout(this);
+//    QVBoxLayout* mainLayout = new QVBoxLayout(this);
+  //  QHBoxLayout* headerLayout = new QHBoxLayout(this);
+    myLayout = new QGridLayout(this);
 
 //make header    
     myCheckBox = new QCheckBox(this);
     myBookActionsButtonBox = new BookActionsButtonBox(this);
     hideHeader();
-    headerLayout->setDirection(QBoxLayout::RightToLeft);
-    headerLayout->addWidget(myCheckBox);
-    headerLayout->addWidget(myBookActionsButtonBox);
-    hideHeader();
-    headerLayout->addSpacing(375);
+   // headerLayout->setDirection(QBoxLayout::RightToLeft);
+    myLayout->addWidget(myCheckBox, 0, 3, Qt::AlignRight);
+    myLayout->addWidget(myBookActionsButtonBox, 0, 2);
+   
+   // headerLayout->addSpacing(375);
 
+    myLayout->setColumnStretch(0, 1);
+    myLayout->setColumnStretch(1, 4);
+    myLayout->setColumnStretch(2, 2);
 //fill main layout
-    mainLayout->addLayout(headerLayout);
-    mainLayout->addLayout(myBooksLayout);
+   // mainLayout->addLayout(headerLayout);
+   // mainLayout->addLayout(myBooksLayout);
 
-	setLayout(mainLayout);
+	setLayout(myLayout);
 }
 
 void View::setData(Data* data) {
@@ -65,7 +68,7 @@ void View::update() {
     for (size_t i = 0; i < size; ++i) {
         BookWidget* widget = new BookWidget(this, myData->getBook(i));
         myBooks.push_back(widget);
-        myBooksLayout->addWidget(widget);
+        myLayout->addWidget(widget, i + 1, 0, 1, 4);
         qDebug() << "View::update widget added";
     }
     connectWithButtons();
@@ -74,14 +77,18 @@ void View::update() {
 void View::clear() {
 // remove all widgets from book layout
 // ??it may be done faster. method for clearing layout.
-    const size_t count = myBooksLayout->count();
+   /* const size_t count = myBooksLayout->count();
 		for (size_t i = count; i > 0; --i) {
         myBooksLayout->removeItem(myBooksLayout->itemAt(0));
 	    BookWidget* widget = myBooks.back();
         myBooks.pop_back();
         delete widget;
     }
-   // myBooks.clear();
+    */
+   for (size_t i = 0; i < myBooks.size(); ++i) {
+       myBooks[i]->hide(); 
+   }
+   myBooks.clear();
 }
 
 void View::markAllBooks(int state) {
