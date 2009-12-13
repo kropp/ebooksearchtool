@@ -38,7 +38,7 @@ public class AuthorExtractor {
             }
             sb.append(lex.getValue());
 
-            authors = AuthorsSimpleParser.parse(trim(sb));
+            authors = AuthorsSimpleParser.parse(Lexema.convertToLexems(trim(sb)));
         }else{
             authors.add(new Author());
         }

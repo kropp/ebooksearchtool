@@ -11,6 +11,7 @@ import org.xml.sax.SAXException;
 import org.ebooksearchtool.analyzer.algorithms.AuthorsSimpleParser;
 import org.ebooksearchtool.analyzer.io.TestToFileWriter;
 import org.ebooksearchtool.analyzer.model.Author;
+import org.ebooksearchtool.analyzer.model.Lexema;
 
 public class SimpleTestBuildHandler extends DefaultHandler{
 
@@ -24,7 +25,8 @@ public class SimpleTestBuildHandler extends DefaultHandler{
     @Override
     public void characters (char ch[], int start, int length) throws SAXException{
         if(ourRightElementFlag == true){
-            SimpleTestBuildHandler.ourAuthors.add(AuthorsSimpleParser.parse(new String(ch, start, length).trim()));
+            SimpleTestBuildHandler.ourAuthors.add(AuthorsSimpleParser.parse(
+                    Lexema.convertToLexems(new String(ch, start, length).trim())));
             ourRightElementFlag = false;
         }
     }

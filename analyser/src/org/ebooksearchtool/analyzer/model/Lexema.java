@@ -48,6 +48,7 @@ public class Lexema {
         return new Lexema(myInfo + " " + lex.getValue(), StringType.word);
     }
 
+    //TODO: Переделать, сейчас нет соединителей.
     public static ArrayList<Lexema> convertToLexems(String input){
         ArrayList<Lexema> temp = new ArrayList<Lexema>();
         StringBuilder bd = new StringBuilder();

@@ -37,7 +37,8 @@ public class MunseyHandler extends DefaultHandler{
     @Override
     public void characters (char ch[], int start, int length) throws SAXException{
         if(ourAuthorElementFlag == true){
-            ourBookInfo.setAuthors(AuthorsSimpleParser.parse(new String(ch, start, length).trim()));
+            ourBookInfo.setAuthors(AuthorsSimpleParser.parse(
+                    Lexema.convertToLexems(new String(ch, start, length).trim())));
         }
         if(ourTitleElementFlag == true){
             ourBookInfo.setTitle(new String(ch, start, length).trim());
