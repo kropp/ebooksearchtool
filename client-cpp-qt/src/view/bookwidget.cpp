@@ -9,7 +9,7 @@
 
 //#include <QDebug>
 
-const QSize BookWidget::ourSizeHint = QSize(300, 60);
+const QSize BookWidget::ourSizeHint = QSize(500, 90);
 
 BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent), myBook(book) {
 
