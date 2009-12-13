@@ -31,6 +31,7 @@ public:
     void setData(Data* data);
     void clear();
     void update();
+    QSize sizeHint() const;
 
 private:    
     void readSettings();

@@ -26,21 +26,23 @@ public:
     BookWidget(QWidget* parent, const Book* book);
 
     const Book& getBook() const;
-//    bool isMarked() const;
+    bool isMarked() const;
 
-//    void mark(int state);
+    void mark(int state);
     QSize sizeHint() const;
 
 signals:
     void toLibrary(BookWidget*);
     void download(BookWidget*);
     void read(BookWidget*);
+    void remove(BookWidget*);
 
 private slots:
     void setCover(int requestId);
     void toLibrary();
     void download();
     void read();
+    void remove();
 
 private: 
     void downloadCover();
@@ -52,7 +54,7 @@ private:
     const Book* myBook;
     
     QGridLayout* myMainLayout;
-  //  QCheckBox* myCheckBox;
+    QCheckBox* myCheckBox;
     QFile* myCoverFile;    
     
     int myRequestId;
@@ -62,9 +64,9 @@ inline const Book& BookWidget::getBook() const {
 	return *myBook;
 }
 
-/*inline bool BookWidget::isMarked() const {
+inline bool BookWidget::isMarked() const {
     return myCheckBox->checkState();
 }
-*/
+
 
 #endif //_BOOK_WIDGET_H_

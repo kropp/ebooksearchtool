@@ -20,6 +20,14 @@ View::View(QWidget* parent, Data* data) : QWidget(parent), myData(data) {
 void View::setData(Data* data) {
     myData = data;
 }
+    
+QSize View::sizeHint() const {
+    if (myBooks.empty()) {
+        return QSize();
+    }
+    const QSize size = myBooks[0]->sizeHint();
+    return QSize(size.width(), size.height()*(myBooks.size() + 1));
+}
 
 void View::update() {
     clear();
