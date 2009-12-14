@@ -99,11 +99,11 @@ def search_request_to_server(request, response_type, is_all):
         
     total = books.count()
 
-    seq = range(1, total/items_per_page+2)
-    
-    c = total/items_per_page+2
-    if c > 5:
-        seq = [1, 2, total/items_per_page+2]
+#    seq = range(1, total/items_per_page+2)
+    if page < 10:
+        seq = range(1, 10)
+    if page > 10:
+        seq = range(page - 10, page + 10)
     
     if total%items_per_page == 0:
         seq = range(1, total/items_per_page+1)
