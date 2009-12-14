@@ -28,8 +28,20 @@ void View::toLibrary(BookWidget* widget) {
     emit addToLibrary(book);
 }
 
-void View::read(BookWidget* ) {
-   qDebug() <<  "slot View::read";
+void View::read(BookWidget* widget) {
+ //   qDebug() <<  "slot View::read";
+    myWantToRead = true;
+    const Book& book = widget->getBook();
+    QString link = QString::fromStdString(book.getLink());
+    QString fileName(link.right(link.size() - link.lastIndexOf('/') - 1));
+    qDebug() << "View::read " << fileName;
+    if (QFile::exists(fileName)) {
+        qDebug() << "already exists " << fileName;
+        open(fileName);
+    } else {
+        qDebug() << "need to load ";
+        downloadToPath(widget, fileName);
+    }
 }
 
 void View::read(int id) {
@@ -37,13 +49,13 @@ void View::read(int id) {
         return;
     }
     myFile->close();
-    read();
+    open(myFile->fileName());
 }
 
-void View::read() {
+void View::open(const QString& fileName) const {
     QProcess* process = new QProcess(); //(this); и обрабатывать сигнал об уничтожении родительского процесса
-    qDebug() << "View::read " << myReader << "  " << myFile->fileName();
-    process->start(myReader, QStringList(myFile->fileName()));
+    qDebug() << "View::open " << myReader << "  " << fileName;
+    process->start(myReader, QStringList(fileName));
 }
 
 void View::download(BookWidget* widget) {
@@ -59,7 +71,8 @@ void View::download(BookWidget* widget) {
 void View::downloadToPath(const BookWidget* widget, const QString& name) {
     const Book& book = widget->getBook();
     QString link = QString::fromStdString(book.getLink());
-    QString fileName;
+   //// TODO simplify
+   QString fileName;
     if (!name.isEmpty()) {
         fileName = name;
     } else {
@@ -77,11 +90,18 @@ void View::downloadToPath(const BookWidget* widget, const QString& name) {
 }
 
 void View::bookDownloaded(int id) {
+// then may be reading
     if (id == myRequestId) {
+        myFile->close();
         const Book& book = myActiveWidget->getBook();
         qDebug() << "signal View::BookDownloaded" << QString::fromStdString(book.getTitle());
         QString title = QString::fromStdString(book.getTitle());
         emit stateChanged(title.prepend(tr("Downloaded: ")));
+    }
+    if (myWantToRead) {
+        qDebug() << "myWant to read = true";
+        open(myFile->fileName());
+        myWantToRead = false;
     }
 }
 

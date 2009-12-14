@@ -55,7 +55,8 @@ private slots:
     void toLibrary(BookWidget*);
     void read(BookWidget*);
     void read(int requestId);
-    void read();
+    void open(const QString& fileName) const;
+
     void removeChecked();
     void downloadChecked();
     void toLibraryChecked();
@@ -74,6 +75,7 @@ private:
     QString myReader;
     int myRequestId;
     const BookWidget* myActiveWidget;
+    bool myWantToRead;
 };
 
 inline Data* View::getData() const {

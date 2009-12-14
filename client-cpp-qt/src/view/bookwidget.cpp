@@ -87,6 +87,7 @@ void BookWidget::download() {
 
 
 void BookWidget::read() {
+    qDebug() << "bookWidget emit read";
     emit read(this);
 }
 
