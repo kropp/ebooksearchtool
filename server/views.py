@@ -100,34 +100,26 @@ def search_request_to_server(request, response_type, is_all):
     total = books.count()
 
 #    seq = range(1, total/items_per_page+2)
+#    if total%items_per_page == 0:
+#        seq = range(1, total/items_per_page+1)
+
     if page <= 10:
-        print "1"
         if total/items_per_page+2 > 10:
-            print "2"
             seq = range(1, page + 10)
         else:
             if total%items_per_page == 0:
-                print "3"
                 seq = range(1, total/items_per_page+1)
             else:
-                print "4"
                 seq = range(1, total/items_per_page+2)
             
     if page > 10:
-        print "11"
         if total/items_per_page+2 > page + 10:
-            print "22"
             seq = range(page - 10, page + 10)
         else:
             if total%items_per_page == 0:
-                print "33"
                 seq = range(page - 10, total/items_per_page+1)
             else:
-                print "44"
                 seq = range(page - 10, total/items_per_page+2)
-    
-#    if total%items_per_page == 0:
-#        seq = range(1, total/items_per_page+1)
         
     if seq.__len__() == 1:
         next = 0
@@ -143,7 +135,7 @@ def search_request_to_server(request, response_type, is_all):
             {'books': books[start_index:start_index+items_per_page],
             'title': main_title, 'total':total,
             'items_per_page':items_per_page, 'next':next, 'curr': next - 1,
-            'seq':seq, })
+            'prev': next - 2, 'seq':seq, })
 
 def book_request_to_server(request, book_id, response_type):
     """ builds opds and xhtml response for book id request"""

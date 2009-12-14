@@ -132,6 +132,29 @@
 
 <div class="pagination">
 
+{% ifnotequal prev 0 %}
+
+{% if query %}
+    <a href="search?page={{prev}};items_per_page={{items_per_page}};query={{ query }}" rel="next">previous page</a>
+{% else %}        
+    {% if author and title %}
+        <a href="search?page={{prev}};items_per_page={{items_per_page}};author={{ author }};title={{ title }}" rel="next">previous page</a>
+    {% else %}
+        {% if not author and not title %}
+            <a href="all?page={{prev}};items_per_page={{items_per_page}}" rel="next">previous page</a>
+        {% else %}    
+            {% if title %}
+                <a href="search?page={{prev}};items_per_page={{items_per_page}};title={{ title }}" rel="next">previous page</a>
+            {% endif %}
+            {% if author %}
+                <a href="search?page={{prev}};items_per_page={{items_per_page}};author={{ author }}" rel="next">previous page</a>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+{% endif %}
+
+{% endifnotequal %}
+
 {% ifnotequal next 0 %}
 
 {% for ind in seq %}
@@ -158,6 +181,27 @@
         {% endif %}
     {% endifequal %}
 {%endfor%}
+
+
+{% if query %}
+    <a href="search?page={{next}};items_per_page={{items_per_page}};query={{ query }}" rel="next">next page</a>
+{% else %}        
+    {% if author and title %}
+        <a href="search?page={{next}};items_per_page={{items_per_page}};author={{ author }};title={{ title }}" rel="next">next page</a>
+    {% else %}
+        {% if not author and not title %}
+            <a href="all?page={{next}};items_per_page={{items_per_page}}" rel="next">next page</a>
+        {% else %}    
+            {% if title %}
+                <a href="search?page={{next}};items_per_page={{items_per_page}};title={{ title }}" rel="next">next page</a>
+            {% endif %}
+            {% if author %}
+                <a href="search?page={{next}};items_per_page={{items_per_page}};author={{ author }}" rel="next">next page</a>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+{% endif %}
+
 {% endifnotequal %}
 </div>
 
