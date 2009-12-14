@@ -42,6 +42,7 @@ public class Window {
     private JLabel myNumberInfo;
     private JPanel myMorePanel;
     private JButton myEraseButton;
+    private JButton myExtQueryButton;
     private JButton myToolLibrary;
     private JButton myToolDelete;
     private JButton myToolSort;
@@ -140,32 +141,38 @@ public class Window {
     	myQueryButtonPanel.add(myQueryField);
         String[] query = new String[] { "General", "Author", "Title" };
         myQueryCombo = new JComboBox(query);
-        myQueryButtonPanel.add(myQueryCombo);
-        myQueryButton = new JButton("+");
+        myQueryPlusPanel.add(myQueryCombo);
+
+    	
+        mySearchButton = new JButton(new ImageIcon(getClass().getResource("/ico/search.png")));
+    	mySearchButton.setEnabled(true);
+    	mySearchButton.setToolTipText("Search");
+    	myQueryButtonPanel.add(mySearchButton);
+        
+        myExtQueryButton = new JButton(new ImageIcon(getClass().getResource("/ico/ext_search.png")));
+        myExtQueryButton.setToolTipText("Extended search");
+        myQueryButtonPanel.add(myExtQueryButton);
     	
     	
-    	mySearchButton = new JButton("SEARCH");
-    	mySearchButton.setEnabled(false);
     	myEraseButton = new JButton("ERASE");
     	myEraseButton.setEnabled(false);
     	
-    	myEraseButton.setPreferredSize(mySearchButton.getPreferredSize());
-    	myEraseButton.setMaximumSize(mySearchButton.getPreferredSize());
-    	myEraseButton.setMinimumSize(mySearchButton.getPreferredSize());
-    	
-    	myQueryButtonPanel.add(Box.createHorizontalStrut(5));
-    	myQueryButtonPanel.add(myQueryButton);
-    	myQueryButton.setPreferredSize(myQueryButton.getPreferredSize());
-    	myQueryButton.setMaximumSize(myQueryButton.getPreferredSize());
-    	myQueryButton.setMinimumSize(myQueryButton.getPreferredSize());
-    	
+        myQueryButton = new JButton("ADD");
+        myQueryButton.setToolTipText("Add a word to complex request");
+    	myQueryPlusPanel.add(Box.createHorizontalStrut(7));
+    	myQueryPlusPanel.add(myQueryButton);
+    	myQueryButton.setPreferredSize(myEraseButton.getPreferredSize());
+    	myQueryButton.setMaximumSize(myEraseButton.getPreferredSize());
+    	myQueryButton.setMinimumSize(myEraseButton.getPreferredSize());
+    	myQueryPlusPanel.add(Box.createHorizontalStrut(5));
     	myQueryPlusPanel.add(myEraseButton);
     	myQueryPlusPanel.add(Box.createHorizontalStrut(5));
-    	myQueryPlusPanel.add(mySearchButton);
+    	
     	myQueryPlusPanel.add(Box.createHorizontalStrut(15));
     	mySearchButton.setAlignmentX(Component.LEFT_ALIGNMENT);
     	mySearchLabel = new JLabel();
         myQueryPlusPanel.add(mySearchLabel);
+        myQueryPlusPanel.setVisible(false);
     	
     	myTextPan = new JPanel();
     	BoxLayout box = new BoxLayout(myTextPan, BoxLayout.Y_AXIS);
@@ -435,6 +442,19 @@ public class Window {
             	
             }
         };
+        
+        ActionListener extSearch = new ActionListener() {
+            public void actionPerformed(final ActionEvent e) {
+            	
+            	if(myQueryPlusPanel.isVisible()){
+            		myQueryPlusPanel.setVisible(false);
+            		myQueryCombo.setSelectedIndex(0);
+            	}else{
+            		myQueryPlusPanel.setVisible(true);
+            	}
+            	
+            }
+        };
           
         
         ActionListener act = new ActionListener() {
@@ -453,6 +473,28 @@ public class Window {
             			String prevPage = myController.getData().getNextPage();
             			try {
             				if(e.getSource() != myMoreButton){
+            					if(myAdress == null){
+            						try {
+            							myQuery = new Query(myController.getSettings());
+            						} catch (SAXException e2) {
+
+            							e2.printStackTrace();
+            						} catch (ParserConfigurationException e2) {
+
+            							e2.printStackTrace();
+            						} catch (IOException e2) {
+
+            							e2.printStackTrace();
+            						}
+            						String queryWord = myQueryField.getText();
+            						String queryOption = (String)myQueryCombo.getSelectedItem();
+            						try {
+            							myAdress = myQuery.getQueryAdress(queryWord, queryOption);
+            						} catch (IOException e1) {
+
+            							e1.printStackTrace();
+            						}
+            					}
             					++curModelNumber;
             					myTextPan.removeAll();
                                 myBookPanels = new Vector<Vector<BookPanel>>();
@@ -506,10 +548,12 @@ public class Window {
             				myFrame.setVisible(true);
             			}
             			model.setValue(100);
-            			mySearchButton.setEnabled(false);
+            			myAdress = null;
+            			myQueryCombo.setSelectedIndex(0);
             			myEraseButton.setEnabled(false);
             			myToolDelete.setEnabled(true);
             			myToolSort.setEnabled(true);
+            			myQueryPlusPanel.setVisible(false);
             			curModelNumber = myController.getRequestCount() - 1;
             			if(myController.getRequestCount() > 1){
             				myToolUp.setEnabled(true);
@@ -534,7 +578,7 @@ public class Window {
         
         
         mySearchButton.addActionListener(act);
-        myQueryField.addActionListener(setAdress);
+        myQueryField.addActionListener(act);
         myQueryButton.addActionListener(setAdress);
         myMoreButton.addActionListener(act);
         myEraseButton.addActionListener(erase);
@@ -544,6 +588,7 @@ public class Window {
         myToolForward.addActionListener(forward);
         myToolUp.addActionListener(up);
         myToolDown.addActionListener(down);
+        myExtQueryButton.addActionListener(extSearch);
 
         myNetMenu.addActionListener(new ActionListener() {
 
