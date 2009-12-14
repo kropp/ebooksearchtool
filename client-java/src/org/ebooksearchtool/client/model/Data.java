@@ -4,13 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by IntelliJ IDEA.
- * User: �������������
- * Date: 01.10.2009
- * Time: 20:08:37
- * To change this template use File | Settings | File Templates.
- */
 public class Data {
 
     private List<Book> myBooks = new ArrayList<Book>();

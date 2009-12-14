@@ -6,6 +6,8 @@ import org.ebooksearchtool.client.logic.parsing.*;
 import org.ebooksearchtool.client.model.Data;
 import org.ebooksearchtool.client.model.Settings;
 import org.ebooksearchtool.client.utils.XMLBuilder;
+
+
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -107,11 +109,51 @@ public class Controller {
         return myBooks;
     }
     
-    public void clearModel(){
+    public void saveModel(){
     	XMLBuilder builder = new XMLBuilder();
     	builder.makeXML(myBooks, Integer.toString(myRequestCount)+".xml");
     	++myRequestCount;
-    	myBooks = new Data();		//TODO save model to XML
     }
+    
+    public void extendModel(){
+    	--myRequestCount;
+    	XMLBuilder builder = new XMLBuilder();
+    	builder.makeXML(myBooks, Integer.toString(myRequestCount)+".xml");
+    	++myRequestCount;
+    }
+    
+    public void loadModel(int number){
+    	clearModel();
+    	Parser parser;
+		        
+        try {
+        	parser = new Parser();
+        	SAXHandler handler = new SAXHandler(myBooks);
+			parser.parse(number + ".xml", handler);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
+    public void clearModel(){   	
+    	myBooks = new Data();	
+    }
+
+
+	public int getRequestCount() {
+		return myRequestCount;
+	}
+
+
+	public void setRequestCount(int myRequestCount) {
+		this.myRequestCount = myRequestCount;
+	}
     
 }

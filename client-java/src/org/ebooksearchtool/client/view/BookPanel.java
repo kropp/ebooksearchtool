@@ -76,17 +76,17 @@ public class BookPanel implements Comparable {
 
         myButtonPanel = new JPanel();
         myButtonPanel.setLayout(new FlowLayout());
-        myMoreButton = new JButton(new ImageIcon(getClass().getResource("/ico/info_30.gif")));
+        myMoreButton = new JButton(new ImageIcon(getClass().getResource("/ico/info.png")));
         myMoreButton.setToolTipText("Information about book");
         myMoreButton.setPreferredSize(new Dimension(30, 30));
         
         
         myButtonPanel.add(myMoreButton);
-        myDelButton = new JButton(new ImageIcon(getClass().getResource("/ico/delete_30.gif")));
+        myDelButton = new JButton(new ImageIcon(getClass().getResource("/ico/delete.png")));
         myDelButton.setToolTipText("Delete book from list");
         myDelButton.setPreferredSize(new Dimension(30, 30));
         myButtonPanel.add(myDelButton);
-        myLibButton = new JButton(new ImageIcon(getClass().getResource("/ico/library_30.gif")));
+        myLibButton = new JButton(new ImageIcon(getClass().getResource("/ico/library.png")));
         myLibButton.setToolTipText("Add to library");
         myLibButton.setPreferredSize(new Dimension(30, 30));
         myButtonPanel.add(myLibButton);

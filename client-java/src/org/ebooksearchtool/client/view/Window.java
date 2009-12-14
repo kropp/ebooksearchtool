@@ -47,6 +47,7 @@ public class Window {
     private JButton myToolSort;
     private JButton myToolBack;
     private JButton myToolForward;
+    private JButton myToolUp;
     
     private Vector<Vector<BookPanel>> myBookPanels = new Vector<Vector<BookPanel>>();
     
@@ -55,6 +56,7 @@ public class Window {
     private int myActionIndex;
     private int myBackIndex = 0;
     private String myAdress;
+    private int curModelNumber;
 
     private Controller myController;
 
@@ -65,6 +67,8 @@ public class Window {
     public Window() throws SAXException, ParserConfigurationException, IOException {
 
         myController = new Controller();
+        curModelNumber = myController.getRequestCount();
+        
         myFrame = new JFrame("ebooksearchtool");
         JMenuBar myMenuBar;
         myMenuBar = new JMenuBar();
@@ -97,15 +101,23 @@ public class Window {
         
 
         myToolBar = new JToolBar();
-        myToolBack = new JButton(new ImageIcon(getClass().getResource("/ico/back_30.gif")));
+        myToolUp = new JButton(new ImageIcon(getClass().getResource("/ico/up.png")));
+        myToolUp.setToolTipText("Previous request");
+        myToolBar.add(myToolUp);
+        if(myController.getRequestCount() > 1){
+			myToolUp.setEnabled(true);
+		}else{
+			myToolUp.setEnabled(false);
+		}
+        myToolBack = new JButton(new ImageIcon(getClass().getResource("/ico/back.png")));
         myToolBack.setToolTipText("Back");
         myToolBar.add(myToolBack);
         myToolBack.setEnabled(false);
-        myToolForward = new JButton(new ImageIcon(getClass().getResource("/ico/forward_30.gif")));
+        myToolForward = new JButton(new ImageIcon(getClass().getResource("/ico/next.png")));
         myToolForward.setToolTipText("Forward");
         myToolBar.add(myToolForward);
         myToolForward.setEnabled(false);
-        myToolDelete = new JButton(new ImageIcon(getClass().getResource("/ico/delete_30.gif")));
+        myToolDelete = new JButton(new ImageIcon(getClass().getResource("/ico/delete.png")));
         myToolDelete.setToolTipText("Delete selected books from list");
         myToolBar.add(myToolDelete);
         myToolDelete.setEnabled(false);
@@ -113,7 +125,7 @@ public class Window {
         myToolSort.setToolTipText("Sort books by title");
         myToolBar.add(myToolSort);
         myToolSort.setEnabled(false);
-        myToolLibrary = new JButton(new ImageIcon(getClass().getResource("/ico/library_30.gif")));
+        myToolLibrary = new JButton(new ImageIcon(getClass().getResource("/ico/library.png")));
         myToolLibrary.setToolTipText("Library");
         myToolBar.add(myToolLibrary);
         myPanel1.add(myToolBar, "North");
@@ -260,6 +272,47 @@ public class Window {
             }
         };
         
+        ActionListener up = new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+            	
+            	myTextPan.removeAll();
+            	
+            	myBookPanels = new Vector<Vector<BookPanel>>();
+                myBookPanels.add(new Vector<BookPanel>());
+               	myController.clearModel();
+                
+               	--curModelNumber;
+				myController.loadModel(curModelNumber);					
+                
+				for(int i = 0; i < myController.getData().getBooks().size(); ++i){
+    				
+						try {
+							myBookPanels.lastElement().add(new BookPanel(myController.getData().getBooks().get(i), myController.getSettings(), model));
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (SAXException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (ParserConfigurationException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+    				
+    				JPanel bookPan = myBookPanels.lastElement().get(i).getRootPanel();
+    				myTextPan.add(bookPan);
+    				bookPan.setVisible(true);
+    				myFrame.setVisible(true);
+    			}
+				
+				myActionIndex = 1;
+           		if(curModelNumber == 0){
+           			myToolUp.setEnabled(false);
+           		}
+            }
+        };
+        
         ActionListener forward = new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
@@ -348,10 +401,13 @@ public class Window {
             			String prevPage = myController.getData().getNextPage();
             			try {
             				if(e.getSource() != myMoreButton){
+            					++curModelNumber;
             					myTextPan.removeAll();
                                 myBookPanels = new Vector<Vector<BookPanel>>();
                                 myBookPanels.add(new Vector<BookPanel>());
-                                myController.clearModel();
+                                if(myController.getData().getBooks().size() != 0){
+                                	myController.clearModel();
+                                }
                                 lastNumber = 0;
             					if(!myController.getQueryAnswer(myAdress)){
             						
@@ -360,9 +416,13 @@ public class Window {
                                     myProgressBar.setString("");
                                     return;
                                 }
+            					if(myController.getData().getBooks().size() != 0){
+                                	myController.saveModel();
+                                }
             					myActionIndex = 1;
             				}else{
             					myController.getNextData();
+            					myController.extendModel();
             					myActionIndex++;
             				}
 						} catch (IOException e) {
@@ -398,6 +458,9 @@ public class Window {
             			myEraseButton.setEnabled(false);
             			myToolDelete.setEnabled(true);
             			myToolSort.setEnabled(true);
+            			if(myController.getRequestCount() > 1){
+            				myToolUp.setEnabled(true);
+            			}
             			myAdress = null;
                         myProgressBar.setString("");
                         if(!"".equals(myController.getData().getNextPage())){
@@ -426,6 +489,7 @@ public class Window {
         myToolSort.addActionListener(sort);
         myToolBack.addActionListener(back);
         myToolForward.addActionListener(forward);
+        myToolUp.addActionListener(up);
 
         myNetMenu.addActionListener(new ActionListener() {
 
