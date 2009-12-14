@@ -17,6 +17,12 @@
   <link href="/stylesheets/normal.css?1255441690" media="screen" rel="stylesheet" type="text/css" />
   -->
   
+<style type="text/css">
+    
+    img.cover {margin-top: 3px; max-height: 110px;}
+
+</style>  
+  
 </head>
 
 <body>
@@ -39,9 +45,11 @@
     <div class="container append-bottom box">
       <div class="span-6">
 
-          {% for book_file in book.book_file.all %}
-              <a href="/book/id{{ book.id }}"><img alt="{{ book.title }}" class="cover" src="{{book_file.img_link}}" title="{{ book.title }}" /></a> 
-          {% endfor %}
+      {% if not book.book_file.all.0.img_link %}
+        <a href="book/id{{ book.id }}"><img alt="{{ book.title }}" class="cover" align="left" border="0" hspace="10" src="/pic/nobookcover" title="{{ book.title }}" /></a>
+      {% else %}
+        <a href="book/id{{ book.id }}"><img alt="{{ book.title }}" class="cover" align="left" border="0" hspace="10"  src="{{book.book_file.all.0.img_link}}" title="{{ book.title }}" /></a> 
+      {% endif %} 
       </div>
       <div class="span-11 invisible-colborder">
 
