@@ -19,9 +19,11 @@ public class ServerConnector extends Thread{
 
     public static final int GET_REQUEST = 0;
     public static final int INSERT_REQUEST = 1;
+    public static final int INIT_REQUEST = 2;
 
     private static URL myInsertURL;
     private static URL myGetURL;
+    private static URL myInitURL;
     private static HttpURLConnection myConnection;
     private static final Object myLock = new Object();
 
@@ -29,6 +31,12 @@ public class ServerConnector extends Thread{
         myInsertURL = new URL(AnalyzerProperties.getPropertie("default_protocol") +
                 "://" + address + ":" + port +
                 AnalyzerProperties.getPropertie("server_insert_distanation"));
+        myGetURL = new URL(AnalyzerProperties.getPropertie("default_protocol") +
+                "://" + address + ":" + port +
+                AnalyzerProperties.getPropertie("server_get_distanation"));
+        myInitURL = new URL(AnalyzerProperties.getPropertie("default_protocol") +
+                "://" + address + ":" + port +
+                AnalyzerProperties.getPropertie("server_init_distanation"));
         myConnection = null;
     }
 
@@ -41,11 +49,11 @@ public class ServerConnector extends Thread{
 
             //TODO:Доделать после поддержки сервером
             //Server Timeout connection
-            System.out.println("Server connected on:");
-            System.out.println(myInsertURL);
-            System.out.println("");
-            Logger.setToLog("Server connected on: " + myInsertURL);
-            //establishConnection();
+//            System.out.println("Server connected on:");
+//            System.out.println(myInsertURL);
+//            System.out.println("");
+//            Logger.setToLog("Server connected on: " + myInsertURL);
+            establishConnection();
 
             while(true){
                 synchronized(myLock){
@@ -68,10 +76,16 @@ public class ServerConnector extends Thread{
             try {
                 if(requestType == INSERT_REQUEST){
                     myConnection = (HttpURLConnection) myInsertURL.openConnection(NetUtils.serverProxyInit());
+                    NetUtils.sendMessage(myConnection, request, "POST");
                 }else{
-                    myConnection = (HttpURLConnection) myGetURL.openConnection(NetUtils.serverProxyInit());
+                    if(requestType == GET_REQUEST){
+                        myConnection = (HttpURLConnection) myGetURL.openConnection(NetUtils.serverProxyInit());
+                        NetUtils.sendMessage(myConnection, request, "POST");
+                    }else{
+                        myConnection = (HttpURLConnection) myInitURL.openConnection(NetUtils.serverProxyInit());
+                        NetUtils.sendMessage(myConnection, request, "GET");
+                    }
                 }
-                NetUtils.sendMessage(myConnection, request);
                 message = URLDecoder.decode(NetUtils.reciveServerMessage(myConnection), "UTF-8");
             } catch (IOException ex) {
                 Logger.setToErrorLog(ex.getMessage() + ". Connection to server failed in request sending.");
@@ -92,9 +106,9 @@ public class ServerConnector extends Thread{
 
     private static boolean isConnectionEstablished(){
         String message = ServerConnector.sendRequest
-                                (BookInfoFormer.initRequest(), ServerConnector.GET_REQUEST);
+                                ("", ServerConnector.INIT_REQUEST);
 
-        if(NetUtils.serverAnswersAnalyze(message)){
+        if(NetUtils.serverConnetionAnswersAnalyze(message)){
             System.out.println("Server connected on:");
             System.out.println(myInsertURL);
             System.out.println("");

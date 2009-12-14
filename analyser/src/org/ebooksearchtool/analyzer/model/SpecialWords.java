@@ -29,6 +29,12 @@ public class SpecialWords {
         ourNeedToTrim.add("]");
     }
 
+    private static HashSet<String> ourHTMLSymbols = new HashSet<String>();
+    static{
+        ourNeedToTrim.add("<");
+        ourNeedToTrim.add(">");
+    }
+
     public static boolean isNeedToTrim(char value){
         if(ourNeedToTrim.contains(value + "")){
             return true;
@@ -69,10 +75,18 @@ public class SpecialWords {
         }
     }
 
+    public static boolean isHTMLSymbol(String value){
+        if(ourHTMLSymbols.contains(value + "")){
+            return true;
+        }else{
+            return false;
+        }
+    }
     public enum StringType{
         word,
         separator,
         joiner,
-        typesSeparator;
+        typesSeparator,
+        HTMLSymbol;
     }
 }

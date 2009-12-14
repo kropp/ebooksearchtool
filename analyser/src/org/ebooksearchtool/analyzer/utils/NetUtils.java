@@ -6,19 +6,24 @@ import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.Proxy.Type;
 import java.net.SocketAddress;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 import org.ebooksearchtool.analyzer.io.Logger;
 import org.ebooksearchtool.analyzer.model.BookInfo;
 import org.ebooksearchtool.analyzer.network.ServerConnector;
+import org.ebooksearchtool.analyzer.network.demon.MunseyHandler;
+import org.xml.sax.SAXException;
 
 /**
  * @author Алексей
  */
 
 public class NetUtils {
-    public static void sendMessage(HttpURLConnection connect, String s) throws IOException {
+    public static void sendMessage(HttpURLConnection connect, String s, String method) throws IOException {
         connect.setDoInput(true);
         connect.setDoOutput(true);
-        connect.setRequestMethod("POST");
+        connect.setRequestMethod(method);
         connect.setRequestProperty( "Content-type", "application/x-www-form-urlencoded; charset=UTF-8" );
         connect.setRequestProperty( "Content-length", String.valueOf(getContentLength(s)));
         PrintWriter pw = new PrintWriter(connect.getOutputStream());
@@ -73,12 +78,40 @@ public class NetUtils {
         return str.length() + 4;
    }
 
+   //<editor-fold defaultstate="collapsed" desc="Answer analyze utils">
    public static boolean serverAnswersAnalyze(String message){
        if(message.indexOf("<status>ok") != -1){
            return true;
        }
        return false;
    }
+
+   public static boolean serverConnetionAnswersAnalyze(String message){
+       if(message.indexOf("<name>") != 0){
+           return true;
+       }
+       return false;
+//       try {
+//            SAXParserFactory factory1 = SAXParserFactory.newInstance();
+//            SAXParser pars1 = factory1.newSAXParser();
+//            ServerAnswerHandler dh = new ServerAnswerHandler();
+//            //pars1.parse(new InputStreamReader(message), dh);
+////        } catch (IOException ex) {
+////            Logger.setToErrorLog(ex.getMessage() + ". Parser can't parse file. " +
+////                    "IOException occurs in " + ServerAnswerHandler.class.getName() + " class.");
+////            return false;
+//        } catch (ParserConfigurationException ex) {
+//            Logger.setToErrorLog(ex.getMessage() + ". Parser can't parse file. " +
+//                    "ParserConfigurationException occurs in " + ServerAnswerHandler.class.getName() + " class.");
+//            return false;
+//        } catch (SAXException ex) {
+//            Logger.setToErrorLog(ex.getMessage() + ". Parser can't parse file. " +
+//                    "SAXException occurs in " + ServerAnswerHandler.class.getName() + " class.");
+//            return false;
+//        }
+//       return true;
+   }
+   //</editor-fold>
 
 
     public static void sendBookInfo(BookInfo info){

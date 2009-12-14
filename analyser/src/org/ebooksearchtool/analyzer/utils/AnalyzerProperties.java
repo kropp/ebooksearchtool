@@ -28,6 +28,7 @@ public class AnalyzerProperties{
         ourProperties.put("demon_is_enable", "false");
         ourProperties.put("server_insert_distanation", "/data/insert");
         ourProperties.put("server_get_distanation", "/data/get");
+        ourProperties.put("server_init_distanation", "/data");
         ourProperties.put("default_protocol", "http");
         ourProperties.put("proxy_enabled", "false");
         ourProperties.put("proxy_type", "http");
