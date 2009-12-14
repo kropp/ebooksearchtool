@@ -101,9 +101,16 @@ def search_request_to_server(request, response_type, is_all):
 
 #    seq = range(1, total/items_per_page+2)
     if page < 10:
-        seq = range(1, 10)
+        if total/items_per_page+2 > 10:
+            seq = range(1, 10)
+        else:
+            seq = range(1, total/items_per_page+2)
+            
     if page > 10:
-        seq = range(page - 10, page + 10)
+        if total/items_per_page+2 > page + 10:
+            seq = range(page - 10, page + 10)
+        else:
+            seq = range(page - 10, total/items_per_page+2)
     
     if total%items_per_page == 0:
         seq = range(1, total/items_per_page+1)
