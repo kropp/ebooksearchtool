@@ -13,6 +13,7 @@ public class UIThread extends Thread{
 
     @Override
     public synchronized void run(){
+        //TODO:Заглушка для ctrl и тд
         while(true){
             String input = "";
             Scanner scanner = new Scanner(System.in);

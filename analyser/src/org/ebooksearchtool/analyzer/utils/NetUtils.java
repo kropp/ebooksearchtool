@@ -6,6 +6,7 @@ import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.Proxy.Type;
 import java.net.SocketAddress;
+import java.net.URL;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -21,15 +22,16 @@ import org.xml.sax.SAXException;
 
 public class NetUtils {
     public static void sendMessage(HttpURLConnection connect, String s, String method) throws IOException {
+        //HttpURLConnection connect = (HttpURLConnection) url.openConnection();
         connect.setDoInput(true);
         connect.setDoOutput(true);
         connect.setRequestMethod(method);
         connect.setRequestProperty( "Content-type", "application/x-www-form-urlencoded; charset=UTF-8" );
         connect.setRequestProperty( "Content-length", String.valueOf(getContentLength(s)));
-        PrintWriter pw = new PrintWriter(connect.getOutputStream());
+        OutputStream os = connect.getOutputStream();
+        PrintWriter pw = new PrintWriter(os);
         pw.println(s);
         pw.flush();
-        pw.close();
     }
 
    public static String convertBytesToString(byte[] b){
@@ -95,11 +97,11 @@ public class NetUtils {
 //            SAXParserFactory factory1 = SAXParserFactory.newInstance();
 //            SAXParser pars1 = factory1.newSAXParser();
 //            ServerAnswerHandler dh = new ServerAnswerHandler();
-//            //pars1.parse(new InputStreamReader(message), dh);
-////        } catch (IOException ex) {
-////            Logger.setToErrorLog(ex.getMessage() + ". Parser can't parse file. " +
-////                    "IOException occurs in " + ServerAnswerHandler.class.getName() + " class.");
-////            return false;
+//            pars1.parse(new Reader(message), dh);
+//        } catch (IOException ex) {
+//            Logger.setToErrorLog(ex.getMessage() + ". Parser can't parse file. " +
+//                    "IOException occurs in " + ServerAnswerHandler.class.getName() + " class.");
+//            return false;
 //        } catch (ParserConfigurationException ex) {
 //            Logger.setToErrorLog(ex.getMessage() + ". Parser can't parse file. " +
 //                    "ParserConfigurationException occurs in " + ServerAnswerHandler.class.getName() + " class.");

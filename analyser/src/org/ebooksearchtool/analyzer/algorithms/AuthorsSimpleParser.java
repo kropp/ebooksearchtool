@@ -29,7 +29,7 @@ public class AuthorsSimpleParser{
                         temp.remove(0);//Удаление сепаратора
                     }else{
                         //Если следующее слово - завние
-                        if(length < 3 || temp.get(3).getType().equals(StringType.separator)){
+                        if(length < 4 || temp.get(3).getType().equals(StringType.separator)){
                             out.add(temp.get(0).toString() + ", " + temp.get(2).toString());
                             temp.remove(0);//Удаление готового элимента
                             temp.remove(0);//Удаление сепаратора

@@ -1,15 +1,14 @@
 package org.ebooksearchtool.analyzer.network;
 
 import java.net.MalformedURLException;
-import java.util.logging.Level;
 import org.ebooksearchtool.analyzer.utils.NetUtils;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.util.logging.Level;
 import org.ebooksearchtool.analyzer.io.Logger;
 import org.ebooksearchtool.analyzer.utils.AnalyzerProperties;
-import org.ebooksearchtool.analyzer.utils.BookInfoFormer;
 
 /**
  * @author Алексей
@@ -88,11 +87,12 @@ public class ServerConnector extends Thread{
                 }
                 message = URLDecoder.decode(NetUtils.reciveServerMessage(myConnection), "UTF-8");
             } catch (IOException ex) {
+                java.util.logging.Logger.getLogger(ServerConnector.class.getName()).log(Level.SEVERE, null, ex);
                 Logger.setToErrorLog(ex.getMessage() + ". Connection to server failed in request sending.");
                 throw new NullPointerException(ex.getMessage());
             }
         } catch (NullPointerException ex){
-            Logger.setToErrorLog("No server connection found. Please chek the connection." +
+            Logger.setToErrorLog(ex.getMessage() + ". No server connection found. Please chek the connection." +
                     " Analyzer will try to reconnect.");
             establishConnection();
             message = sendRequest(request, requestType);
@@ -105,14 +105,15 @@ public class ServerConnector extends Thread{
     }
 
     private static boolean isConnectionEstablished(){
+        //TODO:Убрать рекурсию
         String message = ServerConnector.sendRequest
                                 ("", ServerConnector.INIT_REQUEST);
 
         if(NetUtils.serverConnetionAnswersAnalyze(message)){
             System.out.println("Server connected on:");
-            System.out.println(myInsertURL);
+            System.out.println(myInitURL);
             System.out.println("");
-            Logger.setToLog("Server connected on: " + myInsertURL);
+            Logger.setToLog("Server connected on: " + myInitURL);
             return true;
         }
         return false;
