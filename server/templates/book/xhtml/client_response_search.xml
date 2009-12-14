@@ -130,7 +130,7 @@
     <link rel="next" href="search.atom?page={{next}};items_per_page={{items_per_page}};query={{ query }}"/>
 -->    
 
-<div class="pagination">
+<div class="pagination" align="center">
 
 {% ifnotequal prev 0 %}
 
