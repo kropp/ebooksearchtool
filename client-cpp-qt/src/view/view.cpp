@@ -2,10 +2,10 @@
 #include "bookwidget.h"
 #include <QLabel>
 #include <QCheckBox>
-#include <QFile>
-#include <QProcess>
+//#include <QFile>
+//#include <QProcess>
 #include <QSettings>
-#include <QFileDialog>
+//#include <QFileDialog>
 
 #include <QDebug>
 
@@ -25,13 +25,14 @@ View::View(QWidget* parent, Data* data) : QWidget(parent), myData(data) {
     connect(myBookActionsButtonBox, SIGNAL(remove()), this, SLOT(removeChecked()));
 
     hideHeader();
-    myLayout->addWidget(myCheckBox, 0, 3, Qt::AlignRight);
-    myLayout->addWidget(myBookActionsButtonBox, 0, 2, Qt::AlignLeft);
+    myLayout->addWidget(myCheckBox, 0, 3, Qt::AlignCenter);
+    myLayout->addWidget(myBookActionsButtonBox, 0, 2, Qt::AlignRight);
 
 //format layout   
     myLayout->setColumnStretch(0, 1);
-    myLayout->setColumnStretch(1, 4);
+    myLayout->setColumnStretch(1, 13);
     myLayout->setColumnStretch(2, 2);
+    myLayout->setColumnStretch(3, 1);
 
 	setLayout(myLayout);
 }
@@ -40,14 +41,6 @@ void View::setData(Data* data) {
     myData = data;
 }
     
-QSize View::sizeHint() const {
-    if (myBooks.empty()) {
-        return QSize();
-    }
-    const QSize size = myBooks[0]->sizeHint();
-    return QSize(size.width(), size.height()*(myBooks.size() + 1));
-}
-
 void View::update() {
     clear();
     if (!myData) {
@@ -89,11 +82,27 @@ void View::clear() {
    myBooks.clear();
 }
 
-void View::markAllBooks(int state) {
-    const size_t size = myBooks.size();
-	for (size_t i = 0; i < size; ++i) {
-	    myBooks[i]->mark(state);	
-	}
+QSize View::sizeHint() const {
+    if (myBooks.empty()) {
+        return QSize();
+    }
+    const QSize size = myBooks[0]->sizeHint();
+    return QSize(size.width(), size.height()*(myBooks.size() + 1));
+}
+
+void View::readSettings() {
+    QSettings settings(ourConfigFilePath, QSettings::IniFormat);
+    myReader = settings.value("view/reader").toString();
+}
+
+void View::hideHeader() {
+    myCheckBox->hide();
+    myBookActionsButtonBox->hide();
+}
+
+void View::showHeader() {
+    myCheckBox->show();
+    myBookActionsButtonBox->show();
 }
 
 
@@ -107,107 +116,3 @@ void View::connectToButtons() const {
    }
 }
 
-void View::remove(BookWidget* widget) {
-    int index = myBooks.indexOf(widget);
-    if ((index >= 0) && (index < myBooks.size())) {
-        myBooks.removeAt(index);
-    }
-    widget->hide();
-}
-
-void View::toLibrary(BookWidget* widget) {
-    const Book& book = widget->getBook();
-    qDebug() << "view signal book to library " << QString::fromStdString(book.getTitle());
-    emit addToLibrary(book);
-}
-
-void View::read(int id) {
-    if (myRequestId != id) {
-        return;
-    }
-    myFile->close();
-    read();
-}
-
-void View::read() {
-    QProcess* process = new QProcess(); //(this); и обрабатывать сигнал об уничтожении родительского процесса
-    qDebug() << "View::read " << myReader << "  " << myFile->fileName();
-    process->start(myReader, QStringList(myFile->fileName()));
-}
-
-void View::download(BookWidget* widget) {
-     qDebug() << "View slot download book";
-     QString fileName(QFileDialog::getSaveFileName(this, tr("Download book"), tr(""), tr("Checkers Files (*.pdf)")));
-     // указывать формат, считанный из настроек
-     if (!fileName.isEmpty()) {
-        downloadBook(widget, fileName);     
-     }
-}
-
-void View::readSettings() {
-    QSettings settings(ourConfigFilePath, QSettings::IniFormat);
-    myReader = settings.value("view/reader").toString();
-}
-
-void View::downloadBook(BookWidget* widget, const QString& name) {
-    const Book& book = widget->getBook();
-    QString link = QString::fromStdString(book.getLink());
-    QString fileName;
-    if (!name.isEmpty()) {
-        fileName = name;
-    } else {
-        fileName = link.right(link.size() - link.lastIndexOf('/') - 1);
-    }
-   // qDebug() <<
-    // если файл с таким именем уже существует, то надо читать его
-   /* if (QFile::exists(fileName)) {
-        myFile = new QFile(fileName);
-        read();
-        return;
-    }
-    */
-    myFile = new QFile(fileName);
-    myFile->open(QIODevice::WriteOnly);
-    NetworkManager* connection = NetworkManager::getInstance();
-   
-   //change to slot book downloaded
-   // connect(connection, SIGNAL(requestFinished(int, bool)), this, SLOT(read(int)));  
-
-    myRequestId = connection->download(link, myFile);
-}
-
-void View::removeChecked() {
-    for (int i = 0; i < myBooks.size(); ++i) {
-        if (myBooks[i]->isMarked()) {
-            remove(myBooks[i]);
-            --i;
-        }
-    }
-}
-    
-void View::downloadChecked() {
-    qDebug() << "View slot downloadChecked";
-    // один раз показываем файловое диалоговое окно
-    // вызваем download слот 
-    // для каждого из помеченных
-}
-
-void View::toLibraryChecked() {
-    qDebug() << "View slot toLibraryChecked";
-    for (int i = 0; i < myBooks.size(); ++i) {
-        if (myBooks[i]->isMarked()) {
-            toLibrary(myBooks[i]);
-            --i;
-        }
-    }
-}
-
-void View::hideHeader() {
-    myCheckBox->hide();
-    myBookActionsButtonBox->hide();
-}
-
-void View::showHeader() {
-    myCheckBox->show();
-    myBookActionsButtonBox->show();
-}

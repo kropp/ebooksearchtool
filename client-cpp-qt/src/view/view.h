@@ -31,6 +31,7 @@ public:
     void setData(Data* data);
     void clear();
     void update();
+    
     QSize sizeHint() const;
 
 private:    
@@ -39,22 +40,27 @@ private:
     void connectToButtons() const;
     void hideHeader();
     void showHeader();
+    void downloadToPath(const BookWidget* widget, const QString& path);
 
 signals:
     void addToLibrary(const Book&);
+    void downloaded(const QString& bookTitle);
 
 private slots:
-    void markAllBooks(int);
+    void markAllBooks(int); // +
+    void remove(BookWidget*); // +
+
     void download(BookWidget*);
+   // void downloadBook(BookWidget*, const QString& fileName = QString());    
+    void bookDownloaded(int id);
     void toLibrary(BookWidget*);
-    void remove(BookWidget*);
+    //read(BookWidget*);
     void read(int requestId);
     void read();
     void removeChecked();
     void downloadChecked();
     void toLibraryChecked();
     
-    void downloadBook(BookWidget*, const QString& fileName = QString());    
 
 private:
     Data* myData;
@@ -68,6 +74,7 @@ private:
     QFile* myFile;
     QString myReader;
     int myRequestId;
+    const BookWidget* myActiveWidget;
 };
 
 inline Data* View::getData() const {
