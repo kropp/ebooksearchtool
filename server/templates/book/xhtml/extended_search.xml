@@ -28,6 +28,7 @@
     <tr>
     <td>Title:</td>
     <td>  <input type="text" name="title"></td>
+    <td><a href="search" rel="simple search">Simple search</a></td>
     </tr><tr>
     <td>Author:</td> 
     <td> <input type="text" name="author"></td>

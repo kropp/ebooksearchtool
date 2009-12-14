@@ -120,10 +120,13 @@ def search_request_to_server(request, response_type, is_all):
                 seq = range(page - 10, total/items_per_page+1)
             else:
                 seq = range(page - 10, total/items_per_page+2)
-        
-    if seq.__len__() == 1:
-        next = 0
     
+    prev = next - 2
+    
+    if seq.__len__() == 1 or seq.__len__() == 0:
+        next = 0
+        prev = 0
+        
     if response_type == "atom":
         return render_to_response('book/opds/client_response_search.xml',
             {'books': books[start_index:start_index+items_per_page],
@@ -135,7 +138,7 @@ def search_request_to_server(request, response_type, is_all):
             {'books': books[start_index:start_index+items_per_page],
             'title': main_title, 'total':total,
             'items_per_page':items_per_page, 'next':next, 'curr': next - 1,
-            'prev': next - 2, 'seq':seq, })
+            'prev': prev, 'seq':seq, })
 
 def book_request_to_server(request, book_id, response_type):
     """ builds opds and xhtml response for book id request"""
