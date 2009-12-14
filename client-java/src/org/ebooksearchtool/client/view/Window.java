@@ -48,6 +48,7 @@ public class Window {
     private JButton myToolBack;
     private JButton myToolForward;
     private JButton myToolUp;
+    private JButton myToolDown;
     
     private Vector<Vector<BookPanel>> myBookPanels = new Vector<Vector<BookPanel>>();
     
@@ -117,6 +118,10 @@ public class Window {
         myToolForward.setToolTipText("Forward");
         myToolBar.add(myToolForward);
         myToolForward.setEnabled(false);
+        myToolDown = new JButton(new ImageIcon(getClass().getResource("/ico/up.png")));
+        myToolDown.setToolTipText("Next request");
+        myToolBar.add(myToolDown);
+        myToolDown.setEnabled(false);
         myToolDelete = new JButton(new ImageIcon(getClass().getResource("/ico/delete.png")));
         myToolDelete.setToolTipText("Delete selected books from list");
         myToolBar.add(myToolDelete);
@@ -287,28 +292,31 @@ public class Window {
                 
 				for(int i = 0; i < myController.getData().getBooks().size(); ++i){
     				
-						try {
-							myBookPanels.lastElement().add(new BookPanel(myController.getData().getBooks().get(i), myController.getSettings(), model));
-						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						} catch (SAXException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						} catch (ParserConfigurationException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
+					try {
+						myBookPanels.lastElement().add(new BookPanel(myController.getData().getBooks().get(i), myController.getSettings(), model));
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (SAXException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (ParserConfigurationException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
     				
     				JPanel bookPan = myBookPanels.lastElement().get(i).getRootPanel();
     				myTextPan.add(bookPan);
     				bookPan.setVisible(true);
     				myFrame.setVisible(true);
     			}
-				
+				myMorePanel.setVisible(false);
 				myActionIndex = 1;
            		if(curModelNumber == 0){
            			myToolUp.setEnabled(false);
+           		}
+           		if(curModelNumber < myController.getRequestCount()-1){
+           			myToolDown.setEnabled(true);
            		}
             }
         };
@@ -331,6 +339,50 @@ public class Window {
            			myToolForward.setEnabled(false);
            		}
            		myToolBack.setEnabled(true);
+            }
+        };
+        
+        ActionListener down = new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+            	
+            	myTextPan.removeAll();
+            	
+            	myBookPanels = new Vector<Vector<BookPanel>>();
+                myBookPanels.add(new Vector<BookPanel>());
+               	myController.clearModel();
+                
+               	++curModelNumber;
+				myController.loadModel(curModelNumber);					
+                
+				for(int i = 0; i < myController.getData().getBooks().size(); ++i){
+    				
+					try {
+						myBookPanels.lastElement().add(new BookPanel(myController.getData().getBooks().get(i), myController.getSettings(), model));
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (SAXException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (ParserConfigurationException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+    				
+    				JPanel bookPan = myBookPanels.lastElement().get(i).getRootPanel();
+    				myTextPan.add(bookPan);
+    				bookPan.setVisible(true);
+    				myFrame.setVisible(true);
+    			}
+				myMorePanel.setVisible(false);
+				myActionIndex = 1;
+				if(curModelNumber > 0){
+					myToolUp.setEnabled(true);
+				}
+				if(curModelNumber == myController.getRequestCount()-1){
+           			myToolDown.setEnabled(false);
+           		}
             }
         };
         
@@ -458,6 +510,7 @@ public class Window {
             			myEraseButton.setEnabled(false);
             			myToolDelete.setEnabled(true);
             			myToolSort.setEnabled(true);
+            			curModelNumber = myController.getRequestCount() - 1;
             			if(myController.getRequestCount() > 1){
             				myToolUp.setEnabled(true);
             			}
@@ -490,6 +543,7 @@ public class Window {
         myToolBack.addActionListener(back);
         myToolForward.addActionListener(forward);
         myToolUp.addActionListener(up);
+        myToolDown.addActionListener(down);
 
         myNetMenu.addActionListener(new ActionListener() {
 
