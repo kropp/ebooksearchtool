@@ -27,6 +27,10 @@ void View::toLibrary(BookWidget* widget) {
     emit addToLibrary(book);
 }
 
+void View::read(BookWidget* ) {
+   qDebug() <<  "slot View::read";
+}
+
 void View::read(int id) {
     if (myRequestId != id) {
         return;
@@ -64,8 +68,7 @@ void View::downloadToPath(const BookWidget* widget, const QString& name) {
     myFile->open(QIODevice::WriteOnly);
     NetworkManager* connection = NetworkManager::getInstance();
    
-   //change to slot book downloaded
-    connect(connection, SIGNAL(requestFinished(int, bool)), this, SLOT(downloaded(int)));  
+    connect(connection, SIGNAL(requestFinished(int, bool)), this, SLOT(bookDownloaded(int)));  
     myActiveWidget = widget;
     myRequestId = connection->download(link, myFile);
 }

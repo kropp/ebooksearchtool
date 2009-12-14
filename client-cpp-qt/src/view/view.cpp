@@ -110,7 +110,7 @@ void View::connectToButtons() const {
     size_t size = myBooks.size();
     for (size_t i = 0; i < size; ++i) {
         connect(myBooks[i], SIGNAL(download(BookWidget*)), this, SLOT(download(BookWidget*)));
-        connect(myBooks[i], SIGNAL(read(BookWidget*)), this, SLOT(downloadBook(BookWidget*)));
+        connect(myBooks[i], SIGNAL(read(BookWidget*)), this, SLOT(read(BookWidget*)));
         connect(myBooks[i], SIGNAL(toLibrary(BookWidget*)), this, SLOT(toLibrary(BookWidget*)));
         connect(myBooks[i], SIGNAL(remove(BookWidget*)), this, SLOT(remove(BookWidget*)));
    }
