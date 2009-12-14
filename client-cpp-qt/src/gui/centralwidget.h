@@ -22,6 +22,9 @@ private slots:
 	void httpRequestFinished(int requestId, bool error);
 	void parseDownloadedFile();
 
+signals:
+    void stateChanged(const QString& message);
+
 private:
     QProgressBar* getProgressBar();
     void createProgressBar();

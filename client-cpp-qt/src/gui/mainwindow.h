@@ -30,6 +30,7 @@ private:
 private slots:
     void updateStatusBar();
     void updateStatusLabel(const QString& );
+    void search(const QString& query);
 
 private:
     SearchWidget* mySearchWidget;

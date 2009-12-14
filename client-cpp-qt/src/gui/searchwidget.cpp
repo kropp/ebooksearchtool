@@ -54,7 +54,7 @@ void SearchWidget::setWidgets() {
 void SearchWidget::emitSearch() {
     QString str = myLineEdit->text();
     if (!str.isEmpty()) {
-        emit search(myLineEdit->text());
+        emit search(myLineEdit->text()); //.prepend(tr("Searching: ")));
     } 
 }
 

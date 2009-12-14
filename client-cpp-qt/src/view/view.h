@@ -11,10 +11,8 @@
 class QLabel;
 class QCheckBox;
 class QFile;
-
 class Data;
 class BookActionsButtonBox;
-
 
 class View : public QWidget {
 
@@ -44,7 +42,8 @@ private:
 
 signals:
     void addToLibrary(const Book&);
-    void downloaded(const QString& bookTitle);
+    //void downloaded(const QString& bookTitle);
+    void stateChanged(const QString& state);
 
 private slots:
     void markAllBooks(int); // +

@@ -17,9 +17,8 @@ MainWindow::MainWindow() {
 	setCentralWidget(myCentralWidget);
 
     connect(mySearchWidget, SIGNAL(search(QString)), myCentralWidget, SLOT(downloadFile(QString))); 
-    
-    connect(mySearchWidget, SIGNAL(search(QString)), this, SLOT(updateStatusLabel(QString))); 
-    
+    connect(mySearchWidget, SIGNAL(search(QString)), this, SLOT(search(QString))); 
+    connect(myCentralWidget, SIGNAL(stateChanged(QString)), this, SLOT(updateStatusLabel(QString))); 
 //    connect(mySearchWidget, SIGNAL(search(QString)), this, updateStatusBar());
 
     mySearchWidget->setFocus();
@@ -88,13 +87,16 @@ void MainWindow::updateStatusBar() {
     // label <- найдено, показано
 }
 
-void MainWindow::updateStatusLabel(const QString& query) {
-    QString status = tr("Search: ");
-    myStatusLabel->setText(status.append(query));
+void MainWindow::updateStatusLabel(const QString& message) {
+    //QString status = tr("Search: ");
+    myStatusLabel->setText(message);
 }
 
 void MainWindow::readSettings() {
 
 }
 
-
+void MainWindow::search(const QString& query) {
+    QString message(query);
+    updateStatusLabel(message.prepend(tr("Searching: ")));
+}

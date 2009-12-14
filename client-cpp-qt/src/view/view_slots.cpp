@@ -77,7 +77,8 @@ void View::bookDownloaded(int id) {
     if (id == myRequestId) {
         const Book& book = myActiveWidget->getBook();
         qDebug() << "signal View::BookDownloaded" << QString::fromStdString(book.getTitle());
-        emit downloaded(QString::fromStdString(book.getTitle()));
+        QString title = QString::fromStdString(book.getTitle());
+        emit stateChanged(title.prepend(tr("Downloaded book: ")));
     }
 }
 

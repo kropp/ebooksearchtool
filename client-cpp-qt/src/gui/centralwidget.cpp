@@ -17,7 +17,7 @@ CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myBuffer(0), my
     myNetworkManager = NetworkManager::getInstance(); 
 
 	connect(myNetworkManager, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
-
+    connect(myView, SIGNAL(stateChanged(QString)), this, SIGNAL(stateChanged(QString)));
 	//connect(myView, SIGNAL(urlRequest(const QString&)), this, SLOT(downloadFile(const QString&)));
 
 	QVBoxLayout *mainLayout = new QVBoxLayout();
