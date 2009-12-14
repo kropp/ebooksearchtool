@@ -40,7 +40,7 @@ public class ConsoleInputParameters {
                     }
                     case 'n':{
                         if(args.length > 1){
-                            PropertiesIO.getPropertiesFromFile(args[1]);
+                            PropertiesIO.getPropertiesFromFile(args[2]);
                         }
                         NetworkInitializator.createCrawlerConnector("localhost",
                                 AnalyzerProperties.getPropertieAsNumber("crawler_port"));
@@ -80,8 +80,11 @@ public class ConsoleInputParameters {
             default:{}
         }
         }else{
-            String[] arr = new String[1];
+            System.out.println("asdf");
+            String[] arr = new String[3];
             arr[0] = "-tn";
+            arr[1] = "-p";
+            arr[2] = "analyzer.properties";
             org.ebooksearchtool.analyzer.utils.ConsoleInputParameters.switchMode(arr);
         }
     }

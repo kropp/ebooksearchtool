@@ -1,1 +1,1 @@
-java -jar dist/analyzer.jar -p analyzer.properties
+java -jar dist/analyzer.jar
