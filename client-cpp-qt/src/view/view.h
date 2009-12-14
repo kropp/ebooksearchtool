@@ -36,9 +36,12 @@ public:
 private:    
     void readSettings();
     void addWidget(QWidget* widget);
-    void connectWithButtons() const;
+    void connectToButtons() const;
     void hideHeader();
     void showHeader();
+
+signals:
+    void addToLibrary(const Book&);
 
 private slots:
     void markAllBooks(int);

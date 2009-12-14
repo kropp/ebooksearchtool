@@ -9,13 +9,14 @@
 
 //#include <QDebug>
 
-const QSize BookWidget::ourSizeHint = QSize(500, 90);
+const QSize BookWidget::ourSizeHint = QSize(600, 90);
 
 BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent), myBook(book) {
 
 // create all content
     myCheckBox = new QCheckBox();
     QLabel* title = new QLabel(QString::fromStdString(myBook->getTitle()).prepend("<H2>").append("</H2>"));
+//    title->setWordWrap(true);
     QLabel* author = new QLabel(QString::fromStdString(myBook->getAuthor()->getName()));
 //    QLabel* summary = makeSummary();
 
@@ -74,18 +75,23 @@ void BookWidget::setCover() {
 }
 
 void BookWidget::toLibrary() {
+    qDebug() << "bookWidget emit toLibrary";
     emit toLibrary(this);
 }
 
 void BookWidget::download() {
+
+    qDebug() << "bookWidget emit download";
     emit download(this);
 }
+
 
 void BookWidget::read() {
     emit read(this);
 }
 
 void BookWidget::remove() {
+    qDebug() << "bookWidget emit remove";
     emit remove(this);
 }
 

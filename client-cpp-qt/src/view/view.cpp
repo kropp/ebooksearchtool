@@ -54,7 +54,8 @@ void View::update() {
         hideHeader();
         return;
     }
-    const size_t size = (myData->getSize() < 5) ? myData->getSize() : 5;
+    const size_t size = myData->getSize();
+
 //don't show header if there are no books
     if (size == 0) {
         hideHeader();
@@ -68,7 +69,7 @@ void View::update() {
         myLayout->addWidget(widget, i + 1, 0, 1, 4);
         qDebug() << "View::update widget added";
     }
-    connectWithButtons();
+    connectToButtons();
 }
 
 void View::clear() {
@@ -96,11 +97,13 @@ void View::markAllBooks(int state) {
 }
 
 
-void View::connectWithButtons() const {
+void View::connectToButtons() const {
     size_t size = myBooks.size();
     for (size_t i = 0; i < size; ++i) {
         connect(myBooks[i], SIGNAL(download(BookWidget*)), this, SLOT(download(BookWidget*)));
         connect(myBooks[i], SIGNAL(read(BookWidget*)), this, SLOT(downloadBook(BookWidget*)));
+        connect(myBooks[i], SIGNAL(toLibrary(BookWidget*)), this, SLOT(toLibrary(BookWidget*)));
+        connect(myBooks[i], SIGNAL(remove(BookWidget*)), this, SLOT(remove(BookWidget*)));
    }
 }
 
@@ -112,8 +115,10 @@ void View::remove(BookWidget* widget) {
     widget->hide();
 }
 
-void View::toLibrary(BookWidget*) {
-
+void View::toLibrary(BookWidget* widget) {
+    const Book& book = widget->getBook();
+    qDebug() << "view signal book to library " << QString::fromStdString(book.getTitle());
+    emit addToLibrary(book);
 }
 
 void View::read(int id) {
@@ -155,16 +160,19 @@ void View::downloadBook(BookWidget* widget, const QString& name) {
     }
    // qDebug() <<
     // если файл с таким именем уже существует, то надо читать его
-    if (QFile::exists(fileName)) {
+   /* if (QFile::exists(fileName)) {
         myFile = new QFile(fileName);
         read();
         return;
     }
-    
+    */
     myFile = new QFile(fileName);
     myFile->open(QIODevice::WriteOnly);
     NetworkManager* connection = NetworkManager::getInstance();
-    connect(connection, SIGNAL(requestFinished(int, bool)), this, SLOT(read(int)));  
+   
+   //change to slot book downloaded
+   // connect(connection, SIGNAL(requestFinished(int, bool)), this, SLOT(read(int)));  
+
     myRequestId = connection->download(link, myFile);
 }
 
@@ -179,10 +187,19 @@ void View::removeChecked() {
     
 void View::downloadChecked() {
     qDebug() << "View slot downloadChecked";
+    // один раз показываем файловое диалоговое окно
+    // вызваем download слот 
+    // для каждого из помеченных
 }
 
 void View::toLibraryChecked() {
     qDebug() << "View slot toLibraryChecked";
+    for (int i = 0; i < myBooks.size(); ++i) {
+        if (myBooks[i]->isMarked()) {
+            toLibrary(myBooks[i]);
+            --i;
+        }
+    }
 }
 
 void View::hideHeader() {
