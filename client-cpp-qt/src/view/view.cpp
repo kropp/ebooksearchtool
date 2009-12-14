@@ -39,6 +39,14 @@ View::View(QWidget* parent, Data* data) : QWidget(parent), myData(data) {
 
 void View::setData(Data* data) {
     myData = data;
+//    if (myData->getSize() != 0) {
+   /*     QString state(tr("Found: "));
+        state.append(myData->getTotalEntries());
+        state.append("  Shown: "); 
+        state.append(myData->getSize());
+        emit stateChanged(state);
+ */
+ //  }
 }
     
 void View::update() {
@@ -62,7 +70,19 @@ void View::update() {
         myLayout->addWidget(widget, i + 1, 0, 1, 4);
         qDebug() << "View::update widget added";
     }
+    emit stateChanged(getState());
     connectToButtons();
+}
+
+QString View::getState() const {
+    QString state(tr("Found: "));
+    QString number;
+    number.setNum(myData->getTotalEntries());
+    state.append(number);
+    state.append("  Shown: ");
+    number.setNum(myBooks.size());
+    state.append(number);
+    return state;
 }
 
 void View::clear() {

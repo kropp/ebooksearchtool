@@ -19,6 +19,7 @@ void View::remove(BookWidget* widget) {
         myBooks.removeAt(index);
     }
     widget->hide();
+    emit stateChanged(getState());
 }
 
 void View::toLibrary(BookWidget* widget) {
@@ -71,6 +72,8 @@ void View::downloadToPath(const BookWidget* widget, const QString& name) {
     connect(connection, SIGNAL(requestFinished(int, bool)), this, SLOT(bookDownloaded(int)));  
     myActiveWidget = widget;
     myRequestId = connection->download(link, myFile);
+    QString str(tr("Downloading: "));
+    emit stateChanged(str.append(QString::fromStdString(book.getTitle())));
 }
 
 void View::bookDownloaded(int id) {
@@ -78,7 +81,7 @@ void View::bookDownloaded(int id) {
         const Book& book = myActiveWidget->getBook();
         qDebug() << "signal View::BookDownloaded" << QString::fromStdString(book.getTitle());
         QString title = QString::fromStdString(book.getTitle());
-        emit stateChanged(title.prepend(tr("Downloaded book: ")));
+        emit stateChanged(title.prepend(tr("Downloaded: ")));
     }
 }
 

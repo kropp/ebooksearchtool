@@ -13,11 +13,11 @@ public:
 
 public:
     const Book* getBook(size_t index) const;
-	  size_t getSize() const;
+    size_t getSize() const;
     size_t getTotalEntries() const;
 
-	  void addBook(const Book* book);
-	  void setTotalEntries(int size);
+    void addBook(const Book* book);
+    void setTotalEntries(int size);
 
 private:
 	  std::vector<const Book*> myBooks;

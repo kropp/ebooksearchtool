@@ -39,6 +39,7 @@ private:
     void hideHeader();
     void showHeader();
     void downloadToPath(const BookWidget* widget, const QString& path);
+    QString getState() const;
 
 signals:
     void addToLibrary(const Book&);
