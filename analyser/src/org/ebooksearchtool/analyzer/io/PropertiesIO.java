@@ -2,6 +2,7 @@ package org.ebooksearchtool.analyzer.io;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -19,7 +20,8 @@ public class PropertiesIO {
     public static void getPropertiesFromFile(String file){
         try {
             Properties prop = new Properties();
-            prop.load(new BufferedReader(new FileReader(file)));
+			prop.load(new FileInputStream(file));
+            //prop.load(new BufferedReader(new FileReader(file)));
             Set<Entry<Object, Object>> entrys = prop.entrySet();
             for (Entry<Object, Object> entry : entrys) {
                 AnalyzerProperties.setPropertie((String) entry.getKey(), (String) entry.getValue());
