@@ -26,7 +26,8 @@ private:
     void createStatusBar();
     
     void readSettings();
-        
+    void writeSettings();
+
 private slots:
     void updateStatusBar();
     void updateStatusLabel(const QString& );

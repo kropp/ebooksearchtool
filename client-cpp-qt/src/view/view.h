@@ -18,8 +18,8 @@ class View : public QWidget {
 
  Q_OBJECT
 
-private:
-    static QString ourConfigFilePath;
+public:
+    static const QString ourConfigFilePath;
     
 public:
     View(QWidget* parent, Data* data);

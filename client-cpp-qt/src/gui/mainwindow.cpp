@@ -7,8 +7,6 @@
 MainWindow::MainWindow() {
     mySearchWidget = new SearchWidget(this);
     myCentralWidget = new CentralWidget(this);
-//    mySearchWidget->setAlignment(Qt::AlignmentRight);
-//    mySearchWidget->resize(10, 100);
     createActions();
     createMenu();
     createToolBar();
@@ -26,9 +24,9 @@ MainWindow::MainWindow() {
 //	showMaximized();
 }
 
-void MainWindow::closeEvent(QCloseEvent* ) {
-//write settings;
-
+void MainWindow::closeEvent(QCloseEvent* event) {
+    writeSettings();
+    event->accept();
 }
 
 void MainWindow::createActions() {
@@ -93,7 +91,20 @@ void MainWindow::updateStatusLabel(const QString& message) {
 }
 
 void MainWindow::readSettings() {
-
+    qDebug() << "MainWindow::readSettings";
+    QSettings settings(View::ourConfigFilePath, QSettings::IniFormat);
+    resize(settings.value("mainwindow/size").toSize());
+    if (settings.value("mainwindow/fullScreen").toBool()) {
+        showFullScreen();
+    }
+}
+    
+void MainWindow::writeSettings() {
+    QSettings settings(View::ourConfigFilePath, QSettings::IniFormat);
+    settings.beginGroup("mainwindow");
+    settings.setValue("size", this->size());
+    settings.setValue("fullScreen", this->isFullScreen());
+    settings.endGroup();
 }
 
 void MainWindow::search(const QString& query) {

@@ -9,7 +9,7 @@
 
 #include <QDebug>
 
-QString View::ourConfigFilePath = "../.config.ini";
+const QString View::ourConfigFilePath = "../.config.ini";
 
 View::View(QWidget* parent, Data* data) : QWidget(parent), myData(data), myWantToRead(false) { 
     readSettings();
