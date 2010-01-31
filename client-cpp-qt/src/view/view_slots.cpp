@@ -29,7 +29,7 @@ void View::toLibrary(BookWidget* widget) {
 }
 
 void View::read(BookWidget* widget) {
- //   qDebug() <<  "slot View::read";
+    qDebug() <<  "slot View::read";
     myWantToRead = true;
     const Book& book = widget->getBook();
     QString link = QString::fromStdString(book.getLink());
@@ -72,6 +72,7 @@ void View::downloadToPath(const BookWidget* widget, const QString& name) {
     const Book& book = widget->getBook();
     QString link = QString::fromStdString(book.getLink());
    //// TODO simplify
+   // If user haven't chosen a path for downloading - use default filename
    QString fileName;
     if (!name.isEmpty()) {
         fileName = name;
@@ -97,11 +98,11 @@ void View::bookDownloaded(int id) {
         qDebug() << "signal View::BookDownloaded" << QString::fromStdString(book.getTitle());
         QString title = QString::fromStdString(book.getTitle());
         emit stateChanged(title.prepend(tr("Downloaded: ")));
-    }
-    if (myWantToRead) {
-        qDebug() << "myWant to read = true";
-        open(myFile->fileName());
-        myWantToRead = false;
+        if (myWantToRead) {
+            qDebug() << "myWant to read = true, want to read downloaded file";
+            open(myFile->fileName());
+            myWantToRead = false;
+        }
     }
 }
 

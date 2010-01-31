@@ -47,8 +47,8 @@ signals:
     void stateChanged(const QString& state);
 
 private slots:
-    void markAllBooks(int); // +
-    void remove(BookWidget*); // +
+    void markAllBooks(int); 
+    void remove(BookWidget*); 
 
     void download(BookWidget*);
     void bookDownloaded(int id);
