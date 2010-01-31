@@ -42,7 +42,7 @@ private:
 
     QAction* myExitAction;
     QAction* myFullScreenAction;
-    QAction* mySettinsAction;
+    QAction* mySetConnectionAction;
     QAction* myBackAction;
     QAction* myStopAction;
 };

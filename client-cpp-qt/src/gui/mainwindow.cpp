@@ -33,16 +33,19 @@ void MainWindow::createActions() {
     myExitAction = new QAction(tr("E&xit"), this);
     myExitAction->setShortcut(tr("Ctrl+X"));
     myExitAction->setStatusTip(tr("Exit the application"));
-    connect(myExitAction, SIGNAL(triggered()), qApp, SLOT(closeAllWindows()));
     
-    mySettinsAction = new QAction(tr("Settings..."), this);
+    mySetConnectionAction = new QAction(tr("Internet Connection..."), this);
+    mySetConnectionAction->setStatusTip(tr("Set internet connection parameters"));
+    //connect(mySetConnectionAction, SIGNAL(triggered()), 
+      //      this, SLOT(showInternetConnectionDialog()));
+
     myFullScreenAction = new QAction(tr("Full screen"), this);
     
     myBackAction = new QAction(tr("Back"), this);
-//    myBackAction->setIcon(QIcon("view/images/back.png"));
+    myBackAction->setIcon(QIcon("view/images/back.png"));
 
     myStopAction = new QAction(tr("Stop"), this);
-  //  myStopAction->setIcon(QIcon("view/images/stop.jpeg"));
+    myStopAction->setIcon(QIcon("view/images/stop.jpeg"));
 }
 
 void MainWindow::createMenu() {
@@ -53,8 +56,8 @@ void MainWindow::createMenu() {
     viewMenu->addAction(myFullScreenAction);
     viewMenu->addAction(myStopAction);
     
-    QMenu* editMenu = menuBar()->addMenu(tr("Edit"));
-    editMenu->addAction(mySettinsAction);
+    QMenu* editMenu = menuBar()->addMenu(tr("Settings"));
+    editMenu->addAction(mySetConnectionAction);
     
     QMenu* historyMenu = menuBar()->addMenu(tr("History"));
     historyMenu->addAction(myBackAction);
