@@ -8,8 +8,18 @@
 <!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
 <!-- in the project's Project Properties dialog box.-->
 <project name="Analyzer" default="default" basedir=".">
-    <description>Builds, tests, and runs the project Analyzer.</description>
-    <import file="nbproject/build-impl.xml"/>
+	<description>Builds, tests, and runs the project Analyzer.</description>
+	<import file="nbproject/build-impl.xml"/>
+
+	<target name="-post-jar">
+		<mkdir dir="${dist.jar.dir}/log" />
+
+		<!-- copy property file -->
+		<copy file="analyzer.properties" tofile="${dist.jar.dir}/analyzer.properties" />
+		<copy file="languages.lang" tofile="${dist.jar.dir}/languages.lang" />
+	</target>
+
+
     <!--
 
     There exist several targets which are by default empty and which can be 
