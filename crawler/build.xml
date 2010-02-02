@@ -16,12 +16,13 @@
     </target>
 
     <target name="compile" depends="init">
-        <javac srcdir="${src}" destdir="${build}" classpath=".;${lib/jericho}" debug="true"/>
+        <javac srcdir="${src}" destdir="${build}" classpath=".;${lib/jericho}" debug="true" target="1.5"/>
     </target>
 
     <target name="dist" depends="clean,compile">
         <mkdir dir="${dist}"/>
         <jar jarfile="${jarfile}" basedir="${build}" manifest="${manifest}"/>
+        <copy file="crawler.properties" tofile="${dist}/crawler.properties" />
     </target>
 
     <target name="clean">
