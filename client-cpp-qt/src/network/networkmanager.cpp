@@ -26,12 +26,27 @@ NetworkManager::NetworkManager() {
     connect(myHttpConnection, SIGNAL(requestFinished(int, bool)), this, SIGNAL(requestFinished(int, bool)));
 }
 
+NetworkManager::~NetworkManager() {
+    writeSettings();
+}
+
 void NetworkManager::readSettings() {
     QSettings settings(ourConfigFilePath, QSettings::IniFormat);
     ourProxy = settings.value("network/proxy").toString();
     ourPort = settings.value("network/port").toInt();
     ourServer = settings.value("network/server").toString();
 }
+
+void NetworkManager::writeSettings() const {
+    if (ourProxy.isEmpty()) {
+        return;
+    }
+    QSettings settings(ourConfigFilePath, QSettings::IniFormat);
+    settings.beginGroup("network");
+    settings.setValue("proxy", ourProxy);
+    settings.setValue("port", ourPort);
+    settings.endGroup();
+} 
 
 QString NetworkManager::getServer() const {
     return ourServer;

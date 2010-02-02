@@ -29,7 +29,6 @@ public:
     
 
 public:
-	void readSettings();
 	int download(QString url, QIODevice* out, QProgressBar* progressBar);
 	int download(QString url, QIODevice* out);
 	QString getServer() const;
@@ -39,7 +38,10 @@ signals:
 
 private:
     NetworkManager();
-        
+    ~NetworkManager();
+    void readSettings();
+    void writeSettings() const;   
+
 private:
     QHttp* myHttpConnection;   
 };
