@@ -8,6 +8,7 @@ class QProgressBar;
 class QAction;
 class CentralWidget;
 class SearchWidget;
+class InternetConnectionDialog;
 
 class MainWindow : public QMainWindow {
 
@@ -32,6 +33,7 @@ private slots:
     void updateStatusBar();
     void updateStatusLabel(const QString& );
     void search(const QString& query);
+    void showInternetConnectionDialog();
 
 private:
     SearchWidget* mySearchWidget;
@@ -45,6 +47,8 @@ private:
     QAction* mySetConnectionAction;
     QAction* myBackAction;
     QAction* myStopAction;
+
+    InternetConnectionDialog* myInternetConnectionDialog;
 };
 
 #endif //_MAIN_WINDOW_H_

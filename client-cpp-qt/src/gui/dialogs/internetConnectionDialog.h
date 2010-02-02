@@ -10,6 +10,9 @@ class InternetConnectionDialog : public QDialog {
 public:
     InternetConnectionDialog(QWidget* parent, ConnectionParameters* parameters);
 
+public:
+    void closeEvent(QCloseEvent*);
+
 private:
     ConnectionParameters* myParameters;
 };

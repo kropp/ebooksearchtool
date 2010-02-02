@@ -3,6 +3,7 @@
 #include "mainwindow.h"
 #include "centralwidget.h"
 #include "searchwidget.h"
+#include "dialogs/internetConnectionDialog.h"
 
 MainWindow::MainWindow() {
     mySearchWidget = new SearchWidget(this);
@@ -13,6 +14,8 @@ MainWindow::MainWindow() {
     createStatusBar();
     readSettings();
 	setCentralWidget(myCentralWidget);
+
+    myInternetConnectionDialog = new InternetConnectionDialog(this, 0);
 
     connect(mySearchWidget, SIGNAL(search(QString)), myCentralWidget, SLOT(downloadFile(QString))); 
     connect(mySearchWidget, SIGNAL(search(QString)), this, SLOT(search(QString))); 
@@ -36,8 +39,8 @@ void MainWindow::createActions() {
     
     mySetConnectionAction = new QAction(tr("Internet Connection..."), this);
     mySetConnectionAction->setStatusTip(tr("Set internet connection parameters"));
-    //connect(mySetConnectionAction, SIGNAL(triggered()), 
-      //      this, SLOT(showInternetConnectionDialog()));
+    connect(mySetConnectionAction, SIGNAL(triggered()), 
+            this, SLOT(showInternetConnectionDialog()));
 
     myFullScreenAction = new QAction(tr("Full screen"), this);
     
@@ -61,6 +64,10 @@ void MainWindow::createMenu() {
     
     QMenu* historyMenu = menuBar()->addMenu(tr("History"));
     historyMenu->addAction(myBackAction);
+}
+
+void MainWindow::showInternetConnectionDialog() {
+    myInternetConnectionDialog->show();
 }
 
 void MainWindow::createToolBar() {
