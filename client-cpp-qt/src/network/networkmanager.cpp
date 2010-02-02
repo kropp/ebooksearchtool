@@ -2,7 +2,7 @@
 #include <QString>
 #include <QHttp>
 #include <QProgressBar>
-//#include <QDebug>
+#include <QDebug>
 
 #include "networkmanager.h"
 
@@ -27,6 +27,7 @@ NetworkManager::NetworkManager() {
 }
 
 NetworkManager::~NetworkManager() {
+    qDebug() << "NetworkManager::~NetworkManager";
     writeSettings();
 }
 
@@ -38,9 +39,7 @@ void NetworkManager::readSettings() {
 }
 
 void NetworkManager::writeSettings() const {
-    if (ourProxy.isEmpty()) {
-        return;
-    }
+    qDebug() << "NetworkManager::writeSettings";
     QSettings settings(ourConfigFilePath, QSettings::IniFormat);
     settings.beginGroup("network");
     settings.setValue("proxy", ourProxy);

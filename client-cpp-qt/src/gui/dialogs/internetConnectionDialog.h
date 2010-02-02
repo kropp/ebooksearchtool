@@ -16,9 +16,11 @@ Q_OBJECT
 public:
     InternetConnectionDialog(QWidget* parent);
 
-public slots:
+private slots:
     void setProxyEnabled();
     void setProxyDisabled();
+    void applyNewSettings();
+    void cancel();
 
 private:
     void setInitialValues();

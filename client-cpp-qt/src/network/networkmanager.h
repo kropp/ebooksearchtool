@@ -2,6 +2,7 @@
 #define _NETWORK_MANAGER_H_
 
 #include <QObject>
+//#include <../gui/dialogs/internetConnectionDialog.h>
 
 class HttpConnection;
 class QString;
@@ -29,7 +30,9 @@ public:
     
 
 public:
-	int download(QString url, QIODevice* out, QProgressBar* progressBar);
+    ~NetworkManager();
+	
+    int download(QString url, QIODevice* out, QProgressBar* progressBar);
 	int download(QString url, QIODevice* out);
 	QString getServer() const;
 
@@ -38,12 +41,13 @@ signals:
 
 private:
     NetworkManager();
-    ~NetworkManager();
     void readSettings();
     void writeSettings() const;   
 
 private:
     QHttp* myHttpConnection;   
+
+friend class InternetConnectionDialog;
 };
 
 inline const QString& NetworkManager::getProxy() const {

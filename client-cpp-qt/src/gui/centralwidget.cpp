@@ -25,6 +25,10 @@ CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myBuffer(0), my
 	setLayout(mainLayout);
 }
 
+CentralWidget::~CentralWidget() {
+    delete myNetworkManager;
+}
+
 void CentralWidget::downloadFile(const QString& query) {
 //    qDebug() << "CentralWidget::downloadFile " << query;
     myNewRequest = true;

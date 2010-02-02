@@ -16,6 +16,7 @@ class CentralWidget : public QWidget {
     
 private:
     CentralWidget(QWidget* parent);
+    ~CentralWidget();
     
 private slots:
 	void downloadFile(const QString& query);
