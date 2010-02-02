@@ -27,7 +27,6 @@ private:
     void closeEvent(QCloseEvent*);
     
 private:
-    ConnectionParameters* myParameters;
     QRadioButton* myWithoutProxyButton;
     QRadioButton* mySetProxyButton;
     QLineEdit* myProxy;
