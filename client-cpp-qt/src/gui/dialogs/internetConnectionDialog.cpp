@@ -6,21 +6,21 @@
 #include <QLineEdit>
 
 #include "internetConnectionDialog.h"
+#include "../../network/networkmanager.h"
 
 InternetConnectionDialog::
-InternetConnectionDialog(QWidget* parent, ConnectionParameters* parameters)
-: QDialog (parent), myParameters(parameters) {
+InternetConnectionDialog(QWidget* parent) : QDialog (parent) {
     
     // create radio buttons
-    QRadioButton* withoutProxyButton = new QRadioButton(tr("Without proxy"), this);
-    QRadioButton* setProxyButton = new QRadioButton(tr("Set proxy"), this);
+    myWithoutProxyButton = new QRadioButton(tr("Without proxy"), this);
+    mySetProxyButton = new QRadioButton(tr("Set proxy"), this);
     QButtonGroup* buttonGroup = new QButtonGroup(this);
-    buttonGroup->addButton(withoutProxyButton);
-    buttonGroup->addButton(setProxyButton);
+    buttonGroup->addButton(myWithoutProxyButton);
+    buttonGroup->addButton(mySetProxyButton);
 
     //set connections
-    connect(withoutProxyButton, SIGNAL(clicked()), this, SLOT(setProxyDisabled()));
-    connect(setProxyButton, SIGNAL(clicked()), this, SLOT(setProxyEnabled()));
+    connect(myWithoutProxyButton, SIGNAL(clicked()), this, SLOT(setProxyDisabled()));
+    connect(mySetProxyButton, SIGNAL(clicked()), this, SLOT(setProxyEnabled()));
     
     // create other widgets
     myProxyLabel = new QLabel(tr("Proxy: "));   
@@ -34,8 +34,8 @@ InternetConnectionDialog(QWidget* parent, ConnectionParameters* parameters)
     
 // add widgets into layout
     QGridLayout* mainLayout = new QGridLayout();
-    mainLayout->addWidget(withoutProxyButton, 0, 0, 1, 3);
-    mainLayout->addWidget(setProxyButton, 1, 0, 1, 3);
+    mainLayout->addWidget(myWithoutProxyButton, 0, 0, 1, 3);
+    mainLayout->addWidget(mySetProxyButton, 1, 0, 1, 3);
     mainLayout->addWidget(myProxyLabel, 2, 1);
     mainLayout->addWidget(myPortLabel, 3, 1);
     mainLayout->addWidget(myProxy, 2, 2);
@@ -43,8 +43,26 @@ InternetConnectionDialog(QWidget* parent, ConnectionParameters* parameters)
     mainLayout->addWidget(applyButton, 4, 0);
     mainLayout->addWidget(cancelButton, 4, 2);
 
+// set initial values for port and proxy
+    setInitialValues();
+
     setLayout(mainLayout);
     setWindowTitle(tr("Internet connection settings"));
+}
+
+void InternetConnectionDialog::setInitialValues() {
+    NetworkManager* manager = NetworkManager::getInstance();
+    const QString& proxy = manager->getProxy();
+    if (proxy.isEmpty()) {
+        myWithoutProxyButton->setChecked(true);
+        setProxyDisabled();
+    } else {
+        mySetProxyButton->setChecked(true);
+        myProxy->setText(proxy);
+        QString port;
+        port.setNum(manager->getPort());
+        myPort->setText(port);
+    }
 }
 
 void InternetConnectionDialog::closeEvent(QCloseEvent*) {

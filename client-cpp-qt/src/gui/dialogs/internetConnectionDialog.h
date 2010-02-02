@@ -7,23 +7,27 @@
 
 class QLineEdit;
 class QLabel;
+class QRadioButton;
 
 class InternetConnectionDialog : public QDialog {
 
 Q_OBJECT
 
 public:
-    InternetConnectionDialog(QWidget* parent, ConnectionParameters* parameters);
+    InternetConnectionDialog(QWidget* parent);
 
 public slots:
     void setProxyEnabled();
     void setProxyDisabled();
 
 private:
+    void setInitialValues();
     void closeEvent(QCloseEvent*);
-
+    
 private:
     ConnectionParameters* myParameters;
+    QRadioButton* myWithoutProxyButton;
+    QRadioButton* mySetProxyButton;
     QLineEdit* myProxy;
     QLineEdit* myPort;
     QLabel* myProxyLabel;

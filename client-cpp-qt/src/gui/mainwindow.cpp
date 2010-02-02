@@ -15,7 +15,7 @@ MainWindow::MainWindow() {
     readSettings();
 	setCentralWidget(myCentralWidget);
 
-    myInternetConnectionDialog = new InternetConnectionDialog(this, 0);
+    myInternetConnectionDialog = new InternetConnectionDialog(this);
 
     connect(mySearchWidget, SIGNAL(search(QString)), myCentralWidget, SLOT(downloadFile(QString))); 
     connect(mySearchWidget, SIGNAL(search(QString)), this, SLOT(search(QString))); 
