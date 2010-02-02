@@ -16,7 +16,7 @@ private:
     const int myPort;
 };
 
-inline const ConnectionParameters::QString& getProxy() const {
+inline const QString& ConnectionParameters::getProxy() const {
     return myProxy;
 }
 
