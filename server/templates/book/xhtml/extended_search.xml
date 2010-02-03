@@ -22,7 +22,7 @@
   
     <h1 class="fb-blue bottom">Extended search: </h1>
 
-    <form name="test" action="../../search">
+    <form name="test" action="../search">
     
 <table>    
     <tr>

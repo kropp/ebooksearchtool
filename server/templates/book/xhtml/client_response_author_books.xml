@@ -31,7 +31,7 @@
     {% if not book.book_file.all.0.img_link %}
         <a href="book/id{{ book.id }}"><img alt="{{ book.title }}" class="cover" align="left" border="0" hspace="10" src="/pic/nobookcover" title="{{ book.title }}" /></a>
       {% else %}
-        <a href="book/id{{ book.id }}"><img alt="{{ book.title }}" class="cover" align="left" border="0" hspace="10"  src="{{book.book_file.all.0.img_link}}" title="{{ book.title }}" /></a> 
+        <a href="../book/id{{ book.id }}"><img alt="{{ book.title }}" class="cover" align="left" border="0" hspace="10"  src="{{book.book_file.all.0.img_link}}" title="{{ book.title }}" /></a> 
       {% endif %}
   
   </div>
@@ -47,10 +47,10 @@
     </div>
 
     
-    <h3 class="fb-blue small-bottom-margin"><a href="../../book/id{{ book.id }}">{{ book.title }}</a></h3>
+    <h3 class="fb-blue small-bottom-margin"><a href="../book/id{{ book.id }}">{{ book.title }}</a></h3>
     <h4 class="charcoal">by 
       {% for author in book.author_set.all %}
-         <em><a href="../../author/id{{ author.id }}" class="gray">{{ author.name }}</a></em>
+         <em><a href="../author/id{{ author.id }}" class="gray">{{ author.name }}</a></em>
       {% endfor %}
     </h4>    
     {% for annotation in book.annotation.all %}

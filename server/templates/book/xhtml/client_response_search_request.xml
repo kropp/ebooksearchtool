@@ -28,7 +28,7 @@
   
     <h1 class="fb-blue bottom">Search: </h1>
 
-    <form name="test" action="../../search">
+    <form name="test" action="../search">
       Query: <input type="text" name="query">
     <!--  <input type="text" name="author"-->
       <input type="submit" value="Search" >
