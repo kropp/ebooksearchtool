@@ -4,21 +4,10 @@ package org.ebooksearchtool.analyzer.utils;
  * @author Алексей
  */
 
-import org.ebooksearchtool.analyzer.algorithms.*;
-import java.util.ArrayList;
-import org.ebooksearchtool.analyzer.algorithms.subalgorithms.FormatExtractor;
-import org.ebooksearchtool.analyzer.algorithms.subalgorithms.LanguageExtractor;
-import org.ebooksearchtool.analyzer.algorithms.subalgorithms.URLsExtractor;
 import org.ebooksearchtool.analyzer.io.Logger;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-import org.ebooksearchtool.analyzer.model.*;
-import org.ebooksearchtool.analyzer.utils.AnalyzeUtils;
-import org.ebooksearchtool.analyzer.model.Lexema;
-import org.ebooksearchtool.analyzer.network.ServerConnector;
-import org.ebooksearchtool.analyzer.utils.BookInfoFormer;
-import org.ebooksearchtool.analyzer.utils.NetUtils;
 
 public class ServerAnswerHandler extends DefaultHandler{
 

@@ -2,7 +2,6 @@ package org.ebooksearchtool.analyzer.algorithms.subalgorithms;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.ebooksearchtool.analyzer.algorithms.AuthorsSimpleParser;
 import org.ebooksearchtool.analyzer.model.Author;
 import org.ebooksearchtool.analyzer.model.Lexema;
 
@@ -38,7 +37,7 @@ public class AuthorExtractor {
             }
             sb.append(lex.getValue());
 
-            authors = AuthorsSimpleParser.parse(Lexema.convertToLexems(trim(sb)));
+            authors = AuthorsSimpleParser.parse(trim(sb));
         }else{
             authors.add(new Author());
         }

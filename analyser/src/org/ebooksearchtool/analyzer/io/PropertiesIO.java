@@ -20,8 +20,7 @@ public class PropertiesIO {
     public static void getPropertiesFromFile(String file){
         try {
             Properties prop = new Properties();
-			prop.load(new FileInputStream(file));
-            //prop.load(new BufferedReader(new FileReader(file)));
+            prop.load(new FileInputStream(file));
             Set<Entry<Object, Object>> entrys = prop.entrySet();
             for (Entry<Object, Object> entry : entrys) {
                 AnalyzerProperties.setPropertie((String) entry.getKey(), (String) entry.getValue());

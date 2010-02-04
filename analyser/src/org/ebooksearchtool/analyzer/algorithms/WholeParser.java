@@ -12,35 +12,38 @@ import org.ebooksearchtool.analyzer.utils.BookInfoFormer;
 
 public class WholeParser implements IParser{
 
-    private BookInfo myBookInfo;
+    private ArrayList<BookInfo> myBookInfo;
 
     public WholeParser(){
-        myBookInfo = new BookInfo();
+        myBookInfo = new ArrayList<BookInfo>();
+        myBookInfo.add(new BookInfo());
     }
 
     public BookInfo parse(String input) {
         ArrayList<Lexema> temp = Lexema.convertToLexems(input);
         BookInfo reqBook = new BookInfo();
+        int currentBook = 0;
 
-        //В этой части мы должны гарантировать правильность найденной информации
-        myBookInfo.addFile(new File(URLsExtractor.extractURL(temp)));
-        myBookInfo.getFiles().get(0).setType(FormatExtractor.extractFormat(temp));
-        myBookInfo.getFiles().get(0).setSize(SizeExtractor.extractSize(temp));
-        myBookInfo.getFiles().get(0).setImgLink(BookCoverExtractor.extractBookCover(temp));
-        myBookInfo.setAnnotations(AnnotationExtractor.extractAnnotation(temp));
-        myBookInfo.setLanguage(LanguageExtractor.extractLanguage(temp));
-        myBookInfo.setAuthors(AuthorExtractor.extractAuthors(temp));
-        myBookInfo.setTitle(TitleExtractor.extractTitle(temp));
-        //Конец гарантий
+        //TODO:Часть 1, ищем инфу на странице
+        myBookInfo.get(currentBook).addFile(new File(URLsExtractor.extractURL(temp)));
+        myBookInfo.get(currentBook).getFiles().get(0).setType(FormatExtractor.extractFormat(temp));
+        myBookInfo.get(currentBook).getFiles().get(0).setSize(SizeExtractor.extractSize(temp));//TODO:или доставать из head
+        myBookInfo.get(currentBook).getFiles().get(0).setImgLink(BookCoverExtractor.extractBookCover(temp));
+        myBookInfo.get(currentBook).setAnnotations(AnnotationExtractor.extractAnnotation(temp));
+        myBookInfo.get(currentBook).setLanguage(LanguageExtractor.extractLanguage(temp));
+        myBookInfo.get(currentBook).setAuthors(AuthorExtractor.extractAuthors(temp));
+        myBookInfo.get(currentBook).setTitle(TitleExtractor.extractTitle(temp));
+
+        //TODO:Часть 2 Проверяем ее на сервере.
 
 //        reqBook = BookInfo.getBookInfoFromRequest(
 //                ServerConnector.sendRequest(BookInfoFormer.formBookInfoRequest(myBookInfo)));
 
         if(reqBook == null){
-            return myBookInfo;
+            return myBookInfo.get(0);
         }
 
-        return myBookInfo;
+        return myBookInfo.get(0);
     }
 
 }

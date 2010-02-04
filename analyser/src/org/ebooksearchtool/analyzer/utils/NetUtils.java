@@ -89,29 +89,41 @@ public class NetUtils {
    }
 
    public static boolean serverConnetionAnswersAnalyze(String message){
-       if(message.indexOf("<name>") != 0){
-           return true;
-       }
-       return false;
-//       try {
-//            SAXParserFactory factory1 = SAXParserFactory.newInstance();
-//            SAXParser pars1 = factory1.newSAXParser();
-//            ServerAnswerHandler dh = new ServerAnswerHandler();
-//            pars1.parse(new Reader(message), dh);
-//        } catch (IOException ex) {
-//            Logger.setToErrorLog(ex.getMessage() + ". Parser can't parse file. " +
-//                    "IOException occurs in " + ServerAnswerHandler.class.getName() + " class.");
-//            return false;
-//        } catch (ParserConfigurationException ex) {
-//            Logger.setToErrorLog(ex.getMessage() + ". Parser can't parse file. " +
-//                    "ParserConfigurationException occurs in " + ServerAnswerHandler.class.getName() + " class.");
-//            return false;
-//        } catch (SAXException ex) {
-//            Logger.setToErrorLog(ex.getMessage() + ". Parser can't parse file. " +
-//                    "SAXException occurs in " + ServerAnswerHandler.class.getName() + " class.");
-//            return false;
-//        }
-//       return true;
+       try {
+           final String messageIn = message;
+           SAXParserFactory factory1 = SAXParserFactory.newInstance();
+           SAXParser pars1 = factory1.newSAXParser();
+           ServerAnswerHandler dh = new ServerAnswerHandler();
+           //Обертка для строки
+           pars1.parse(new InputStream() {
+
+               StringBuilder sb = new StringBuilder(messageIn);
+
+               @Override
+               public int read() throws IOException {
+                   if(sb.length() > 0){
+                       int out = sb.charAt(0);
+                       sb.deleteCharAt(0);
+                       return out;
+                   }else{
+                       return -1;
+                   }
+               }
+           }, dh);
+        } catch (IOException ex) {
+            Logger.setToErrorLog(ex.getMessage() + ". Parser can't parse file. " +
+                    "IOException occurs in " + ServerAnswerHandler.class.getName() + " class.");
+            return false;
+        } catch (ParserConfigurationException ex) {
+            Logger.setToErrorLog(ex.getMessage() + ". Parser can't parse file. " +
+                    "ParserConfigurationException occurs in " + ServerAnswerHandler.class.getName() + " class.");
+            return false;
+        } catch (SAXException ex) {
+            Logger.setToErrorLog(ex.getMessage() + ". Parser can't parse file. " +
+                    "SAXException occurs in " + ServerAnswerHandler.class.getName() + " class.");
+            return false;
+        }
+       return true;
    }
    //</editor-fold>
 

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-import org.ebooksearchtool.analyzer.algorithms.AuthorsSimpleParser;
+import org.ebooksearchtool.analyzer.algorithms.subalgorithms.AuthorsSimpleParser;
 import org.ebooksearchtool.analyzer.io.TestToFileWriter;
 import org.ebooksearchtool.analyzer.model.Author;
 import org.ebooksearchtool.analyzer.model.Lexema;
@@ -26,7 +26,7 @@ public class SimpleTestBuildHandler extends DefaultHandler{
     public void characters (char ch[], int start, int length) throws SAXException{
         if(ourRightElementFlag == true){
             SimpleTestBuildHandler.ourAuthors.add(AuthorsSimpleParser.parse(
-                    Lexema.convertToLexems(new String(ch, start, length).trim())));
+                    new String(ch, start, length).trim()));
             ourRightElementFlag = false;
         }
     }

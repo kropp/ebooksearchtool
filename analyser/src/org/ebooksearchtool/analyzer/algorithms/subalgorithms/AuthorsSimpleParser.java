@@ -1,8 +1,10 @@
-package org.ebooksearchtool.analyzer.algorithms;
+package org.ebooksearchtool.analyzer.algorithms.subalgorithms;
 
 import org.ebooksearchtool.analyzer.model.Lexema;
 import java.util.ArrayList;
 import org.ebooksearchtool.analyzer.model.Author;
+import org.ebooksearchtool.analyzer.model.Sentence;
+import org.ebooksearchtool.analyzer.model.SpecialWords;
 import org.ebooksearchtool.analyzer.model.SpecialWords.*;
 
 /**
@@ -10,8 +12,9 @@ import org.ebooksearchtool.analyzer.model.SpecialWords.*;
  */
 
 public class AuthorsSimpleParser{
-    public static ArrayList<Author> parse(ArrayList<Lexema> temp) {
+    public static ArrayList<Author> parse(String input) {
         ArrayList<String> out = new ArrayList<String>();
+        ArrayList<Sentence> temp = SpecialWords.devide(input);
 
         int length = temp.size();
         while (length != 0){
@@ -47,7 +50,7 @@ public class AuthorsSimpleParser{
                     //Случай с соединителем
                     if(temp.get(1).getType().equals(StringType.joiner)){
                         //TODO: До конца продумать случай однофамильцев, падеж и колличество слов в имени.
-                        if(temp.get(0).getValue().indexOf(" ") == -1){
+                        if(temp.get(0).getInfo().indexOf(" ") == -1){
                             int i = 2;
                             while(i < length && !temp.get(i).getType().equals(StringType.joiner) && !temp.get(i).getType().equals(StringType.separator)){
                                 i++;
@@ -60,7 +63,7 @@ public class AuthorsSimpleParser{
                         temp.remove(0);//Удаление and
                     }else{
                         //Просто слово
-                        temp.set(0, temp.get(0).join(temp.get(1)));
+                        temp.get(0).join(temp.get(1));
                         temp.remove(1);//Удаление добавленного слова
                     }
                 }
@@ -77,5 +80,4 @@ public class AuthorsSimpleParser{
 
         return authors;
     }
-
 }

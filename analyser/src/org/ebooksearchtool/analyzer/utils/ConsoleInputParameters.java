@@ -40,7 +40,11 @@ public class ConsoleInputParameters {
                     }
                     case 'n':{
                         if(args.length > 1){
-                            PropertiesIO.getPropertiesFromFile(args[2]);
+                            switch(args[1].charAt(1)){
+                                case 'p': {
+                                    PropertiesIO.getPropertiesFromFile(args[2]);
+                                }
+                            }
                         }
                         NetworkInitializator.createCrawlerConnector("localhost",
                                 AnalyzerProperties.getPropertieAsNumber("crawler_port"));
@@ -80,7 +84,6 @@ public class ConsoleInputParameters {
             default:{}
         }
         }else{
-            System.out.println("asdf");
             String[] arr = new String[3];
             arr[0] = "-tn";
             arr[1] = "-p";

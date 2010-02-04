@@ -12,7 +12,7 @@ import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import org.ebooksearchtool.analyzer.algorithms.AuthorsSimpleParser;
+import org.ebooksearchtool.analyzer.algorithms.subalgorithms.AuthorsSimpleParser;
 import org.xml.sax.SAXException;
 import org.ebooksearchtool.analyzer.algorithms.IParser;
 import org.ebooksearchtool.analyzer.io.TestToFileWriter;
