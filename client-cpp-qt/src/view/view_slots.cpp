@@ -24,7 +24,7 @@ void View::remove(BookWidget* widget) {
 
 void View::toLibrary(BookWidget* widget) {
     const Book& book = widget->getBook();
-    qDebug() << "view signal book to library " << QString::fromStdString(book.getTitle());
+    qDebug() << "view signal book to library " << book.getTitle();
     emit addToLibrary(book);
 }
 
@@ -32,7 +32,7 @@ void View::read(BookWidget* widget) {
     qDebug() <<  "slot View::read";
     myWantToRead = true;
     const Book& book = widget->getBook();
-    QString link = QString::fromStdString(book.getSourceLink());
+    QString link = book.getSourceLink();
     QString fileName(link.right(link.size() - link.lastIndexOf('/') - 1));
     qDebug() << "View::read " << fileName;
     if (QFile::exists(fileName)) {
@@ -70,7 +70,7 @@ void View::download(BookWidget* widget) {
 
 void View::downloadToPath(const BookWidget* widget, const QString& name) {
     const Book& book = widget->getBook();
-    QString link = QString::fromStdString(book.getSourceLink());
+    QString link = book.getSourceLink();
    //// TODO simplify
    // If user haven't chosen a path for downloading - use default filename
    QString fileName;
@@ -87,7 +87,7 @@ void View::downloadToPath(const BookWidget* widget, const QString& name) {
     myActiveWidget = widget;
     myRequestId = connection->download(link, myFile);
     QString str(tr("Downloading: "));
-    emit stateChanged(str.append(QString::fromStdString(book.getTitle())));
+    emit stateChanged(str.append(book.getTitle()));
 }
 
 void View::bookDownloaded(int id) {
@@ -95,8 +95,8 @@ void View::bookDownloaded(int id) {
     if (id == myRequestId) {
         myFile->close();
         const Book& book = myActiveWidget->getBook();
-        qDebug() << "signal View::BookDownloaded" << QString::fromStdString(book.getTitle());
-        QString title = QString::fromStdString(book.getTitle());
+        qDebug() << "signal View::BookDownloaded" << book.getTitle();
+        QString title = book.getTitle();
         emit stateChanged(title.prepend(tr("Downloaded: ")));
         if (myWantToRead) {
             qDebug() << "myWant to read = true, want to read downloaded file";

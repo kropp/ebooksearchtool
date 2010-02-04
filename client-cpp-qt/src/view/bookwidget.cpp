@@ -15,9 +15,13 @@ BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent), myB
 
 // create all content
     myCheckBox = new QCheckBox();
-    QLabel* title = new QLabel(QString::fromStdString(myBook->getTitle()).prepend("<H2>").append("</H2>"));
+    QString bookTitle(myBook->getTitle());
+    QLabel* title = new QLabel(bookTitle.prepend("<H2>").append("</H2>"));
 //    title->setWordWrap(true);
-    QLabel* author = new QLabel(QString::fromStdString(myBook->getAuthor()->getName()));
+    QString authorsString;
+    authorsToString(myBook->getAuthors(), authorsString);
+    QLabel* author = new QLabel(authorsString);
+
 //    QLabel* summary = makeSummary();
 
     BookActionsButtonBox* buttonGroup = new BookActionsButtonBox(this);
@@ -101,7 +105,7 @@ void BookWidget::mark(int state) {
 }
 
 void BookWidget::downloadCover() {
-    const QString coverLink = QString::fromStdString(myBook->getCoverLink());
+    const QString coverLink = myBook->getCoverLink();
     QString fileName = coverLink.right(coverLink.size() - coverLink.lastIndexOf('/') - 1);
     fileName = fileName.left(fileName.indexOf('?'));
     //if such file exists - just open it and return;
@@ -119,7 +123,7 @@ void BookWidget::downloadCover() {
 }
 
 QLabel* BookWidget::makeSummary() {
-    QString summary = QString::fromStdString(myBook->getSummary());
+    QString summary = myBook->getSummary();
     QLabel* summaryLabel = new QLabel(summary.prepend(tr("Summary: ")));
     summaryLabel->setTextFormat(Qt::RichText);
     summaryLabel->setWordWrap(true);
@@ -136,3 +140,10 @@ void BookWidget::setBackground() {
     setAutoFillBackground(true);
 }
 
+void BookWidget::authorsToString(const QVector<const Author*>& authors, QString& names) {
+    names = tr("by ");
+    foreach (const Author* author, authors) {
+        names.append(author->getName());
+        names.append("  ");
+    }
+}

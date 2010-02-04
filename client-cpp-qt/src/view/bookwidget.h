@@ -7,9 +7,9 @@
 #include "bookActionButtons.h"
 #include "../network/networkmanager.h"
 #include "moreLessTextLabel.h"
+#include "../data/book_author.h"
 
 class QLabel;
-class Book;
 class QFile;
 class QImage;
 class QPushButton;
@@ -49,6 +49,7 @@ private:
     void setCover();
     QLabel* makeSummary();
     void setBackground();
+    void authorsToString(const QVector<const Author*>& authors, QString& names);
     
 private:
     const Book* myBook;

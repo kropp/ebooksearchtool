@@ -40,6 +40,7 @@ private:
     void showHeader();
     void downloadToPath(const BookWidget* widget, const QString& path);
     QString getState() const;
+    void authorsToString(const QVector<const Author*> authors, QString& names);
 
 signals:
     void addToLibrary(const Book&);

@@ -52,14 +52,14 @@ bool AtomHandler::endElement (const QString&, const QString&, const QString& str
     
 // if (myIsEntry)  
     if (str == "entry") {
-		    const Author* author = new Author(myAuthorsName.toStdString(), myAuthorsUri.toStdString()); 
-		    Book* book = new Book(myTitle.toStdString(), 
-		                          myLanguage.toStdString(), 
-		                          mySummary.toStdString(), 
-		                          myBooksUri.toStdString());
+		    const Author* author = new Author(myAuthorsName, myAuthorsUri); 
+		    Book* book = new Book(myTitle,
+		                          myLanguage, 
+		                          mySummary, 
+		                          myBooksUri);
 		    book->addAuthor(author);
-		    book->setSourceLink(myBooksLink.toStdString());
-            book->setCoverLink(myBooksCover.toStdString());
+		    book->setSourceLink(myBooksLink);
+            book->setCoverLink(myBooksCover);
 		    myData->addBook(book);
 		    myIsEntry = false;	
 	} else if (str == "title") {

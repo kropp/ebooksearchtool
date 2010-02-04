@@ -1,103 +1,99 @@
 #ifndef _BOOK_AUTHOR_H_
 #define _BOOK_AUTHOR_H_
 
-#include <string>
-#include <vector>
+#include <QString>
+#include <QVector>
 
 class Author;
 
 class Book {
 
 public:
-	Book(const std::string& title, const std::string& language, const std::string& summary, const std::string& uri) : myTitle (title),
-																			myLanguage(language),
-																			mySummary(summary),
-																			myUri(uri) {}
+	Book(const QString& title, const QString& language, const QString& summary, const QString& id) : myTitle (title),
+                           myLanguage(language),
+					       mySummary(summary),
+						   myId(id) {}
 
 public:
-	const std::string& getTitle() const;
-	const Author* getAuthor() const;
-	const std::string& getLanguage() const;
-	const std::string& getSummary() const;
-	const std::string& getUri() const;
-	const std::string& getSourceLink() const;
-    const std::string& getCoverLink() const;	
+	const QString& getTitle() const;
+	const QVector<const Author*>& getAuthors() const;
+	const QString& getLanguage() const;
+	const QString& getSummary() const;
+	const QString& getId() const;
+	const QString& getSourceLink() const;
+    const QString& getCoverLink() const;	
 
 	void addAuthor(const Author* author);
-	void setSourceLink(const std::string& link);
-	void setCoverLink(const std::string& path);
+	void setSourceLink(const QString& link);
+	void setCoverLink(const QString& path);
 
 private:
-	const std::string myTitle;
-	const std::string myLanguage;
-	const std::string mySummary;
-	std::vector<const Author*> myAuthors;
-	const std::string myUri;
-	std::string mySourceLink;
-	std::string myCoverLink;
+	const QString myTitle;
+	const QString myLanguage;
+	const QString mySummary;
+	QVector<const Author*> myAuthors;
+	const QString myId;
+	QString mySourceLink;
+	QString myCoverLink;
 };
 
 
 class Author {
 	
 public:
-	Author(std::string name, std::string uri) : myName (name), myUri(uri) {}
+	Author(QString name, QString uri) : myName (name), myUri(uri) {}
 
 public:
 	//void addBook(const Book* book);	
-	const std::string& getName() const;
-	const std::string& getUri() const;
+	const QString& getName() const;
+	const QString& getUri() const;
 
 private:
-	const std::string myName;
-	const std::string myUri;
+	const QString myName;
+	const QString myUri;
 	//std::list<const Book*> myBooks;
 };
 
 
-inline const std::string& Book::getTitle() const {
+inline const QString& Book::getTitle() const {
 	return myTitle;
 }
 
-inline const Author* Book::getAuthor() const {
-	if (myAuthors.empty()) {
-		return 0;
-	}
-	return myAuthors[0];
-}
-
-inline const std::string& Book::getLanguage() const {
+inline const QString& Book::getLanguage() const {
 	return myLanguage;
 }
 
-inline const std::string& Book::getSummary() const {
+inline const QString& Book::getSummary() const {
 	return mySummary;
 }
 
-inline const std::string& Author::getName() const {
+inline const QString& Author::getName() const {
 	return myName;
 }
 
-inline const std::string& Book::getUri() const {
-	return myUri;
+inline const QString& Book::getId() const {
+	return myId;
 }
 
-inline const std::string& Book::getSourceLink() const {
+inline const QString& Book::getSourceLink() const {
 	return mySourceLink;
 }
 
 
-inline const std::string& Author::getUri() const {
+inline const QString& Author::getUri() const {
 	return myUri;
 }
 
-inline const std::string& Book::getCoverLink() const {
+inline const QString& Book::getCoverLink() const {
     return myCoverLink;
 }
 
-inline void Book::setCoverLink(const std::string& path) {
+inline void Book::setCoverLink(const QString& path) {
     myCoverLink = path;
 }
 
+inline const QVector<const Author*>& Book::getAuthors() const {
+    return myAuthors;
+}
 
 #endif //_BOOK_AUTHOR_H_
