@@ -20,12 +20,12 @@ public:
 	const std::string& getLanguage() const;
 	const std::string& getSummary() const;
 	const std::string& getUri() const;
-	const std::string& getLink() const;
+	const std::string& getSourceLink() const;
     const std::string& getCoverLink() const;	
 
 	void addAuthor(const Author* author);
-	void setLink(const std::string& link);
-	void setCoverPath(const std::string& path);
+	void setSourceLink(const std::string& link);
+	void setCoverLink(const std::string& path);
 
 private:
 	const std::string myTitle;
@@ -33,8 +33,8 @@ private:
 	const std::string mySummary;
 	std::vector<const Author*> myAuthors;
 	const std::string myUri;
-	std::string myLink;
-	std::string myCoverPath;
+	std::string mySourceLink;
+	std::string myCoverLink;
 };
 
 
@@ -82,8 +82,8 @@ inline const std::string& Book::getUri() const {
 	return myUri;
 }
 
-inline const std::string& Book::getLink() const {
-	return myLink;
+inline const std::string& Book::getSourceLink() const {
+	return mySourceLink;
 }
 
 
@@ -92,11 +92,11 @@ inline const std::string& Author::getUri() const {
 }
 
 inline const std::string& Book::getCoverLink() const {
-    return myCoverPath;
+    return myCoverLink;
 }
 
-inline void Book::setCoverPath(const std::string& path) {
-    myCoverPath = path;
+inline void Book::setCoverLink(const std::string& path) {
+    myCoverLink = path;
 }
 
 

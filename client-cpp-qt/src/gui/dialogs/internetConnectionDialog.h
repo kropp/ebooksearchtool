@@ -3,8 +3,6 @@
 
 #include <QDialog>
 
-#include "../../network/connectionParameters.h"
-
 class QLineEdit;
 class QLabel;
 class QRadioButton;

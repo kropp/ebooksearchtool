@@ -58,8 +58,8 @@ bool AtomHandler::endElement (const QString&, const QString&, const QString& str
 		                          mySummary.toStdString(), 
 		                          myBooksUri.toStdString());
 		    book->addAuthor(author);
-		    book->setLink(myBooksLink.toStdString());
-            book->setCoverPath(myBooksCover.toStdString());
+		    book->setSourceLink(myBooksLink.toStdString());
+            book->setCoverLink(myBooksCover.toStdString());
 		    myData->addBook(book);
 		    myIsEntry = false;	
 	} else if (str == "title") {

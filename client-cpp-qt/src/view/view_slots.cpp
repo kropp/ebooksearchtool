@@ -32,7 +32,7 @@ void View::read(BookWidget* widget) {
     qDebug() <<  "slot View::read";
     myWantToRead = true;
     const Book& book = widget->getBook();
-    QString link = QString::fromStdString(book.getLink());
+    QString link = QString::fromStdString(book.getSourceLink());
     QString fileName(link.right(link.size() - link.lastIndexOf('/') - 1));
     qDebug() << "View::read " << fileName;
     if (QFile::exists(fileName)) {
@@ -70,7 +70,7 @@ void View::download(BookWidget* widget) {
 
 void View::downloadToPath(const BookWidget* widget, const QString& name) {
     const Book& book = widget->getBook();
-    QString link = QString::fromStdString(book.getLink());
+    QString link = QString::fromStdString(book.getSourceLink());
    //// TODO simplify
    // If user haven't chosen a path for downloading - use default filename
    QString fileName;
