@@ -1,8 +1,7 @@
 #ifndef _DATA_H_
 #define _DATA_H_
 
-#include <string>
-#include <vector>
+#include <QList>
 
 #include "book_author.h"
 
@@ -12,7 +11,7 @@ public:
 	Data();
 
 public:
-    const Book* getBook(size_t index) const;
+    const QList<const Book*>& getBooks() const;
     size_t getSize() const;
     size_t getTotalEntries() const;
 
@@ -20,13 +19,10 @@ public:
     void setTotalEntries(int size);
 
 private:
-	  std::vector<const Book*> myBooks;
-	  size_t myTotalEntries; // сколько ожидаю книг, пока еще не все закачались
+	  QList<const Book*> myBooks;
+      size_t myTotalEntries;
+     // QString linkToContinuation;
 };
-
-inline const Book* Data::getBook(size_t index) const {
-    return (index < myBooks.size()) ? myBooks[index] : 0;
-}
 
 inline size_t Data::getSize() const {
 	return myBooks.size();
@@ -36,4 +32,7 @@ inline size_t Data::getTotalEntries() const {
     return myTotalEntries;
 }
 
+inline const QList<const Book*>& Data::getBooks() const {
+    return myBooks;
+}
 #endif //_DATA_H_

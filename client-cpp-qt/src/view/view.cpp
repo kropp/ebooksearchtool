@@ -64,12 +64,22 @@ void View::update() {
         showHeader();
     }
 //show books
-    for (size_t i = 0; i < size; ++i) {
+    const QList<const Book*> books = myData->getBooks();
+    int i = 0;
+    foreach (const Book* book, books) {
+        BookWidget* widget = new BookWidget(this, book); 
+        myBooks.push_back(widget);
+        myLayout->addWidget(widget, i + 1, 0, 1, 4);
+        ++i;
+        qDebug() << "View::update widget added";
+    }
+ /*   for (size_t i = 0; i < size; ++i) {
         BookWidget* widget = new BookWidget(this, myData->getBook(i));
         myBooks.push_back(widget);
         myLayout->addWidget(widget, i + 1, 0, 1, 4);
         qDebug() << "View::update widget added";
     }
+   */
     emit stateChanged(getState());
     connectToButtons();
 }
