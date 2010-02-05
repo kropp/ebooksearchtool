@@ -23,7 +23,7 @@ private:
 private:
 	Data* myData; 
 
-	QString myStrText;
+	QString myCurrentText;
     QString* myNextAtomPage;
 	bool myIsEntry;
 	QString myTitle;

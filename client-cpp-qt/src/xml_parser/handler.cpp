@@ -13,11 +13,12 @@ AtomHandler::AtomHandler(Data* data) {
 
 
 bool AtomHandler::characters (const QString& strText) {
-	myStrText = strText;
+	myCurrentText += strText;
 	return true;
 }
 
 bool AtomHandler::startElement (const QString& , const QString& , const QString& name, const QXmlAttributes& attributes) {
+    myCurrentText = "";
     if (!myIsEntry) {
 	    if ((name == "link") && 
 	       (attributes.value("type") == "application/"+myFormat) && 
@@ -46,7 +47,7 @@ bool AtomHandler::startElement (const QString& , const QString& , const QString&
 
 bool AtomHandler::endElement (const QString&, const QString&, const QString& str) {
 	if ((!myIsEntry) && (str == "opensearch:totalResults")) {
-        myData->setTotalEntries(myStrText.toInt());
+        myData->setTotalEntries(myCurrentText.toInt());
         return true;
     }
     
@@ -63,17 +64,17 @@ bool AtomHandler::endElement (const QString&, const QString&, const QString& str
 		    myData->addBook(book);
 		    myIsEntry = false;	
 	} else if (str == "title") {
-		myTitle = myStrText;
+		myTitle = myCurrentText;
 	} else if (str == "name") {
-		myAuthorsName = myStrText;
+		myAuthorsName = myCurrentText;
 	} else if (str == "uri") {
-		myAuthorsUri = myStrText;
+		myAuthorsUri = myCurrentText;
 	} else if (str == "id") {
-		myBooksUri = myStrText;
+		myBooksUri = myCurrentText;
 	} else if (str == "dc:language") {
-		myLanguage = myStrText;
+		myLanguage = myCurrentText;
 	} else if (str == "summary") {
-		mySummary = myStrText;
+		mySummary = myCurrentText;
 	}
 	return true;
 }

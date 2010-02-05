@@ -22,6 +22,10 @@ private:
 	  QList<const Book*> myBooks;
       size_t myTotalEntries;
      // QString linkToContinuation;
+
+private:
+    Data(const Data& otherData);
+    Data& operator= (const Data& otherData);
 };
 
 inline size_t Data::getSize() const {
