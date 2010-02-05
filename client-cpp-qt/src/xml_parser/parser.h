@@ -12,10 +12,6 @@ public:
 	
 public:
 	void parse(QIODevice* input, Data* data);
-	const QString* getNextAtomPage() const;
-
-private:
-    QString* myNextAtomPage;
 };
 
 #endif //_PARSER_H_

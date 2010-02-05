@@ -5,7 +5,6 @@ QString AtomHandler::ourConfigFilePath = "../.config.ini";
 AtomHandler::AtomHandler(Data* data) {
     myData = data;
     myIsEntry = false;
-    myNextAtomPage = 0;
     
     QSettings settings(ourConfigFilePath, QSettings::IniFormat);
     myFormat = settings.value("parser/format").toString();
@@ -24,11 +23,9 @@ bool AtomHandler::startElement (const QString& , const QString& , const QString&
 	       (attributes.value("type") == "application/"+myFormat) && 
 		   (attributes.value("rel") == "next") && 
 		   (attributes.value("title") == "Next Page"))  {
-		    if (myNextAtomPage == 0) {
-		        myNextAtomPage = new QString();
-		    }
-			*myNextAtomPage = attributes.value("href");
-         //   std::cout << "link to the next page " << myNextAtomPage->toStdString().c_str() << "\n";
+		       // myData->setLinkToNextPage(attributes.value("href"));
+           
+            qDebug() << "Handler:: link to the next page " << attributes.value("href");
         } else if (name == "entry") {
 		    myIsEntry = true;
 	    }     

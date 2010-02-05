@@ -1,7 +1,7 @@
 #include "parser.h"
 #include "handler.h"
 
-AtomParser::AtomParser() : myNextAtomPage(0) {}
+AtomParser::AtomParser() {}
 
 void AtomParser::parse(QIODevice* input, Data* data) {
 	AtomHandler handler(data);
@@ -9,10 +9,4 @@ void AtomParser::parse(QIODevice* input, Data* data) {
 	QXmlSimpleReader reader;
 	reader.setContentHandler(&handler);
 	reader.parse(source);
-	myNextAtomPage = handler.myNextAtomPage;
 }
-
-const QString* AtomParser::getNextAtomPage() const {
-    return myNextAtomPage;
-}
-

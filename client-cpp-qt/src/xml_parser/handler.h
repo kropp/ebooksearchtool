@@ -24,7 +24,6 @@ private:
 	Data* myData; 
 
 	QString myCurrentText;
-    QString* myNextAtomPage;
 	bool myIsEntry;
 	QString myTitle;
 	QString myLanguage;
