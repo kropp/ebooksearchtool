@@ -1,4 +1,4 @@
-package org.ebooksearchtool.client.model;
+package org.ebooksearchtool.client.model.books;
 
 import java.util.HashMap;
 

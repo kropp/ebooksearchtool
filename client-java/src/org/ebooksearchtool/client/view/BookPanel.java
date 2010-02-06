@@ -1,7 +1,7 @@
 package org.ebooksearchtool.client.view;
 
-import org.ebooksearchtool.client.model.Book;
-import org.ebooksearchtool.client.model.Settings;
+import org.ebooksearchtool.client.model.books.Book;
+import org.ebooksearchtool.client.model.settings.Settings;
 import org.ebooksearchtool.client.connection.Connector;
 
 import javax.swing.*;

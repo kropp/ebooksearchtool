@@ -1,10 +1,9 @@
 package org.ebooksearchtool.client.exec;
 
 import org.ebooksearchtool.client.connection.Connector;
-import org.ebooksearchtool.client.logic.query.*;
 import org.ebooksearchtool.client.logic.parsing.*;
-import org.ebooksearchtool.client.model.Data;
-import org.ebooksearchtool.client.model.Settings;
+import org.ebooksearchtool.client.model.books.Data;
+import org.ebooksearchtool.client.model.settings.Settings;
 import org.ebooksearchtool.client.utils.XMLBuilder;
 
 

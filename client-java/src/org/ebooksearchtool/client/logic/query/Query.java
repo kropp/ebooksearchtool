@@ -2,7 +2,7 @@ package org.ebooksearchtool.client.logic.query;
 
 import java.io.IOException;
 
-import org.ebooksearchtool.client.model.Settings;
+import org.ebooksearchtool.client.model.settings.Settings;
 
 public class Query {
 	

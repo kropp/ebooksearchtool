@@ -1,10 +1,8 @@
 package org.ebooksearchtool.client.connection;
 
-import org.ebooksearchtool.client.model.Settings;
+import org.ebooksearchtool.client.model.settings.Settings;
 
-import java.io.EOFException;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;

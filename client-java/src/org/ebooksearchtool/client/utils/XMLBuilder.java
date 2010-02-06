@@ -1,7 +1,6 @@
 package org.ebooksearchtool.client.utils;
 
 import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
@@ -14,11 +13,9 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.ebooksearchtool.client.model.Data;
+import org.ebooksearchtool.client.model.books.Data;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
-import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 
 public class XMLBuilder {
 	

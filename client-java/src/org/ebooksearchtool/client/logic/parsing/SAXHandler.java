@@ -1,8 +1,8 @@
 package org.ebooksearchtool.client.logic.parsing;
 
-import org.ebooksearchtool.client.model.Data;
-import org.ebooksearchtool.client.model.Book;
-import org.ebooksearchtool.client.model.Author;
+import org.ebooksearchtool.client.model.books.Data;
+import org.ebooksearchtool.client.model.books.Book;
+import org.ebooksearchtool.client.model.books.Author;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;

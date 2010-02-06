@@ -1,6 +1,5 @@
 package org.ebooksearchtool.client.logic.parsing;
 
-import org.ebooksearchtool.client.model.Data;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 

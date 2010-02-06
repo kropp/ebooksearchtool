@@ -1,4 +1,4 @@
-package org.ebooksearchtool.client.model;
+package org.ebooksearchtool.client.model.settings;
 
 import org.ebooksearchtool.client.logic.parsing.Parser;
 import org.xml.sax.SAXException;
