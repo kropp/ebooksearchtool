@@ -46,9 +46,9 @@
       <div class="span-6">
 
       {% if not book.book_file.all.0.img_link %}
-        <a href="book/id{{ book.id }}"><img alt="{{ book.title }}" class="cover" align="left" border="0" hspace="10" src="/pic/nobookcover" title="{{ book.title }}" /></a>
+        <a href="id{{ book.id }}"><img alt="{{ book.title }}" class="cover" align="left" border="0" hspace="10" src="/pic/nobookcover" title="{{ book.title }}" /></a>
       {% else %}
-        <a href="book/id{{ book.id }}"><img alt="{{ book.title }}" class="cover" align="left" border="0" hspace="10"  src="{{book.book_file.all.0.img_link}}" title="{{ book.title }}" /></a> 
+        <a href="id{{ book.id }}"><img alt="{{ book.title }}" class="cover" align="left" border="0" hspace="10"  src="{{book.book_file.all.0.img_link}}" title="{{ book.title }}" /></a> 
       {% endif %} 
       </div>
       <div class="span-11 invisible-colborder">
