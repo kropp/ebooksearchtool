@@ -1,5 +1,6 @@
 package org.ebooksearchtool.client.model.books;
 
+import java.util.Date;
 import java.util.HashMap;
 
 public class Book {
@@ -8,12 +9,10 @@ public class Book {
     private String myID;
     private Author myAuthor;
     private String myLanguage;
-    private String myDate;
+    private Date myDate = new Date();
     private String myGenre;
     private String mySummary;
     private HashMap<String,  String> myLinks = new HashMap();
-    /*private String myPdfLink;
-    private String myEpubLink;*/
     private String myImage;
 
     public Book(){}
@@ -42,12 +41,12 @@ public class Book {
         this.myLanguage = myLanguage;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return myDate;
     }
 
     public void setDate(String myDate) {
-        this.myDate = myDate;
+        this.myDate.setYear(Integer.parseInt(myDate));
     }
 
     public String getSummary() {

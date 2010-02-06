@@ -13,13 +13,6 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.File;
 
-/**
- * Created by IntelliJ IDEA.
- * User: 
- * Date: 31.10.2009
- * Time: 12:23:09
- * To change this template use File | Settings | File Templates.
- */
 public class BookPanel implements Comparable {
 
 	private Book myBook;
@@ -146,7 +139,7 @@ public class BookPanel implements Comparable {
     				myLangLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
     				myMoreInfoPanel.add(myLangLabel);
     			
-    				myDateLabel = new JLabel("Date of publishing: " + myBook.getDate());
+    				myDateLabel = new JLabel("Date of publishing: " + myBook.getDate().getYear());
     				myDateLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
     				myMoreInfoPanel.add(myDateLabel);
     			

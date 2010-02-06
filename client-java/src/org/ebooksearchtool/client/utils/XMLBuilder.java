@@ -66,7 +66,7 @@ public class XMLBuilder {
 			Element language = doc.createElement("dcterms:language");
 			language.setTextContent(data.getBooks().get(i).getLanguage());
 			Element date = doc.createElement("dcterms:issued");
-			date.setTextContent(data.getBooks().get(i).getDate());
+			date.setTextContent(Integer.toString(data.getBooks().get(i).getDate().getYear()));
 			Element category = doc.createElement("category");
 			category.setAttribute("term", data.getBooks().get(i).getGenre());
 			Element summary = doc.createElement("summary");
