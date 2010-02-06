@@ -3,6 +3,7 @@ package org.ebooksearchtool.client.model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class Data {
 
@@ -53,12 +54,16 @@ public class Data {
         myBooks.get(elementIndex).setID(value);
     }
 
-    public void setBookPdfLink(int elementIndex, String value){
+    /*public void setBookPdfLink(int elementIndex, String value){
         myBooks.get(elementIndex).setPdfLink(value);
     }
 
     public void setBookEpubLink(int elementIndex, String value){
         myBooks.get(elementIndex).setEpubLink(value);
+    } */
+
+    public Map<String, String> getBookLinks(int elementIndex){
+        return myBooks.get(elementIndex).getLinks();
     }
 
     public void setBookImage(int elementIndex, String value){

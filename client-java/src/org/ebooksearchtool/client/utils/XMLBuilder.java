@@ -34,7 +34,6 @@ public class XMLBuilder {
 	}
 	
 	private void writeFile(Document doc, String fileName){
-		OutputStream is = new ByteOutputStream();
 		try {
 			Transformer t = TransformerFactory.newInstance().newTransformer();
 			t.setOutputProperty(OutputKeys.INDENT, "yes");
@@ -77,10 +76,10 @@ public class XMLBuilder {
 			summary.setTextContent(data.getBooks().get(i).getSummary());
 			Element link1 = doc.createElement("link");
 			link1.setAttribute("type", "application/epub+zip");
-			link1.setAttribute("href", data.getBooks().get(i).getEpubLink());
+			link1.setAttribute("href", data.getBooks().get(i).getLinks().get("epub"));
 			Element link2 = doc.createElement("link");
 			link2.setAttribute("type", "application/pdf");
-			link2.setAttribute("href", data.getBooks().get(i).getPdfLink());
+			link2.setAttribute("href", data.getBooks().get(i).getLinks().get("pdf"));
 			Element linkCov = doc.createElement("link");
 			linkCov.setAttribute("type", "image/png");
 			linkCov.setAttribute("href", data.getBooks().get(i).getImage());

@@ -10,8 +10,6 @@ import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 import java.io.IOException;
 import java.io.File;
 
@@ -93,14 +91,14 @@ public class BookPanel implements Comparable {
         myDownloadEpubButton = new JButton(new ImageIcon(getClass().getResource("/ico/epub_30.gif")));
         myDownloadEpubButton.setToolTipText("Download ePub book");
         myDownloadEpubButton.setPreferredSize(new Dimension(30, 30));
-        if(myBook.getEpubLink() == null){
+        if(myBook.getLinks().get("epub") == null){
         	myDownloadEpubButton.setEnabled(false);
         }
         myButtonPanel.add(myDownloadEpubButton);
         myDownloadPdfButton = new JButton(new ImageIcon(getClass().getResource("/ico/pdf_30.gif")));
         myDownloadPdfButton.setToolTipText("Download pdf book");
         myDownloadPdfButton.setPreferredSize(new Dimension(30, 30));
-        if(myBook.getPdfLink() == null){
+        if(myBook.getLinks().get("pdf") == null){
         	myDownloadPdfButton.setEnabled(false);
         }
         myButtonPanel.add(myDownloadPdfButton);
@@ -142,7 +140,6 @@ public class BookPanel implements Comparable {
         myMoreButton.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
     			if(!myIsMoreInfoShown){
-                    int curWidth = myInfoPanel.getWidth();
     				myMoreInfoPanel.setLayout(new BoxLayout(myMoreInfoPanel, BoxLayout.Y_AXIS));
     			
     				myLangLabel = new JLabel("Language: " + myBook.getLanguage());
@@ -198,7 +195,7 @@ public class BookPanel implements Comparable {
             		public void run() {
             			Connector connector;
             			try {
-            				connector = new Connector(myBook.getEpubLink(), mySettings);
+            				connector = new Connector(myBook.getLinks().get("epub"), mySettings);
             				connector.getBookFromURL("books" + File.separatorChar + myBook.getTitle() + ".epub", ourModel);
             			} catch (IOException e1) {
             				e1.printStackTrace();
@@ -215,7 +212,7 @@ public class BookPanel implements Comparable {
             		public void run() {
             			Connector connector;
             			try {
-            				connector = new Connector(myBook.getPdfLink(), mySettings);
+            				connector = new Connector(myBook.getLinks().get("pdf"), mySettings);
             				connector.getBookFromURL("books" + File.separatorChar + myBook.getTitle() + ".pdf", ourModel);
             			} catch (IOException e1) {
             				e1.printStackTrace();

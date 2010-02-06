@@ -67,9 +67,9 @@ public class SAXHandler extends DefaultHandler{
                 for (int j = 0; j < len; ++j)
                 {
                 	if(myIsEntryTag && attributes.getValue(j).equals("application/pdf")){
-                		myData.setBookPdfLink(myData.getBooks().size()-1, attributes.getValue("href"));
+                		myData.getBookLinks(myData.getBooks().size()-1).put("pdf", attributes.getValue("href"));
                 	}else if(myIsEntryTag && attributes.getValue(j).equals("application/epub+zip")){
-                        myData.setBookEpubLink(myData.getBooks().size()-1, attributes.getValue("href"));
+                        myData.getBookLinks(myData.getBooks().size()-1).put("epub", attributes.getValue("href"));
                     }else if(myIsEntryTag && attributes.getValue(j).equals("image/png")){
                         myData.setBookImage(myData.getBooks().size()-1, attributes.getValue("href"));
                     }else if(myIsEntryTag && attributes.getLocalName(j).equals("term")){

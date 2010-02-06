@@ -1,5 +1,7 @@
 package org.ebooksearchtool.client.model;
 
+import java.util.HashMap;
+
 public class Book {
 
     private String myTitle;
@@ -9,8 +11,9 @@ public class Book {
     private String myDate;
     private String myGenre;
     private String mySummary;
-    private String myPdfLink;
-    private String myEpubLink;
+    private HashMap<String,  String> myLinks = new HashMap();
+    /*private String myPdfLink;
+    private String myEpubLink;*/
     private String myImage;
 
     public Book(){}
@@ -55,13 +58,17 @@ public class Book {
         this.mySummary = mySummary;
     }
 
-    public String getPdfLink() {
+    public HashMap<String, String> getLinks() {
+        return myLinks;
+    }
+
+    /*public String getPdfLink() {
         return myPdfLink;
     }
 
     public void setPdfLink(String myLink) {
         this.myPdfLink = myLink;
-    }
+    } */
 
     public String getID() {
         return myID;
@@ -79,13 +86,13 @@ public class Book {
         this.myGenre = myGenre;
     }
 
-    public String getEpubLink() {
+    /*public String getEpubLink() {
         return myEpubLink;
     }
 
     public void setEpubLink(String myEpubLink) {
         this.myEpubLink = myEpubLink;
-    }
+    } */
 
     public String getImage() {
         return myImage;
