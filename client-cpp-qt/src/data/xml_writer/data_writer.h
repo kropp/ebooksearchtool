@@ -14,7 +14,8 @@ public:
     void write(QFile* file, const Data& data);
 
 private:
-    void bookToXml(const Book& book);
+    void bookToDomElement(const Book& book, QDomDocument& doc, QDomElement& element);
+    void dataToDomDocument(const Data& data, QDomDocument& doc);
 };
 
 #endif  // _DATA_WRITER_H_
