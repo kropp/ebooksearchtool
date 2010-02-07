@@ -1,5 +1,6 @@
 package org.ebooksearchtool.client.logic.parsing;
 
+import org.ebooksearchtool.client.model.QueryAnswer;
 import org.ebooksearchtool.client.model.books.Data;
 import org.ebooksearchtool.client.model.books.Book;
 import org.ebooksearchtool.client.model.books.Author;
@@ -16,7 +17,7 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class SAXHandler extends DefaultHandler{
 
-    private Data myData;
+    private QueryAnswer myAnswer;
     private boolean myIsEntryTag = false;
     private BookTags myBookTags = new BookTags();
     private AuthorTags myAuthorTags = new AuthorTags();
@@ -24,16 +25,12 @@ public class SAXHandler extends DefaultHandler{
     private Author myCurAuthor;
     private boolean myIsTotalTag;
 
-    public SAXHandler(Data Books){
+    public SAXHandler(QueryAnswer answer){
 
-        myData = Books;
+        myAnswer = answer;
 
     }
 
-    public Data getBooks()
-    {
-        return myData;
-    }
     @Override
     public void startDocument() throws SAXException
     {
@@ -43,7 +40,7 @@ public class SAXHandler extends DefaultHandler{
     {
         if("entry".equals(qName)){
             myIsEntryTag = true;
-            myData.addBook(new Book());
+            myAnswer.getData().addBook(new Book());
         }
         
         if("opensearch:totalResults".equals(qName)){
@@ -67,15 +64,15 @@ public class SAXHandler extends DefaultHandler{
                 for (int j = 0; j < len; ++j)
                 {
                 	if(myIsEntryTag && attributes.getValue(j).equals("application/pdf")){
-                		myData.getBookLinks(myData.getBooks().size()-1).put("pdf", attributes.getValue("href"));
+                		myAnswer.getData().getBookLinks(myAnswer.getData().getBooks().size()-1).put("pdf", attributes.getValue("href"));
                 	}else if(myIsEntryTag && attributes.getValue(j).equals("application/epub+zip")){
-                        myData.getBookLinks(myData.getBooks().size()-1).put("epub", attributes.getValue("href"));
+                        myAnswer.getData().getBookLinks(myAnswer.getData().getBooks().size()-1).put("epub", attributes.getValue("href"));
                     }else if(myIsEntryTag && attributes.getValue(j).equals("image/png")){
-                        myData.setBookImage(myData.getBooks().size()-1, attributes.getValue("href"));
+                        myAnswer.getData().setBookImage(myAnswer.getData().getBooks().size()-1, attributes.getValue("href"));
                     }else if(myIsEntryTag && attributes.getLocalName(j).equals("term")){
-                        myData.setBookGenre(myData.getBooks().size()-1, attributes.getValue(j));
+                        myAnswer.getData().setBookGenre(myAnswer.getData().getBooks().size()-1, attributes.getValue(j));
                     }else if(attributes.getValue(j).equals("Next Page")){
-                    	myData.setNextPage(new String(attributes.getValue("href")));
+                    	myAnswer.setNextPage(new String(attributes.getValue("href")));
                     	
                     }
                 }
@@ -91,7 +88,7 @@ public class SAXHandler extends DefaultHandler{
     {
     	
     	if (myIsTotalTag){
-    		myData.setTotalBooksNumber(Integer.parseInt((new String(ch, start, length)).trim()));
+    		myAnswer.setTotalBooksNumber(Integer.parseInt((new String(ch, start, length)).trim()));
     	}
     	
         if (myIsEntryTag){
@@ -100,30 +97,30 @@ public class SAXHandler extends DefaultHandler{
                 	
                     if(myIsContinue){
                         if(myBookTags.getTags()[i].getName().equals("title")){
-                        	myData.setBookTitle(myData.getBooks().size()-1, myData.getBooks().get(myData.getBooks().size()-1).getTitle() + new String(ch, start, length));
+                        	myAnswer.getData().setBookTitle(myAnswer.getData().getBooks().size()-1, myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size()-1).getTitle() + new String(ch, start, length));
                         }else if(myBookTags.getTags()[i].getName().equals("dcterms:language")){
-                        	myData.setBookLanguage(myData.getBooks().size()-1, myData.getBooks().get(myData.getBooks().size()-1).getLanguage() + new String(ch, start, length));
+                        	myAnswer.getData().setBookLanguage(myAnswer.getData().getBooks().size()-1, myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size()-1).getLanguage() + new String(ch, start, length));
                         }else if(myBookTags.getTags()[i].getName().equals("dcterms:issued")){
-                        	myData.setBookDate(myData.getBooks().size()-1, myData.getBooks().get(myData.getBooks().size()-1).getDate() + new String(ch, start, length));
+                        	myAnswer.getData().setBookDate(myAnswer.getData().getBooks().size()-1, myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size()-1).getDate() + new String(ch, start, length));
                         }else if(myBookTags.getTags()[i].getName().equals("summary")){
-                        	myData.setBookSummary(myData.getBooks().size()-1, myData.getBooks().get(myData.getBooks().size()-1).getSummary() + new String(ch, start, length));
+                        	myAnswer.getData().setBookSummary(myAnswer.getData().getBooks().size()-1, myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size()-1).getSummary() + new String(ch, start, length));
                         }
                     }else{
                         if(myBookTags.getTags()[i].getName().equals("title")){
-                        	myData.setBookTitle(myData.getBooks().size()-1, new String(ch, start, length));
+                        	myAnswer.getData().setBookTitle(myAnswer.getData().getBooks().size()-1, new String(ch, start, length));
                         	myIsContinue = true;
                         }else if(myBookTags.getTags()[i].getName().equals("dcterms:language")){
-                        	myData.setBookLanguage(myData.getBooks().size()-1, new String(ch, start, length));
+                        	myAnswer.getData().setBookLanguage(myAnswer.getData().getBooks().size()-1, new String(ch, start, length));
                         	myIsContinue = true;
                         }else if(myBookTags.getTags()[i].getName().equals("dcterms:issued")){
-                        	myData.setBookDate(myData.getBooks().size()-1, new String(ch, start, length));
+                        	myAnswer.getData().setBookDate(myAnswer.getData().getBooks().size()-1, new String(ch, start, length));
                         	myIsContinue = true;
                         }else if(myBookTags.getTags()[i].getName().equals("summary")){
-                        	myData.setBookSummary(myData.getBooks().size()-1, new String(ch, start, length));
+                        	myAnswer.getData().setBookSummary(myAnswer.getData().getBooks().size()-1, new String(ch, start, length));
                         	myIsContinue = true;
                         }
                         else if(myBookTags.getTags()[i].getName().equals("id")){
-                        	myData.setBookID(myData.getBooks().size()-1, new String(ch, start, length));
+                        	myAnswer.getData().setBookID(myAnswer.getData().getBooks().size()-1, new String(ch, start, length));
                         }
                     }
                 }
@@ -152,15 +149,15 @@ public class SAXHandler extends DefaultHandler{
         
         if("author".equals(qName) && myIsEntryTag){
             boolean authorExists = false;
-            for(int j = 0; j < myData.getAuthors().size(); ++j){
-                if(myCurAuthor.getID().equals(myData.getAuthors().get(j).getID())){
+            for(int j = 0; j < myAnswer.getData().getAuthors().size(); ++j){
+                if(myCurAuthor.getID().equals(myAnswer.getData().getAuthors().get(j).getID())){
                     authorExists = true;
-                    myData.setBookAuthor(myData.getBooks().size()-1, myData.getAuthors().get(j));
+                    myAnswer.getData().setBookAuthor(myAnswer.getData().getBooks().size()-1, myAnswer.getData().getAuthors().get(j));
                 }
             }
             if(!authorExists){
-                myData.setBookAuthor(myData.getBooks().size()-1, myCurAuthor);
-                myData.addAuthor(myCurAuthor);
+                myAnswer.getData().setBookAuthor(myAnswer.getData().getBooks().size()-1, myCurAuthor);
+                myAnswer.getData().addAuthor(myCurAuthor);
             }
         }
         for(int i = 0; i < myBookTags.getTags().length; ++i){

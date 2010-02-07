@@ -9,12 +9,11 @@ public class Data {
 
     private List<Book> myBooks = new ArrayList<Book>();
     private List<Author> myAuthors = new ArrayList<Author>();
-    private String myNextPage = new String();
-    private int myTotalBooksNumber;
+
 
     public Data(){}
 
-    public void setNextPage(String adress){
+    /*public void setNextPage(String adress){
     	myNextPage = adress;
     }
     
@@ -28,7 +27,7 @@ public class Data {
     
     public int getTotalBooksNumber(){
     	return myTotalBooksNumber;
-    }
+    } */
     
     public void setBookTitle(int elementIndex, String value){
         myBooks.get(elementIndex).setTitle(value);
@@ -53,14 +52,6 @@ public class Data {
     public void setBookID(int elementIndex, String value){
         myBooks.get(elementIndex).setID(value);
     }
-
-    /*public void setBookPdfLink(int elementIndex, String value){
-        myBooks.get(elementIndex).setPdfLink(value);
-    }
-
-    public void setBookEpubLink(int elementIndex, String value){
-        myBooks.get(elementIndex).setEpubLink(value);
-    } */
 
     public Map<String, String> getBookLinks(int elementIndex){
         return myBooks.get(elementIndex).getLinks();

@@ -13,6 +13,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.ebooksearchtool.client.model.QueryAnswer;
 import org.ebooksearchtool.client.model.books.Data;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -47,7 +48,7 @@ public class XMLBuilder {
 	}
 	
 	public void makeXML(Data data, String fileName){
-		
+
 		Document doc = myDomBuilder.newDocument();
 		Element root = doc.createElement("feed");
 		doc.appendChild(root);

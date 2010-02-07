@@ -297,10 +297,10 @@ public class Window {
                	--curModelNumber;
 				myController.loadModel(curModelNumber);					
                 
-				for(int i = 0; i < myController.getData().getBooks().size(); ++i){
+				for(int i = 0; i < myController.getAnswer().getData().getBooks().size(); ++i){
     				
 					try {
-						myBookPanels.lastElement().add(new BookPanel(myController.getData().getBooks().get(i), myController.getSettings(), model));
+						myBookPanels.lastElement().add(new BookPanel(myController.getAnswer().getData().getBooks().get(i), myController.getSettings(), model));
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -362,10 +362,10 @@ public class Window {
                	++curModelNumber;
 				myController.loadModel(curModelNumber);					
                 
-				for(int i = 0; i < myController.getData().getBooks().size(); ++i){
+				for(int i = 0; i < myController.getAnswer().getData().getBooks().size(); ++i){
     				
 					try {
-						myBookPanels.lastElement().add(new BookPanel(myController.getData().getBooks().get(i), myController.getSettings(), model));
+						myBookPanels.lastElement().add(new BookPanel(myController.getAnswer().getData().getBooks().get(i), myController.getSettings(), model));
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -469,8 +469,8 @@ public class Window {
             			
             			model.setValue(8);
             			myProgressBar.setString("Receiving data... 5%");
-            			int lastNumber = myController.getData().getBooks().size();
-            			String prevPage = myController.getData().getNextPage();
+            			int lastNumber = myController.getAnswer().getData().getBooks().size();
+            			String prevPage = myController.getAnswer().getNextPage();
             			try {
             				if(e.getSource() != myMoreButton){
             					if(myAdress == null){
@@ -499,7 +499,7 @@ public class Window {
             					myTextPan.removeAll();
                                 myBookPanels = new Vector<Vector<BookPanel>>();
                                 myBookPanels.add(new Vector<BookPanel>());
-                                if(myController.getData().getBooks().size() != 0){
+                                if(myController.getAnswer().getData().getBooks().size() != 0){
                                 	myController.clearModel();
                                 }
                                 lastNumber = 0;
@@ -510,7 +510,7 @@ public class Window {
                                     myProgressBar.setString("");
                                     return;
                                 }
-            					if(myController.getData().getBooks().size() != 0){
+            					if(myController.getAnswer().getData().getBooks().size() != 0){
                                 	myController.saveModel();
                                 }
             					myActionIndex = 1;
@@ -530,9 +530,9 @@ public class Window {
             			myProgressBar.setString("Recieving data... " + model.getValue() + "%");
             			
             			model.setValue(35);
-            			for(int i = lastNumber; i < myController.getData().getBooks().size(); ++i){
+            			for(int i = lastNumber; i < myController.getAnswer().getData().getBooks().size(); ++i){
             				try {
-								myBookPanels.lastElement().add(new BookPanel(myController.getData().getBooks().get(i), myController.getSettings(), model));
+								myBookPanels.lastElement().add(new BookPanel(myController.getAnswer().getData().getBooks().get(i), myController.getSettings(), model));
 								model.setValue(model.getValue() + 5);
 								myProgressBar.setString("Viewing book... " + model.getValue() + "%");
             				} catch (IOException e) {
@@ -560,11 +560,11 @@ public class Window {
             			}
             			myAdress = null;
                         myProgressBar.setString("");
-                        if(!"".equals(myController.getData().getNextPage())){
-                        	myNumberInfo.setText("Total books found: " + myController.getData().getTotalBooksNumber() + 
+                        if(!"".equals(myController.getAnswer().getNextPage())){
+                        	myNumberInfo.setText("Total books found: " + myController.getAnswer().getTotalBooksNumber() +
                         							" Books viewed: " + 18 * myActionIndex);
                         	myMorePanel.setVisible(true);
-                        	if(prevPage.equals(myController.getData().getNextPage())){
+                        	if(prevPage.equals(myController.getAnswer().getNextPage())){
                         		myMorePanel.setVisible(false);
                         	}
                         }

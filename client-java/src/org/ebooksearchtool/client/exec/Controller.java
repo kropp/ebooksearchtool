@@ -2,6 +2,7 @@ package org.ebooksearchtool.client.exec;
 
 import org.ebooksearchtool.client.connection.Connector;
 import org.ebooksearchtool.client.logic.parsing.*;
+import org.ebooksearchtool.client.model.QueryAnswer;
 import org.ebooksearchtool.client.model.books.Data;
 import org.ebooksearchtool.client.model.settings.Settings;
 import org.ebooksearchtool.client.utils.XMLBuilder;
@@ -15,13 +16,13 @@ import java.io.*;
 
 public class Controller {
 
-    Data myBooks;
+    QueryAnswer myData;
     Settings mySettings;
     int myRequestCount;
 
     public Controller() throws SAXException, ParserConfigurationException, IOException {
 
-        myBooks = new Data();
+        myData = new QueryAnswer();
         mySettings = new Settings();
 
         File images = new File("images");
@@ -58,7 +59,7 @@ public class Controller {
         Connector connect = new Connector(mySettings.getServer() + adress, mySettings);
         if(connect.getFileFromURL("answer_file.xml")){
             Parser parser = new Parser();
-            SAXHandler handler = new SAXHandler(myBooks);
+            SAXHandler handler = new SAXHandler(myData);
             parser.parse("answer_file.xml", handler);
             return true;
         }else{
@@ -68,10 +69,10 @@ public class Controller {
     }
     
     public void getNextData() throws IOException, SAXException, ParserConfigurationException{
-    	Connector connect = new Connector(myBooks.getNextPage(), mySettings);
+    	Connector connect = new Connector(myData.getNextPage(), mySettings);
         connect.getFileFromURL("answer_file.xml");
         Parser parser = new Parser();
-        SAXHandler handler = new SAXHandler(myBooks);
+        SAXHandler handler = new SAXHandler(myData);
         parser.parse("answer_file.xml", handler);
     }
 
@@ -104,20 +105,20 @@ public class Controller {
     	
     }*/
 
-    public Data getData(){
-        return myBooks;
+    public QueryAnswer getAnswer(){
+        return myData;
     }
     
     public void saveModel(){
     	XMLBuilder builder = new XMLBuilder();
-    	builder.makeXML(myBooks, Integer.toString(myRequestCount)+".xml");
+    	builder.makeXML(myData.getData(), Integer.toString(myRequestCount)+".xml");
     	++myRequestCount;
     }
     
     public void extendModel(){
     	--myRequestCount;
     	XMLBuilder builder = new XMLBuilder();
-    	builder.makeXML(myBooks, Integer.toString(myRequestCount)+".xml");
+    	builder.makeXML(myData.getData(), Integer.toString(myRequestCount)+".xml");
     	++myRequestCount;
     }
     
@@ -127,7 +128,7 @@ public class Controller {
 		        
         try {
         	parser = new Parser();
-        	SAXHandler handler = new SAXHandler(myBooks);
+        	SAXHandler handler = new SAXHandler(myData);
 			parser.parse(number + ".xml", handler);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -142,14 +143,13 @@ public class Controller {
     }
     
     public void clearModel(){   	
-    	myBooks = new Data();	
+    	myData = new QueryAnswer();
     }
 
 
 	public int getRequestCount() {
 		return myRequestCount;
 	}
-
 
 	public void setRequestCount(int myRequestCount) {
 		this.myRequestCount = myRequestCount;
