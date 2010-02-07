@@ -5,6 +5,7 @@ import org.ebooksearchtool.client.logic.parsing.*;
 import org.ebooksearchtool.client.model.QueryAnswer;
 import org.ebooksearchtool.client.model.books.Data;
 import org.ebooksearchtool.client.model.settings.Settings;
+import org.ebooksearchtool.client.tests.SAXParserTest;
 import org.ebooksearchtool.client.utils.XMLBuilder;
 
 
@@ -21,6 +22,8 @@ public class Controller {
     int myRequestCount;
 
     public Controller() throws SAXException, ParserConfigurationException, IOException {
+
+        SAXParserTest.test();
 
         myData = new QueryAnswer();
         mySettings = new Settings();
