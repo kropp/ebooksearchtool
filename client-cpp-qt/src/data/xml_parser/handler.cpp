@@ -10,6 +10,8 @@ AtomHandler::AtomHandler(Data* data) {
     myFormat = settings.value("parser/format").toString();
 }
 
+AtomHandler::~AtomHandler() {}
+
 
 bool AtomHandler::characters (const QString& strText) {
 	myCurrentText += strText;

@@ -14,6 +14,17 @@ void DataWriter::write(QFile* file, const Data& data) {
     delete doc;
 }
 
+void DataWriter::dataToDomDocument(const Data& data, QDomDocument& doc) {
+    QDomElement feed = doc.createElement("feed");
+    doc.appendChild(feed);
+    const QList<const Book*>& books = data.getBooks();
+    foreach (const Book* book, books) {
+        QDomElement entry = doc.createElement("entry");
+	    bookToDomElement(*book, doc, entry);
+        feed.appendChild(entry);
+    }
+}
+
 void DataWriter::bookToDomElement(const Book& book, QDomDocument& doc, QDomElement& entry) {
 
     QDomElement title = doc.createElement("title");
@@ -42,14 +53,4 @@ void DataWriter::bookToDomElement(const Book& book, QDomDocument& doc, QDomEleme
 	coverLink.setAttribute("type", "image/png");
 	coverLink.setAttribute("href", book.getCoverLink());
 	entry.appendChild(coverLink);	
-}
-
-void DataWriter::dataToDomDocument(const Data& data, QDomDocument& doc) {
-    // TODO create <feed> element
-    const QList<const Book*>& books = data.getBooks();
-    foreach (const Book* book, books) {
-        QDomElement entry = doc.createElement("entry");
-	    bookToDomElement(*book, doc, entry);
-        doc.appendChild(entry);
-    }
 }

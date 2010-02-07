@@ -4,17 +4,18 @@
 #include <QtXml>
 #include <QString>
 
-#include "../data/book_author.h"
-#include "../data/data.h"
+#include "../book_author.h"
+#include "../data.h"
 
 class AtomHandler : public QXmlDefaultHandler {
 
 private: 
     static QString ourConfigFilePath;
 
-private:
+public:
 	AtomHandler(Data* data);
-	
+    ~AtomHandler();
+
 private:
 	bool characters (const QString& strText);
 	bool endElement (const QString&, const QString&, const QString& str);
@@ -35,7 +36,7 @@ private:
     QString myBooksCover;
     QString myFormat;
 
-friend class AtomParser;
+//friend class AtomParser;
 };
 
 #endif //_HANDLER_H_
