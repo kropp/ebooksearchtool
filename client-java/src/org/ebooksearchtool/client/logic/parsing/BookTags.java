@@ -16,8 +16,8 @@ public class BookTags {
         myTags[0] = new Tag("title");
         myTags[1] = new Tag("id");
         myTags[2] = new Tag("author");
-        myTags[3] = new Tag("dcterms:language");
-        myTags[4] = new Tag("dcterms:issued");
+        myTags[3] = new Tag("language");
+        myTags[4] = new Tag("issued");
         myTags[5] = new Tag("category");
         myTags[6] = new Tag("summary");
         myTags[7] = new Tag("link");

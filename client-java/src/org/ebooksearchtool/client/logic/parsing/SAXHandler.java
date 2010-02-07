@@ -38,12 +38,17 @@ public class SAXHandler extends DefaultHandler{
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException
     {
+        String[] names = qName.split(":", 2);
+        if(names.length == 2){
+            qName = names[1];
+        }
+        
         if("entry".equals(qName)){
             myIsEntryTag = true;
             myAnswer.getData().addBook(new Book());
         }
         
-        if("opensearch:totalResults".equals(qName)){
+        if("totalResults".equals(qName)){
         	myIsTotalTag = true;
         }
 
@@ -98,9 +103,9 @@ public class SAXHandler extends DefaultHandler{
                     if(myIsContinue){
                         if(myBookTags.getTags()[i].getName().equals("title")){
                         	myAnswer.getData().setBookTitle(myAnswer.getData().getBooks().size()-1, myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size()-1).getTitle() + new String(ch, start, length));
-                        }else if(myBookTags.getTags()[i].getName().equals("dcterms:language")){
+                        }else if(myBookTags.getTags()[i].getName().equals("language")){
                         	myAnswer.getData().setBookLanguage(myAnswer.getData().getBooks().size()-1, myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size()-1).getLanguage() + new String(ch, start, length));
-                        }else if(myBookTags.getTags()[i].getName().equals("dcterms:issued")){
+                        }else if(myBookTags.getTags()[i].getName().equals("issued")){
                         	myAnswer.getData().setBookDate(myAnswer.getData().getBooks().size()-1, myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size()-1).getDate() + new String(ch, start, length));
                         }else if(myBookTags.getTags()[i].getName().equals("summary")){
                         	myAnswer.getData().setBookSummary(myAnswer.getData().getBooks().size()-1, myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size()-1).getSummary() + new String(ch, start, length));
@@ -109,10 +114,10 @@ public class SAXHandler extends DefaultHandler{
                         if(myBookTags.getTags()[i].getName().equals("title")){
                         	myAnswer.getData().setBookTitle(myAnswer.getData().getBooks().size()-1, new String(ch, start, length));
                         	myIsContinue = true;
-                        }else if(myBookTags.getTags()[i].getName().equals("dcterms:language")){
+                        }else if(myBookTags.getTags()[i].getName().equals("language")){
                         	myAnswer.getData().setBookLanguage(myAnswer.getData().getBooks().size()-1, new String(ch, start, length));
                         	myIsContinue = true;
-                        }else if(myBookTags.getTags()[i].getName().equals("dcterms:issued")){
+                        }else if(myBookTags.getTags()[i].getName().equals("issued")){
                         	myAnswer.getData().setBookDate(myAnswer.getData().getBooks().size()-1, new String(ch, start, length));
                         	myIsContinue = true;
                         }else if(myBookTags.getTags()[i].getName().equals("summary")){
@@ -139,11 +144,16 @@ public class SAXHandler extends DefaultHandler{
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException
     {
+        String[] names = qName.split(":", 2);
+        if(names.length == 2){
+            qName = names[1];
+        }
+        
         if("entry".equals(qName)){
             myIsEntryTag = false;
         }
         
-        if("opensearch:totalResults".equals(qName)){
+        if("totalResults".equals(qName)){
         	myIsTotalTag = false;
         }
         
