@@ -32,26 +32,25 @@ void DataWriter::bookToDomElement(const Book& book, QDomDocument& doc, QDomEleme
     //append id
     appendTagAndText(doc, entry, "id", book.getId());
 
-
-    /*  TODO append all the authors
-    QDomElement author = doc.createElement("author");
-    entry.appendChild(author);
-    QDomElement name = doc.createElement("name");
-    author.appendChild(name);
-    QDomText nameText = doc.createTextNode(book.getAu);
-    name.appendChild(nameText);
-*/
+    //append authors
+    const QVector<const Author*>& authors = book.getAuthors();
+    foreach (const Author* author, authors) {
+        QDomElement authorElement = doc.createElement("author");
+        entry.appendChild(authorElement);
+        appendTagAndText(doc, authorElement, "name", author->getName());
+        appendTagAndText(doc, authorElement, "uri", author->getUri());
+    }
+   
     // append summary
-    QDomElement summary= doc.createElement("summary");
-    entry.appendChild(summary);
-    QDomText summaryText = doc.createTextNode(book.getSummary());
-    summary.appendChild(summaryText);
-
-	QDomElement textLink = doc.createElement("link");
+    appendTagAndText(doc, entry, "summary", book.getSummary());
+    
+    // append Source link
+    QDomElement textLink = doc.createElement("link");
 	textLink.setAttribute("type", "application/" + book.getFormat());
 	textLink.setAttribute("href", book.getSourceLink());
 	entry.appendChild(textLink);		
 	
+    // append Cover link
 	QDomElement coverLink = doc.createElement("link");
 	coverLink.setAttribute("type", "image/png");
 	coverLink.setAttribute("href", book.getCoverLink());
