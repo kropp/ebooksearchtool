@@ -64,7 +64,7 @@ bool AtomHandler::endElement (const QString&, const QString&, const QString& str
 		                          mySummary, 
 		                          myBooksUri);
 		    book->addAuthor(author);
-		    book->setSourceLink(myBooksLink);
+		    book->setSourceLink(myBooksLink, myFormat);
             book->setCoverLink(myBooksCover);
 		    myData->addBook(book);
 		    myIsEntry = false;	

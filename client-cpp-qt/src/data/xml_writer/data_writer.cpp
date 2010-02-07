@@ -45,7 +45,7 @@ void DataWriter::bookToDomElement(const Book& book, QDomDocument& doc, QDomEleme
     summary.appendChild(summaryText);
 
 	QDomElement textLink = doc.createElement("link");
-	textLink.setAttribute("type", "application/epub+zip");
+	textLink.setAttribute("type", "application/" + book.getFormat());
 	textLink.setAttribute("href", book.getSourceLink());
 	entry.appendChild(textLink);		
 	

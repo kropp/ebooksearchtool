@@ -21,10 +21,11 @@ public:
 	const QString& getSummary() const;
 	const QString& getId() const;
 	const QString& getSourceLink() const;
+    const QString& getFormat() const;
     const QString& getCoverLink() const;	
 
 	void addAuthor(const Author* author);
-	void setSourceLink(const QString& link);
+	void setSourceLink(const QString& link, const QString& format);
 	void setCoverLink(const QString& path);
 
 private:
@@ -35,6 +36,7 @@ private:
 	const QString myId;
 	QString mySourceLink;
 	QString myCoverLink;
+    QString myFormat;
 };
 
 
@@ -96,4 +98,7 @@ inline const QVector<const Author*>& Book::getAuthors() const {
     return myAuthors;
 }
 
+inline const QString& Book::getFormat() const {
+    return myFormat;
+}
 #endif //_BOOK_AUTHOR_H_

@@ -4,8 +4,9 @@ void Book::addAuthor(const Author* author) {
 	myAuthors.push_back(author);
 }
 
-void Book::setSourceLink(const QString& link) {
+void Book::setSourceLink(const QString& link, const QString& format) {
 	mySourceLink = link;
+    myFormat = format;
 }
 
 
