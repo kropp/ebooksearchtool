@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="/stylesheets/catalog.xsl"?>
+<feed xmlns:thr="http://purl.org/syndication/thread/1.0" xmlns:app="http://www.w3.org/2007/app" xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xml:lang="en-US" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns="http://www.w3.org/2005/Atom" xmlns:dcterms="http://purl.org/dc/terms/">
+  <id>http://www.feedbooks.com/books/search.atom?query=Pushkin</id>
+  <link type="text/html" rel="alternate" href="http://feedbooks.com/books/search?query=Pushkin"/>
+  <link type="application/atom+xml" rel="self" href="http://www.feedbooks.com/books/search.atom?query=Pushkin"/>
+  <title>Search results for: Pushkin</title>
+  <updated>2010-02-07T18:57:10Z</updated>
+  <icon>http://www.feedbooks.com/favicon.png</icon>
+  <author>
+    <name>Feedbooks</name>
+    <uri>http://www.feedbooks.com</uri>
+    <email>support@feedbooks.com</email>
+  </author>
+  <link type="application/atom+xml" rel="start" title="Main OPDS Catalog" href="/catalog.atom"/>
+  <link type="application/opensearchdescription+xml" rel="search" title="Search Feedbooks" href="/opensearch.xml"/>
+  <link type="application/atom+xml" rel="http://opds-spec.org/bookshelf" title="Bookshelf" href="https://feedbooks.com/user/downloads.atom"/>
+  <link type="application/atom+xml" rel="http://opds-spec.org/subscriptions" title="Subscriptions" href="https://feedbooks.com/user/subscriptions.atom"/>
+  <link type="application/atom+xml" rel="http://opds-spec.org/sort/new" title="New Public Domain Books" href="http://feedbooks.com/books/recent.atom"/>
+  <link type="application/atom+xml" rel="http://opds-spec.org/sort/popular" title="Top Public Domain Books" href="http://feedbooks.com/books/top.atom?range=month"/>
+  <link type="application/atom+xml" rel="http://opds-spec.org/sort/new" title="New Original Books" href="http://feedbooks.com/userbooks/recent.atom"/>
+  <link type="application/atom+xml" rel="http://opds-spec.org/sort/popular" title="Top Original Books" href="http://feedbooks.com/userbooks/top.atom?range=month"/>
+<opensearch:totalResults>10</opensearch:totalResults>
+<opensearch:itemsPerPage>20</opensearch:itemsPerPage>
+<link type="application/atom+xml" rel="related" title="Search results for: Pushkin in Original Books" href="/userbooks/search.atom?query=Pushkin"/>
+<link type="application/atom+xml" rel="related" title="Search results for: Pushkin in All Sections" href="/search.atom?query=Pushkin"/>
+<entry>
+<title>The Queen of Spades</title>
+<id>http://www.feedbooks.com/book/76</id>
+<author>
+  <name>Aleksandr Sergeyevich Pushkin</name>
+  <uri>http://www.feedbooks.com/author/26</uri>
+</author>
+<updated>2009-09-16T10:08:36Z</updated>
+<dcterms:language>en</dcterms:language>
+<dcterms:issued>1834</dcterms:issued>
+<category term="Short Fiction"/>
+<summary>Pushkin's story tells of the Russianized German card player, Hermann--an engineer in the army in Russia--who becomes obsessed with the secret of three consecutive winning cards after hearing a story about an old countess' winnings years prior. His obsession drives him to manipulate the countess' ward, Lizaveta Ivanovna, into letting him into their home.</summary>
+<dcterms:source>Wikisource</dcterms:source>
+<link type="application/epub+zip" rel="http://opds-spec.org/acquisition" href="http://www.feedbooks.com/book/76.epub"/>
+<link type="application/x-mobipocket-ebook" rel="http://opds-spec.org/acquisition" href="http://www.feedbooks.com/book/76.mobi"/>
+<link type="application/pdf" rel="http://opds-spec.org/acquisition" href="http://www.feedbooks.com/book/76.pdf"/>
+<link type="image/png" rel="http://opds-spec.org/cover" href="http://www.feedbooks.com/book/76.png?t=20090916100836"/>
+<link type="image/png" rel="http://opds-spec.org/thumbnail" href="http://www.feedbooks.com/book/76.png?size=smaller&amp;t=20090916100836"/>
+<link type="application/atom+xml;type=entry" rel="alternate" title="Full entry" href="http://feedbooks.com/book/76.atom"/>
+</entry>
+<entry>
+<title>The Shot</title>
+<id>http://www.feedbooks.com/book/77</id>
+<author>
+  <name>Aleksandr Sergeyevich Pushkin</name>
+  <uri>http://www.feedbooks.com/author/26</uri>
+</author>
+<updated>2009-09-16T10:08:36Z</updated>
+<dcterms:language>en</dcterms:language>
+<dcterms:issued>1830</dcterms:issued>
+<category term="Short Fiction"/>
+<summary>No description available.</summary>
+<dcterms:source>Wikisource</dcterms:source>
+<link type="application/epub+zip" rel="http://opds-spec.org/acquisition" href="http://www.feedbooks.com/book/77.epub"/>
+<link type="application/x-mobipocket-ebook" rel="http://opds-spec.org/acquisition" href="http://www.feedbooks.com/book/77.mobi"/>
+<link type="application/pdf" rel="http://opds-spec.org/acquisition" href="http://www.feedbooks.com/book/77.pdf"/>
+<link type="image/png" rel="http://opds-spec.org/cover" href="http://www.feedbooks.com/book/77.png?t=20090916100836"/>
+<link type="image/png" rel="http://opds-spec.org/thumbnail" href="http://www.feedbooks.com/book/77.png?size=smaller&amp;t=20090916100836"/>
+<link type="application/atom+xml;type=entry" rel="alternate" title="Full entry" href="http://feedbooks.com/book/77.atom"/>
+</entry>
+<entry>
+<title>Mon Portrait</title>
+<id>http://www.feedbooks.com/book/78</id>
+<author>
+  <name>Aleksandr Sergeyevich Pushkin</name>
+  <uri>http://www.feedbooks.com/author/26</uri>
+</author>
+<updated>2009-09-16T10:08:36Z</updated>
+<dcterms:language>fr</dcterms:language>
+<dcterms:issued>1814</dcterms:issued>
+<category term="Poetry"/>
+<summary>No description available.</summary>
+<dcterms:source>Wikisource</dcterms:source>
+<link type="application/epub+zip" rel="http://opds-spec.org/acquisition" href="http://www.feedbooks.com/book/78.epub"/>
+<link type="application/x-mobipocket-ebook" rel="http://opds-spec.org/acquisition" href="http://www.feedbooks.com/book/78.mobi"/>
+<link type="application/pdf" rel="http://opds-spec.org/acquisition" href="http://www.feedbooks.com/book/78.pdf"/>
+<link type="image/png" rel="http://opds-spec.org/cover" href="http://www.feedbooks.com/book/78.png?t=20090916100836"/>
+<link type="image/png" rel="http://opds-spec.org/thumbnail" href="http://www.feedbooks.com/book/78.png?size=smaller&amp;t=20090916100836"/>
+<link type="application/atom+xml;type=entry" rel="alternate" title="Full entry" href="http://feedbooks.com/book/78.atom"/>
+</entry>
+<entry>
+<title>La Dame de pique</title>
+<id>http://www.feedbooks.com/book/79</id>
+<author>
+  <name>Aleksandr Sergeyevich Pushkin</name>
+  <uri>http://www.feedbooks.com/author/26</uri>
+</author>
+<updated>2009-09-16T10:08:37Z</updated>
+<dcterms:language>fr</dcterms:language>
+<dcterms:issued>1834</dcterms:issued>
+<category term="Short Fiction"/>
+<summary>No description available.</summary>
+<dcterms:source>Wikisource</dcterms:source>
+<link type="application/epub+zip" rel="http://opds-spec.org/acquisition" href="http://www.feedbooks.com/book/79.epub"/>
+<link type="application/x-mobipocket-ebook" rel="http://opds-spec.org/acquisition" href="http://www.feedbooks.com/book/79.mobi"/>
+<link type="application/pdf" rel="http://opds-spec.org/acquisition" href="http://www.feedbooks.com/book/79.pdf"/>
+<link type="image/png" rel="http://opds-spec.org/cover" href="http://www.feedbooks.com/book/79.png?t=20090916100837"/>
+<link type="image/png" rel="http://opds-spec.org/thumbnail" href="http://www.feedbooks.com/book/79.png?size=smaller&amp;t=20090916100837"/>
+<link type="application/atom+xml;type=entry" rel="alternate" title="Full entry" href="http://feedbooks.com/book/79.atom"/>
+</entry>
+<entry>
+<title>The Daughter of the Commandant</title>
+<id>http://www.feedbooks.com/book/369</id>
+<author>
+  <name>Aleksandr Sergeyevich Pushkin</name>
+  <uri>http://www.feedbooks.com/author/26</uri>
+</author>
+<updated>2009-09-16T10:19:23Z</updated>
+<dcterms:language>en</dcterms:language>
+<dcterms:issued>1836</dcterms:issued>
+<category term="Novels"/>
+<category term="Romance"/>
+<category term="War"/>
+<summary>Pyotr Andreyich Grinyov is the only surviving child of a retired army officer. When Pyotr turns 17, his father sends him into military service in Orenburg. En route Pyotr gets lost in a blizzard, but is rescued by a mysterious man. As a token of his gratitude, Pyotr gives the guide his hareskin jacket.
+Arriving in Orenburg, Pyotr reports to his commanding officer and is assigned to serve at Belogorsky fortress under captain Ivan Mironov. The fortress is nothing more than a fence around a village, and the captain's wife Vasilisa is really in charge.</summary>
+<dcterms:source>http://www.gutenberg.org</dcterms:source>
+<link type="application/epub+zip" rel="http://opds-spec.org/acquisition" href="http://www.feedbooks.com/book/369.epub"/>
+<link type="application/x-mobipocket-ebook" rel="http://opds-spec.org/acquisition" href="http://www.feedbooks.com/book/369.mobi"/>
+<link type="application/pdf" rel="http://opds-spec.org/acquisition" href="http://www.feedbooks.com/book/369.pdf"/>
+<link type="image/png" rel="http://opds-spec.org/cover" href="http://www.feedbooks.com/book/369.png?t=20090916101923"/>
+<link type="image/png" rel="http://opds-spec.org/thumbnail" href="http://www.feedbooks.com/book/369.png?size=smaller&amp;t=20090916101923"/>
+<link type="application/atom+xml;type=entry" rel="alternate" title="Full entry" href="http://feedbooks.com/book/369.atom"/>
+</entry>
+<entry>
+<title>La Fille du Capitaine</title>
+<id>http://www.feedbooks.com/book/451</id>
+<author>
+  <name>Aleksandr Sergeyevich Pushkin</name>
+  <uri>http://www.feedbooks.com/author/26</uri>
+</author>
+<updated>2009-09-16T10:22:11Z</updated>
+<dcterms:language>fr</dcterms:language>
+<dcterms:issued>1836</dcterms:issued>
+<category term="Short Fiction"/>
+<category term="Romance"/>
+<category term="War"/>
+<summary>No description available.</summary>
+<dcterms:source>http://fr.wikisource.org</dcterms:source>
+<link type="application/epub+zip" rel="http://opds-spec.org/acquisition" href="http://www.feedbooks.com/book/451.epub"/>
+<link type="application/x-mobipocket-ebook" rel="http://opds-spec.org/acquisition" href="http://www.feedbooks.com/book/451.mobi"/>
+<link type="application/pdf" rel="http://opds-spec.org/acquisition" href="http://www.feedbooks.com/book/451.pdf"/>
+<link type="image/png" rel="http://opds-spec.org/cover" href="http://www.feedbooks.com/book/451.png?t=20090916102211"/>
+<link type="image/png" rel="http://opds-spec.org/thumbnail" href="http://www.feedbooks.com/book/451.png?size=smaller&amp;t=20090916102211"/>
+<link type="application/atom+xml;type=entry" rel="alternate" title="Full entry" href="http://feedbooks.com/book/451.atom"/>
+</entry>
+<entry>
+<title>R&#233;cits de feu Ivan P&#233;trovitch Bielkine</title>
+<id>http://www.feedbooks.com/book/452</id>
+<author>
+  <name>Aleksandr Sergeyevich Pushkin</name>
+  <uri>http://www.feedbooks.com/author/26</uri>
+</author>
+<updated>2009-09-16T10:22:12Z</updated>
+<dcterms:language>fr</dcterms:language>
+<dcterms:issued>1830</dcterms:issued>
+<category term="Short Fiction"/>
+<summary>No description available.</summary>
+<dcterms:source>http://fr.wikisource.org</dcterms:source>
+<link type="application/epub+zip" rel="http://opds-spec.org/acquisition" href="http://www.feedbooks.com/book/452.epub"/>
+<link type="application/x-mobipocket-ebook" rel="http://opds-spec.org/acquisition" href="http://www.feedbooks.com/book/452.mobi"/>
+<link type="application/pdf" rel="http://opds-spec.org/acquisition" href="http://www.feedbooks.com/book/452.pdf"/>
+<link type="image/png" rel="http://opds-spec.org/cover" href="http://www.feedbooks.com/book/452.png?t=20090916102212"/>
+<link type="image/png" rel="http://opds-spec.org/thumbnail" href="http://www.feedbooks.com/book/452.png?size=smaller&amp;t=20090916102212"/>
+<link type="application/atom+xml;type=entry" rel="alternate" title="Full entry" href="http://feedbooks.com/book/452.atom"/>
+</entry>
+<entry>
+<title>The Idiot</title>
+<id>http://www.feedbooks.com/book/367</id>
+<author>
+  <name>Fyodor Mikhailovich Dostoyevsky</name>
+  <uri>http://www.feedbooks.com/author/2</uri>
+</author>
+<updated>2009-09-27T12:33:53Z</updated>
+<dcterms:language>en</dcterms:language>
+<dcterms:issued>1868</dcterms:issued>
+<category term="Novels"/>
+<category term="Romance"/>
+<summary>Returning to Russia from a sanitarium in Switzerland, the Christ-like epileptic Prince Myshkin finds himself enmeshed in a tangle of love, torn between two women&#8212;the notorious kept woman Nastasya and the pure Aglaia&#8212;both involved, in turn, with the corrupt, money-hungry Ganya. In the end, Myshkin&#8217;s honesty, goodness, and integrity are shown to be unequal to the moral emptiness of those around him.</summary>
+<dcterms:source>http://www.gutenberg.org</dcterms:source>
+<link type="application/epub+zip" rel="http://opds-spec.org/acquisition" href="http://www.feedbooks.com/book/367.epub"/>
+<link type="application/x-mobipocket-ebook" rel="http://opds-spec.org/acquisition" href="http://www.feedbooks.com/book/367.mobi"/>
+<link type="application/pdf" rel="http://opds-spec.org/acquisition" href="http://www.feedbooks.com/book/367.pdf"/>
+<link type="image/png" rel="http://opds-spec.org/cover" href="http://www.feedbooks.com/book/367.png?t=20090927123353"/>
+<link type="image/png" rel="http://opds-spec.org/thumbnail" href="http://www.feedbooks.com/book/367.png?size=smaller&amp;t=20090927123353"/>
+<link type="application/atom+xml;type=entry" rel="alternate" title="Full entry" href="http://feedbooks.com/book/367.atom"/>
+</entry>
+<entry>
+<title>The Sleuth of St. James's Square</title>
+<id>http://www.feedbooks.com/book/3748</id>
+<author>
+  <name>Melville Davisson Post</name>
+  <uri>http://www.feedbooks.com/author/986</uri>
+</author>
+<updated>2009-08-18T01:18:13Z</updated>
+<dcterms:language>en</dcterms:language>
+<dcterms:issued>1920</dcterms:issued>
+<category term="Short Fiction"/>
+<category term="Crime/Mystery"/>
+<category term="Collections"/>
+<summary>A collection of 16 mystery short stories: 
+The Thing on the Hearth, The Reward, The Lost Lady, The Cambered Foot, The Man in the Green Hat, The Wrong Sign, The Fortune Teller, The Hole in the Mahogany Panel, The End of the Road, The Last Adventure, American Horses, The Spread Rails, The Pumpkin Coach, The Yellow Flower, Satire of the Sea &amp; The House by the Loch.
+</summary>
+<dcterms:source>http://www.gutenberg.org</dcterms:source>
+<rights>This work is available for countries where copyright is Life+70 and in the USA.</rights>
+<link type="application/epub+zip" rel="http://opds-spec.org/acquisition" href="http://www.feedbooks.com/book/3748.epub"/>
+<link type="application/x-mobipocket-ebook" rel="http://opds-spec.org/acquisition" href="http://www.feedbooks.com/book/3748.mobi"/>
+<link type="application/pdf" rel="http://opds-spec.org/acquisition" href="http://www.feedbooks.com/book/3748.pdf"/>
+<link type="image/png" rel="http://opds-spec.org/cover" href="http://www.feedbooks.com/book/3748.png?t=20090818011813"/>
+<link type="image/png" rel="http://opds-spec.org/thumbnail" href="http://www.feedbooks.com/book/3748.png?size=smaller&amp;t=20090818011813"/>
+<link type="application/atom+xml;type=entry" rel="alternate" title="Full entry" href="http://feedbooks.com/book/3748.atom"/>
+</entry>
+<entry>
+<title>The Pit and the Pendulum</title>
+<id>http://www.feedbooks.com/book/801</id>
+<author>
+  <name>Edgar Allan Poe</name>
+  <uri>http://www.feedbooks.com/author/16</uri>
+</author>
+<updated>2009-09-16T10:30:20Z</updated>
+<dcterms:language>en</dcterms:language>
+<dcterms:issued>1842</dcterms:issued>
+<category term="Short Fiction"/>
+<category term="Horror"/>
+<summary>&quot;The Pit and the Pendulum&quot; is a short story written by Edgar Allan Poe and first published in 1842. The story is about the torments endured by a prisoner of the Spanish Inquisition, though Poe skews historical facts. The narrator of the story is deemed guilty for an unnamed crime and put into a completely dark room. He passes out while trying to determine the size of the room. When he wakes up, he realizes there is a large, deep pit in the middle of the room. He loses consciousness again and awakens strapped on his back, unable to move more than his head. He soon realizes there is a large blade-like pendulum hanging above him, slowly getting closer to cutting through his chest. He finds a way to escape but the walls of his prison start to move and close in on him, pushing him closer and closer to falling into the pit.
+The story is especially effective at inspiring fear in the reader because of its heavy focus on the senses, such as sound, emphasizing its reality, unlike many of Poe's stories which are aided by the supernatural. The traditional elements established in popular horror tales at the time are followed but critical reception has been mixed.</summary>
+<dcterms:source>http://en.wikisource.org</dcterms:source>
+<link type="application/epub+zip" rel="http://opds-spec.org/acquisition" href="http://www.feedbooks.com/book/801.epub"/>
+<link type="application/x-mobipocket-ebook" rel="http://opds-spec.org/acquisition" href="http://www.feedbooks.com/book/801.mobi"/>
+<link type="application/pdf" rel="http://opds-spec.org/acquisition" href="http://www.feedbooks.com/book/801.pdf"/>
+<link type="image/png" rel="http://opds-spec.org/cover" href="http://www.feedbooks.com/book/801.png?t=20090916103020"/>
+<link type="image/png" rel="http://opds-spec.org/thumbnail" href="http://www.feedbooks.com/book/801.png?size=smaller&amp;t=20090916103020"/>
+<link type="application/atom+xml;type=entry" rel="alternate" title="Full entry" href="http://feedbooks.com/book/801.atom"/>
+</entry>
+</feed>

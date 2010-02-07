@@ -29,7 +29,7 @@ public:
     bool run() const;
 
 private:
-    const QString& myFileName;
+    const QString myFileName;
 };
 
 #endif //_TEST_H_
