@@ -20,11 +20,10 @@ bool AtomHandler::startElement (const QString& , const QString& , const QString&
     myCurrentText = "";
     if (!myIsEntry) {
 	    if ((name == "link") && 
-	       (attributes.value("type") == "application/"+myFormat) && 
+	       (attributes.value("type") == "application/atom+xml") && 
 		   (attributes.value("rel") == "next") && 
 		   (attributes.value("title") == "Next Page"))  {
 		       // myData->setLinkToNextPage(attributes.value("href"));
-           
             qDebug() << "Handler:: link to the next page " << attributes.value("href");
         } else if (name == "entry") {
 		    myIsEntry = true;
@@ -32,10 +31,17 @@ bool AtomHandler::startElement (const QString& , const QString& , const QString&
 	    return true;    
     }	
 // if myIsEntry
-	if ((name == "link") && (attributes.value("type") == "application/pdf")) {
+	if ((name == "link") &&
+        (attributes.value("type") == "application/" + myFormat) &&
+        (attributes.value("rel") == "http://opds-spec.org/acquisition")) {
+        
         myBooksLink = attributes.value("href");
 	}
-	if ((name == "link") && (attributes.value("type") == "image/png") && (attributes.value("rel") == "http://opds-spec.org/thumbnail")) {
+
+	if ((name == "link") && 
+        (attributes.value("type") == "image/png") && 
+        (attributes.value("rel") == "http://opds-spec.org/cover")) {
+        
         myBooksCover = attributes.value("href");
 	}
 
