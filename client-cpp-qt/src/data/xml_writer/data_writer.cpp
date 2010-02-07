@@ -9,7 +9,7 @@ DataWriter::DataWriter() {}
 void DataWriter::write(QFile* file, const Data& data) {
 	QDomDocument* doc = new QDomDocument();
     dataToDomDocument(data, *doc);
-	QTextStream out(file);//, QIODevice::WriteOnly);
+	QTextStream out(file);
 	doc->save(out, 4);
     delete doc;
 }
@@ -26,11 +26,13 @@ void DataWriter::dataToDomDocument(const Data& data, QDomDocument& doc) {
 }
 
 void DataWriter::bookToDomElement(const Book& book, QDomDocument& doc, QDomElement& entry) {
+    // append title
+    appendTagAndText(doc, entry, "title", book.getTitle());
+    
+    //append id
+    appendTagAndText(doc, entry, "id", book.getId());
 
-    QDomElement title = doc.createElement("title");
-    entry.appendChild(title);
-    QDomText titleText = doc.createTextNode(book.getTitle());
-    title.appendChild(titleText);
+
     /*  TODO append all the authors
     QDomElement author = doc.createElement("author");
     entry.appendChild(author);
@@ -39,6 +41,7 @@ void DataWriter::bookToDomElement(const Book& book, QDomDocument& doc, QDomEleme
     QDomText nameText = doc.createTextNode(book.getAu);
     name.appendChild(nameText);
 */
+    // append summary
     QDomElement summary= doc.createElement("summary");
     entry.appendChild(summary);
     QDomText summaryText = doc.createTextNode(book.getSummary());
@@ -53,4 +56,11 @@ void DataWriter::bookToDomElement(const Book& book, QDomDocument& doc, QDomEleme
 	coverLink.setAttribute("type", "image/png");
 	coverLink.setAttribute("href", book.getCoverLink());
 	entry.appendChild(coverLink);	
+}
+
+void DataWriter::appendTagAndText(QDomDocument& doc, QDomElement& parentElement, const QString& tag, const QString& text) {
+    QDomElement newElement = doc.createElement(tag);
+    parentElement.appendChild(newElement);
+    QDomText domText = doc.createTextNode(text);
+    newElement.appendChild(domText);
 }

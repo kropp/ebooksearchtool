@@ -26,7 +26,7 @@ bool AtomHandler::startElement (const QString& , const QString& , const QString&
 		   (attributes.value("rel") == "next") && 
 		   (attributes.value("title") == "Next Page"))  {
 		       // myData->setLinkToNextPage(attributes.value("href"));
-            qDebug() << "Handler:: link to the next page " << attributes.value("href");
+            //qDebug() << "Handler:: link to the next page " << attributes.value("href");
         } else if (name == "entry") {
 		    myIsEntry = true;
 	    }     
