@@ -18,13 +18,13 @@
         </div>
     </div>
     {% ifequal num 1 %} 
-        {% for letter in alphabet %}
+        {% for letter in string %}
             <h3 class="fb-blue small-bottom-margin"><a href="authors?letter={{letter}}">{{ letter }}</a></h3>
         {% endfor %}
     {% endifequal %} 
     
     {% ifequal num 2 %} 
-        {% for let in alphabet %}
+        {% for let in string %}
             <h3 class="fb-blue small-bottom-margin"><a href="authors?letters={{letter}}{{let}}">{{ letter }}{{ let }}</a></h3>
         {% endfor %}
     {% endifequal %} 

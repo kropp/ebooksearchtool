@@ -13,6 +13,8 @@ from book.models import Tag
 from django.http import Http404
 from django.http import HttpResponse
 
+import os
+
 def search_request_to_server(request, response_type, is_all):
     """ builds opds and xhtml response for search request"""
     try:
@@ -186,13 +188,13 @@ def books_by_authors_request_to_server(request, response_type):
         try:
             letters = request.GET['letters']
         except KeyError:
-            alphabet_string = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            alphabet_string = map(chr, range(65, 91))
             if response_type == "atom":
                 return render_to_response('book/opds/client_response_books_by_author.xml',
-                {'alphabet': alphabet_string, 'num': 1 })
+                {'string': alphabet_string, 'num': 1 })
             if response_type == "xhtml":
                 return render_to_response('book/xhtml/client_response_books_by_author.xml',
-                {'alphabet': alphabet_string, 'num': 1 }) 
+                {'string': alphabet_string, 'num': 1 }) 
 
         request_to_server = Q(name__istartswith=letters)
         authors = Author.objects.filter(request_to_server).distinct()
@@ -203,21 +205,26 @@ def books_by_authors_request_to_server(request, response_type):
             return render_to_response('book/xhtml/client_response_books_by_author_letter.xml',
             {'authors': authors})    
                       
-    alphabet_string = "abcdefghijklmnopqrstuvwxyz"
-    string = ""
+    alphabet_string = map(chr, range(98, 123))
+    string = "a"
     for let in alphabet_string:
         request_to_server = Q(name__istartswith=letter+let)
         auth_count = Author.objects.filter(request_to_server).distinct().count()
         print auth_count
-        if auth_count > 0:
-            string += let
-        
+#        if auth_count > 2:
+        string += let
+
+    my_string = ''
+    for let in string:
+        my_string += chr(ord(let)-1)+let + " "
+    print my_string            
+    
     if response_type == "atom":
         return render_to_response('book/opds/client_response_books_by_author.xml',
-        {'alphabet': string, 'num': 2, 'letter': letter })
+        {'string': string, 'num': 2, 'letter': letter })
     if response_type == "xhtml":
         return render_to_response('book/xhtml/client_response_books_by_author.xml',
-        {'alphabet': string, 'num': 2, 'letter': letter })        
+        {'string': string, 'num': 2, 'letter': letter })        
                     
 def books_by_languages_request_to_server(request, response_type):
     """builds opds and xhtml response for books by lang request"""
@@ -246,7 +253,8 @@ def books_search(request):
     return render_to_response('book/xhtml/client_response_search_request.xml')
     
 def no_book_cover(request):
-    image_data = open("pic/no_cover.gif", "rb").read()
+    raise Exception(os.getcwd())
+    image_data = open("./pic/no_cover.gif", "rb").read()
     return HttpResponse(image_data, mimetype="image/png")
 
 def extended_search(request):
