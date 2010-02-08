@@ -66,7 +66,21 @@ public class SAXHandler extends DefaultHandler{
         for(int i = 0; i < myBookTags.getTags().length; ++i){
             myBookTags.getTags()[i].setStatus(myBookTags.getTags()[i].getName().equals(qName));
             if (attributes != null) {
-                int len = attributes.getLength();
+                if(myIsEntryTag){
+                    if("application/pdf".equals(attributes.getValue("type"))){
+                        myAnswer.getData().getBookLinks(myAnswer.getData().getBooks().size()-1).put("pdf", attributes.getValue("href"));
+                    }else if("application/epub+zip".equals(attributes.getValue("type"))){
+                        myAnswer.getData().getBookLinks(myAnswer.getData().getBooks().size()-1).put("epub", attributes.getValue("href"));
+                    }else if("image/png".equals(attributes.getValue("type"))){
+                        myAnswer.getData().setBookImage(myAnswer.getData().getBooks().size()-1, attributes.getValue("href"));
+                    }else if(attributes.getValue("term") != null){
+                        myAnswer.getData().setBookGenre(myAnswer.getData().getBooks().size()-1, attributes.getValue("term"));
+                    }
+                }else if("Next Page".equals(attributes.getValue("title")) && "application/atom+xml".equals(attributes.getValue("type"))){
+                    myAnswer.setNextPage(attributes.getValue("href"));
+
+                }
+                /*
                 for (int j = 0; j < len; ++j)
                 {
                 	if(myIsEntryTag && attributes.getValue(j).equals("application/pdf")){
@@ -82,7 +96,7 @@ public class SAXHandler extends DefaultHandler{
                     	
                     }
                 }
-                    
+                */
             }
 
         }
