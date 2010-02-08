@@ -23,6 +23,7 @@ public class Parser {
 
     public Parser() throws SAXException, ParserConfigurationException {
         SAXParserFactory parserFactory = SAXParserFactory.newInstance();
+        parserFactory.setNamespaceAware(true);
         myParser = parserFactory.newSAXParser();
     }
 

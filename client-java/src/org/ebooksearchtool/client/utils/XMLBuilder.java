@@ -51,7 +51,9 @@ public class XMLBuilder {
 
 		Document doc = myDomBuilder.newDocument();
 		Element root = doc.createElement("feed");
-		doc.appendChild(root);
+        root.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:opensearch", "http://a9.com/-/spec/opensearch/1.1/");
+		root.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:dcterms", "http://purl.org/dc/terms/");
+        doc.appendChild(root);
 		
 		for(int i = 0; i < data.getBooks().size(); ++i){
 			Element entry = doc.createElement("entry");

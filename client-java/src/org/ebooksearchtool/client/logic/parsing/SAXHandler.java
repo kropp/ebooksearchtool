@@ -38,11 +38,12 @@ public class SAXHandler extends DefaultHandler{
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException
     {
-        String[] names = qName.split(":", 2);
-        if(names.length == 2){
-            qName = names[1];
+        if(!localName.equals(qName)){
+            if("http://purl.org/dc/terms/".equals(uri) || "http://a9.com/-/spec/opensearch/1.1/".equals(uri)){
+                qName = localName;
+            }
         }
-        
+
         if("entry".equals(qName)){
             myIsEntryTag = true;
             myAnswer.getData().addBook(new Book());
@@ -82,7 +83,6 @@ public class SAXHandler extends DefaultHandler{
                     }
                 }
                     
-                
             }
 
         }
@@ -144,9 +144,10 @@ public class SAXHandler extends DefaultHandler{
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException
     {
-        String[] names = qName.split(":", 2);
-        if(names.length == 2){
-            qName = names[1];
+        if(!localName.equals(qName)){
+            if("http://purl.org/dc/terms/".equals(uri) || "http://a9.com/-/spec/opensearch/1.1/".equals(uri)){
+                qName = localName;
+            }
         }
         
         if("entry".equals(qName)){
