@@ -4,6 +4,10 @@ const QString AtomHandler::ourOpensearchUri = "http://a9.com/-/spec/opensearch/1
 const QString AtomHandler::ourDctermsUri = "http://purl.org/dc/terms/";
 const QString AtomHandler::ourAtomUri = "http://www.w3.org/2005/Atom";
 
+static const QString NSPACE_ATOM = "http://www.w3.org/2005/Atom";
+
+static const QString TAG_LINK = "link";
+
 const QString AtomHandler::ourConfigFilePath = "../.config.ini";
 
 AtomHandler::AtomHandler(Data* data) {
