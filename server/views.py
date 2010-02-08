@@ -196,10 +196,14 @@ def books_by_authors_request_to_server(request, response_type):
                 return render_to_response('book/xhtml/client_response_books_by_author.xml',
                 {'string': alphabet_string, 'num': 1 }) 
 
-        my_let = map(chr, range(ord(letters[1]), ord(letters[4]) + 1))
-        request_to_server = Q()
-        for let in my_let:
-            request_to_server = request_to_server | Q(name__istartswith=letters[0]+let)
+        try:
+            my_let = map(chr, range(ord(letters[1]), ord(letters[4]) + 1))
+            request_to_server = Q()
+            for let in my_let:
+                request_to_server = request_to_server | Q(name__istartswith=letters[0]+let)
+        except IndexError:
+            request_to_server = Q(name__istartswith=letters)
+
         authors = Author.objects.filter(request_to_server).distinct()
         authors.order_by('name')
         print authors
