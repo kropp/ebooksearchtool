@@ -22,7 +22,7 @@
     <target name="dist" depends="clean,compile">
         <mkdir dir="${dist}"/>
         <jar jarfile="${jarfile}" basedir="${build}" manifest="${manifest}"/>
-        <copy file="crawler.properties" tofile="${dist}/crawler.properties" />
+        <!--copy file="crawler.properties" tofile="${dist}/crawler.properties" /-->
     </target>
 
     <target name="clean">

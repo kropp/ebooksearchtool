@@ -6,8 +6,6 @@ import java.util.*;
 public class Main {
     
     public static final File PROPERTIES_FILE = new File("crawler.properties");
-    public static final File FOUND_BOOKS_FILE = new File("found.xml");
-    public static final File DUMP_FILE = new File("dump.txt");
     
     public static final String[][] DEFAULT_PROPERTIES = {
         {"user_agent", "ebooksearchtool"},
@@ -35,7 +33,10 @@ public class Main {
         {"max_links_from_large_source", "60"},
         {"host_stats_cleanup_period", "60000"},
 
-        {"log_file", ""},
+        {"debug", "true"},
+        {"debug_file", "dump.txt"},
+        {"found_books_file", "found.xml"},
+        {"log_file", "log.txt"},
         {"log_to_screen", "true"},
         {"log_downloaded_robots_txt", "false"},
         {"log_crawled_pages", "true"},
@@ -57,7 +58,7 @@ public class Main {
         }
         
         if (args.length == 0) {
-            System.out.println("usage:\n  java -jar Crawler.jar www.example.com www.example.net www.example.org\n  input empty string and press Enter to ask Crawler what is he doing\n  input any non-empty string and press Enter to exit");
+            System.out.println("usage:  java -jar bin/Crawler.jar www.example.com www.example.net www.example.org\n  if debug option is true,\n    input empty string and press Enter to ask crawler what is he doing\n    input any non-empty string and press Enter to exit");
             return;
         }
         
@@ -65,12 +66,18 @@ public class Main {
         for (int i = 0; i < args.length; i++) {
             starts[i] = args[i].startsWith("http://") ? args[i] : "http://" + args[i];
         }
+        
+        boolean debug = Boolean.parseBoolean(properties.getProperty("debug"));
+        String debugFile = properties.getProperty("debug_file");
+        String foundBooksFile = properties.getProperty("found_books_file");
+        
         PrintWriter output = null;
-        try {
-            output = new PrintWriter(FOUND_BOOKS_FILE);
-        } catch (FileNotFoundException fnfe) {
-            fnfe.printStackTrace();
-            System.exit(0);
+        if (!"".equals(foundBooksFile)) {
+            try {
+                output = new PrintWriter(foundBooksFile);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         }
         if (!Util.init()) {
             System.err.println("initialization failed");
@@ -79,16 +86,17 @@ public class Main {
         Crawler crawler = new Crawler(properties, starts, output);
         Thread crawlingThread = new Thread(crawler);
         crawlingThread.start();
+        
         String keyboardInput = null;
         Scanner keyboardScanner = new Scanner(System.in);
         String input = "";
         while (true) {
             input = keyboardScanner.nextLine();
             if (input.length() == 0) {
-                if (crawler.dumpCurrentState(DUMP_FILE)) {
-                    System.out.println("current state dumped successfully to " + DUMP_FILE);
+                if (crawler.dumpCurrentState(debugFile)) {
+                    System.out.println("current state dumped successfully to " + ("".equals(debugFile) ? "screen" : debugFile));
                 } else {
-                    System.out.println("there were problems while dumping current state to " + DUMP_FILE);
+                    System.out.println("there were problems while dumping current state to " + ("".equals(debugFile) ? "screen" : debugFile));
                 }
             } else break;
         }
@@ -97,7 +105,9 @@ public class Main {
         try {
             crawlingThread.join();
         } catch (InterruptedException ie) { }
-        output.close();
+        if (output != null) {
+            output.close();
+        }
         System.exit(0);
     }
     
