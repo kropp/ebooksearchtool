@@ -10,7 +10,7 @@
             <author id="{{ author.id }}">
                 <name> {{ author.name }}</name>
                 <aliases>
-                    {% for alias in author.alias.all %}    
+                    {% for alias in author.author_alias.all %}    
                     <alias id="{{ alias.id }}"> {{ alias.name }}</alias>
                     {% endfor %}
                 </aliases>

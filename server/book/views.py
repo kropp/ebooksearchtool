@@ -88,11 +88,11 @@ def data_modify(request, action):
         messages.append(('error', msg_body))
         MAIN_LOG.warning(msg_body)
 
-    except Exception, ex:
-        exception_type, exception_value, exception_traceback = exc_info()
-        msg_body = "%s: %s" % (exception_type, exception_value)
-        messages.append(('error', msg_body))
-        MAIN_LOG.exception(ex)
+#    except Exception, ex:
+#        exception_type, exception_value, exception_traceback = exc_info()
+#        msg_body = "%s: %s" % (exception_type, exception_value)
+#        messages.append(('error', msg_body))
+#        MAIN_LOG.exception(ex)
         
     # computation of operation status 
     msg_types = (msg_type for msg_type, msg in messages)
