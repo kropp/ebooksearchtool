@@ -4,7 +4,7 @@ package org.ebooksearchtool.analyzer.network.demon;
  * @author Алексей
  */
 
-import org.ebooksearchtool.analyzer.algorithms.subalgorithms.AuthorsSimpleParser;
+import org.ebooksearchtool.analyzer.algorithms.subalgorithms.AuthorsParser;
 import org.ebooksearchtool.analyzer.algorithms.*;
 import java.util.ArrayList;
 import org.ebooksearchtool.analyzer.algorithms.subalgorithms.FormatExtractor;
@@ -38,11 +38,11 @@ public class MunseyHandler extends DefaultHandler{
     @Override
     public void characters (char ch[], int start, int length) throws SAXException{
         if(ourAuthorElementFlag == true){
-            ourBookInfo.setAuthors(AuthorsSimpleParser.parse(
+            ourBookInfo.setAuthors(AuthorsParser.parse(
                    new String(ch, start, length).trim()));
         }
         if(ourTitleElementFlag == true){
-            ourBookInfo.setTitle(new String(ch, start, length).trim());
+            ourBookInfo.setTitle(new Title(new String(ch, start, length).trim()));
         }
         if(ourLinkElementFlag == true){
             ArrayList<Lexema> temp = Lexema.convertToLexems(new String(ch, start, length).trim());

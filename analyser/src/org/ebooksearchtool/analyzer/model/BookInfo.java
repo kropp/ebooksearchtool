@@ -11,7 +11,7 @@ import org.ebooksearchtool.analyzer.utils.AnalyzerProperties;
 public class BookInfo {
     private String myID;
     private List<Author> myAuthors;
-    private String myTitle;
+    private Title myTitle;
     private List<File> myFiles;
     private String myLanguage;
     private List<String> myAnnotations;
@@ -27,7 +27,7 @@ public class BookInfo {
         myID = "";
         myAuthors = new ArrayList<Author>();
         //myAuthors.add(new Author());
-        myTitle = "";
+        myTitle = new Title();
         myFiles = new ArrayList<File>();
         //myFiles.add(new File());
         myLanguage = "";
@@ -38,7 +38,7 @@ public class BookInfo {
     public BookInfo(List<Author> authors, String title, List<File> files,
             String language, List<String> annotations){
         myAuthors = authors;
-        myTitle = title;
+        myTitle = new Title(title);
         myFiles = files;
         myLanguage = language;
         myAnnotations = annotations;
@@ -48,7 +48,7 @@ public class BookInfo {
         myID = Integer.toBinaryString(id);
         myAuthors = new ArrayList<Author>();
         //myAuthors.add(new Author());
-        myTitle = "";
+        myTitle = new Title();
         myFiles = new ArrayList<File>();
         //myFiles.add(new File());
         myLanguage = "";
@@ -75,14 +75,14 @@ public class BookInfo {
     /**
      * @return the myTitle
      */
-    public String getTitle() {
+    public Title getTitle() {
         return myTitle;
     }
 
     /**
      * @param myTitle the myTitle to set
      */
-    public void setTitle(String myTitle) {
+    public void setTitle(Title myTitle) {
         this.myTitle = myTitle;
     }
 
@@ -195,12 +195,20 @@ public class BookInfo {
                 book.setID(temp);
             }
             //Title
-            index = sb.indexOf("<title>");
+            index = sb.indexOf("<title");
+            Title tit = new Title();
             if(index != -1){
                 temp = sb.substring(index);
+                temp = temp.substring(temp.indexOf("rel=\""));
+                endIndex = temp.indexOf("\"");
+                tit.setRelIndex(Integer.valueOf(temp.substring("rel=\"".length(), endIndex)));
+                temp = temp.substring(temp.indexOf("trust=\""));
+                endIndex = temp.indexOf("\"");
+                tit.setRelIndex(Integer.valueOf(temp.substring("trust=\"".length(), endIndex)));
+                temp = temp.substring(temp.indexOf(">"));
                 endIndex = temp.indexOf("<");
-                temp = sb.substring(index + "<title>".length() + 1, endIndex + index - 1);
-                book.setTitle(temp);
+                tit.setTitle(temp.substring(1,endIndex));
+                book.setTitle(tit);
             }
             //Language
             index = sb.indexOf("<language>");
@@ -219,11 +227,32 @@ public class BookInfo {
                 index = sb.indexOf("<author");
                 //TODO: Добавить работу с Aliases
                 temp = tempB.substring(index);
+
                 index = temp.indexOf("id=\"");
-                temp = temp.substring(index + "id=\"".length());
-                endIndex = temp.indexOf(">") - 1;
-                temp = temp.substring(0, endIndex);
-                author.setID(temp);
+                if(index != -1){
+                    temp = temp.substring(index + "id=\"".length());
+                    endIndex = temp.indexOf("\"");
+                    author.setID(temp.substring("id=\"".length(), endIndex));
+                }else{
+                    author.setID("-1");
+                }
+                index = temp.indexOf("rel=\"");
+                if(index != -1){
+                    temp = temp.substring(index + "rel=\"".length());
+                    endIndex = temp.indexOf("\"");
+                    author.setRelIndex(Integer.valueOf(temp.substring("rel=\"".length(), endIndex)));
+                }else{
+                    author.setRelIndex(0);
+                }
+                index = temp.indexOf("trust=\"");
+                if(index != -1){
+                    temp = temp.substring(index + "trust=\"".length());
+                    endIndex = temp.indexOf("\"");
+                    author.setTrIndex(Integer.valueOf(temp.substring("trust=\"".length(), endIndex)));
+                }else{
+                    author.setTrIndex(0);
+                }
+
 
                 index = temp.indexOf("<name>");
                 if(index != -1){
@@ -342,6 +371,7 @@ public class BookInfo {
     }
 
     // <editor-fold defaultstate="collapsed" desc="Get methods for requests">
+    //Сейчас спрашиваю только автора и назавание
     public String getBookInfoForRequest(){
         StringBuilder str = new StringBuilder();
         str.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
@@ -349,10 +379,10 @@ public class BookInfo {
         str.append("<book>");
         str.append(AnalyzerProperties.getPropertie("system_separator"));
         str.append(writeTitle());
-        str.append(writeLanguage());
+        //str.append(writeLanguage());
         str.append(writeAuthors());
-        str.append(writeFilesForRequest());
-        str.append(writeAnnotations());
+        //str.append(writeFilesForRequest());
+        //str.append(writeAnnotations());
         str.append("</book>");
 
         return str.toString();
@@ -368,7 +398,7 @@ public class BookInfo {
         return str.toString();
     }
 
-    //Пока что выдает всю информацию по КНИГЕ (куча книг и файлов, в которые в
+    //Пока что выдает всю информацию по КНИГЕ (куча книг и файлов, в
     //которые входит данный)
     public String getBookInfoForFileIDRequest(String id){
         StringBuilder str = new StringBuilder(getBookInfo());

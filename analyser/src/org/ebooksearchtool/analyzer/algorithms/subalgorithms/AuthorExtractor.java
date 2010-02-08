@@ -37,7 +37,7 @@ public class AuthorExtractor {
             }
             sb.append(lex.getValue());
 
-            authors = AuthorsSimpleParser.parse(trim(sb));
+            authors = AuthorsParser.parse(trim(sb));
         }else{
             authors.add(new Author());
         }

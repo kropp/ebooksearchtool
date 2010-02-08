@@ -10,6 +10,8 @@ public class Author {
     private String myName;
     private List<String> myAliases;
     private String myID;
+    private int myTrustIndex;
+    private int myRelevanceIndex;
 
     public Author(){
         myName = "";
@@ -99,5 +101,33 @@ public class Author {
     public int hashCode() {
         return (this.myName != null ? this.myName.hashCode() : 0)
                 + (this.myAliases != null ? this.myAliases.hashCode() : 0);
+    }
+
+    /**
+     * @return the myTrustIndex
+     */
+    public int getTrIndex() {
+        return myTrustIndex;
+    }
+
+    /**
+     * @param myTrustIndex the myTrustIndex to set
+     */
+    public void setTrIndex(int myTrustIndex) {
+        this.myTrustIndex = myTrustIndex;
+    }
+
+    /**
+     * @return the myRelevanceIndex
+     */
+    public int getRelIndex() {
+        return myRelevanceIndex;
+    }
+
+    /**
+     * @param myRelevanceIndex the myRelevanceIndex to set
+     */
+    public void setRelIndex(int myRelevanceIndex) {
+        this.myRelevanceIndex = myRelevanceIndex;
     }
 }

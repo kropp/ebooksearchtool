@@ -2,6 +2,7 @@ package org.ebooksearchtool.analyzer.algorithms.subalgorithms;
 
 import java.util.ArrayList;
 import org.ebooksearchtool.analyzer.model.Lexema;
+import org.ebooksearchtool.analyzer.model.Title;
 
 /**
  * @author Алексей
@@ -9,7 +10,7 @@ import org.ebooksearchtool.analyzer.model.Lexema;
 
 public class TitleExtractor {
 
-    public static String extractTitle(ArrayList<Lexema> lexems){
+    public static Title extractTitle(ArrayList<Lexema> lexems){
         int length = lexems.size();
         int index = 0;
         for (index = 0; index < length; index++) {
@@ -34,9 +35,9 @@ public class TitleExtractor {
             }
             sb.append(lex.getValue());
 
-            return trim(sb);
+            return new Title(trim(sb));
         }else{
-            return "";
+            return new Title();
         }
     }
 

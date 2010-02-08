@@ -10,7 +10,7 @@ import org.ebooksearchtool.analyzer.model.SpecialWords.*;
  * @author Aleksey Podolskiy
  */
 
-public class AuthorsSimpleParser{
+public class AuthorsParser{
     public static ArrayList<Author> parse(String input) {
         //Часть, производящая разбор авторов
         ArrayList<String> out = new ArrayList<String>();

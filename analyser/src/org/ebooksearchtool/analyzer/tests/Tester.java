@@ -12,7 +12,7 @@ import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import org.ebooksearchtool.analyzer.algorithms.subalgorithms.AuthorsSimpleParser;
+import org.ebooksearchtool.analyzer.algorithms.subalgorithms.AuthorsParser;
 import org.xml.sax.SAXException;
 import org.ebooksearchtool.analyzer.algorithms.IParser;
 import org.ebooksearchtool.analyzer.io.TestToFileWriter;
@@ -56,7 +56,7 @@ public class Tester {
         out.close();
     }
 
-    public static void Test(AuthorsSimpleParser parser) throws ParserConfigurationException, SAXException, IOException{
+    public static void Test(AuthorsParser parser) throws ParserConfigurationException, SAXException, IOException{
         List<ArrayList<Author>> test = TestToFileWriter.readTestFromFile("simpletest.tst");
 
         BufferedWriter out = new BufferedWriter(new FileWriter("testresult.txt"));
