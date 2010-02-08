@@ -4,7 +4,7 @@
 AtomParser::AtomParser() {}
 
 void AtomParser::parse(QIODevice* input, Data* data) {
-	AtomHandler handler(data);
+	OPDSHandler handler(data);
 	QXmlInputSource source(input);
 	QXmlSimpleReader reader;
 	reader.setContentHandler(&handler);

@@ -1,16 +1,23 @@
 #include "handler.h"
 
-const QString AtomHandler::ourOpensearchUri = "http://a9.com/-/spec/opensearch/1.1/";
-const QString AtomHandler::ourDctermsUri = "http://purl.org/dc/terms/";
-const QString AtomHandler::ourAtomUri = "http://www.w3.org/2005/Atom";
-
+static const QString NSPASE_OPENSEARCH = "http://a9.com/-/spec/opensearch/1.1/";
+static const QString NSPASE_DCTERMS = "http://purl.org/dc/terms/";
 static const QString NSPACE_ATOM = "http://www.w3.org/2005/Atom";
 
 static const QString TAG_LINK = "link";
+static const QString TAG_TITILE = "title";
+static const QString TAG_ENTRY = "entry";
+static const QString TAG_NAME = "name";
+static const QString TAG_URI = "uri";
+static const QString TAG_ID = "id";
 
-const QString AtomHandler::ourConfigFilePath = "../.config.ini";
+static const QString ATTRIBUTE_TYPE = "type";
+static const QString ATTRIBUTE_RELATIONSHIP = "rel";
+static const QString ATTRIBUTE_TITLE = "title";
 
-AtomHandler::AtomHandler(Data* data) {
+const QString OPDSHandler::ourConfigFilePath = "../.config.ini";
+
+OPDSHandler::OPDSHandler(Data* data) {
     myData = data;
     myIsEntry = false;
     
@@ -18,43 +25,43 @@ AtomHandler::AtomHandler(Data* data) {
     myFormat = settings.value("parser/format").toString();
 }
 
-AtomHandler::~AtomHandler() {}
+OPDSHandler::~OPDSHandler() {}
 
 
-bool AtomHandler::characters (const QString& strText) {
+bool OPDSHandler::characters (const QString& strText) {
 	myCurrentText += strText;
 	return true;
 }
 
-bool AtomHandler::startElement (const QString& namespaceUri, const QString& localName, const QString&, const QXmlAttributes& attributes) {
+bool OPDSHandler::startElement (const QString& namespaceUri, const QString& localName, const QString&, const QXmlAttributes& attributes) {
     myCurrentText = "";
-    if (namespaceUri != ourAtomUri) {
+    if (namespaceUri != NSPACE_ATOM) {
         return true;
     }
     if (!myIsEntry) {
-	    if ((localName == "link") && 
-	       (attributes.value("type") == "application/atom+xml") && 
-		   (attributes.value("rel") == "next") && 
-		   (attributes.value("title") == "Next Page"))  {
+	    if ((localName == TAG_LINK) && 
+	       (attributes.value(ATTRIBUTE_TYPE) == "application/atom+xml") && 
+		   (attributes.value(ATTRIBUTE_RELATIONSHIP) == "next") && 
+		   (attributes.value(ATTRIBUTE_TITLE) == "Next Page"))  {
 		       // myData->setLinkToNextPage(attributes.value("href"));
             qDebug() << "Handler:: link to the next page " << attributes.value("href");
-        } else if (localName == "entry") {
+        } else if (localName == TAG_ENTRY) {
 		    myIsEntry = true;
             setInitialValues();
         }     
 	    return true;    
     }	
 // if myIsEntry
-	if ((localName == "link") &&
-        (attributes.value("type") == "application/" + myFormat) &&
-        (attributes.value("rel") == "http://opds-spec.org/acquisition")) {
+	if ((localName == TAG_LINK)&&
+        (attributes.value(ATTRIBUTE_TYPE) == "application/" + myFormat) &&
+        (attributes.value(ATTRIBUTE_RELATIONSHIP) == "http://opds-spec.org/acquisition")) {
         
         myBooksLink = attributes.value("href");
 	}
 
-	if ((localName == "link") && 
-        (attributes.value("type") == "image/png") && 
-        (attributes.value("rel") == "http://opds-spec.org/cover")) {
+	if ((localName == TAG_LINK) && 
+        (attributes.value(ATTRIBUTE_TYPE) == "image/png") && 
+        (attributes.value(ATTRIBUTE_RELATIONSHIP) == "http://opds-spec.org/cover")) {
         
         myBooksCover = attributes.value("href");
 	}
@@ -62,16 +69,16 @@ bool AtomHandler::startElement (const QString& namespaceUri, const QString& loca
 	return true;
 }
 
-bool AtomHandler::endElement (const QString& namespaceUri, const QString& localName, const QString& str) {
+bool OPDSHandler::endElement (const QString& namespaceUri, const QString& localName, const QString& tag) {
 	//qDebug() << "Handler::endElement namespace " << namespaceUri;
-	if ((!myIsEntry) && (localName == "totalResults") && (namespaceUri == ourOpensearchUri)) {
+	if ((!myIsEntry) && (localName == "totalResults") && (namespaceUri == NSPASE_OPENSEARCH)) {
         qDebug() << "totalResults namespace" << myCurrentText << namespaceUri;
         myData->setTotalEntries(myCurrentText.toInt());
         return true;
     }
     
 // if (myIsEntry)  
-    if (str == "entry") {
+    if (tag == TAG_ENTRY) {
 		    const Author* author = new Author(myAuthorsName, myAuthorsUri); 
 		    Book* book = new Book(myTitle,
 		                          myLanguage, 
@@ -82,25 +89,25 @@ bool AtomHandler::endElement (const QString& namespaceUri, const QString& localN
             book->setCoverLink(myBooksCover);
 		    myData->addBook(book);
 		    myIsEntry = false;	
-	} else if (str == "title") {
+	} else if (tag == TAG_TITILE) {
 		myTitle = myCurrentText;
-	} else if (str == "name") {
+	} else if (tag == TAG_NAME) {
 		myAuthorsName = myCurrentText;
-	} else if (str == "uri") {
+	} else if (tag == TAG_URI) {
 		myAuthorsUri = myCurrentText;
-	} else if (str == "id") {
+	} else if (tag == TAG_ID) {
 		myBooksUri = myCurrentText;
-	} else if ((localName == "language") && (namespaceUri == ourDctermsUri)) {
+	} else if ((localName == "language") && (namespaceUri == NSPASE_DCTERMS)) {
 		qDebug() << "Handler::endElement namespace for language " << namespaceUri;
       qDebug() << "language" << myCurrentText;
       myLanguage = myCurrentText;
-	} else if (str == "summary") {
+	} else if (tag == "summary") {
 		mySummary = myCurrentText;
 	}
 	return true;
 }
 
-void AtomHandler::setInitialValues() {
+void OPDSHandler::setInitialValues() {
     myTitle = "";
     myLanguage = "";
     mySummary = "";

@@ -7,17 +7,14 @@
 #include "../book_author.h"
 #include "../data.h"
 
-class AtomHandler : public QXmlDefaultHandler {
+class OPDSHandler : public QXmlDefaultHandler {
 
 private: 
     static const QString ourConfigFilePath;
-    static const QString ourOpensearchUri;
-    static const QString ourDctermsUri;
-    static const QString ourAtomUri;
 
 public:
-	AtomHandler(Data* data);
-    ~AtomHandler();
+	OPDSHandler(Data* data);
+    ~OPDSHandler();
 
 private:
 	bool characters (const QString& strText);
