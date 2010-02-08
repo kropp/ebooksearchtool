@@ -51,7 +51,7 @@
         <div class="span-19">
             <h1 class="fb-blue bottom">Search results for: </h1>
         </div>
-            <form name="test" action="../../search">
+            <form name="test" action="search">
                 {% if title.query %}
                 Query: <input type="text" name="query" value="{{ title.query }}">
                 <input type="submit" value="Search" >

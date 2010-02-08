@@ -79,8 +79,8 @@ urlpatterns = patterns('',
 #    (r'^user/insert/?$', 'reader.views.insert_user_information'),
     
     #openid
-    (r'^$', 'django.views.generic.simple.direct_to_template',
-        {'template': 'home.html'}),
+#    (r'^$', 'django.views.generic.simple.direct_to_template',
+#        {'template': 'home.html'}),
     (r'^account/', include('django_authopenid.urls')),
 
 )
