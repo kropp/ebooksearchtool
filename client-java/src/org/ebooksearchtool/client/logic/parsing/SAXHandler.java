@@ -175,7 +175,7 @@ public class SAXHandler extends DefaultHandler{
         if("author".equals(qName) && myIsEntryTag){
             boolean authorExists = false;
             for(int j = 0; j < myAnswer.getData().getAuthors().size(); ++j){
-                if(myCurAuthor.getID().equals(myAnswer.getData().getAuthors().get(j).getID())){
+                if((myCurAuthor.getID() != null) && myCurAuthor.getID().equals(myAnswer.getData().getAuthors().get(j).getID())){
                     authorExists = true;
                     myAnswer.getData().setBookAuthor(myAnswer.getData().getBooks().size()-1, myAnswer.getData().getAuthors().get(j));
                 }

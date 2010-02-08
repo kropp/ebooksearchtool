@@ -24,7 +24,9 @@ public class Query {
 			}else{
 				return "/books/search.atom?query=title:" + queryWord;
 			}
-		}else{
+		}else if(mySettings.getServer().equals("http://smashwords.com")){
+            return "/atom/search/books/any?query=" + queryWord;
+        }else{
 			if(queryOption.equals("General")){
 				return "/ebooks/search.atom?query=" + queryWord;
 			}else if(queryOption.equals("Author")){
