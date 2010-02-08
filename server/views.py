@@ -44,7 +44,7 @@ def search_request_to_server(request, response_type, is_all):
         for word in query.split():
             request_to_server = request_to_server | Q(title__icontains=word) \
               | Q(author__name__icontains=word) \
-              | Q(author__alias__name__icontains=word) \
+              | Q(author__author_alias__name__icontains=word) \
               | Q(annotation__name__icontains=word) \
               | Q(book_file__more_info__icontains=word)
     except KeyError:
@@ -64,7 +64,7 @@ def search_request_to_server(request, response_type, is_all):
         if author != '':
             request_to_server = request_to_server\
                           & (Q(author__name__icontains=author) \
-                          | Q(author__alias__name__icontains=author))
+                          | Q(author__author_alias__name__icontains=author))
             main_title['author'] = author
     except KeyError:
         author = None    
@@ -196,8 +196,13 @@ def books_by_authors_request_to_server(request, response_type):
                 return render_to_response('book/xhtml/client_response_books_by_author.xml',
                 {'string': alphabet_string, 'num': 1 }) 
 
-        request_to_server = Q(name__istartswith=letters)
+        my_let = map(chr, range(ord(letters[1]), ord(letters[4]) + 1))
+        request_to_server = Q()
+        for let in my_let:
+            request_to_server = request_to_server | Q(name__istartswith=letters[0]+let)
         authors = Author.objects.filter(request_to_server).distinct()
+        authors.order_by('name')
+        print authors
         if response_type == "atom":
             return render_to_response('book/opds/client_response_books_by_author_letter.xml',
             {'authors': authors})
@@ -205,26 +210,30 @@ def books_by_authors_request_to_server(request, response_type):
             return render_to_response('book/xhtml/client_response_books_by_author_letter.xml',
             {'authors': authors})    
                       
-    alphabet_string = map(chr, range(98, 123))
-    string = "a"
+    alphabet_string = map(chr, range(98, 122))
+    string = ""
     for let in alphabet_string:
         request_to_server = Q(name__istartswith=letter+let)
         auth_count = Author.objects.filter(request_to_server).distinct().count()
         print auth_count
-#        if auth_count > 2:
-        string += let
+        if auth_count > 2:
+           string += let
 
-    my_string = ''
+    my_set = set()
+    my_string = letter+'a'
     for let in string:
-        my_string += chr(ord(let)-1)+let + " "
-    print my_string            
+        my_string += "-" + letter+let 
+        my_set.add(my_string)
+        my_string = letter+chr(ord(let)+1) + "-"
+    my_string += letter+"z"
+    my_set.add(my_string)
     
     if response_type == "atom":
         return render_to_response('book/opds/client_response_books_by_author.xml',
-        {'string': string, 'num': 2, 'letter': letter })
+        {'string': my_set, 'num': 2, 'letter': letter })
     if response_type == "xhtml":
         return render_to_response('book/xhtml/client_response_books_by_author.xml',
-        {'string': string, 'num': 2, 'letter': letter })        
+        {'string': my_set, 'num': 2, 'letter': letter })        
                     
 def books_by_languages_request_to_server(request, response_type):
     """builds opds and xhtml response for books by lang request"""
@@ -253,7 +262,7 @@ def books_search(request):
     return render_to_response('book/xhtml/client_response_search_request.xml')
     
 def no_book_cover(request):
-    raise Exception(os.getcwd())
+    raise Exception(os.getcwd())    #try find error in web
     image_data = open("./pic/no_cover.gif", "rb").read()
     return HttpResponse(image_data, mimetype="image/png")
 

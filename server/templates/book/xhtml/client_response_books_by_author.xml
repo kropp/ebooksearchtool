@@ -25,7 +25,7 @@
     
     {% ifequal num 2 %} 
         {% for let in string %}
-            <h3 class="fb-blue small-bottom-margin"><a href="authors?letters={{letter}}{{let}}">{{ letter }}{{ let }}</a></h3>
+            <h3 class="fb-blue small-bottom-margin"><a href="authors?letters={{let}}">{{ let }}</a></h3>
         {% endfor %}
     {% endifequal %} 
 
