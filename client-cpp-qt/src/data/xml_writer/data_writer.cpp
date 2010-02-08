@@ -50,17 +50,21 @@ void DataWriter::bookToDomElement(const Book& book, QDomDocument& doc, QDomEleme
     appendTagAndText(doc, entry, "summary", book.getSummary());
     
     // append Source link
-    QDomElement textLink = doc.createElement("link");
-	textLink.setAttribute("type", "application/" + book.getFormat());
-	textLink.setAttribute("href", book.getSourceLink());
-	entry.appendChild(textLink);		
-	
+    if (!book.getSourceLink().isEmpty()) {
+        QDomElement textLink = doc.createElement("link");
+	    textLink.setAttribute("type", "application/" + book.getFormat());
+	    textLink.setAttribute("href", book.getSourceLink());
+	    entry.appendChild(textLink);		
+	}
     // append Cover link
-	QDomElement coverLink = doc.createElement("link");
-	coverLink.setAttribute("type", "image/png");
-	coverLink.setAttribute("rel", "http://opds-spec.org/cover");
-    coverLink.setAttribute("href", book.getCoverLink());
-	entry.appendChild(coverLink);	
+	
+    if (!book.getCoverLink().isEmpty()) {
+        QDomElement coverLink = doc.createElement("link");
+	    coverLink.setAttribute("type", "image/png");
+	    coverLink.setAttribute("rel", "http://opds-spec.org/cover");
+        coverLink.setAttribute("href", book.getCoverLink());
+	    entry.appendChild(coverLink);	
+    }
 }
 
 void DataWriter::appendTagAndText(QDomDocument& doc, QDomElement& parentElement, const QString& tag, const QString& text) {
