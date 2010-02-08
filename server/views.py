@@ -183,22 +183,42 @@ def books_by_authors_request_to_server(request, response_type):
     try:
         letter = request.GET['letter']
     except KeyError:
-        alphabet_string = "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z"
+        try:
+            letters = request.GET['letters']
+        except KeyError:
+            alphabet_string = "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z"
+            if response_type == "atom":
+                return render_to_response('book/opds/client_response_books_by_author.xml',
+                {'alphabet': alphabet_string, 'num': 1 })
+            if response_type == "xhtml":
+                return render_to_response('book/xhtml/client_response_books_by_author.xml',
+                {'alphabet': alphabet_string, 'num': 1 }) 
+
+        request_to_server = Q(name__istartswith=letters)
+        authors = Author.objects.filter(request_to_server).distinct()
         if response_type == "atom":
-            return render_to_response('book/opds/client_response_books_by_author.xml',
-            {'alphabet': alphabet_string})
+            return render_to_response('book/opds/client_response_books_by_author_letter.xml',
+            {'authors': authors})
         if response_type == "xhtml":
-            return render_to_response('book/xhtml/client_response_books_by_author.xml',
-            {'alphabet': alphabet_string})        
-        
-    request_to_server = Q(name__istartswith=letter)
-    authors = Author.objects.filter(request_to_server).distinct()
+            return render_to_response('book/xhtml/client_response_books_by_author_letter.xml',
+            {'authors': authors})    
+                      
+    alphabet_string = "abcdefghijklmnopqrstuvwxyz"
     if response_type == "atom":
-        return render_to_response('book/opds/client_response_books_by_author_letter.xml',
-        {'authors': authors})
+        return render_to_response('book/opds/client_response_books_by_author.xml',
+        {'alphabet': alphabet_string, 'num': 2, 'letter': letter })
     if response_type == "xhtml":
-        return render_to_response('book/xhtml/client_response_books_by_author_letter.xml',
-        {'authors': authors})
+        return render_to_response('book/xhtml/client_response_books_by_author.xml',
+        {'alphabet': alphabet_string, 'num': 2, 'letter': letter })        
+        
+#    request_to_server = Q(name__istartswith=letter)
+#    authors = Author.objects.filter(request_to_server).distinct()
+#    if response_type == "atom":
+#        return render_to_response('book/opds/client_response_books_by_author_letter.xml',
+#        {'authors': authors})
+#    if response_type == "xhtml":
+#        return render_to_response('book/xhtml/client_response_books_by_author_letter.xml',
+#        {'authors': authors})
             
 def books_by_languages_request_to_server(request, response_type):
     """builds opds and xhtml response for books by lang request"""
