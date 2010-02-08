@@ -58,9 +58,10 @@ public class Crawler implements Runnable {
                 ourAnalyzerEnabled = false;
                 ourAnalyzerPort = -1;
             }
-            int connectionTimeout = Integer.parseInt(properties.getProperty("connection_timeout"));
-            int waitingForAccessTimeout = Integer.parseInt(properties.getProperty("waiting_for_access_timeout"));
             String userAgent = properties.getProperty("user_agent");
+            int connectionTimeout = Integer.parseInt(properties.getProperty("connection_timeout"));
+            int readTimeout = Integer.parseInt(properties.getProperty("read_timeout"));
+            int waitingForAccessTimeout = Integer.parseInt(properties.getProperty("waiting_for_access_timeout"));
             int maxLinksCount = Integer.parseInt(properties.getProperty("max_links_count"));
             ourMaxLinksCount = maxLinksCount == 0 ? Integer.MAX_VALUE : maxLinksCount;
             int maxLinksFromPage = Integer.parseInt(properties.getProperty("max_links_from_page"));
@@ -80,7 +81,7 @@ public class Crawler implements Runnable {
             logOptions.put(Logger.MessageType.MISC, Boolean.parseBoolean(properties.getProperty("log_misc")));
             
             myLogger = new Logger(loggerOutput, logToScreenEnabled, logOptions);
-            ourNetwork = new Network(this, proxy, connectionTimeout, waitingForAccessTimeout, userAgent, myLogger);
+            ourNetwork = new Network(this, proxy, connectionTimeout, readTimeout, waitingForAccessTimeout, userAgent, myLogger);
             myRobots = new ManyFilesRobotsExclusion(ourNetwork, myLogger);
             myQueue = new LinksQueue(ourMaxQueueSize);
             myVisited = new VisitedLinksSet(ourMaxLinksCount);

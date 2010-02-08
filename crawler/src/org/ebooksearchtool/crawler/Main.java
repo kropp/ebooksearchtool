@@ -10,8 +10,9 @@ public class Main {
     public static final File DUMP_FILE = new File("dump.txt");
     
     public static final String[][] DEFAULT_PROPERTIES = {
-        {"connection_timeout", "5000"},
         {"user_agent", "ebooksearchtool"},
+        {"connection_timeout", "5000"},
+        {"read_timeout", "5000"},
 
         {"analyzer_enabled", "true"},
         {"analyzer_port", "9999"},

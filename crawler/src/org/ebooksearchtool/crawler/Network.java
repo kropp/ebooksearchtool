@@ -14,6 +14,7 @@ public class Network {
     private final Crawler myCrawler;
 	private final Proxy myProxy;
 	private final int myConnectionTimeout;
+    private final int myReadTimeout;
     private final int myWaitingForAccessTimeout;
 	private final String myUserAgent;
     private final Logger myLogger;
@@ -21,10 +22,11 @@ public class Network {
     private final Map<String, Long> myNextAccess = new HashMap<String, Long>();
     private final ConcurrentMap<String, URI> myLastAccessBlockingMap = new ConcurrentHashMap<String, URI>();
 	
-	public Network(Crawler crawler, Proxy proxy, int connectionTimeout, int waitingForAccessTimeout, String userAgent, Logger logger) {
+	public Network(Crawler crawler, Proxy proxy, int connectionTimeout, int readTimeout, int waitingForAccessTimeout, String userAgent, Logger logger) {
         myCrawler = crawler;
 		myProxy = proxy;
 		myConnectionTimeout = connectionTimeout;
+        myReadTimeout = readTimeout;
         myWaitingForAccessTimeout = waitingForAccessTimeout;
 		myUserAgent = userAgent;
         myLogger = logger;
@@ -150,6 +152,7 @@ public class Network {
             
             URLConnection connection = uri.toURL().openConnection(myProxy);
             connection.setConnectTimeout(myConnectionTimeout);
+            connection.setReadTimeout(myReadTimeout);
             connection.setRequestProperty("User-Agent", myUserAgent);
             InputStream is = connection.getInputStream();
             String contentType = connection.getHeaderField("Content-Type");
