@@ -53,7 +53,8 @@ void DataWriter::bookToDomElement(const Book& book, QDomDocument& doc, QDomEleme
     // append Cover link
 	QDomElement coverLink = doc.createElement("link");
 	coverLink.setAttribute("type", "image/png");
-	coverLink.setAttribute("href", book.getCoverLink());
+	coverLink.setAttribute("rel", "http://opds-spec.org/cover");
+    coverLink.setAttribute("href", book.getCoverLink());
 	entry.appendChild(coverLink);	
 }
 

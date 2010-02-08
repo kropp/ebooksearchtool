@@ -10,7 +10,9 @@
 class AtomHandler : public QXmlDefaultHandler {
 
 private: 
-    static QString ourConfigFilePath;
+    static const QString ourConfigFilePath;
+    static const QString ourOpensearchUri;
+    static const QString ourDctermsUri;
 
 public:
 	AtomHandler(Data* data);

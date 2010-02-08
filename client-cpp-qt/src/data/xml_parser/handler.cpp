@@ -1,14 +1,9 @@
 #include "handler.h"
-static const QString opensearchUri = "http://a9.com/-/spec/opensearch/1.1/";
-static const QString dctermsUri = "http://purl.org/dc/terms/";
-//opensearchUri:totalResults
-//opensearchUri:itemsPerPage
-//dctermsUri:language
-//dctermsUri:issued
-//dctermsUri:source
 
+const QString AtomHandler::ourOpensearchUri = "http://a9.com/-/spec/opensearch/1.1/";
+const QString AtomHandler::ourDctermsUri = "http://purl.org/dc/terms/";
 
-QString AtomHandler::ourConfigFilePath = "../.config.ini";
+const QString AtomHandler::ourConfigFilePath = "../.config.ini";
 
 AtomHandler::AtomHandler(Data* data) {
     myData = data;
@@ -60,7 +55,7 @@ bool AtomHandler::startElement (const QString& , const QString& , const QString&
 
 bool AtomHandler::endElement (const QString& namespaceUri, const QString& localName, const QString& str) {
 	//qDebug() << "Handler::endElement namespace " << namespaceUri;
-	if ((!myIsEntry) && (localName == "totalResults") && (namespaceUri == opensearchUri)) {
+	if ((!myIsEntry) && (localName == "totalResults") && (namespaceUri == ourOpensearchUri)) {
         qDebug() << "totalResults namespace" << myCurrentText << namespaceUri;
         myData->setTotalEntries(myCurrentText.toInt());
         return true;
@@ -86,7 +81,7 @@ bool AtomHandler::endElement (const QString& namespaceUri, const QString& localN
 		myAuthorsUri = myCurrentText;
 	} else if (str == "id") {
 		myBooksUri = myCurrentText;
-	} else if ((localName == "language") && (namespaceUri == dctermsUri)) {
+	} else if ((localName == "language") && (namespaceUri == ourDctermsUri)) {
 		qDebug() << "Handler::endElement namespace for language " << namespaceUri;
       qDebug() << "language" << myCurrentText;
       myLanguage = myCurrentText;
