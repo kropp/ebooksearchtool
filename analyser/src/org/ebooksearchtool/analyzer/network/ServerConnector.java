@@ -6,7 +6,6 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
-import java.util.logging.Level;
 import org.ebooksearchtool.analyzer.io.Logger;
 import org.ebooksearchtool.analyzer.utils.AnalyzerProperties;
 
@@ -72,28 +71,24 @@ public class ServerConnector extends Thread{
     public static synchronized String sendRequest(String request, int requestType){
         String message = "";
         try {
-            try {
-                if(requestType == INSERT_REQUEST){
-                    myConnection = (HttpURLConnection) myInsertURL.openConnection(NetUtils.serverProxyInit());
+            if(requestType == INSERT_REQUEST){
+                myConnection = (HttpURLConnection) myInsertURL.openConnection(NetUtils.serverProxyInit());
+                NetUtils.sendMessage(myConnection, request, "POST");
+            }else{
+                if(requestType == GET_REQUEST){
+                    myConnection = (HttpURLConnection) myGetURL.openConnection(NetUtils.serverProxyInit());
                     NetUtils.sendMessage(myConnection, request, "POST");
                 }else{
-                    if(requestType == GET_REQUEST){
-                        myConnection = (HttpURLConnection) myGetURL.openConnection(NetUtils.serverProxyInit());
-                        NetUtils.sendMessage(myConnection, request, "POST");
-                    }else{
-                        myConnection = (HttpURLConnection) myInitURL.openConnection(NetUtils.serverProxyInit());
-                        NetUtils.sendMessage(myConnection, request, "GET");
-                    }
+                    myConnection = (HttpURLConnection) myInitURL.openConnection(NetUtils.serverProxyInit());
+                    NetUtils.sendMessage(myConnection, request, "GET");
                 }
-                message = URLDecoder.decode(NetUtils.reciveServerMessage(myConnection), "UTF-8");
-            } catch (IOException ex) {
-                java.util.logging.Logger.getLogger(ServerConnector.class.getName()).log(Level.SEVERE, null, ex);
-                Logger.setToErrorLog(ex.getMessage() + ". Connection to server failed in request sending.");
-                throw new NullPointerException(ex.getMessage());
             }
-        } catch (NullPointerException ex){
+            message = URLDecoder.decode(NetUtils.reciveServerMessage(myConnection), "UTF-8");
+        } catch (IOException ex) {
             Logger.setToErrorLog(ex.getMessage() + ". No server connection found. Please chek the connection." +
-                    " Analyzer will try to reconnect.");
+            " Analyzer will try to reconnect.");
+            System.out.println(ex.getMessage() + ". No server connection found. Please chek the connection." +
+            " Analyzer will try to reconnect.");
             establishConnection();
             message = sendRequest(request, requestType);
         }
