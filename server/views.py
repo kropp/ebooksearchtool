@@ -216,24 +216,25 @@ def books_by_authors_request_to_server(request, response_type):
         request_to_server = Q(name__istartswith=letter+let)
         auth_count = Author.objects.filter(request_to_server).distinct().count()
         print auth_count
-        if auth_count > 2:
+        if auth_count > 0:
            string += let
 
-    my_set = set()
+    my_list = []
     my_string = letter+'a'
     for let in string:
-        my_string += "-" + letter+let 
-        my_set.add(my_string)
-        my_string = letter+chr(ord(let)+1) + "-"
-    my_string += letter+"z"
-    my_set.add(my_string)
+        if my_string != letter+let:
+            my_string += "-" + letter+let 
+        my_list.append(my_string)
+        my_string = letter+chr(ord(let)+1)
+    my_string += "-" + letter+"z"
+    my_list.append(my_string)
     
     if response_type == "atom":
         return render_to_response('book/opds/client_response_books_by_author.xml',
-        {'string': my_set, 'num': 2, 'letter': letter })
+        {'string': my_list, 'num': 2, 'letter': letter })
     if response_type == "xhtml":
         return render_to_response('book/xhtml/client_response_books_by_author.xml',
-        {'string': my_set, 'num': 2, 'letter': letter })        
+        {'string': my_list, 'num': 2, 'letter': letter })        
                     
 def books_by_languages_request_to_server(request, response_type):
     """builds opds and xhtml response for books by lang request"""
