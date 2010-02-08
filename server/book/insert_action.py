@@ -9,7 +9,7 @@ import logging
 from django.db.models import Q
 from django.db import transaction
 
-from book.models import Book, Author, Alias, BookFile, Annotation
+from book.models import Book, Author, AuthorAlias, BookFile, Annotation
 from spec.exception import InputDataServerException
 
 analyzer_log = logging.getLogger("analyser_logger")
@@ -57,7 +57,7 @@ def get_authors(node, messages=None):
             if details_node.tag == 'alias' and author:
                 alias_name = strip_str(details_node.text)
                 if alias_name:
-                    alias = Alias.objects.get_or_create(name=alias_name)[0]
+                    alias = AuthorAlias.objects.get_or_create(name=alias_name)[0]
                     author.alias.add(alias)
         # add author to list, if it is created or found
         if author:

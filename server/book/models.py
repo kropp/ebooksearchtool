@@ -1,6 +1,6 @@
 from django.db import models
 
-from spec.langcode import LANG_CODE 
+from spec.langcode import LANG_CODE
 
 from django.contrib import admin
 
@@ -37,7 +37,7 @@ class Series(models.Model):
         return self.name
 
 
-class Alias(models.Model):
+class AuthorAlias(models.Model):
     name = models.CharField(max_length=NAME_LENGTH, unique=True)
 
     def __unicode__(self):
@@ -66,7 +66,7 @@ class Book(models.Model):
 class Author(models.Model):
     name = models.CharField(max_length=NAME_LENGTH, unique=True)
     book = models.ManyToManyField(Book)
-    alias = models.ManyToManyField(Alias)
+    alias = models.ManyToManyField(AuthorAlias)
     tag = models.ManyToManyField(Tag)
 
     def __unicode__(self):

@@ -10,6 +10,6 @@ admin.site.register(BookFile)
 
 admin.site.register(Series)
 
-admin.site.register(Alias)
+admin.site.register(AuthorAlias)
 
 admin.site.register(Tag)

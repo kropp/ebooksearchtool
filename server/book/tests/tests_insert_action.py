@@ -104,7 +104,7 @@ class InsertActionTest(TestCase):
         authors = get_authors(xml)
 
         author = Author.objects.get(name='Name')
-        alias = Alias.objects.get(name='Alias')
+        alias = AuthorAlias.objects.get(name='Alias')
         self.failUnlessEqual(author.alias.all()[0].id, alias.id)
 
         author = Author.objects.get(name='Name1')
