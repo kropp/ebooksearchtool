@@ -189,12 +189,19 @@ def books_by_authors_request_to_server(request, response_type):
             letters = request.GET['letters']
         except KeyError:
             alphabet_string = map(chr, range(65, 91))
+            request_to_server = Q()
+            string = ""
+            for let in alphabet_string:
+                request_to_server = Q(name__istartswith=let)
+                authors_count = Author.objects.filter(request_to_server).distinct().count()
+                if authors_count != 0:
+                    string += let
             if response_type == "atom":
                 return render_to_response('book/opds/client_response_books_by_author.xml',
-                {'string': alphabet_string, 'num': 1 })
+                {'string': string, 'num': 1 })
             if response_type == "xhtml":
                 return render_to_response('book/xhtml/client_response_books_by_author.xml',
-                {'string': alphabet_string, 'num': 1 }) 
+                {'string': string, 'num': 1 }) 
 
         try:
             my_let = map(chr, range(ord(letters[1]), ord(letters[4]) + 1))
@@ -206,7 +213,7 @@ def books_by_authors_request_to_server(request, response_type):
 
         authors = Author.objects.filter(request_to_server).distinct()
         authors.order_by('name')
-        print authors
+
         if response_type == "atom":
             return render_to_response('book/opds/client_response_books_by_author_letter.xml',
             {'authors': authors})
@@ -222,6 +229,18 @@ def books_by_authors_request_to_server(request, response_type):
         if auth_count > 0:          # condition
            string += let
     string = string[0:-1]
+    
+    if len(string) < 1:
+        request_to_server = Q(name__istartswith=letter)
+        authors = Author.objects.filter(request_to_server).distinct()
+        authors.order_by('name')
+        if response_type == "atom":
+            return render_to_response('book/opds/client_response_books_by_author_letter.xml',
+            {'authors': authors})
+        if response_type == "xhtml":
+            return render_to_response('book/xhtml/client_response_books_by_author_letter.xml',
+            {'authors': authors}) 
+    
     my_list = []
     my_string = letter+'a'
     for let in string:
@@ -267,7 +286,7 @@ def books_search(request):
     
 def no_book_cover(request):
     raise Exception(os.getcwd())    #try find error in web
-    image_data = open("./pic/no_cover.gif", "rb").read()
+    image_data = open("pic/no_cover.gif", "rb").read()
     return HttpResponse(image_data, mimetype="image/png")
 
 def extended_search(request):
