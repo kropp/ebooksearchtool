@@ -35,7 +35,7 @@ public class TitleExtractor {
             }
             sb.append(lex.getValue());
 
-            return new Title(trim(sb));
+            return TitleParser.parse(trim(sb));
         }else{
             return new Title();
         }

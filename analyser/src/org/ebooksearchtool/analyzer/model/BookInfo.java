@@ -176,7 +176,7 @@ public class BookInfo {
      * @param message to parse to BookInfo
      * @return BookInfo if parse succesfull or null otherwise.
      */
-    public static BookInfo getBookInfoFromRequest(String message){
+    private static BookInfo getBookInfoFromRequest(String message){
         BookInfo book = new BookInfo();
         StringBuilder sb = new StringBuilder(message);
         String temp = "";
@@ -620,5 +620,16 @@ public class BookInfo {
 
     public void addFile(File file){
         myFiles.add(file);
+    }
+
+    public static ArrayList<BookInfo> getBooksInfoFromRequest(String message){
+        ArrayList<BookInfo> out = new ArrayList<BookInfo>();
+        while(message.length() > 0){
+            message = message.substring(message.indexOf("<book"));
+            out.add(getBookInfoFromRequest(message));
+            message = message.substring("<book".length());
+            message = message.substring(message.indexOf("<book"));
+        }
+        return out;
     }
 }

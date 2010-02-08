@@ -75,7 +75,7 @@ public class AuthorsParser{
         //Часть, отвечающая за обработку ошибок в написании имени авторов
         length = out.size();
         StringBuilder tmp;
-        //Деение авторов без пробелов
+        //Деление авторов без пробелов
         for (int i = 0; i < length; i++) {
             tmp = new StringBuilder(out.get(i));
             int len = tmp.length();
@@ -92,7 +92,7 @@ public class AuthorsParser{
             out.set(i, tmp.toString());
         }
 
-        //Расстановка точек после инициалов авторов
+        //Удаление символов, не являющихся буквами, из имен авторов.
         for (int i = 0; i < length; i++) {
             tmp = new StringBuilder(out.get(i).toLowerCase());
             int len = tmp.length();
@@ -104,6 +104,7 @@ public class AuthorsParser{
                     len = tmp.length();
                 }
             }
+            out.set(i, tmp.toString());
         }
 
         //Приведение авторов в единый вид(большие и маленькие буквы)
@@ -120,6 +121,7 @@ public class AuthorsParser{
                     tmp.insert(j, Character.toUpperCase(t));
                 }
             }
+            out.set(i, tmp.toString());
         }
 
         //Расстановка точек после инициалов авторов
@@ -132,6 +134,10 @@ public class AuthorsParser{
                     tmp.insert(j + 1, '.');
                 }
             }
+            if(tmp.charAt(len - 2) == ' ' && Character.isLetter(tmp.charAt(len - 1))){
+                tmp.append('.');
+            }
+            out.set(i, tmp.toString());
         }
 
         ArrayList<Author> authors = new ArrayList<Author>();

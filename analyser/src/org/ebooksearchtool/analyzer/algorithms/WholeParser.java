@@ -21,7 +21,7 @@ public class WholeParser implements IParser{
 
     public BookInfo parse(String input) {
         ArrayList<Lexema> temp = Lexema.convertToLexems(input);
-        BookInfo reqBook = new BookInfo();
+        ArrayList<BookInfo> reqBooks = new ArrayList<BookInfo>();
         int currentBook = 0;
 
         //TODO:Часть 1, ищем инфу на странице
@@ -36,10 +36,10 @@ public class WholeParser implements IParser{
 
         //TODO:Часть 2 Проверяем ее на сервере.
 
-//        reqBook = BookInfo.getBookInfoFromRequest(
-//                ServerConnector.sendRequest(BookInfoFormer.formBookInfoRequest(myBookInfo)));
+        reqBooks = BookInfo.getBooksInfoFromRequest(
+                ServerConnector.sendRequest(BookInfoFormer.formBookInfoRequest(myBookInfo.get(currentBook)), 0));
 
-        if(reqBook == null){
+        if(reqBooks.size() == 0){
             return myBookInfo.get(0);
         }
 

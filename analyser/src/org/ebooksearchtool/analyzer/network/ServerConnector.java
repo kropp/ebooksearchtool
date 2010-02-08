@@ -68,6 +68,12 @@ public class ServerConnector extends Thread{
         }
 }
 
+    /**
+     * Send request to server. Type of request may be:
+     * GET_REQUEST = 0;
+     * INSERT_REQUEST = 1;
+     * INIT_REQUEST = 2;
+     */
     public static synchronized String sendRequest(String request, int requestType){
         String message = "";
         try {
