@@ -22,6 +22,7 @@ private:
 	bool characters (const QString& strText);
 	bool endElement (const QString&, const QString&, const QString& str);
 	bool startElement (const QString& , const QString& , const QString& name, const QXmlAttributes& );
+    void setInitialValues();
 	
 private:
 	Data* myData; 

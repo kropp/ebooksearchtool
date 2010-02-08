@@ -32,7 +32,8 @@ bool AtomHandler::startElement (const QString& , const QString& , const QString&
             //qDebug() << "Handler:: link to the next page " << attributes.value("href");
         } else if (name == "entry") {
 		    myIsEntry = true;
-	    }     
+            setInitialValues();
+        }     
 	    return true;    
     }	
 // if myIsEntry
@@ -89,4 +90,15 @@ bool AtomHandler::endElement (const QString& namespaceUri, const QString& localN
 		mySummary = myCurrentText;
 	}
 	return true;
+}
+
+void AtomHandler::setInitialValues() {
+    myTitle = "";
+    myLanguage = "";
+    mySummary = "";
+    myAuthorsName = "";
+    myAuthorsUri = "";
+    myBooksUri = "";
+    myBooksLink = "";
+    myBooksCover = "";
 }

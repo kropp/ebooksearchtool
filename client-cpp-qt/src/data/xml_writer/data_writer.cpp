@@ -16,6 +16,8 @@ void DataWriter::write(QFile* file, const Data& data) {
 
 void DataWriter::dataToDomDocument(const Data& data, QDomDocument& doc) {
     QDomElement feed = doc.createElement("feed");
+    feed.setAttribute("xmlns", "http://www.w3.org/2005/Atom");
+    feed.setAttribute("xmlns:dcterms", "http://purl.org/dc/terms/");
     doc.appendChild(feed);
     const QList<const Book*>& books = data.getBooks();
     foreach (const Book* book, books) {
@@ -41,6 +43,9 @@ void DataWriter::bookToDomElement(const Book& book, QDomDocument& doc, QDomEleme
         appendTagAndText(doc, authorElement, "uri", author->getUri());
     }
    
+   //append language
+    appendTagAndText(doc, entry, "dcterms:language", book.getLanguage());
+    
     // append summary
     appendTagAndText(doc, entry, "summary", book.getSummary());
     
