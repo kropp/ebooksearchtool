@@ -17,18 +17,13 @@
             <h1 class="fb-blue bottom">Authors: </h1>
         </div>
     </div>
-    {% ifequal num 1 %} 
-        {% for letter in string %}
+    {% for letter in string %}
+        {% ifequal num 1 %}     
             <h3 class="fb-blue small-bottom-margin"><a href="authors?letter={{letter}}">{{ letter }}</a></h3>
-        {% endfor %}
-    {% endifequal %} 
-    
-    {% ifequal num 2 %} 
-        {% for let in string %}
-            <h3 class="fb-blue small-bottom-margin"><a href="authors?letters={{let}}">{{ let }}</a></h3>
-        {% endfor %}
-    {% endifequal %} 
-
+        {% else %}
+            <h3 class="fb-blue small-bottom-margin"><a href="authors?letters={{letter}}">{{ letter }}</a></h3>        
+        {% endifequal %} 
+    {% endfor %}
 </div>
 
 </body>
