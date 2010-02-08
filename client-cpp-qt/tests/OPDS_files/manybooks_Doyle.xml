@@ -1,0 +1,26 @@
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <title>Search Results</title>
+  <id>urn:uuid:0d6bd74d-1034-377f-73e1-5bb13ab24a22</id>
+  <updated>2010-02-08T03:48:54-07:00</updated>
+  <link  rel="search" title="Search Catalog" type="application/atom+xml" href="http://manybooks.net/stanza/search.php?q={searchTerms}"/>
+  <link rel="self" type="application/atom+xml" href="http://manybooks.net/stanza/search.php?q=Doyle"/>
+<author>
+    <name>ManyBooks.net</name>
+    <uri>http://manybooks.net/</uri>
+    <email>matthew@manybooks.net</email>
+  </author><entry>
+    <title type="xhtml">
+    	<div xmlns="http://www.w3.org/1999/xhtml">The Mormon Menace</div>
+    </title>
+    <content type="xhtml">
+    	<div xmlns="http://www.w3.org/1999/xhtml">The Confessions of John Doyle Lee, Danite Language: </div>
+    </content>
+    <id>urn:uuid:286bd19f-eaee-7c43-5c99-c42e8871d7de</id>
+    <author>
+      <name>John Doyle Lee</name>
+    </author>
+    <link type="text/html" href="http://manybooks.net/m/title_detail.php?tid=leejd2351923519"/>
+    <link rel="x-stanza-cover-image-thumbnail" type="image/jpeg" href="http://manybooks.net/thumbnails/leejd2351923519.jpg"/>
+    <link rel="x-stanza-cover-image" type="image/jpeg" href="http://manybooks.net/cover/leejd2351923519.jpg"/>
+</entry>
+</feed>

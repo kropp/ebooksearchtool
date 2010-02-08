@@ -64,6 +64,9 @@ void DataWriter::bookToDomElement(const Book& book, QDomDocument& doc, QDomEleme
 }
 
 void DataWriter::appendTagAndText(QDomDocument& doc, QDomElement& parentElement, const QString& tag, const QString& text) {
+    if (text.isEmpty()) {
+        return;
+    }
     QDomElement newElement = doc.createElement(tag);
     parentElement.appendChild(newElement);
     QDomText domText = doc.createTextNode(text);

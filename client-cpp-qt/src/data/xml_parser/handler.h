@@ -13,6 +13,7 @@ private:
     static const QString ourConfigFilePath;
     static const QString ourOpensearchUri;
     static const QString ourDctermsUri;
+    static const QString ourAtomUri;
 
 public:
 	AtomHandler(Data* data);

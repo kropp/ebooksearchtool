@@ -1,0 +1,861 @@
+<feed xmlns:dcterms="http://purl.org/dc/terms/" xmlns:opds="http://opds-spec.org/" xmlns="http://www.w3.org/2005/Atom">
+  <title>Internet Archive Catalog - 1 to 50 of 1993 search results for Byron</title>
+  <id>urn:x-internet-archive:bookserver:catalog:search:Byron:0</id>
+  <updated>2010-02-08T00:00:00Z</updated>
+  <link rel="self" type="application/atom+xml" href="http://bookserver.archive.org/catalog"/>
+  <author>
+    <name>Internet Archive</name>
+    <uri>http://www.archive.org</uri>
+  </author>
+  <link rel="search" type="application/opensearchdescription+xml" href="http://bookserver.archive.org/catalog/opensearch.xml"/>
+  <link rel="next" type="application/atom+xml" href="opensearch?q=Byron&amp;start=1" title="Next results"/>
+  <entry>
+    <title>The works of Lord Byron</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:workslordbyron10unkngoog</id>
+    <updated>2009-08-16T05:16:36Z</updated>
+    <link href="http://www.archive.org/download/workslordbyron10unkngoog/workslordbyron10unkngoog.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/workslordbyron10unkngoog/workslordbyron10unkngoog.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1898</dcterms:issued>
+    <author>
+      <name>Byron, George Gordon Byron, Baron, 1788-1824</name>
+    </author>
+    <author>
+      <name>Coleridge, Ernest Hartley, 1846-1920, ed</name>
+    </author>
+    <author>
+      <name>Prothero, Rowland E. (Rowland Edmund), Baron Ernle, 1851-1937, ed</name>
+    </author>
+    <dcterms:publisher>London, J. Murray; New York, C. Scribner's sons</dcterms:publisher>
+    <dcterms:language>en</dcterms:language>
+    <content type="html">&lt;b&gt;Authors: &lt;/b&gt;Byron, George Gordon Byron, Baron, 1788-1824, Coleridge, Ernest Hartley, 1846-1920, ed, Prothero, Rowland E. (Rowland Edmund), Baron Ernle, 1851-1937, ed&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;London, J. Murray; New York, C. Scribner's sons&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1898&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;University of Michigan&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;en&lt;br/&gt;76 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/workslordbyron10unkngoog/workslordbyron10unkngoog.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/workslordbyron10unkngoog/workslordbyron10unkngoog.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>The Works of Lord Byron: Embracing His Suppressed Poems, and a Sketch of His ...</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:workslordbyrone00goog</id>
+    <updated>2009-08-16T17:57:25Z</updated>
+    <link href="http://www.archive.org/download/workslordbyrone00goog/workslordbyrone00goog.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/workslordbyrone00goog/workslordbyrone00goog.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1861</dcterms:issued>
+    <author>
+      <name>George Gordon Byron Byron, Byron, George Gordon Byron, Baron , 1788-1824</name>
+    </author>
+    <dcterms:publisher>Crosby, Nichols, Lee</dcterms:publisher>
+    <dcterms:language>English</dcterms:language>
+    <content type="html">&lt;b&gt;Author: &lt;/b&gt;George Gordon Byron Byron, Byron, George Gordon Byron, Baron , 1788-1824&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;Crosby, Nichols, Lee&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1861&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;Harvard University&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;English&lt;br/&gt;47 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/workslordbyrone00goog/workslordbyrone00goog.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/workslordbyrone00goog/workslordbyrone00goog.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>Life, Letters, and Journals of Lord Byron</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:lifelettersandj00moorgoog</id>
+    <updated>2008-07-17T16:09:36Z</updated>
+    <link href="http://www.archive.org/download/lifelettersandj00moorgoog/lifelettersandj00moorgoog.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/lifelettersandj00moorgoog/lifelettersandj00moorgoog.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1839</dcterms:issued>
+    <author>
+      <name>George Gordon Byron Byron, Thomas Moore</name>
+    </author>
+    <dcterms:publisher>J. Murray</dcterms:publisher>
+    <dcterms:language>English</dcterms:language>
+    <content type="html">&lt;b&gt;Author: &lt;/b&gt;George Gordon Byron Byron, Thomas Moore&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;J. Murray&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1839&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;unknown library&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;English&lt;br/&gt;32 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/lifelettersandj00moorgoog/lifelettersandj00moorgoog.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/lifelettersandj00moorgoog/lifelettersandj00moorgoog.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>A day with John Keats</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:daywithjohnkeats00byrouoft</id>
+    <updated>2007-04-05T09:36:19Z</updated>
+    <link href="http://www.archive.org/download/daywithjohnkeats00byrouoft/daywithjohnkeats00byrouoft.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/daywithjohnkeats00byrouoft/daywithjohnkeats00byrouoft.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <author>
+      <name>Byron, May Clarissa Gillington, d. 1936</name>
+    </author>
+    <category term="Keats, John, 1795-1821"/>
+    <dcterms:publisher>London Hodder &amp; Stoughton</dcterms:publisher>
+    <dcterms:language>en</dcterms:language>
+    <content type="html">&lt;b&gt;Author: &lt;/b&gt;Byron, May Clarissa Gillington, d. 1936&lt;br/&gt;&lt;b&gt;Subject &lt;/b&gt;Keats, John, 1795-1821&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;London Hodder &amp; Stoughton&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;Robarts - University of Toronto&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;en&lt;br/&gt;29 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/daywithjohnkeats00byrouoft/daywithjohnkeats00byrouoft.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/daywithjohnkeats00byrouoft/daywithjohnkeats00byrouoft.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>A list of pensioners of the war of 1812</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:listofpensioners00clar</id>
+    <updated>2008-04-23T18:29:09Z</updated>
+    <link href="http://www.archive.org/download/listofpensioners00clar/listofpensioners00clar.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/listofpensioners00clar/listofpensioners00clar.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1904</dcterms:issued>
+    <author>
+      <name>Clark, Byron N., ed</name>
+    </author>
+    <category term="Military pensions -- United States War of 1812"/>
+    <category term="Plattsburg, Battle of, Plattsburgh, N.Y., 1814"/>
+    <category term="Vermont -- History War of 1812"/>
+    <category term="United States -- History War of 1812 Registers, lists, etc"/>
+    <dcterms:publisher>Burlington, Boston, Research publication company</dcterms:publisher>
+    <dcterms:language>en</dcterms:language>
+    <content type="html">&lt;b&gt;Author: &lt;/b&gt;Clark, Byron N., ed&lt;br/&gt;&lt;b&gt;Subject &lt;/b&gt;Military pensions -- United States War of 1812, Plattsburg, Battle of, Plattsburgh, N.Y., 1814, Vermont -- History War of 1812, United States -- History War of 1812 Registers, lists, etc&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;Burlington, Boston, Research publication company&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1904&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;The Library of Congress&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;en&lt;br/&gt;29 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/listofpensioners00clar/listofpensioners00clar.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/listofpensioners00clar/listofpensioners00clar.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>The Works of Lord Byron: Embracing His Suppressed Poems, and a Sketch of His ...</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:workslordbyrone00byrogoog</id>
+    <updated>2009-08-16T15:59:36Z</updated>
+    <link href="http://www.archive.org/download/workslordbyrone00byrogoog/workslordbyrone00byrogoog.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/workslordbyrone00byrogoog/workslordbyrone00byrogoog.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1854</dcterms:issued>
+    <author>
+      <name>George Gordon Byron Byron</name>
+    </author>
+    <dcterms:publisher>Phillips, Sampson, andCompany</dcterms:publisher>
+    <dcterms:language>English</dcterms:language>
+    <content type="html">&lt;b&gt;Author: &lt;/b&gt;George Gordon Byron Byron&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;Phillips, Sampson, andCompany&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1854&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;Harvard University&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;English&lt;br/&gt;26 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/workslordbyrone00byrogoog/workslordbyrone00byrogoog.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/workslordbyrone00byrogoog/workslordbyrone00byrogoog.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>A list of pensioners of the war of 1812</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:listofpensioners00lcclar</id>
+    <updated>2008-04-23T18:33:06Z</updated>
+    <link href="http://www.archive.org/download/listofpensioners00lcclar/listofpensioners00lcclar.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/listofpensioners00lcclar/listofpensioners00lcclar.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1904</dcterms:issued>
+    <author>
+      <name>Clark, Byron N., ed</name>
+    </author>
+    <category term="Military pensions -- United States War of 1812"/>
+    <category term="Plattsburg, Battle of, Plattsburgh, N.Y., 1814"/>
+    <category term="Vermont -- History War of 1812"/>
+    <category term="United States -- History War of 1812 Registers, lists, etc"/>
+    <dcterms:publisher>Burlington, Boston, Research publication company</dcterms:publisher>
+    <dcterms:language>en</dcterms:language>
+    <content type="html">&lt;b&gt;Author: &lt;/b&gt;Clark, Byron N., ed&lt;br/&gt;&lt;b&gt;Subject &lt;/b&gt;Military pensions -- United States War of 1812, Plattsburg, Battle of, Plattsburgh, N.Y., 1814, Vermont -- History War of 1812, United States -- History War of 1812 Registers, lists, etc&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;Burlington, Boston, Research publication company&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1904&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;The Library of Congress&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;en&lt;br/&gt;22 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/listofpensioners00lcclar/listofpensioners00lcclar.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/listofpensioners00lcclar/listofpensioners00lcclar.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>Genealogy of the Reber family descended from Johan Bernhard Reber, 1738</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:genealogyofreber00rebe</id>
+    <updated>2008-03-27T12:27:06Z</updated>
+    <link href="http://www.archive.org/download/genealogyofreber00rebe/genealogyofreber00rebe.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/genealogyofreber00rebe/genealogyofreber00rebe.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1901</dcterms:issued>
+    <author>
+      <name>Reber, Morris B. (Morris Byron), b. 1860</name>
+    </author>
+    <category term="Reber family (Johan Bernhard Reber, fl. 1738)"/>
+    <dcterms:publisher>Reading, Penna., The family</dcterms:publisher>
+    <dcterms:language>en</dcterms:language>
+    <content type="html">&lt;b&gt;Author: &lt;/b&gt;Reber, Morris B. (Morris Byron), b. 1860&lt;br/&gt;&lt;b&gt;Subject &lt;/b&gt;Reber family (Johan Bernhard Reber, fl. 1738)&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;Reading, Penna., The family&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1901&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;The Library of Congress&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;en&lt;br/&gt;21 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/genealogyofreber00rebe/genealogyofreber00rebe.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/genealogyofreber00rebe/genealogyofreber00rebe.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>The corsair : a tale</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:corsairtale00byrorich</id>
+    <updated>2008-02-28T22:19:57Z</updated>
+    <link href="http://www.archive.org/download/corsairtale00byrorich/corsairtale00byrorich.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/corsairtale00byrorich/corsairtale00byrorich.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1814</dcterms:issued>
+    <author>
+      <name>Byron, George Gordon Byron, Baron, 1788-1824</name>
+    </author>
+    <author>
+      <name>Byron Collection</name>
+    </author>
+    <author>
+      <name>Davison, Thomas</name>
+    </author>
+    <dcterms:publisher>London : Printed for John Murray, Albemarle-street, by Thomas Davidson, Whitefriars</dcterms:publisher>
+    <dcterms:language>en</dcterms:language>
+    <content type="html">&lt;b&gt;Authors: &lt;/b&gt;Byron, George Gordon Byron, Baron, 1788-1824, Byron Collection, Davison, Thomas&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;London : Printed for John Murray, Albemarle-street, by Thomas Davidson, Whitefriars&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1814&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;University of California Libraries&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;en&lt;br/&gt;20 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/corsairtale00byrorich/corsairtale00byrorich.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/corsairtale00byrorich/corsairtale00byrorich.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>The works of Lord Byron</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:worksoflordbyron07byro</id>
+    <updated>2008-02-20T05:44:03Z</updated>
+    <link href="http://www.archive.org/download/worksoflordbyron07byro/worksoflordbyron07byro.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/worksoflordbyron07byro/worksoflordbyron07byro.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <author>
+      <name>Byron, George Gordon Byron, Baron, 1788-1824</name>
+    </author>
+    <author>
+      <name>Coleridge, Ernest Hartley, 1846-1920</name>
+    </author>
+    <author>
+      <name>Ernle, Rowland Edmund Prothero, Baron, 1852-1937</name>
+    </author>
+    <dcterms:publisher>London : J. Murray; New York, C. Scribner's sons</dcterms:publisher>
+    <dcterms:language>en</dcterms:language>
+    <content type="html">&lt;b&gt;Authors: &lt;/b&gt;Byron, George Gordon Byron, Baron, 1788-1824, Coleridge, Ernest Hartley, 1846-1920, Ernle, Rowland Edmund Prothero, Baron, 1852-1937&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;London : J. Murray; New York, C. Scribner's sons&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;University of California Libraries&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;en&lt;br/&gt;20 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/worksoflordbyron07byro/worksoflordbyron07byro.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/worksoflordbyron07byro/worksoflordbyron07byro.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>Childe Harold's pilgrimage, canto fourth</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:childeharoldspil04byro</id>
+    <updated>2009-10-13T13:14:01Z</updated>
+    <link href="http://www.archive.org/download/childeharoldspil04byro/childeharoldspil04byro.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/childeharoldspil04byro/childeharoldspil04byro.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1911</dcterms:issued>
+    <author>
+      <name>Byron, George Gordon Byron, Baron, 1788-1824</name>
+    </author>
+    <author>
+      <name>Rhodes, Charles Elbert, [from old catalog] ed</name>
+    </author>
+    <dcterms:publisher>New York, Charles E. Merrill company</dcterms:publisher>
+    <dcterms:language>en</dcterms:language>
+    <content type="html">&lt;b&gt;Authors: &lt;/b&gt;Byron, George Gordon Byron, Baron, 1788-1824, Rhodes, Charles Elbert, [from old catalog] ed&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;New York, Charles E. Merrill company&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1911&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;The Library of Congress&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;en&lt;br/&gt;17 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/childeharoldspil04byro/childeharoldspil04byro.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/childeharoldspil04byro/childeharoldspil04byro.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>Lord Byron's Childe Harold's pilgrimage to Portugal</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:lordbyronschilde00dalgrich</id>
+    <updated>2008-06-24T18:38:06Z</updated>
+    <link href="http://www.archive.org/download/lordbyronschilde00dalgrich/lordbyronschilde00dalgrich.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/lordbyronschilde00dalgrich/lordbyronschilde00dalgrich.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1919</dcterms:issued>
+    <author>
+      <name>Dalgado, D. G. (Daniel Gelanio)</name>
+    </author>
+    <author>
+      <name>Academia das Ci&#234;ncias de Lisboa</name>
+    </author>
+    <category term="Byron, George Gordon Byron, Baron, 1788-1824"/>
+    <dcterms:publisher>Lisboa : Imprensa nacional ;</dcterms:publisher>
+    <dcterms:language>en</dcterms:language>
+    <content type="html">&lt;b&gt;Authors: &lt;/b&gt;Dalgado, D. G. (Daniel Gelanio), Academia das Ci&#234;ncias de Lisboa&lt;br/&gt;&lt;b&gt;Subject &lt;/b&gt;Byron, George Gordon Byron, Baron, 1788-1824&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;Lisboa : Imprensa nacional ;&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1919&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;University of California Libraries&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;en&lt;br/&gt;16 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/lordbyronschilde00dalgrich/lordbyronschilde00dalgrich.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/lordbyronschilde00dalgrich/lordbyronschilde00dalgrich.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>Entomological contributions in memory of Byron A. Alexander</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:entomologicalcon00byer</id>
+    <updated>2008-02-14T14:55:04Z</updated>
+    <link href="http://www.archive.org/download/entomologicalcon00byer/entomologicalcon00byer.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/entomologicalcon00byer/entomologicalcon00byer.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1999</dcterms:issued>
+    <author>
+      <name>Byers, George William, 1923-</name>
+    </author>
+    <author>
+      <name>Alexander, Byron A</name>
+    </author>
+    <category term="Alexander, Byron A"/>
+    <category term="Entomology"/>
+    <dcterms:publisher>Lawrence, Kan. : Natural History Museum, the University of Kansas</dcterms:publisher>
+    <dcterms:language>en</dcterms:language>
+    <content type="html">&lt;b&gt;Authors: &lt;/b&gt;Byers, George William, 1923-, Alexander, Byron A&lt;br/&gt;&lt;b&gt;Subject &lt;/b&gt;Alexander, Byron A, Entomology&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;Lawrence, Kan. : Natural History Museum, the University of Kansas&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1999&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;Harvard University, Museum of Comparative Zoology, Ernst Mayr Library&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;en&lt;br/&gt;15 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/entomologicalcon00byer/entomologicalcon00byer.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/entomologicalcon00byer/entomologicalcon00byer.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>Childe Harold's pilgrimage: Italy</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:childeharoldspi00byrouoft</id>
+    <updated>2008-08-26T17:55:03Z</updated>
+    <link href="http://www.archive.org/download/childeharoldspi00byrouoft/childeharoldspi00byrouoft.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/childeharoldspi00byrouoft/childeharoldspi00byrouoft.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1860</dcterms:issued>
+    <author>
+      <name>Byron, George Gordon Byron, Baron, 1788-1824</name>
+    </author>
+    <dcterms:publisher>Venice Printed at the Armenian Monastery of S. Lazarus</dcterms:publisher>
+    <dcterms:language>en</dcterms:language>
+    <content type="html">&lt;b&gt;Author: &lt;/b&gt;Byron, George Gordon Byron, Baron, 1788-1824&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;Venice Printed at the Armenian Monastery of S. Lazarus&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1860&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;Robarts - University of Toronto&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;en&lt;br/&gt;14 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/childeharoldspi00byrouoft/childeharoldspi00byrouoft.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/childeharoldspi00byrouoft/childeharoldspi00byrouoft.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>From generation to generation : the genealogies of Henry Moore Neil, Abby Grosvenor Tillinghaste, Guy Mallon, Albert Neilson Slayton, Byron Lakin Bargar [and] Alfred Hastings Chapin</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:fromgenerationto00neil</id>
+    <updated>2008-02-01T22:37:21Z</updated>
+    <link href="http://www.archive.org/download/fromgenerationto00neil/fromgenerationto00neil.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/fromgenerationto00neil/fromgenerationto00neil.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <author>
+      <name>Neil, Julia Evans Stone, 1843- comp</name>
+    </author>
+    <category term="Neil, Henry Moore, 1832-"/>
+    <category term="Neil family (Alan Neil, 1765-1806)"/>
+    <category term="Mallon Family"/>
+    <category term="Slayton family"/>
+    <category term="Barger family"/>
+    <category term="Chopin family"/>
+    <dcterms:publisher>[Columbus, Ohio, : Champlin Press</dcterms:publisher>
+    <dcterms:language>en</dcterms:language>
+    <content type="html">&lt;b&gt;Author: &lt;/b&gt;Neil, Julia Evans Stone, 1843- comp&lt;br/&gt;&lt;b&gt;Subject &lt;/b&gt;Neil, Henry Moore, 1832-, Neil family (Alan Neil, 1765-1806), Mallon Family, Slayton family, Barger family, Chopin family&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;[Columbus, Ohio, : Champlin Press&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;New York Public Library&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;en&lt;br/&gt;14 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/fromgenerationto00neil/fromgenerationto00neil.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/fromgenerationto00neil/fromgenerationto00neil.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>Lord Byron em Portugal</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:lordbyronemport00tellgoog</id>
+    <updated>2008-05-28T15:45:32Z</updated>
+    <link href="http://www.archive.org/download/lordbyronemport00tellgoog/lordbyronemport00tellgoog.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/lordbyronemport00tellgoog/lordbyronemport00tellgoog.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1879</dcterms:issued>
+    <author>
+      <name>Alberto Telles</name>
+    </author>
+    <dcterms:publisher>Typ. do Diario de Portugal</dcterms:publisher>
+    <dcterms:language>Portuguese</dcterms:language>
+    <content type="html">&lt;b&gt;Author: &lt;/b&gt;Alberto Telles&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;Typ. do Diario de Portugal&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1879&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;Harvard University&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;Portuguese&lt;br/&gt;14 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/lordbyronemport00tellgoog/lordbyronemport00tellgoog.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/lordbyronemport00tellgoog/lordbyronemport00tellgoog.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>A sermon in memory of Colonel Ulric Dahlgren, delivered in the First Presbyterian Church, Washington, D.C. ... April 24, 1864</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:sermoninmemoryof00sund</id>
+    <updated>2009-05-13T10:35:03Z</updated>
+    <link href="http://www.archive.org/download/sermoninmemoryof00sund/sermoninmemoryof00sund.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/sermoninmemoryof00sund/sermoninmemoryof00sund.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1864</dcterms:issued>
+    <author>
+      <name>Sunderland, B. (Byron), 1819-1901</name>
+    </author>
+    <category term="Dahlgren, Ulric, 1842-1864"/>
+    <dcterms:publisher>Washington, D.C., McGill &amp; Withrow, printers</dcterms:publisher>
+    <dcterms:language>en</dcterms:language>
+    <content type="html">&lt;b&gt;Author: &lt;/b&gt;Sunderland, B. (Byron), 1819-1901&lt;br/&gt;&lt;b&gt;Subject &lt;/b&gt;Dahlgren, Ulric, 1842-1864&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;Washington, D.C., McGill &amp; Withrow, printers&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1864&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;The Library of Congress&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;en&lt;br/&gt;13 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/sermoninmemoryof00sund/sermoninmemoryof00sund.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/sermoninmemoryof00sund/sermoninmemoryof00sund.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>The dispatch carrier : a thrilling description of the adventures of a dispatch carrier in the late war--</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:dispatchcarriert00step</id>
+    <updated>2009-02-17T13:44:37Z</updated>
+    <link href="http://www.archive.org/download/dispatchcarriert00step/dispatchcarriert00step.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/dispatchcarriert00step/dispatchcarriert00step.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1892</dcterms:issued>
+    <author>
+      <name>Stephens, Wilson, 1838-1914</name>
+    </author>
+    <category term="Andersonville Prison"/>
+    <dcterms:publisher>Port Bryon, Ill. : Port Byron "Globe" Print</dcterms:publisher>
+    <dcterms:language>en</dcterms:language>
+    <content type="html">&lt;b&gt;Author: &lt;/b&gt;Stephens, Wilson, 1838-1914&lt;br/&gt;&lt;b&gt;Subject &lt;/b&gt;Andersonville Prison&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;Port Bryon, Ill. : Port Byron "Globe" Print&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1892&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;Abraham Lincoln Presidential Library&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;en&lt;br/&gt;13 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/dispatchcarriert00step/dispatchcarriert00step.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/dispatchcarriert00step/dispatchcarriert00step.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>Don Juan</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:donjuan01byroiala</id>
+    <updated>2007-10-29T15:21:09Z</updated>
+    <link href="http://www.archive.org/download/donjuan01byroiala/donjuan01byroiala.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/donjuan01byroiala/donjuan01byroiala.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1826</dcterms:issued>
+    <author>
+      <name>Byron, George Gordon Byron, Baron, 1788-1824</name>
+    </author>
+    <dcterms:publisher>London : printed for the booksellers</dcterms:publisher>
+    <dcterms:language>en</dcterms:language>
+    <content type="html">&lt;b&gt;Author: &lt;/b&gt;Byron, George Gordon Byron, Baron, 1788-1824&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;London : printed for the booksellers&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1826&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;University of California Libraries&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;en&lt;br/&gt;13 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/donjuan01byroiala/donjuan01byroiala.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/donjuan01byroiala/donjuan01byroiala.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>Dufay and his contemporaries: fifty compositions (ranging from about A.D ...</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:dufayandhiscont00nichgoog</id>
+    <updated>2009-06-27T20:08:32Z</updated>
+    <link href="http://www.archive.org/download/dufayandhiscont00nichgoog/dufayandhiscont00nichgoog.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/dufayandhiscont00nichgoog/dufayandhiscont00nichgoog.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1898</dcterms:issued>
+    <author>
+      <name>Sir John Stainer , John Frederick Randall Stainer , Bodleian Library, C Stainer, Bodleian Library, Guillaume Dufay, Edward Williams Byron Nicholson</name>
+    </author>
+    <dcterms:publisher>Novello</dcterms:publisher>
+    <dcterms:language>zxx</dcterms:language>
+    <content type="html">&lt;b&gt;Author: &lt;/b&gt;Sir John Stainer , John Frederick Randall Stainer , Bodleian Library, C Stainer, Bodleian Library, Guillaume Dufay, Edward Williams Byron Nicholson&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;Novello&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1898&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;Harvard University&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;zxx&lt;br/&gt;13 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/dufayandhiscont00nichgoog/dufayandhiscont00nichgoog.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/dufayandhiscont00nichgoog/dufayandhiscont00nichgoog.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>The Quarterly Review.</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:quarterlyreview05byrogoog</id>
+    <updated>2008-02-16T01:34:00Z</updated>
+    <link href="http://www.archive.org/download/quarterlyreview05byrogoog/quarterlyreview05byrogoog.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/quarterlyreview05byrogoog/quarterlyreview05byrogoog.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1895</dcterms:issued>
+    <author>
+      <name>1st Baron Ernle Rowland Edmund Prothero , Baron George Gordon Byron Byron</name>
+    </author>
+    <dcterms:publisher>J. Murray [etc., etc.]</dcterms:publisher>
+    <dcterms:language>English</dcterms:language>
+    <content type="html">&lt;b&gt;Author: &lt;/b&gt;1st Baron Ernle Rowland Edmund Prothero , Baron George Gordon Byron Byron&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;J. Murray [etc., etc.]&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1895&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;University of Michigan&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;English&lt;br/&gt;13 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/quarterlyreview05byrogoog/quarterlyreview05byrogoog.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/quarterlyreview05byrogoog/quarterlyreview05byrogoog.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>The poetical works of lord Byron, with illustr. by K. Halswelle</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:poeticalworkslo15byrogoog</id>
+    <updated>2009-05-07T13:42:10Z</updated>
+    <link href="http://www.archive.org/download/poeticalworkslo15byrogoog/poeticalworkslo15byrogoog.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/poeticalworkslo15byrogoog/poeticalworkslo15byrogoog.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1861</dcterms:issued>
+    <author>
+      <name>George Gordon N . Byron</name>
+    </author>
+    <dcterms:language>English</dcterms:language>
+    <content type="html">&lt;b&gt;Author: &lt;/b&gt;George Gordon N . Byron&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1861&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;Oxford University&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;English&lt;br/&gt;12 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/poeticalworkslo15byrogoog/poeticalworkslo15byrogoog.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/poeticalworkslo15byrogoog/poeticalworkslo15byrogoog.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>Byron et le romantisme fran&#231;ais, essai sur la fortune et l'influence de l'oeuvre de Byron en France de 1812 a 1850</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:byronetleromanti00esteuoft</id>
+    <updated>2008-09-11T01:20:35Z</updated>
+    <link href="http://www.archive.org/download/byronetleromanti00esteuoft/byronetleromanti00esteuoft.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/byronetleromanti00esteuoft/byronetleromanti00esteuoft.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1907</dcterms:issued>
+    <author>
+      <name>Esteve, Edmond, 1868-1929</name>
+    </author>
+    <category term="Byron, George Gordon Byron, Baron, 1788-1824"/>
+    <category term="Romanticism -- France"/>
+    <category term="French literature -- 19th century History and criticism"/>
+    <dcterms:publisher>Paris Hachette</dcterms:publisher>
+    <dcterms:language>fr</dcterms:language>
+    <content type="html">&lt;b&gt;Author: &lt;/b&gt;Esteve, Edmond, 1868-1929&lt;br/&gt;&lt;b&gt;Subject &lt;/b&gt;Byron, George Gordon Byron, Baron, 1788-1824, Romanticism -- France, French literature -- 19th century History and criticism&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;Paris Hachette&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1907&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;Robarts - University of Toronto&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;fr&lt;br/&gt;12 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/byronetleromanti00esteuoft/byronetleromanti00esteuoft.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/byronetleromanti00esteuoft/byronetleromanti00esteuoft.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>Don Juan: with a biographical account of Lord Byron and his family; ..</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:donjuanwithbiogr00honerich</id>
+    <updated>2008-02-29T17:50:49Z</updated>
+    <link href="http://www.archive.org/download/donjuanwithbiogr00honerich/donjuanwithbiogr00honerich.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/donjuanwithbiogr00honerich/donjuanwithbiogr00honerich.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1819</dcterms:issued>
+    <author>
+      <name>Hone, W</name>
+    </author>
+    <dcterms:publisher>London, William Wright</dcterms:publisher>
+    <dcterms:language>en</dcterms:language>
+    <content type="html">&lt;b&gt;Author: &lt;/b&gt;Hone, W&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;London, William Wright&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1819&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;University of California Libraries&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;en&lt;br/&gt;12 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/donjuanwithbiogr00honerich/donjuanwithbiogr00honerich.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/donjuanwithbiogr00honerich/donjuanwithbiogr00honerich.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>Elementary German reader; with notes and vocabulary</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:elementarygerman00supeuoft</id>
+    <updated>2007-11-01T00:28:06Z</updated>
+    <link href="http://www.archive.org/download/elementarygerman00supeuoft/elementarygerman00supeuoft.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/elementarygerman00supeuoft/elementarygerman00supeuoft.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <author>
+      <name>Super, Ovando Byron</name>
+    </author>
+    <category term="German language -- Readers"/>
+    <dcterms:publisher>Boston, Ginn</dcterms:publisher>
+    <dcterms:language>en</dcterms:language>
+    <content type="html">&lt;b&gt;Author: &lt;/b&gt;Super, Ovando Byron&lt;br/&gt;&lt;b&gt;Subject &lt;/b&gt;German language -- Readers&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;Boston, Ginn&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;Robarts - University of Toronto&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;en&lt;br/&gt;12 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/elementarygerman00supeuoft/elementarygerman00supeuoft.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/elementarygerman00supeuoft/elementarygerman00supeuoft.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>A history and genealogy of the families of Bayard, Houstoun of Georgia, and the descent of the Bolton family from Assheton, Byron and Hulton of Hulton Park, by Joseph Gaston Baillie Bulloch ..</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:historygenealogy00inbull</id>
+    <updated>2008-12-05T14:33:17Z</updated>
+    <link href="http://www.archive.org/download/historygenealogy00inbull/historygenealogy00inbull.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/historygenealogy00inbull/historygenealogy00inbull.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1919</dcterms:issued>
+    <author>
+      <name>Bulloch, Joseph Gaston Baillie, 1852-</name>
+    </author>
+    <category term="Bayard family (Petrus Bayard, d. 1690)"/>
+    <category term="Houston family"/>
+    <category term="Bolton family"/>
+    <category term="Assheton family"/>
+    <category term="Byron family"/>
+    <category term="Hulton family"/>
+    <dcterms:publisher>Washington, D. C., J. H. Dony, printer</dcterms:publisher>
+    <dcterms:language>en</dcterms:language>
+    <content type="html">&lt;b&gt;Author: &lt;/b&gt;Bulloch, Joseph Gaston Baillie, 1852-&lt;br/&gt;&lt;b&gt;Subject &lt;/b&gt;Bayard family (Petrus Bayard, d. 1690), Houston family, Bolton family, Assheton family, Byron family, Hulton family&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;Washington, D. C., J. H. Dony, printer&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1919&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;Allen County Public Library Genealogy Center&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;en&lt;br/&gt;12 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/historygenealogy00inbull/historygenealogy00inbull.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/historygenealogy00inbull/historygenealogy00inbull.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>Horton family year-book</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:hortonfamilyyear05hort</id>
+    <updated>2008-04-18T14:42:35Z</updated>
+    <link href="http://www.archive.org/download/hortonfamilyyear05hort/hortonfamilyyear05hort.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/hortonfamilyyear05hort/hortonfamilyyear05hort.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1908</dcterms:issued>
+    <author>
+      <name>Horton, Byron Barnes. [from old catalog]</name>
+    </author>
+    <category term="Horton family (Isaac Horton, 1780-1855) [from old catalog]"/>
+    <category term="Horton family (Barnabas Horton, 1600-1680) [from old catalog]"/>
+    <dcterms:publisher>New York, The Grafton press</dcterms:publisher>
+    <dcterms:language>en</dcterms:language>
+    <content type="html">&lt;b&gt;Author: &lt;/b&gt;Horton, Byron Barnes. [from old catalog]&lt;br/&gt;&lt;b&gt;Subject &lt;/b&gt;Horton family (Isaac Horton, 1780-1855) [from old catalog], Horton family (Barnabas Horton, 1600-1680) [from old catalog]&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;New York, The Grafton press&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1908&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;The Library of Congress&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;en&lt;br/&gt;12 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/hortonfamilyyear05hort/hortonfamilyyear05hort.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/hortonfamilyyear05hort/hortonfamilyyear05hort.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>Keltic researches; studies in the history and distribution of the ancient Goidelic language and peoples</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:kelticresearche00nichgoog</id>
+    <updated>2009-04-06T09:01:46Z</updated>
+    <link href="http://www.archive.org/download/kelticresearche00nichgoog/kelticresearche00nichgoog.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/kelticresearche00nichgoog/kelticresearche00nichgoog.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1904</dcterms:issued>
+    <author>
+      <name>Nicholson, Edward Williams Byron, 1849-1912</name>
+    </author>
+    <category term="Goidelic languages"/>
+    <category term="Picts"/>
+    <dcterms:publisher>London, New York, H. Frowde, Oxford university press</dcterms:publisher>
+    <dcterms:language>en</dcterms:language>
+    <dcterms:language>und</dcterms:language>
+    <content type="html">&lt;b&gt;Author: &lt;/b&gt;Nicholson, Edward Williams Byron, 1849-1912&lt;br/&gt;&lt;b&gt;Subject &lt;/b&gt;Goidelic languages, Picts&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;London, New York, H. Frowde, Oxford university press&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1904&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;unknown library&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;en, und&lt;br/&gt;12 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/kelticresearche00nichgoog/kelticresearche00nichgoog.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/kelticresearche00nichgoog/kelticresearche00nichgoog.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>The new Packard commercial arithmetic. By S. S. Packard ... and Byron Horton ..</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:newpackardcommer00packrich</id>
+    <updated>2007-05-21T19:01:43Z</updated>
+    <link href="http://www.archive.org/download/newpackardcommer00packrich/newpackardcommer00packrich.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/newpackardcommer00packrich/newpackardcommer00packrich.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <author>
+      <name>Packard, S. S. (Silas Sadler), 1826-1898</name>
+    </author>
+    <author>
+      <name>Horton, Byron, b. 1851</name>
+    </author>
+    <category term="Business mathematics"/>
+    <dcterms:publisher>New York, S. S. Packard</dcterms:publisher>
+    <dcterms:language>en</dcterms:language>
+    <content type="html">&lt;b&gt;Authors: &lt;/b&gt;Packard, S. S. (Silas Sadler), 1826-1898, Horton, Byron, b. 1851&lt;br/&gt;&lt;b&gt;Subject &lt;/b&gt;Business mathematics&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;New York, S. S. Packard&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;University of California Libraries&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;en&lt;br/&gt;12 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/newpackardcommer00packrich/newpackardcommer00packrich.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/newpackardcommer00packrich/newpackardcommer00packrich.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>The works of Lord Byron</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:workslordbyron13unkngoog</id>
+    <updated>2009-05-03T01:18:24Z</updated>
+    <link href="http://www.archive.org/download/workslordbyron13unkngoog/workslordbyron13unkngoog.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/workslordbyron13unkngoog/workslordbyron13unkngoog.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1898</dcterms:issued>
+    <author>
+      <name>Byron, George Gordon Byron, Baron, 1788-1824</name>
+    </author>
+    <author>
+      <name>Coleridge, Ernest Hartley, 1846-1920, ed</name>
+    </author>
+    <author>
+      <name>Prothero, Rowland E. (Rowland Edmund), Baron Ernle, 1851-1937, ed</name>
+    </author>
+    <dcterms:publisher>London, J. Murray; New York, C. Scribner's sons</dcterms:publisher>
+    <dcterms:language>en</dcterms:language>
+    <content type="html">&lt;b&gt;Authors: &lt;/b&gt;Byron, George Gordon Byron, Baron, 1788-1824, Coleridge, Ernest Hartley, 1846-1920, ed, Prothero, Rowland E. (Rowland Edmund), Baron Ernle, 1851-1937, ed&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;London, J. Murray; New York, C. Scribner's sons&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1898&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;University of California&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;en&lt;br/&gt;12 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/workslordbyron13unkngoog/workslordbyron13unkngoog.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/workslordbyron13unkngoog/workslordbyron13unkngoog.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>Selections from Byron, Wordsworth, Shelley, Keats and Browning;</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:selectionsfromb01browgoog</id>
+    <updated>2008-10-28T11:45:52Z</updated>
+    <link href="http://www.archive.org/download/selectionsfromb01browgoog/selectionsfromb01browgoog.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/selectionsfromb01browgoog/selectionsfromb01browgoog.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1909</dcterms:issued>
+    <author>
+      <name>Copeland, Charles Townsend, 1860- ed</name>
+    </author>
+    <author>
+      <name>Rideout, Henry Milner, 1877-1927, joint ed</name>
+    </author>
+    <author>
+      <name>Byron, George Gordon Byron, Baron, 1788-1824</name>
+    </author>
+    <author>
+      <name>Wordsworth, William, 1770-1850</name>
+    </author>
+    <author>
+      <name>Shelley, Percy Bysshe, 1792-1822</name>
+    </author>
+    <author>
+      <name>Keats, John, 1795-1821</name>
+    </author>
+    <author>
+      <name>Browning, Robert, 1812-1889</name>
+    </author>
+    <dcterms:publisher>New York, Cincinnati [etc.] American book company</dcterms:publisher>
+    <dcterms:language>en</dcterms:language>
+    <content type="html">&lt;b&gt;Authors: &lt;/b&gt;Copeland, Charles Townsend, 1860- ed, Rideout, Henry Milner, 1877-1927, joint ed, Byron, George Gordon Byron, Baron, 1788-1824, Wordsworth, William, 1770-1850, Shelley, Percy Bysshe, 1792-1822, Keats, John, 1795-1821, Browning, Robert, 1812-1889&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;New York, Cincinnati [etc.] American book company&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1909&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;University of Michigan&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;en&lt;br/&gt;11 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/selectionsfromb01browgoog/selectionsfromb01browgoog.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/selectionsfromb01browgoog/selectionsfromb01browgoog.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>An historical account of all the voyages round the world, performed by English navigators; including those lately undertaken by order of His present Majesty. The whole faithfully extracted from the journals of the voyagers. Drake, undertaken in 1577-80; Cavendish, 1586-88; Cowley, 1683-86; Dampier, 1689-96; Cooke, 1708-11; Rogers, 1708-11; Clipperton and Shelvocke, 1719-22; Anson, undertaken in 1740-44; Byron, 1764-66; Wallis, 1766-68; Carteret, 1766-69; and Cook, 1768-71. Together with that of Sydney Parkinson ... and the voyage of Mons. Bougainville ... To which is added, an appendix. Containing the Journal of a voyage to the North pole, by the Hon. Commodore Phipps, and Captain Lutwidge ..</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:anhistoricalacc00conggoog</id>
+    <updated>2009-02-07T21:47:46Z</updated>
+    <link href="http://www.archive.org/download/anhistoricalacc00conggoog/anhistoricalacc00conggoog.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/anhistoricalacc00conggoog/anhistoricalacc00conggoog.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1773</dcterms:issued>
+    <author>
+      <name>Henry, David, 1710-1792, ed</name>
+    </author>
+    <author>
+      <name>Pre-1801 Imprint Collection (Library of Congress) DLC</name>
+    </author>
+    <category term="Voyages around the world"/>
+    <dcterms:publisher>London, F. Newbery</dcterms:publisher>
+    <dcterms:language>en</dcterms:language>
+    <content type="html">&lt;b&gt;Authors: &lt;/b&gt;Henry, David, 1710-1792, ed, Pre-1801 Imprint Collection (Library of Congress) DLC&lt;br/&gt;&lt;b&gt;Subject &lt;/b&gt;Voyages around the world&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;London, F. Newbery&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1773&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;Oxford University&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;en&lt;br/&gt;11 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/anhistoricalacc00conggoog/anhistoricalacc00conggoog.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/anhistoricalacc00conggoog/anhistoricalacc00conggoog.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>The Book of Chilam Balam of Chumayel; with introd. by G.B. Gordon</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:bookofchilambala05hofluoft</id>
+    <updated>2007-04-10T01:05:08Z</updated>
+    <link href="http://www.archive.org/download/bookofchilambala05hofluoft/bookofchilambala05hofluoft.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/bookofchilambala05hofluoft/bookofchilambala05hofluoft.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1913</dcterms:issued>
+    <author>
+      <name>Hofl, Juan Jos&#233;, fl. 1782</name>
+    </author>
+    <author>
+      <name>Gordon, G. B. (George Byron), 1870-1927</name>
+    </author>
+    <category term="Manuscripts, Maya -- Facsimiles"/>
+    <category term="Maya language -- Texts"/>
+    <category term="Mayas -- Antiquities"/>
+    <category term="Mayas -- Religion and mythology"/>
+    <dcterms:publisher>Philadelphia University Museum</dcterms:publisher>
+    <dcterms:language>en</dcterms:language>
+    <content type="html">&lt;b&gt;Authors: &lt;/b&gt;Hofl, Juan Jos&#233;, fl. 1782, Gordon, G. B. (George Byron), 1870-1927&lt;br/&gt;&lt;b&gt;Subject &lt;/b&gt;Manuscripts, Maya -- Facsimiles, Maya language -- Texts, Mayas -- Antiquities, Mayas -- Religion and mythology&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;Philadelphia University Museum&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1913&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;Robarts - University of Toronto&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;en&lt;br/&gt;11 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/bookofchilambala05hofluoft/bookofchilambala05hofluoft.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/bookofchilambala05hofluoft/bookofchilambala05hofluoft.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>Byron A Biography Volume III</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:byronabiographyv007277mbp</id>
+    <updated>2006-10-29T00:46:41Z</updated>
+    <link href="http://www.archive.org/download/byronabiographyv007277mbp/byronabiographyv007277mbp.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/byronabiographyv007277mbp/byronabiographyv007277mbp.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1957</dcterms:issued>
+    <author>
+      <name>Leslie A. Marchand</name>
+    </author>
+    <dcterms:publisher>ALFRED A. KNOPF</dcterms:publisher>
+    <dcterms:language>en</dcterms:language>
+    <content type="html">&lt;b&gt;Author: &lt;/b&gt;Leslie A. Marchand&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;ALFRED A. KNOPF&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1957&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;Universal Digital Library&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;en&lt;br/&gt;11 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/byronabiographyv007277mbp/byronabiographyv007277mbp.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/byronabiographyv007277mbp/byronabiographyv007277mbp.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>Childe Harold's pilgrimage, ed. by W. Hiley</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:childeharoldspi09byrogoog</id>
+    <updated>2008-06-01T02:21:06Z</updated>
+    <link href="http://www.archive.org/download/childeharoldspi09byrogoog/childeharoldspi09byrogoog.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/childeharoldspi09byrogoog/childeharoldspi09byrogoog.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1877</dcterms:issued>
+    <author>
+      <name>George Gordon N . Byron</name>
+    </author>
+    <dcterms:language>English</dcterms:language>
+    <content type="html">&lt;b&gt;Author: &lt;/b&gt;George Gordon N . Byron&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1877&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;Oxford University&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;English&lt;br/&gt;11 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/childeharoldspi09byrogoog/childeharoldspi09byrogoog.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/childeharoldspi09byrogoog/childeharoldspi09byrogoog.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>Genealogy of the Merrick--Mirick--Myrick family of Massachusetts</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:genealogyofmerri00merr</id>
+    <updated>2008-04-18T15:18:37Z</updated>
+    <link href="http://www.archive.org/download/genealogyofmerri00merr/genealogyofmerri00merr.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/genealogyofmerri00merr/genealogyofmerri00merr.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1902</dcterms:issued>
+    <author>
+      <name>Merrick, George Byron 1841-1931. [from old catalog]</name>
+    </author>
+    <category term="Merrick family"/>
+    <category term="Merrick family (William Merrick, 1603-1688) [from old catalog]"/>
+    <category term="Merrick family (John Mirick, 1614-1678) [from old catalog]"/>
+    <category term="Merrick family (James Mirick, b 1612) [from old catalog]"/>
+    <category term="Merrick family (Thomas Merrick. 1620-1704) [from old catalog]"/>
+    <dcterms:publisher>Madison, Wis., Tracy, Gibbs &amp; company</dcterms:publisher>
+    <dcterms:language>en</dcterms:language>
+    <content type="html">&lt;b&gt;Author: &lt;/b&gt;Merrick, George Byron 1841-1931. [from old catalog]&lt;br/&gt;&lt;b&gt;Subject &lt;/b&gt;Merrick family, Merrick family (William Merrick, 1603-1688) [from old catalog], Merrick family (John Mirick, 1614-1678) [from old catalog], Merrick family (James Mirick, b 1612) [from old catalog], Merrick family (Thomas Merrick. 1620-1704) [from old catalog]&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;Madison, Wis., Tracy, Gibbs &amp; company&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1902&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;The Library of Congress&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;en&lt;br/&gt;11 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/genealogyofmerri00merr/genealogyofmerri00merr.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/genealogyofmerri00merr/genealogyofmerri00merr.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>Horton family year-book</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:hortonfamilyyear04hort</id>
+    <updated>2008-04-18T14:31:54Z</updated>
+    <link href="http://www.archive.org/download/hortonfamilyyear04hort/hortonfamilyyear04hort.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/hortonfamilyyear04hort/hortonfamilyyear04hort.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1908</dcterms:issued>
+    <author>
+      <name>Horton, Byron Barnes. [from old catalog]</name>
+    </author>
+    <category term="Horton family (Isaac Horton, 1780-1855) [from old catalog]"/>
+    <category term="Horton family (Barnabas Horton, 1600-1680) [from old catalog]"/>
+    <dcterms:publisher>New York, The Grafton press</dcterms:publisher>
+    <dcterms:language>en</dcterms:language>
+    <content type="html">&lt;b&gt;Author: &lt;/b&gt;Horton, Byron Barnes. [from old catalog]&lt;br/&gt;&lt;b&gt;Subject &lt;/b&gt;Horton family (Isaac Horton, 1780-1855) [from old catalog], Horton family (Barnabas Horton, 1600-1680) [from old catalog]&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;New York, The Grafton press&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1908&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;The Library of Congress&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;en&lt;br/&gt;11 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/hortonfamilyyear04hort/hortonfamilyyear04hort.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/hortonfamilyyear04hort/hortonfamilyyear04hort.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>Kingsclere</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:kingsclere00port</id>
+    <updated>2008-06-30T15:25:40Z</updated>
+    <link href="http://www.archive.org/download/kingsclere00port/kingsclere00port.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/kingsclere00port/kingsclere00port.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1896</dcterms:issued>
+    <author>
+      <name>Porter, John, b. 1838</name>
+    </author>
+    <author>
+      <name>Webber, Byron</name>
+    </author>
+    <category term="Horse-racing -- Great Britain"/>
+    <category term="Horses"/>
+    <dcterms:publisher>London : Chatto &amp; Windus, Piccadilly</dcterms:publisher>
+    <dcterms:language>en</dcterms:language>
+    <content type="html">&lt;b&gt;Authors: &lt;/b&gt;Porter, John, b. 1838, Webber, Byron&lt;br/&gt;&lt;b&gt;Subject &lt;/b&gt;Horse-racing -- Great Britain, Horses&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;London : Chatto &amp; Windus, Piccadilly&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1896&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;Webster Family Library of Veterinary Medicine&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;en&lt;br/&gt;11 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/kingsclere00port/kingsclere00port.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/kingsclere00port/kingsclere00port.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>Lord Byron as a satirist in verse</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:lordbyronassatir00fuesrich</id>
+    <updated>2008-06-24T18:51:37Z</updated>
+    <link href="http://www.archive.org/download/lordbyronassatir00fuesrich/lordbyronassatir00fuesrich.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/lordbyronassatir00fuesrich/lordbyronassatir00fuesrich.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1912</dcterms:issued>
+    <author>
+      <name>Fuess, Claude Moore, 1885-1963</name>
+    </author>
+    <category term="Byron, George Gordon Byron, Baron, 1788-1824"/>
+    <category term="Satire, English"/>
+    <dcterms:publisher>New York, Russell &amp; Russell</dcterms:publisher>
+    <dcterms:language>en</dcterms:language>
+    <content type="html">&lt;b&gt;Author: &lt;/b&gt;Fuess, Claude Moore, 1885-1963&lt;br/&gt;&lt;b&gt;Subject &lt;/b&gt;Byron, George Gordon Byron, Baron, 1788-1824, Satire, English&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;New York, Russell &amp; Russell&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1912&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;University of California Libraries&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;en&lt;br/&gt;11 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/lordbyronassatir00fuesrich/lordbyronassatir00fuesrich.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/lordbyronassatir00fuesrich/lordbyronassatir00fuesrich.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>Lord Byron's Cain, a mystery : with notes, wherein the religion of the Bible is considered, in reference to acknowledged philosophy and reason</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:lordbyronscainmy00byrouoft</id>
+    <updated>2006-12-11T11:31:35Z</updated>
+    <link href="http://www.archive.org/download/lordbyronscainmy00byrouoft/lordbyronscainmy00byrouoft.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/lordbyronscainmy00byrouoft/lordbyronscainmy00byrouoft.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1830</dcterms:issued>
+    <author>
+      <name>Byron, George Gordon Byron, Baron, 1788-1824</name>
+    </author>
+    <author>
+      <name>Grant, Harding</name>
+    </author>
+    <dcterms:publisher>London : Wm. Crofts</dcterms:publisher>
+    <dcterms:language>en</dcterms:language>
+    <content type="html">&lt;b&gt;Authors: &lt;/b&gt;Byron, George Gordon Byron, Baron, 1788-1824, Grant, Harding&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;London : Wm. Crofts&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1830&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;Pratt - University of Toronto&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;en&lt;br/&gt;11 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/lordbyronscainmy00byrouoft/lordbyronscainmy00byrouoft.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/lordbyronscainmy00byrouoft/lordbyronscainmy00byrouoft.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>Works; with his letters and journals, and his life</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:workswithhislett12byrouoft</id>
+    <updated>2008-08-26T20:30:07Z</updated>
+    <link href="http://www.archive.org/download/workswithhislett12byrouoft/workswithhislett12byrouoft.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/workswithhislett12byrouoft/workswithhislett12byrouoft.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1832</dcterms:issued>
+    <author>
+      <name>Byron, George Gordon Byron, Baron, 1788-1824</name>
+    </author>
+    <author>
+      <name>Moore, Thomas, 1779-1852</name>
+    </author>
+    <dcterms:publisher>London Murray</dcterms:publisher>
+    <dcterms:language>en</dcterms:language>
+    <content type="html">&lt;b&gt;Authors: &lt;/b&gt;Byron, George Gordon Byron, Baron, 1788-1824, Moore, Thomas, 1779-1852&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;London Murray&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1832&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;Robarts - University of Toronto&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;en&lt;br/&gt;11 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/workswithhislett12byrouoft/workswithhislett12byrouoft.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/workswithhislett12byrouoft/workswithhislett12byrouoft.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>Astarte; a fragment of truth concerning George Gordon Byron, sixth lord Byron, recoreded by his grandson, Ralph Milbanke, earl of Lovelace. New ed., with many additional letters. Ed. by Mary countess of Lovelace</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:astartefragmento00loveuoft</id>
+    <updated>2006-11-02T06:18:33Z</updated>
+    <link href="http://www.archive.org/download/astartefragmento00loveuoft/astartefragmento00loveuoft.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/astartefragmento00loveuoft/astartefragmento00loveuoft.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1921</dcterms:issued>
+    <author>
+      <name>Lovelace, Ralph Milbanke, Earl of, 1839-1906</name>
+    </author>
+    <author>
+      <name>Lovelace, Mary Stuart Wortley, Countess of, d. 1941</name>
+    </author>
+    <category term="Byron, George Gordon Byron, Baron, 1788-1824"/>
+    <category term="Byron, Anne Isabella Milbanke Byron, Baroness, 1792-1860"/>
+    <dcterms:publisher>London Christophers</dcterms:publisher>
+    <dcterms:language>en</dcterms:language>
+    <content type="html">&lt;b&gt;Authors: &lt;/b&gt;Lovelace, Ralph Milbanke, Earl of, 1839-1906, Lovelace, Mary Stuart Wortley, Countess of, d. 1941&lt;br/&gt;&lt;b&gt;Subject &lt;/b&gt;Byron, George Gordon Byron, Baron, 1788-1824, Byron, Anne Isabella Milbanke Byron, Baroness, 1792-1860&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;London Christophers&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1921&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;Robarts - University of Toronto&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;en&lt;br/&gt;10 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/astartefragmento00loveuoft/astartefragmento00loveuoft.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/astartefragmento00loveuoft/astartefragmento00loveuoft.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>Critical miscellanies</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:criticalmiscella04morl</id>
+    <updated>2008-02-04T20:56:04Z</updated>
+    <link href="http://www.archive.org/download/criticalmiscella04morl/criticalmiscella04morl.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/criticalmiscella04morl/criticalmiscella04morl.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <author>
+      <name>Morley, John, 1838-1923</name>
+    </author>
+    <category term="Literature, Modern -- History and criticism"/>
+    <category term="Social sciences"/>
+    <dcterms:publisher>London, New York : Macmillan</dcterms:publisher>
+    <dcterms:language>en</dcterms:language>
+    <content type="html">&lt;b&gt;Author: &lt;/b&gt;Morley, John, 1838-1923&lt;br/&gt;&lt;b&gt;Subject &lt;/b&gt;Literature, Modern -- History and criticism, Social sciences&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;London, New York : Macmillan&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;University of California Libraries&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;en&lt;br/&gt;10 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/criticalmiscella04morl/criticalmiscella04morl.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/criticalmiscella04morl/criticalmiscella04morl.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>Historical illustrations of the fourth canto of Childe Harold: : containing dissertations on the ruins of Rome; and an essay on Italian literature.</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:historicalillus03riengoog</id>
+    <updated>2009-02-10T15:09:19Z</updated>
+    <link href="http://www.archive.org/download/historicalillus03riengoog/historicalillus03riengoog.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/historicalillus03riengoog/historicalillus03riengoog.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1818</dcterms:issued>
+    <author>
+      <name>Broughton, John Cam Hobhouse, Baron, 1786-1869</name>
+    </author>
+    <author>
+      <name>Tasso, Torquato, 1544-1595. Letters of Torquato Tasso. 1818</name>
+    </author>
+    <author>
+      <name>Rienzo, Cola di, d. 1354. Letters written by Cola di Rienzi. 1818</name>
+    </author>
+    <category term="Byron, George Gordon Byron, Baron, 1788-1824"/>
+    <category term="Italian literature"/>
+    <category term="Italian literature"/>
+    <dcterms:publisher>London: : John Murray ...</dcterms:publisher>
+    <dcterms:language>en</dcterms:language>
+    <content type="html">&lt;b&gt;Authors: &lt;/b&gt;Broughton, John Cam Hobhouse, Baron, 1786-1869, Tasso, Torquato, 1544-1595. Letters of Torquato Tasso. 1818, Rienzo, Cola di, d. 1354. Letters written by Cola di Rienzi. 1818&lt;br/&gt;&lt;b&gt;Subject &lt;/b&gt;Byron, George Gordon Byron, Baron, 1788-1824, Italian literature, Italian literature&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;London: : John Murray ...&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1818&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;Oxford University&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;en&lt;br/&gt;10 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/historicalillus03riengoog/historicalillus03riengoog.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/historicalillus03riengoog/historicalillus03riengoog.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>Laboratory methods, with special reference to the needs of the general practitioner</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:laboratorymethod00williala</id>
+    <updated>2007-05-22T16:08:17Z</updated>
+    <link href="http://www.archive.org/download/laboratorymethod00williala/laboratorymethod00williala.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/laboratorymethod00williala/laboratorymethod00williala.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1913</dcterms:issued>
+    <author>
+      <name>Williams, Byron G. R., 1883-</name>
+    </author>
+    <author>
+      <name>Williams, Edwin Gordon Culbertson, 1887-</name>
+    </author>
+    <category term="Laboratory Techniques and Procedures"/>
+    <dcterms:publisher>St. Louis : Mosby</dcterms:publisher>
+    <dcterms:language>en</dcterms:language>
+    <content type="html">&lt;b&gt;Authors: &lt;/b&gt;Williams, Byron G. R., 1883-, Williams, Edwin Gordon Culbertson, 1887-&lt;br/&gt;&lt;b&gt;Subject &lt;/b&gt;Laboratory Techniques and Procedures&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;St. Louis : Mosby&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1913&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;University of California Libraries&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;en&lt;br/&gt;10 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/laboratorymethod00williala/laboratorymethod00williala.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/laboratorymethod00williala/laboratorymethod00williala.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>The mulatto in the United States ; including a study of the role of mixed-blood races throughout the world</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:mulattoinuniteds00reutuoft</id>
+    <updated>2007-06-08T23:08:52Z</updated>
+    <link href="http://www.archive.org/download/mulattoinuniteds00reutuoft/mulattoinuniteds00reutuoft.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/mulattoinuniteds00reutuoft/mulattoinuniteds00reutuoft.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <author>
+      <name>Reuter, Edward Byron, 1880-1946</name>
+    </author>
+    <category term="Mulattoes"/>
+    <category term="Miscegenation"/>
+    <category term="United States -- Race relations"/>
+    <dcterms:publisher>Boston : R.G. Badger</dcterms:publisher>
+    <dcterms:language>en</dcterms:language>
+    <content type="html">&lt;b&gt;Author: &lt;/b&gt;Reuter, Edward Byron, 1880-1946&lt;br/&gt;&lt;b&gt;Subject &lt;/b&gt;Mulattoes, Miscegenation, United States -- Race relations&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;Boston : R.G. Badger&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;Robarts - University of Toronto&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;en&lt;br/&gt;10 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/mulattoinuniteds00reutuoft/mulattoinuniteds00reutuoft.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/mulattoinuniteds00reutuoft/mulattoinuniteds00reutuoft.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>Our flag number, with 1197 flags in full colors and 300 additional illustrations in black and white</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:ourflagnumberwit00nati</id>
+    <updated>2008-07-08T13:33:38Z</updated>
+    <link href="http://www.archive.org/download/ourflagnumberwit00nati/ourflagnumberwit00nati.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/ourflagnumberwit00nati/ourflagnumberwit00nati.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1917</dcterms:issued>
+    <author>
+      <name>National Geographic Society (U.S.)</name>
+    </author>
+    <author>
+      <name>McCandless, Byron, 1881-</name>
+    </author>
+    <author>
+      <name>Grosvenor, Gilbert Hovey, 1875-1966</name>
+    </author>
+    <category term="Flags -- United States"/>
+    <category term="Flags"/>
+    <dcterms:publisher>Washington, National Geographic Society</dcterms:publisher>
+    <dcterms:language>en</dcterms:language>
+    <content type="html">&lt;b&gt;Authors: &lt;/b&gt;National Geographic Society (U.S.), McCandless, Byron, 1881-, Grosvenor, Gilbert Hovey, 1875-1966&lt;br/&gt;&lt;b&gt;Subject &lt;/b&gt;Flags -- United States, Flags&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;Washington, National Geographic Society&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1917&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;New York Public Library&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;en&lt;br/&gt;10 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/ourflagnumberwit00nati/ourflagnumberwit00nati.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/ourflagnumberwit00nati/ourflagnumberwit00nati.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>The Pilgrim poet, Lord Byron of Newstead</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:pilgrimpoetlordb00brecuoft</id>
+    <updated>2006-11-01T11:47:21Z</updated>
+    <link href="http://www.archive.org/download/pilgrimpoetlordb00brecuoft/pilgrimpoetlordb00brecuoft.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/pilgrimpoetlordb00brecuoft/pilgrimpoetlordb00brecuoft.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1911</dcterms:issued>
+    <author>
+      <name>Brecknock, Albert</name>
+    </author>
+    <category term="Byron, George Gordon Byron, Baron, 1788-1824"/>
+    <dcterms:publisher>London F. Griffiths</dcterms:publisher>
+    <dcterms:language>en</dcterms:language>
+    <content type="html">&lt;b&gt;Author: &lt;/b&gt;Brecknock, Albert&lt;br/&gt;&lt;b&gt;Subject &lt;/b&gt;Byron, George Gordon Byron, Baron, 1788-1824&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;London F. Griffiths&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1911&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;Robarts - University of Toronto&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;en&lt;br/&gt;10 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/pilgrimpoetlordb00brecuoft/pilgrimpoetlordb00brecuoft.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/pilgrimpoetlordb00brecuoft/pilgrimpoetlordb00brecuoft.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>Popular misgovernment in the United States</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:popularmisgovern00cruirich</id>
+    <updated>2007-05-09T20:29:51Z</updated>
+    <link href="http://www.archive.org/download/popularmisgovern00cruirich/popularmisgovern00cruirich.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/popularmisgovern00cruirich/popularmisgovern00cruirich.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1920</dcterms:issued>
+    <author>
+      <name>Cruikshank, Alfred Byron, 1847-</name>
+    </author>
+    <category term="Suffrage -- United States"/>
+    <category term="United States -- Politics and government"/>
+    <dcterms:publisher>New York, Moffat, Yard &amp; company</dcterms:publisher>
+    <dcterms:language>en</dcterms:language>
+    <content type="html">&lt;b&gt;Author: &lt;/b&gt;Cruikshank, Alfred Byron, 1847-&lt;br/&gt;&lt;b&gt;Subject &lt;/b&gt;Suffrage -- United States, United States -- Politics and government&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;New York, Moffat, Yard &amp; company&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1920&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;University of California Libraries&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;en&lt;br/&gt;10 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/popularmisgovern00cruirich/popularmisgovern00cruirich.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/popularmisgovern00cruirich/popularmisgovern00cruirich.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+  <entry>
+    <title>Studies in poetry and criticism;</title>
+    <id>urn:x-internet-archive:bookserver:catalog:item:studiesinpoetryc00colliala</id>
+    <updated>2007-09-11T17:55:40Z</updated>
+    <link href="http://www.archive.org/download/studiesinpoetryc00colliala/studiesinpoetryc00colliala.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/studiesinpoetryc00colliala/studiesinpoetryc00colliala.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <dcterms:issued>1905</dcterms:issued>
+    <author>
+      <name>Collins, John Churton, 1848-1908</name>
+    </author>
+    <category term="Poetry"/>
+    <category term="English poetry -- History and criticism"/>
+    <dcterms:publisher>London : G. Bell and Sons</dcterms:publisher>
+    <dcterms:language>en</dcterms:language>
+    <content type="html">&lt;b&gt;Author: &lt;/b&gt;Collins, John Churton, 1848-1908&lt;br/&gt;&lt;b&gt;Subject &lt;/b&gt;Poetry, English poetry -- History and criticism&lt;br/&gt;&lt;b&gt;Publisher: &lt;/b&gt;London : G. Bell and Sons&lt;br/&gt;&lt;b&gt;Year published: &lt;/b&gt;1905&lt;br/&gt;&lt;b&gt;Book contributor: &lt;/b&gt;University of California Libraries&lt;br/&gt;&lt;b&gt;Language: &lt;/b&gt;en&lt;br/&gt;10 downloads in the last month&lt;br/&gt;&lt;b&gt;Download Ebook: &lt;/b&gt;(&lt;a href="http://www.archive.org/download/studiesinpoetryc00colliala/studiesinpoetryc00colliala.pdf"&gt;PDF&lt;/a&gt;) (&lt;a href="http://www.archive.org/download/studiesinpoetryc00colliala/studiesinpoetryc00colliala.epub"&gt;EPUB&lt;/a&gt;) </content>
+  </entry>
+</feed>

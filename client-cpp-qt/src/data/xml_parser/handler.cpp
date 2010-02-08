@@ -2,6 +2,7 @@
 
 const QString AtomHandler::ourOpensearchUri = "http://a9.com/-/spec/opensearch/1.1/";
 const QString AtomHandler::ourDctermsUri = "http://purl.org/dc/terms/";
+const QString AtomHandler::ourAtomUri = "http://www.w3.org/2005/Atom";
 
 const QString AtomHandler::ourConfigFilePath = "../.config.ini";
 
@@ -21,30 +22,33 @@ bool AtomHandler::characters (const QString& strText) {
 	return true;
 }
 
-bool AtomHandler::startElement (const QString& , const QString& , const QString& name, const QXmlAttributes& attributes) {
+bool AtomHandler::startElement (const QString& namespaceUri, const QString& localName, const QString&, const QXmlAttributes& attributes) {
     myCurrentText = "";
+    if (namespaceUri != ourAtomUri) {
+        return true;
+    }
     if (!myIsEntry) {
-	    if ((name == "link") && 
+	    if ((localName == "link") && 
 	       (attributes.value("type") == "application/atom+xml") && 
 		   (attributes.value("rel") == "next") && 
 		   (attributes.value("title") == "Next Page"))  {
 		       // myData->setLinkToNextPage(attributes.value("href"));
-            //qDebug() << "Handler:: link to the next page " << attributes.value("href");
-        } else if (name == "entry") {
+            qDebug() << "Handler:: link to the next page " << attributes.value("href");
+        } else if (localName == "entry") {
 		    myIsEntry = true;
             setInitialValues();
         }     
 	    return true;    
     }	
 // if myIsEntry
-	if ((name == "link") &&
+	if ((localName == "link") &&
         (attributes.value("type") == "application/" + myFormat) &&
         (attributes.value("rel") == "http://opds-spec.org/acquisition")) {
         
         myBooksLink = attributes.value("href");
 	}
 
-	if ((name == "link") && 
+	if ((localName == "link") && 
         (attributes.value("type") == "image/png") && 
         (attributes.value("rel") == "http://opds-spec.org/cover")) {
         

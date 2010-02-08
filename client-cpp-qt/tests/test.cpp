@@ -31,6 +31,7 @@ bool XMLParserTest::run() const {
     
     QString outFileName(myFileName);
     outFileName.remove(".atom");
+    outFileName.remove(".xml");
     QFile out(outFileName.append("_out.xml"));
     out.open(QIODevice::WriteOnly);
     DataWriter writer;

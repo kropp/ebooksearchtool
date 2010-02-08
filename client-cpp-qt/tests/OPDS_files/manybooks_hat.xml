@@ -1,0 +1,161 @@
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <title>Search Results</title>
+  <id>urn:uuid:8c964ca7-85c1-da83-7a1b-3726f125f010</id>
+  <updated>2010-02-08T03:50:11-07:00</updated>
+  <link  rel="search" title="Search Catalog" type="application/atom+xml" href="http://manybooks.net/stanza/search.php?q={searchTerms}"/>
+  <link rel="self" type="application/atom+xml" href="http://manybooks.net/stanza/search.php?q=hat"/>
+<author>
+    <name>ManyBooks.net</name>
+    <uri>http://manybooks.net/</uri>
+    <email>matthew@manybooks.net</email>
+  </author><entry>
+    <title type="xhtml">
+    	<div xmlns="http://www.w3.org/1999/xhtml">The ''Ladies of Llangollen''</div>
+    </title>
+    <content type="xhtml">
+    	<div xmlns="http://www.w3.org/1999/xhtml">as Sketched by Many Hands; with Notices of Other Objects of Interest in ''That Sweetest of Vales'' Language: </div>
+    </content>
+    <id>urn:uuid:7a966b35-14f3-3345-c5a3-8fe4507627ae</id>
+    <author>
+      <name>John Hicklin</name>
+    </author>
+    <link type="text/html" href="http://manybooks.net/m/title_detail.php?tid=hicklinj2081020810"/>
+    <link rel="x-stanza-cover-image-thumbnail" type="image/jpeg" href="http://manybooks.net/thumbnails/hicklinj2081020810.jpg"/>
+    <link rel="x-stanza-cover-image" type="image/jpeg" href="http://manybooks.net/cover/hicklinj2081020810.jpg"/>
+</entry>
+<entry>
+    <title type="xhtml">
+    	<div xmlns="http://www.w3.org/1999/xhtml">'Oh, Well, You Know How Women Are!' AND 'Isn't That Just Like a Man!'</div>
+    </title>
+    <content type="xhtml">
+    	<div xmlns="http://www.w3.org/1999/xhtml">as Sketched by Many Hands; with Notices of Other Objects of Interest in ''That Sweetest of Vales'' Language: </div>
+    </content>
+    <id>urn:uuid:6cde3a66-15ce-a187-009b-d6181a4d3f1d</id>
+    <author>
+      <name>Irvin S. Cobb</name>
+    </author>
+    <link type="text/html" href="http://manybooks.net/m/title_detail.php?tid=cobbirvi2425924259-8"/>
+    <link rel="x-stanza-cover-image-thumbnail" type="image/jpeg" href="http://manybooks.net/thumbnails/cobbirvi2425924259-8.jpg"/>
+    <link rel="x-stanza-cover-image" type="image/jpeg" href="http://manybooks.net/cover/cobbirvi2425924259-8.jpg"/>
+</entry>
+<entry>
+    <title type="xhtml">
+    	<div xmlns="http://www.w3.org/1999/xhtml">'That Very Mab'</div>
+    </title>
+    <content type="xhtml">
+    	<div xmlns="http://www.w3.org/1999/xhtml">as Sketched by Many Hands; with Notices of Other Objects of Interest in ''That Sweetest of Vales'' Language: </div>
+    </content>
+    <id>urn:uuid:ce71c627-4635-301b-4327-efdb1c854c91</id>
+    <author>
+      <name>May Kendall</name>
+    </author>
+    <link type="text/html" href="http://manybooks.net/m/title_detail.php?tid=kendallm2133721337-8"/>
+    <link rel="x-stanza-cover-image-thumbnail" type="image/jpeg" href="http://manybooks.net/thumbnails/kendallm2133721337-8.jpg"/>
+    <link rel="x-stanza-cover-image" type="image/jpeg" href="http://manybooks.net/cover/kendallm2133721337-8.jpg"/>
+</entry>
+<entry>
+    <title type="xhtml">
+    	<div xmlns="http://www.w3.org/1999/xhtml">10,000 Dreams Interpreted</div>
+    </title>
+    <content type="xhtml">
+    	<div xmlns="http://www.w3.org/1999/xhtml">Or, What's In A Dream. A Scientific And Practical Exposition Language: </div>
+    </content>
+    <id>urn:uuid:0e90b726-f0a1-64f4-d750-6f4fe6e18c81</id>
+    <author>
+      <name>Gustavus Hindman Miller</name>
+    </author>
+    <link type="text/html" href="http://manybooks.net/m/title_detail.php?tid=millerguetext97drmnt10"/>
+    <link rel="x-stanza-cover-image-thumbnail" type="image/jpeg" href="http://manybooks.net/thumbnails/millerguetext97drmnt10.jpg"/>
+    <link rel="x-stanza-cover-image" type="image/jpeg" href="http://manybooks.net/cover/millerguetext97drmnt10.jpg"/>
+</entry>
+<entry>
+    <title type="xhtml">
+    	<div xmlns="http://www.w3.org/1999/xhtml">About Orchids</div>
+    </title>
+    <content type="xhtml">
+    	<div xmlns="http://www.w3.org/1999/xhtml">A Chat Language: </div>
+    </content>
+    <id>urn:uuid:033a73d7-1769-415a-56c8-42b51b019366</id>
+    <author>
+      <name>Frederick Boyle</name>
+    </author>
+    <link type="text/html" href="http://manybooks.net/m/title_detail.php?tid=boylef1715517155-8"/>
+    <link rel="x-stanza-cover-image-thumbnail" type="image/jpeg" href="http://manybooks.net/thumbnails/boylef1715517155-8.jpg"/>
+    <link rel="x-stanza-cover-image" type="image/jpeg" href="http://manybooks.net/cover/boylef1715517155-8.jpg"/>
+</entry>
+<entry>
+    <title type="xhtml">
+    	<div xmlns="http://www.w3.org/1999/xhtml">The Absurdity Is - Just That It Should Be Absurd</div>
+    </title>
+    <content type="xhtml">
+    	<div xmlns="http://www.w3.org/1999/xhtml">A Chat Language: </div>
+    </content>
+    <id>urn:uuid:576037b8-e985-1dbf-57f2-53dbddcd7cd5</id>
+    <author>
+      <name>Henry Kitchell Webster</name>
+    </author>
+    <link type="text/html" href="http://manybooks.net/m/title_detail.php?tid=websterhenother09absurdity_is"/>
+    <link rel="x-stanza-cover-image-thumbnail" type="image/jpeg" href="http://manybooks.net/thumbnails/websterhenother09absurdity_is.jpg"/>
+    <link rel="x-stanza-cover-image" type="image/jpeg" href="http://manybooks.net/cover/websterhenother09absurdity_is.jpg"/>
+</entry>
+<entry>
+    <title type="xhtml">
+    	<div xmlns="http://www.w3.org/1999/xhtml">Adenoids: What They Are, How To Recognize Them, What To Do For Them</div>
+    </title>
+    <content type="xhtml">
+    	<div xmlns="http://www.w3.org/1999/xhtml">A Chat Language: </div>
+    </content>
+    <id>urn:uuid:61d9a4d0-5f5f-129a-5c08-3b47467d8681</id>
+    <author>
+      <name>U. S. Department of Health</name>
+    </author>
+    <link type="text/html" href="http://manybooks.net/m/title_detail.php?tid=healthus2714127141"/>
+    <link rel="x-stanza-cover-image-thumbnail" type="image/jpeg" href="http://manybooks.net/thumbnails/healthus2714127141.jpg"/>
+    <link rel="x-stanza-cover-image" type="image/jpeg" href="http://manybooks.net/cover/healthus2714127141.jpg"/>
+</entry>
+<entry>
+    <title type="xhtml">
+    	<div xmlns="http://www.w3.org/1999/xhtml">Adventures in Toyland</div>
+    </title>
+    <content type="xhtml">
+    	<div xmlns="http://www.w3.org/1999/xhtml">What the Marionette Told Molly Language: </div>
+    </content>
+    <id>urn:uuid:e466032f-2f28-c4cb-3bdd-d2024637e541</id>
+    <author>
+      <name>Edith King Hall</name>
+    </author>
+    <link type="text/html" href="http://manybooks.net/m/title_detail.php?tid=hallek2352323523-8"/>
+    <link rel="x-stanza-cover-image-thumbnail" type="image/jpeg" href="http://manybooks.net/thumbnails/hallek2352323523-8.jpg"/>
+    <link rel="x-stanza-cover-image" type="image/jpeg" href="http://manybooks.net/cover/hallek2352323523-8.jpg"/>
+</entry>
+<entry>
+    <title type="xhtml">
+    	<div xmlns="http://www.w3.org/1999/xhtml">Alcohol: A Dangerous and Unnecessary Medicine, How and Why</div>
+    </title>
+    <content type="xhtml">
+    	<div xmlns="http://www.w3.org/1999/xhtml">What Medical Writers Say Language: </div>
+    </content>
+    <id>urn:uuid:698c5473-c0df-8447-e0db-c89407e94235</id>
+    <author>
+      <name>Martha M. Allen</name>
+    </author>
+    <link type="text/html" href="http://manybooks.net/m/title_detail.php?tid=allenmm2677426774-8"/>
+    <link rel="x-stanza-cover-image-thumbnail" type="image/jpeg" href="http://manybooks.net/thumbnails/allenmm2677426774-8.jpg"/>
+    <link rel="x-stanza-cover-image" type="image/jpeg" href="http://manybooks.net/cover/allenmm2677426774-8.jpg"/>
+</entry>
+<entry>
+    <title type="xhtml">
+    	<div xmlns="http://www.w3.org/1999/xhtml">All That Matters</div>
+    </title>
+    <content type="xhtml">
+    	<div xmlns="http://www.w3.org/1999/xhtml">What Medical Writers Say Language: </div>
+    </content>
+    <id>urn:uuid:e5dc4a39-f7a0-3e2e-2bfe-e17e38435c0d</id>
+    <author>
+      <name>Edgar A. Guest</name>
+    </author>
+    <link type="text/html" href="http://manybooks.net/m/title_detail.php?tid=guestedg2890328903"/>
+    <link rel="x-stanza-cover-image-thumbnail" type="image/jpeg" href="http://manybooks.net/thumbnails/guestedg2890328903.jpg"/>
+    <link rel="x-stanza-cover-image" type="image/jpeg" href="http://manybooks.net/cover/guestedg2890328903.jpg"/>
+</entry>
+</feed>
