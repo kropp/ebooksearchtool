@@ -10,9 +10,9 @@ import org.ebooksearchtool.crawler.AbstractVisitedLinksSet;
 
 public class VisitedLinksSet extends AbstractVisitedLinksSet {
     
-    public static final int MAX_LINKS_FROM_HOST = 40;
-    public static final int MAX_LINKS_FROM_LARGE_SOURCE = 60;
-    public static final long HOST_STATS_CLEANUP_PERIOD = 60000;
+    private final int myMaxLinksFromHost;
+    private final int myMaxLinksFromLargeSource;
+    private final long myHostStatsCleanupPeriod;
     
     private Map<String, Integer> myHostCount;
     private long myLastCleanupTime = 0;
@@ -26,8 +26,11 @@ public class VisitedLinksSet extends AbstractVisitedLinksSet {
     private int mySize;
     private long[] myHashBases;
     
-    public VisitedLinksSet(int maxNumberOfElements) {
+    public VisitedLinksSet(int maxNumberOfElements, int maxLinksFromHost, int maxLinksFromLargeSource, long hostStatsCleanupPeriod) {
         myMaxNumberOfElements = maxNumberOfElements;
+        myMaxLinksFromHost = maxLinksFromHost;
+        myMaxLinksFromLargeSource = maxLinksFromLargeSource;
+        myHostStatsCleanupPeriod = hostStatsCleanupPeriod;
         long size = 15L * maxNumberOfElements; // some empiric results
         if (size > myMaxSize) {
             size = myMaxSize;
@@ -86,11 +89,11 @@ public class VisitedLinksSet extends AbstractVisitedLinksSet {
             return false;
         }
         long now = System.currentTimeMillis();
-        if (myLastCleanupTime + HOST_STATS_CLEANUP_PERIOD < now) {
+        if (myLastCleanupTime + myHostStatsCleanupPeriod < now) {
             myLastCleanupTime = now;
             myHostCount = new HashMap<String, Integer>();
         }
-        int maxLinks = isLargeSource ? MAX_LINKS_FROM_LARGE_SOURCE : MAX_LINKS_FROM_HOST;
+        int maxLinks = isLargeSource ? myMaxLinksFromLargeSource : myMaxLinksFromHost;
         Integer thisCount = myHostCount.get(uri.getHost());
         if (thisCount != null && thisCount > maxLinks) {
             return false;
@@ -101,5 +104,5 @@ public class VisitedLinksSet extends AbstractVisitedLinksSet {
     public int size() {
         return myNumberOfElements;
     }
-
+    
 }

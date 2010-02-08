@@ -61,8 +61,8 @@ public class Crawler implements Runnable {
             String userAgent = properties.getProperty("user_agent");
             int connectionTimeout = Integer.parseInt(properties.getProperty("connection_timeout"));
             int readTimeout = Integer.parseInt(properties.getProperty("read_timeout"));
-            int waitingForAccessTimeout = Integer.parseInt(properties.getProperty("waiting_for_access_timeout"));
             int maxLinksCount = Integer.parseInt(properties.getProperty("max_links_count"));
+            
             ourMaxLinksCount = maxLinksCount == 0 ? Integer.MAX_VALUE : maxLinksCount;
             int maxLinksFromPage = Integer.parseInt(properties.getProperty("max_links_from_page"));
             ourMaxLinksFromPage = maxLinksFromPage == 0 ? Integer.MAX_VALUE : maxLinksFromPage;
@@ -71,6 +71,13 @@ public class Crawler implements Runnable {
             ourThreadsCount = Integer.parseInt(properties.getProperty("threads_count"));
             ourThreadTimeoutForLink = Integer.parseInt(properties.getProperty("thread_timeout_for_link"));
             ourThreadFinishTime = Integer.parseInt(properties.getProperty("thread_finish_time"));
+            int waitingForAccessTimeout = Integer.parseInt(properties.getProperty("waiting_for_access_timeout"));
+            
+            int largeAmountOfBooks = Integer.parseInt(properties.getProperty("large_amount_of_books"));
+            int maxLinksFromHost = Integer.parseInt(properties.getProperty("max_links_from_host"));
+            int maxLinksFromLargeSource = Integer.parseInt(properties.getProperty("max_links_from_large_source"));
+            long hostStatsCleanupPeriod = Long.parseLong(properties.getProperty("host_stats_cleanup_period"));
+            
             boolean logToScreenEnabled = Boolean.parseBoolean(properties.getProperty("log_to_screen"));
             String loggerOutput = properties.getProperty("log_file");
             Map<Logger.MessageType, Boolean> logOptions = new HashMap<Logger.MessageType, Boolean>();
@@ -83,8 +90,8 @@ public class Crawler implements Runnable {
             myLogger = new Logger(loggerOutput, logToScreenEnabled, logOptions);
             ourNetwork = new Network(this, proxy, connectionTimeout, readTimeout, waitingForAccessTimeout, userAgent, myLogger);
             myRobots = new ManyFilesRobotsExclusion(ourNetwork, myLogger);
-            myQueue = new LinksQueue(ourMaxQueueSize);
-            myVisited = new VisitedLinksSet(ourMaxLinksCount);
+            myQueue = new LinksQueue(ourMaxQueueSize, largeAmountOfBooks);
+            myVisited = new VisitedLinksSet(ourMaxLinksCount, maxLinksFromHost, maxLinksFromLargeSource, hostStatsCleanupPeriod);
             myThread = new CrawlerThread[ourThreadsCount];
         } catch (Exception e) {
             throw new RuntimeException("bad format of properties file: " + e.getMessage());

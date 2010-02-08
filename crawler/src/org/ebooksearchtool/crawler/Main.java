@@ -29,6 +29,11 @@ public class Main {
         {"thread_timeout_for_link", "20000"},
         {"thread_finish_time", "10000"},
         {"waiting_for_access_timeout", "5000"},
+        
+        {"large_amount_of_books", "10"},
+        {"max_links_from_host", "40"},
+        {"max_links_from_large_source", "60"},
+        {"host_stats_cleanup_period", "60000"},
 
         {"log_file", ""},
         {"log_to_screen", "true"},

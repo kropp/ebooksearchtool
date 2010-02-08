@@ -6,7 +6,7 @@ import org.ebooksearchtool.crawler.AbstractLinksQueue;
 
 public class LinksQueue extends AbstractLinksQueue {
     
-    public static final int LARGE_AMOUNT_OF_BOOKS = 10;
+    private final int myLargeAmountOfBooks;
     
     private final LinksComparator myLinksComparator;
     private final SortedSet<URI> mySet;
@@ -15,8 +15,9 @@ public class LinksQueue extends AbstractLinksQueue {
     private final Map<String, Set<URI>> myLinksFromHost;
     private final Random myRandom;
     
-    public LinksQueue(int maxSize) {
+    public LinksQueue(int maxSize, int largeAmountOfBooks) {
         myMaxSize = maxSize;
+        myLargeAmountOfBooks = largeAmountOfBooks;
         myHasBooks = new HashMap<String, Integer>();
         myLinksComparator = new LinksComparator(myHasBooks);
         mySet = new TreeSet<URI>(myLinksComparator);
@@ -108,7 +109,7 @@ public class LinksQueue extends AbstractLinksQueue {
     
     public synchronized boolean isLargeSource(String host) {
         Integer x = myHasBooks.get(host);
-        return x != null && x > LARGE_AMOUNT_OF_BOOKS;
+        return x != null && x > myLargeAmountOfBooks;
     }
     
 }
