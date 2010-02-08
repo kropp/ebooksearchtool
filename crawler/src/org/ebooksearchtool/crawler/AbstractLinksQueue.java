@@ -16,5 +16,6 @@ public abstract class AbstractLinksQueue {
     public abstract void hostHasOneMoreBook(String host);
     
     public abstract boolean isLargeSource(String host);
+    public abstract boolean isGoodSite(URI link);
     
 }

@@ -82,7 +82,7 @@ class CrawlerThread extends Thread {
                 if (myStopping) break;
                 if (link == null) continue;
                 myAction = "adding the link to the set: " + link;
-                boolean success = visited.addIfNotContains(link, queue.isLargeSource(link.getHost()));
+                boolean success = visited.addIfNotContains(link, queue.isLargeSource(link.getHost()), queue.isGoodSite(link));
                 if (success) {
                     myAction = "checking if link is probably a book: " + link;
                     if (Util.isBook(link)) {

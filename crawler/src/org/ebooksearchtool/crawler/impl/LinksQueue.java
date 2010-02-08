@@ -15,11 +15,11 @@ public class LinksQueue extends AbstractLinksQueue {
     private final Map<String, Set<URI>> myLinksFromHost;
     private final Random myRandom;
     
-    public LinksQueue(int maxSize, int largeAmountOfBooks) {
+    public LinksQueue(int maxSize, int largeAmountOfBooks, Set<String> goodDomains, Collection<String> goodSites, Collection<String> badSites) {
         myMaxSize = maxSize;
         myLargeAmountOfBooks = largeAmountOfBooks;
         myHasBooks = new HashMap<String, Integer>();
-        myLinksComparator = new LinksComparator(myHasBooks);
+        myLinksComparator = new LinksComparator(myHasBooks, goodDomains, goodSites, badSites);
         mySet = new TreeSet<URI>(myLinksComparator);
         myLinksFromHost = new HashMap<String, Set<URI>>();
         myRandom = new Random();
@@ -110,6 +110,10 @@ public class LinksQueue extends AbstractLinksQueue {
     public synchronized boolean isLargeSource(String host) {
         Integer x = myHasBooks.get(host);
         return x != null && x > myLargeAmountOfBooks;
+    }
+    
+    public synchronized boolean isGoodSite(URI link) {
+        return myLinksComparator.isGoodSite(link.toString());
     }
     
 }

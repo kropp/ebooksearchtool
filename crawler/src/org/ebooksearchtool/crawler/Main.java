@@ -32,6 +32,10 @@ public class Main {
         {"max_links_from_host", "40"},
         {"max_links_from_large_source", "60"},
         {"host_stats_cleanup_period", "60000"},
+        
+        {"good_domains", "com net org info edu gov biz ru uk us"},
+        {"good_sites", ""},
+        {"bad_sites", "facebook wikipedia /wiki tumblr rutube endless amazon flickr blogspot wordpress livejournal"},
 
         {"debug", "true"},
         {"debug_file", "dump.txt"},

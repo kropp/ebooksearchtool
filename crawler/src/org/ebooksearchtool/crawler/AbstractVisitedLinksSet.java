@@ -6,7 +6,7 @@ public abstract class AbstractVisitedLinksSet {
     
     public abstract boolean contains(URI uri);
     
-    public abstract boolean addIfNotContains(URI uri, boolean isLargeSource);
+    public abstract boolean addIfNotContains(URI uri, boolean isLargeSource, boolean isGoodSite);
     
     public abstract int size();
     

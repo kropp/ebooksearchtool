@@ -84,7 +84,7 @@ public class VisitedLinksSet extends AbstractVisitedLinksSet {
         return true;
     }
     
-    public synchronized boolean addIfNotContains(URI uri, boolean isLargeSource) {
+    public synchronized boolean addIfNotContains(URI uri, boolean isLargeSource, boolean isGoodSite) {
         if (contains(uri)) {
             return false;
         }
@@ -95,7 +95,7 @@ public class VisitedLinksSet extends AbstractVisitedLinksSet {
         }
         int maxLinks = isLargeSource ? myMaxLinksFromLargeSource : myMaxLinksFromHost;
         Integer thisCount = myHostCount.get(uri.getHost());
-        if (thisCount != null && thisCount > maxLinks) {
+        if (!isGoodSite && thisCount != null && thisCount > maxLinks) {
             return false;
         }
         return add(uri);

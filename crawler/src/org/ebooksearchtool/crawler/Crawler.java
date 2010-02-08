@@ -78,6 +78,13 @@ public class Crawler implements Runnable {
             int maxLinksFromLargeSource = Integer.parseInt(properties.getProperty("max_links_from_large_source"));
             long hostStatsCleanupPeriod = Long.parseLong(properties.getProperty("host_stats_cleanup_period"));
             
+            String[] goodDomainsArray = properties.getProperty("good_domains").split(" +");
+            String[] goodSitesArray = properties.getProperty("good_sites").split(" +");
+            String[] badSitesArray = properties.getProperty("bad_sites").split(" +");
+            Set<String> goodDomains = new HashSet<String>(Arrays.asList(goodDomainsArray));
+            List<String> goodSites = Arrays.asList(goodSitesArray);
+            List<String> badSites = Arrays.asList(badSitesArray);
+            
             boolean logToScreenEnabled = Boolean.parseBoolean(properties.getProperty("log_to_screen"));
             String loggerOutput = properties.getProperty("log_file");
             Map<Logger.MessageType, Boolean> logOptions = new HashMap<Logger.MessageType, Boolean>();
@@ -87,10 +94,11 @@ public class Crawler implements Runnable {
             logOptions.put(Logger.MessageType.ERRORS, Boolean.parseBoolean(properties.getProperty("log_errors")));
             logOptions.put(Logger.MessageType.MISC, Boolean.parseBoolean(properties.getProperty("log_misc")));
             
+            
             myLogger = new Logger(loggerOutput, logToScreenEnabled, logOptions);
             ourNetwork = new Network(this, proxy, connectionTimeout, readTimeout, waitingForAccessTimeout, userAgent, myLogger);
             myRobots = new ManyFilesRobotsExclusion(ourNetwork, myLogger);
-            myQueue = new LinksQueue(ourMaxQueueSize, largeAmountOfBooks);
+            myQueue = new LinksQueue(ourMaxQueueSize, largeAmountOfBooks, goodDomains, goodSites, badSites);
             myVisited = new VisitedLinksSet(ourMaxLinksCount, maxLinksFromHost, maxLinksFromLargeSource, hostStatsCleanupPeriod);
             myThread = new CrawlerThread[ourThreadsCount];
         } catch (Exception e) {
@@ -163,7 +171,7 @@ public class Crawler implements Runnable {
         for (String start : myStarts) {
             URI uri = Util.createURI(start);
             if (myRobots.canGo(uri)) {
-                myVisited.addIfNotContains(uri, false);
+                myVisited.addIfNotContains(uri, false, true);
                 myQueue.offer(uri);
             }
         }
