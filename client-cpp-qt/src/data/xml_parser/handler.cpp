@@ -52,19 +52,18 @@ bool OPDSHandler::startElement (const QString& namespaceUri, const QString& loca
 	    return true;    
     }	
 // if myIsEntry
-	if ((localName == TAG_LINK)&&
-        (attributes.value(ATTRIBUTE_TYPE) == "application/" + myFormat) &&
-        (attributes.value(ATTRIBUTE_RELATIONSHIP) == "http://opds-spec.org/acquisition")) {
+	if (localName == TAG_LINK) {
+        if ((attributes.value(ATTRIBUTE_TYPE) == "application/" + myFormat) &&
+            (attributes.value(ATTRIBUTE_RELATIONSHIP) == "http://opds-spec.org/acquisition")) {
         
-        myBooksLink = attributes.value("href");
-	}
-
-	if ((localName == TAG_LINK) && 
-        (attributes.value(ATTRIBUTE_TYPE) == "image/png") && 
-        (attributes.value(ATTRIBUTE_RELATIONSHIP) == "http://opds-spec.org/cover")) {
+                myBooksLink = attributes.value("href");
+	
+        } else if ((attributes.value(ATTRIBUTE_TYPE) == "image/png") && 
+            (attributes.value(ATTRIBUTE_RELATIONSHIP) == "http://opds-spec.org/cover")) {
         
-        myBooksCover = attributes.value("href");
-	}
+            myBooksCover = attributes.value("href");
+	    }
+    }
 
 	return true;
 }
@@ -98,8 +97,8 @@ bool OPDSHandler::endElement (const QString& namespaceUri, const QString& localN
 	} else if (tag == TAG_ID) {
 		myBooksUri = myCurrentText;
 	} else if ((localName == "language") && (namespaceUri == NSPASE_DCTERMS)) {
-		qDebug() << "Handler::endElement namespace for language " << namespaceUri;
-      qDebug() << "language" << myCurrentText;
+		//qDebug() << "Handler::endElement namespace for language " << namespaceUri;
+      //qDebug() << "language" << myCurrentText;
       myLanguage = myCurrentText;
 	} else if (tag == "summary") {
 		mySummary = myCurrentText;
