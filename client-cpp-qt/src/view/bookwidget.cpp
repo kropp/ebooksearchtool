@@ -9,6 +9,8 @@
 
 //#include <QDebug>
 
+static const QString COVER_DIR = "../images/";
+
 const QSize BookWidget::ourSizeHint = QSize(600, 90);
 
 BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent), myBook(book) {
@@ -107,7 +109,7 @@ void BookWidget::mark(int state) {
 void BookWidget::downloadCover() {
     const QString coverLink = myBook->getCoverLink();
     QString fileName = coverLink.right(coverLink.size() - coverLink.lastIndexOf('/') - 1);
-    fileName = fileName.left(fileName.indexOf('?'));
+    fileName = COVER_DIR + fileName.left(fileName.indexOf('?'));
     //if such file exists - just open it and return;
     if (QFile::exists(fileName)) {  
         myCoverFile = new QFile(fileName);

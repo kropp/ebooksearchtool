@@ -3,6 +3,7 @@
 ######################################################################
 
 TEMPLATE = app
+CONFIG += qt debug
 QT += xml
 QT += network
 TARGET = ebooksearchtool

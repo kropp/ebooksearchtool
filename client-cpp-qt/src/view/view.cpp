@@ -2,10 +2,7 @@
 #include "bookwidget.h"
 #include <QLabel>
 #include <QCheckBox>
-//#include <QFile>
-//#include <QProcess>
 #include <QSettings>
-//#include <QFileDialog>
 
 #include <QDebug>
 
