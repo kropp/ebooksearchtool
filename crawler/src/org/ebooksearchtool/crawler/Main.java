@@ -45,7 +45,6 @@ public class Main {
             properties.setProperty(property[0], property[1]);
         }
         try {
-            //properties.load(new FileReader(PROPERTIES_FILE));
             properties.load(new FileInputStream(PROPERTIES_FILE));
         } catch (IOException e) {
             System.err.println("cannot open file " + PROPERTIES_FILE + ", using default values instead");

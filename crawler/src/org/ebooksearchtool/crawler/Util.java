@@ -22,13 +22,14 @@ public class Util {
     }
     
     public static URI normalize(URI uri) {
+        String s = null;
         try {
             String scheme = uri.getScheme().toLowerCase();
             if (!"http".equals(scheme) && !"https".equals(scheme) && !"ftp".equals(scheme)) {
                 return null;
             }
             uri = new URI(scheme, uri.getHost().toLowerCase(), uri.getPath(), uri.getFragment());
-            String s = uri.toString();
+            s = uri.toString();
             if (s.length() > 128) {
                 ///TODO: invent something more clever
                 return null;
@@ -51,9 +52,9 @@ public class Util {
             ///TODO: /index.html, /index.htm, /index.php
             return new URI(s);
         } catch (Exception e) {
-            System.err.println(" error: normalizing " + uri);
+//            System.err.println(" error: normalizing " + uri);
+            return null;
         }
-        return null;
     }
     
     public static boolean isBook(URI uri) {
