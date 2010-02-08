@@ -130,7 +130,7 @@ EBST_VERSION_BUILD = '596'
 EBST_NAME = 'ebooks server'
 
 # root url
-#ROOT_URL = r'^ebooks/'
+ROOT_URL = r'^ebooks/'
 
 try:
     from local_settings import *

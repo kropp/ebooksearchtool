@@ -227,7 +227,7 @@ def books_search(request):
     return render_to_response('book/xhtml/client_response_search_request.xml')
     
 def no_book_cover(request):
-    image_data = open("./pic/no_cover.gif", "rb").read()
+    image_data = open("pic/no_cover.gif", "rb").read()
     return HttpResponse(image_data, mimetype="image/png")
 
 def extended_search(request):
