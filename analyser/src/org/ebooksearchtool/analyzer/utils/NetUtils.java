@@ -156,7 +156,7 @@ public class NetUtils {
     public static Proxy proxyInit(){
         SocketAddress addr= new InetSocketAddress(AnalyzerProperties.getPropertie("proxy_host"),
                 AnalyzerProperties.getPropertieAsNumber("proxy_port"));
-        if(!AnalyzerProperties.getPropertieAsBoolean("proxy_enabled")){
+        if(!AnalyzerProperties.getPropertieAsBoolean("proxy_enable")){
             return Proxy.NO_PROXY;
         }
 
@@ -177,7 +177,7 @@ public class NetUtils {
     public static Proxy serverProxyInit(){
         SocketAddress addr = new InetSocketAddress(AnalyzerProperties.getPropertie("server_proxy_host"),
                 AnalyzerProperties.getPropertieAsNumber("server_proxy_port"));
-        if(!AnalyzerProperties.getPropertieAsBoolean("server_proxy_enabled")){
+        if(!AnalyzerProperties.getPropertieAsBoolean("server_proxy_enable")){
             return Proxy.NO_PROXY;
         }
 

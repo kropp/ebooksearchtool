@@ -131,7 +131,7 @@ public class AnalyzeUtils {
     public static String bookInfoToString(BookInfo info){
        StringBuilder sb = new StringBuilder();
 
-       sb.append("Title: " + info.getTitle() + AnalyzerProperties.getPropertie("system_separator"));
+       sb.append("Title: " + info.getTitle().getTitle() + AnalyzerProperties.getPropertie("system_separator"));
        List<Author> authors = info.getAuthors();
        int length = authors.size();
        sb.append("Authors: " + AnalyzerProperties.getPropertie("system_separator"));

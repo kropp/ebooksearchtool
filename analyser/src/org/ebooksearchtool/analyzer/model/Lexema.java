@@ -104,6 +104,8 @@ public class Lexema {
                 }
             }
         }
+        //TODO:ПРОВЕРИТЬ!!
+        temp.add(new Lexema(bd.toString(), LexemaType.sentence));
         //Удаление ненужных тегов.
         length = temp.size();
         for (int i = 0; i < length; i++) {
