@@ -219,10 +219,9 @@ def books_by_authors_request_to_server(request, response_type):
     for let in alphabet_string:
         request_to_server = Q(name__istartswith=letter+let)
         auth_count = Author.objects.filter(request_to_server).distinct().count()
-        print auth_count
-        if auth_count > 0:
+        if auth_count > 0:          # condition
            string += let
-
+    string = string[0:-1]
     my_list = []
     my_string = letter+'a'
     for let in string:
