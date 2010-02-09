@@ -26,6 +26,10 @@ public class Query {
 			}
 		}else if(mySettings.getServer().equals("http://smashwords.com")){
             return "/atom/search/books/any?query=" + queryWord;
+        }else if(mySettings.getServer().equals("http://manybooks.net")){
+            return "/stanza/search.php?q=" + queryWord;
+        }else if(mySettings.getServer().equals("http://bookserver.archive.org")){
+            return "/aggregator/opensearch?q=" + queryWord;
         }else{
 			if(queryOption.equals("General")){
 				return "/ebooks/search.atom?query=" + queryWord;

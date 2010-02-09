@@ -14,10 +14,12 @@ public class QueryAnswer {
     Data myData;
     String myNextPage;
     int myTotalBooksNumber;
+    String myCatMainPage;
 
     public QueryAnswer(){
         myData = new Data();
         myNextPage = new String();
+        myCatMainPage = new String();
     }
 
     public String getNextPage(){
@@ -26,6 +28,14 @@ public class QueryAnswer {
 
     public void setNextPage(String page){
         myNextPage = page;
+    }
+
+    public String getCatMainPage(){
+        return myCatMainPage;
+    }
+
+    public void setCatMainPage(String page){
+        myCatMainPage = page;
     }
 
     public int getTotalBooksNumber(){

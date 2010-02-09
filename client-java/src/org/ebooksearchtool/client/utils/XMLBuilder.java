@@ -82,6 +82,7 @@ public class XMLBuilder {
 			link2.setAttribute("href", data.getBooks().get(i).getLinks().get("pdf"));
 			Element linkCov = doc.createElement("link");
 			linkCov.setAttribute("type", "image/png");
+            linkCov.setAttribute("rel", "http://opds-spec.org/thumbnail");
 			linkCov.setAttribute("href", data.getBooks().get(i).getImage());
 			
 			entry.appendChild(title);

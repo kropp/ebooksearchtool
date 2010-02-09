@@ -23,7 +23,7 @@ public class Controller {
 
     public Controller() throws SAXException, ParserConfigurationException, IOException {
 
-        SAXParserTest.test();
+        //SAXParserTest.test();
 
         myData = new QueryAnswer();
         mySettings = new Settings();

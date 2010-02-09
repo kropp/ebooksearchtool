@@ -71,32 +71,18 @@ public class SAXHandler extends DefaultHandler{
                         myAnswer.getData().getBookLinks(myAnswer.getData().getBooks().size()-1).put("pdf", attributes.getValue("href"));
                     }else if("application/epub+zip".equals(attributes.getValue("type"))){
                         myAnswer.getData().getBookLinks(myAnswer.getData().getBooks().size()-1).put("epub", attributes.getValue("href"));
-                    }else if("image/png".equals(attributes.getValue("type"))){
+                    }else if("http://opds-spec.org/thumbnail".equals(attributes.getValue("rel"))){
                         myAnswer.getData().setBookImage(myAnswer.getData().getBooks().size()-1, attributes.getValue("href"));
                     }else if(attributes.getValue("term") != null){
                         myAnswer.getData().setBookGenre(myAnswer.getData().getBooks().size()-1, attributes.getValue("term"));
+                    }else if("start".equals(attributes.getValue("rel"))){
+                        myAnswer.setCatMainPage(attributes.getValue("href"));
                     }
                 }else if("Next Page".equals(attributes.getValue("title")) && "application/atom+xml".equals(attributes.getValue("type"))){
                     myAnswer.setNextPage(attributes.getValue("href"));
 
                 }
-                /*
-                for (int j = 0; j < len; ++j)
-                {
-                	if(myIsEntryTag && attributes.getValue(j).equals("application/pdf")){
-                		myAnswer.getData().getBookLinks(myAnswer.getData().getBooks().size()-1).put("pdf", attributes.getValue("href"));
-                	}else if(myIsEntryTag && attributes.getValue(j).equals("application/epub+zip")){
-                        myAnswer.getData().getBookLinks(myAnswer.getData().getBooks().size()-1).put("epub", attributes.getValue("href"));
-                    }else if(myIsEntryTag && attributes.getValue(j).equals("image/png")){
-                        myAnswer.getData().setBookImage(myAnswer.getData().getBooks().size()-1, attributes.getValue("href"));
-                    }else if(myIsEntryTag && attributes.getLocalName(j).equals("term")){
-                        myAnswer.getData().setBookGenre(myAnswer.getData().getBooks().size()-1, attributes.getValue(j));
-                    }else if(attributes.getValue(j).equals("Next Page")){
-                    	myAnswer.setNextPage(new String(attributes.getValue("href")));
-                    	
-                    }
-                }
-                */
+
             }
 
         }
@@ -105,7 +91,7 @@ public class SAXHandler extends DefaultHandler{
     @Override
     public void characters(char[] ch, int start, int length) throws SAXException
     {
-    	
+
     	if (myIsTotalTag){
     		myAnswer.setTotalBooksNumber(Integer.parseInt((new String(ch, start, length)).trim()));
     	}
