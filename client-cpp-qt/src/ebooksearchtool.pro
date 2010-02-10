@@ -38,7 +38,7 @@ HEADERS += data/book_author.h \
            view/view.h \
            data/opds_parser/handler.h \
            data/opds_parser/parser.h \
-           data/opds_writer/data_writer.h \
+           data/opds_writer/opds_writer.h \
            gui/dialogs/internetConnectionDialog.h
 SOURCES += main.cpp \
            data/book_author.cpp \
@@ -54,5 +54,5 @@ SOURCES += main.cpp \
            view/view_slots.cpp \
            data/opds_parser/handler.cpp \
            data/opds_parser/parser.cpp \
-           data/opds_writer/data_writer.cpp \
+           data/opds_writer/opds_writer.cpp \
            gui/dialogs/internetConnectionDialog.cpp

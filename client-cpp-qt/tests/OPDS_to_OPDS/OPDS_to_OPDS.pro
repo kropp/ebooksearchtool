@@ -13,12 +13,12 @@ MOC_DIR = objects_moc
 # Input
 HEADERS += ../../src/data/data.h \
            ../../src/data/book_author.h \
-           ../../src/data/xml_parser/parser.h \
-           ../../src/data/xml_parser/handler.h \
-           ../../src/data/xml_writer/data_writer.h
+           ../../src/data/opds_parser/parser.h \
+           ../../src/data/opds_parser/handler.h \
+           ../../src/data/opds_writer/data_writer.h
 SOURCES += main.cpp \
            ../../src/data/data.cpp \
            ../../src/data/book_author.cpp \
-           ../../src/data/xml_parser/parser.cpp \
-           ../../src/data/xml_parser/handler.cpp \
-           ../../src/data/xml_writer/data_writer.cpp
+           ../../src/data/opds_parser/parser.cpp \
+           ../../src/data/opds_parser/handler.cpp \
+           ../../src/data/opds_writer/data_writer.cpp

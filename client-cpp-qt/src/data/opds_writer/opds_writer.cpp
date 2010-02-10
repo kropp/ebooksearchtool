@@ -1,7 +1,7 @@
 #include <QFile>
 #include <QtXml>
 
-#include "data_writer.h"
+#include "opds_writer.h"
 #include "../data.h"
 
 DataWriter::DataWriter() {}
@@ -63,7 +63,7 @@ void DataWriter::bookToDomElement(const Book& book, QDomDocument& doc, QDomEleme
     // append Cover link
     if (!book.getCoverLink().isEmpty()) {
         QDomElement coverLink = doc.createElement("link");
-	    coverLink.setAttribute("type", "image/png");
+	    coverLink.setAttribute("type", "image");
 	    coverLink.setAttribute("rel", "http://opds-spec.org/cover");
         coverLink.setAttribute("href", book.getCoverLink());
 	    entry.appendChild(coverLink);	

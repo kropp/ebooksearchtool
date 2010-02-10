@@ -10,10 +10,15 @@ static const QString TAG_ENTRY = "entry";
 static const QString TAG_NAME = "name";
 static const QString TAG_URI = "uri";
 static const QString TAG_ID = "id";
+static const QString TAG_CONTENT = "content";
 
 static const QString ATTRIBUTE_TYPE = "type";
+static const QString ATTRIBUTE_REFERENCE = "href";
 static const QString ATTRIBUTE_RELATIONSHIP = "rel";
 static const QString ATTRIBUTE_TITLE = "title";
+
+static const QString ATTR_VALUE_ACQUISITION = "http://opds-spec.org/acquisition";
+static const QString ATTR_VALUE_COVER = "http://opds-spec.org/cover";
 
 static const QString BOOK_FORMAT = "pdf";
 
@@ -32,38 +37,20 @@ bool OPDSHandler::characters (const QString& strText) {
 	return true;
 }
 
-bool OPDSHandler::startElement (const QString& namespaceUri, const QString& localName, const QString&, const QXmlAttributes& attributes) {
+bool OPDSHandler::startElement (const QString& namespaceUri, const QString& tag, const QString&, const QXmlAttributes& attributes) {
     myCurrentText = "";
     if (namespaceUri != NSPACE_ATOM) {
         return true;
     }
-    if (!myIsEntry) {
-	    if ((localName == TAG_LINK) && 
-	       (attributes.value(ATTRIBUTE_TYPE) == "application/atom+xml") && 
-		   (attributes.value(ATTRIBUTE_RELATIONSHIP) == "next") && 
-		   (attributes.value(ATTRIBUTE_TITLE) == "Next Page"))  {
-		       // myData->setLinkToNextPage(attributes.value("href"));
-            //qDebug() << "Handler:: link to the next page " << attributes.value("href");
-        } else if (localName == TAG_ENTRY) {
-		    myIsEntry = true;
-            setInitialValues();
-        }     
-	    return true;    
-    }	
-// if myIsEntry
-	if (localName == TAG_LINK) {
-        if ((attributes.value(ATTRIBUTE_TYPE) == "application/" + myFormat) &&
-            (attributes.value(ATTRIBUTE_RELATIONSHIP) == "http://opds-spec.org/acquisition")) {
-        
-                myBooksLink = attributes.value("href");
-	
-        } else if ((attributes.value(ATTRIBUTE_TYPE).contains("image")) && 
-            (attributes.value(ATTRIBUTE_RELATIONSHIP) == "http://opds-spec.org/cover")) {
-        
-            myBooksCover = attributes.value("href");
-	    }
+    if (tag == TAG_ENTRY) {
+        myIsEntry = true;
+        setInitialValues();
+    } else if (tag == TAG_LINK) {
+        processLink(attributes);
+    } else if (tag == TAG_CONTENT) {
+        qDebug() << "OPDSHandler start content parsing";
+        myIsInContent = true;
     }
-
 	return true;
 }
 
@@ -103,6 +90,29 @@ bool OPDSHandler::endElement (const QString& namespaceUri, const QString& localN
 		mySummary = myCurrentText;
 	}
 	return true;
+}
+
+void OPDSHandler::processLink(const QXmlAttributes& attributes) {
+    if (!myIsEntry) {
+	    if ((attributes.value(ATTRIBUTE_TYPE) == "application/atom+xml") && 
+		   (attributes.value(ATTRIBUTE_RELATIONSHIP) == "next") && 
+		   (attributes.value(ATTRIBUTE_TITLE) == "Next Page"))  {
+		       // myData->setLinkToNextPage(attributes.value("href"));
+            //qDebug() << "Handler:: link to the next page " << attributes.value("href");
+            }
+        return;
+    }		
+// if I am inside entry 
+    if ((attributes.value(ATTRIBUTE_TYPE) == "application/" + myFormat) &&
+       (attributes.value(ATTRIBUTE_RELATIONSHIP) == ATTR_VALUE_ACQUISITION)) {
+        
+                myBooksLink = attributes.value(ATTRIBUTE_REFERENCE);
+	
+    } else if ((attributes.value(ATTRIBUTE_TYPE).contains("image")) && 
+              (attributes.value(ATTRIBUTE_RELATIONSHIP) == ATTR_VALUE_COVER)) {
+        
+            myBooksCover = attributes.value(ATTRIBUTE_REFERENCE);
+    }
 }
 
 void OPDSHandler::setInitialValues() {

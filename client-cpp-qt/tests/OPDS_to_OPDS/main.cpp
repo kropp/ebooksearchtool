@@ -6,9 +6,9 @@
 #include <QFile>
 
 #include "../../src/data/data.h"
-#include "../../src/data/xml_parser/parser.h"
-#include "../../src/data/xml_parser/handler.h"
-#include "../../src/data/xml_writer/data_writer.h"
+#include "../../src/data/opds_parser/parser.h"
+#include "../../src/data/opds_parser/handler.h"
+#include "../../src/data/opds_writer/data_writer.h"
 
 void opdsToOpds(QFile& in, QFile& out);
 
@@ -53,7 +53,7 @@ void opdsToOpds(QFile& input, QFile& out) {
     input.open(QIODevice::ReadOnly);
     Data* data = new Data();
     
-    AtomParser parser;
+    OPDSParser parser;
     parser.parse(&input, data);
                             
     input.close();

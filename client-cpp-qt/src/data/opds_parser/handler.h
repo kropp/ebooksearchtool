@@ -17,13 +17,16 @@ private:
 	bool characters (const QString& strText);
 	bool endElement (const QString&, const QString&, const QString& str);
 	bool startElement (const QString& , const QString& , const QString& name, const QXmlAttributes& );
+    
     void setInitialValues();
+    void processLink(const QXmlAttributes& attributes);
 	
 private:
 	Data* myData; 
 
 	QString myCurrentText;
 	bool myIsEntry;
+	bool myIsInContent;
 	QString myTitle;
 	QString myLanguage;
 	QString mySummary;
