@@ -1,11 +1,13 @@
 #ifndef _DATA_WRITER_H_
 #define _DATA_WRITER_H_
 
+#include "../opds_parser/opds_constants.h"
+
 class QFile;
 class Data;
 class Book;
 
-class DataWriter {
+class DataWriter : public OPDSConstants {
 
 public:
     DataWriter();

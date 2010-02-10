@@ -11,10 +11,11 @@ const QString OPDSConstants::TAG_NAME = "name";
 const QString OPDSConstants::TAG_URI = "uri";
 const QString OPDSConstants::TAG_ID = "id";
 const QString OPDSConstants::TAG_CONTENT = "content";
+const QString OPDSConstants::TAG_SUMMARY = "summary";
 
 const QString OPDSConstants::ATTRIBUTE_TYPE = "type";
 const QString OPDSConstants::ATTRIBUTE_REFERENCE = "href";
-const QString OPDSConstants::ATTRIBUTE_RELATIONSHIP = "rel";
+const QString OPDSConstants::ATTRIBUTE_RELATION = "rel";
 const QString OPDSConstants::ATTRIBUTE_TITLE = "title";
 
 const QString OPDSConstants::ATTR_VALUE_ACQUISITION = "http://opds-spec.org/acquisition";

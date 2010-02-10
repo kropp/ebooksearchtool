@@ -66,7 +66,7 @@ bool OPDSHandler::endElement (const QString& namespaceUri, const QString& localN
 		//qDebug() << "Handler::endElement namespace for language " << namespaceUri;
       //qDebug() << "language" << myCurrentText;
       myLanguage = myCurrentText;
-	} else if (tag == "summary") {
+	} else if (tag == TAG_SUMMARY) {
 		mySummary = myCurrentText;
 	}
 	return true;
@@ -75,7 +75,7 @@ bool OPDSHandler::endElement (const QString& namespaceUri, const QString& localN
 void OPDSHandler::processLink(const QXmlAttributes& attributes) {
     if (!myIsEntry) {
 	    if ((attributes.value(ATTRIBUTE_TYPE) == "application/atom+xml") && 
-		   (attributes.value(ATTRIBUTE_RELATIONSHIP) == "next") && 
+		   (attributes.value(ATTRIBUTE_RELATION) == "next") && 
 		   (attributes.value(ATTRIBUTE_TITLE) == "Next Page"))  {
 		       // myData->setLinkToNextPage(attributes.value("href"));
             //qDebug() << "Handler:: link to the next page " << attributes.value("href");
@@ -84,14 +84,14 @@ void OPDSHandler::processLink(const QXmlAttributes& attributes) {
     }		
 // if I am inside entry 
     if ((attributes.value(ATTRIBUTE_TYPE) == "application/" + myFormat) &&
-       (attributes.value(ATTRIBUTE_RELATIONSHIP) == ATTR_VALUE_ACQUISITION)) {
+       (attributes.value(ATTRIBUTE_RELATION) == ATTR_VALUE_ACQUISITION)) {
         
                 myBooksLink = attributes.value(ATTRIBUTE_REFERENCE);
 	
     } else if ((attributes.value(ATTRIBUTE_TYPE).contains("image")) && 
-              (attributes.value(ATTRIBUTE_RELATIONSHIP) == ATTR_VALUE_COVER)) {
+              (attributes.value(ATTRIBUTE_RELATION) == ATTR_VALUE_COVER)) {
         
-            myBooksCover = attributes.value(ATTRIBUTE_REFERENCE);
+                myBooksCover = attributes.value(ATTRIBUTE_REFERENCE);
     }
 }
 

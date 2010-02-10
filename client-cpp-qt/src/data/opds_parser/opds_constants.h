@@ -17,10 +17,11 @@ protected:
     static const QString TAG_URI;
     static const QString TAG_ID;
     static const QString TAG_CONTENT;
-     
+    static const QString TAG_SUMMARY;
+
     static const QString ATTRIBUTE_TYPE;
     static const QString ATTRIBUTE_REFERENCE;
-    static const QString ATTRIBUTE_RELATIONSHIP;
+    static const QString ATTRIBUTE_RELATION;
     static const QString ATTRIBUTE_TITLE;
 
     static const QString ATTR_VALUE_ACQUISITION;
