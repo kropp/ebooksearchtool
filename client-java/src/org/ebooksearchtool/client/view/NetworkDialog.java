@@ -23,6 +23,7 @@ import java.io.UnsupportedEncodingException;
  */
 public class NetworkDialog extends JDialog{
 
+    JComboBox myServerCombo;
     JTextField myServerText;
     JTextField myIPText;
     JTextField myPortText;
@@ -47,10 +48,19 @@ public class NetworkDialog extends JDialog{
         main.setLayout(new BoxLayout(main, BoxLayout.Y_AXIS));
         main.setBorder(BorderFactory.createEmptyBorder(12,12,12,12));
 
+        JPanel serverChange = new JPanel();
+        serverChange.setLayout(new BoxLayout(serverChange, BoxLayout.X_AXIS));
+
+        JLabel supServerLabel = new JLabel("supported server:");
+        serverChange.add(supServerLabel);
+        serverChange.add(Box.createHorizontalStrut(12));
+        myServerCombo = new JComboBox(new String[]{"other", "http://feedbooks.com", "http://smashwords.com"});
+        serverChange.add(myServerCombo);
+
         JPanel server = new JPanel();
         server.setLayout(new BoxLayout(server, BoxLayout.X_AXIS));
 
-        JLabel serverLabel = new JLabel("server:");
+        JLabel serverLabel = new JLabel("other server:");
         server.add(serverLabel);
         server.add(Box.createHorizontalStrut(12));
         myServerText = new JTextField(25);
@@ -92,6 +102,7 @@ public class NetworkDialog extends JDialog{
         grid.add(myCancel);
         flow.add(grid);
 
+        serverChange.setAlignmentX(Component.LEFT_ALIGNMENT);
         server.setAlignmentX(Component.LEFT_ALIGNMENT);
         IP.setAlignmentX(Component.LEFT_ALIGNMENT);
         port.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -108,18 +119,18 @@ public class NetworkDialog extends JDialog{
         serverLabel.setAlignmentY(Component.CENTER_ALIGNMENT);
         ipLabel.setAlignmentY(Component.CENTER_ALIGNMENT);
 
-        Component[] comps = {serverLabel, proxyLabel, ipLabel, portLabel};
+        Component[] comps = {supServerLabel, serverLabel, proxyLabel, ipLabel, portLabel};
         int labelWidth = 0;
         Dimension dim = new Dimension();
         
-        for(int i = 0; i < 4; ++i){
+        for(int i = 0; i < 5; ++i){
             if(labelWidth < comps[i].getPreferredSize().width){
                 labelWidth = comps[i].getPreferredSize().width;
                 dim = comps[i].getPreferredSize();
             }
         }
 
-        for(int i = 0; i < 4; ++i){
+        for(int i = 0; i < 5; ++i){
             comps[i].setPreferredSize(dim);
             comps[i].setMaximumSize(dim);
             comps[i].setMinimumSize(dim);
@@ -143,6 +154,8 @@ public class NetworkDialog extends JDialog{
         size.width = myIPText.getMaximumSize().width;
         myIPText.setMaximumSize(size);
 
+        main.add(serverChange);
+        main.add(Box.createVerticalStrut(12));
         main.add(server);
         main.add(Box.createVerticalStrut(12));
         main.add(proxy);
@@ -153,6 +166,13 @@ public class NetworkDialog extends JDialog{
         main.add(Box.createVerticalStrut(17));
         main.add(flow);
 
+        if(myController.getSettings().getServer().equals("http://feedbooks.com")){
+            myServerCombo.setSelectedItem("http://feedbooks.com");
+            myServerText.setEnabled(false);
+        }else if(myController.getSettings().getServer().equals("http://smashwords.com")){
+            myServerCombo.setSelectedItem("http://smashwords.com");
+            myServerText.setEnabled(false);
+        }
         myServerText.setText(myController.getSettings().getServer());
         myProxyCheck.setSelected(myController.getSettings().isProxyEnabled());
         myIPText.setText(myController.getSettings().getIP());
@@ -196,6 +216,21 @@ public class NetworkDialog extends JDialog{
                 myIPText.setEnabled(myProxyCheck.isSelected());
                 myPortText.setEnabled(myProxyCheck.isSelected());
                 
+            }
+
+        });
+
+        myServerCombo.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+
+                if(myServerCombo.getSelectedItem().equals("other")){
+                    myServerText.setEnabled(true);
+                }else{
+                    myServerText.setText((String)myServerCombo.getSelectedItem());
+                    myServerText.setEnabled(false);
+                }
+
             }
 
         });

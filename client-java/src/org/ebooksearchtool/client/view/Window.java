@@ -51,7 +51,7 @@ public class Window {
     private JButton myToolUp;
     private JButton myToolDown;
     
-    private Vector<Vector<BookPanel>> myBookPanels = new Vector<Vector<BookPanel>>();
+    private ArrayList<ArrayList<BookPanel>> myBookPanels = new ArrayList<ArrayList<BookPanel>>();
     
     private Query myQuery;
     
@@ -206,20 +206,20 @@ public class Window {
             public void actionPerformed(ActionEvent e) {
 
                 if(myBookPanels != null){
-                	Vector<BookPanel> newView = new Vector<BookPanel>();
-                	newView = (Vector)(myBookPanels.get(myBackIndex).clone());
+                	ArrayList<BookPanel> newView = new ArrayList<BookPanel>();
+                	newView = (ArrayList<BookPanel>)(myBookPanels.get(myBackIndex).clone());
                 	for(int i = myBackIndex + 1; i < myBookPanels.size(); ++i){
-                		myBookPanels.removeElementAt(i);
+                		myBookPanels.remove(i);
                 	}
                 	
                 	myBookPanels.add(newView);
-            		Collections.sort(myBookPanels.lastElement());
+            		Collections.sort(myBookPanels.get(myBookPanels.size()-1));
             	}
 
                 myTextPan.removeAll();
 
-                for(int i = 0; i < myBookPanels.lastElement().size(); ++i){
-                    JPanel bookPan = myBookPanels.lastElement().get(i).getRootPanel();
+                for(int i = 0; i < myBookPanels.get(myBookPanels.size()-1).size(); ++i){
+                    JPanel bookPan = myBookPanels.get(myBookPanels.size()-1).get(i).getRootPanel();
             		myTextPan.add(bookPan);
             		bookPan.setVisible(true);
             		myFrame.setVisible(true);
@@ -235,23 +235,23 @@ public class Window {
 
             public void actionPerformed(ActionEvent e) {
             	if(myBookPanels != null){
-            		Vector<BookPanel> newView = new Vector<BookPanel>();
-            		newView = (Vector)(myBookPanels.get(myBackIndex).clone());
+            		ArrayList<BookPanel> newView = new ArrayList<BookPanel>();
+            		newView = (ArrayList)(myBookPanels.get(myBackIndex).clone());
             		for(int i = myBackIndex + 1; i < myBookPanels.size(); ++i){
-                		myBookPanels.removeElementAt(i);
+                		myBookPanels.remove(i);
                 	}
             		myBookPanels.add(newView);
          
             		myTextPan.removeAll();
             		
-            		for(int i = 0; i < myBookPanels.lastElement().size(); ++i){
-            			if(myBookPanels.lastElement().get(i).isSelected()){
-            				myBookPanels.lastElement().remove(i);
+            		for(int i = 0; i < myBookPanels.get(myBookPanels.size()-1).size(); ++i){
+            			if(myBookPanels.get(myBookPanels.size()-1).get(i).isSelected()){
+            				myBookPanels.get(myBookPanels.size()-1).remove(i);
             				--i;
             			}
             		}
-            		for(int i = 0; i < myBookPanels.lastElement().size(); ++i){
-                        JPanel bookPan = myBookPanels.lastElement().get(i).getRootPanel();
+            		for(int i = 0; i < myBookPanels.get(myBookPanels.size()-1).size(); ++i){
+                        JPanel bookPan = myBookPanels.get(myBookPanels.size()-1).get(i).getRootPanel();
                 		myTextPan.add(bookPan);
                 		bookPan.setVisible(true);
                 		myFrame.setVisible(true);
@@ -290,8 +290,8 @@ public class Window {
             	
             	myTextPan.removeAll();
             	
-            	myBookPanels = new Vector<Vector<BookPanel>>();
-                myBookPanels.add(new Vector<BookPanel>());
+            	myBookPanels = new ArrayList<ArrayList<BookPanel>>();
+                myBookPanels.add(new ArrayList<BookPanel>());
                	myController.clearModel();
                 
                	--curModelNumber;
@@ -300,7 +300,7 @@ public class Window {
 				for(int i = 0; i < myController.getAnswer().getData().getBooks().size(); ++i){
     				
 					try {
-						myBookPanels.lastElement().add(new BookPanel(myController.getAnswer().getData().getBooks().get(i), myController.getSettings(), model));
+						myBookPanels.get(myBookPanels.size()-1).add(new BookPanel(myController.getAnswer().getData().getBooks().get(i), myController.getSettings(), model));
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -312,7 +312,7 @@ public class Window {
 						e1.printStackTrace();
 					}
     				
-    				JPanel bookPan = myBookPanels.lastElement().get(i).getRootPanel();
+    				JPanel bookPan = myBookPanels.get(myBookPanels.size()-1).get(i).getRootPanel();
     				myTextPan.add(bookPan);
     				bookPan.setVisible(true);
     				myFrame.setVisible(true);
@@ -355,8 +355,8 @@ public class Window {
             	
             	myTextPan.removeAll();
             	
-            	myBookPanels = new Vector<Vector<BookPanel>>();
-                myBookPanels.add(new Vector<BookPanel>());
+            	myBookPanels = new ArrayList<ArrayList<BookPanel>>();
+                myBookPanels.add(new ArrayList<BookPanel>());
                	myController.clearModel();
                 
                	++curModelNumber;
@@ -365,7 +365,7 @@ public class Window {
 				for(int i = 0; i < myController.getAnswer().getData().getBooks().size(); ++i){
     				
 					try {
-						myBookPanels.lastElement().add(new BookPanel(myController.getAnswer().getData().getBooks().get(i), myController.getSettings(), model));
+						myBookPanels.get(myBookPanels.size()-1).add(new BookPanel(myController.getAnswer().getData().getBooks().get(i), myController.getSettings(), model));
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -377,7 +377,7 @@ public class Window {
 						e1.printStackTrace();
 					}
     				
-    				JPanel bookPan = myBookPanels.lastElement().get(i).getRootPanel();
+    				JPanel bookPan = myBookPanels.get(myBookPanels.size()-1).get(i).getRootPanel();
     				myTextPan.add(bookPan);
     				bookPan.setVisible(true);
     				myFrame.setVisible(true);
@@ -497,8 +497,8 @@ public class Window {
             					}
             					++curModelNumber;
             					myTextPan.removeAll();
-                                myBookPanels = new Vector<Vector<BookPanel>>();
-                                myBookPanels.add(new Vector<BookPanel>());
+                                myBookPanels = new ArrayList<ArrayList<BookPanel>>();
+                                myBookPanels.add(new ArrayList<BookPanel>());
                                 if(myController.getAnswer().getData().getBooks().size() != 0){
                                 	myController.clearModel();
                                 }
@@ -532,7 +532,7 @@ public class Window {
             			model.setValue(35);
             			for(int i = lastNumber; i < myController.getAnswer().getData().getBooks().size(); ++i){
             				try {
-								myBookPanels.lastElement().add(new BookPanel(myController.getAnswer().getData().getBooks().get(i), myController.getSettings(), model));
+								myBookPanels.get(myBookPanels.size()-1).add(new BookPanel(myController.getAnswer().getData().getBooks().get(i), myController.getSettings(), model));
 								model.setValue(model.getValue() + 5);
 								myProgressBar.setString("Viewing book... " + model.getValue() + "%");
             				} catch (IOException e) {
@@ -542,7 +542,7 @@ public class Window {
 							} catch (ParserConfigurationException e) {
 								e.printStackTrace();
 							}
-            				JPanel bookPan = myBookPanels.lastElement().get(i).getRootPanel();
+            				JPanel bookPan = myBookPanels.get(myBookPanels.size()-1).get(i).getRootPanel();
             				myTextPan.add(bookPan);
             				bookPan.setVisible(true);
             				myFrame.setVisible(true);
