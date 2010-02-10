@@ -44,7 +44,7 @@ bool OPDSHandler::startElement (const QString& namespaceUri, const QString& loca
 		   (attributes.value(ATTRIBUTE_RELATIONSHIP) == "next") && 
 		   (attributes.value(ATTRIBUTE_TITLE) == "Next Page"))  {
 		       // myData->setLinkToNextPage(attributes.value("href"));
-            qDebug() << "Handler:: link to the next page " << attributes.value("href");
+            //qDebug() << "Handler:: link to the next page " << attributes.value("href");
         } else if (localName == TAG_ENTRY) {
 		    myIsEntry = true;
             setInitialValues();
@@ -71,7 +71,7 @@ bool OPDSHandler::startElement (const QString& namespaceUri, const QString& loca
 bool OPDSHandler::endElement (const QString& namespaceUri, const QString& localName, const QString& tag) {
 	//qDebug() << "Handler::endElement namespace " << namespaceUri;
 	if ((!myIsEntry) && (localName == "totalResults") && (namespaceUri == NSPASE_OPENSEARCH)) {
-        qDebug() << "totalResults namespace" << myCurrentText << namespaceUri;
+        //qDebug() << "totalResults namespace" << myCurrentText << namespaceUri;
         myData->setTotalEntries(myCurrentText.toInt());
         return true;
     }

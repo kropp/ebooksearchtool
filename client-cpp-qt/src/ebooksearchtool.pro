@@ -7,6 +7,8 @@ CONFIG += qt debug
 QT += xml
 QT += network
 TARGET = ebooksearchtool
+OBJECTS_DIR = objects_moc 
+MOC_DIR = objects_moc
 DEPENDPATH += . \
               data \
               gui \
