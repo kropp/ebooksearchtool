@@ -4,6 +4,39 @@ void Book::addAuthor(const Author* author) {
 	myAuthors.push_back(author);
 }
 
+const QString& Book::getCoverLink() const {
+    return myCoverLink;
+}
+
+void Book::setCoverLink(const QString& path) {
+    myCoverLink = path;
+}
+
+const QVector<const Author*>& Book::getAuthors() const {
+    return myAuthors;
+}
+
+void Book::setSourceLink(const QString& format, const QString& link) {
+    myFormat = format;
+    mySourceLink = link;
+}
+
+const QString& Book::getSourceLink() const {
+    return mySourceLink;
+}
+    
+const QString& Book::getFormat() const {
+    return myFormat;
+}	
+
+void Book::setContent(const QString& content) {
+    myContent = content;
+}
+
+const QString& Author::getUri() const {
+	return myUri;
+}
+
 /*void Book::addSourceLink(const QString& format, QString link) {
     mySourceLinks.insert(format, link);
 }

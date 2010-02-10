@@ -1,9 +1,9 @@
 #include "parser.h"
 #include "handler.h"
 
-AtomParser::AtomParser() {}
+OPDSParser::OPDSParser() {}
 
-void AtomParser::parse(QIODevice* input, Data* data) {
+void OPDSParser::parse(QIODevice* input, Data* data) {
 	OPDSHandler handler(data);
 	QXmlInputSource source(input);
 	QXmlSimpleReader reader;

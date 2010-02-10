@@ -1,7 +1,7 @@
 #include <QtGui>
 
 #include "centralwidget.h"
-#include "../xml_parser/parser.h"
+#include "../opds_parser/parser.h"
 #include "../network/networkmanager.h"
 #include "../data/data.h"
 #include "searchwidget.h"
@@ -76,7 +76,7 @@ void CentralWidget::httpRequestFinished(int requestId , bool) {
 }
 
 void CentralWidget::parseDownloadedFile() {
-	AtomParser parser;
+	OPDSParser parser;
 	if (myNewRequest) {
 	    if (!myData) {
             delete myData;
