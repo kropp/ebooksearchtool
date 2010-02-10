@@ -8,7 +8,7 @@
 #include "../../src/data/data.h"
 #include "../../src/data/opds_parser/parser.h"
 #include "../../src/data/opds_parser/handler.h"
-#include "../../src/data/opds_writer/data_writer.h"
+#include "../../src/data/opds_writer/opds_writer.h"
 
 void opdsToOpds(QFile& in, QFile& out);
 
@@ -47,8 +47,6 @@ int main(int argc, char** argv) {
 }
 
 void opdsToOpds(QFile& input, QFile& out) {
-    qDebug() << "opds_to_opds";
-    
     // parse input file
     input.open(QIODevice::ReadOnly);
     Data* data = new Data();

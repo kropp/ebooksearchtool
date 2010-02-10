@@ -6,8 +6,9 @@
 
 #include "../book_author.h"
 #include "../data.h"
+#include "opds_constants.h"
 
-class OPDSHandler : public QXmlDefaultHandler {
+class OPDSHandler : public QXmlDefaultHandler, public OPDSConstants {
 
 public:
 	OPDSHandler(Data* data);

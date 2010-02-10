@@ -1,25 +1,5 @@
 #include "handler.h"
 
-static const QString NSPASE_OPENSEARCH = "http://a9.com/-/spec/opensearch/1.1/";
-static const QString NSPASE_DCTERMS = "http://purl.org/dc/terms/";
-static const QString NSPACE_ATOM = "http://www.w3.org/2005/Atom";
-
-static const QString TAG_LINK = "link";
-static const QString TAG_TITILE = "title";
-static const QString TAG_ENTRY = "entry";
-static const QString TAG_NAME = "name";
-static const QString TAG_URI = "uri";
-static const QString TAG_ID = "id";
-static const QString TAG_CONTENT = "content";
-
-static const QString ATTRIBUTE_TYPE = "type";
-static const QString ATTRIBUTE_REFERENCE = "href";
-static const QString ATTRIBUTE_RELATIONSHIP = "rel";
-static const QString ATTRIBUTE_TITLE = "title";
-
-static const QString ATTR_VALUE_ACQUISITION = "http://opds-spec.org/acquisition";
-static const QString ATTR_VALUE_COVER = "http://opds-spec.org/cover";
-
 static const QString BOOK_FORMAT = "pdf";
 
 OPDSHandler::OPDSHandler(Data* data) {
