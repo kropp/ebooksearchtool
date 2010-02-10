@@ -7,7 +7,6 @@ class QDialogButtonBox;
 class QBuffer;
 class NetworkManager;
 class SearchWidget;
-class QProgressBar;
 class QScrollArea;
 
 class CentralWidget : public QWidget {
@@ -27,8 +26,7 @@ signals:
     void stateChanged(const QString& message);
 
 private:
-    QProgressBar* getProgressBar();
-    void createProgressBar();
+    const NetworkManager* getNetworkManager() const;
     QString queryToUrl(const QString& query) const;
     void fillComboBox();
     
@@ -46,14 +44,12 @@ private:
     Data* myData;
 	View* myView;
     QScrollArea* myScrollArea;
-
-    QProgressBar* myProgressBar;
     
 friend class MainWindow;
 };
 
-inline QProgressBar* CentralWidget::getProgressBar() {
+/*inline QProgressBar* CentralWidget::getProgressBar() {
     return myProgressBar;
 }
-
+*/
 #endif //_CENTRAL_WIDGET_H

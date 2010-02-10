@@ -24,6 +24,7 @@ NetworkManager::NetworkManager() {
     myHttpConnection = new QHttp(this);
     readSettings();
     connect(myHttpConnection, SIGNAL(requestFinished(int, bool)), this, SIGNAL(requestFinished(int, bool)));
+    connect(myHttpConnection, SIGNAL(dataReadProgress(int, int)), this, SIGNAL(dataReadProgress(int, int)));
 }
 
 NetworkManager::~NetworkManager() {
@@ -49,11 +50,6 @@ void NetworkManager::writeSettings() const {
 
 QString NetworkManager::getServer() const {
     return ourServer;
-}
-
-int NetworkManager::download(QString url, QIODevice* out, QProgressBar* /*progressBar*/)  {
-    //progressBar->show();
-    return download(url, out); 
 }
 
 int NetworkManager::download(QString urlStr, QIODevice* out) {

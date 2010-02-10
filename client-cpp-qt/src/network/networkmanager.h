@@ -8,7 +8,6 @@ class HttpConnection;
 class QString;
 class QIODevice;
 class QHttp;
-class QProgressBar;
 
 class NetworkManager : public QObject {
 
@@ -32,12 +31,12 @@ public:
 public:
     ~NetworkManager();
 	
-    int download(QString url, QIODevice* out, QProgressBar* progressBar);
 	int download(QString url, QIODevice* out);
 	QString getServer() const;
 
 signals:
     void requestFinished(int, bool);
+    void dataReadProgress(int, int);
 
 private:
     NetworkManager();

@@ -13,7 +13,6 @@ CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myBuffer(0), my
 //    myScrollArea->setWidget(myView);
   //  myView->show();
     
-    createProgressBar();
     myNetworkManager = NetworkManager::getInstance(); 
 
 	connect(myNetworkManager, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
@@ -39,7 +38,7 @@ void CentralWidget::downloadFile(const QString& query) {
         myBuffer->setData("", 0);	
     }
 
-	myRequestId = myNetworkManager->download(queryToUrl(query), myBuffer, myProgressBar);
+	myRequestId = myNetworkManager->download(queryToUrl(query), myBuffer);
   //  qDebug() << "CentralWidget::downloadFile requestID" << myRequestId;
 
     if (myBuffer->isOpen()) {
@@ -119,9 +118,6 @@ QString CentralWidget::queryToUrl(const QString& query) const {
     return urlStr;
 }
 
-void CentralWidget::createProgressBar() {
-    myProgressBar = new QProgressBar();
-    myProgressBar->setRange(0, 100);
-    myProgressBar->setValue(0);
-    myProgressBar->hide();
+const NetworkManager* CentralWidget::getNetworkManager() const {
+    return myNetworkManager;
 }

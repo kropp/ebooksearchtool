@@ -25,13 +25,15 @@ private:
     void createMenu();
     void createToolBar();
     void createStatusBar();
-    
+    void createProgressBar();
+
     void readSettings();
     void writeSettings();
 
 private slots:
     void updateStatusBar();
     void updateStatusLabel(const QString& );
+    void updateProgressBar(int done, int total);
     void search(const QString& query);
     void showInternetConnectionDialog();
 
@@ -40,7 +42,7 @@ private:
     CentralWidget* myCentralWidget;
 
     QLabel* myStatusLabel;
-//    QProgressBar* myProgressBar;
+    QProgressBar* myProgressBar;
 
     QAction* myExitAction;
     QAction* myFullScreenAction;

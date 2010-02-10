@@ -20,6 +20,11 @@ MainWindow::MainWindow() {
     connect(mySearchWidget, SIGNAL(search(QString)), myCentralWidget, SLOT(downloadFile(QString))); 
     connect(mySearchWidget, SIGNAL(search(QString)), this, SLOT(search(QString))); 
     connect(myCentralWidget, SIGNAL(stateChanged(QString)), this, SLOT(updateStatusLabel(QString))); 
+
+    const NetworkManager* nManager = myCentralWidget->getNetworkManager();
+    connect(nManager, SIGNAL(dataReadProgress(int, int)),
+            this, SLOT(updateProgressBar(int, int)));
+    
 //    connect(mySearchWidget, SIGNAL(search(QString)), this, updateStatusBar());
 
     mySearchWidget->setFocus();
@@ -78,14 +83,14 @@ void MainWindow::createToolBar() {
 }
 
 void MainWindow::createStatusBar() {
+    // create Status Label
     myStatusLabel = new QLabel("");
     myStatusLabel->setAlignment(Qt::AlignLeft);
     statusBar()->addWidget(myStatusLabel);
-
-    QProgressBar* progressBar = myCentralWidget->getProgressBar();
-    progressBar->setAlignment(Qt::AlignRight);
-    //myProgressBar->setValue(value);
-    statusBar()->addWidget(progressBar);
+    // create Progress Bar
+    createProgressBar();
+    myProgressBar->setAlignment(Qt::AlignRight);
+    statusBar()->addWidget(myProgressBar);
 }
 
 void MainWindow::updateStatusBar() {
@@ -93,6 +98,15 @@ void MainWindow::updateStatusBar() {
     // if (поиск завершен)
     // hide progress bar
     // label <- найдено, показано
+}
+
+void MainWindow::updateProgressBar(int done, int total) {
+    int progress = done * 100/ total;
+    myProgressBar->show();
+    myProgressBar->setValue(progress);
+    if (progress == 100) {
+        myProgressBar->hide();
+    }
 }
 
 void MainWindow::updateStatusLabel(const QString& message) {
@@ -120,4 +134,11 @@ void MainWindow::writeSettings() {
 void MainWindow::search(const QString& query) {
     QString message(query);
     updateStatusLabel(message.prepend(tr("Searching: ")));
+}
+
+void MainWindow::createProgressBar() {
+    myProgressBar = new QProgressBar();
+    myProgressBar->setRange(0, 100);
+    myProgressBar->setValue(0);
+    myProgressBar->hide();
 }
