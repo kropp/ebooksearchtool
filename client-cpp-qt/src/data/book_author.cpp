@@ -4,13 +4,19 @@ void Book::addAuthor(const Author* author) {
 	myAuthors.push_back(author);
 }
 
-void Book::setSourceLink(const QString& link, const QString& format) {
-	mySourceLink = link;
-    myFormat = format;
+/*void Book::addSourceLink(const QString& format, QString link) {
+    mySourceLinks.insert(format, link);
 }
 
+const QString Book::getSourceLink(const QString& format) const {
+    QMap<const QString, QString>::const_iterator i = mySourceLinks.find(format);
+    if (i == mySourceLinks.end()) {
+        return QString();
+    } else {
+        return i.value();    
+    }
+}
 
-//void Author::addBook(const Book* book) {
-//	myBooks.push_back(book);
-//}	
-
+const QMap<const QString, QString>& Book::getSourceLinks() const {
+    return mySourceLinks;
+}*/

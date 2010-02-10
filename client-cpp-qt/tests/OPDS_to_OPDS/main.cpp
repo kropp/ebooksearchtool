@@ -19,8 +19,8 @@ int main(int argc, char** argv) {
         return 0;
     } else if (argc == 2) {
         qDebug() << "you use default output file 'out.xml'";
-        qDebug() << "for setting your own output file name" <<
-                    "Usage: ./OPDS_to_OPDS [input file] [output file]";
+//        qDebug() << "for setting your own output file name" <<
+  //                  "Usage: ./OPDS_to_OPDS [input file] [output file]";
     }
     
     // create input file, check existing

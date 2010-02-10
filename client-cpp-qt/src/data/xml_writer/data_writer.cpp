@@ -15,6 +15,8 @@ void DataWriter::write(QFile* file, const Data& data) {
 }
 
 void DataWriter::dataToDomDocument(const Data& data, QDomDocument& doc) {
+    QDomProcessingInstruction instruction = doc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"UTF-8\"");
+    doc.appendChild(instruction);
     QDomElement feed = doc.createElement("feed");
     feed.setAttribute("xmlns", "http://www.w3.org/2005/Atom");
     feed.setAttribute("xmlns:dcterms", "http://purl.org/dc/terms/");
@@ -53,11 +55,12 @@ void DataWriter::bookToDomElement(const Book& book, QDomDocument& doc, QDomEleme
     if (!book.getSourceLink().isEmpty()) {
         QDomElement textLink = doc.createElement("link");
 	    textLink.setAttribute("type", "application/" + book.getFormat());
+	    textLink.setAttribute("rel", "http://opds-spec.org/acquisition");
 	    textLink.setAttribute("href", book.getSourceLink());
 	    entry.appendChild(textLink);		
 	}
+    
     // append Cover link
-	
     if (!book.getCoverLink().isEmpty()) {
         QDomElement coverLink = doc.createElement("link");
 	    coverLink.setAttribute("type", "image/png");

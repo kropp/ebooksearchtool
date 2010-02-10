@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QVector>
+#include <QMap>
 
 class Author;
 
@@ -20,13 +21,16 @@ public:
 	const QString& getLanguage() const;
 	const QString& getSummary() const;
 	const QString& getId() const;
-	const QString& getSourceLink() const;
-    const QString& getFormat() const;
+	const QMap<const QString, QString>& getSourceLinks() const;
+//    const QString getSourceLink(const QString& format) const;
+    const QString& getSourceLink() const;
     const QString& getCoverLink() const;	
+    const QString& getFormat() const;	
 
 	void addAuthor(const Author* author);
-	void setSourceLink(const QString& link, const QString& format);
-	void setCoverLink(const QString& path);
+	//void addSourceLink(const QString& format, QString link);
+	void setSourceLink(const QString& format, const QString& link);
+    void setCoverLink(const QString& path);
 
 private:
 	const QString myTitle;
@@ -34,9 +38,10 @@ private:
 	const QString mySummary;
 	QVector<const Author*> myAuthors;
 	const QString myId;
-	QString mySourceLink;
 	QString myCoverLink;
     QString myFormat;
+    QString mySourceLink;
+   // QMap<const QString, QString> mySourceLinks; // format -> link
 };
 
 
@@ -77,11 +82,6 @@ inline const QString& Book::getId() const {
 	return myId;
 }
 
-inline const QString& Book::getSourceLink() const {
-	return mySourceLink;
-}
-
-
 inline const QString& Author::getUri() const {
 	return myUri;
 }
@@ -98,7 +98,16 @@ inline const QVector<const Author*>& Book::getAuthors() const {
     return myAuthors;
 }
 
+inline void Book::setSourceLink(const QString& format, const QString& link) {
+    myFormat = format;
+    mySourceLink = link;
+}
+
+inline const QString& Book::getSourceLink() const {
+    return mySourceLink;
+}
+    
 inline const QString& Book::getFormat() const {
     return myFormat;
-}
+}	
 #endif //_BOOK_AUTHOR_H_

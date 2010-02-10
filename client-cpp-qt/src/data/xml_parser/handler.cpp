@@ -15,14 +15,13 @@ static const QString ATTRIBUTE_TYPE = "type";
 static const QString ATTRIBUTE_RELATIONSHIP = "rel";
 static const QString ATTRIBUTE_TITLE = "title";
 
-const QString OPDSHandler::ourConfigFilePath = "../.config.ini";
+static const QString BOOK_FORMAT = "pdf";
 
 OPDSHandler::OPDSHandler(Data* data) {
     myData = data;
     myIsEntry = false;
     
-    QSettings settings(ourConfigFilePath, QSettings::IniFormat);
-    myFormat = settings.value("parser/format").toString();
+    myFormat = BOOK_FORMAT;
 }
 
 OPDSHandler::~OPDSHandler() {}
@@ -58,7 +57,7 @@ bool OPDSHandler::startElement (const QString& namespaceUri, const QString& loca
         
                 myBooksLink = attributes.value("href");
 	
-        } else if ((attributes.value(ATTRIBUTE_TYPE) == "image/png") && 
+        } else if ((attributes.value(ATTRIBUTE_TYPE).contains("image")) && 
             (attributes.value(ATTRIBUTE_RELATIONSHIP) == "http://opds-spec.org/cover")) {
         
             myBooksCover = attributes.value("href");
@@ -84,7 +83,7 @@ bool OPDSHandler::endElement (const QString& namespaceUri, const QString& localN
 		                          mySummary, 
 		                          myBooksUri);
 		    book->addAuthor(author);
-		    book->setSourceLink(myBooksLink, myFormat);
+		    book->setSourceLink(myFormat, myBooksLink);
             book->setCoverLink(myBooksCover);
 		    myData->addBook(book);
 		    myIsEntry = false;	

@@ -9,9 +9,6 @@
 
 class OPDSHandler : public QXmlDefaultHandler {
 
-private: 
-    static const QString ourConfigFilePath;
-
 public:
 	OPDSHandler(Data* data);
     ~OPDSHandler();

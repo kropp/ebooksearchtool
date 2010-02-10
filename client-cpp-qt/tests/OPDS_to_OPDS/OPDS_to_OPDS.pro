@@ -7,6 +7,8 @@ QT += xml
 TARGET = 
 DEPENDPATH += .
 INCLUDEPATH += .
+OBJECTS_DIR = objects_moc 
+MOC_DIR = objects_moc
 
 # Input
 HEADERS += ../../src/data/data.h \
