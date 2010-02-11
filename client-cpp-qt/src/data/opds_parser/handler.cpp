@@ -97,7 +97,7 @@ void OPDSHandler::processLink(const QXmlAttributes& attributes) {
     if ((attributes.value(ATTRIBUTE_TYPE) == "application/" + myFormat) &&
        (attributes.value(ATTRIBUTE_RELATION) == ATTR_VALUE_ACQUISITION)) {
         
-                myBook->setSourceLink(attributes.value(ATTRIBUTE_REFERENCE), myFormat);
+                myBook->setSourceLink(myFormat, attributes.value(ATTRIBUTE_REFERENCE));
                  
     } else if ((attributes.value(ATTRIBUTE_TYPE).contains("image")) && 
                ((attributes.value(ATTRIBUTE_RELATION) == ATTR_VALUE_COVER) ||
