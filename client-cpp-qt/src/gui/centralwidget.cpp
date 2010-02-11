@@ -38,7 +38,8 @@ void CentralWidget::downloadFile(const QString& query) {
         myBuffer->setData("", 0);	
     }
 
-	myRequestId = myNetworkManager->download(queryToUrl(query), myBuffer);
+	myRequestId = myNetworkManager->download(query, myBuffer);
+  
   //  qDebug() << "CentralWidget::downloadFile requestID" << myRequestId;
 
     if (myBuffer->isOpen()) {
@@ -82,7 +83,7 @@ void CentralWidget::parseDownloadedFile() {
             delete myData;
         }
         myData = new Data();
-	    myView->setData(myData);
+	    myView->setData((Data*)myData);
     }
     myBuffer->open(QIODevice::ReadOnly);
     parser.parse(myBuffer, myView->getData());
@@ -97,24 +98,6 @@ void CentralWidget::parseDownloadedFile() {
      //   myNewRequest = false;
        // downloadFile(*url);
     //}
-}
-
-QString CentralWidget::queryToUrl(const QString& query) const {
-	QString urlStr("http://");
-    urlStr.append(myNetworkManager->getServer());
-    //TODO - не руками строку вбивать - к тому же она от сервера зависит
-    urlStr.append("/books/search.atom?query=");
-  //  const QString tag = myComboBox->currentText();
-/*    if ((tag == "author") || (tag == "title")) {
-        urlStr.append(tag);
-        urlStr.append(":");
-    }
-*/    
-    QString queryStr = query;
-    queryStr.replace(" ", "+");
-    urlStr.append(queryStr);
-
-    return urlStr;
 }
 
 const NetworkManager* CentralWidget::getNetworkManager() const {

@@ -7,13 +7,19 @@
   
 #include <QDebug>
 
+QString SearchWidget::
+ourOpensearchSchema = "http://feedbooks.com/books/search.atom?query=";
+
+void SearchWidget::setOpensearchSchema(const QString& str) {
+    ourOpensearchSchema = str;
+}
+
 SearchWidget::SearchWidget(QWidget* parent) : QWidget(parent) {
     createLineEdit();
     createPushButton();
     setWidgets();
     setMaximumWidth(175);
 //    setFrame(true);
-
     connect(myPushButton, SIGNAL(clicked()), this, SLOT(emitSearch()));
 }
 
@@ -54,7 +60,11 @@ void SearchWidget::setWidgets() {
 void SearchWidget::emitSearch() {
     QString str = myLineEdit->text();
     if (!str.isEmpty()) {
-        emit search(myLineEdit->text()); //.prepend(tr("Searching: ")));
+        // translate query text to opensearch query
+        QString query = myLineEdit->text();
+        query.prepend(ourOpensearchSchema);
+        qDebug() << "SearchWidget::emit Search " << query;
+        emit search(query); 
     } 
 }
 

@@ -2,14 +2,17 @@
 
 // field for searching - line edit plus search image
 // emit signal after editing the text and pressing "Enter"
+// knows opensearch schema for current server
 
 class QLineEdit;
-//class QComboBox;
 class QPushButton;
 
 class SearchWidget : public QWidget {
 
     Q_OBJECT
+
+public:
+    static void setOpensearchSchema(const QString&);
 
 public:
     SearchWidget(QWidget* parent);
@@ -22,7 +25,6 @@ signals:
 
 private slots:
     void emitSearch();
-    //void changeFocus();
 
 private:
     void createLineEdit();
@@ -33,6 +35,6 @@ private:
 
 private:
     QLineEdit* myLineEdit;
-  //  QComboBox* myComboBox;
     QPushButton* myPushButton;
+    static QString ourOpensearchSchema;
 };

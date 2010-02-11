@@ -41,7 +41,8 @@ HEADERS += data/book_author.h \
            data/opds_parser/parser.h \
            data/opds_parser/opds_constants.h \
            data/opds_writer/opds_writer.h \
-           gui/dialogs/internetConnectionDialog.h
+           gui/dialogs/internetConnectionDialog.h \
+           gui/dialogs/chooseServerDialog.h
 SOURCES += main.cpp \
            data/book_author.cpp \
            data/data.cpp \
@@ -58,4 +59,5 @@ SOURCES += main.cpp \
            data/opds_parser/parser.cpp \
            data/opds_parser/opds_constants.cpp \
            data/opds_writer/opds_writer.cpp \
-           gui/dialogs/internetConnectionDialog.cpp
+           gui/dialogs/internetConnectionDialog.cpp \
+           gui/dialogs/chooseServerDialog.cpp

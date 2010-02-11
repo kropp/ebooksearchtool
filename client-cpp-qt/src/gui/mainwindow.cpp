@@ -4,6 +4,7 @@
 #include "centralwidget.h"
 #include "searchwidget.h"
 #include "dialogs/internetConnectionDialog.h"
+//#include "dialogs/chooseServerDialog.h"
 
 MainWindow::MainWindow() {
     mySearchWidget = new SearchWidget(this);
@@ -16,6 +17,7 @@ MainWindow::MainWindow() {
 	setCentralWidget(myCentralWidget);
 
     myInternetConnectionDialog = new InternetConnectionDialog(this);
+    myChooseServerDialog = new ChooseServerDialog(this);
 
     connect(mySearchWidget, SIGNAL(search(QString)), myCentralWidget, SLOT(downloadFile(QString))); 
     connect(mySearchWidget, SIGNAL(search(QString)), this, SLOT(search(QString))); 
@@ -47,6 +49,11 @@ void MainWindow::createActions() {
     connect(mySetConnectionAction, SIGNAL(triggered()), 
             this, SLOT(showInternetConnectionDialog()));
 
+    mySetServerAction = new QAction(tr("Set server..."), this);
+    mySetServerAction->setStatusTip(tr("Chose and set server"));
+    connect(mySetServerAction, SIGNAL(triggered()), 
+            this, SLOT(showChooseServerDialog()));
+    
     myFullScreenAction = new QAction(tr("Full screen"), this);
     
     myBackAction = new QAction(tr("Back"), this);
@@ -66,6 +73,7 @@ void MainWindow::createMenu() {
     
     QMenu* editMenu = menuBar()->addMenu(tr("Settings"));
     editMenu->addAction(mySetConnectionAction);
+    editMenu->addAction(mySetServerAction);
     
     QMenu* historyMenu = menuBar()->addMenu(tr("History"));
     historyMenu->addAction(myBackAction);
@@ -73,6 +81,10 @@ void MainWindow::createMenu() {
 
 void MainWindow::showInternetConnectionDialog() {
     myInternetConnectionDialog->show();
+}
+
+void MainWindow::showChooseServerDialog() {
+    myChooseServerDialog->show();
 }
 
 void MainWindow::createToolBar() {

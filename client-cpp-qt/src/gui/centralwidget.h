@@ -2,6 +2,7 @@
 #define _CENTRAL_WIDGET_H_
 
 #include "../view/view.h" 
+//#include <QSharedDataPointer>
 
 class QDialogButtonBox;
 class QBuffer;
@@ -27,9 +28,7 @@ signals:
 
 private:
     const NetworkManager* getNetworkManager() const;
-    QString queryToUrl(const QString& query) const;
-    void fillComboBox();
-    
+//    void fillComboBox();
 
 private:
 //    SearchWidget* mySearchWidget;
@@ -42,14 +41,11 @@ private:
     bool myNewRequest;
    
     Data* myData;
-	View* myView;
+//    QSharedDataPointer<Data> myData;
+    View* myView;
     QScrollArea* myScrollArea;
     
 friend class MainWindow;
 };
 
-/*inline QProgressBar* CentralWidget::getProgressBar() {
-    return myProgressBar;
-}
-*/
 #endif //_CENTRAL_WIDGET_H

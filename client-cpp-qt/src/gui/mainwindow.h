@@ -1,7 +1,9 @@
-#ifndef _MAIN_WINDOW_H
-#define _MAIN_WINDOW_H
+#ifndef _MAIN_WINDOW_H_
+#define _MAIN_WINDOW_H_
 
 #include <QMainWindow>
+
+#include "./dialogs/chooseServerDialog.h"
 
 class QLabel;
 class QProgressBar;
@@ -9,6 +11,7 @@ class QAction;
 class CentralWidget;
 class SearchWidget;
 class InternetConnectionDialog;
+//class ChooseServerDialog;
 
 class MainWindow : public QMainWindow {
 
@@ -36,6 +39,7 @@ private slots:
     void updateProgressBar(int done, int total);
     void search(const QString& query);
     void showInternetConnectionDialog();
+    void showChooseServerDialog();
 
 private:
     SearchWidget* mySearchWidget;
@@ -47,10 +51,12 @@ private:
     QAction* myExitAction;
     QAction* myFullScreenAction;
     QAction* mySetConnectionAction;
+    QAction* mySetServerAction;
     QAction* myBackAction;
     QAction* myStopAction;
 
     InternetConnectionDialog* myInternetConnectionDialog;
+    ChooseServerDialog* myChooseServerDialog;
 };
 
 #endif //_MAIN_WINDOW_H_
