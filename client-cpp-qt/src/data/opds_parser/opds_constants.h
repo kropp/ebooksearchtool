@@ -26,6 +26,7 @@ protected:
 
     static const QString ATTR_VALUE_ACQUISITION;
     static const QString ATTR_VALUE_COVER;
+    static const QString ATTR_VALUE_COVER_STANZA;
 };
 
 #endif //_opds_constants_h_

@@ -5,7 +5,7 @@ static const QString BOOK_FORMAT = "pdf";
 OPDSHandler::OPDSHandler(Data* data) {
     myData = data;
     myIsEntry = false;
-    
+    myIsInContent = false;    
     myFormat = BOOK_FORMAT;
 }
 
@@ -18,6 +18,10 @@ bool OPDSHandler::characters (const QString& strText) {
 }
 
 bool OPDSHandler::startElement (const QString& namespaceUri, const QString& tag, const QString&, const QXmlAttributes& attributes) {
+    if (myIsInContent) {
+        myCurrentText += "<" + tag + ">";
+        return true;
+    }
     myCurrentText = "";
     if (namespaceUri != NSPACE_ATOM) {
         return true;
@@ -52,7 +56,8 @@ bool OPDSHandler::endElement (const QString& namespaceUri, const QString& localN
 		    book->addAuthor(author);
 		    book->setSourceLink(myFormat, myBooksLink);
             book->setCoverLink(myBooksCover);
-		    myData->addBook(book);
+		    book->setContent(myContent);
+            myData->addBook(book);
 		    myIsEntry = false;	
 	} else if (tag == TAG_TITILE) {
 		myTitle = myCurrentText;
@@ -68,7 +73,15 @@ bool OPDSHandler::endElement (const QString& namespaceUri, const QString& localN
       myLanguage = myCurrentText;
 	} else if (tag == TAG_SUMMARY) {
 		mySummary = myCurrentText;
-	}
+	} else if (tag == TAG_CONTENT) {
+        // set content
+        qDebug() << "OPDSHandler parser content finished";
+        qDebug() << "content " << myCurrentText;
+        myContent = myCurrentText;
+        myIsInContent = false;
+    } else if (myIsInContent) {
+        myCurrentText += "<" + tag + "/>";
+    }
 	return true;
 }
 
@@ -89,7 +102,8 @@ void OPDSHandler::processLink(const QXmlAttributes& attributes) {
                 myBooksLink = attributes.value(ATTRIBUTE_REFERENCE);
 	
     } else if ((attributes.value(ATTRIBUTE_TYPE).contains("image")) && 
-              (attributes.value(ATTRIBUTE_RELATION) == ATTR_VALUE_COVER)) {
+               ((attributes.value(ATTRIBUTE_RELATION) == ATTR_VALUE_COVER) ||
+                (attributes.value(ATTRIBUTE_RELATION) == ATTR_VALUE_COVER_STANZA))) {
         
                 myBooksCover = attributes.value(ATTRIBUTE_REFERENCE);
     }
@@ -104,4 +118,5 @@ void OPDSHandler::setInitialValues() {
     myBooksUri = "";
     myBooksLink = "";
     myBooksCover = "";
+    myContent = "";
 }

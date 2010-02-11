@@ -37,6 +37,7 @@ private:
 	QString myBooksLink;
     QString myBooksCover;
     QString myFormat;
+    QString myContent;
 
 //friend class AtomParser;
 };

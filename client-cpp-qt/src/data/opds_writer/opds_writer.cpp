@@ -33,6 +33,9 @@ void DataWriter::bookToDomElement(const Book& book, QDomDocument& doc, QDomEleme
     // append title
     appendTagAndText(doc, entry, TAG_TITILE, book.getTitle());
     
+    // append content
+    appendTagAndText(doc, entry, TAG_CONTENT, book.getContent());
+    
     //append id
     appendTagAndText(doc, entry, TAG_ID, book.getId());
 
