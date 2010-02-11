@@ -2,7 +2,7 @@
 #define _choose_Server_Dialog_h_
 
 #include <QDialog>
-#include <QMap>
+#include <map>
 
 class QLabel;
 class QRadioButton;
@@ -16,8 +16,10 @@ public:
 
 private:
     void initialiseMap();
+    void createRadioButtons();
 
 private:
-    QMap<const QString, const QString> myServers; // server->opensearch
+    std::map<const QString, const QString> myServers; // server -> opensearch schema
 };
+
 #endif // _choose_Server_Dialog_h_
