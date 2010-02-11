@@ -10,10 +10,8 @@ class Author;
 class Book {
 
 public:
-	Book(const QString& title, const QString& language, const QString& summary, const QString& id) : myTitle (title),
-                           myLanguage(language),
-					       mySummary(summary),
-						   myId(id) {}
+	Book(const QString& title, const QString& language, const QString& summary, const QString& id);
+    Book();
 
 public:
 	const QString& getTitle() const;
@@ -28,19 +26,23 @@ public:
     const QString& getFormat() const;	
     const QString& getContent() const;
 
-	void addAuthor(const Author* author);
+    void setTitle(const QString& title);
+    void setLanguage(const QString& lang);
+    void setSummary(const QString& summary);
+    void setId(const QString& id);
+    void addAuthor(const Author* author);
 	//void addSourceLink(const QString& format, QString link);
 	void setSourceLink(const QString& format, const QString& link);
     void setCoverLink(const QString& path);
     void setContent(const QString& content);
 
 private:
-	const QString myTitle;
-	const QString myLanguage;
-	const QString mySummary;
+	QString myTitle;
+	QString myLanguage;
+	QString mySummary;
     QString myContent;
     QVector<const Author*> myAuthors;
-	const QString myId;
+	QString myId;
 	QString myCoverLink;
     QString myFormat;
     QString mySourceLink;

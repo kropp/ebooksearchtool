@@ -24,24 +24,14 @@ private:
 	
 private:
 	Data* myData; 
-
-	QString myCurrentText;
+    Book* myBook;
+	
+    QString myCurrentText;
 	bool myIsEntry;
 	bool myIsInContent;
-	QString myTitle;
-	QString myLanguage;
-	QString mySummary;
 	QString myAuthorsName;
 	QString myAuthorsUri;	
-	QString myBooksUri;
-	QString myBooksLink;
-    QString myBooksCover;
     QString myFormat;
-    QString myContent;
-
-//friend class AtomParser;
 };
 
 #endif //_HANDLER_H_
-
-

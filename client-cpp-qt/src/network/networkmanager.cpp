@@ -28,7 +28,6 @@ NetworkManager::NetworkManager() {
 }
 
 NetworkManager::~NetworkManager() {
-    qDebug() << "NetworkManager::~NetworkManager";
     writeSettings();
 }
 
@@ -40,7 +39,6 @@ void NetworkManager::readSettings() {
 }
 
 void NetworkManager::writeSettings() const {
-    qDebug() << "NetworkManager::writeSettings";
     QSettings settings(ourConfigFilePath, QSettings::IniFormat);
     settings.beginGroup("network");
     settings.setValue("proxy", ourProxy);

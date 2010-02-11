@@ -1,5 +1,33 @@
 #include "book_author.h"
 
+Book::Book(const QString& title,
+           const QString& language,
+           const QString& summary,
+           const QString& id) : myTitle (title),
+                                myLanguage(language),
+					            mySummary(summary),
+						        myId(id) {}
+
+
+Book::Book() {}
+
+
+void Book::setTitle(const QString& title) {
+    myTitle = title;
+}
+
+void Book::setLanguage(const QString& lang) {
+    myLanguage = lang;
+}
+
+void Book::setSummary(const QString& summary) {
+    mySummary = summary;
+}
+
+void Book::setId(const QString& id) {
+    myId = id;
+}
+
 void Book::addAuthor(const Author* author) {
 	myAuthors.push_back(author);
 }

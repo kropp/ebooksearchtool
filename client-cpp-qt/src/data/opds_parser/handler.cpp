@@ -28,11 +28,12 @@ bool OPDSHandler::startElement (const QString& namespaceUri, const QString& tag,
     }
     if (tag == TAG_ENTRY) {
         myIsEntry = true;
+        myBook = new Book();
         setInitialValues();
     } else if (tag == TAG_LINK) {
         processLink(attributes);
     } else if (tag == TAG_CONTENT) {
-        qDebug() << "OPDSHandler start content parsing";
+        //qDebug() << "OPDSHandler start content parsing";
         myIsInContent = true;
     }
 	return true;
@@ -40,44 +41,41 @@ bool OPDSHandler::startElement (const QString& namespaceUri, const QString& tag,
 
 bool OPDSHandler::endElement (const QString& namespaceUri, const QString& localName, const QString& tag) {
 	//qDebug() << "Handler::endElement namespace " << namespaceUri;
-	if ((!myIsEntry) && (localName == "totalResults") && (namespaceUri == NSPASE_OPENSEARCH)) {
+	if (!myIsEntry) {
+        if ((localName == "totalResults") && 
+            (namespaceUri == NSPASE_OPENSEARCH)) {
         //qDebug() << "totalResults namespace" << myCurrentText << namespaceUri;
-        myData->setTotalEntries(myCurrentText.toInt());
+            myData->setTotalEntries(myCurrentText.toInt());
+        }
         return true;
     }
-    
-// if (myIsEntry)  
+   
+   //if I am inside entry
     if (tag == TAG_ENTRY) {
-		    const Author* author = new Author(myAuthorsName, myAuthorsUri); 
-		    Book* book = new Book(myTitle,
-		                          myLanguage, 
-		                          mySummary, 
-		                          myBooksUri);
-		    book->addAuthor(author);
-		    book->setSourceLink(myFormat, myBooksLink);
-            book->setCoverLink(myBooksCover);
-		    book->setContent(myContent);
-            myData->addBook(book);
-		    myIsEntry = false;	
+        myData->addBook(myBook);
+	    myIsEntry = false;	
 	} else if (tag == TAG_TITILE) {
-		myTitle = myCurrentText;
+		myBook->setTitle(myCurrentText);
 	} else if (tag == TAG_NAME) {
 		myAuthorsName = myCurrentText;
 	} else if (tag == TAG_URI) {
 		myAuthorsUri = myCurrentText;
 	} else if (tag == TAG_ID) {
-		myBooksUri = myCurrentText;
-	} else if ((localName == "language") && (namespaceUri == NSPASE_DCTERMS)) {
+	    myBook->setId(myCurrentText);
+    } else if (tag == "author") {
+        const Author* author = new Author(myAuthorsName, myAuthorsUri); 
+	    myBook->addAuthor(author);
+    } else if ((localName == "language") && (namespaceUri == NSPASE_DCTERMS)) {
 		//qDebug() << "Handler::endElement namespace for language " << namespaceUri;
       //qDebug() << "language" << myCurrentText;
-      myLanguage = myCurrentText;
-	} else if (tag == TAG_SUMMARY) {
-		mySummary = myCurrentText;
+        myBook->setLanguage(myCurrentText);
+    } else if (tag == TAG_SUMMARY) {
+	    myBook->setSummary(myCurrentText);
 	} else if (tag == TAG_CONTENT) {
         // set content
-        qDebug() << "OPDSHandler parser content finished";
-        qDebug() << "content " << myCurrentText;
-        myContent = myCurrentText;
+        //qDebug() << "OPDSHandler parser content finished";
+        //qDebug() << "content " << myCurrentText;
+        myBook->setContent(myCurrentText);
         myIsInContent = false;
     } else if (myIsInContent) {
         myCurrentText += "<" + tag + "/>";
@@ -99,24 +97,17 @@ void OPDSHandler::processLink(const QXmlAttributes& attributes) {
     if ((attributes.value(ATTRIBUTE_TYPE) == "application/" + myFormat) &&
        (attributes.value(ATTRIBUTE_RELATION) == ATTR_VALUE_ACQUISITION)) {
         
-                myBooksLink = attributes.value(ATTRIBUTE_REFERENCE);
-	
+                myBook->setSourceLink(attributes.value(ATTRIBUTE_REFERENCE), myFormat);
+                 
     } else if ((attributes.value(ATTRIBUTE_TYPE).contains("image")) && 
                ((attributes.value(ATTRIBUTE_RELATION) == ATTR_VALUE_COVER) ||
                 (attributes.value(ATTRIBUTE_RELATION) == ATTR_VALUE_COVER_STANZA))) {
         
-                myBooksCover = attributes.value(ATTRIBUTE_REFERENCE);
+                myBook->setCoverLink(attributes.value(ATTRIBUTE_REFERENCE));
     }
 }
 
 void OPDSHandler::setInitialValues() {
-    myTitle = "";
-    myLanguage = "";
-    mySummary = "";
     myAuthorsName = "";
     myAuthorsUri = "";
-    myBooksUri = "";
-    myBooksLink = "";
-    myBooksCover = "";
-    myContent = "";
 }

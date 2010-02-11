@@ -3,9 +3,10 @@
 ######################################################################
 
 TEMPLATE = app
+TARGET = 
 QT += xml
 QT += network
-TARGET = 
+CONFIG += qt debug
 OBJECTS_DIR = objects_moc
 MOC_DIR = objects_moc
 DEPENDPATH += . \
