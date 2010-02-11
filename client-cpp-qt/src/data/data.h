@@ -9,6 +9,7 @@ class Data {
 
 public:
 	Data();
+    ~Data();
 
 public:
     const QList<const Book*>& getBooks() const;
@@ -19,8 +20,8 @@ public:
     void setTotalEntries(int size);
 
 private:
-	  QList<const Book*> myBooks;
-      size_t myTotalEntries;
+	QList<const Book*> myBooks;
+    size_t myTotalEntries;
 
 private:
     Data(const Data& otherData);

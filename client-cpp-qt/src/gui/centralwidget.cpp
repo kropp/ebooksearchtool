@@ -78,7 +78,7 @@ void CentralWidget::httpRequestFinished(int requestId , bool) {
 void CentralWidget::parseDownloadedFile() {
 	OPDSParser parser;
 	if (myNewRequest) {
-	    if (!myData) {
+	    if (myData) {
             delete myData;
         }
         myData = new Data();
@@ -89,7 +89,6 @@ void CentralWidget::parseDownloadedFile() {
     myBuffer->close();
     myView->update();	
     if (!myScrollArea->widget()) {
-        qDebug() << "scroll area set widget" ;
         myScrollArea->setWidget(myView);
     }
     //myScrollArea->update();

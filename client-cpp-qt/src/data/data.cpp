@@ -1,6 +1,14 @@
 #include "data.h"
+#include <QDebug>
 
 Data::Data() : myTotalEntries(0) {
+}
+
+Data::~Data() {
+    qDebug() << "Data::~Data";
+    foreach (const Book* book, myBooks) {
+        delete book;
+    }
 }
 
 void Data::addBook(const Book* book) {
