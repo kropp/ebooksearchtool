@@ -9,6 +9,7 @@ import org.ebooksearchtool.analyzer.algorithms.*;
 import java.util.ArrayList;
 import org.ebooksearchtool.analyzer.algorithms.subalgorithms.FormatExtractor;
 import org.ebooksearchtool.analyzer.algorithms.subalgorithms.LanguageExtractor;
+import org.ebooksearchtool.analyzer.algorithms.subalgorithms.TitleParser;
 import org.ebooksearchtool.analyzer.algorithms.subalgorithms.URLsExtractor;
 import org.ebooksearchtool.analyzer.io.Logger;
 import org.xml.sax.helpers.DefaultHandler;
@@ -42,7 +43,7 @@ public class MunseyHandler extends DefaultHandler{
                    new String(ch, start, length).trim()));
         }
         if(ourTitleElementFlag == true){
-            ourBookInfo.setTitle(new Title(new String(ch, start, length).trim()));
+            ourBookInfo.setTitle(TitleParser.parse(new String(ch, start, length).trim()));
         }
         if(ourLinkElementFlag == true){
             ArrayList<Lexema> temp = Lexema.convertToLexems(new String(ch, start, length).trim());

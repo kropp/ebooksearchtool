@@ -6,7 +6,7 @@ import org.ebooksearchtool.analyzer.model.SpecialWords.StringType;
  * @author Aleksey Podolskiy
  */
 
-public class Sentence {
+public class Sentence implements Cloneable{
     private String myInfo;
     private StringType myType;
 
@@ -60,7 +60,17 @@ public class Sentence {
     }
 
     public void join(Sentence s){
-        this.setInfo(this.getInfo() + s.getInfo());
+        this.setInfo(this.getInfo() + " " + s.getInfo());
         this.setType(StringType.word);
+    }
+
+    @Override
+    public Sentence clone(){
+        return new Sentence(this.getInfo(), this.getType());
+    }
+
+    @Override
+    public String toString(){
+        return this.getInfo();
     }
 }

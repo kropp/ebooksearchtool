@@ -6,14 +6,12 @@ import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.Proxy.Type;
 import java.net.SocketAddress;
-import java.net.URL;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import org.ebooksearchtool.analyzer.io.Logger;
 import org.ebooksearchtool.analyzer.model.BookInfo;
 import org.ebooksearchtool.analyzer.network.ServerConnector;
-import org.ebooksearchtool.analyzer.network.demon.MunseyHandler;
 import org.xml.sax.SAXException;
 
 /**
@@ -129,9 +127,12 @@ public class NetUtils {
 
 
     public static void sendBookInfo(BookInfo info){
-        if(!info.getTitle().equals("")){
+        if(!info.getTitle().getName().equals("") && info.getAuthors().size() != 0){
             String message = ServerConnector.sendRequest
                     (BookInfoFormer.formBookInfo(info), ServerConnector.INSERT_REQUEST);
+            //TODO:For chek only
+            System.out.println(info.getAuthors().get(0).getName());
+            System.out.println(info.getTitle().getName());
             if(NetUtils.serverAnswersAnalyze(message)){
                 Logger.setToLog("Book Information succsesfully sent to server:" +
                         AnalyzerProperties.getPropertie("system_separator") +
@@ -145,10 +146,15 @@ public class NetUtils {
                         AnalyzerProperties.getPropertie("system_separator") +
                         message);
             }
-            System.out.println(message);
+            //System.out.println(message);
         }else{
-            Logger.setToLog("Book Information can't be sent to server(Unknown title):" +
-                    AnalyzerProperties.getPropertie("system_separator") + AnalyzeUtils.bookInfoToString(info));
+            if(info.getAuthors().size() != 0){
+                Logger.setToLog("Book Information can't be sent to server(Unknown title):" +
+                        AnalyzerProperties.getPropertie("system_separator") + AnalyzeUtils.bookInfoToString(info));
+            }else{
+                Logger.setToLog("Book Information can't be sent to server(Unknown author):" +
+                        AnalyzerProperties.getPropertie("system_separator") + AnalyzeUtils.bookInfoToString(info));
+            }
         }
     }
 

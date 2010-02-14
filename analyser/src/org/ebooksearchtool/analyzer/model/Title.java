@@ -63,14 +63,14 @@ public class Title {
     /**
      * @return the myTitle
      */
-    public String getTitle() {
+    public String getName() {
         return myTitle;
     }
 
     /**
      * @param myTitle the myTitle to set
      */
-    public void setTitle(String myTitle) {
+    public void setName(String myTitle) {
         this.myTitle = myTitle;
     }
 

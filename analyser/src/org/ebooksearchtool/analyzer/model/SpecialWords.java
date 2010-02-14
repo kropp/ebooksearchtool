@@ -109,21 +109,20 @@ public class SpecialWords {
 
     public static ArrayList<Sentence> devide(String input){
         int length = input.length();
-        StringBuilder sb = new StringBuilder();
         ArrayList<Sentence> out = new ArrayList<Sentence>();
         Sentence current = new Sentence();
 
         for (int i = 0; i < length; i++) {
             if(input.charAt(i) == ' '){
                 if(!current.getInfo().equals("")){
-                    out.add(current);
+                    out.add(current.clone());
                 }
                 current.clear();
                 continue;
             }
             if(SpecialWords.isSepatator(input.charAt(i))){
                 if(!current.getInfo().equals("")){
-                    out.add(current);
+                    out.add(current.clone());
                     out.add(new Sentence (input.charAt(i), StringType.separator));
                 }
                 current.clear();
@@ -131,7 +130,7 @@ public class SpecialWords {
             }
             if(SpecialWords.isJoiner(input.charAt(i))){
                 if(!current.getInfo().equals("")){
-                    out.add(current);
+                    out.add(current.clone());
                     out.add(new Sentence (input.charAt(i), StringType.joiner));
                 }
                 current.clear();
@@ -139,6 +138,7 @@ public class SpecialWords {
             }
             current.setInfo(current.getInfo() + input.charAt(i));
         }
+        out.add(current.clone());
 
         length = out.size();
         for (int i = 0; i < length; i++) {

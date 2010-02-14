@@ -207,7 +207,7 @@ public class BookInfo {
                 tit.setRelIndex(Integer.valueOf(temp.substring("trust=\"".length(), endIndex)));
                 temp = temp.substring(temp.indexOf(">"));
                 endIndex = temp.indexOf("<");
-                tit.setTitle(temp.substring(1,endIndex));
+                tit.setName(temp.substring(1,endIndex));
                 book.setTitle(tit);
             }
             //Language
@@ -631,5 +631,31 @@ public class BookInfo {
             message = message.substring(message.indexOf("<book"));
         }
         return out;
+    }
+
+    public void printInfo(){
+       System.out.println("Title: " + this.getTitle());
+       List<Author> authors = this.getAuthors();
+       int length = authors.size();
+       System.out.println("Authors: ");
+       for (int i = 0; i < length; i++) {
+           System.out.println("    " + authors.get(i).getName());
+       }
+       List<File> files = this.getFiles();
+       length = files.size();
+       System.out.println("Files: ");
+       for (int i = 0; i < length; i++) {
+           System.out.print("    Link: " + files.get(i).getLink() +"; " );
+           System.out.print("Size: " + files.get(i).getSize() +"; " );
+           System.out.println("Type: " + files.get(i).getType());
+           System.out.println("Book Cover: " + files.get(i).getImgLink());
+       }
+       System.out.println("Language: " + this.getLanguage());
+       List<String> annotations = this.getAnnotations();
+       length = annotations.size();
+       System.out.println("Annotations: ");
+       for (int i = 0; i < length; i++) {
+           System.out.println(annotations.get(i));
+       }
     }
 }

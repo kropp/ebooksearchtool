@@ -24,7 +24,7 @@ public class TitleParser {
         }
 
 
-        tit.setTitle(temp.toString());
+        tit.setName(temp.toString());
         return tit;
     }
 }

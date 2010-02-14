@@ -20,7 +20,7 @@ public class AuthorsParser{
         while (length != 0){
             //Случай, когда остался только первый элимент
             if(1 == length){
-                out.add(temp.get(0).toString());
+                out.add(temp.get(0).getInfo());
                 temp.remove(0);
             }else{
                 //Случай с сепаратором
@@ -41,7 +41,7 @@ public class AuthorsParser{
                                 temp.remove(0);//Уаление второго сепаратора
                             }
                         }else{
-                            out.add(temp.get(0).toString());
+                            out.add(temp.get(0).getInfo());
                             temp.remove(0);//Удаление готового элимента
                             temp.remove(0);//Удаление сепаратора
                         }
@@ -68,7 +68,6 @@ public class AuthorsParser{
                     }
                 }
             }
-
             length = temp.size();
         }
 
@@ -89,22 +88,30 @@ public class AuthorsParser{
                     tmp = tmp.insert(j + 1," ");
                 }
             }
-            out.set(i, tmp.toString());
+            out.set(i, tmp.toString().trim());
         }
 
         //Удаление символов, не являющихся буквами, из имен авторов.
         for (int i = 0; i < length; i++) {
-            tmp = new StringBuilder(out.get(i).toLowerCase());
+            tmp = new StringBuilder(out.get(i));
             int len = tmp.length();
             for (int j = 0; j < len; j++) {
-                if(!Character.isLetter(tmp.charAt(j))){
+                if(!Character.isLetter(tmp.charAt(j)) &&
+                        !SpecialWords.isJoiner(tmp.charAt(j)) &&
+                        !SpecialWords.isSepatator(tmp.charAt(j)) &&
+                        tmp.charAt(j) != '.'){
                     while(j < tmp.length() && tmp.charAt(j) != ' '){
                         tmp.deleteCharAt(j);
                     }
                     len = tmp.length();
                 }
             }
-            out.set(i, tmp.toString());
+            if(len > 0){
+                out.set(i, tmp.toString());
+            }else{
+                out.remove(i);
+                length--;
+            }
         }
 
         //Приведение авторов в единый вид(большие и маленькие буквы)
@@ -126,11 +133,16 @@ public class AuthorsParser{
 
         //Расстановка точек после инициалов авторов
         for (int i = 0; i < length; i++) {
-            tmp = new StringBuilder(out.get(i).toLowerCase());
+            tmp = new StringBuilder(out.get(i));
             int len = tmp.length();
+            //For first symbol
+            if(tmp.charAt(1) == ' ' && tmp.charAt(0) != ' ') {
+                    tmp.insert(1, '.');
+            }
+            //For all other symbols
             for (int j = 1; j < len - 1; j++) {
                 if(tmp.charAt(j - 1) == ' ' && tmp.charAt(j) != ' ' &&
-                        tmp.charAt(j) == ' ') {
+                        tmp.charAt(j + 1) == ' ') {
                     tmp.insert(j + 1, '.');
                 }
             }

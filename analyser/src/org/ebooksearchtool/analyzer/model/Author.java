@@ -41,7 +41,7 @@ public class Author {
      * @return the myName
      */
     public String getName() {
-        return myName;
+        return this.myName;
     }
 
     /**
