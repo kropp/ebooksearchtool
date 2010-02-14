@@ -78,7 +78,7 @@ public class SAXHandler extends DefaultHandler{
                     }else if("start".equals(attributes.getValue("rel"))){
                         myAnswer.setCatMainPage(attributes.getValue("href"));
                     }
-                }else if("Next Page".equals(attributes.getValue("title")) && "application/atom+xml".equals(attributes.getValue("type"))){
+                }else if("next".equals(attributes.getValue("rel")) && "application/atom+xml".equals(attributes.getValue("type"))){
                     myAnswer.setNextPage(attributes.getValue("href"));
 
                 }
