@@ -107,6 +107,7 @@ INSTALLED_APPS = (
     'book',
     'reader',
     'tests',
+    'djangosphinx',
     #openid
 #    'django_authopenid',
 )
