@@ -19,7 +19,7 @@ import org.ebooksearchtool.analyzer.model.*;
 import org.ebooksearchtool.analyzer.utils.AnalyzeUtils;
 import org.ebooksearchtool.analyzer.model.Lexema;
 import org.ebooksearchtool.analyzer.network.ServerConnector;
-import org.ebooksearchtool.analyzer.utils.BookInfoFormer;
+import org.ebooksearchtool.analyzer.utils.RequestFormer;
 import org.ebooksearchtool.analyzer.utils.NetUtils;
 
 public class MunseyHandler extends DefaultHandler{

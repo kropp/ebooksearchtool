@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import org.ebooksearchtool.analyzer.algorithms.subalgorithms.*;
 import org.ebooksearchtool.analyzer.model.*;
 import org.ebooksearchtool.analyzer.network.ServerConnector;
-import org.ebooksearchtool.analyzer.utils.BookInfoFormer;
+import org.ebooksearchtool.analyzer.utils.RequestFormer;
 
 /**
  * @author Aleksey Podolskiy
@@ -37,7 +37,7 @@ public class WholeParser implements IParser{
         //TODO:Часть 2 Проверяем ее на сервере.
 
         reqBooks = BookInfo.getBooksInfoFromRequest(
-                ServerConnector.sendRequest(BookInfoFormer.formBookInfoRequest(myBookInfo.get(currentBook)), 0));
+                ServerConnector.sendRequest(RequestFormer.formBookInfoRequest(myBookInfo.get(currentBook)), 0));
 
         if(reqBooks.size() == 0){
             return myBookInfo.get(0);

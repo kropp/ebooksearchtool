@@ -8,6 +8,7 @@ import java.net.URL;
 import java.net.URLDecoder;
 import org.ebooksearchtool.analyzer.io.Logger;
 import org.ebooksearchtool.analyzer.utils.AnalyzerProperties;
+import org.ebooksearchtool.analyzer.utils.RequestFormer;
 
 /**
  * @author Алексей
@@ -41,30 +42,27 @@ public class ServerConnector extends Thread{
     @Override
     public synchronized void run(){
         try {
-            myConnection = (HttpURLConnection) myInsertURL.openConnection(NetUtils.serverProxyInit());
+            myConnection = (HttpURLConnection) myInitURL.openConnection(
+                    NetUtils.serverProxyInit());
             myConnection.setDoInput(true);
             myConnection.setDoOutput(true);
 
-            //TODO:Доделать после поддержки сервером
-            //Server Timeout connection
-//            System.out.println("Server connected on:");
-//            System.out.println(myInsertURL);
-//            System.out.println("");
-//            Logger.setToLog("Server connected on: " + myInsertURL);
-            establishConnection();
+           sendRequest(RequestFormer.getInitRequest(), INIT_REQUEST);
 
             while(true){
                 synchronized(myLock){
                     try {
                         myLock.wait();
                     } catch (InterruptedException ex) {
-                        Logger.setToErrorLog(ex.getMessage() + ". ServerConnector thread was interrupted.");
+                        Logger.setToErrorLog(ex.getMessage() + ". " +
+                                "ServerConnector thread was interrupted.");
                     }
                 }
             }
         } catch (IOException ex) {
             Logger.setToErrorLog(ex.getMessage() +
-                    ". Connection to server failed in client thread initialization.");
+                    ". Connection to server failed in client thread " +
+                    "initialization.");
         }
 }
 
@@ -74,28 +72,63 @@ public class ServerConnector extends Thread{
      * INSERT_REQUEST = 1;
      * INIT_REQUEST = 2;
      */
-    public static synchronized String sendRequest(String request, int requestType){
+    public static synchronized String sendRequest(String request,
+            int requestType){
         String message = "";
         try {
             if(requestType == INSERT_REQUEST){
-                myConnection = (HttpURLConnection) myInsertURL.openConnection(NetUtils.serverProxyInit());
+                myConnection = (HttpURLConnection) myInsertURL.openConnection(
+                    NetUtils.serverProxyInit());
                 NetUtils.sendMessage(myConnection, request, "POST");
+                message = URLDecoder.decode(
+                    NetUtils.reciveServerMessage(myConnection), "UTF-8");
             }else{
                 if(requestType == GET_REQUEST){
-                    myConnection = (HttpURLConnection) myGetURL.openConnection(NetUtils.serverProxyInit());
-                    NetUtils.sendMessage(myConnection, request, "POST");
+                    myConnection = (HttpURLConnection) myGetURL.openConnection(
+                    NetUtils.serverProxyInit());
+                    NetUtils.sendMessage(myConnection, request, "POST");//TODO:Check request logic (why post in get)
+                    message = URLDecoder.decode(
+                    NetUtils.reciveServerMessage(myConnection), "UTF-8");
                 }else{
-                    myConnection = (HttpURLConnection) myInitURL.openConnection(NetUtils.serverProxyInit());
-                    NetUtils.sendMessage(myConnection, request, "GET");
+                    myConnection = (HttpURLConnection) myInitURL.openConnection(
+                    NetUtils.serverProxyInit());
+                    boolean isConnectedFlag = false;
+                    while(!isConnectedFlag){
+                        try {
+                            NetUtils.sendMessage(myConnection,
+                                    RequestFormer.getInitRequest(), "GET");
+                            message = URLDecoder.decode(
+                                    NetUtils.reciveServerMessage(myConnection), "UTF-8");
+                            if (NetUtils.serverConnectionAnswersAnalyze(message)) {
+                                isConnectedFlag = true;
+                                System.out.println("Server connected on:");
+                                System.out.println(myInitURL);
+                                System.out.println("");
+                                Logger.setToLog("Server connected on: " + myInitURL);
+                            }
+                        } catch (IOException ex) {
+                            Logger.setToErrorLog(ex.getMessage() + ". No server " +
+                                    "connection found. Please chek the connection." +
+                                    " Analyzer will try to reconnect.");
+                        }
+                        //TODO:Look how to work with timeouts
+//                        synchronized(myLock){
+//                            try {
+//                                myLock.wait(AnalyzerProperties.getPropertieAsNumber(
+//                                        "server_timeout"));
+//                            } catch (InterruptedException ex) {
+//                                Logger.setToErrorLog(ex.getMessage() + ". " +
+//                                        "ServerConnector thread was interrupted.");
+//                            }
+//                        }
+                    }
                 }
             }
-            message = URLDecoder.decode(NetUtils.reciveServerMessage(myConnection), "UTF-8");
         } catch (IOException ex) {
-            Logger.setToErrorLog(ex.getMessage() + ". No server connection found. Please chek the connection." +
-            " Analyzer will try to reconnect.");
-            System.out.println(ex.getMessage() + ". No server connection found. Please chek the connection." +
-            " Analyzer will try to reconnect.");
-            establishConnection();
+            Logger.setToErrorLog(ex.getMessage() + ". No server connection" +
+                    " found. Please chek the connection." +
+                    " Analyzer will try to reconnect.");
+            message = sendRequest(RequestFormer.getInitRequest(), INIT_REQUEST);
             message = sendRequest(request, requestType);
         }
         if(message.length() == 0){
@@ -103,32 +136,5 @@ public class ServerConnector extends Thread{
         }
 
         return message;
-    }
-
-    private static boolean isConnectionEstablished(){
-        //TODO:Убрать рекурсию
-        String message = ServerConnector.sendRequest
-                                ("", ServerConnector.INIT_REQUEST);
-
-        if(NetUtils.serverConnetionAnswersAnalyze(message)){
-            System.out.println("Server connected on:");
-            System.out.println(myInitURL);
-            System.out.println("");
-            Logger.setToLog("Server connected on: " + myInitURL);
-            return true;
-        }
-        return false;
-    }
-
-    private static void establishConnection(){
-         while(!isConnectionEstablished()){
-            synchronized(myLock){
-                try {
-                    myLock.wait(AnalyzerProperties.getPropertieAsNumber("server_timeout"));
-                } catch (InterruptedException ex) {
-                    Logger.setToErrorLog(ex.getMessage() + ". ServerConnector thread was interrupted.");
-                }
-            }
-         }
     }
 }

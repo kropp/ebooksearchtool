@@ -24,8 +24,8 @@ public class NetUtils {
         connect.setDoInput(true);
         connect.setDoOutput(true);
         connect.setRequestMethod(method);
-        connect.setRequestProperty( "Content-type", "application/x-www-form-urlencoded; charset=UTF-8" );
-        connect.setRequestProperty( "Content-length", String.valueOf(getContentLength(s)));
+        connect.setRequestProperty("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
+        connect.setRequestProperty("Content-length", String.valueOf(getContentLength(s)));
         OutputStream os = connect.getOutputStream();
         PrintWriter pw = new PrintWriter(os);
         pw.println(s);
@@ -86,7 +86,7 @@ public class NetUtils {
        return false;
    }
 
-   public static boolean serverConnetionAnswersAnalyze(String message){
+   public static boolean serverConnectionAnswersAnalyze(String message){
        try {
            final String messageIn = message;
            SAXParserFactory factory1 = SAXParserFactory.newInstance();
@@ -129,7 +129,7 @@ public class NetUtils {
     public static void sendBookInfo(BookInfo info){
         if(!info.getTitle().getName().equals("") && info.getAuthors().size() != 0){
             String message = ServerConnector.sendRequest
-                    (BookInfoFormer.formBookInfo(info), ServerConnector.INSERT_REQUEST);
+                    (RequestFormer.formBookInfo(info), ServerConnector.INSERT_REQUEST);
             //TODO:For chek only
             System.out.println(info.getAuthors().get(0).getName());
             System.out.println(info.getTitle().getName());

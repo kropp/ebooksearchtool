@@ -9,7 +9,7 @@ import org.ebooksearchtool.analyzer.model.BookInfo;
  * @author Алексей
  */
 
-public class BookInfoFormer {
+public class RequestFormer {
 
     //TODO:Изменить формат(2 варианта)
     public static String formBookInfo(BookInfo info) {
@@ -42,8 +42,14 @@ public class BookInfoFormer {
         } catch (UnsupportedEncodingException ex) {
             Logger.setToErrorLog(ex.getMessage() + 
                     ". Analyzer try to encode into unsupported encoding in " +
-                    BookInfoFormer.class.getName() +" class.");
+                    RequestFormer.class.getName() +" class.");
         }
         return null;
     }
+
+    public static String getInitRequest(){
+        //TODO:Add initial request in normal form
+        return "";
+    }
+
 }
