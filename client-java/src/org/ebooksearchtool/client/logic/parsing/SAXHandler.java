@@ -86,6 +86,8 @@ public class SAXHandler extends DefaultHandler{
                         myAnswer.getData().getBookLinks(myAnswer.getData().getBooks().size()-1).put("epub", attributes.getValue("href"));
                     }else if("http://opds-spec.org/thumbnail".equals(attributes.getValue("rel"))){
                         myAnswer.getData().setBookImage(myAnswer.getData().getBooks().size()-1, attributes.getValue("href"));
+                    }else if("x-stanza-cover-image-thumbnail".equals(attributes.getValue("rel"))){
+                        myAnswer.getData().setBookImage(myAnswer.getData().getBooks().size()-1, attributes.getValue("href"));
                     }else if(attributes.getValue("term") != null){
                         myAnswer.getData().setBookGenre(myAnswer.getData().getBooks().size()-1, attributes.getValue("term"));
                     }else if("start".equals(attributes.getValue("rel"))){
