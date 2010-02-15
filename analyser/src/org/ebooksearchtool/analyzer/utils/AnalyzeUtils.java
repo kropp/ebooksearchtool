@@ -15,6 +15,13 @@ import org.ebooksearchtool.analyzer.model.*;
 
 public class AnalyzeUtils {
 
+    //Constants for describing server searching methods
+    public static final String FULL_MATCH = "";
+    public static final String CONTAINS_CASE_INSENSITIVE = "icontains";
+    public static final String GREATER_THEN = "gt";
+    public static final String LESSER_THAN = "lt";
+    public static final String FULL_TEXT="search";
+
     // <editor-fold defaultstate="collapsed" desc="Language utils">
     private static HashSet<Language> myLanguages = new HashSet<Language>();
     static{
@@ -112,21 +119,6 @@ public class AnalyzeUtils {
     }
 
     //</editor-fold>
-//    public static boolean isNumber(char ch){
-//        switch(ch){
-//            case '0':{return true;}
-//            case '1':{return true;}
-//            case '2':{return true;}
-//            case '3':{return true;}
-//            case '4':{return true;}
-//            case '5':{return true;}
-//            case '6':{return true;}
-//            case '7':{return true;}
-//            case '8':{return true;}
-//            case '9':{return true;}
-//            default :{return false;}
-//        }
-//    }
 
     public static String bookInfoToString(BookInfo info){
        StringBuilder sb = new StringBuilder();
@@ -152,7 +144,7 @@ public class AnalyzeUtils {
        return sb.toString();
    }
 
-//    <editor-fold defaultstate="collapsed" desc="Author utils">
+    //    <editor-fold defaultstate="collapsed" desc="Author utils">
 //    private static HashSet<String> myAuthors;
 //    static{
 //        myAuthors.add("by");

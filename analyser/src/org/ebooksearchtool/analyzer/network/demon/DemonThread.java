@@ -48,11 +48,11 @@ public class DemonThread extends Thread {
                                 Logger.setToErrorLog(ex.getMessage());
                             }
                         }
-                        //TODO:Доделать удаление файла, если он не докачан
                         OutputStream out = null;
+                        File munsey = null;
                         try {
                             try {
-                                File munsey = new File("munsey.xml");
+                                munsey = new File("munsey.xml");
                                 if (munsey.createNewFile()) {
                                     address = new URL("http://www.munseys.com/munsey.xml");
                                     URLConnection connect = address.openConnection(NetUtils.proxyInit());
@@ -75,8 +75,11 @@ public class DemonThread extends Thread {
                                 parser.parse("munsey.xml");
                                 myTodayUpdateFlag = true;
                             } catch (IOException ex) {
-                                Logger.setToErrorLog(ex.getMessage() + ". Can't connect to " +
-                                        "URL distanation or write to file in " + DemonThread.class.getName() + " class.");
+                                Logger.setToErrorLog(ex.getMessage() + ". " +
+                                        "Can't connect to " +
+                                        "URL distanation or write to file in " +
+                                        DemonThread.class.getName() + " class.");
+                                munsey.delete();
                             } finally {
                                 if (out != null) {
                                     out.close();

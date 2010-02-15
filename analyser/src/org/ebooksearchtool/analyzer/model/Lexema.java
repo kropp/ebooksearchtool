@@ -68,7 +68,9 @@ public class Lexema {
             switch(ch) {
                 case '<' : {
                     //Предидущую часть записываем как информационную лексему
-                    temp.add(new Lexema(bd.toString(), LexemaType.sentence));
+                    if(bd.length() != 0) {
+                        temp.add(new Lexema(bd.toString().trim(), LexemaType.sentence));
+                    }
                     //Разбор комментариев(нашили комментраий - пропускаем все до его конца)
                     //Сейчас - разбираем все теги и удаляем ненужные после разбора(см.далее)
 //                    if(i + 3 < length && input.charAt(i + 1) == '!' &&
@@ -106,11 +108,12 @@ public class Lexema {
         }
         //TODO:ПРОВЕРИТЬ!!
         temp.add(new Lexema(bd.toString(), LexemaType.sentence));
-        //Удаление ненужных тегов.
+        //Удаление ненужных тегов. TODO: Rework with useless tags
         length = temp.size();
         for (int i = 0; i < length; i++) {
-            if(temp.get(i).getValue().indexOf("!--") == 0 ||
-                    temp.get(i).getValue().indexOf("script") == 0) {
+            if(//temp.get(i).getValue().indexOf("!--") == 0 ||
+                    //temp.get(i).getValue().indexOf("script") == 0 ||
+                    temp.get(i).getValue().length() == 0) {
                 temp.remove(i);
                 length--;
             }
@@ -153,9 +156,13 @@ public class Lexema {
             if(sb.indexOf("</") == 0 && sb.length() > 3){
                 sb.delete(0, 2);
             }else{
-                sb.deleteCharAt(0);
+                if(sb.indexOf("<") == 0){
+                    sb.deleteCharAt(0);
+                }
             }
-            sb.deleteCharAt(sb.length() - 1);
+            if(sb.lastIndexOf(">") == sb.length() - 1){
+                sb.deleteCharAt(sb.length() - 1);
+            }
         }
         return sb.toString().trim();
     }

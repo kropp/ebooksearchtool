@@ -1,6 +1,7 @@
 package org.ebooksearchtool.analyzer.model;
 
 import java.util.List;
+import org.ebooksearchtool.analyzer.utils.AnalyzerProperties;
 
 /**
  * @author Алексей
@@ -129,5 +130,67 @@ public class Author {
      */
     public void setRelIndex(int myRelevanceIndex) {
         this.myRelevanceIndex = myRelevanceIndex;
+    }
+
+    public static String writeAuthors(List<Author> authors){
+        StringBuilder str = new StringBuilder();
+        int length = authors.size();
+
+        str.append("<authors>");
+        str.append(AnalyzerProperties.getPropertie("system_separator"));
+        for (int i = 0; i < length; i++) {
+            Author author = authors.get(i);
+            str.append("<author>");
+            str.append(author.getName());
+            //Не убирать, просто пока не нужны
+//            List<String> aliases = author.getAliases();
+//            if(aliases != null){
+//            int alLength = aliases.size();
+//                for (int j = 0; j < alLength; j++) {
+//                    str.append("<alias>");
+//                    str.append(aliases.get(j));
+//                    str.append("</alias>");
+//                    str.append(AnalyzerProperties.getPropertie("system_separator"));
+//                }
+//            }
+            str.append("</author>");
+            str.append(AnalyzerProperties.getPropertie("system_separator"));
+        }
+        str.append("</authors>");
+        str.append(AnalyzerProperties.getPropertie("system_separator"));
+
+        return str.toString();
+    }
+
+    public static String writeAuthorsForRequest(List<Author> authors, String searchType){
+        StringBuilder str = new StringBuilder();
+        int length = authors.size();
+
+        str.append("<authors>");
+        str.append(AnalyzerProperties.getPropertie("system_separator"));
+        for (int i = 0; i < length; i++) {
+            Author author = authors.get(i);
+            str.append("<author type=\"");
+            str.append(searchType);
+            str.append("\">");
+            str.append(author.getName());
+            //Не убирать, просто пока не нужны
+//            List<String> aliases = author.getAliases();
+//            if(aliases != null){
+//            int alLength = aliases.size();
+//                for (int j = 0; j < alLength; j++) {
+//                    str.append("<alias>");
+//                    str.append(aliases.get(j));
+//                    str.append("</alias>");
+//                    str.append(AnalyzerProperties.getPropertie("system_separator"));
+//                }
+//            }
+            str.append("</author>");
+            str.append(AnalyzerProperties.getPropertie("system_separator"));
+        }
+        str.append("</authors>");
+        str.append(AnalyzerProperties.getPropertie("system_separator"));
+
+        return str.toString();
     }
 }

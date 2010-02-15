@@ -30,7 +30,6 @@ public class AnalyzerThread extends Thread {
                     WholeParser ws = new WholeParser();
                     BookInfo info = ws.parse(myMessage);
                     info.printInfo();
-                    //TODO: Добавить разбор ответов от сервера  
                     NetUtils.sendBookInfo(info);
                     myMessage = "";
                 } catch (InterruptedException ex) {

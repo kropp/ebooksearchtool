@@ -1,7 +1,9 @@
 package org.ebooksearchtool.analyzer.model;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import org.ebooksearchtool.analyzer.utils.AnalyzerProperties;
 
 /**
  * @author Алексей
@@ -192,4 +194,110 @@ public class File {
         this.myID = myID;
     }
     // </editor-fold>
+
+    public static String writeFilesForRequest(List<File> files){
+        StringBuilder str = new StringBuilder();
+        int length = files.size();
+
+        str.append("<files>");
+        str.append(AnalyzerProperties.getPropertie("system_separator"));
+        for (int i = 0; i < length; i++) {
+            File file = files.get(i);
+            str.append("<file>");
+            str.append(AnalyzerProperties.getPropertie("system_separator"));
+            str.append("<link>");
+            str.append(file.getLink());
+            str.append("</link>");
+            str.append(AnalyzerProperties.getPropertie("system_separator"));
+            str.append("<size>");
+            str.append(file.getSize());
+            str.append("</size>");
+            str.append(AnalyzerProperties.getPropertie("system_separator"));
+            str.append("<type>");
+            str.append(file.getType());
+            str.append("</type>");
+            str.append(AnalyzerProperties.getPropertie("system_separator"));
+            str.append("<time_found>");
+            str.append(file.getTimeFound());
+            str.append("</time_found>");
+            str.append(AnalyzerProperties.getPropertie("system_separator"));
+            str.append("<last_check>");
+            str.append(file.getLastChek());
+            str.append("</last_check>");
+            str.append(AnalyzerProperties.getPropertie("system_separator"));
+            str.append("<more_info>");
+            str.append(file.getMoreInfo());
+            str.append("</more_info>");
+            str.append(AnalyzerProperties.getPropertie("system_separator"));
+            str.append("<img_link>");
+            str.append(file.getImgLink());
+            str.append("</img_link>");
+            str.append(AnalyzerProperties.getPropertie("system_separator"));
+            str.append("</file>");
+            str.append(AnalyzerProperties.getPropertie("system_separator"));
+        }
+        str.append("</files>");
+        str.append(AnalyzerProperties.getPropertie("system_separator"));
+
+        return str.toString();
+    }
+
+    public static String writeFiles(List<File> files){
+        StringBuilder str = new StringBuilder();
+        int length = files.size();
+
+        str.append("<files>");
+        str.append(AnalyzerProperties.getPropertie("system_separator"));
+        for (int i = 0; i < length; i++) {
+            File file = files.get(i);
+            str.append("<file>");
+            str.append(AnalyzerProperties.getPropertie("system_separator"));
+            str.append("<link>");
+            str.append(file.getLink());
+            str.append("</link>");
+            str.append(AnalyzerProperties.getPropertie("system_separator"));
+            if(!file.getSize().equals("")){
+                str.append("<size>");
+                str.append(file.getSize());
+                str.append("</size>");
+            }
+            str.append(AnalyzerProperties.getPropertie("system_separator"));
+            if(!file.getType().equals("")){
+                str.append("<type>");
+                str.append(file.getType());
+                str.append("</type>");
+            }
+            str.append(AnalyzerProperties.getPropertie("system_separator"));
+            if(!file.getTimeFound().equals("")){
+                str.append("<time_found>");
+                str.append(file.getTimeFound());
+                str.append("</time_found>");
+            }
+            str.append(AnalyzerProperties.getPropertie("system_separator"));
+            if(!file.getLastChek().equals("")){
+                str.append("<last_check>");
+                str.append(file.getLastChek());
+                str.append("</last_check>");
+            }
+            str.append(AnalyzerProperties.getPropertie("system_separator"));
+            if(!file.getMoreInfo().equals("")){
+                str.append("<more_info>");
+                str.append(file.getMoreInfo());
+                str.append("</more_info>");
+            }
+            str.append(AnalyzerProperties.getPropertie("system_separator"));
+            if(!file.getImgLink().equals("")){
+                str.append("<img_link>");
+                str.append(file.getImgLink());
+                str.append("</img_link>");
+            }
+            str.append(AnalyzerProperties.getPropertie("system_separator"));
+            str.append("</file>");
+            str.append(AnalyzerProperties.getPropertie("system_separator"));
+        }
+        str.append("</files>");
+        str.append(AnalyzerProperties.getPropertie("system_separator"));
+
+        return str.toString();
+    }
 }

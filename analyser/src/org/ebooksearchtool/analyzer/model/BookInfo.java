@@ -2,7 +2,9 @@ package org.ebooksearchtool.analyzer.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.ebooksearchtool.analyzer.io.Logger;
 import org.ebooksearchtool.analyzer.utils.AnalyzerProperties;
+import org.ebooksearchtool.analyzer.utils.AnalyzeUtils;
 
 /**
  * @author Алексей
@@ -13,7 +15,7 @@ public class BookInfo {
     private List<Author> myAuthors;
     private Title myTitle;
     private List<File> myFiles;
-    private String myLanguage;
+    private Language myLanguage;
     private List<String> myAnnotations;
 
     public static final int AUTHORS = 0;
@@ -30,7 +32,7 @@ public class BookInfo {
         myTitle = new Title();
         myFiles = new ArrayList<File>();
         //myFiles.add(new File());
-        myLanguage = "";
+        myLanguage = new Language();
         myAnnotations = new ArrayList<String>();
         //myAnnotations.add("");
     }
@@ -40,10 +42,18 @@ public class BookInfo {
         myAuthors = authors;
         myTitle = new Title(title);
         myFiles = files;
-        myLanguage = language;
+        myLanguage = new Language(language);
         myAnnotations = annotations;
     }
 
+    public BookInfo(List<Author> authors, Title title, List<File> files,
+            String language, List<String> annotations){
+        myAuthors = authors;
+        myTitle = title;
+        myFiles = files;
+        myLanguage = new Language(language);
+        myAnnotations = annotations;
+    }
     public BookInfo(int id){
         myID = Integer.toBinaryString(id);
         myAuthors = new ArrayList<Author>();
@@ -51,7 +61,7 @@ public class BookInfo {
         myTitle = new Title();
         myFiles = new ArrayList<File>();
         //myFiles.add(new File());
-        myLanguage = "";
+        myLanguage = new Language();
         myAnnotations = new ArrayList<String>();
         //myAnnotations.add("");
     }
@@ -103,7 +113,7 @@ public class BookInfo {
     /**
      * @return the myLanguage
      */
-    public String getLanguage() {
+    public Language getLanguage() {
         return myLanguage;
     }
 
@@ -111,6 +121,10 @@ public class BookInfo {
      * @param myLanguage the myLanguage to set
      */
     public void setLanguage(String myLanguage) {
+        this.myLanguage = new Language(myLanguage);
+    }
+
+    public void setLanguage(Language myLanguage) {
         this.myLanguage = myLanguage;
     }
 
@@ -151,16 +165,16 @@ public class BookInfo {
         str.append("<book>");
         str.append(AnalyzerProperties.getPropertie("system_separator"));
         if(!myTitle.equals("")){
-            str.append(writeTitle());
+            str.append(this.getTitle().writeTitle());
         }
         if(!myLanguage.equals("")){
-            str.append(writeLanguage());
+            str.append(this.getLanguage().writeLanguage());
         }
         if(!myAuthors.isEmpty() && !myAuthors.get(0).getName().equals("")){
-            str.append(writeAuthors());
+            str.append(Author.writeAuthors(this.getAuthors()));
         }
         if(!myFiles.isEmpty()){
-            str.append(writeFiles());
+            str.append(File.writeFiles(this.getFiles()));
         }
         if(!myAnnotations.isEmpty() && !myAnnotations.get(0).equals("")){
             str.append(writeAnnotations());
@@ -176,6 +190,7 @@ public class BookInfo {
      * @param message to parse to BookInfo
      * @return BookInfo if parse succesfull or null otherwise.
      */
+    //TODO:Uncomment rel and trust reads when server will mantains it
     private static BookInfo getBookInfoFromRequest(String message){
         BookInfo book = new BookInfo();
         StringBuilder sb = new StringBuilder(message);
@@ -378,9 +393,9 @@ public class BookInfo {
         str.append(AnalyzerProperties.getPropertie("system_separator"));
         str.append("<book>");
         str.append(AnalyzerProperties.getPropertie("system_separator"));
-        str.append(writeTitle());
+        str.append(this.getTitle().writeTitleForRequest(AnalyzeUtils.CONTAINS_CASE_INSENSITIVE));
         //str.append(writeLanguage());
-        str.append(writeAuthors());
+        str.append(Author.writeAuthorsForRequest(this.getAuthors(), AnalyzeUtils.CONTAINS_CASE_INSENSITIVE));
         //str.append(writeFilesForRequest());
         //str.append(writeAnnotations());
         str.append("</book>");
@@ -420,10 +435,10 @@ public class BookInfo {
         str.append(AnalyzerProperties.getPropertie("system_separator"));
         str.append("<book id=\"" + id + ">");
         str.append(AnalyzerProperties.getPropertie("system_separator"));
-        str.append(writeTitle());
-        str.append(writeLanguage());
-        str.append(writeAuthors());
-        str.append(writeFilesForRequest());
+        str.append(this.getTitle().writeTitle());
+        str.append(this.getLanguage().writeLanguage());
+        str.append(Author.writeAuthors(this.getAuthors()));
+        str.append(File.writeFilesForRequest(this.getFiles()));
         str.append(writeAnnotations());
         str.append("</book>");
 
@@ -432,169 +447,6 @@ public class BookInfo {
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc="Fields write methods">
-    private String writeTitle(){
-        StringBuilder str = new StringBuilder();
-        str.append("<title>");
-        str.append(getTitle());
-        str.append("</title>");
-        str.append(AnalyzerProperties.getPropertie("system_separator"));
-
-        return str.toString();
-    }
-
-    private String writeLanguage(){
-        StringBuilder str = new StringBuilder();
-        str.append("<lang>");
-        str.append(getLanguage());
-        str.append("</lang>");
-        str.append(AnalyzerProperties.getPropertie("system_separator"));
-
-        return str.toString();
-    }
-
-    private String writeAuthors(){
-        StringBuilder str = new StringBuilder();
-        List<Author> authors = getAuthors();
-        int length = authors.size();
-
-        str.append("<authors>");
-        str.append(AnalyzerProperties.getPropertie("system_separator"));
-        for (int i = 0; i < length; i++) {
-            Author author = authors.get(i);
-            str.append("<author>");
-            str.append(AnalyzerProperties.getPropertie("system_separator"));
-            str.append("<name>");
-            str.append(author.getName());
-            str.append("</name>");
-            str.append(AnalyzerProperties.getPropertie("system_separator"));
-            //Не убирать, просто пока не нужны
-//            List<String> aliases = author.getAliases();
-//            if(aliases != null){
-//            int alLength = aliases.size();
-//                for (int j = 0; j < alLength; j++) {
-//                    str.append("<alias>");
-//                    str.append(aliases.get(j));
-//                    str.append("</alias>");
-//                    str.append(AnalyzerProperties.getPropertie("system_separator"));
-//                }
-//            }
-            str.append("</author>");
-            str.append(AnalyzerProperties.getPropertie("system_separator"));
-        }
-        str.append("</authors>");
-        str.append(AnalyzerProperties.getPropertie("system_separator"));
-        
-        return str.toString();
-    }
-
-    private String writeFilesForRequest(){
-        StringBuilder str = new StringBuilder();
-        List<File> files = getFiles();
-        int length = files.size();
-
-        str.append("<files>");
-        str.append(AnalyzerProperties.getPropertie("system_separator"));
-        for (int i = 0; i < length; i++) {
-            File file = files.get(i);
-            str.append("<file>");
-            str.append(AnalyzerProperties.getPropertie("system_separator"));
-            str.append("<link>");
-            str.append(file.getLink());
-            str.append("</link>");
-            str.append(AnalyzerProperties.getPropertie("system_separator"));
-            str.append("<size>");
-            str.append(file.getSize());
-            str.append("</size>");
-            str.append(AnalyzerProperties.getPropertie("system_separator"));
-            str.append("<type>");
-            str.append(file.getType());
-            str.append("</type>");
-            str.append(AnalyzerProperties.getPropertie("system_separator"));
-            str.append("<time_found>");
-            str.append(file.getTimeFound());
-            str.append("</time_found>");
-            str.append(AnalyzerProperties.getPropertie("system_separator"));
-            str.append("<last_check>");
-            str.append(file.getLastChek());
-            str.append("</last_check>");
-            str.append(AnalyzerProperties.getPropertie("system_separator"));
-            str.append("<more_info>");
-            str.append(file.getMoreInfo());
-            str.append("</more_info>");
-            str.append(AnalyzerProperties.getPropertie("system_separator"));
-            str.append("<img_link>");
-            str.append(file.getImgLink());
-            str.append("</img_link>");
-            str.append(AnalyzerProperties.getPropertie("system_separator"));
-            str.append("</file>");
-            str.append(AnalyzerProperties.getPropertie("system_separator"));
-        }
-        str.append("</files>");
-        str.append(AnalyzerProperties.getPropertie("system_separator"));
-
-        return str.toString();
-    }
-
-    private String writeFiles(){
-        StringBuilder str = new StringBuilder();
-        List<File> files = getFiles();
-        int length = files.size();
-
-        str.append("<files>");
-        str.append(AnalyzerProperties.getPropertie("system_separator"));
-        for (int i = 0; i < length; i++) {
-            File file = files.get(i);
-            str.append("<file>");
-            str.append(AnalyzerProperties.getPropertie("system_separator"));
-            str.append("<link>");
-            str.append(file.getLink());
-            str.append("</link>");
-            str.append(AnalyzerProperties.getPropertie("system_separator"));
-            if(!file.getSize().equals("")){
-                str.append("<size>");
-                str.append(file.getSize());
-                str.append("</size>");
-            }
-            str.append(AnalyzerProperties.getPropertie("system_separator"));
-            if(!file.getType().equals("")){
-                str.append("<type>");
-                str.append(file.getType());
-                str.append("</type>");
-            }
-            str.append(AnalyzerProperties.getPropertie("system_separator"));
-            if(!file.getTimeFound().equals("")){
-                str.append("<time_found>");
-                str.append(file.getTimeFound());
-                str.append("</time_found>");
-            }
-            str.append(AnalyzerProperties.getPropertie("system_separator"));
-            if(!file.getLastChek().equals("")){
-                str.append("<last_check>");
-                str.append(file.getLastChek());
-                str.append("</last_check>");
-            }
-            str.append(AnalyzerProperties.getPropertie("system_separator"));
-            if(!file.getMoreInfo().equals("")){
-                str.append("<more_info>");
-                str.append(file.getMoreInfo());
-                str.append("</more_info>");
-            }
-            str.append(AnalyzerProperties.getPropertie("system_separator"));
-            if(!file.getImgLink().equals("")){
-                str.append("<img_link>");
-                str.append(file.getImgLink());
-                str.append("</img_link>");
-            }
-            str.append(AnalyzerProperties.getPropertie("system_separator"));
-            str.append("</file>");
-            str.append(AnalyzerProperties.getPropertie("system_separator"));
-        }
-        str.append("</files>");
-        str.append(AnalyzerProperties.getPropertie("system_separator"));
-
-        return str.toString();
-    }
-
     private String writeAnnotations(){
         StringBuilder str = new StringBuilder();
         List<String> annotations = getAnnotations();
@@ -608,8 +460,23 @@ public class BookInfo {
 
         return str.toString();
     }
-    //</editor-fold>
 
+    private String writeAnnotationsForRequest(String searchMethod){
+        StringBuilder str = new StringBuilder();
+        List<String> annotations = getAnnotations();
+        int length = annotations.size();
+        for (int i = 0; i < length; i++) {
+            str.append("<annotation type=\"");
+            str.append(searchMethod);
+            str.append("\">");
+            str.append(annotations.get(i));
+            str.append("</annotation>");
+            str.append(AnalyzerProperties.getPropertie("system_separator"));
+        }
+
+        return str.toString();
+    }
+    //</editor-fold>
     public void addAuthor(Author author){
         myAuthors.add(author);
     }
@@ -624,6 +491,13 @@ public class BookInfo {
 
     public static ArrayList<BookInfo> getBooksInfoFromRequest(String message){
         ArrayList<BookInfo> out = new ArrayList<BookInfo>();
+        //TODO: null check need because of server problem, need to remove after fix
+        if(message.indexOf("<book") == -1 || message.indexOf("null") != -1){
+            Logger.setToErrorLog("Error in book information sent occured:" +
+                    message);
+            System.out.println("Error in book information sent occured:" +
+                    message);
+        }
         while(message.length() > 0){
             message = message.substring(message.indexOf("<book"));
             out.add(getBookInfoFromRequest(message));

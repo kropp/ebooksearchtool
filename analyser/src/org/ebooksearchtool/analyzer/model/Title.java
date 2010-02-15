@@ -1,5 +1,7 @@
 package org.ebooksearchtool.analyzer.model;
 
+import org.ebooksearchtool.analyzer.utils.AnalyzerProperties;
+
 /**
  * @author Aleksey Podolskiy
  */
@@ -86,5 +88,26 @@ public class Title {
      */
     public void setID(String myID) {
         this.myID = myID;
+    }
+
+    public String writeTitle(){
+        StringBuilder str = new StringBuilder();
+        str.append("<title>");
+        str.append(this.getName());
+        str.append("</title>");
+        str.append(AnalyzerProperties.getPropertie("system_separator"));
+
+        return str.toString();
+    }
+    public String writeTitleForRequest(String searchType){
+        StringBuilder str = new StringBuilder();
+        str.append("<title type=\"");
+        str.append(searchType);
+        str.append("\">");
+        str.append(this.getName());
+        str.append("</title>");
+        str.append(AnalyzerProperties.getPropertie("system_separator"));
+
+        return str.toString();
     }
 }

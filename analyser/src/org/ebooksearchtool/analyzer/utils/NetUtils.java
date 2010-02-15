@@ -15,7 +15,7 @@ import org.ebooksearchtool.analyzer.network.ServerConnector;
 import org.xml.sax.SAXException;
 
 /**
- * @author Алексей
+ * @author Aleksey Podolskiy
  */
 
 public class NetUtils {
@@ -130,9 +130,9 @@ public class NetUtils {
         if(!info.getTitle().getName().equals("") && info.getAuthors().size() != 0){
             String message = ServerConnector.sendRequest
                     (RequestFormer.formBookInfo(info), ServerConnector.INSERT_REQUEST);
-            //TODO:For chek only
-            System.out.println(info.getAuthors().get(0).getName());
-            System.out.println(info.getTitle().getName());
+            //TODO:For check only
+//            System.out.println(info.getAuthors().get(0).getName());
+//            System.out.println(info.getTitle().getName());
             if(NetUtils.serverAnswersAnalyze(message)){
                 Logger.setToLog("Book Information succsesfully sent to server:" +
                         AnalyzerProperties.getPropertie("system_separator") +
@@ -146,7 +146,7 @@ public class NetUtils {
                         AnalyzerProperties.getPropertie("system_separator") +
                         message);
             }
-            //System.out.println(message);
+            System.out.println(message);
         }else{
             if(info.getAuthors().size() != 0){
                 Logger.setToLog("Book Information can't be sent to server(Unknown title):" +

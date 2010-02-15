@@ -28,12 +28,15 @@ public class AuthorExtractor {
             index++;
 
             sb.append(lex.getValue() + " ");
-            lex = lexems.get(index);
 
-            while(index < length && (lex.getValue().indexOf("<") == -1)){
-                sb.append(lex.getValue() + " ");
-                index++;
+            while(index < length) {
                 lex = lexems.get(index);
+                if(lex.getValue().indexOf("<") == -1) {
+                    sb.append(lex.getValue() + " ");
+                }else{
+                    break;
+                }
+                index++;
             }
             sb.append(lex.getValue());
 

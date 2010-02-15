@@ -12,14 +12,16 @@ public class TitleParser {
         Title tit = new Title();
         int length = input.length();
         StringBuilder temp = new StringBuilder(input.toLowerCase());
-        char t = temp.charAt(0);
-        temp.deleteCharAt(0);
-        temp.insert(0, Character.toUpperCase(t));
-        for (int i = 1; i < length; i++) {
-            if(temp.charAt(i) != ' ' && temp.charAt(i - 1) == ' '){
-                t = temp.charAt(i);
-                temp.deleteCharAt(i);
-                temp.insert(i, Character.toUpperCase(t));
+        if(length > 0){
+            char t = temp.charAt(0);
+            temp.deleteCharAt(0);
+            temp.insert(0, Character.toUpperCase(t));
+            for (int i = 1; i < length; i++) {
+                if(temp.charAt(i) != ' ' && temp.charAt(i - 1) == ' '){
+                    t = temp.charAt(i);
+                    temp.deleteCharAt(i);
+                    temp.insert(i, Character.toUpperCase(t));
+                }
             }
         }
 

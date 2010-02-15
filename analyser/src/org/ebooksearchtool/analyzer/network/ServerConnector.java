@@ -86,7 +86,7 @@ public class ServerConnector extends Thread{
                 if(requestType == GET_REQUEST){
                     myConnection = (HttpURLConnection) myGetURL.openConnection(
                     NetUtils.serverProxyInit());
-                    NetUtils.sendMessage(myConnection, request, "POST");//TODO:Check request logic (why post in get)
+                    NetUtils.sendMessage(myConnection, request, "POST");
                     message = URLDecoder.decode(
                     NetUtils.reciveServerMessage(myConnection), "UTF-8");
                 }else{
