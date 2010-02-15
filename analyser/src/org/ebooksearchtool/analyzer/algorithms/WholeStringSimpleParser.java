@@ -22,7 +22,7 @@ public class WholeStringSimpleParser implements IParser{
         ArrayList<Lexema> temp = Lexema.convertToLexems(input);
 
         myBookInfo.addFile(new File(URLsExtractor.extractURL(temp)));
-        myBookInfo.getFiles().get(0).setType(FormatExtractor.extractFormat(temp));
+        myBookInfo.getFiles().get(0).setType(FormatExtractor.extractFormat(myBookInfo.getFiles().get(0).getLink()));
         myBookInfo.getFiles().get(0).setSize(SizeExtractor.extractSize(myBookInfo.getFiles().get(0).getLink()));
         myBookInfo.getFiles().get(0).setImgLink(BookCoverExtractor.extractBookCover(temp));
         myBookInfo.setAnnotations(AnnotationExtractor.extractAnnotation(temp));

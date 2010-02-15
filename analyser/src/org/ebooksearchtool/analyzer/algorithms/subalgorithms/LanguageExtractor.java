@@ -5,7 +5,7 @@ import org.ebooksearchtool.analyzer.model.Lexema;
 import org.ebooksearchtool.analyzer.utils.AnalyzeUtils;
 
 /**
- * @author Алексей
+ * @author Aleksey Podolskiy
  */
 
 public class LanguageExtractor {

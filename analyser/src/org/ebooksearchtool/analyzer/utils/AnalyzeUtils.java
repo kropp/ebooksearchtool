@@ -4,8 +4,11 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
+import java.util.TimeZone;
 import org.ebooksearchtool.analyzer.io.Logger;
 import org.ebooksearchtool.analyzer.model.*;
 
@@ -175,24 +178,7 @@ public class AnalyzeUtils {
         return false;
     }
 
-     public static boolean isManySlashes(String input){
-        int i = 0;
-        int position = input.indexOf("/");
-        StringBuilder sb = new StringBuilder(input);
-        while(position != -1){
-            i++;
-            sb.delete(0, position + 1);
-            position = sb.indexOf("/");
-        }
-
-        if(i > 2){
-            return true;
-        }else{
-            return false;
-        }
-    }
-     
-     public static boolean hasSpecalSymbols(String str){
+    public static boolean hasSpecalSymbols(String str){
          int count = 0;
          int length = str.length();
          for (int i = 0; i < length; i++) {
@@ -205,5 +191,19 @@ public class AnalyzeUtils {
          }
          return false;
      }
+
+    public static String getCurrentDate(){
+        GregorianCalendar calendar = new GregorianCalendar(TimeZone.getDefault());
+        return formatTime(calendar.get(Calendar.YEAR))
+               + "-" + formatTime(calendar.get(Calendar.MONTH) + 1)
+               + "-" + formatTime(calendar.get(Calendar.DATE));
+    }
+
+    private static String formatTime(int i){
+        if(i < 10){
+            return "0" + i;
+        }
+        return i + "";
+    }
     // </editor-fold>
 }

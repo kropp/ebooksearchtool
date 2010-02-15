@@ -210,12 +210,12 @@ public class NetUtils {
         try {
             link = new URL(lnk);
             connection = link.openConnection(NetUtils.proxyInit());
-            return connection.getContentLength();
+            int i = connection.getContentLength();
+            return i > 0 ? i : 0;
         } catch (IOException ex) {
             Logger.setToErrorLog("Error when try to recive book size. Remote " +
                     "server unachievable or problems with connection.");
         }
-
         return 0;
     }
 }

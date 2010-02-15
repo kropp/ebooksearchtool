@@ -46,8 +46,8 @@ public class MunseyHandler extends DefaultHandler{
             ourBookInfo.setTitle(TitleParser.parse(new String(ch, start, length).trim()));
         }
         if(ourLinkElementFlag == true){
-            ArrayList<Lexema> temp = Lexema.convertToLexems(new String(ch, start, length).trim());
-            String link = URLsExtractor.extractURL(temp);
+            String temp = new String(ch, start, length).trim();
+            String link = URLsExtractor.extractURL(Lexema.convertToLexems(temp));
             if(link.length() != 0){
             ourBookInfo.addFile(new File(link, "",
                     FormatExtractor.extractFormat(temp), "", ""));
