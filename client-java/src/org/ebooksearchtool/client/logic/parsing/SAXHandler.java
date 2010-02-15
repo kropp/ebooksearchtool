@@ -48,7 +48,7 @@ public class SAXHandler extends DefaultHandler{
             myIsEntryTag = true;
             myAnswer.getData().addBook(new Book());
         }
-        
+
         if("totalResults".equals(qName)){
         	myIsTotalTag = true;
         }
@@ -64,6 +64,17 @@ public class SAXHandler extends DefaultHandler{
         }
 
         for(int i = 0; i < myBookTags.getTags().length; ++i){
+
+            if("content".equals(myBookTags.getTags()[i].getName())){
+                if(myBookTags.getTags()[i].getStatus()){
+                    String tagString = qName;
+                    for(int j = 0; j < attributes.getLength(); ++j){
+                        tagString = tagString + " " + attributes.getQName(j) + "=\"" + attributes.getValue(j) + "\"";
+                    }
+                    myAnswer.getData().setBookContent(myAnswer.getData().getBooks().size()-1, myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size()-1).getContent() + "<" + tagString + ">");
+                }
+            }
+
             if(myBookTags.getTags()[i].getName().equals(qName)){
                 myBookTags.getTags()[i].setStatus(true);
             }
@@ -166,6 +177,10 @@ public class SAXHandler extends DefaultHandler{
             }
         }
 
+        if(qName.equals("content") && myAnswer.getData().getBooks().size() != 0){
+            System.out.println(myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size()-1).getContent());
+        }
+
         if("entry".equals(qName)){
             myIsEntryTag = false;
         }
@@ -191,6 +206,12 @@ public class SAXHandler extends DefaultHandler{
             if(qName.equals(myBookTags.getTags()[i].getName())){
                 myBookTags.getTags()[i].setStatus(false);
                 myIsContinue = false;
+            }
+
+            if("content".equals(myBookTags.getTags()[i].getName())){
+                if(myBookTags.getTags()[i].getStatus()){
+                    myAnswer.getData().setBookContent(myAnswer.getData().getBooks().size()-1, myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size()-1).getContent() + "<" + qName + "/>");
+                }
             }
         }
         for(int i = 0; i < myAuthorTags.getTags().length; ++i){
