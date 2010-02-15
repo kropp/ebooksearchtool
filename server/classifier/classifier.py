@@ -11,6 +11,22 @@ def getwords(doc):
         
     #return array of unic words
     return dict([ (w,1) for w in words])
+
+def bookfeatures(doc):
+    splitter = re.compile('\\W*')
+    f = {}
+
+    words = [s.lower() for s in splitter.split(doc)
+        if len(s) > 2 and len(s) < 20]
+    
+    for i in range(len(words)):
+        w = words[i]
+        f[w] = 1
+        if i < len(words) - 1:
+            twowords = ' '.join(words[i:i+1])
+            f[twowords] = 1
+    
+    return f
     
 class classifier:
     def __init__(self, getfeatures, filename=None):
