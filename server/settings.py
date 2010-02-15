@@ -133,6 +133,9 @@ EBST_NAME = 'ebooks server'
 # root url
 #ROOT_URL = r'^ebooks/'
 
+# length of soundex code
+SOUNDEX_LENGTH = 4
+
 try:
     from local_settings import *
 except Exception:

@@ -7,8 +7,6 @@ NAME_LENGTH = 255
 LINK_LENGTH = 4000
 TEXT_LENGTH = 10000
 
-SOUNDEX_LENGTH = 4
-
 class Annotation(models.Model):
     name = models.TextField(max_length=TEXT_LENGTH)
 
@@ -66,12 +64,12 @@ class Book(models.Model):
 
 class Author(models.Model):
     name = models.CharField(max_length=NAME_LENGTH, unique=True)
-    name_soundex = models.CharField(max_length=SOUNDEX_LENGTH)
+    name_soundex = models.CharField(max_length=NAME_LENGTH)
     book = models.ManyToManyField(Book)
     alias = models.ManyToManyField(AuthorAlias)
     tag = models.ManyToManyField(Tag)
 
     def __unicode__(self):
-        return self.name
+        return "%s [soundex=%s]" % (self.name, self.name_soundex)
         
 
