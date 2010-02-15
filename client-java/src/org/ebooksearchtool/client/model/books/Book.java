@@ -12,6 +12,7 @@ public class Book {
     private Date myDate = new Date();
     private String myGenre;
     private String mySummary;
+    private String myContent;
     private HashMap<String,  String> myLinks = new HashMap();
     private String myImage;
 
@@ -99,5 +100,13 @@ public class Book {
 
     public void setImage(String myImage) {
         this.myImage = myImage;
+    }
+
+    public String getContent() {
+        return myContent;
+    }
+
+    public void setContent(String myContent) {
+        this.myContent = myContent;
     }
 }

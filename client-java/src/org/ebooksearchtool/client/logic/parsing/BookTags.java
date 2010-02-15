@@ -12,7 +12,7 @@ public class BookTags {
     private Tag[] myTags;
 
     public BookTags(){
-        myTags = new Tag[11];
+        myTags = new Tag[12];
         myTags[0] = new Tag("title");
         myTags[1] = new Tag("id");
         myTags[2] = new Tag("author");
@@ -20,10 +20,11 @@ public class BookTags {
         myTags[4] = new Tag("issued");
         myTags[5] = new Tag("category");
         myTags[6] = new Tag("summary");
-        myTags[7] = new Tag("link");
-        myTags[8] = new Tag("updated");
-        myTags[9] = new Tag("rights");
-        myTags[10] = new Tag("publisher");
+        myTags[7] = new Tag("content");
+        myTags[8] = new Tag("link");
+        myTags[9] = new Tag("updated");
+        myTags[10] = new Tag("rights");
+        myTags[11] = new Tag("publisher");
     }
 
     public Tag[] getTags(){

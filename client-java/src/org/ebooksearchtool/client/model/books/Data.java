@@ -49,6 +49,10 @@ public class Data {
         myBooks.get(elementIndex).setSummary(value);
     }
 
+    public void setBookContent(int elementIndex, String value){
+        myBooks.get(elementIndex).setContent(value);
+    }
+
     public void setBookID(int elementIndex, String value){
         myBooks.get(elementIndex).setID(value);
     }

@@ -146,8 +146,12 @@ public class BookPanel implements Comparable {
     				myGenreLabel = new JLabel("Genre: " + myBook.getGenre());
     				myGenreLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
     				myMoreInfoPanel.add(myGenreLabel);
-    			
-    				mySummaryArea = new JTextArea(myBook.getSummary());
+
+                    if(myBook.getSummary() != null){
+    				    mySummaryArea = new JTextArea(myBook.getSummary());
+                    }else{
+                        mySummaryArea = new JTextArea(myBook.getContent());
+                    }
     				mySummaryArea.setBackground(myMoreInfoPanel.getBackground());
     				mySummaryArea.setLineWrap(true);
     				mySummaryArea.setAlignmentX(JPanel.LEFT_ALIGNMENT);
