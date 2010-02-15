@@ -26,10 +26,5 @@ def read(feed, classifier):
             for cat in entry['categories']:
                 print ' Tag : ' + cat[1].encode('utf-8')
                 classifier.train(fulltext, cat[1].encode('utf-8'))
-
-
-def sample_train(classifier):
-    for i in range(1, 150):
-        read(('http://feedbooks.com/books.atom?lang=en&amp;page=%s'% i), classifier)
         
         

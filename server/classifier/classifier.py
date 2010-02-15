@@ -2,6 +2,8 @@
 
 import re
 import math
+import spec.external.Stemmer as stemmer
+import tools
 
 def getwords(doc):
     splitter = re.compile('\\W*')
@@ -15,16 +17,20 @@ def getwords(doc):
 def bookfeatures(doc):
     splitter = re.compile('\\W*')
     f = {}
+    stem = stemmer.Stemmer('english')
 
     words = [s.lower() for s in splitter.split(doc)
         if len(s) > 2 and len(s) < 20]
-    
+        
     for i in range(len(words)):
         w = words[i]
         f[w] = 1
         if i < len(words) - 1:
             twowords = ' '.join(words[i:i+1])
             f[twowords] = 1
+
+    for w in words:
+        w = stem.stemWord(w)
     
     return f
     
@@ -78,10 +84,7 @@ class classifier:
             
         # increment category counter
         self.incc(cat)
-        
-    def sample_train(ca):
-        pass
-        
+               
     def fprob(self, f, cat):
         ''' evals probability for word be in category '''
         if self.catcount(cat) == 0: return 0
@@ -163,4 +166,8 @@ class fisher_classifier(classifier):
                 best = c
                 max = p
         return (best, second)
-        
+    
+    def sample_train(self):
+        for i in range(1, 150):
+            tools.read(('http://feedbooks.com/books.atom?lang=en&amp;page=%s'% i), self)
+
