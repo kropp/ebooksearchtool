@@ -4,22 +4,22 @@ package org.ebooksearchtool.analyzer.network.demon;
  * @author Алексей
  */
 
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.util.logging.Level;
 import org.ebooksearchtool.analyzer.algorithms.subalgorithms.AuthorsParser;
-import org.ebooksearchtool.analyzer.algorithms.*;
+import org.ebooksearchtool.analyzer.io.Logger;
 import java.util.ArrayList;
 import org.ebooksearchtool.analyzer.algorithms.subalgorithms.FormatExtractor;
 import org.ebooksearchtool.analyzer.algorithms.subalgorithms.LanguageExtractor;
 import org.ebooksearchtool.analyzer.algorithms.subalgorithms.TitleParser;
 import org.ebooksearchtool.analyzer.algorithms.subalgorithms.URLsExtractor;
-import org.ebooksearchtool.analyzer.io.Logger;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.ebooksearchtool.analyzer.model.*;
-import org.ebooksearchtool.analyzer.utils.AnalyzeUtils;
 import org.ebooksearchtool.analyzer.model.Lexema;
-import org.ebooksearchtool.analyzer.network.ServerConnector;
-import org.ebooksearchtool.analyzer.utils.RequestFormer;
+import org.ebooksearchtool.analyzer.utils.AnalyzerProperties;
 import org.ebooksearchtool.analyzer.utils.NetUtils;
 
 public class MunseyHandler extends DefaultHandler{
@@ -31,9 +31,15 @@ public class MunseyHandler extends DefaultHandler{
     private static boolean ourAnnotationElementFlag = false;
     private static boolean ourLanguageElementFlag = false;
     private static BookInfo ourBookInfo = new BookInfo();
+    private static boolean ourTestStatus = false;
 
     public MunseyHandler(){
         super();
+    }
+
+    public MunseyHandler(boolean testStatus){
+        super();
+        ourTestStatus = testStatus;
     }
 
     @Override
@@ -47,7 +53,7 @@ public class MunseyHandler extends DefaultHandler{
         }
         if(ourLinkElementFlag == true){
             String temp = new String(ch, start, length).trim();
-            String link = URLsExtractor.extractURL(Lexema.convertToLexems(temp));
+            String link = URLsExtractor.extractURL(Lexema.convertToLexems("<link src=\"" + temp + "\">"));
             if(link.length() != 0){
             ourBookInfo.addFile(new File(link, "",
                     FormatExtractor.extractFormat(temp), "", ""));
@@ -74,8 +80,44 @@ public class MunseyHandler extends DefaultHandler{
         if(qName.equals("row")){
             ourRightElementFlag = false;
             if(!ourBookInfo.getFiles().isEmpty()){
-                NetUtils.sendBookInfo(ourBookInfo);
-                ourBookInfo = new BookInfo();
+                if(ourTestStatus == false){
+                    NetUtils.sendBookInfo(ourBookInfo);
+                    ourBookInfo = new BookInfo();
+                }else{
+                    RandomAccessFile file = null;
+                    try {
+                        file = new RandomAccessFile("munseytest.tst", "rws");
+                        long length = file.length();
+                        while(length > 0){
+                            if(1000000 > length){
+                                file.read(new byte[1000000]);
+                                length-=1000000;
+                            }else{
+                                file.read(new byte[(int)length]);                                
+                            }
+                        }
+                        file.writeBytes(ourBookInfo.getTitle().getName());
+                        file.writeBytes(AnalyzerProperties.getPropertie("system_separator"));
+                        length = ourBookInfo.getAuthors().size();
+                        for (int i = 0; i < length; i++) {
+                            file.writeBytes(ourBookInfo.getAuthors().get(i).getName());
+                            file.writeBytes(AnalyzerProperties.getPropertie("system_separator"));
+                        }
+                        file.writeBytes(AnalyzerProperties.getPropertie("system_separator"));
+                        file.writeBytes(AnalyzerProperties.getPropertie("system_separator"));
+                        file.close();
+                    } catch (IOException ex) {
+                        Logger.setToLog(ex.getMessage() + ". Occurs in authors test");
+                    } finally {
+                        if(!file.equals(null)){
+                            try {
+                                file.close();
+                            } catch (IOException ex) {
+                                //Exception never thrown
+                            }
+                        }
+                    }
+                }
             }
         }
         if(qName.equals("field")){

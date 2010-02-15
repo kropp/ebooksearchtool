@@ -13,6 +13,16 @@ import org.xml.sax.SAXException;
 
 public class MunseyParser{
 
+    private static boolean ourTestStatus = false;
+
+    public MunseyParser(){
+        super();
+    }
+
+    public MunseyParser(boolean testStatus){
+        super();
+        ourTestStatus = testStatus;
+    }
     /**
      * Parse munsey.xml from file described by input string
      * @param input file contains munsey.xml
@@ -21,7 +31,7 @@ public class MunseyParser{
         try {
             SAXParserFactory factory1 = SAXParserFactory.newInstance();
             SAXParser pars1 = factory1.newSAXParser();
-            MunseyHandler dh = new MunseyHandler();
+            MunseyHandler dh = new MunseyHandler(ourTestStatus);
             pars1.parse(input, dh);
         } catch (IOException ex) {
             Logger.setToErrorLog(ex.getMessage() + ". Parser can't parse file. " +

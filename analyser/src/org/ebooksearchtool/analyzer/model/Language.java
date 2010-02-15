@@ -63,12 +63,15 @@ public class Language {
     // </editor-fold>
 
     public String writeLanguage(){
-        StringBuilder str = new StringBuilder();
-        str.append("<lang>");
-        str.append(this.getShortDescriptions().get(0));
-        str.append("</lang>");
-        str.append(AnalyzerProperties.getPropertie("system_separator"));
+        if(!this.getShortDescriptions().isEmpty()){
+            StringBuilder str = new StringBuilder();
+            str.append("<lang>");
+            str.append(this.getShortDescriptions().get(0));
+            str.append("</lang>");
+            str.append(AnalyzerProperties.getPropertie("system_separator"));
 
-        return str.toString();
+            return str.toString();
+        }
+        return "";
     }
 }

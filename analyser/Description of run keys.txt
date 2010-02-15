@@ -1,0 +1,4 @@
+Keys:
+"" - default, full functionality program run
+
+"-tw -p analyzer.properties" - run test for authors names and books titles. Result will save in "munseytest.tst" in text format ("-tw" - run with default properties)

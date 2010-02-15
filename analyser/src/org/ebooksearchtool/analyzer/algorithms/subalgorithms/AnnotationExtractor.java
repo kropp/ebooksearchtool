@@ -14,7 +14,7 @@ public class AnnotationExtractor {
         int length = lexems.size();
         int index = 0;
         for (index = 0; index < length; index++) {
-            if(lexems.get(index).getValue().indexOf("Book") != -1 && lexems.get(index + 1).getValue().indexOf("Summary") != -1){
+            if(lexems.get(index).getValue().indexOf("Book") != -1 && lexems.get(index).getValue().indexOf("Summary") != -1){
                 break;
             }
         }

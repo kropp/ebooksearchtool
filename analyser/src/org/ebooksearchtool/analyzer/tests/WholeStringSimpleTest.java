@@ -6,6 +6,7 @@ import org.ebooksearchtool.analyzer.algorithms.WholeStringSimpleParser;
 import org.ebooksearchtool.analyzer.io.Logger;
 import org.ebooksearchtool.analyzer.model.Author;
 import org.ebooksearchtool.analyzer.model.BookInfo;
+import org.ebooksearchtool.analyzer.network.demon.MunseyParser;
 
 /**
  * @author Алексей
@@ -20,14 +21,8 @@ public class WholeStringSimpleTest {
             bw = new BufferedWriter(new FileWriter("wholetest.tst"));
             br = new BufferedReader(new FileReader(input));
             String src = br.readLine();
-            WholeStringSimpleParser parser = new WholeStringSimpleParser();
-            BookInfo temp = parser.parse(src);
-            List<Author> authors = temp.getAuthors();
-            int length = authors.size();
-            for (int i = 0; i < length; i++) {
-                bw.write(authors.get(i).getName());
-                bw.newLine();
-            }
+            MunseyParser parser = new MunseyParser(true);
+            parser.parse("munsey.xml");
         } catch (IOException ex) {
             Logger.setToErrorLog(ex.getMessage() + ". Can't operate with test or" +
                     "tested file in " + WholeStringSimpleTest.class.getName() + " class.");

@@ -35,6 +35,13 @@ public class ConsoleInputParameters {
                        break;
                     }
                     case 'w':{
+                        if(args.length > 1){
+                            switch(args[1].charAt(1)){
+                                case 'p': {
+                                    PropertiesIO.getPropertiesFromFile(args[2]);
+                                }
+                            }
+                        }
                         WholeStringSimpleTest.createTest(new File("urlexample.txt"));
                         break;
                     }
