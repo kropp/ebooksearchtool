@@ -41,8 +41,16 @@ public class Data {
         myBooks.get(elementIndex).setLanguage(value);
     }
 
+    public void setBookPublisher(int elementIndex, String value){
+        myBooks.get(elementIndex).setPublisher(value);
+    }
+
     public void setBookDate(int elementIndex, String value){
         myBooks.get(elementIndex).setDate(value);
+    }
+
+    public void setBookUpdateTime(int elementIndex, String value){
+        myBooks.get(elementIndex).setUpdateTime(value);
     }
 
     public void setBookSummary(int elementIndex, String value){

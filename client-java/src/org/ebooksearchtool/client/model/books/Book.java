@@ -1,5 +1,7 @@
 package org.ebooksearchtool.client.model.books;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -9,7 +11,9 @@ public class Book {
     private String myID;
     private Author myAuthor;
     private String myLanguage;
+    private String myPublisher;
     private Date myDate = new Date();
+    private String myUpdateTime;
     private String myGenre;
     private String mySummary;
     private String myContent;
@@ -48,6 +52,14 @@ public class Book {
 
     public void setDate(String myDate) {
         this.myDate.setYear(Integer.parseInt(myDate));
+    }
+
+    public String getUpdateTime() {
+        return myUpdateTime;
+    }
+
+    public void setUpdateTime(String myDate) {
+        this.myUpdateTime = myDate;
     }
 
     public String getSummary() {
@@ -108,5 +120,13 @@ public class Book {
 
     public void setContent(String myContent) {
         this.myContent = myContent;
+    }
+
+    public String getPublisher() {
+        return myPublisher;
+    }
+
+    public void setPublisher(String myPublisher) {
+        this.myPublisher = myPublisher;
     }
 }

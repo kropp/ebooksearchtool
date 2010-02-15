@@ -107,8 +107,12 @@ public class SAXHandler extends DefaultHandler{
                             myAnswer.getData().setBookTitle(myAnswer.getData().getBooks().size()-1, myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size()-1).getTitle() + new String(ch, start, length));
                         }else if(myBookTags.getTags()[i].getName().equals("language")){
                         	myAnswer.getData().setBookLanguage(myAnswer.getData().getBooks().size()-1, myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size()-1).getLanguage() + new String(ch, start, length));
+                        }else if(myBookTags.getTags()[i].getName().equals("publisher")){
+                        	myAnswer.getData().setBookPublisher(myAnswer.getData().getBooks().size()-1, myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size()-1).getPublisher() + new String(ch, start, length));
                         }else if(myBookTags.getTags()[i].getName().equals("issued")){
                         	myAnswer.getData().setBookDate(myAnswer.getData().getBooks().size()-1, myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size()-1).getDate() + new String(ch, start, length));
+                        }else if(myBookTags.getTags()[i].getName().equals("updated")){
+                        	myAnswer.getData().setBookUpdateTime(myAnswer.getData().getBooks().size()-1, myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size()-1).getUpdateTime() + new String(ch, start, length));
                         }else if(myBookTags.getTags()[i].getName().equals("summary")){
                         	myAnswer.getData().setBookSummary(myAnswer.getData().getBooks().size()-1, myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size()-1).getSummary() + new String(ch, start, length));
                         }else if(myBookTags.getTags()[i].getName().equals("content")){
@@ -121,8 +125,14 @@ public class SAXHandler extends DefaultHandler{
                         }else if(myBookTags.getTags()[i].getName().equals("language")){
                         	myAnswer.getData().setBookLanguage(myAnswer.getData().getBooks().size()-1, new String(ch, start, length));
                         	myIsContinue = true;
+                        }else if(myBookTags.getTags()[i].getName().equals("publisher")){
+                        	myAnswer.getData().setBookPublisher(myAnswer.getData().getBooks().size()-1, new String(ch, start, length));
+                        	myIsContinue = true;
                         }else if(myBookTags.getTags()[i].getName().equals("issued")){
                         	myAnswer.getData().setBookDate(myAnswer.getData().getBooks().size()-1, new String(ch, start, length));
+                        	myIsContinue = true;
+                        }else if(myBookTags.getTags()[i].getName().equals("updated")){
+                        	myAnswer.getData().setBookUpdateTime(myAnswer.getData().getBooks().size()-1, new String(ch, start, length));
                         	myIsContinue = true;
                         }else if(myBookTags.getTags()[i].getName().equals("summary")){
                         	myAnswer.getData().setBookSummary(myAnswer.getData().getBooks().size()-1, new String(ch, start, length));

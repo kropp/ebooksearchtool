@@ -7,6 +7,7 @@ import org.ebooksearchtool.client.connection.Connector;
 import javax.swing.*;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
+import javax.swing.text.html.HTMLEditorKit;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,10 +30,12 @@ public class BookPanel implements Comparable {
     private JButton myMoreButton, myDelButton, myLibButton, myDownloadPdfButton, myDownloadEpubButton;
     private JCheckBox myCheckBox;
     private JPanel myMoreInfoPanel;
+    private JLabel myUpdateLabel;
     private JLabel myLangLabel;
+    private JLabel myPublisherLabel;
     private JLabel myDateLabel;
     private JLabel myGenreLabel;
-    private JTextArea mySummaryArea;
+    private JTextPane mySummaryArea;
     
     private boolean myIsMoreInfoShown = false;
 
@@ -134,7 +137,11 @@ public class BookPanel implements Comparable {
     		public void actionPerformed(ActionEvent e) {
     			if(!myIsMoreInfoShown){
     				myMoreInfoPanel.setLayout(new BoxLayout(myMoreInfoPanel, BoxLayout.Y_AXIS));
-    			
+
+                    myUpdateLabel = new JLabel("Updated: " + myBook.getUpdateTime());
+    				myUpdateLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+    				myMoreInfoPanel.add(myUpdateLabel);
+
     				myLangLabel = new JLabel("Language: " + myBook.getLanguage());
     				myLangLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
     				myMoreInfoPanel.add(myLangLabel);
@@ -142,18 +149,25 @@ public class BookPanel implements Comparable {
     				myDateLabel = new JLabel("Date of publishing: " + myBook.getDate().getYear());
     				myDateLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
     				myMoreInfoPanel.add(myDateLabel);
-    			
+
+                    myPublisherLabel = new JLabel("Publisher: " + myBook.getPublisher());
+    				myPublisherLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+    				myMoreInfoPanel.add(myPublisherLabel);
+
     				myGenreLabel = new JLabel("Genre: " + myBook.getGenre());
     				myGenreLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
     				myMoreInfoPanel.add(myGenreLabel);
 
+                    HTMLEditorKit ek = new HTMLEditorKit();
+                    mySummaryArea = new JTextPane();
+                    mySummaryArea.setEditorKit(ek);
                     if(myBook.getSummary() != null){
-    				    mySummaryArea = new JTextArea(myBook.getSummary());
+    				    mySummaryArea.setText(myBook.getSummary());
                     }else{
-                        mySummaryArea = new JTextArea(myBook.getContent());
+                        mySummaryArea.setText(myBook.getContent());
                     }
     				mySummaryArea.setBackground(myMoreInfoPanel.getBackground());
-    				mySummaryArea.setLineWrap(true);
+    				//mySummaryArea.setLineWrap(true);
     				mySummaryArea.setAlignmentX(JPanel.LEFT_ALIGNMENT);
     				myMoreInfoPanel.add(mySummaryArea);
     				

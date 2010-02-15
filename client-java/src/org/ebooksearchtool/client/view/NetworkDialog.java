@@ -54,7 +54,10 @@ public class NetworkDialog extends JDialog{
         JLabel supServerLabel = new JLabel("supported server:");
         serverChange.add(supServerLabel);
         serverChange.add(Box.createHorizontalStrut(12));
-        myServerCombo = new JComboBox(new String[]{"other", "http://feedbooks.com", "http://smashwords.com"});
+
+        String[] servers = new String[]{"other", "http://feedbooks.com", "http://smashwords.com", "http://manybooks.net", "http://bookserver.archive.org"};
+
+        myServerCombo = new JComboBox(servers);
         serverChange.add(myServerCombo);
 
         JPanel server = new JPanel();
@@ -166,13 +169,19 @@ public class NetworkDialog extends JDialog{
         main.add(Box.createVerticalStrut(17));
         main.add(flow);
 
-        if(myController.getSettings().getServer().equals("http://feedbooks.com")){
-            myServerCombo.setSelectedItem("http://feedbooks.com");
-            myServerText.setEnabled(false);
-        }else if(myController.getSettings().getServer().equals("http://smashwords.com")){
-            myServerCombo.setSelectedItem("http://smashwords.com");
-            myServerText.setEnabled(false);
+        for(int i = 0; i < servers.length; ++i){
+            if(myController.getSettings().getServer().equals(servers[i])){
+                myServerCombo.setSelectedItem(servers[i]);
+                myServerText.setEnabled(false);
+            }
         }
+//        if(myController.getSettings().getServer().equals("http://feedbooks.com")){
+//            myServerCombo.setSelectedItem("http://feedbooks.com");
+//            myServerText.setEnabled(false);
+//        }else if(myController.getSettings().getServer().equals("http://smashwords.com")){
+//            myServerCombo.setSelectedItem("http://smashwords.com");
+//            myServerText.setEnabled(false);
+//        }
         myServerText.setText(myController.getSettings().getServer());
         myProxyCheck.setSelected(myController.getSettings().isProxyEnabled());
         myIPText.setText(myController.getSettings().getIP());
