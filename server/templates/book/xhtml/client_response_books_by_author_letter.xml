@@ -18,7 +18,7 @@
         </div>
     </div>
    
-    {% for author in authors reversed %}
+    {% for author in authors %}
         <h3 class="fb-blue small-bottom-margin"><a href="../author/id{{author.id}}">{{ author.name }}</a></h3>
     {% endfor %}
 
