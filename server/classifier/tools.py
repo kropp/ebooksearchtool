@@ -85,7 +85,6 @@ def classify_fullbook(feed, classif):
 
         print 
         print '-----'
-        print content
 
 
         #hyp = classif.classify(fulltext)
