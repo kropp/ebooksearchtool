@@ -3,6 +3,7 @@
 import re
 import spec.external.feedparser as feedparser
 import classifier
+import pickle
 
 def read(feed, classifier):
     ''' gets URL and classify items '''
@@ -21,10 +22,40 @@ def read(feed, classifier):
             
             fulltext = '%s\n%s' % (entry['title'].encode('utf-8'), summary)
 
-            print 'Hypothesis: ' + str( classifier.classify(fulltext))
+            hyp = classifier.classify(fulltext)
+            print 'Hypothesis: ' + str(hyp)
                         
             for cat in entry['categories']:
-                print ' Tag : ' + cat[1].encode('utf-8')
-                classifier.train(fulltext, cat[1].encode('utf-8'))
+                c = cat[1].encode('utf-8')
+                print ' Tag : ' + c
+                classifier.train(fulltext, c)
+                
+                if c == hyp[0] or c == hyp[1]:
+                    write_statistics(c)
         
-        
+def write_statistics(tag_name):
+    file_handle = open("statistics", "a")
+    file_handle.write(tag_name)
+    file_handle.write('\n')    
+    file_handle.close()
+    
+def get_statistics():
+    file_handle = open("statistics", "r")
+    lines = file_handle.readlines()
+    lines.sort()
+    
+    cat = list()
+    w = None
+    
+    for l in lines:
+        if l != w:
+            cat.append(l)
+            w = l
+    
+    total = 0
+    for l in cat:
+        count = lines.count(l)
+        total += count
+        print l, count
+    
+    print "Total: ", total

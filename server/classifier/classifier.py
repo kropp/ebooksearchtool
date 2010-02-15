@@ -15,6 +15,7 @@ def getwords(doc):
     return dict([ (w,1) for w in words])
 
 def bookfeatures(doc):
+    ''' now available only for english books '''
     splitter = re.compile('\\W*')
     f = {}
     stem = stemmer.Stemmer('english')
@@ -136,7 +137,7 @@ class fisher_classifier(classifier):
         for f in features:
             pr*= (self.weightedprob(f, cat, self.cprob))
             
-        fscore = -2*math.log(pr)
+        fscore = -2 * math.log(pr)
         
         # use chi^2 function
         return self.invchi2(fscore, len(features)*2)
@@ -169,5 +170,5 @@ class fisher_classifier(classifier):
     
     def sample_train(self):
         for i in range(1, 150):
-            tools.read(('http://feedbooks.com/books.atom?lang=en&amp;page=%s'% i), self)
+            tools.read(('http://feedbooks.com/books.atom?lang=en&amp;page=%s' % i), self)
 
