@@ -1,12 +1,13 @@
 from django.db import models
+from django.contrib import admin
 
 from spec.langcode import LANG_CODE
-
-from django.contrib import admin
 
 NAME_LENGTH = 255
 LINK_LENGTH = 4000
 TEXT_LENGTH = 10000
+
+SOUNDEX_LENGTH = 4
 
 class Annotation(models.Model):
     name = models.TextField(max_length=TEXT_LENGTH)
@@ -65,6 +66,7 @@ class Book(models.Model):
 
 class Author(models.Model):
     name = models.CharField(max_length=NAME_LENGTH, unique=True)
+    name_soundex = models.CharField(max_length=SOUNDEX_LENGTH)
     book = models.ManyToManyField(Book)
     alias = models.ManyToManyField(AuthorAlias)
     tag = models.ManyToManyField(Tag)
