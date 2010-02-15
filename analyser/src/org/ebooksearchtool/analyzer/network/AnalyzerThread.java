@@ -48,5 +48,5 @@ public class AnalyzerThread extends Thread {
             }
             return false;
         }
-    }    
+    }
 }

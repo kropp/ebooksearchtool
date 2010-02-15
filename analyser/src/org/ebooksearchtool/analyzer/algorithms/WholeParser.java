@@ -42,7 +42,7 @@ public class WholeParser implements IParser{
         BookInfo out = new BookInfo();
         out.addFile(new File(URLsExtractor.extractURL(input)));
         out.getFiles().get(0).setType(FormatExtractor.extractFormat(input));
-        out.getFiles().get(0).setSize(SizeExtractor.extractSize(input));//TODO:или доставать из head
+        out.getFiles().get(0).setSize(SizeExtractor.extractSize(out.getFiles().get(0).getLink()));
         out.getFiles().get(0).setImgLink(BookCoverExtractor.extractBookCover(input));
         out.setAnnotations(AnnotationExtractor.extractAnnotation(input));
         out.setLanguage(LanguageExtractor.extractLanguage(input));

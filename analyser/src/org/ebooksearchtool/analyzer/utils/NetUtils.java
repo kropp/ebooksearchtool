@@ -6,6 +6,8 @@ import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.Proxy.Type;
 import java.net.SocketAddress;
+import java.net.URL;
+import java.net.URLConnection;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -201,4 +203,19 @@ public class NetUtils {
         return new Proxy(proxyType, addr);
     }
     //</editor-fold>
+
+     public static int getContentSize(String lnk){
+        URL link;
+        URLConnection connection;
+        try {
+            link = new URL(lnk);
+            connection = link.openConnection(NetUtils.proxyInit());
+            return connection.getContentLength();
+        } catch (IOException ex) {
+            Logger.setToErrorLog("Error when try to recive book size. Remote " +
+                    "server unachievable or problems with connection.");
+        }
+
+        return 0;
+    }
 }
