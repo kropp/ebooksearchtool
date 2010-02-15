@@ -133,8 +133,13 @@ EBST_NAME = 'ebooks server'
 # root url
 #ROOT_URL = r'^ebooks/'
 
+
+# search engine settings
+# Sphinx 0.9.9
+SPHINX_API_VERSION = 0x116
 # length of soundex code
 SOUNDEX_LENGTH = 4
+
 
 try:
     from local_settings import *

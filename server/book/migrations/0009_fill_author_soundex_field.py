@@ -4,9 +4,7 @@ from django.db import models
 from book.models import *
 from settings import SOUNDEX_LENGTH
 
-from spec.soundex import soundex
-
-from spec.word_utility import split_by_symbols
+from spec.search_util import soundex_for_string, prepare_query
 
 class Migration:
     
@@ -14,16 +12,8 @@ class Migration:
 
         # fill 'name_soundex' field
         for author in Author.objects.all():
-            # split words by ' ' and '-'
-            words = split_by_symbols(author.name, [' ', '-'])
-            soundex_words = []
-
-            # do soundex
-            for word in words:
-                soundex_words.append(soundex(word, SOUNDEX_LENGTH))
-
-            # join result to name_soundex
-            author.name_soundex = ' '.join(soundex_words)
+            prepared_query = prepare_query(author.name)
+            author.name_soundex = soundex_for_string(prepared_query)
             author.save()
     
     

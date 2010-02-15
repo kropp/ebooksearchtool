@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib import admin
 
+from djangosphinx.models import SphinxSearch
+
 from spec.langcode import LANG_CODE
 
 NAME_LENGTH = 255
@@ -68,6 +70,20 @@ class Author(models.Model):
     book = models.ManyToManyField(Book)
     alias = models.ManyToManyField(AuthorAlias)
     tag = models.ManyToManyField(Tag)
+
+    simple_search = SphinxSearch(
+        index='authors_simple',
+        weights={
+            'name': 200,
+        },
+    )
+
+    soundex_search = SphinxSearch(
+        index='authors_soundex',
+        weights={
+            'name_soundex': 100,
+        },
+    )
 
     def __unicode__(self):
         return "%s [soundex=%s]" % (self.name, self.name_soundex)
