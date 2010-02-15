@@ -9,8 +9,6 @@ OPDSHandler::OPDSHandler(Data* data) {
     myFormat = BOOK_FORMAT;
 }
 
-
-
 /*OPDSHandler::OPDSHandler(Data* data, const XMLInputSource* source) {
     myData = data;
     myIsEntry = false;
@@ -104,10 +102,10 @@ void OPDSHandler::processLink(const QXmlAttributes& attributes) {
         return;
     }		
 // if I am inside entry 
-    if ((attributes.value(ATTRIBUTE_TYPE) == "application/" + myFormat) &&
-       (attributes.value(ATTRIBUTE_RELATION) == ATTR_VALUE_ACQUISITION)) {
-        
-                myBook->setSourceLink(myFormat, attributes.value(ATTRIBUTE_REFERENCE));
+    if (attributes.value(ATTRIBUTE_RELATION) == ATTR_VALUE_ACQUISITION) {
+        QString format = attributes.value(ATTRIBUTE_TYPE);
+        format.remove("application/");
+        myBook->addSourceLink(format, attributes.value(ATTRIBUTE_REFERENCE));
                  
     } else if ((attributes.value(ATTRIBUTE_TYPE).contains("image")) && 
                ((attributes.value(ATTRIBUTE_RELATION) == ATTR_VALUE_COVER) ||

@@ -1,5 +1,7 @@
 #include "book_author.h"
 
+#include <QDebug>
+
 Book::Book(const QString& title,
            const QString& language,
            const QString& summary,
@@ -48,19 +50,6 @@ const QVector<const Author*>& Book::getAuthors() const {
     return myAuthors;
 }
 
-void Book::setSourceLink(const QString& format, const QString& link) {
-    myFormat = format;
-    mySourceLink = link;
-}
-
-const QString& Book::getSourceLink() const {
-    return mySourceLink;
-}
-    
-const QString& Book::getFormat() const {
-    return myFormat;
-}	
-
 void Book::setContent(const QString& content) {
     myContent = content;
 }
@@ -69,19 +58,24 @@ const QString& Author::getUri() const {
 	return myUri;
 }
 
-/*void Book::addSourceLink(const QString& format, QString link) {
+void Book::addSourceLink(const QString& format, const QString& link) {
     mySourceLinks.insert(format, link);
 }
 
+QString Book::getSourceLink() const {
+    qDebug() << " Book::getSourceLink default - return pdf-link !!!!";
+    return getSourceLink("pdf");
+}
+
 const QString Book::getSourceLink(const QString& format) const {
-    QMap<const QString, QString>::const_iterator i = mySourceLinks.find(format);
-    if (i == mySourceLinks.end()) {
+    QMap<QString, QString>::const_iterator i = mySourceLinks.find(format);
+    if (i == mySourceLinks.constEnd()) {
         return QString();
     } else {
         return i.value();    
     }
 }
 
-const QMap<const QString, QString>& Book::getSourceLinks() const {
+const QMap<QString, QString>& Book::getSourceLinks() const {
     return mySourceLinks;
-}*/
+}

@@ -55,11 +55,13 @@ void DataWriter::bookToDomElement(const Book& book, QDomDocument& doc, QDomEleme
     appendTagAndText(doc, entry, TAG_SUMMARY, book.getSummary());
     
     // append Source link
-    if (!book.getSourceLink().isEmpty()) {
+    const QMap<QString, QString>& links = book.getSourceLinks();
+    typedef QMap<QString, QString>::const_iterator MapIt;
+    for (MapIt it = links.constBegin(); it != links.constEnd(); ++it) {
         QDomElement textLink = doc.createElement(TAG_LINK);
-	    textLink.setAttribute(ATTRIBUTE_TYPE, "application/" + book.getFormat());
+	    textLink.setAttribute(ATTRIBUTE_TYPE, "application/" + it.key());
 	    textLink.setAttribute(ATTRIBUTE_RELATION, ATTR_VALUE_ACQUISITION);
-	    textLink.setAttribute(ATTRIBUTE_REFERENCE, book.getSourceLink());
+	    textLink.setAttribute(ATTRIBUTE_REFERENCE, it.value());
 	    entry.appendChild(textLink);		
 	}
     

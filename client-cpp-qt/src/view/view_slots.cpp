@@ -29,7 +29,7 @@ void View::toLibrary(BookWidget* widget) {
 }
 
 void View::read(BookWidget* widget) {
-    qDebug() <<  "slot View::read";
+    qDebug() <<  "slot View::read pdf";
     myWantToRead = true;
     const Book& book = widget->getBook();
     QString link = book.getSourceLink();
