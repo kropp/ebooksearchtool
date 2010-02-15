@@ -48,6 +48,10 @@ private:
     QString mySourceLink;
    
     // QMap<const QString, QString> mySourceLinks; // format -> link
+
+private:
+    Book(const Book& other);
+    Book& operator= (const Book& other);
 };
 
 

@@ -40,6 +40,7 @@ HEADERS += data/book_author.h \
            data/opds_parser/handler.h \
            data/opds_parser/parser.h \
            data/opds_parser/opds_constants.h \
+           data/opds_parser/XMLInputSource.h \
            data/opds_writer/opds_writer.h \
            gui/dialogs/internetConnectionDialog.h \
            gui/dialogs/chooseServerDialog.h

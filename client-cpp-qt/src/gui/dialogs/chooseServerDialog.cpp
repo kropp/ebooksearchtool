@@ -22,7 +22,6 @@ typedef std::map<const QString, const QString>::const_iterator MapIt;
 
 ChooseServerDialog::
 ChooseServerDialog(QWidget* parent) : QDialog(parent) {
-    qDebug() << "ChooseServerDialog:: construct";
     initialiseMap();
     myMainLayout = new QVBoxLayout();
     createRadioButtons();
@@ -33,7 +32,7 @@ ChooseServerDialog(QWidget* parent) : QDialog(parent) {
 void ChooseServerDialog::createRadioButtons() {
     myButtonGroup = new QButtonGroup(this);
     for (MapIt it = myServers.begin(); it != myServers.end(); ++it) {
-        qDebug() << it->first;
+        //qDebug() << it->first;
         QRadioButton* button = new QRadioButton(it->first, this);
         myButtonGroup->addButton(button);
         myMainLayout->addWidget(button);  

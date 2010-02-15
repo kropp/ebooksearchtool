@@ -56,10 +56,11 @@ void CentralWidget::httpRequestFinished(int requestId , bool) {
 
 void CentralWidget::parseDownloadedFile() {
 // TEMPORARY - to look in fild
-   //TODO QFile file = new QFile("search_result.atom");
-   // file->open(QIODevice::WriteOnly);
-    //myBuffer->byteArray();
-    // write data from buffer to the file
+    QFile* file = new QFile("search_result.atom");
+    file->open(QIODevice::WriteOnly);
+    file->write(myBuffer->buffer());
+    file->close();
+    qDebug() << "CentralWidget::parseDownloadedFile myBuffer content has written to the file";
 // TEMPORARY end
     OPDSParser parser;
 	if (myNewRequest) {
