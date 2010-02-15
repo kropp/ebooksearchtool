@@ -11,6 +11,7 @@ QString SearchWidget::
 ourOpensearchSchema = "http://feedbooks.com/books/search.atom?query=";
 
 void SearchWidget::setOpensearchSchema(const QString& str) {
+    qDebug() << "SearchWidget::setOpensearchSchema " << str;
     ourOpensearchSchema = str;
 }
 

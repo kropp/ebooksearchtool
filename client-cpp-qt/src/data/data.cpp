@@ -5,7 +5,6 @@ Data::Data() : myTotalEntries(0) {
 }
 
 Data::~Data() {
-    qDebug() << "Data::~Data";
     foreach (const Book* book, myBooks) {
         delete book;
     }

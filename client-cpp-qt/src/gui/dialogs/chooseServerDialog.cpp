@@ -1,4 +1,9 @@
 #include "chooseServerDialog.h"
+#include "../searchwidget.h"
+
+#include <QButtonGroup>
+#include <QRadioButton>
+#include <QVBoxLayout>
 
 #include <QDebug>
 
@@ -19,14 +24,20 @@ ChooseServerDialog::
 ChooseServerDialog(QWidget* parent) : QDialog(parent) {
     qDebug() << "ChooseServerDialog:: construct";
     initialiseMap();
+    myMainLayout = new QVBoxLayout();
     createRadioButtons();
+    setLayout(myMainLayout);
     setWindowTitle(tr("set server"));
 }
 
 void ChooseServerDialog::createRadioButtons() {
+    myButtonGroup = new QButtonGroup(this);
     for (MapIt it = myServers.begin(); it != myServers.end(); ++it) {
         qDebug() << it->first;
-        //make radio button
+        QRadioButton* button = new QRadioButton(it->first, this);
+        myButtonGroup->addButton(button);
+        myMainLayout->addWidget(button);  
+        connect(button, SIGNAL(clicked()), this, SLOT(chooseServer()));
     }
 }
 
@@ -40,4 +51,12 @@ void ChooseServerDialog::initialiseMap(){
     myServers.insert(std::make_pair(SERVER_MANYBOOKS, OPENSEARCH_MANYBOOKS));
     
     myServers.insert(std::make_pair(SERVER_SMASHWORDS, OPENSEARCH_SMASHWORDS));
+}
+
+void ChooseServerDialog::chooseServer() {
+     qDebug() << "ChooseServerDialog::chooseServer";
+     QString server = myButtonGroup->checkedButton()->text();
+     QString opensearch = myServers.find(server)->second;
+     qDebug() << "server + search" << server + opensearch;
+     SearchWidget::setOpensearchSchema(server + opensearch);
 }

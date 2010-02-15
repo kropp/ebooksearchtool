@@ -28,7 +28,7 @@ CentralWidget::~CentralWidget() {
     delete myNetworkManager;
 }
 
-void CentralWidget::downloadFile(const QString& query) {
+void CentralWidget::downloadFile(const QString& url) {
 //    qDebug() << "CentralWidget::downloadFile " << query;
     myNewRequest = true;
 	
@@ -37,36 +37,14 @@ void CentralWidget::downloadFile(const QString& query) {
     } else {   
         myBuffer->setData("", 0);	
     }
-
-	myRequestId = myNetworkManager->download(query, myBuffer);
+    
+    qDebug() << "CentralWidget::downloadFile " << url;
+	myRequestId = myNetworkManager->download(url, myBuffer);
   
-  //  qDebug() << "CentralWidget::downloadFile requestID" << myRequestId;
-
     if (myBuffer->isOpen()) {
         myBuffer->close();
     }
 }
-
-// для подкачки файла  по конкретной ссылке
-//void CentralWidget::downloadFile(const QString&) {
-   /* std::cout << "slot file download\n";
-
-	if (myFile != 0) {
-		delete myFile;
-	}
-	QUrl qUrl(url);
-	QFileInfo fileInfo(qUrl.path());
-	QString fileName = fileInfo.fileName();
-	myFile = new QFile(fileName);
-
-	myFile->open(QIODevice::WriteOnly); //может и не суметь открыть
-	myHttpConnection->downloadFile(url, myFile);*/
-//}
-
-//void CentralWidget::downloadFile(const QString& url, QFile& file) {
-	//myHttpConnection->downloadFile(url, file);
-//}
-
 
 void CentralWidget::httpRequestFinished(int requestId , bool) {
     if (requestId != myRequestId) {
@@ -77,7 +55,13 @@ void CentralWidget::httpRequestFinished(int requestId , bool) {
 }
 
 void CentralWidget::parseDownloadedFile() {
-	OPDSParser parser;
+// TEMPORARY - to look in fild
+   //TODO QFile file = new QFile("search_result.atom");
+   // file->open(QIODevice::WriteOnly);
+    //myBuffer->byteArray();
+    // write data from buffer to the file
+// TEMPORARY end
+    OPDSParser parser;
 	if (myNewRequest) {
 	    if (myData) {
             delete myData;
