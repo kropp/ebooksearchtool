@@ -59,6 +59,7 @@ SOURCES += main.cpp \
            data/opds_parser/handler.cpp \
            data/opds_parser/parser.cpp \
            data/opds_parser/opds_constants.cpp \
+           data/opds_parser/XMLInputSource.cpp \
            data/opds_writer/opds_writer.cpp \
            gui/dialogs/internetConnectionDialog.cpp \
            gui/dialogs/chooseServerDialog.cpp

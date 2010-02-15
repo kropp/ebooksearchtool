@@ -5,8 +5,9 @@
 OPDSParser::OPDSParser() {}
 
 void OPDSParser::parse(QIODevice* input, Data* data) {
-	OPDSHandler handler(data);
 	XMLInputSource source(input);
+	//OPDSHandler handler(data, &source);
+	OPDSHandler handler(data);
 	QXmlSimpleReader reader;
 	reader.setContentHandler(&handler);
 	reader.parse(source);

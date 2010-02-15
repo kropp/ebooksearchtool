@@ -24,6 +24,7 @@ private:
 
 public:
     static NetworkManager* getInstance();
+    static void setServer(const QString& newServer);
     const QString& getProxy() const;
     int getPort() const;    
     

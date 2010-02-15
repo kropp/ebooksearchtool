@@ -20,6 +20,10 @@ NetworkManager* NetworkManager::getInstance() {
     return instance;
 }
 
+void NetworkManager::setServer(const QString& newServer) {
+    ourServer = newServer;
+}
+
 NetworkManager::NetworkManager() {
     myHttpConnection = new QHttp(this);
     readSettings();
@@ -60,6 +64,7 @@ int NetworkManager::download(QString urlStr, QIODevice* out) {
 	query.remove("http://");
 	query.remove(ourServer); //оставляю только запрос
 
+    qDebug() << "NetworkManager::download request =" << ourServer <<  query;
 	int id = myHttpConnection->get(query, out);
     return id;
 }

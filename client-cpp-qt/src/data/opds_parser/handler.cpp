@@ -9,8 +9,18 @@ OPDSHandler::OPDSHandler(Data* data) {
     myFormat = BOOK_FORMAT;
 }
 
-OPDSHandler::~OPDSHandler() {}
 
+
+/*OPDSHandler::OPDSHandler(Data* data, const XMLInputSource* source) {
+    myData = data;
+    myIsEntry = false;
+    myIsInContent = false;    
+    myFormat = BOOK_FORMAT;
+    myInputFile = source;
+    qDebug() << "OPDSHandler::OPDSHandler source data" << myInputFile->getData(10, 20);
+}*/
+    
+OPDSHandler::~OPDSHandler() {}
 
 bool OPDSHandler::characters (const QString& strText) {
 	myCurrentText += strText;

@@ -7,12 +7,15 @@
 #include "../book_author.h"
 #include "../data.h"
 #include "opds_constants.h"
+#include "XMLInputSource.h"
 
 class OPDSHandler : public QXmlDefaultHandler, public OPDSConstants {
 
 public:
 	OPDSHandler(Data* data);
-    ~OPDSHandler();
+	//OPDSHandler(Data* data, const XMLInputSource* source);
+   
+   ~OPDSHandler();
 
 private:
 	bool characters (const QString& strText);
@@ -25,7 +28,8 @@ private:
 private:
 	Data* myData; 
     Book* myBook;
-	
+    const XMLInputSource* myInputFile;
+    
     QString myCurrentText;
 	bool myIsEntry;
 	bool myIsInContent;

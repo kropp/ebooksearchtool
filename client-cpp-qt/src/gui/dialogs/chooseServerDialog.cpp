@@ -1,5 +1,6 @@
 #include "chooseServerDialog.h"
 #include "../searchwidget.h"
+#include "../../network/networkmanager.h"
 
 #include <QButtonGroup>
 #include <QRadioButton>
@@ -7,15 +8,15 @@
 
 #include <QDebug>
 
-static const QString SERVER_FEEDBOOKS = "http://feedbooks.com";
+static const QString SERVER_FEEDBOOKS = "feedbooks.com";
 static const QString OPENSEARCH_FEEDBOOKS = "/books/search.atom?query=";
-static const QString SERVER_BOOKSERVER = "http://bookserver.archive.org";
+static const QString SERVER_BOOKSERVER = "bookserver.archive.org";
 static const QString OPENSEARCH_BOOKSERVER = "/catalog/opensearch?q=";
-static const QString SERVER_SMASHWORDS = "http://smashwords.com";
+static const QString SERVER_SMASHWORDS = "smashwords.com";
 static const QString OPENSEARCH_SMASHWORDS = "/atom/search/books?query=";
-static const QString SERVER_MANYBOOKS = "http://manybooks.net";
+static const QString SERVER_MANYBOOKS = "manybooks.net";
 static const QString OPENSEARCH_MANYBOOKS = "/stanza/search.php?q=";
-static const QString SERVER_ONLY_MAWHRIN = "http://only.mawhrin.net/ebooks";
+static const QString SERVER_ONLY_MAWHRIN = "only.mawhrin.net/ebooks";
 static const QString OPENSEARCH_ONLY_MAWHRIN = "/search.atom?query=";
    
 typedef std::map<const QString, const QString>::const_iterator MapIt;
@@ -57,5 +58,6 @@ void ChooseServerDialog::chooseServer() {
      QString server = myButtonGroup->checkedButton()->text();
      QString opensearch = myServers.find(server)->second;
      qDebug() << "server + search" << server + opensearch;
-     SearchWidget::setOpensearchSchema(server + opensearch);
+     SearchWidget::setOpensearchSchema(opensearch);
+     NetworkManager::setServer(server); 
 }

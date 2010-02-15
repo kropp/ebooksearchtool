@@ -10,7 +10,7 @@ public:
     virtual ~XMLInputSource() {}
 
 public:
-   // getData(fromOffset, toOffset);
+    QString getData(qint64 fromOffset, qint64 toOffset) const;
 };
 
 #endif // _XML_INPUT_SOURCE_H_
