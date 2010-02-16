@@ -35,6 +35,7 @@ public class BookPanel implements Comparable {
     private JLabel myUpdateLabel;
     private JLabel myLangLabel;
     private JLabel myPublisherLabel;
+    private JLabel myRightsLabel;
     private JLabel myDateLabel;
     private JLabel myGenreLabel;
     private JComponent mySummaryArea;
@@ -155,6 +156,10 @@ public class BookPanel implements Comparable {
                     myPublisherLabel = new JLabel("Publisher: " + myBook.getPublisher());
     				myPublisherLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
     				myMoreInfoPanel.add(myPublisherLabel);
+
+                    myRightsLabel = new JLabel("Rights: " + myBook.getRights());
+    				myRightsLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+    				myMoreInfoPanel.add(myRightsLabel);
 
     				myGenreLabel = new JLabel("Genre: " + myBook.getGenre());
     				myGenreLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
