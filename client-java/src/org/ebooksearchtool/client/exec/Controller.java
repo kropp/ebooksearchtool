@@ -72,6 +72,9 @@ public class Controller {
     }
     
     public void getNextData() throws IOException, SAXException, ParserConfigurationException{
+        if("http://bookserver.archive.org".equals(mySettings.getServer())){
+            myData.setNextPage("http://bookserver.archive.org" + myData.getNextPage());
+        }
     	Connector connect = new Connector(myData.getNextPage(), mySettings);
         connect.getFileFromURL("answer_file.xml");
         Parser parser = new Parser();
