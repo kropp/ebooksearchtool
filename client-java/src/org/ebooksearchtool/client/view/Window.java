@@ -463,6 +463,9 @@ public class Window {
                 
             	Thread process = new Thread(new Runnable() {
             		public void run() {
+
+                        myMorePanel.setVisible(false);
+
             			model.setValue(0);
             			myProgressBar.setString("Sending request... 0%");
             			model.setValue(5);
@@ -561,8 +564,14 @@ public class Window {
             			myAdress = null;
                         myProgressBar.setString("");
                         if(!"".equals(myController.getAnswer().getNextPage())){
-                        	myNumberInfo.setText("Total books found: " + myController.getAnswer().getTotalBooksNumber() +
-                        							" Books viewed: " + 18 * myActionIndex);
+                            String totalBooks;
+                            if(myController.getAnswer().getTotalBooksNumber() == 0){
+                                totalBooks = "more than " + myController.getAnswer().getData().getBooks().size();
+                            }else{
+                                totalBooks = "" + myController.getAnswer().getTotalBooksNumber();
+                            }
+                        	myNumberInfo.setText("Total books found: " + totalBooks +
+                        							" Books viewed: " + myController.getAnswer().getData().getBooks().size());
                         	myMorePanel.setVisible(true);
                         	if(prevPage.equals(myController.getAnswer().getNextPage())){
                         		myMorePanel.setVisible(false);
