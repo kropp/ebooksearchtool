@@ -14,7 +14,11 @@ public:
     Book();
 
 public:
-	const QString& getTitle() const;
+
+// all the getters return an empty string 
+// if the book hasn't such attribute
+
+    const QString& getTitle() const;
 	const QVector<const Author*>& getAuthors() const;
 	const QString& getLanguage() const;
 	const QString& getSummary() const;
@@ -25,6 +29,10 @@ public:
     const QString& getCoverLink() const;	
     const QString& getFormat() const;	
     const QString& getContent() const;
+    const QString& getUpdated() const;
+    const QString& getIssued() const;
+    const QString& getRights() const;
+    const QVector<QString>& getCategories() const;
 
     void setTitle(const QString& title);
     void setLanguage(const QString& lang);
@@ -32,9 +40,13 @@ public:
     void setId(const QString& id);
     void addAuthor(const Author* author);
 	void addSourceLink(const QString& format, const QString& link);
-	//void setSourceLink(const QString& format, const QString& link);
     void setCoverLink(const QString& path);
     void setContent(const QString& content);
+   
+    void setUpdated(const QString& updated);
+    void setIssued(const QString& issued);
+    void setRights(const QString& rights);
+    void addCategory(const QString& category);
 
 private:
 	QString myTitle;
@@ -44,12 +56,12 @@ private:
     QVector<const Author*> myAuthors;
 	QString myId;
 	QString myCoverLink;
-//    QString myFormat;
-  //  QString mySourceLink;
-  /*  QString myUpdated;
+
+    QString myUpdated;
     QString myIssued;
     QString myRights;
-   */
+    QVector<QString> myCategories; 
+    
     QMap<QString, QString> mySourceLinks; // format -> link
 
 private:
@@ -93,6 +105,22 @@ inline const QString& Author::getName() const {
 
 inline const QString& Book::getId() const {
 	return myId;
+}
+
+inline const QString& Book::getUpdated() const {
+    return myUpdated;
+}
+
+inline const QString& Book::getIssued() const {
+    return myIssued;
+}
+
+inline const QString& Book::getRights() const {
+    return myRights;
+}
+
+inline const QVector<QString>& Book::getCategories() const {
+    return myCategories;
 }
 
 #endif //_BOOK_AUTHOR_H_

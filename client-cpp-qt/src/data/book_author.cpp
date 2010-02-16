@@ -79,3 +79,20 @@ const QString Book::getSourceLink(const QString& format) const {
 const QMap<QString, QString>& Book::getSourceLinks() const {
     return mySourceLinks;
 }
+
+
+void Book::setUpdated(const QString& updated) {
+    myUpdated = updated;
+}
+
+void Book::setIssued(const QString& issued) {
+    myIssued = issued;
+}
+
+void Book::setRights(const QString& rights) {
+    myRights = rights;
+}
+
+void Book::addCategory(const QString& category) {
+    myCategories.push_back(category);
+}

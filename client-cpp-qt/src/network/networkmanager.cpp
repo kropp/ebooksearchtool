@@ -64,7 +64,7 @@ int NetworkManager::download(QString urlStr, QIODevice* out) {
 	query.remove("http://");
 	query.remove(ourServer); //оставляю только запрос
 
-    qDebug() << "NetworkManager::download request =" << ourServer <<  query;
+    //qDebug() << "NetworkManager::download request =" << ourServer <<  query;
 	int id = myHttpConnection->get(query, out);
     return id;
 }

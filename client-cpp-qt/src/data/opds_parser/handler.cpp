@@ -47,10 +47,10 @@ bool OPDSHandler::startElement (const QString& namespaceUri, const QString& tag,
 	return true;
 }
 
-bool OPDSHandler::endElement (const QString& namespaceUri, const QString& localName, const QString& tag) {
+bool OPDSHandler::endElement (const QString& namespaceUri, const QString& tag, const QString& ) {
 	//qDebug() << "Handler::endElement namespace " << namespaceUri;
 	if (!myIsEntry) {
-        if ((localName == "totalResults") && 
+        if ((tag == "totalResults") && 
             (namespaceUri == NSPASE_OPENSEARCH)) {
         //qDebug() << "totalResults namespace" << myCurrentText << namespaceUri;
             myData->setTotalEntries(myCurrentText.toInt());
@@ -59,34 +59,34 @@ bool OPDSHandler::endElement (const QString& namespaceUri, const QString& localN
     }
    
    //if I am inside entry
-    if (tag == TAG_ENTRY) {
-        myData->addBook(myBook);
-	    myIsEntry = false;	
-	} else if (tag == TAG_TITILE) {
-		myBook->setTitle(myCurrentText);
-	} else if (tag == TAG_NAME) {
-		myAuthorsName = myCurrentText;
-	} else if (tag == TAG_URI) {
-		myAuthorsUri = myCurrentText;
-	} else if (tag == TAG_ID) {
-	    myBook->setId(myCurrentText);
-    } else if (tag == "author") {
-        const Author* author = new Author(myAuthorsName, myAuthorsUri); 
-	    myBook->addAuthor(author);
-    } else if ((localName == "language") && (namespaceUri == NSPASE_DCTERMS)) {
-		//qDebug() << "Handler::endElement namespace for language " << namespaceUri;
+    if (namespaceUri == NSPACE_ATOM) {
+        if (tag == TAG_ENTRY) {
+            myData->addBook(myBook);
+	        myIsEntry = false;	
+    	} else if (tag == TAG_TITILE) {
+	    	myBook->setTitle(myCurrentText);
+	    } else if (tag == TAG_NAME) {
+		    myAuthorsName = myCurrentText;
+	    } else if (tag == TAG_URI) {
+		    myAuthorsUri = myCurrentText;
+	    } else if (tag == TAG_ID) {
+	        myBook->setId(myCurrentText);
+        } else if (tag == TAG_AUTHOR) {
+            const Author* author = new Author(myAuthorsName, myAuthorsUri); 
+	        myBook->addAuthor(author);
+        } else if (tag == TAG_SUMMARY) {
+	        myBook->setSummary(myCurrentText);
+	    } else if (tag == TAG_CONTENT) {
+            myBook->setContent(myCurrentText);
+            myIsInContent = false;
+        } else if (myIsInContent) {
+            myCurrentText += "<" + tag + "/>";
+        }
+    } else if (namespaceUri == NSPASE_DCTERMS) {
+	    if (tag == TAG_LANGUAGE) 
+        //qDebug() << "Handler::endElement namespace for language " << namespaceUri;
       //qDebug() << "language" << myCurrentText;
         myBook->setLanguage(myCurrentText);
-    } else if (tag == TAG_SUMMARY) {
-	    myBook->setSummary(myCurrentText);
-	} else if (tag == TAG_CONTENT) {
-        // set content
-        //qDebug() << "OPDSHandler parser content finished";
-        //qDebug() << "content " << myCurrentText;
-        myBook->setContent(myCurrentText);
-        myIsInContent = false;
-    } else if (myIsInContent) {
-        myCurrentText += "<" + tag + "/>";
     }
 	return true;
 }
