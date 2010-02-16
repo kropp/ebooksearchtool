@@ -52,21 +52,55 @@ class Tag(models.Model):
         return self.name
 
 
+class Language(models.Model):
+    short = models.CharField(max_length=2)
+    full = models.CharField(max_length=255, unique=True)
+    full_national = models.CharField(max_length=255)
+
+    def __unicode__(self):
+        return "[%s] %s" % (self.short, self.full)
+
+
 class Book(models.Model):
     title = models.CharField(max_length=NAME_LENGTH)
     lang = models.CharField(max_length=2, choices=LANG_CODE)
+    language = models.ForeignKey(Language)
     annotation = models.ManyToManyField(Annotation)
     book_file = models.ManyToManyField(BookFile)
     series = models.ManyToManyField(Series)
     tag = models.ManyToManyField(Tag)
 
+    title_search = SphinxSearch(
+        index='book_simple',
+        weights={
+            'title': 100,
+        },
+    )
+
+    title_annotation_search = SphinxSearch(
+        index='book_title_annotation',
+        weights={
+            'title': 100,
+            'annotation.name': 50,
+        }
+    )
+
     def __unicode__(self):
         return '[id %s] %s (%s)' % (self.id, self.title, self.lang)
 
 
+#class AuthorSearchManager(object):
+#    def query(self, query):
+#        from spec.search_util import soundex_for_string, join_query_list
+#
+#        simple_result = Author.simple_search.query(query)
+#        soundex_result = Author.soundex_search.query(query)
+#
+#        return join_query_list(simple_result, soundex_result)
+
+
 class Author(models.Model):
     name = models.CharField(max_length=NAME_LENGTH, unique=True)
-    name_soundex = models.CharField(max_length=NAME_LENGTH)
     book = models.ManyToManyField(Book)
     alias = models.ManyToManyField(AuthorAlias)
     tag = models.ManyToManyField(Tag)
@@ -74,18 +108,20 @@ class Author(models.Model):
     simple_search = SphinxSearch(
         index='authors_simple',
         weights={
-            'name': 200,
+            'name': 100,
         },
     )
 
     soundex_search = SphinxSearch(
         index='authors_soundex',
         weights={
-            'name_soundex': 100,
+            'name': 50,
         },
     )
 
+#    search = AuthorSearchManager()
+
     def __unicode__(self):
-        return "%s [soundex=%s]" % (self.name, self.name_soundex)
+        return "%s" % (self.name)
         
 
