@@ -48,6 +48,10 @@ xml_string_insert_new = '''
 
 
 class InsertActionTest(TestCase):
+    
+    def setUp(self):
+        "Adds 'unknown' language"
+        self.unknown_language = Language.objects.create(short='?', full='unknown')
 
     def test_get_authors_inser_new(self):
         xml = etree.fromstring(xml_string_insert_new)
@@ -269,7 +273,7 @@ class InsertActionTest(TestCase):
         self.failUnlessEqual(Book.objects.all().count(), 1)
 
         # test update lang
-        book = Book(title='title2', lang='')
+        book = Book(title='title2', lang='', language=self.unknown_language)
         book.save()
         book.lang = 'fr'
         save_book_inf(book, [], [], [])

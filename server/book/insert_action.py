@@ -8,8 +8,9 @@ import logging
 
 from django.db.models import Q
 from django.db import transaction
+from django.core.exceptions import ObjectDoesNotExist
 
-from book.models import Book, Author, AuthorAlias, BookFile, Annotation
+from book.models import Book, Author, AuthorAlias, BookFile, Annotation, Language
 from spec.exception import InputDataServerException
 
 analyzer_log = logging.getLogger("analyser_logger")
@@ -213,6 +214,15 @@ def save_book_inf(book, authors, book_files, annotations):
         messages.append(('info', 'Book updated'))
     else:
         # not found the book in database, then save it
+
+        # TODO do something with language
+        # TODO remove it temporary solution
+        try:
+            language = Language.objects.get(short=book.lang)
+        except ObjectDoesNotExist:
+            language = Language.objects.get(short='?')
+        book.language = language
+
         book.save()
         messages.append(('info', 'Book created'))
 
