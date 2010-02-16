@@ -43,6 +43,7 @@ private slots:
     void download();
     void read();
     void remove();
+    void showFullDescription();
 
 private: 
     void downloadCover();

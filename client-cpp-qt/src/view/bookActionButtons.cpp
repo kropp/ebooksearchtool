@@ -11,6 +11,7 @@ BookActionsButtonBox::BookActionsButtonBox(QWidget* parent) : QGroupBox(parent) 
     connect(myDownloadButton, SIGNAL(pressed()), this, SIGNAL(download()));
     connect(myReadButton, SIGNAL(pressed()), this, SIGNAL(read()));
     connect(myRemoveButton, SIGNAL(pressed()), this, SIGNAL(remove()));
+    connect(myInfoButton, SIGNAL(pressed()), this, SIGNAL(getInfo()));
 }
 
 void BookActionsButtonBox::createButtons(QHBoxLayout* layout) {
@@ -30,18 +31,17 @@ void BookActionsButtonBox::createButtons(QHBoxLayout* layout) {
     myRemoveButton = new QPushButton(*removeIcon, " ");
     myRemoveButton->setToolTip("remove");
 
-/*    QIcon* infoIcon = new QIcon("view/images/information.png");
+    QIcon* infoIcon = new QIcon("view/images/information.png");
     myInfoButton = new QPushButton(*infoIcon, " ");
-    myInfoButton->setToolTip("extra information");
+    myInfoButton->setToolTip("get full book description");
     
     applyButtonSettings(myInfoButton);    
-  */
     applyButtonSettings(myRemoveButton);    
     applyButtonSettings(myToLibraryButton);    
     applyButtonSettings(myDownloadButton);    
     applyButtonSettings(myReadButton);    
 
-   // layout->addWidget(myInfoButton);
+    layout->addWidget(myInfoButton);
     layout->addWidget(myRemoveButton);
     layout->addWidget(myToLibraryButton);
     layout->addWidget(myDownloadButton);

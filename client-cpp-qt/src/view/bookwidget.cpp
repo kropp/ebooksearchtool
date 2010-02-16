@@ -5,7 +5,7 @@
 #include "bookwidget.h"
 #include "../data/book_author.h"
 #include "bookActionButtons.h"
-
+#include "bookDescriptionDialog.h"
 
 //#include <QDebug>
 
@@ -33,6 +33,7 @@ BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent), myB
     connect(buttonGroup, SIGNAL(toLibrary()), this, SLOT(toLibrary()));
     connect(buttonGroup, SIGNAL(read()), this, SLOT(read()));
     connect(buttonGroup, SIGNAL(remove()), this, SLOT(remove()));
+    connect(buttonGroup, SIGNAL(getInfo()), this, SLOT(showFullDescription()));
 
 // set all content to layout
     myMainLayout = new QGridLayout();
@@ -95,6 +96,14 @@ void BookWidget::download() {
 void BookWidget::read() {
     qDebug() << "bookWidget emit read";
     emit read(this);
+}
+
+
+void BookWidget::showFullDescription() {
+    qDebug() << "BookWidget::showFullDescription";
+    BookDescriptionDialog* dialog = new BookDescriptionDialog(this, *myBook);
+    dialog->show();
+   // set delete on close;
 }
 
 void BookWidget::remove() {

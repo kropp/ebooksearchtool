@@ -26,13 +26,15 @@ signals:
     void download();
     void read();
     void remove();
+    void getInfo();
+    
 
 private:
     QPushButton* myToLibraryButton;
     QPushButton* myDownloadButton;
     QPushButton* myReadButton;
     QPushButton* myRemoveButton;
-//    QPushButton* myInfoButton;
+    QPushButton* myInfoButton;
 
 friend class BookWidget;
 friend class View;

@@ -37,6 +37,7 @@ HEADERS += data/book_author.h \
            view/bookwidget.h \
            view/moreLessTextLabel.h \
            view/view.h \
+           view/bookDescriptionDialog.h \
            data/opds_parser/handler.h \
            data/opds_parser/parser.h \
            data/opds_parser/opds_constants.h \
@@ -56,6 +57,7 @@ SOURCES += main.cpp \
            view/moreLessTextLabel.cpp \
            view/view.cpp \
            view/view_slots.cpp \
+           view/bookDescriptionDialog.cpp \
            data/opds_parser/handler.cpp \
            data/opds_parser/parser.cpp \
            data/opds_parser/opds_constants.cpp \
