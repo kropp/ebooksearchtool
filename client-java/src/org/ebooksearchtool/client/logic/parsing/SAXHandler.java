@@ -180,7 +180,7 @@ public class SAXHandler extends DefaultHandler{
         }
 
         if(qName.equals("content") && myAnswer.getData().getBooks().size() != 0){
-            System.out.println(myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size()-1).getContent());
+            //System.out.println(myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size()-1).getContent());
         }
 
         if("entry".equals(qName)){
@@ -189,6 +189,23 @@ public class SAXHandler extends DefaultHandler{
         
         if("totalResults".equals(qName)){
         	myIsTotalTag = false;
+        }
+
+        if("title".equals(qName) && myAnswer.getData().getBooks().size() != 0){
+            StringBuffer result = new StringBuffer(myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size() - 1).getTitle());
+            while(result.indexOf("\n") != -1){
+                result.deleteCharAt(result.indexOf("\n"));
+            }
+            while(result.lastIndexOf(" ") == (result.length() - 1)){
+                result.deleteCharAt(result.lastIndexOf(" "));
+            }
+            while(result.indexOf(" ") == 0){
+                result.deleteCharAt(result.indexOf(" "));
+            }
+            while(result.indexOf("\t") == 0){
+                result.deleteCharAt(result.indexOf("\t"));
+            }
+            myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size() - 1).setTitle(result.toString());
         }
         
         if("author".equals(qName) && myIsEntryTag){
@@ -215,6 +232,7 @@ public class SAXHandler extends DefaultHandler{
                     myAnswer.getData().setBookContent(myAnswer.getData().getBooks().size()-1, myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size()-1).getContent() + "<" + qName + "/>");
                 }
             }
+
         }
         for(int i = 0; i < myAuthorTags.getTags().length; ++i){
             myAuthorTags.getTags()[i].setStatus(false);    

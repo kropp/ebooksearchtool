@@ -7,6 +7,7 @@ import org.ebooksearchtool.client.connection.Connector;
 import javax.swing.*;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
+import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.StyleSheet;
 import java.awt.*;
@@ -36,7 +37,7 @@ public class BookPanel implements Comparable {
     private JLabel myPublisherLabel;
     private JLabel myDateLabel;
     private JLabel myGenreLabel;
-    private JTextPane mySummaryArea;
+    private JComponent mySummaryArea;
     
     private boolean myIsMoreInfoShown = false;
 
@@ -159,19 +160,22 @@ public class BookPanel implements Comparable {
     				myGenreLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
     				myMoreInfoPanel.add(myGenreLabel);
 
-                    HTMLEditorKit ek = new HTMLEditorKit();
-                    mySummaryArea = new JTextPane();
-                    mySummaryArea.setEditorKit(ek);
+
                     if(myBook.getSummary() != null){
-    				    mySummaryArea.setText(myBook.getSummary());
+                        mySummaryArea = new JTextArea(myBook.getSummary());
+    				    ((JTextArea)mySummaryArea).setLineWrap(true);
                     }else{
-                        mySummaryArea.setText(myBook.getContent());
+                        HTMLEditorKit ek = new HTMLEditorKit();
+                        mySummaryArea = new JTextPane();
+                        ((JTextPane)mySummaryArea).setEditorKit(ek);
+                        ((JTextPane)mySummaryArea).setText(myBook.getContent());
                     }
+
     				mySummaryArea.setBackground(myMoreInfoPanel.getBackground());
     				//mySummaryArea.setLineWrap(true);
     				mySummaryArea.setAlignmentX(JPanel.LEFT_ALIGNMENT);
     				myMoreInfoPanel.add(mySummaryArea);
-    				
+
     				myIsMoreInfoShown = true;
     				
     				myMoreInfoPanel.setVisible(true);
