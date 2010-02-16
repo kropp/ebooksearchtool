@@ -45,6 +45,10 @@ public class Data {
         myBooks.get(elementIndex).setPublisher(value);
     }
 
+    public void setBookRights(int elementIndex, String value){
+        myBooks.get(elementIndex).setRights(value);
+    }
+
     public void setBookDate(int elementIndex, String value){
         myBooks.get(elementIndex).setDate(value);
     }

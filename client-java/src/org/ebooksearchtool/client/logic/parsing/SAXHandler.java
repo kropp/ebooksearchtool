@@ -122,6 +122,8 @@ public class SAXHandler extends DefaultHandler{
                         	myAnswer.getData().setBookLanguage(myAnswer.getData().getBooks().size()-1, myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size()-1).getLanguage() + new String(ch, start, length));
                         }else if(myBookTags.getTags()[i].getName().equals("publisher")){
                         	myAnswer.getData().setBookPublisher(myAnswer.getData().getBooks().size()-1, myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size()-1).getPublisher() + new String(ch, start, length));
+                        }else if(myBookTags.getTags()[i].getName().equals("rights")){
+                        	myAnswer.getData().setBookRights(myAnswer.getData().getBooks().size()-1, myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size()-1).getRights() + new String(ch, start, length));
                         }else if(myBookTags.getTags()[i].getName().equals("issued")){
                         	myAnswer.getData().setBookDate(myAnswer.getData().getBooks().size()-1, myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size()-1).getDate() + new String(ch, start, length));
                         }else if(myBookTags.getTags()[i].getName().equals("updated")){
@@ -140,6 +142,9 @@ public class SAXHandler extends DefaultHandler{
                         	myIsContinue = true;
                         }else if(myBookTags.getTags()[i].getName().equals("publisher")){
                         	myAnswer.getData().setBookPublisher(myAnswer.getData().getBooks().size()-1, new String(ch, start, length));
+                        	myIsContinue = true;
+                        }else if(myBookTags.getTags()[i].getName().equals("rights")){
+                        	myAnswer.getData().setBookRights(myAnswer.getData().getBooks().size()-1, new String(ch, start, length));
                         	myIsContinue = true;
                         }else if(myBookTags.getTags()[i].getName().equals("issued")){
                         	myAnswer.getData().setBookDate(myAnswer.getData().getBooks().size()-1, new String(ch, start, length));

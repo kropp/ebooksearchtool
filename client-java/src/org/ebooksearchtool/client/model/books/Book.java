@@ -15,6 +15,7 @@ public class Book {
     private Date myDate = new Date();
     private String myUpdateTime;
     private String myGenre;
+    private String myRights;
     private String mySummary;
     private String myContent;
     private HashMap<String,  String> myLinks = new HashMap();
@@ -128,5 +129,13 @@ public class Book {
 
     public void setPublisher(String myPublisher) {
         this.myPublisher = myPublisher;
+    }
+
+    public String getRights() {
+        return myRights;
+    }
+
+    public void setRights(String myRights) {
+        this.myRights = myRights;
     }
 }
