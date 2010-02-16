@@ -43,6 +43,8 @@ bool OPDSHandler::startElement (const QString& namespaceUri, const QString& tag,
     } else if (tag == TAG_CONTENT) {
         //qDebug() << "OPDSHandler start content parsing";
         myIsInContent = true;
+    } else if (tag == TAG_CATEGORY) {
+        myBook->addCategory(attributes.value(ATTRIBUTE_TERM));
     }
 	return true;
 }
@@ -76,18 +78,23 @@ bool OPDSHandler::endElement (const QString& namespaceUri, const QString& tag, c
 	        myBook->addAuthor(author);
         } else if (tag == TAG_SUMMARY) {
 	        myBook->setSummary(myCurrentText);
-	    } else if (tag == TAG_CONTENT) {
+	    } else if (tag == TAG_RIGHTS) {
+            myBook->setRights(myCurrentText);
+	    } else if (tag == TAG_UPDATED) {
+            myBook->setUpdated(myCurrentText);
+        } else if (tag == TAG_CONTENT) {
             myBook->setContent(myCurrentText);
             myIsInContent = false;
         } else if (myIsInContent) {
             myCurrentText += "<" + tag + "/>";
         }
     } else if (namespaceUri == NSPASE_DCTERMS) {
-	    if (tag == TAG_LANGUAGE) 
-        //qDebug() << "Handler::endElement namespace for language " << namespaceUri;
-      //qDebug() << "language" << myCurrentText;
-        myBook->setLanguage(myCurrentText);
-    }
+	    if (tag == TAG_LANGUAGE) { 
+            myBook->setLanguage(myCurrentText);
+        } else if (tag == TAG_ISSUED) {
+            myBook->setIssued(myCurrentText);
+        }
+     }
 	return true;
 }
 

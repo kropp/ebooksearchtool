@@ -47,13 +47,34 @@ void DataWriter::bookToDomElement(const Book& book, QDomDocument& doc, QDomEleme
         appendTagAndText(doc, authorElement, TAG_NAME, author->getName());
         appendTagAndText(doc, authorElement, TAG_URI, author->getUri());
     }
+    // append date of last updating
+    if (!book.getUpdated().isEmpty())
+        appendTagAndText(doc, entry, TAG_UPDATED, book.getUpdated());
+        
+   //append language   
+    if(!book.getLanguage().isEmpty())
+        appendTagAndText(doc, entry, "dcterms:language", book.getLanguage());
+    
+   //append issued   
+    if(!book.getIssued().isEmpty())
+        appendTagAndText(doc, entry, "dcterms:issued", book.getIssued());
+  
+   // append categories
+    const QVector<QString>& categories = book.getCategories();
+    foreach (QString category, categories) {
+        QDomElement element = doc.createElement(TAG_CATEGORY);
+	    element.setAttribute(ATTRIBUTE_TERM, category);
+	    entry.appendChild(element);	 
+    }
    
-   //append language
-    appendTagAndText(doc, entry, "dcterms:language", book.getLanguage());
-    
-    // append summary
-    appendTagAndText(doc, entry, TAG_SUMMARY, book.getSummary());
-    
+   // append summary
+    if (!book.getSummary().isEmpty())
+        appendTagAndText(doc, entry, TAG_SUMMARY, book.getSummary());
+   
+   //append rights
+    if (!book.getRights().isEmpty())
+        appendTagAndText(doc, entry, TAG_RIGHTS, book.getRights());
+
     // append Source link
     const QMap<QString, QString>& links = book.getSourceLinks();
     typedef QMap<QString, QString>::const_iterator MapIt;
