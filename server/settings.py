@@ -145,6 +145,9 @@ SPHINX_API_VERSION = 0x116
 # show django exception in response
 #ANALYZER_DEBUG_MODE = True
 
+# Analyzer setting
+ANALYZER_DEFAULT_RESULT_LENGTH = 5
+
 try:
     from local_settings import *
 except Exception:

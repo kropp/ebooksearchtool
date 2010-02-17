@@ -1,5 +1,3 @@
-"Views for analyzer"
-# -*- coding: utf-8 -*-
 
 try:
     import xml.etree.ElementTree as etree
@@ -26,31 +24,14 @@ from book.insert_action import xml_exec_insert
 from book.get_action import xml_exec_get
 import spec.logger
 
+from book.search import xml_search
+
 MAIN_LOG = logging.getLogger("main_logger")
 
-
-ACTION = {
-    'get': 1,
-    'insert': 2,
-}
-
-def who(request):
-    '''Generates default page'''
-    context = Context({'name': EBST_NAME,
-                       'version': EBST_VERSION,
-                       'build': EBST_VERSION_BUILD})
-    return render_to_response('data/default.xml', context)
-
-
-def data_modify(request, action):
-    '''Gets inf from POST, sends to action handler, builds response'''
-    context_dict = {}
-    messages = []
-
-    MAIN_LOG.info("Got connection from analyzer")
-    messages.append(('debug', 'Starting'))
-
+def search_view(request):
     try:
+
+        messages = []
 
         # check IP adress
         if ANALYZER_IP and request.META['REMOTE_ADDR'] != ANALYZER_IP:
@@ -71,15 +52,12 @@ def data_modify(request, action):
         except ExpatError, ex:
             raise RequestFileServerException(ex.message)
 
-        # execute request
-        if action == ACTION['get']:
-            books = xml_exec_get(xml)
-            return render_to_response('data/analyser_response.xml', \
-                                      {'books': books, 'status': 'ok',})
-        elif action == ACTION['insert']:
-            messages = xml_exec_insert(xml)
-        else:
-            raise InnerServerException("Unknow action")
+
+        # TODO insert code here
+        authors = xml_search(xml)
+        for author in authors:
+            author.sphinx_weight = author._sphinx['weight']
+        return render_to_response('data/author_search.xml', Context({'authors': authors,}))
 
     except InnerServerException, ex:
         exception_type, exception_value, exception_traceback = exc_info()
@@ -115,6 +93,8 @@ def data_modify(request, action):
     # load all vars to context
     context_dict = {
         'status': status,
-        'messages': messages,}
+        'messages': messages,
+    }
 
     return render_to_response('data/main_response.xml', Context(context_dict))
+    

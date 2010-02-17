@@ -3,8 +3,10 @@ from django.conf.urls.defaults import patterns
 from django.contrib import admin
 
 from book.views import ACTION, data_modify, who
+from book.search_view import search_view
 
 import views
+
 
 
 urlpatterns = patterns('',
@@ -16,6 +18,9 @@ urlpatterns = patterns('',
     (r'^data/get/?$', data_modify, {'action': ACTION['get'],}),
     (r'^data/insert/?$', data_modify, {'action': ACTION['insert'],}),
     (r'^data/?$', who),
+    # new interface for analyzer
+    (r'^datasearch/?$', search_view,),
+
 
     # interface for search
     (r'^search.atom/?$', 'views.search_request_to_server',
@@ -44,7 +49,7 @@ urlpatterns = patterns('',
     (r'^catalog.atom/?$', 'views.catalog_request_to_server',
         {'response_type': 'atom',}),
     (r'^catalog/?$', 'views.catalog_request_to_server',
-        {'response_type': 'xhtml',}),        
+        {'response_type': 'xhtml',}),
     
     #books sorted by authors, languages, subjects
     (r'^discover/authors.atom/?$', 'views.books_by_authors_request_to_server',
@@ -55,18 +60,18 @@ urlpatterns = patterns('',
     (r'^discover/languages.atom/?$', 'views.books_by_languages_request_to_server',
         {'response_type': 'atom',}),
     (r'^discover/languages/?$', 'views.books_by_languages_request_to_server',
-        {'response_type': 'xhtml',}),        
+        {'response_type': 'xhtml',}),
         
     (r'^discover/subjects.atom/?$', 'views.books_by_tags_request_to_server',
         {'response_type': 'atom',}),
     (r'^discover/subjects/?$', 'views.books_by_tags_request_to_server',
-        {'response_type': 'xhtml',}),   
+        {'response_type': 'xhtml',}),
         
-    (r'^discover/search/?$', 'views.books_search'), 
-    (r'^discover/extended/?$', 'views.extended_search'), 
+    (r'^discover/search/?$', 'views.books_search'),
+    (r'^discover/extended/?$', 'views.extended_search'),
     
     # no book cover available
-    (r'^pic/nobookcover/?$', 'views.no_book_cover'),         
+    (r'^pic/nobookcover/?$', 'views.no_book_cover'),
     
     #admin
     (r'^admin/(.*)', admin.site.root),
