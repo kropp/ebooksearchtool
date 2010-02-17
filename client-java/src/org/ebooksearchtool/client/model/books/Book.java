@@ -2,6 +2,7 @@ package org.ebooksearchtool.client.model.books;
 
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -14,7 +15,7 @@ public class Book {
     private String myPublisher;
     private Date myDate;
     private String myUpdateTime;
-    private String myGenre;
+    private ArrayList<String> myGenre = new ArrayList<String>();
     private String myRights;
     private String mySummary;
     private String myContent;
@@ -94,21 +95,13 @@ public class Book {
         this.myID = myID;
     }
 
-    public String getGenre() {
+    public ArrayList<String> getGenre() {
         return myGenre;
     }
 
-    public void setGenre(String myGenre) {
-        this.myGenre = myGenre;
+    public void setGenre(String genre) {
+        myGenre.add(genre);
     }
-
-    /*public String getEpubLink() {
-        return myEpubLink;
-    }
-
-    public void setEpubLink(String myEpubLink) {
-        this.myEpubLink = myEpubLink;
-    } */
 
     public String getImage() {
         return myImage;

@@ -78,7 +78,10 @@ public class SAXHandler extends DefaultHandler{
             if(myBookTags.getTags()[i].getName().equals(qName)){
                 myBookTags.getTags()[i].setStatus(true);
             }
-            if (attributes != null) {
+
+        }
+
+        if (attributes != null) {
                 if(myIsEntryTag){
                     if("application/pdf".equals(attributes.getValue("type"))){
                         myAnswer.getData().getBookLinks(myAnswer.getData().getBooks().size()-1).put("pdf", attributes.getValue("href"));
@@ -88,7 +91,8 @@ public class SAXHandler extends DefaultHandler{
                         myAnswer.getData().setBookImage(myAnswer.getData().getBooks().size()-1, attributes.getValue("href"));
                     }else if("x-stanza-cover-image-thumbnail".equals(attributes.getValue("rel"))){
                         myAnswer.getData().setBookImage(myAnswer.getData().getBooks().size()-1, attributes.getValue("href"));
-                    }else if(attributes.getValue("term") != null){
+                    }else if("category".equals(qName) && attributes.getValue("term") != null){
+                        System.out.println(myAnswer.getData().getBooks().size()-1);
                         myAnswer.getData().setBookGenre(myAnswer.getData().getBooks().size()-1, attributes.getValue("term"));
                     }else if("start".equals(attributes.getValue("rel"))){
                         myAnswer.setCatMainPage(attributes.getValue("href"));
@@ -99,8 +103,6 @@ public class SAXHandler extends DefaultHandler{
                 }
 
             }
-
-        }
 
     }
     @Override

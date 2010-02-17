@@ -73,8 +73,11 @@ public class XMLBuilder {
 			    date.setTextContent(Integer.toString(data.getBooks().get(i).getDate().getYear()));
                 entry.appendChild(date);
             }
-			Element category = doc.createElement("category");
-			category.setAttribute("term", data.getBooks().get(i).getGenre());
+            for(int j = 0; j < data.getBooks().get(i).getGenre().size(); ++j){
+			    Element category = doc.createElement("category");
+			    category.setAttribute("term", data.getBooks().get(i).getGenre().get(j));
+                entry.appendChild(category);
+            }
 			Element summary = doc.createElement("summary");
 			summary.setTextContent(data.getBooks().get(i).getSummary());
 			Element link1 = doc.createElement("link");
@@ -94,7 +97,6 @@ public class XMLBuilder {
 			author.appendChild(AID);
 			entry.appendChild(author);
 			entry.appendChild(language);
-			entry.appendChild(category);
 			entry.appendChild(summary);
 			entry.appendChild(link1);
 			entry.appendChild(link2);
