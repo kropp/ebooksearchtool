@@ -12,25 +12,13 @@ public class Data {
 
 
     public Data(){}
-
-    /*public void setNextPage(String adress){
-    	myNextPage = adress;
-    }
-    
-    public String getNextPage(){
-    	return myNextPage;
-    }
-    
-    public void setTotalBooksNumber(int number){
-    	myTotalBooksNumber = number;
-    }
-    
-    public int getTotalBooksNumber(){
-    	return myTotalBooksNumber;
-    } */
     
     public void setBookTitle(int elementIndex, String value){
         myBooks.get(elementIndex).setTitle(value);
+    }
+
+    public void setBookSubtitle(int elementIndex, String value){
+        myBooks.get(elementIndex).setSubtitle(value);
     }
 
     public void setBookAuthor(int elementIndex, Author value){
@@ -95,10 +83,6 @@ public class Data {
     
     public List<Author> getAuthors() {
         return Collections.unmodifiableList(myAuthors);
-    }
-
-    public void setAuthorBook(int elementIndex, Book value){
-        myAuthors.get(elementIndex).addBook(value);
     }
 
 }

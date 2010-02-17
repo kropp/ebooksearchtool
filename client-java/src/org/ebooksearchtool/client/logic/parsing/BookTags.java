@@ -1,9 +1,6 @@
 package org.ebooksearchtool.client.logic.parsing;
 
-/**
- * Created by IntelliJ IDEA.
- * User: �������������
- * Date: 01.10.2009
+/* Date: 01.10.2009
  * Time: 20:32:55
  * To change this template use File | Settings | File Templates.
  */
@@ -12,7 +9,7 @@ public class BookTags {
     private Tag[] myTags;
 
     public BookTags(){
-        myTags = new Tag[12];
+        myTags = new Tag[13];
         myTags[0] = new Tag("title");
         myTags[1] = new Tag("id");
         myTags[2] = new Tag("author");
@@ -25,6 +22,7 @@ public class BookTags {
         myTags[9] = new Tag("updated");
         myTags[10] = new Tag("rights");
         myTags[11] = new Tag("publisher");
+        myTags[12] = new Tag("subtitle");
     }
 
     public Tag[] getTags(){

@@ -1,7 +1,5 @@
 package org.ebooksearchtool.client.model.books;
 
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -9,6 +7,7 @@ import java.util.HashMap;
 public class Book {
 
     private String myTitle;
+    private String mySubtitle;
     private String myID;
     private Author myAuthor;
     private String myLanguage;
@@ -19,7 +18,7 @@ public class Book {
     private String myRights;
     private String mySummary;
     private String myContent;
-    private HashMap<String,  String> myLinks = new HashMap();
+    private HashMap<String,  String> myLinks = new HashMap<String, String>();
     private String myImage;
 
     public Book(){}
@@ -133,5 +132,13 @@ public class Book {
 
     public void setRights(String myRights) {
         this.myRights = myRights;
+    }
+
+    public String getSubtitle() {
+        return mySubtitle;
+    }
+
+    public void setSubtitle(String mySubtitle) {
+        this.mySubtitle = mySubtitle;
     }
 }
