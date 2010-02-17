@@ -92,7 +92,6 @@ public class SAXHandler extends DefaultHandler{
                 } else if ("x-stanza-cover-image-thumbnail".equals(attributes.getValue("rel"))) {
                     myAnswer.getData().setBookImage(myAnswer.getData().getBooks().size() - 1, attributes.getValue("href"));
                 } else if ("category".equals(qName) && attributes.getValue("term") != null) {
-                    System.out.println(myAnswer.getData().getBooks().size() - 1);
                     myAnswer.getData().setBookGenre(myAnswer.getData().getBooks().size() - 1, attributes.getValue("term"));
                 } else if ("start".equals(attributes.getValue("rel"))) {
                     myAnswer.setCatMainPage(attributes.getValue("href"));

@@ -27,6 +27,7 @@ public class BookPanel implements Comparable {
     private JLabel myImageLable;
     private Box myInfoPanel;
     private JLabel myTitle;
+    private JLabel mySubtitle;
     private JLabel myAuthor;
     private JPanel myButtonPanel;
     private JButton myMoreButton, myDelButton, myLibButton, myDownloadPdfButton, myDownloadEpubButton;
@@ -70,6 +71,10 @@ public class BookPanel implements Comparable {
         myTitle = new JLabel(myBook.getTitle());
         myTitle.setFont(new Font("Tahoma", 0, 24));
         myAuthor = new JLabel(myBook.getAuthor().getName());
+        if(myBook.getSubtitle() != null){
+            mySubtitle = new JLabel(myBook.getSubtitle());
+            myTitle.setFont(new Font("Tahoma", 0, 16));
+        }
 
         myButtonPanel = new JPanel();
         myButtonPanel.setLayout(new FlowLayout());
@@ -112,6 +117,10 @@ public class BookPanel implements Comparable {
         myTitle.setAlignmentX(JLabel.LEFT_ALIGNMENT);
         myInfoPanel.add(myAuthor);
         myAuthor.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+        if (myBook.getSubtitle() != null) {
+            myInfoPanel.add(mySubtitle);
+            mySubtitle.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+        }
 
         myMoreInfoPanel = new JPanel();
         myInfoPanel.add(myMoreInfoPanel);
