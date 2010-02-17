@@ -12,7 +12,7 @@ public class Book {
     private Author myAuthor;
     private String myLanguage;
     private String myPublisher;
-    private Date myDate = new Date();
+    private Date myDate;
     private String myUpdateTime;
     private String myGenre;
     private String myRights;
@@ -51,8 +51,11 @@ public class Book {
         return myDate;
     }
 
-    public void setDate(String myDate) {
-        this.myDate.setYear(Integer.parseInt(myDate));
+    public void setDate(String date) {
+        if(myDate == null){
+            myDate = new Date();
+        }
+        this.myDate.setYear(Integer.parseInt(date));
     }
 
     public String getUpdateTime() {

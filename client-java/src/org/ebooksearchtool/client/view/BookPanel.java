@@ -141,29 +141,41 @@ public class BookPanel implements Comparable {
     			if(!myIsMoreInfoShown){
     				myMoreInfoPanel.setLayout(new BoxLayout(myMoreInfoPanel, BoxLayout.Y_AXIS));
 
-                    myUpdateLabel = new JLabel("Updated: " + myBook.getUpdateTime());
-    				myUpdateLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-    				myMoreInfoPanel.add(myUpdateLabel);
+                    if(myBook.getUpdateTime() != null){
+                        myUpdateLabel = new JLabel("Updated: " + myBook.getUpdateTime());
+    				    myUpdateLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+    				    myMoreInfoPanel.add(myUpdateLabel);
+                    }
 
-    				myLangLabel = new JLabel("Language: " + myBook.getLanguage());
-    				myLangLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-    				myMoreInfoPanel.add(myLangLabel);
-    			
-    				myDateLabel = new JLabel("Date of publishing: " + myBook.getDate().getYear());
-    				myDateLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-    				myMoreInfoPanel.add(myDateLabel);
+                    if(myBook.getLanguage() != null){
+    				    myLangLabel = new JLabel("Language: " + myBook.getLanguage());
+    				    myLangLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+    				    myMoreInfoPanel.add(myLangLabel);
+                    }
 
-                    myPublisherLabel = new JLabel("Publisher: " + myBook.getPublisher());
-    				myPublisherLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-    				myMoreInfoPanel.add(myPublisherLabel);
+                    if(myBook.getDate() != null){
+    				    myDateLabel = new JLabel("Date of publishing: " + myBook.getDate().getYear());
+    				    myDateLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+    				    myMoreInfoPanel.add(myDateLabel);
+                    }
 
-                    myRightsLabel = new JLabel("Rights: " + myBook.getRights());
-    				myRightsLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-    				myMoreInfoPanel.add(myRightsLabel);
+                    if(myBook.getPublisher() != null){
+                        myPublisherLabel = new JLabel("Publisher: " + myBook.getPublisher());
+    				    myPublisherLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+    				    myMoreInfoPanel.add(myPublisherLabel);
+                    }
 
-    				myGenreLabel = new JLabel("Genre: " + myBook.getGenre());
-    				myGenreLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-    				myMoreInfoPanel.add(myGenreLabel);
+                    if(myBook.getRights() != null){
+                        myRightsLabel = new JLabel("Rights: " + myBook.getRights());
+    				    myRightsLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+    				    myMoreInfoPanel.add(myRightsLabel);
+                    }
+
+                    if(myBook.getGenre() != null){
+    				    myGenreLabel = new JLabel("Genre: " + myBook.getGenre());
+    				    myGenreLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+    				    myMoreInfoPanel.add(myGenreLabel);
+                    }
 
 
                     if(myBook.getSummary() != null){

@@ -68,8 +68,11 @@ public class XMLBuilder {
 			AID.setTextContent(data.getBooks().get(i).getAuthor().getID());
 			Element language = doc.createElement("dcterms:language");
 			language.setTextContent(data.getBooks().get(i).getLanguage());
-			Element date = doc.createElement("dcterms:issued");
-			date.setTextContent(Integer.toString(data.getBooks().get(i).getDate().getYear()));
+            if(data.getBooks().get(i).getDate() != null){
+			    Element date = doc.createElement("dcterms:issued");
+			    date.setTextContent(Integer.toString(data.getBooks().get(i).getDate().getYear()));
+                entry.appendChild(date);
+            }
 			Element category = doc.createElement("category");
 			category.setAttribute("term", data.getBooks().get(i).getGenre());
 			Element summary = doc.createElement("summary");
@@ -91,7 +94,6 @@ public class XMLBuilder {
 			author.appendChild(AID);
 			entry.appendChild(author);
 			entry.appendChild(language);
-			entry.appendChild(date);
 			entry.appendChild(category);
 			entry.appendChild(summary);
 			entry.appendChild(link1);
