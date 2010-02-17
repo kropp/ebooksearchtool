@@ -98,9 +98,8 @@ public class Controller {
         mySettings.setProxyEnabled(proxy);
     	mySettings.setIP(IP);
         mySettings.setPort(port);
-        PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream("settings.xml"), "utf-8"));
-        pw.print("<root>\n" + "<server>" + server + "</server>\n" + "<proxy enabled=\"" + proxy + "\"/>\n" + "<IP>" + IP + "</IP>\n" + "<port>" + port + "</port>\n" + "</root>");
-        pw.close();
+        XMLBuilder builder = new XMLBuilder();
+        builder.makeSettingsXML(mySettings);
     }
     
  /*   public boolean getBookFile(int bookIndex) throws IOException{

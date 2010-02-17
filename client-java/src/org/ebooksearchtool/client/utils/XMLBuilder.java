@@ -13,8 +13,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.ebooksearchtool.client.model.QueryAnswer;
 import org.ebooksearchtool.client.model.books.Data;
+import org.ebooksearchtool.client.model.settings.Settings;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -108,5 +108,31 @@ public class XMLBuilder {
 		writeFile(doc, fileName);
 		
 	}
+
+    public void makeSettingsXML(Settings sets){
+
+        Document doc = myDomBuilder.newDocument();
+		Element root = doc.createElement("settings");
+        doc.appendChild(root);
+
+        Element server = doc.createElement("server");
+        server.setTextContent(sets.getServer());
+        root.appendChild(server);
+
+        Element proxy = doc.createElement("proxy");
+        proxy.setAttribute("enabled", "" + sets.isProxyEnabled());
+        root.appendChild(proxy);
+
+        Element IP = doc.createElement("IP");
+        IP.setTextContent(sets.getIP());
+        root.appendChild(IP);
+
+        Element port = doc.createElement("port");
+        port.setTextContent(((Integer)sets.getPort()).toString());
+        root.appendChild(port);
+
+        writeFile(doc, "settings.xml");
+
+    }
 
 }

@@ -1,16 +1,12 @@
 package org.ebooksearchtool.client.model.settings;
 
-import org.ebooksearchtool.client.logic.parsing.Parser;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-/**
- * Created by IntelliJ IDEA.
- * User: 
+/*
  * Date: 25.10.2009
  * Time: 17:35:28
- * To change this template use File | Settings | File Templates.
  */
 public class Settings {
 
