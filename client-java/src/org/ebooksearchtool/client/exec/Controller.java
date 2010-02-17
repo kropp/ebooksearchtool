@@ -50,8 +50,11 @@ public class Controller {
             mySettings.setIP(getSettingsFromFile().getIP());
             mySettings.setPort(getSettingsFromFile().getPort());
         } catch (FileNotFoundException exeption){
-        	
-            setSettings("http://feedbooks.com", true, "192.168.0.2", 3128);
+        	mySettings.setServer("http://feedbooks.com");
+            mySettings.setProxyEnabled(true);
+            mySettings.setIP("192.168.0.2");
+            mySettings.setPort(3128);
+            writeSettings();
         }
 
     }
@@ -93,11 +96,7 @@ public class Controller {
         return mySettings;
     }
 
-    public void setSettings(String server, boolean proxy, String IP, int port) throws FileNotFoundException, UnsupportedEncodingException {
-        mySettings.setServer(server);
-        mySettings.setProxyEnabled(proxy);
-    	mySettings.setIP(IP);
-        mySettings.setPort(port);
+    public void writeSettings() throws FileNotFoundException, UnsupportedEncodingException {
         XMLBuilder builder = new XMLBuilder();
         builder.makeSettingsXML(mySettings);
     }

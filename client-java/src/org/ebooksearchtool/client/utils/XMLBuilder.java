@@ -3,6 +3,7 @@ package org.ebooksearchtool.client.utils;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -130,6 +131,15 @@ public class XMLBuilder {
         Element port = doc.createElement("port");
         port.setTextContent(((Integer)sets.getPort()).toString());
         root.appendChild(port);
+
+        Set<String> keySet = sets.getSupportedServers().keySet();
+        String[] keys = (String[])keySet.toArray();
+        for(int i = 0; i < keys.length; ++i){
+            Element ser = doc.createElement("supported");
+            ser.setAttribute("search", sets.getSupportedServers().get(keys[i]));
+            ser.setAttribute("server", keys[i]);
+            root.appendChild(ser);
+        }
 
         writeFile(doc, "settings.xml");
 

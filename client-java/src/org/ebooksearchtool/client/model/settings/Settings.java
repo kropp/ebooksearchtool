@@ -3,6 +3,7 @@ package org.ebooksearchtool.client.model.settings;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
+import java.util.HashMap;
 
 /*
  * Date: 25.10.2009
@@ -14,6 +15,8 @@ public class Settings {
     private String myIP;
     private int myPort;
     private boolean myProxyIsEnabled;
+
+    private HashMap<String,  String> mySupportedServers = new HashMap<String,  String>();
 
     public Settings() throws SAXException, ParserConfigurationException {}
 
@@ -47,5 +50,9 @@ public class Settings {
 
     public void setProxyEnabled(boolean enabled) {
         myProxyIsEnabled = enabled;
+    }
+
+    public HashMap<String, String> getSupportedServers() {
+        return mySupportedServers;
     }
 }

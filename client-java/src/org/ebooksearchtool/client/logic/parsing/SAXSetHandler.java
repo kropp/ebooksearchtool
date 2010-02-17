@@ -5,12 +5,9 @@ import org.xml.sax.SAXException;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
-/**
- * Created by IntelliJ IDEA.
- * User: 
+/*
  * Date: 25.10.2009
  * Time: 17:53:27
- * To change this template use File | Settings | File Templates.
  */
 public class SAXSetHandler extends DefaultHandler{
 
@@ -23,10 +20,6 @@ public class SAXSetHandler extends DefaultHandler{
 
     }
 
-    public Settings getSettings()
-    {
-        return mySettings;
-    }
     @Override
     public void startDocument() throws SAXException
     {
@@ -37,6 +30,8 @@ public class SAXSetHandler extends DefaultHandler{
 
         if(qName.equals("proxy")){
             mySettings.setProxyEnabled(attributes.getValue("enabled").equals("true"));
+        }else if(qName.equals("supported")){
+            mySettings.getSupportedServers().put(attributes.getValue("server"), attributes.getValue("search"));
         }
         for(int i = 0; i < myTags.getTags().length; ++i){
             myTags.getTags()[i].setStatus(myTags.getTags()[i].getName().equals(qName));
