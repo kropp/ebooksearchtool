@@ -166,9 +166,9 @@ class fisher_classifier(classifier):
                 second = best
                 best = c
                 max = p
-        return (best, second)
+        return (best, second) 
     
     def sample_train(self):
-        for i in range(1, 150):
-            tools.read(('http://feedbooks.com/books.atom?lang=en&amp;page=%s' % i), self)
+        for i in range(1, 100):
+            tools.read(False, ('http://feedbooks.com/books.atom?lang=en&amp;page=%s' % i), self)
 

@@ -6,39 +6,43 @@ import spec.external.pyPdf as pyPdf
 import classifier
 import urllib
 
-def read(feed, classifier):
+def read(b, feed, classifier):
     ''' gets URL and classify items '''
     # get feed items
     f = feedparser.parse(feed)
-#    file_handle = open("statistics", "a")
+
+    counter = 0
+    if b == True:
+        file_handle = open("statistics", "a")
     
     for entry in f['entries']:
         summary = entry['summary'].encode('utf-8')
         if summary == "No description available.":
             break
-        print 
-        print '-----'
-#            print 'Title: ' + entry['title'].encode('utf-8')
-#            print 'Author: ' + entry['author'].encode('utf-8')
-#            print
-#            print summary
-        
+
+        counter = counter+1
+       
         fulltext = '%s\n%s' % (entry['title'].encode('utf-8'), summary)
 
         hyp = classifier.classify(fulltext)
-        print 'Hypothesis: ' + str(hyp)
+#        print 'Hypothesis: ' + str(hyp)
                     
         for cat in entry['categories']:
             c = cat[1].encode('utf-8')
-            print ' Tag : ' + c
-            classifier.train(fulltext, c)
+#            print ' Tag : ' + c
+            if b == False:
+                classifier.train(fulltext, c)
             
             # write statistic
-#                if c == hyp[0] or c == hyp[1]:     
-#                    file_handle.write(tag_name)
-#                    file_handle.write('\n')    
 
-#    file_handle.close()
+            if b == True and (c == hyp[0] or c == hyp[1]):     
+                file_handle.write(c)
+                file_handle.write('\n')    
+
+    if b == True:
+        file_handle.close()
+                
+    return counter
         
 def get_statistics():
     file_handle = open("statistics", "r")
@@ -61,37 +65,48 @@ def get_statistics():
     
     print "Total: ", total
     
+def check_classifier(classif):
+    classif.sample_train()
+    
+    counter = 0
+    
+    for i in range(100, 150):
+        counter += read(True, ('http://feedbooks.com/books.atom?lang=en&amp;page=%s' % i), classif)
+        
+    print "Total: ", counter
+       
 def classify_fullbook(feed, classif):
     f = feedparser.parse(feed)
     
-    for entry in f['entries']:
-        url = entry['id'].encode('utf-8') + ".pdf"
-        webFile = urllib.urlopen(url)
-        localFile = open("downloads/" + url.split('/')[-1], 'w')
-        localFile.write(webFile.read())
-        fulltext = webFile.read()
-        webFile.close()
-        localFile.close()
+#    for entry in f['entries']:
+    entry = f['entries'][0]
+    url = entry['id'].encode('utf-8') + ".pdf"
+    webFile = urllib.urlopen(url)
+    localFile = open("downloads/" + url.split('/')[-1], 'w')
+    localFile.write(webFile.read())
+    fulltext = webFile.read()
+    webFile.close()
+    localFile.close()
 
-        content = ""
-        # Load PDF into pyPDF
-        pdf = pyPdf.PdfFileReader(file("downloads/" + url.split('/')[-1], "rb"))
-        # Iterate pages
-        for i in range(0, pdf.getNumPages()):
-            # Extract text from page and add to content
-            content += pdf.getPage(i).extractText() + "\n"
-        # Collapse whitespace
-        content = " ".join(content.replace(u"\xa0", " ").strip().split())
+    content = ""
+    # Load PDF into pyPDF
+    pdf = pyPdf.PdfFileReader(file("downloads/" + url.split('/')[-1], "rb"))
+    # Iterate pages
+    for i in range(0, pdf.getNumPages()):
+        # Extract text from page and add to content
+        content += pdf.getPage(i).extractText() + "\n"
+    # Collapse whitespace
+    content = " ".join(content.replace(u"\xa0", " ").strip().split())
 
-        print 
-        print '-----'
+    print 
+    print '-----'
 
 
-        #hyp = classif.classify(fulltext)
-        #print 'Hypothesis: ' + str(hyp)
-                    
-        #for cat in entry['categories']:
-        #    c = cat[1].encode('utf-8')
-        #    print ' Tag : ' + c
-        #    classif.train(fulltext, c)
-           
+    #hyp = classif.classify(fulltext)
+    #print 'Hypothesis: ' + str(hyp)
+                
+    #for cat in entry['categories']:
+    #    c = cat[1].encode('utf-8')
+    #    print ' Tag : ' + c
+    #    classif.train(fulltext, c)       
+
