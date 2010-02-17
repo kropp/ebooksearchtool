@@ -14,6 +14,12 @@ from django.shortcuts import render_to_response
 from django.template import Context
 
 from settings import ANALYZER_IP, EBST_NAME, EBST_VERSION, EBST_VERSION_BUILD
+
+try:
+    from settings import ANALYZER_DEBUG_MODE
+except ImportError:
+    ANALYZER_DEBUG_MODE = False
+
 from spec.exception import RequestFileServerException, \
 RequestServerException, ServerException, InnerServerException
 from book.insert_action import xml_exec_insert
@@ -70,7 +76,7 @@ def data_modify(request, action):
         if action == ACTION['get']:
             books = xml_exec_get(xml)
             return render_to_response('data/analyser_response.xml', \
-                                      {'books': books})
+                                      {'books': books, 'status': 'ok',})
         elif action == ACTION['insert']:
             messages = xml_exec_insert(xml)
         else:
@@ -88,11 +94,15 @@ def data_modify(request, action):
         messages.append(('error', msg_body))
         MAIN_LOG.warning(msg_body)
 
-#    except Exception, ex:
-#        exception_type, exception_value, exception_traceback = exc_info()
-#        msg_body = "%s: %s" % (exception_type, exception_value)
-#        messages.append(('error', msg_body))
-#        MAIN_LOG.exception(ex)
+    except Exception, ex:
+        if not ANALYZER_DEBUG_MODE:
+            exception_type, exception_value, exception_traceback = exc_info()
+            msg_body = "%s: %s" % (exception_type, exception_value)
+            messages.append(('error', msg_body))
+            MAIN_LOG.exception(ex)
+        else:
+            raise
+        
         
     # computation of operation status 
     msg_types = (msg_type for msg_type, msg in messages)

@@ -138,8 +138,12 @@ EBST_NAME = 'ebooks server'
 # Sphinx 0.9.9
 SPHINX_API_VERSION = 0x116
 # length of soundex code
-SOUNDEX_LENGTH = 4
+#SOUNDEX_LENGTH = 4
 
+
+# debug settings
+# show django exception in response
+#ANALYZER_DEBUG_MODE = True
 
 try:
     from local_settings import *
