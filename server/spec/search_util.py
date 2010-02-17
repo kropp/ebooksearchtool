@@ -71,3 +71,19 @@ def join_query_list(first, second, comparator=sphinx_weight_cmp):
     return result
 
 
+def rm_items(items, id_set, id_f):
+    """Returns new item list.
+    Removes item from items, if id_f(item) is in id_set."""
+
+    result = []
+
+    for item in items:
+        if id_f(item) not in id_set:
+            result.append(item)
+
+    return result
+            
+
+def id_field(entity):
+    "Returns entity.id"
+    return entity.id
