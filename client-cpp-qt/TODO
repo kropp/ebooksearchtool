@@ -21,10 +21,10 @@ View - для каждой книги создает виджет. Просто 
         2. старый вариант 
 [17.02]- максимально полная модель данных
      + map (format -> link)  - done
-     + updated
-     + issued
-     + category
-     + rights
+     + updated - done
+     + issued - done
+     + category - done
+     + rights - done
      + price (bookserver.archive - for testing)
      opds_writer - to write image correctly "image/png" of "image/jpeg"
 [18.02] - OPDS - прочитать описание стандарта  --> перечень тегов, их возможное содержимое
@@ -64,7 +64,12 @@ View - для каждой книги создает виджет. Просто 
 [15.03]- способ задать абсолютный путь до .config файла;
         настройки по-умолчанию - в отдельном файле
 -------------------------------------------------
-     
+    посмотреть уже реализованные OPDS-клиенты:
+        OLPS "Get IA Books" Activity
+        Lbis
+        archive.org HTML OPDS client
+(information source http://code.google.com/p/openpub/wiki/SearchScenarios)
+
      атрибуты Main Window реализованы и работают
       - menu
       - toolbar

@@ -3,6 +3,7 @@
 const QString OPDSConstants::NSPASE_OPENSEARCH = "http://a9.com/-/spec/opensearch/1.1/";
 const QString OPDSConstants::NSPASE_DCTERMS = "http://purl.org/dc/terms/";
 const QString OPDSConstants::NSPACE_ATOM = "http://www.w3.org/2005/Atom";
+const QString OPDSConstants::NSPACE_XHTML = "http://www.w3.org/1999/xhtml";
 
 const QString OPDSConstants::TAG_LINK = "link";
 const QString OPDSConstants::TAG_TITILE = "title";

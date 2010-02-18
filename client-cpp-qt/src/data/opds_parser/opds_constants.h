@@ -9,6 +9,7 @@ protected:
     static const QString NSPASE_OPENSEARCH;
     static const QString NSPASE_DCTERMS; 
     static const QString NSPACE_ATOM;
+    static const QString NSPACE_XHTML;
 
     static const QString TAG_LINK;
     static const QString TAG_TITILE;
