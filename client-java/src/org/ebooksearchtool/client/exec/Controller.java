@@ -46,16 +46,15 @@ public class Controller {
 
         try {
             getSettingsFromFile();
-            System.out.println("get");
-        	/*mySettings.setServer(getSettingsFromFile().getServer());
-            mySettings.setProxyEnabled(getSettingsFromFile().isProxyEnabled());
-            mySettings.setIP(getSettingsFromFile().getIP());
-            mySettings.setPort(getSettingsFromFile().getPort());*/
         } catch (FileNotFoundException exeption){
         	mySettings.setServer("http://feedbooks.com");
             mySettings.setProxyEnabled(true);
             mySettings.setIP("192.168.0.2");
             mySettings.setPort(3128);
+            mySettings.getSupportedServers().put("http://feedbooks.com", "http://feedbooks.com/books/search.atom?query=");
+            mySettings.getSupportedServers().put("http://smashwords.com", "http://smashwords.com/atom/search/books/any?query=");
+            mySettings.getSupportedServers().put("http://manybooks.net", "http://manybooks.net/stanza/search.php?q=");
+            mySettings.getSupportedServers().put("http://bookserver.archive.org", "http://bookserver.archive.org/aggregator/opensearch?q=");
             writeSettings();
         }
 

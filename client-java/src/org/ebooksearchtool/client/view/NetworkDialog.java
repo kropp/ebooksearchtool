@@ -55,7 +55,12 @@ public class NetworkDialog extends JDialog{
         serverChange.add(supServerLabel);
         serverChange.add(Box.createHorizontalStrut(12));
 
-        String[] servers = new String[]{"other", "http://feedbooks.com", "http://smashwords.com", "http://manybooks.net", "http://bookserver.archive.org"};
+        String[] servers = new String[myController.getSettings().getSupportedServers().size() + 1];
+        String[] temp = myController.getSettings().getSupportedServers().keySet().toArray(new String[myController.getSettings().getSupportedServers().size()]);
+        for(int i = 0; i < myController.getSettings().getSupportedServers().size(); ++i){
+            servers[i] = temp[i];
+        }
+         servers[myController.getSettings().getSupportedServers().size()] = "other";
 
         myServerCombo = new JComboBox(servers);
         serverChange.add(myServerCombo);
@@ -175,13 +180,7 @@ public class NetworkDialog extends JDialog{
                 myServerText.setEnabled(false);
             }
         }
-//        if(myController.getSettings().getServer().equals("http://feedbooks.com")){
-//            myServerCombo.setSelectedItem("http://feedbooks.com");
-//            myServerText.setEnabled(false);
-//        }else if(myController.getSettings().getServer().equals("http://smashwords.com")){
-//            myServerCombo.setSelectedItem("http://smashwords.com");
-//            myServerText.setEnabled(false);
-//        }
+//       
         myServerText.setText(myController.getSettings().getServer());
         myProxyCheck.setSelected(myController.getSettings().isProxyEnabled());
         myIPText.setText(myController.getSettings().getIP());
@@ -204,7 +203,15 @@ public class NetworkDialog extends JDialog{
         myOk.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-            	
+
+                for(int i = 0; i < myController.getSettings().getSupportedServers().size(); ++i){
+                    if(myServerText.getText().startsWith((String)myServerCombo.getItemAt(i))){
+                        myServerCombo.setSelectedItem(myServerCombo.getItemAt(i));
+                        myServerText.setEnabled(false);
+                        break;
+                    }
+                }
+
                 try {
                     myController.getSettings().setIP(myIPText.getText());
                     myController.getSettings().setPort(Integer.parseInt(myPortText.getText()));
