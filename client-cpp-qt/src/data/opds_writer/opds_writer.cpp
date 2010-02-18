@@ -60,8 +60,12 @@ void DataWriter::bookToDomElement(const Book& book, QDomDocument& doc, QDomEleme
         appendTagAndText(doc, authorElement, TAG_NAME, author->getName());
         appendTagAndText(doc, authorElement, TAG_URI, author->getUri());
     }
-        
-  
+    
+    // append publisher
+    if(!book.getPublisher().isEmpty())
+        appendTagAndText(doc, entry, "dcterms:" + TAG_PUBLISHER, book.getPublisher());
+     
+ 
    // append categories
     const QVector<QString>& categories = book.getCategories();
     foreach (QString category, categories) {
@@ -74,7 +78,7 @@ void DataWriter::bookToDomElement(const Book& book, QDomDocument& doc, QDomEleme
     if(!book.getLanguage().isEmpty())
         appendTagAndText(doc, entry, "dcterms:language", book.getLanguage());
     
-// append content
+    // append content
     appendTagAndText(doc, entry, TAG_CONTENT, book.getContent());
     
    // append summary

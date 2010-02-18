@@ -31,6 +31,7 @@ public:
     const QString& getContent() const;
     const QString& getUpdated() const;
     const QString& getIssued() const;
+    const QString& getPublisher() const;
     const QString& getRights() const;
     const QVector<QString>& getCategories() const;
 
@@ -42,7 +43,7 @@ public:
 	void addSourceLink(const QString& format, const QString& link);
     void setCoverLink(const QString& path);
     void setContent(const QString& content);
-   
+    void setPublisher(const QString& publisher);
     void setUpdated(const QString& updated);
     void setIssued(const QString& issued);
     void setRights(const QString& rights);
@@ -51,17 +52,16 @@ public:
 private:
 	QString myTitle;
 	QString myLanguage;
-	QString mySummary;
-    QString myContent;
-    QVector<const Author*> myAuthors;
+    QString mySummary;
 	QString myId;
-	QString myCoverLink;
-
+    QVector<const Author*> myAuthors;
+    QString myPublisher;
     QString myUpdated;
     QString myIssued;
+    QString myContent;
     QString myRights;
     QVector<QString> myCategories; 
-    
+	QString myCoverLink;
     QMap<QString, QString> mySourceLinks; // format -> link
 
 private:
@@ -115,12 +115,23 @@ inline const QString& Book::getIssued() const {
     return myIssued;
 }
 
+inline const QString& Book::getPublisher() const {
+    return myPublisher;
+}
 inline const QString& Book::getRights() const {
     return myRights;
 }
 
 inline const QVector<QString>& Book::getCategories() const {
     return myCategories;
+}
+
+inline const QString& Book::getCoverLink() const {
+    return myCoverLink;
+}
+
+inline const QString& Book::getContent() const {
+    return myContent;
 }
 
 #endif //_BOOK_AUTHOR_H_

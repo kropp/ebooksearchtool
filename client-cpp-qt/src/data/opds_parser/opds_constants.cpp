@@ -10,6 +10,7 @@ const QString OPDSConstants::TAG_TITILE = "title";
 const QString OPDSConstants::TAG_ENTRY = "entry";
 const QString OPDSConstants::TAG_NAME = "name";
 const QString OPDSConstants::TAG_AUTHOR = "author";
+const QString OPDSConstants::TAG_PUBLISHER = "publisher"; // dcterms
 const QString OPDSConstants::TAG_URI = "uri";
 const QString OPDSConstants::TAG_ID = "id";
 const QString OPDSConstants::TAG_CONTENT = "content";

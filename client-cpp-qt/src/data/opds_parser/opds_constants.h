@@ -15,6 +15,7 @@ protected:
     static const QString TAG_TITILE;
     static const QString TAG_ENTRY;
     static const QString TAG_AUTHOR;
+    static const QString TAG_PUBLISHER;
     static const QString TAG_NAME;
     static const QString TAG_URI;
     static const QString TAG_ID;

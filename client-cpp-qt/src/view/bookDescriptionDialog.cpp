@@ -53,7 +53,11 @@ void BookDescriptionDialog::setText(QTextEdit* text, const Book& book) {
     // set Issued
     if (!book.getIssued().isEmpty())
         textContent.append("<p><b>" + tr("\nIssued: ") + "</b>" + book.getIssued() + "</p>");
-    
+
+    // set Publisher
+    if (!book.getPublisher().isEmpty())
+        textContent.append("<p><b>" + tr("\nPublisher: ") + "</b>" + book.getPublisher() + "</p>");
+
     // set Updated
     if (!book.getUpdated().isEmpty())
         textContent.append("<p><b>" + tr("\nUpdated: ") + "</b>" + book.getUpdated() + "</p>");

@@ -41,7 +41,6 @@ bool OPDSHandler::startElement (const QString& namespaceUri, const QString& tag,
     } else if (tag == TAG_LINK) {
         processLink(attributes);
     } else if (tag == TAG_CONTENT) {
-        //qDebug() << "OPDSHandler start content parsing";
         myIsInContent = true;
     } else if (tag == TAG_CATEGORY) {
         myBook->addCategory(attributes.value(ATTRIBUTE_TERM));
@@ -93,6 +92,8 @@ bool OPDSHandler::endElement (const QString& namespaceUri, const QString& tag, c
             myBook->setLanguage(myCurrentText);
         } else if (tag == TAG_ISSUED) {
             myBook->setIssued(myCurrentText);
+        } else if (tag == TAG_PUBLISHER) {
+            myBook->setPublisher(myCurrentText);
         }
      }
 	return true;

@@ -34,14 +34,6 @@ void Book::addAuthor(const Author* author) {
 	myAuthors.push_back(author);
 }
 
-const QString& Book::getCoverLink() const {
-    return myCoverLink;
-}
-
-const QString& Book::getContent() const {
-    return myContent;
-}
-
 void Book::setCoverLink(const QString& path) {
     myCoverLink = path;
 }
@@ -89,6 +81,9 @@ void Book::setIssued(const QString& issued) {
     myIssued = issued;
 }
 
+void Book::setPublisher(const QString& publisher) {
+    myPublisher = publisher;
+}
 void Book::setRights(const QString& rights) {
     myRights = rights;
 }
