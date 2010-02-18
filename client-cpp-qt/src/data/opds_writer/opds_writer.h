@@ -18,7 +18,11 @@ public:
 private:
     void bookToDomElement(const Book& book, QDomDocument& doc, QDomElement& element);
     void dataToDomDocument(const Data& data, QDomDocument& doc);
+    
     void appendTagAndText(QDomDocument& doc, QDomElement& parentElement, const QString& tag, const QString& text);
+
+    void appendCoverLink(QDomDocument& doc, QDomElement& entry, const Book& book);
+    void appendSourceLinks(QDomDocument& doc, QDomElement& entry, const Book& book);
 };
 
 #endif  // _DATA_WRITER_H_
