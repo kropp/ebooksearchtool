@@ -1,0 +1,30 @@
+<response>
+    <status>ok</status>
+
+    {% if authors %}
+    <result_length> {{ authors|length }} </result_length>
+
+    <authors>
+        {% for author in authors %}
+        <author id="{{ author.id }}">
+            <name> {{ author.name }} </name>
+            <rel> {{ author.sphinx_weight }} </rel>
+        </author>
+        {% endfor %}
+    </authors>
+    {% endif %}
+
+    {% if books %}
+    <result_length> {{ books|length }} </result_length>
+
+    <books>
+        {% for book in books %}
+        <book id="{{ book.id }}">
+            <title> {{ book.title }} </title>
+            <rel> {{ book.sphinx_weight }} </rel>
+        </book>
+        {% endfor %}
+    </books>
+    {% endif %}
+
+</response>

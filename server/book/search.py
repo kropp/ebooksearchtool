@@ -54,14 +54,22 @@ def book_title_search(query, max_length=5):
 
 
 
-
+s = {
+    'author': {'query': 'tp',
+               'type': '',},
+    'book':   {'query': 'book',
+               'type': '',},
+    }
 
 def xml_search(xml):
 
-    author_node = xml.find('author')
-    if author_node is None:
-        raise Exception("Not found tag 'author'")
+    results = ('authors', [])
 
+    author_query = ''
+    author_ids = []
+    book_query = ''
+
+    # get length of results from request
     result_length_node = xml.find('result_length')
     if result_length_node is None:
         result_length = ANALYZER_DEFAULT_RESULT_LENGTH
@@ -69,11 +77,42 @@ def xml_search(xml):
         try:
             result_length = int(result_length_node.text)
         except ValueError, ex:
-            raise RequestServerException("Value of 'result_length' is not int")
+            raise RequestServerException(
+                    "Value of 'result_length' is not 'int'")
 
-    query_node = author_node.find('query')
-    if query_node is None:
-        raise Exception("Not found tag 'author.query'")
+    # get query to author
+    author_node = xml.find('author')
+    if author_node is not None:
+        # get search term
+        query_node = author_node.find('query')
+        if query_node is not None:
+            author_query = query_node.text
+        # get list of id's
+        id_nodes = author_node.findall('id')
+        for id_node in id_nodes:
+            try:
+                author_ids.append(int(id_node.text))
+            except ValueError, ex:
+                raise RequestServerException(
+                        "Value of 'author.id' is not 'int'")
 
-    return author_search(query_node.text, result_length)
+    # get query to book
+    book_node = xml.find('book_title')
+    if book_node is not None:
+        query_node = book_node.find('query')
+        if query_node is not None:
+            book_query = query_node.text
+
+    print author_query
+    print author_ids
+    print book_query
+
+    
+    if author_query:
+        results = ('authors', author_search(author_query, result_length))
+    elif book_query:
+        results = ('books', book_title_search(book_query, result_length))
+
+    return results
+        
 

@@ -54,10 +54,11 @@ def search_view(request):
 
 
         # TODO insert code here
-        authors = xml_search(xml)
-        for author in authors:
-            author.sphinx_weight = author._sphinx['weight']
-        return render_to_response('data/author_search.xml', Context({'authors': authors,}))
+        (entity_type, entities) = xml_search(xml)
+        for entity in entities:
+            entity.sphinx_weight = entity._sphinx['weight']
+        return render_to_response('data/search.xml', \
+                                  Context({entity_type: entities,}))
 
     except InnerServerException, ex:
         exception_type, exception_value, exception_traceback = exc_info()
