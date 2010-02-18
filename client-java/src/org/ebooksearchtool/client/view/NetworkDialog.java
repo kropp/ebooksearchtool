@@ -206,7 +206,11 @@ public class NetworkDialog extends JDialog{
             public void actionPerformed(ActionEvent e) {
             	
                 try {
-                    myController.setSettings(myServerText.getText(), myProxyCheck.isSelected(), myIPText.getText(), Integer.parseInt(myPortText.getText()));
+                    myController.getSettings().setIP(myIPText.getText());
+                    myController.getSettings().setPort(Integer.parseInt(myPortText.getText()));
+                    myController.getSettings().setProxyEnabled(myProxyCheck.isSelected());
+                    myController.getSettings().setServer(myServerText.getText());
+                    myController.writeSettings();
                 } catch (FileNotFoundException e1) {
                     e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 } catch (UnsupportedEncodingException e1) {

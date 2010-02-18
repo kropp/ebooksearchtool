@@ -45,10 +45,12 @@ public class Controller {
         }
 
         try {
-        	mySettings.setServer(getSettingsFromFile().getServer());
+            getSettingsFromFile();
+            System.out.println("get");
+        	/*mySettings.setServer(getSettingsFromFile().getServer());
             mySettings.setProxyEnabled(getSettingsFromFile().isProxyEnabled());
             mySettings.setIP(getSettingsFromFile().getIP());
-            mySettings.setPort(getSettingsFromFile().getPort());
+            mySettings.setPort(getSettingsFromFile().getPort());*/
         } catch (FileNotFoundException exeption){
         	mySettings.setServer("http://feedbooks.com");
             mySettings.setProxyEnabled(true);
@@ -59,7 +61,6 @@ public class Controller {
 
     }
 
-	
     public boolean getQueryAnswer(String adress) throws IOException, SAXException, ParserConfigurationException {
         
         Connector connect = new Connector(mySettings.getServer() + adress, mySettings);
@@ -85,7 +86,7 @@ public class Controller {
         parser.parse("answer_file.xml", handler);
     }
 
-    public Settings getSettings() throws SAXException, ParserConfigurationException, IOException {
+    public Settings getSettings(){
         return mySettings;
     }
     

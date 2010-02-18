@@ -304,12 +304,6 @@ public class Window {
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
-					} catch (SAXException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (ParserConfigurationException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
 					}
     				
     				JPanel bookPan = myBookPanels.get(myBookPanels.size()-1).get(i).getRootPanel();
@@ -369,12 +363,6 @@ public class Window {
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
-					} catch (SAXException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (ParserConfigurationException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
 					}
     				
     				JPanel bookPan = myBookPanels.get(myBookPanels.size()-1).get(i).getRootPanel();
@@ -397,18 +385,7 @@ public class Window {
 
             public void actionPerformed(ActionEvent e) {
             	
-            	try {
-					myQuery = new Query(myController.getSettings());
-				} catch (SAXException e2) {
-					
-					e2.printStackTrace();
-				} catch (ParserConfigurationException e2) {
-					
-					e2.printStackTrace();
-				} catch (IOException e2) {
-					
-					e2.printStackTrace();
-				}
+				myQuery = new Query(myController.getSettings());
             	if(myAdress==null){
             		String queryWord = myQueryField.getText();
             		String queryOption = (String)myQueryCombo.getSelectedItem();
@@ -477,18 +454,7 @@ public class Window {
             			try {
             				if(e.getSource() != myMoreButton){
             					if(myAdress == null){
-            						try {
-            							myQuery = new Query(myController.getSettings());
-            						} catch (SAXException e2) {
-
-            							e2.printStackTrace();
-            						} catch (ParserConfigurationException e2) {
-
-            							e2.printStackTrace();
-            						} catch (IOException e2) {
-
-            							e2.printStackTrace();
-            						}
+            						myQuery = new Query(myController.getSettings());
             						String queryWord = myQueryField.getText();
             						String queryOption = (String)myQueryCombo.getSelectedItem();
             						try {
@@ -539,10 +505,6 @@ public class Window {
 								model.setValue(model.getValue() + 5);
 								myProgressBar.setString("Viewing book... " + model.getValue() + "%");
             				} catch (IOException e) {
-								e.printStackTrace();
-							} catch (SAXException e) {
-								e.printStackTrace();
-							} catch (ParserConfigurationException e) {
 								e.printStackTrace();
 							}
             				JPanel bookPan = myBookPanels.get(myBookPanels.size()-1).get(i).getRootPanel();
