@@ -6,6 +6,10 @@ import spec.external.pyPdf as pyPdf
 import classifier
 import urllib
 
+from spec.external.pdfminer.pdfinterp import PDFResourceManager, process_pdf
+from spec.external.pdfminer.converter import TextConverter
+from spec.external.pdfminer.layout import LAParams
+
 def read(b, feed, classifier):
     ''' gets URL and classify items '''
     # get feed items
@@ -75,7 +79,7 @@ def check_classifier(classif):
         
     print "Total: ", counter
        
-def classify_fullbook(feed, classif):
+def read_fullbook(feed, classif):
     f = feedparser.parse(feed)
     
 #    for entry in f['entries']:
@@ -100,7 +104,7 @@ def classify_fullbook(feed, classif):
 
     print 
     print '-----'
-
+    print content
 
     #hyp = classif.classify(fulltext)
     #print 'Hypothesis: ' + str(hyp)
@@ -110,3 +114,26 @@ def classify_fullbook(feed, classif):
     #    print ' Tag : ' + c
     #    classif.train(fulltext, c)       
 
+def read_pdf(input_file):
+
+    password = ''
+    pagenos = set()
+    maxpages = 0
+    # output option
+    outfile = input_file[0:-4] + ".txt"
+    outtype = 'text'
+    codec = 'utf-8'
+    laparams = LAParams()
+
+    rsrc = PDFResourceManager()
+
+    outfp = file(outfile, 'w')
+
+    device = TextConverter(rsrc, outfp, codec=codec, laparams=laparams)
+ 
+    fp = file(input_file, 'rb')
+    process_pdf(rsrc, device, fp, pagenos, maxpages=maxpages, password=password)
+    fp.close()
+    device.close()
+    outfp.close()
+    return
