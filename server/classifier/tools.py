@@ -2,7 +2,6 @@
 
 import re
 import spec.external.feedparser as feedparser
-import spec.external.pyPdf as pyPdf
 import classifier
 import urllib
 
@@ -10,7 +9,7 @@ from spec.external.pdfminer.pdfinterp import PDFResourceManager, process_pdf
 from spec.external.pdfminer.converter import TextConverter
 from spec.external.pdfminer.layout import LAParams
 
-def read(b, feed, classifier):
+def read(b, feed, classif):
     ''' gets URL and classify items '''
     # get feed items
     f = feedparser.parse(feed)
@@ -28,14 +27,14 @@ def read(b, feed, classifier):
        
         fulltext = '%s\n%s' % (entry['title'].encode('utf-8'), summary)
 
-        hyp = classifier.classify(fulltext)
+        hyp = classif.classify(fulltext)
 #        print 'Hypothesis: ' + str(hyp)
                     
         for cat in entry['categories']:
             c = cat[1].encode('utf-8')
 #            print ' Tag : ' + c
             if b == False:
-                classifier.train(fulltext, c)
+                classif.train(fulltext, c)
             
             # write statistic
 
@@ -79,43 +78,71 @@ def check_classifier(classif):
         
     print "Total: ", counter
        
-def read_fullbook(feed, classif):
+def read_fullbook(b, feed, classif):
     f = feedparser.parse(feed)
     
-#    for entry in f['entries']:
-    entry = f['entries'][0]
-    url = entry['id'].encode('utf-8') + ".pdf"
-    webFile = urllib.urlopen(url)
-    localFile = open("downloads/" + url.split('/')[-1], 'w')
-    localFile.write(webFile.read())
-    fulltext = webFile.read()
-    webFile.close()
-    localFile.close()
+    counter = 0
+    if b == True:
+        file_handle = open("statistics", "a")
+    
+    for entry in f['entries']:
+        url = entry['id'].encode('utf-8') + ".pdf"
+        webFile = urllib.urlopen(url)
+        localFile = open("downloads/" + url.split('/')[-1], 'w')
+        localFile.write(webFile.read())
+        fulltext = webFile.read()
+        webFile.close()
+        localFile.close()
 
-    content = ""
-    # Load PDF into pyPDF
-    pdf = pyPdf.PdfFileReader(file("downloads/" + url.split('/')[-1], "rb"))
-    # Iterate pages
-    for i in range(0, pdf.getNumPages()):
-        # Extract text from page and add to content
-        content += pdf.getPage(i).extractText() + "\n"
-    # Collapse whitespace
-    content = " ".join(content.replace(u"\xa0", " ").strip().split())
+        content = ""
+        # parse pdf
+        filename = "downloads/" + url.split('/')[-1]
+        read_pdf(filename)
+        outputfile = filename[0:-4] + ".txt"
+        
+        content = []
+        file_handle = open(outputfile, "r")
+        content = file_handle.readlines()
+        file_handle.close()
 
-    print 
-    print '-----'
-    print content
+        fulltext = ''
+        for i in content:
+            fulltext += i
+        #content = " ".join(content.replace(u"\xa0", " ").strip().split())
 
-    #hyp = classif.classify(fulltext)
-    #print 'Hypothesis: ' + str(hyp)
+#        fulltext = " ".join(fulltext.replace(u"\xa0", " ").strip().split())
+    #    return fulltext
+        hyp = classif.classify(fulltext)
+        print 'Hypothesis: ' + str(hyp)
                 
-    #for cat in entry['categories']:
-    #    c = cat[1].encode('utf-8')
-    #    print ' Tag : ' + c
-    #    classif.train(fulltext, c)       
+        for cat in entry['categories']:
+            c = cat[1].encode('utf-8')
+            print c
+
+            if b == False:
+                classif.train(fulltext, c)
+                
+            if b == True and (c == hyp[0] or c == hyp[1]):     
+                file_handle.write(c)
+                file_handle.write('\n')    
+                file_handle.flush()
+
+#    if b == True:
+#        file_handle.close()
+    
+    return counter
+
+def check_fullclassifier(classif):
+    classif.sample_full_train()
+    
+    counter = 0
+    
+    for i in range(10, 15):
+        counter += read_fullbook(True, ('http://feedbooks.com/books.atom?lang=en&amp;page=%s' % i), classif)
+        
+    print "Total: ", counter
 
 def read_pdf(input_file):
-
     password = ''
     pagenos = set()
     maxpages = 0

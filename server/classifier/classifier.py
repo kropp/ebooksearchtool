@@ -135,8 +135,10 @@ class fisher_classifier(classifier):
         pr = 1
         features = self.getfeatures(item)
         for f in features:
-            pr*= (self.weightedprob(f, cat, self.cprob))
-            
+            a = (self.weightedprob(f, cat, self.cprob))
+            pr*= a
+            if pr == 0:
+                pr = 4.94065645841e-324            
         fscore = -2 * math.log(pr)
         
         # use chi^2 function
@@ -166,9 +168,13 @@ class fisher_classifier(classifier):
                 second = best
                 best = c
                 max = p
-        return (best, second) 
+        return (best, second)
     
     def sample_train(self):
         for i in range(1, 100):
             tools.read(False, ('http://feedbooks.com/books.atom?lang=en&amp;page=%s' % i), self)
+            
+    def sample_full_train(self):
+        for i in range(1, 10):
+            tools.read_fullbook(False, ('http://feedbooks.com/books.atom?lang=en&amp;page=%s' % i), self)
 
