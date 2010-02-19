@@ -5,6 +5,12 @@ import java.util.*;
 import org.ebooksearchtool.crawler.AbstractLinksQueue;
 
 public class LinksQueue extends AbstractLinksQueue {
+
+public String DEBUG() { return
+"LinksQueue:\n" + 
+"SortedSet<URI> mySet: " + mySet.size() + "\n" +
+"Map<String, Integer> myHasBooks: " + myHasBooks.size() + "\n" +
+"Map<String, Set<URI>> myLinksFromHost: " + myLinksFromHost.size() + "\n"; }
     
     private final int myLargeAmountOfBooks;
     

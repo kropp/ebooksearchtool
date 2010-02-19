@@ -81,6 +81,8 @@ public class Crawler implements Runnable {
             String[] goodDomainsArray = properties.getProperty("good_domains").split(" +");
             String[] goodSitesArray = properties.getProperty("good_sites").split(" +");
             String[] badSitesArray = properties.getProperty("bad_sites").split(" +");
+            if (goodSitesArray.length == 1 && "".equals(goodSitesArray[0])) goodSitesArray = new String[]{};
+            if (badSitesArray.length == 1 && "".equals(badSitesArray[0])) badSitesArray = new String[]{};
             Set<String> goodDomains = new HashSet<String>(Arrays.asList(goodDomainsArray));
             List<String> goodSites = Arrays.asList(goodSitesArray);
             List<String> badSites = Arrays.asList(badSitesArray);
@@ -256,6 +258,8 @@ public class Crawler implements Runnable {
                     sb.append(String.format("%4d  %s\n", i, myThread[i].getAction()));
                 }
             }
+            sb.append(((LinksQueue)myQueue).DEBUG());
+            sb.append(((VisitedLinksSet)myVisited).DEBUG());
             System.out.println(sb);
             if (!"".equals(file)) {
                 PrintWriter pw = new PrintWriter(file);

@@ -10,6 +10,11 @@ import org.ebooksearchtool.crawler.AbstractVisitedLinksSet;
 
 public class VisitedLinksSet extends AbstractVisitedLinksSet {
     
+public String DEBUG() { return
+"VisitedLinksSet:\n" +
+"Map<String, Integer> myHostCount: " + myHostCount.size() + "\n" +
+"BitSet myBitSet: " + myBitSet.size() + "\n"; }
+
     private final int myMaxLinksFromHost;
     private final int myMaxLinksFromLargeSource;
     private final long myHostStatsCleanupPeriod;
