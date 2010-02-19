@@ -1,4 +1,5 @@
-
+"View for search interface for analyzer"
+# TODO marge this file with book.view
 try:
     import xml.etree.ElementTree as etree
 except ImportError:
@@ -6,13 +7,11 @@ except ImportError:
 from xml.parsers.expat import ExpatError
 import logging
 from sys import exc_info
-from traceback import print_exc
 
 from django.shortcuts import render_to_response
 from django.template import Context
 
-from settings import ANALYZER_IP, EBST_NAME, EBST_VERSION, EBST_VERSION_BUILD
-
+from settings import ANALYZER_IP
 try:
     from settings import ANALYZER_DEBUG_MODE
 except ImportError:
@@ -20,8 +19,6 @@ except ImportError:
 
 from spec.exception import RequestFileServerException, \
 RequestServerException, ServerException, InnerServerException
-from book.insert_action import xml_exec_insert
-from book.get_action import xml_exec_get
 import spec.logger
 
 from book.search import xml_search
@@ -29,10 +26,12 @@ from book.search import xml_search
 MAIN_LOG = logging.getLogger("main_logger")
 
 def search_view(request):
+    "View for search interface for analyzer"
     try:
 
         messages = []
 
+        # TODO move next code to separate file, and use its code in book.view
         # check IP adress
         if ANALYZER_IP and request.META['REMOTE_ADDR'] != ANALYZER_IP:
             raise RequestServerException('Bad IP adress. Your IP is %s' %
@@ -53,7 +52,7 @@ def search_view(request):
             raise RequestFileServerException(ex.message)
 
 
-        # TODO insert code here
+        # execute search request
         (entity_type, entities) = xml_search(xml)
         for entity in entities:
             entity.sphinx_weight = entity._sphinx['weight']

@@ -1,3 +1,5 @@
+"Search functions by author, title of bood, etc"
+
 from book.models import Author, Book
 
 from settings import ANALYZER_DEFAULT_RESULT_LENGTH
@@ -23,8 +25,6 @@ def author_search(query, max_length=5):
     if query_set.count() < max_length:
         # if number of the results is less then max_length
         # than try to search using soundex
-        soundex_query_set_length = max_length - query_set.count()
-        # soundex search
         soundex_query_set = \
             Author.soundex_search.query(query)[0:max_length]
 
@@ -40,29 +40,29 @@ def author_search(query, max_length=5):
 
 
 
-def book_title_search(query, max_length=5):
+def book_title_search(query, author_ids = [], max_length=5):
     """Searches 'query' in book.title field.
+    Filter by list of author id.
     Returns list of SphinxSearch."""
 
     result_list = []
 
     # simple full-text search
     query_set = Book.title_search.query(query)
+    # filter by authors id
+    if author_ids:
+        # TODO unexpected behavior!
+        # filter returns book if intersection of 
+        # Book.author_id and [query] is not empty
+        # But i want to get books only when Book.author_id contains [query]
+        query_set = query_set.filter(author_id=author_ids)
     result_list = query_set[0:max_length]
 
     return result_list
 
 
-
-s = {
-    'author': {'query': 'tp',
-               'type': '',},
-    'book':   {'query': 'book',
-               'type': '',},
-    }
-
 def xml_search(xml):
-
+    "Executes search request. Returns the the tuple (result_type, result list)"
     results = ('authors', [])
 
     author_query = ''
@@ -76,7 +76,7 @@ def xml_search(xml):
     else:
         try:
             result_length = int(result_length_node.text)
-        except ValueError, ex:
+        except ValueError:
             raise RequestServerException(
                     "Value of 'result_length' is not 'int'")
 
@@ -87,31 +87,33 @@ def xml_search(xml):
         query_node = author_node.find('query')
         if query_node is not None:
             author_query = query_node.text
-        # get list of id's
-        id_nodes = author_node.findall('id')
-        for id_node in id_nodes:
-            try:
-                author_ids.append(int(id_node.text))
-            except ValueError, ex:
-                raise RequestServerException(
-                        "Value of 'author.id' is not 'int'")
 
     # get query to book
     book_node = xml.find('book_title')
     if book_node is not None:
+        # get list of id's
+        ids_node = book_node.find('authors_id')
+        if ids_node is not None:
+            id_nodes = ids_node.findall('author_id')
+            for id_node in id_nodes:
+                try:
+                    author_ids.append(int(id_node.text))
+                except ValueError:
+                    raise RequestServerException(
+                            "Value of 'book/authors_id/author_id' is not 'int'")
+        # get search term
         query_node = book_node.find('query')
         if query_node is not None:
             book_query = query_node.text
 
-    print author_query
-    print author_ids
-    print book_query
-
     
+    # make result
     if author_query:
         results = ('authors', author_search(author_query, result_length))
     elif book_query:
-        results = ('books', book_title_search(book_query, result_length))
+        results = ('books', book_title_search(book_query,
+                                              author_ids,
+                                              result_length))
 
     return results
         
