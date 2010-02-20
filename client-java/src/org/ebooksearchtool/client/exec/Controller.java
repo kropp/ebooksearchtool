@@ -62,7 +62,7 @@ public class Controller {
 
     public boolean getQueryAnswer(String adress) throws IOException, SAXException, ParserConfigurationException {
         
-        Connector connect = new Connector(mySettings.getServer() + adress, mySettings);
+        Connector connect = new Connector(adress, mySettings);
         if(connect.getFileFromURL("answer_file.xml")){
             Parser parser = new Parser();
             SAXHandler handler = new SAXHandler(myData);
@@ -100,14 +100,6 @@ public class Controller {
         XMLBuilder builder = new XMLBuilder();
         builder.makeSettingsXML(mySettings);
     }
-    
- /*   public boolean getBookFile(int bookIndex) throws IOException{
-    	
-    	Connector connect = new Connector(myBooks.getBooks().get(bookIndex).getPdfLink(), mySettings);
-    	
-    	return connect.getBookFromURL(myBooks.getBooks().get(bookIndex).getTitle() + ".pdf");
-    	
-    }*/
 
     public QueryAnswer getAnswer(){
         return myData;

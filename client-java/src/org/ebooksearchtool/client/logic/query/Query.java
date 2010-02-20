@@ -16,29 +16,7 @@ public class Query {
 	
 	public String getQueryAdress(String queryWord, String queryOption)  throws IOException{
 
-		if(mySettings.getServer().equals("http://feedbooks.com")){
-			if(queryOption.equals("General")){
-				return "/books/search.atom?query=" + queryWord;
-			}else if(queryOption.equals("Author")){
-				return "/books/search.atom?query=author:" + queryWord;
-			}else{
-				return "/books/search.atom?query=title:" + queryWord;
-			}
-		}else if(mySettings.getServer().equals("http://smashwords.com")){
-            return "/atom/search/books/any?query=" + queryWord;
-        }else if(mySettings.getServer().equals("http://manybooks.net")){
-            return "/stanza/search.php?q=" + queryWord;
-        }else if(mySettings.getServer().equals("http://bookserver.archive.org")){
-            return "/aggregator/opensearch?q=" + queryWord;
-        }else{
-			if(queryOption.equals("General")){
-				return "/ebooks/search.atom?query=" + queryWord;
-			}else if(queryOption.equals("Author")){
-				return "/ebooks/search.atom?author=" + queryWord;
-			}else{
-				return "/ebooks/search.atom?title=" + queryWord;
-			}
-		}
+		return mySettings.getSupportedServers().get(mySettings.getServer()) + queryWord;
 
 	}
 
