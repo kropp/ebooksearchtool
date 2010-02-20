@@ -15,12 +15,8 @@ import java.net.URLConnection;
 
 import javax.swing.BoundedRangeModel;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Admin
- * Date: 22.09.2009
+/* Date: 22.09.2009
  * Time: 20:38:21
- * To change this template use File | Settings | File Templates.
  */
 public class Connector{
 	
@@ -64,8 +60,6 @@ public class Connector{
             return false;
 
         }
-
-
 
     }
     

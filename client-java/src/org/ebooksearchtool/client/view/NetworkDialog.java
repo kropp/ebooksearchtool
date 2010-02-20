@@ -1,6 +1,9 @@
 package org.ebooksearchtool.client.view;
 
+import org.ebooksearchtool.client.connection.Connector;
 import org.ebooksearchtool.client.exec.Controller;
+import org.ebooksearchtool.client.logic.parsing.Parser;
+import org.ebooksearchtool.client.logic.parsing.SAXQueryHandler;
 import org.xml.sax.SAXException;
 
 import javax.swing.*;
@@ -209,6 +212,60 @@ public class NetworkDialog extends JDialog{
                         myServerCombo.setSelectedItem(myServerCombo.getItemAt(i));
                         myServerText.setEnabled(false);
                         break;
+                    }
+                    if(i == myController.getSettings().getSupportedServers().size() - 1){
+                        try {
+                            Connector con = new Connector(myServerText.getText(), myController.getSettings());
+                            if(con.getFileFromURL("searchprobe.xml")){
+                                Parser parser = new Parser();
+                                SAXQueryHandler handler = new SAXQueryHandler();
+                                parser.parse("searchprobe.xml", handler);
+                                if(handler.getSearchLink() != null){
+                                    if(handler.getSearchLink().contains("{searchTerms}")){
+                                        StringBuffer link = new StringBuffer(handler.getSearchLink());
+                                        link.delete(link.indexOf("{searchTerms}"), link.length());
+                                        myController.getSettings().getSupportedServers().put(myServerText.getText(), link.toString());
+                                    }else{
+                                        con = new Connector(handler.getSearchLink(), myController.getSettings());
+                                        if(con.getFileFromURL("searchprobe.xml")){
+                                            handler = new SAXQueryHandler();
+                                            parser.parse("searchprobe.xml", handler);
+                                            if(handler.getSearchLink() != null){
+                                                if (handler.getSearchLink().contains("{searchTerms}")) {
+                                                    StringBuffer link = new StringBuffer(handler.getSearchLink());
+                                                    link.delete(link.indexOf("{searchTerms}"), link.length());
+                                                    myController.getSettings().getSupportedServers().put(myServerText.getText(), link.toString());
+                                                }else{
+                                                    JOptionPane.showMessageDialog(new JDialog(), "This feed hasn't search terms and can't be used as searchable catalog", "Wrong catalog", JOptionPane.WARNING_MESSAGE);
+                                                    return;
+                                                }
+                                            }else{
+                                                JOptionPane.showMessageDialog(new JDialog(), "This feed hasn't search terms and can't be used as searchable catalog", "Wrong catalog", JOptionPane.WARNING_MESSAGE);
+                                                return;
+                                            }
+                                        }else{
+                                            JOptionPane.showMessageDialog(new JDialog(), "This feed hasn't search terms and can't be used as searchable catalog", "Wrong catalog", JOptionPane.WARNING_MESSAGE);
+                                            return;
+                                        }
+                                    }
+                                }else{
+                                    JOptionPane.showMessageDialog(new JDialog(), "This feed hasn't search terms and can't be used as searchable catalog", "Wrong catalog", JOptionPane.WARNING_MESSAGE);
+                                    return;
+                                }
+                            }else{
+                                JOptionPane.showMessageDialog(new JDialog(), "Page not found", "Wrong catalog", JOptionPane.WARNING_MESSAGE);
+                                return;
+                            }
+                        } catch (IOException e1) {
+                            JOptionPane.showMessageDialog(new JDialog(), "Error in connection", "Wrong catalog", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        } catch (SAXException e1) {
+                            JOptionPane.showMessageDialog(new JDialog(), "Error in parsing", "Wrong catalog", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        } catch (ParserConfigurationException e1) {
+                            JOptionPane.showMessageDialog(new JDialog(), "Error in parsing", "Wrong catalog", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
                     }
                 }
 

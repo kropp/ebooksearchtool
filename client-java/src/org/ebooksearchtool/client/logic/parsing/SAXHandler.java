@@ -1,19 +1,15 @@
 package org.ebooksearchtool.client.logic.parsing;
 
 import org.ebooksearchtool.client.model.QueryAnswer;
-import org.ebooksearchtool.client.model.books.Data;
 import org.ebooksearchtool.client.model.books.Book;
 import org.ebooksearchtool.client.model.books.Author;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Admin
+/*
  * Date: 25.09.2009
  * Time: 13:25:52
- * To change this template use File | Settings | File Templates.
  */
 public class SAXHandler extends DefaultHandler{
 

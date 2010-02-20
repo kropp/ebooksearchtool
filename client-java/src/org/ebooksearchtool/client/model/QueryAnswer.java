@@ -2,12 +2,9 @@ package org.ebooksearchtool.client.model;
 
 import org.ebooksearchtool.client.model.books.Data;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Виктор
+/*
  * Date: 07.02.2010
  * Time: 19:11:05
- * To change this template use File | Settings | File Templates.
  */
 public class QueryAnswer {
 
