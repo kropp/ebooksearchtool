@@ -1,0 +1,24 @@
+# english morphology book title search
+
+source book_title : database_settings
+{
+    sql_query           = \
+        SELECT id, title\
+        FROM book_book
+    sql_query_info      = SELECT * FROM `book_book` WHERE `id` = $id
+    sql_attr_multi = uint author_id from query; \
+    select b.id, ba.author_id from book_book as b join book_author_book as ba on b.id=ba.book_id;
+}
+
+index book_title
+{
+    source          = book_title
+    path            = /var/data/book_title
+    docinfo         = extern
+    morphology      = stem_en
+    stopwords       =
+    min_word_len    = 3
+    charset_type    = utf-8
+    min_prefix_len  = 0
+    min_infix_len   = 0
+}

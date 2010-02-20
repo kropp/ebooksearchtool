@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib import admin
 
 from djangosphinx.models import SphinxSearch
+from djangosphinx.apis.current import SPH_MATCH_ANY
 
 from spec.langcode import LANG_CODE
 
@@ -70,33 +71,26 @@ class Book(models.Model):
     series = models.ManyToManyField(Series)
     tag = models.ManyToManyField(Tag)
 
+
+    # for more settings see 'spec/sphinx_conf/003_book_title.tmplt'
     title_search = SphinxSearch(
-        index='book_simple',
+        index='book_title',
         weights={
             'title': 100,
         },
+        mode='SPH_MATCH_ANY'
     )
 
-    title_annotation_search = SphinxSearch(
-        index='book_title_annotation',
-        weights={
-            'title': 100,
-            'annotation.name': 50,
-        }
-    )
+#    # for more settings see 'spec/sphinx_conf/004_book_title_annotation.tmplt'
+#    title_annotation_search = SphinxSearch(
+#        index='book_title_annotation',
+#        weights={
+#            'title': 100,
+#        }
+#    )
 
     def __unicode__(self):
         return '[id %s] %s (%s)' % (self.id, self.title, self.lang)
-
-
-#class AuthorSearchManager(object):
-#    def query(self, query):
-#        from spec.search_util import soundex_for_string, join_query_list
-#
-#        simple_result = Author.simple_search.query(query)
-#        soundex_result = Author.soundex_search.query(query)
-#
-#        return join_query_list(simple_result, soundex_result)
 
 
 class Author(models.Model):
@@ -105,6 +99,7 @@ class Author(models.Model):
     alias = models.ManyToManyField(AuthorAlias)
     tag = models.ManyToManyField(Tag)
 
+    # for more settings see 'spec/sphinx_conf/001_author_simple.tmplt'
     simple_search = SphinxSearch(
         index='authors_simple',
         weights={
@@ -112,14 +107,13 @@ class Author(models.Model):
         },
     )
 
+    # for more settings see 'spec/sphinx_conf/002_author_soundex.tmplt'
     soundex_search = SphinxSearch(
         index='authors_soundex',
         weights={
             'name': 50,
         },
     )
-
-#    search = AuthorSearchManager()
 
     def __unicode__(self):
         return "%s" % (self.name)
