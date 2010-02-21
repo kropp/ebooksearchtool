@@ -157,7 +157,7 @@ public class Network {
             InputStream is = null;
             try {
                 is = connection.getInputStream();
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 return null;
             }
             String contentType = connection.getHeaderField("Content-Type");
