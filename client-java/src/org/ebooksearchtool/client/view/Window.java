@@ -5,8 +5,6 @@ import org.ebooksearchtool.client.exec.Controller;
 import org.ebooksearchtool.client.logic.query.Query;
 import org.xml.sax.SAXException;
 
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
-
 import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -18,7 +16,6 @@ import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Vector;
 import java.util.Collections;
 
 public class Window {
