@@ -92,23 +92,28 @@ public class Main {
         Thread crawlingThread = new Thread(crawler);
         crawlingThread.start();
         
-        String keyboardInput = null;
-        Scanner keyboardScanner = new Scanner(System.in);
-        String input = "";
-        while (true) {
-            input = keyboardScanner.nextLine();
-            if (input.length() == 0) {
-                if (crawler.dumpCurrentState(debugFile)) {
-                    System.out.println("current state dumped successfully to " + ("".equals(debugFile) ? "screen" : debugFile));
-                } else {
-                    System.out.println("there were problems while dumping current state to " + ("".equals(debugFile) ? "screen" : debugFile));
-                }
-            } else break;
-        }
-        System.out.println("exit: " + input);
-        crawlingThread.interrupt();
-        try {
-            crawlingThread.join();
+        if (debug) {
+            String keyboardInput = null;
+            Scanner keyboardScanner = new Scanner(System.in);
+            String input = "";
+            String whereTo = "".equals(debugFile) ? "screen" : debugFile;
+            while (true) {
+                input = keyboardScanner.nextLine();
+                if ("".equals(input)) {
+                    if (crawler.dumpCurrentState(debugFile)) {
+                        System.out.println("current state dumped successfully to " + whereTo);
+                    } else {
+                        System.out.println("there were problems while dumping current state to " + whereTo);
+                    }
+                } else break;
+            }
+            System.out.println("exit: " + input);
+            crawlingThread.interrupt();
+            try {
+                crawlingThread.join();
+            } catch (InterruptedException ie) { }
+        } else try {
+            Thread.sleep(Long.MAX_VALUE);
         } catch (InterruptedException ie) { }
         if (output != null) {
             output.close();
