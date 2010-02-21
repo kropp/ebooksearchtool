@@ -35,6 +35,9 @@ void ChooseServerDialog::createRadioButtons() {
     for (MapIt it = myServers.begin(); it != myServers.end(); ++it) {
         //qDebug() << it->first;
         QRadioButton* button = new QRadioButton(it->first, this);
+        if (it->first == NetworkManager::getServer()) {
+            button->setChecked(true);
+        }
         myButtonGroup->addButton(button);
         myMainLayout->addWidget(button);  
         connect(button, SIGNAL(clicked()), this, SLOT(chooseServer()));

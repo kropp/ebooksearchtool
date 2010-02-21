@@ -47,6 +47,7 @@ void NetworkManager::writeSettings() const {
     settings.beginGroup("network");
     settings.setValue("proxy", ourProxy);
     settings.setValue("port", ourPort);
+    settings.setValue("server", ourServer);
     settings.endGroup();
 } 
 
