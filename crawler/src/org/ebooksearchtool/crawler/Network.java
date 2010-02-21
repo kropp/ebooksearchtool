@@ -154,7 +154,12 @@ public class Network {
             connection.setConnectTimeout(myConnectionTimeout);
             connection.setReadTimeout(myReadTimeout);
             connection.setRequestProperty("User-Agent", myUserAgent);
-            InputStream is = connection.getInputStream();
+            InputStream is = null;
+            try {
+                is = connection.getInputStream();
+            } catch (Exception e) {
+                return null;
+            }
             String contentType = connection.getHeaderField("Content-Type");
             if (is == null || (contentType != null && !contentType.startsWith(wantedContentType))) {
                 return null;
