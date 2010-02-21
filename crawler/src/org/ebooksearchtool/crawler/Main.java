@@ -29,9 +29,10 @@ public class Main {
         {"waiting_for_access_timeout", "5000"},
         
         {"large_amount_of_books", "10"},
-        {"max_links_from_host", "40"},
+        {"max_links_from_host", "30"},
         {"max_links_from_large_source", "60"},
-        {"host_stats_cleanup_period", "60000"},
+        {"max_links_from_second_level_domain", "60"},
+        {"host_stats_cleanup_period", "90000"},
         
         {"good_domains", "com net org info edu gov biz ru uk us"},
         {"good_sites", ""},

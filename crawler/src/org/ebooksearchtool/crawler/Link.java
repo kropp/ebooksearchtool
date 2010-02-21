@@ -62,4 +62,13 @@ public class Link implements Comparable<Link> {
         return myURI.compareTo(link.myURI);
     }
     
+    
+    public String getSecondLevelDomain() {
+        String host = myURI.getHost();
+        int x = host.lastIndexOf('.');
+        if (x == -1 || x == 0) return host;
+        int y = host.lastIndexOf('.', x - 1) + 1;
+        return host.substring(y);
+    }
+    
 }

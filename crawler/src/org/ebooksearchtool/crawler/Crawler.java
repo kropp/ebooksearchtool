@@ -76,6 +76,7 @@ public class Crawler implements Runnable {
             int largeAmountOfBooks = Integer.parseInt(properties.getProperty("large_amount_of_books"));
             int maxLinksFromHost = Integer.parseInt(properties.getProperty("max_links_from_host"));
             int maxLinksFromLargeSource = Integer.parseInt(properties.getProperty("max_links_from_large_source"));
+            int maxLinksFromSecondLevelDomain = Integer.parseInt(properties.getProperty("max_links_from_second_level_domain"));
             long hostStatsCleanupPeriod = Long.parseLong(properties.getProperty("host_stats_cleanup_period"));
             
             String[] goodDomainsArray = properties.getProperty("good_domains").split(" +");
@@ -101,7 +102,7 @@ public class Crawler implements Runnable {
             ourNetwork = new Network(this, proxy, connectionTimeout, readTimeout, waitingForAccessTimeout, userAgent, myLogger);
             myRobots = new ManyFilesRobotsExclusion(ourNetwork, myLogger);
             myQueue = new LinksQueue(ourMaxQueueSize, largeAmountOfBooks, goodDomains, goodSites, badSites);
-            myVisited = new VisitedLinksSet(ourMaxLinksCount, maxLinksFromHost, maxLinksFromLargeSource, hostStatsCleanupPeriod);
+            myVisited = new VisitedLinksSet(ourMaxLinksCount, maxLinksFromHost, maxLinksFromLargeSource, maxLinksFromSecondLevelDomain, hostStatsCleanupPeriod);
             myThread = new CrawlerThread[ourThreadsCount];
         } catch (Exception e) {
             throw new RuntimeException("bad format of properties file: " + e.getMessage());

@@ -13,13 +13,16 @@ public class VisitedLinksSet extends AbstractVisitedLinksSet {
 public String DEBUG() { return
 "VisitedLinksSet:\n" +
 "Map<String, Integer> myHostCount: " + myHostCount.size() + "\n" +
+"Map<String, Integer> mySLDCount: " + mySLDCount.size() + "\n" +
 "BitSet myBitSet: " + myBitSet.size() + "\n"; }
 
     private final int myMaxLinksFromHost;
     private final int myMaxLinksFromLargeSource;
+    private final int myMaxLinksFromSecondLevelDomain;
     private final long myHostStatsCleanupPeriod;
     
     private Map<String, Integer> myHostCount;
+    private Map<String, Integer> mySLDCount;
     private long myLastCleanupTime = 0;
     
     private final BitSet myBitSet;
@@ -31,10 +34,11 @@ public String DEBUG() { return
     private int mySize;
     private long[] myHashBases;
     
-    public VisitedLinksSet(int maxNumberOfElements, int maxLinksFromHost, int maxLinksFromLargeSource, long hostStatsCleanupPeriod) {
+    public VisitedLinksSet(int maxNumberOfElements, int maxLinksFromHost, int maxLinksFromLargeSource, int maxLinksFromSecondLevelDomain, long hostStatsCleanupPeriod) {
         myMaxNumberOfElements = maxNumberOfElements;
         myMaxLinksFromHost = maxLinksFromHost;
         myMaxLinksFromLargeSource = maxLinksFromLargeSource;
+        myMaxLinksFromSecondLevelDomain = maxLinksFromSecondLevelDomain;
         myHostStatsCleanupPeriod = hostStatsCleanupPeriod;
         long size = 15L * maxNumberOfElements; // some empiric results
         if (size > myMaxSize) {
@@ -70,12 +74,16 @@ public String DEBUG() { return
             myBitSet.set((int)(Math.abs(h) % mySize));
         }
         myNumberOfElements++;
+        
         String host = link.getHost();
-        Integer thisCount = myHostCount.get(host);
-        if (thisCount == null) {
-            thisCount = 0;
-        }
-        myHostCount.put(host, thisCount + 1);
+        Integer x = myHostCount.get(host);
+        if (x == null) x = 0;
+        myHostCount.put(host, x + 1);
+        
+        String sld = link.getSecondLevelDomain();
+        x = mySLDCount.get(sld);
+        if (x == null) x = 0;
+        mySLDCount.put(sld, x + 1);
         return true;
     }
     
@@ -98,10 +106,12 @@ public String DEBUG() { return
         if (myLastCleanupTime + myHostStatsCleanupPeriod < now) {
             myLastCleanupTime = now;
             myHostCount = new HashMap<String, Integer>();
+            mySLDCount = new HashMap<String, Integer>();
         }
         int maxLinks = isLargeSource ? myMaxLinksFromLargeSource : myMaxLinksFromHost;
-        Integer thisCount = myHostCount.get(link.getHost());
-        if (!isGoodSite && thisCount != null && thisCount > maxLinks) {
+        Integer h = myHostCount.get(link.getHost());
+        Integer s = mySLDCount.get(link.getSecondLevelDomain());
+        if (!isGoodSite && (h != null && h >= maxLinks || s != null && s >= myMaxLinksFromSecondLevelDomain)) {
             return false;
         }
         return add(link);
