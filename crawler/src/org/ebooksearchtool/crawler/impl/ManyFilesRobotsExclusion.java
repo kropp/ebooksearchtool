@@ -6,6 +6,7 @@ import java.util.*;
 import java.util.regex.*;
 import org.ebooksearchtool.crawler.AbstractRobotsExclusion;
 import org.ebooksearchtool.crawler.Network;
+import org.ebooksearchtool.crawler.Link;
 import org.ebooksearchtool.crawler.Logger;
 import org.ebooksearchtool.crawler.Util;
 
@@ -51,7 +52,7 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
         }
     }
     
-    protected synchronized int isDisallowed(String host, URI uri) {
+    protected synchronized int isDisallowed(String host, Link link) {
         final File file = myCacheFile[Math.abs(host.hashCode()) % FILES_NUMBER];
         BufferedReader br = null;
         try {
@@ -62,7 +63,7 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
         }
         String s = "";
         boolean hostFound = false;
-        String path = uri.getPath();
+        String path = link.getPath();
         try {
             while ((s = br.readLine()) != null) {
                 if (s.length() < 2) continue;
@@ -125,9 +126,9 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
     protected void downloadRobotsTxt(String host) {
         final File file = myCacheFile[Math.abs(host.hashCode()) % FILES_NUMBER];
         BufferedWriter bw = null;
-        URI robotstxt = null;
+        Link robotstxt = null;
         try {
-            robotstxt = new URI("http://" + host + "/robots.txt");
+            robotstxt = new Link("http://" + host + "/robots.txt");
         } catch (URISyntaxException e) {
             myLogger.log(Logger.MessageType.ERRORS, "URI syntax exception: " + e.getMessage());
             return;

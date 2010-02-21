@@ -1,7 +1,6 @@
 package org.ebooksearchtool.crawler;
 
 import java.io.File;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.*;
 import java.util.*;
@@ -21,15 +20,15 @@ public class Util {
         return true;
     }
     
-    public static URI normalize(URI uri) {
+    public static Link normalize(Link link) {
         String s = null;
         try {
-            String scheme = uri.getScheme().toLowerCase();
+            String scheme = link.getScheme().toLowerCase();
             if (!"http".equals(scheme) && !"https".equals(scheme) && !"ftp".equals(scheme)) {
                 return null;
             }
-            uri = new URI(scheme, uri.getHost().toLowerCase(), uri.getPath(), uri.getFragment());
-            s = uri.toString();
+            link = new Link(scheme, link.getHost().toLowerCase(), link.getPath(), link.getFragment());
+            s = link + "";
             if (s.length() > 128) {
                 ///TODO: invent something more clever
                 return null;
@@ -50,26 +49,26 @@ public class Util {
                 s = s.substring(0, x);
             }
             ///TODO: /index.html, /index.htm, /index.php
-            return new URI(s);
+            return new Link(s);
         } catch (Exception e) {
-//            System.err.println(" error: normalizing " + uri);
+//            System.err.println(" error: normalizing " + link);
             return null;
         }
     }
     
-    public static boolean isBook(URI uri) {
-        String s = uri.getPath();
+    public static boolean isBook(Link link) {
+        String s = link.getPath();
         return s != null && (s.endsWith(".epub") || s.endsWith(".pdf") || s.endsWith(".txt") || s.endsWith(".doc"));
     }
     
-    public static URI createURI(String s) {
+    public static Link createLink(String s) {
         try {
             s = s.replaceAll(" ", "%20");
             int lastDash = s.lastIndexOf('#');
             if (lastDash >= 0) {
                 s = s.substring(0, lastDash);
             }
-            return new URI(s);
+            return new Link(s);
         } catch (URISyntaxException e) {
             return null;
         }

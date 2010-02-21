@@ -1,9 +1,9 @@
 package org.ebooksearchtool.crawler.impl;
 
 import java.util.*;
-import java.net.URI;
+import org.ebooksearchtool.crawler.Link;
 
-class LinksComparator implements Comparator<URI> {
+class LinksComparator implements Comparator<Link> {
     
     private final Map<String, Integer> myHasBooks;
     
@@ -18,7 +18,7 @@ class LinksComparator implements Comparator<URI> {
         myBadSites = badSites;
     }
     
-    public int compare(URI a, URI b) {
+    public int compare(Link a, Link b) {
         int fa, fb;
         fa = linkValue(a);
         fb = linkValue(b);
@@ -33,17 +33,17 @@ class LinksComparator implements Comparator<URI> {
         return a.compareTo(b);
     }
     
-    private int linkValue(URI uri) {
-        String s = uri.toString();
+    private int linkValue(Link link) {
+        String s = link + "";
         for (String badSite : myBadSites) {
             if (s.indexOf(badSite) >= 0) return -1000000000;
         }
         if (isGoodSite(s)) return 1000000000;
-        Integer thisHostHasBooks = myHasBooks.get(uri.getHost());
+        String host = link.getHost();
+        Integer thisHostHasBooks = myHasBooks.get(host);
         if (thisHostHasBooks != null) {
             return thisHostHasBooks * 20;
         }
-        String host = uri.getHost();
         int lastPoint = host.lastIndexOf('.');
         if (lastPoint >= 0) {
             String domain = host.substring(lastPoint + 1);

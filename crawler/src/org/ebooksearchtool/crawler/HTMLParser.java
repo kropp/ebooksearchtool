@@ -1,6 +1,5 @@
 package org.ebooksearchtool.crawler;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -8,11 +7,11 @@ import net.htmlparser.jericho.*;
 
 class HTMLParser {
     
-    private static void maybeAddLink(List<URI> links, URI referrer, String link) {
+    private static void maybeAddLink(List<Link> links, Link referrer, String link) {
         if (link.length() == 0 || link.startsWith("javascript:")) return;
-        URI uri = null;
+        Link uri = null;
         try {
-            uri = Util.createURI(link);
+            uri = Util.createLink(link);
             String referrerPath = referrer.getPath();
             boolean addSlash = referrerPath == null || "".equals(referrerPath);
             if (!addSlash) {
@@ -20,12 +19,12 @@ class HTMLParser {
                 addSlash = lastSlash < 0 || referrerPath.substring(lastSlash).indexOf('.') < 0;
             }
             if (addSlash) {
-                referrer = new URI(referrer + "/");
+                referrer = new Link(referrer + "/");
             }
             uri = referrer.resolve(uri);
             String checkDots = uri.toString();
             if (checkDots.indexOf("../") >= 0) {
-                uri = new URI(checkDots.replaceAll("\\.\\./", ""));
+                uri = new Link(checkDots.replaceAll("\\.\\./", ""));
             }
         } catch (Exception e) {
             return;
@@ -34,8 +33,8 @@ class HTMLParser {
     }
     
     
-    static List<URI> parseLinks(URI referrer, String page) {
-        List<URI> answer = new ArrayList<URI>();
+    static List<Link> parseLinks(Link referrer, String page) {
+        List<Link> answer = new ArrayList<Link>();
         Source source = new Source(page);
         source.setLogger(null);
         Tag[] tags = source.fullSequentialParse();
@@ -59,7 +58,7 @@ class HTMLParser {
                                     String[] terms = content.split(" *, *");
                                     for (String term : terms) {
                                         if ("noindex".equals(term.toLowerCase()) || "nofollow".equals(term.toLowerCase())) {
-                                            return new ArrayList<URI>();
+                                            return new ArrayList<Link>();
                                         }
                                     }
                                 }

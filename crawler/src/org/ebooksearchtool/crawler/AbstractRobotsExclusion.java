@@ -1,7 +1,5 @@
 package org.ebooksearchtool.crawler;
 
-import java.net.URI;
-
 public abstract class AbstractRobotsExclusion {
     
     protected static boolean matches(String url, String pattern) {
@@ -12,21 +10,21 @@ public abstract class AbstractRobotsExclusion {
     /*  returns -1 if no robots.txt is stored for this server,
                  0 if url is not disallowed,
                  1 if url is disallowed                                */
-    protected abstract int isDisallowed(String host, URI uri);
+    protected abstract int isDisallowed(String host, Link link);
     
     /*  creates information about robots.txt located on the server.
         if there is no robots.txt, information about total allowance
         must be generated anyway.                                      */
     protected abstract void downloadRobotsTxt(String host);
     
-    boolean canGo(URI uri) {
-        if (uri == null) return false;
-        String host = uri.getHost();
+    boolean canGo(Link link) {
+        if (link == null) return false;
+        String host = link.getHost();
         if (host == null) return false;
-        int disallowed = isDisallowed(host, uri);
+        int disallowed = isDisallowed(host, link);
         if (disallowed == -1) {
             downloadRobotsTxt(host);
-            disallowed = isDisallowed(host, uri);
+            disallowed = isDisallowed(host, link);
         }
         assert disallowed >= 0;
         return disallowed == 0;

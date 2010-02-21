@@ -171,10 +171,10 @@ public class Crawler implements Runnable {
     @SuppressWarnings("deprecation")
     public void run() {
         for (String start : myStarts) {
-            URI uri = Util.createURI(start);
-            if (myRobots.canGo(uri)) {
-                myVisited.addIfNotContains(uri, false, true);
-                myQueue.offer(uri);
+            Link link = Util.createLink(start);
+            if (myRobots.canGo(link)) {
+                myVisited.addIfNotContains(link, false, true);
+                myQueue.offer(link);
             }
         }
         if (myOutput != null) {
@@ -187,7 +187,7 @@ public class Crawler implements Runnable {
             myThread[i].start();
         }
         
-        URI[] downloadingURI = new URI[ourThreadsCount];
+        Link[] downloadingLink = new Link[ourThreadsCount];
         boolean[] toKill = new boolean[ourThreadsCount];
         try {
             while (true) {
@@ -195,14 +195,14 @@ public class Crawler implements Runnable {
                 Arrays.fill(toKill, false);
                 boolean killSomeone = false;
                 for (int i = 0; i < ourThreadsCount; i++) {
-                    if (downloadingURI[i] != null && downloadingURI[i].equals(myThread[i].getDownloadingURI()) && !myThread[i].getDoNotInterruptInAnyCase()) {
-                        myLogger.log(Logger.MessageType.ERRORS, " thread #" + i + " is waiting too long for: " + downloadingURI[i]);
+                    if (downloadingLink[i] != null && downloadingLink[i].equals(myThread[i].getDownloadingLink()) && !myThread[i].getDoNotInterruptInAnyCase()) {
+                        myLogger.log(Logger.MessageType.ERRORS, " thread #" + i + " is waiting too long for: " + downloadingLink[i]);
                         myThread[i].interrupt();
                         myThread[i].finish();
                         toKill[i] = true;
                         killSomeone = true;
                     }
-                    downloadingURI[i] = myThread[i].getDownloadingURI();
+                    downloadingLink[i] = myThread[i].getDownloadingLink();
                 }
                 if (!killSomeone) continue;
                 Thread.sleep(ourThreadFinishTime);
@@ -213,7 +213,7 @@ public class Crawler implements Runnable {
                         }
                         myThread[i] = new CrawlerThread(this, i);
                         myThread[i].start();
-                        downloadingURI[i] = null;
+                        downloadingLink[i] = null;
                         myLogger.log(Logger.MessageType.ERRORS, " thread #" + i + " is restarted");
                     }
                 }
@@ -258,8 +258,8 @@ public class Crawler implements Runnable {
                     sb.append(String.format("%4d  %s\n", i, myThread[i].getAction()));
                 }
             }
-            sb.append(((LinksQueue)myQueue).DEBUG());
-            sb.append(((VisitedLinksSet)myVisited).DEBUG());
+sb.append(((LinksQueue)myQueue).DEBUG());
+sb.append(((VisitedLinksSet)myVisited).DEBUG());
             System.out.println(sb);
             if (!"".equals(file)) {
                 PrintWriter pw = new PrintWriter(file);
@@ -272,7 +272,7 @@ public class Crawler implements Runnable {
         }
     }
     
-    synchronized void writeBookToOutput(URI source, URI referrer, String referrerPage) {
+    synchronized void writeBookToOutput(Link source, Link referrer, String referrerPage) {
         String link = source.toString().replaceAll("&", "&amp;");
         String from = referrer.toString().replaceAll("&", "&amp;");
         if (myOutput != null) {
@@ -295,7 +295,7 @@ public class Crawler implements Runnable {
                     myAnalyzerWriter.flush();
                 }
             } catch (IOException e) {
-                myLogger.log(Logger.MessageType.ERRORS, " error: output to analyzer failed, " + link.hashCode());
+                myLogger.log(Logger.MessageType.ERRORS, " error: output to analyzer failed, " + link.hashCode() % 1000);
                 myLogger.log(Logger.MessageType.ERRORS, " " + e.getMessage());
             }
         }

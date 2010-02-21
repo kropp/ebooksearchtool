@@ -20,7 +20,7 @@ public class Network {
     private final Logger myLogger;
     private final Map<String, Long> myLastAccess = new HashMap<String, Long>();
     private final Map<String, Long> myNextAccess = new HashMap<String, Long>();
-    private final ConcurrentMap<String, URI> myLastAccessBlockingMap = new ConcurrentHashMap<String, URI>();
+    private final ConcurrentMap<String, Link> myLastAccessBlockingMap = new ConcurrentHashMap<String, Link>();
 	
 	public Network(Crawler crawler, Proxy proxy, int connectionTimeout, int readTimeout, int waitingForAccessTimeout, String userAgent, Logger logger) {
         myCrawler = crawler;
@@ -97,14 +97,14 @@ public class Network {
         return myUserAgent;
     }
 	
-    public String download(URI uri, String wantedContentType, boolean logErrors, int threadID) {
+    public String download(Link link, String wantedContentType, boolean logErrors, int threadID) {
         try {
-            String host = uri.getHost();
+            String host = link.getHost();
             long nextAccess = getNextAccessTime(host);
             if (nextAccess > Long.MIN_VALUE && threadID != -1) {
                 myCrawler.getCrawlerThread(threadID).setDoNotInterruptInAnyCase(true);
                 while (true) {
-                    URI u = myLastAccessBlockingMap.putIfAbsent(host, uri);
+                    Link u = myLastAccessBlockingMap.putIfAbsent(host, link);
                     if (u == null) break;
                     try {
                         synchronized (this) {
@@ -121,7 +121,7 @@ public class Network {
                         try {
                             Thread.sleep(nextAccess - now);
                         } catch (InterruptedException e) {
-                            myLastAccessBlockingMap.remove(host, uri);
+                            myLastAccessBlockingMap.remove(host, link);
                             synchronized (this) {
                                 notify();
                             }
@@ -129,7 +129,7 @@ public class Network {
                             return null;
                         }
                     } else {
-                        myLastAccessBlockingMap.remove(host, uri);
+                        myLastAccessBlockingMap.remove(host, link);
                         synchronized (this) {
                             notify();
                         }
@@ -143,14 +143,14 @@ public class Network {
                     setLastAccessTime(host, now);
                     setNextAccessTime(host, now + diff);
                 }
-                myLastAccessBlockingMap.remove(host, uri);
+                myLastAccessBlockingMap.remove(host, link);
                 synchronized (this) {
                     notify();
                 }
                 myCrawler.getCrawlerThread(threadID).setDoNotInterruptInAnyCase(false);
             }
             
-            URLConnection connection = uri.toURL().openConnection(myProxy);
+            URLConnection connection = link.toURL().openConnection(myProxy);
             connection.setConnectTimeout(myConnectionTimeout);
             connection.setReadTimeout(myReadTimeout);
             connection.setRequestProperty("User-Agent", myUserAgent);
@@ -172,9 +172,9 @@ public class Network {
             return page.toString();
         } catch (IOException e) {
             if (logErrors) {
-                myLogger.log(Logger.MessageType.ERRORS, " network error on " + uri);
+                myLogger.log(Logger.MessageType.ERRORS, " network error on " + link);
                 String message = e.getMessage();
-                if (message == null ? uri != null : !message.equals(uri.toString())) {
+                if (message == null ? link != null : !message.equals(link + "")) {
                     myLogger.log(Logger.MessageType.ERRORS, " " + message);
                 }
             }

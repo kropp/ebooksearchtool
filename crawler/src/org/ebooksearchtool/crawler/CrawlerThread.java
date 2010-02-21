@@ -1,6 +1,5 @@
 package org.ebooksearchtool.crawler;
 
-import java.net.URI;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
@@ -13,7 +12,7 @@ class CrawlerThread extends Thread {
     private String myAction;
     private boolean myStopping = false;
     private boolean myWaitingForQueue = false;
-    private URI myDownloadingURI = null;
+    private Link myDownloadingLink = null;
     private boolean myDoNotInterruptInAnyCase = false;
     
     CrawlerThread(Crawler crawler, int index) {
@@ -29,8 +28,8 @@ class CrawlerThread extends Thread {
         return myWaitingForQueue;
     }
     
-    public URI getDownloadingURI() {
-        return myDownloadingURI;
+    public Link getDownloadingLink() {
+        return myDownloadingLink;
     }
     
     public void setDoNotInterruptInAnyCase(boolean doNotInterruptInAnyCase) {
@@ -51,7 +50,7 @@ class CrawlerThread extends Thread {
         final int maxLinksFromPage = myCrawler.getMaxLinksFromPage();
         while (true) {
             myAction = "taking an URI from the queue";
-            URI uri = null;
+            Link uri = null;
             myWaitingForQueue = true;
             while (uri == null) {
                 uri = queue.poll();
@@ -65,17 +64,17 @@ class CrawlerThread extends Thread {
             }
             if (uri == null) break;
             myAction = "downloading the page at: " + uri;
-            myDownloadingURI = uri;
+            myDownloadingLink = uri;
             String page = network.download(uri, "text/html", true, myIndex);
-            myDownloadingURI = null;
+            myDownloadingLink = null;
             if (myStopping) break;
             if (page == null) continue;
             logger.log(Logger.MessageType.CRAWLED_PAGES, String.format("% 4d %d %s %d", myIndex, myCrawler.getCrawledPagesNumber(), uri, page.length()));
             myAction = "getting links out of: " + uri;
-            List<URI> links = HTMLParser.parseLinks(uri, page);
+            List<Link> links = HTMLParser.parseLinks(uri, page);
             int canAddMoreLinks = maxLinksFromPage;
             if (myStopping) break;
-            for (URI link : links) {
+            for (Link link : links) {
                 if (canAddMoreLinks == 0) break;
                 myAction = "normalizing link: " + link;
                 link = Util.normalize(link);
@@ -92,9 +91,9 @@ class CrawlerThread extends Thread {
                         logger.log(Logger.MessageType.FOUND_BOOKS, String.format("% 4d  book #%d: %s", myIndex, myCrawler.getFoundBooksNumber(), link));
                     } else {
                         myAction = "checking if i can go to: " + link;
-                        myDownloadingURI = link;
+                        myDownloadingLink = link;
                         boolean permitted = robots.canGo(link);
-                        myDownloadingURI = null;
+                        myDownloadingLink = null;
                         if (myStopping) break;
                         if (permitted) {
                             myAction = "adding the link to the queue: " + link;
