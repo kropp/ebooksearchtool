@@ -25,6 +25,7 @@ private:
 public:
     static NetworkManager* getInstance();
     static void setServer(const QString& newServer);
+    static const QString& getServer();
     const QString& getProxy() const;
     int getPort() const;    
     
@@ -33,7 +34,7 @@ public:
     ~NetworkManager();
 	
 	int download(QString url, QIODevice* out);
-	QString getServer() const;
+	//QString getServer() const;
 
 signals:
     void requestFinished(int, bool);
@@ -58,5 +59,8 @@ inline int NetworkManager::getPort() const {
     return ourPort;
 }    
 
+inline const QString& NetworkManager::getServer() {
+    return ourServer;
+}
 
 #endif //_NETWORK_MANAGER_H_

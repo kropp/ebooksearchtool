@@ -96,7 +96,9 @@ void DataWriter::appendCoverLink(QDomDocument& doc, QDomElement& entry, const Bo
         QDomElement coverLink = doc.createElement(TAG_LINK);
 	    const QString& coverLinkValue = book.getCoverLink();
         QString attributeTypeValue = IMAGE_PNG;
-        if (coverLinkValue.contains(".jpeg")) {
+        if ((coverLinkValue.contains(".jpeg")) ||
+            (coverLinkValue.contains(".jpg"))) {
+
             attributeTypeValue = IMAGE_JPEG ;
         } else if (coverLinkValue.contains(".gif")){
             attributeTypeValue = IMAGE_GIF;

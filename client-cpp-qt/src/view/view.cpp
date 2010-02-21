@@ -82,10 +82,13 @@ void View::update() {
 }
 
 QString View::getState() const {
-    QString state(tr("Found: "));
+    QString state;
     QString number;
-    number.setNum(myData->getTotalEntries());
-    state.append(number);
+    if (myData->getTotalEntries() != 0) {
+        state.append(tr("Found: "));
+        number.setNum(myData->getTotalEntries());
+        state.append(number);
+    }
     state.append("  Shown: ");
     number.setNum(myBooks.size());
     state.append(number);

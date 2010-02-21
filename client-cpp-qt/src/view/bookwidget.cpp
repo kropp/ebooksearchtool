@@ -100,7 +100,6 @@ void BookWidget::read() {
 
 
 void BookWidget::showFullDescription() {
-    qDebug() << "BookWidget::showFullDescription";
     BookDescriptionDialog* dialog = new BookDescriptionDialog(this, *myBook);
     dialog->show();
    // set delete on close;

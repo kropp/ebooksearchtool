@@ -50,10 +50,6 @@ void NetworkManager::writeSettings() const {
     settings.endGroup();
 } 
 
-QString NetworkManager::getServer() const {
-    return ourServer;
-}
-
 int NetworkManager::download(QString urlStr, QIODevice* out) {
 	myHttpConnection->setHost(ourServer, 80);
     if (ourProxy != "undefined") { 

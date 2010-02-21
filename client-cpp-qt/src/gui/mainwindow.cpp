@@ -145,6 +145,8 @@ void MainWindow::writeSettings() {
 
 void MainWindow::search(const QString& query) {
     QString message(query);
+    message.prepend(NetworkManager::getServer());
+    // prepend server
     updateStatusLabel(message.prepend(tr("Searching: ")));
 }
 

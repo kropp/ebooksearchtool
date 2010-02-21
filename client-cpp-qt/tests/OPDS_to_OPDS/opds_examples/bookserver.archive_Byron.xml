@@ -34,7 +34,7 @@
     <id>urn:x-internet-archive:bookserver:catalog:item:workslordbyrone00goog</id>
     <updated>2009-08-16T17:57:25Z</updated>
     <link href="http://www.archive.org/download/workslordbyrone00goog/workslordbyrone00goog.pdf" type="application/pdf" rel="http://opds-spec.org/acquisition"/>
-    <link href="http://www.archive.org/download/workslordbyrone00goog/workslordbyrone00goog.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
+    <link href="http://www.archive.org/download/workslordbyrone00gogog/workslordbyrone00goog.epub" type="application/epub+zip" rel="http://opds-spec.org/acquisition"/>
     <dcterms:issued>1861</dcterms:issued>
     <author>
       <name>George Gordon Byron Byron, Byron, George Gordon Byron, Baron , 1788-1824</name>
