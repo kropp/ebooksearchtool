@@ -149,8 +149,8 @@ public class Window {
         myExtQueryButton = new JButton(new ImageIcon(getClass().getResource("/ico/ext_search.png")));
         myExtQueryButton.setToolTipText("Extended search");
         myQueryButtonPanel.add(myExtQueryButton);
-    	
-    	
+        setExtSearchEnabled();
+
     	myEraseButton = new JButton("ERASE");
     	myEraseButton.setEnabled(false);
     	
@@ -203,7 +203,7 @@ public class Window {
             public void actionPerformed(ActionEvent e) {
 
                 if(myBookPanels != null){
-                	ArrayList<BookPanel> newView = new ArrayList<BookPanel>();
+                	ArrayList<BookPanel> newView;
                 	newView = (ArrayList<BookPanel>)(myBookPanels.get(myBackIndex).clone());
                 	for(int i = myBackIndex + 1; i < myBookPanels.size(); ++i){
                 		myBookPanels.remove(i);
@@ -232,7 +232,7 @@ public class Window {
 
             public void actionPerformed(ActionEvent e) {
             	if(myBookPanels != null){
-            		ArrayList<BookPanel> newView = new ArrayList<BookPanel>();
+            		ArrayList<BookPanel> newView;
             		newView = (ArrayList)(myBookPanels.get(myBackIndex).clone());
             		for(int i = myBackIndex + 1; i < myBookPanels.size(); ++i){
                 		myBookPanels.remove(i);
@@ -565,6 +565,7 @@ public class Window {
                 try {
                 	JDialog.setDefaultLookAndFeelDecorated(true);
                     NetworkDialog dialogFrame = new NetworkDialog(myController);
+                    setExtSearchEnabled();
                 } catch (IOException e1) {
                     e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 } catch (SAXException e1) {
@@ -581,6 +582,12 @@ public class Window {
         myFrame.setSize(700, 700);
         myFrame.setLocation(10,10);
         myFrame.setVisible(true);
+    }
+
+    public void setExtSearchEnabled(){
+
+        myExtQueryButton.setEnabled(myController.getSettings().getServer().equals("http://feedbooks.com"));
+
     }
 
 }

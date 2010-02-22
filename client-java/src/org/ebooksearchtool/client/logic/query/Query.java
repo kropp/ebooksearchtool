@@ -16,7 +16,17 @@ public class Query {
 	
 	public String getQueryAdress(String queryWord, String queryOption)  throws IOException{
 
-		return mySettings.getSupportedServers().get(mySettings.getServer()) + queryWord;
+        if (mySettings.getServer().equals("http://feedbooks.com")) {
+            if (queryOption.equals("General")) {
+                return mySettings.getSupportedServers().get(mySettings.getServer()) + queryWord;
+            } else if (queryOption.equals("Author")) {
+                return mySettings.getSupportedServers().get(mySettings.getServer()) + "author:" + queryWord;
+            } else {
+                return mySettings.getSupportedServers().get(mySettings.getServer()) + "title:" + queryWord;
+            }
+        } else {
+            return mySettings.getSupportedServers().get(mySettings.getServer()) + queryWord;
+        }
 
 	}
 

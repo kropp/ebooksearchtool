@@ -38,7 +38,7 @@ public class NetworkDialog extends JDialog{
     public NetworkDialog(Controller controller) throws IOException, SAXException, ParserConfigurationException {
 
         super(new JFrame(), "Network Options");
-        
+
         myController = controller;
 
         addWindowListener(new WindowAdapter() {
