@@ -16,8 +16,8 @@ static const QString SERVER_SMASHWORDS = "smashwords.com";
 static const QString OPENSEARCH_SMASHWORDS = "/atom/search/books?query=";
 static const QString SERVER_MANYBOOKS = "manybooks.net";
 static const QString OPENSEARCH_MANYBOOKS = "/stanza/search.php?q=";
-static const QString SERVER_ONLY_MAWHRIN = "only.mawhrin.net/ebooks";
-static const QString OPENSEARCH_ONLY_MAWHRIN = "/search.atom?query=";
+static const QString SERVER_ONLY_MAWHRIN = "only.mawhrin.net";
+static const QString OPENSEARCH_ONLY_MAWHRIN = "/ebooks/search.atom?title=";
 static const QString SERVER_MUNSEYS = "catalog.lexcycle.com";
 static const QString OPENSEARCH_MUNSEYS = "/munseys/op/search?search=";
    

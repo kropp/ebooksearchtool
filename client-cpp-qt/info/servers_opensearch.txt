@@ -9,3 +9,6 @@ http://www.smashwords.com/atom/search/books?query={searchTerms}
 
 manybooks.net
 http://manybooks.net/stanza/search.php?q={searchTerms}
+
+catalog.lexycle.com/munseys
+/munseys/op/search?search={searchTerms}
