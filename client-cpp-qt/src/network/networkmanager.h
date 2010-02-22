@@ -34,7 +34,8 @@ public:
     ~NetworkManager();
 	
 	int download(QString url, QIODevice* out);
-	//QString getServer() const;
+    QString errorString() const;
+//QString getServer() const;
 
 signals:
     void requestFinished(int, bool);
@@ -44,6 +45,9 @@ private:
     NetworkManager();
     void readSettings();
     void writeSettings() const;   
+
+private slots:
+    void showConnectionState (int state);
 
 private:
     QHttp* myHttpConnection;   

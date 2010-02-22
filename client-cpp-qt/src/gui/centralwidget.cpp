@@ -10,9 +10,8 @@ CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myBuffer(0), my
     myNewRequest = true;
     myView = new View(this, 0);
     myScrollArea = new QScrollArea(this);
-//    myScrollArea->setWidget(myView);
-  //  myView->show();
-    
+    myErrorMessageDialog = new QErrorMessage(this);
+
     myNetworkManager = NetworkManager::getInstance(); 
 
 	connect(myNetworkManager, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
@@ -38,15 +37,20 @@ void CentralWidget::downloadFile(const QString& url) {
         myBuffer->setData("", 0);	
     }
     
-    qDebug() << "CentralWidget::downloadFile " << url;
+    qDebug() << "CentralWidget::downloadFile try to download" << url;
 	myRequestId = myNetworkManager->download(url, myBuffer);
+    qDebug() << "CentralWidget::downloadFile " << url << "id " << myRequestId;
   
     if (myBuffer->isOpen()) {
         myBuffer->close();
     }
 }
 
-void CentralWidget::httpRequestFinished(int requestId , bool) {
+void CentralWidget::httpRequestFinished(int requestId , bool error) {
+    if (error) {
+       myErrorMessageDialog->showMessage(myNetworkManager->errorString());
+    }
+    
     if (requestId != myRequestId) {
         return;
     }
@@ -55,7 +59,7 @@ void CentralWidget::httpRequestFinished(int requestId , bool) {
 }
 
 void CentralWidget::parseDownloadedFile() {
-// TEMPORARY - to look in fild
+// TEMPORARY - to look in file
     QFile* file = new QFile("search_result.atom");
     file->open(QIODevice::WriteOnly);
     file->write(myBuffer->buffer());

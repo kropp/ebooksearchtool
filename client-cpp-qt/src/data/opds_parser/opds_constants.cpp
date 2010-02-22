@@ -29,5 +29,6 @@ const QString OPDSConstants::ATTRIBUTE_TERM = "term";
 
 const QString OPDSConstants::ATTR_VALUE_ACQUISITION = "http://opds-spec.org/acquisition";
 const QString OPDSConstants::ATTR_VALUE_COVER = "http://opds-spec.org/cover";
+const QString OPDSConstants::ATTR_VALUE_COVER_ = "http://opds-spec.org/opds-cover-image";
 const QString OPDSConstants::ATTR_VALUE_COVER_STANZA = "x-stanza-cover-image";
 

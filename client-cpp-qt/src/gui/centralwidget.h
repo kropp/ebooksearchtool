@@ -9,6 +9,7 @@ class QBuffer;
 class NetworkManager;
 class SearchWidget;
 class QScrollArea;
+class QErrorMessage;
 
 class CentralWidget : public QWidget {
     
@@ -31,8 +32,6 @@ private:
 //    void fillComboBox();
 
 private:
-//    SearchWidget* mySearchWidget;
-
 //    QDialogButtonBox *myButtonBox;
 
 	QBuffer *myBuffer; 
@@ -41,10 +40,11 @@ private:
     bool myNewRequest;
    
     Data* myData;
-//    QSharedDataPointer<Data> myData;
     View* myView;
     QScrollArea* myScrollArea;
-    
+   
+    QErrorMessage* myErrorMessageDialog;
+
 friend class MainWindow;
 };
 

@@ -113,7 +113,12 @@ void MainWindow::updateStatusBar() {
 }
 
 void MainWindow::updateProgressBar(int done, int total) {
-    int progress = done * 100/ total;
+    if (total == 0) {
+        return;
+    }
+  //  int progress = (int) (((float)done * 100) / (float)total);
+    int progress = (done * 100) / total;
+    qDebug() << "MainWindow::progress = " << progress << "done " << done << "total " << total;
     myProgressBar->show();
     myProgressBar->setValue(progress);
     if (progress == 100) {

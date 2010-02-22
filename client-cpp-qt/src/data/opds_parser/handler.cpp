@@ -117,7 +117,8 @@ void OPDSHandler::processLink(const QXmlAttributes& attributes) {
                  
     } else if ((attributes.value(ATTRIBUTE_TYPE).contains("image")) && 
                ((attributes.value(ATTRIBUTE_RELATION) == ATTR_VALUE_COVER) ||
-                (attributes.value(ATTRIBUTE_RELATION) == ATTR_VALUE_COVER_STANZA))) {
+                (attributes.value(ATTRIBUTE_RELATION) == ATTR_VALUE_COVER_STANZA) || 
+                (attributes.value(ATTRIBUTE_RELATION) == ATTR_VALUE_COVER_))) {
         
                 myBook->setCoverLink(attributes.value(ATTRIBUTE_REFERENCE));
     }

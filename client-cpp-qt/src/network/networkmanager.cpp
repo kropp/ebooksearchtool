@@ -29,10 +29,15 @@ NetworkManager::NetworkManager() {
     readSettings();
     connect(myHttpConnection, SIGNAL(requestFinished(int, bool)), this, SIGNAL(requestFinished(int, bool)));
     connect(myHttpConnection, SIGNAL(dataReadProgress(int, int)), this, SIGNAL(dataReadProgress(int, int)));
+    connect(myHttpConnection, SIGNAL(stateChanged(int)), this, SLOT(showConnectionState(int)));
 }
 
 NetworkManager::~NetworkManager() {
     writeSettings();
+}
+
+QString NetworkManager::errorString() const {
+    return myHttpConnection->errorString();
 }
 
 void NetworkManager::readSettings() {
@@ -61,8 +66,18 @@ int NetworkManager::download(QString urlStr, QIODevice* out) {
 	query.remove("http://");
 	query.remove(ourServer); //оставляю только запрос
 
-    //qDebug() << "NetworkManager::download request =" << ourServer <<  query;
+    qDebug() << "NetworkManager::download request =" << ourServer <<  query;
 	int id = myHttpConnection->get(query, out);
     return id;
 }
 
+void NetworkManager::showConnectionState (int state) {
+    qDebug() << "NetworkManager::connectionState " << state;
+    // 0 unconnected
+    // 1 host lookup
+    // 2 connecting
+    // 3 sending
+    // 4 reading
+    // 5 connected
+    // 6 closing
+}
