@@ -34,11 +34,12 @@ public:
     ~NetworkManager();
 	
 	int download(QString url, QIODevice* out);
+	int downloadCover(QString url, QIODevice* out);
     QString errorString() const;
-//QString getServer() const;
 
 signals:
     void requestFinished(int, bool);
+    void coverRequestFinished(int, bool);
     void dataReadProgress(int, int);
 
 private:
@@ -51,6 +52,7 @@ private slots:
 
 private:
     QHttp* myHttpConnection;   
+    QHttp* myConnectionForCovers;   
 
 friend class InternetConnectionDialog;
 };

@@ -27,6 +27,8 @@ MainWindow::MainWindow() {
     connect(nManager, SIGNAL(dataReadProgress(int, int)),
             this, SLOT(updateProgressBar(int, int)));
     
+    connect(nManager, SIGNAL(requestFinished(int, bool)),
+            this, SLOT(handleHttpRequestFinished(int, bool)));
 //    connect(mySearchWidget, SIGNAL(search(QString)), this, updateStatusBar());
 
     mySearchWidget->setFocus();
@@ -114,14 +116,20 @@ void MainWindow::updateStatusBar() {
 
 void MainWindow::updateProgressBar(int done, int total) {
     if (total == 0) {
+        myProgressBar->setMaximum(0);
+        myProgressBar->show();
+        qDebug() << "MainWindow::updateProgressBar must be busy progress";
         return;
+    } else {
+        myProgressBar->setMaximum(100);
     }
     int progress = (done * 100) / total;
     myProgressBar->show();
     myProgressBar->setValue(progress);
-    if (progress == 100) {
+  /*  if (progress == 100) {
         myProgressBar->hide();
     }
+    */
 }
 
 void MainWindow::updateStatusLabel(const QString& message) {
@@ -157,5 +165,10 @@ void MainWindow::createProgressBar() {
     myProgressBar = new QProgressBar();
     myProgressBar->setRange(0, 100);
     myProgressBar->setValue(0);
+    myProgressBar->hide();
+}
+    
+void MainWindow::handleHttpRequestFinished(int, bool) {
+    //qDebug() << "MainWindow::handleHttpRequestFinished";
     myProgressBar->hide();
 }

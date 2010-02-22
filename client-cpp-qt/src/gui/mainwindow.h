@@ -37,6 +37,7 @@ private slots:
     void updateStatusBar();
     void updateStatusLabel(const QString& );
     void updateProgressBar(int done, int total);
+    void handleHttpRequestFinished(int, bool);
     void search(const QString& query);
     void showInternetConnectionDialog();
     void showChooseServerDialog();

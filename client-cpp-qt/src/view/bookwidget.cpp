@@ -127,9 +127,9 @@ void BookWidget::downloadCover() {
     myCoverFile = new QFile(fileName);
     myCoverFile->open(QIODevice::WriteOnly);
 
-    NetworkManager* connection = NetworkManager::getInstance();
-    myRequestId = connection->download(coverLink, myCoverFile);
-    connect(connection, SIGNAL(requestFinished(int, bool)), this, SLOT(setCover(int)));  
+    NetworkManager* manager = NetworkManager::getInstance();
+    myRequestId = manager->downloadCover(coverLink, myCoverFile);
+    connect(manager, SIGNAL(coverRequestFinished(int, bool)), this, SLOT(setCover(int)));  
 }
 
 QLabel* BookWidget::makeSummary() {
