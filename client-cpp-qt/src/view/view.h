@@ -2,11 +2,11 @@
 #define _VIEW_H_
 
 #include <QWidget>
+#include <QGridLayout>
 
 #include "../data/data.h"
 #include "../view/bookwidget.h"
-#include <QWidget>
-#include <QGridLayout>
+
 
 class QLabel;
 class QCheckBox;
@@ -65,6 +65,7 @@ private slots:
 
 private:
     Data* myData;
+    
     QList<BookWidget*> myBooks;
 
     QGridLayout* myLayout;

@@ -11,7 +11,7 @@ public:
 	OPDSParser();
 	
 public:
-	void parse(QIODevice* input, Data* data);
+	bool parse(QIODevice* input, Data* data);
 };
 
 #endif //_OPDS_PARSER_H_

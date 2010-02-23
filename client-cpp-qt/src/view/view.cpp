@@ -11,7 +11,7 @@ const QString View::ourConfigFilePath = "../.config.ini";
 View::View(QWidget* parent, Data* data) : QWidget(parent), myData(data), myWantToRead(false) { 
     readSettings();
     myLayout = new QGridLayout(this);
-
+    myLayout->setSizeConstraint(QLayout::SetNoConstraint);
 //make header    
     myCheckBox = new QCheckBox(this);
     connect(myCheckBox, SIGNAL(stateChanged(int)), this, SLOT(markAllBooks(int)));
@@ -36,14 +36,6 @@ View::View(QWidget* parent, Data* data) : QWidget(parent), myData(data), myWantT
 
 void View::setData(Data* data) {
     myData = data;
-//    if (myData->getSize() != 0) {
-   /*     QString state(tr("Found: "));
-        state.append(myData->getTotalEntries());
-        state.append("  Shown: "); 
-        state.append(myData->getSize());
-        emit stateChanged(state);
- */
- //  }
 }
     
 void View::update() {
@@ -64,19 +56,12 @@ void View::update() {
     const QList<const Book*> books = myData->getBooks();
     int i = 0;
     foreach (const Book* book, books) {
-        BookWidget* widget = new BookWidget(this, book); 
+        BookWidget* widget = new BookWidget(this, book);
         myBooks.push_back(widget);
         myLayout->addWidget(widget, i + 1, 0, 1, 4);
         ++i;
         //qDebug() << "View::update widget added";
     }
- /*   for (size_t i = 0; i < size; ++i) {
-        BookWidget* widget = new BookWidget(this, myData->getBook(i));
-        myBooks.push_back(widget);
-        myLayout->addWidget(widget, i + 1, 0, 1, 4);
-        qDebug() << "View::update widget added";
-    }
-   */
     emit stateChanged(getState());
     connectToButtons();
 }
@@ -84,7 +69,7 @@ void View::update() {
 QString View::getState() const {
     QString state;
     QString number;
-    if (myData->getTotalEntries() != 0) {
+    if (myData->getTotalEntries() != -1) {
         state.append(tr("Found: "));
         number.setNum(myData->getTotalEntries());
         state.append(number);
@@ -107,9 +92,10 @@ void View::clear() {
     }
     */
    for (int i = 0; i < myBooks.size(); ++i) {
-       myBooks[i]->hide(); 
+       myBooks[i]->hide();
+       delete myBooks[i]; 
    }
-   myBooks.clear();
+    myBooks.clear();
 }
 
 QSize View::sizeHint() const {

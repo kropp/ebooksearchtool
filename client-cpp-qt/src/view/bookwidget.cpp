@@ -1,6 +1,7 @@
 #include <QtGui>
 #include <QFile>
 #include <QPicture>
+#include <QSizePolicy>
 
 #include "bookwidget.h"
 #include "../data/book_author.h"
@@ -10,8 +11,7 @@
 //#include <QDebug>
 
 static const QString COVER_DIR = "../images/";
-
-const QSize BookWidget::ourSizeHint = QSize(600, 90);
+QSize BookWidget::ourSizeHint = QSize(600, 90);
 
 BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent), myBook(book) {
 
@@ -55,11 +55,16 @@ BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent), myB
     //myMainLayout->setHorizontalSpacing(2);
     downloadCover();
     setBackground(); 
+    setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
     setLayout(myMainLayout);
 }
 
 QSize BookWidget::sizeHint() const {
     return ourSizeHint;
+}
+    
+void BookWidget::setWidgetWidth(size_t width) {
+    ourSizeHint.setWidth(width);
 }
 
 void BookWidget::setCover(int requestId) {

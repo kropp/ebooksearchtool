@@ -118,7 +118,6 @@ void MainWindow::updateProgressBar(int done, int total) {
     if (total == 0) {
         myProgressBar->setMaximum(0);
         myProgressBar->show();
-        qDebug() << "MainWindow::updateProgressBar must be busy progress";
         return;
     } else {
         myProgressBar->setMaximum(100);

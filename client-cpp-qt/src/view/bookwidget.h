@@ -20,15 +20,18 @@ class BookWidget : public QWidget {
     Q_OBJECT
 
 private:
-    static const QSize ourSizeHint;
+    static QSize ourSizeHint;
+
+public:
+    static void setWidgetWidth(size_t width);
 
 public:
     BookWidget(QWidget* parent, const Book* book);
 
     const Book& getBook() const;
     bool isMarked() const;
-
     void mark(int state);
+
     QSize sizeHint() const;
 
 signals:
@@ -57,8 +60,8 @@ private:
     
     QGridLayout* myMainLayout;
     QCheckBox* myCheckBox;
+
     QFile* myCoverFile;    
-    
     int myRequestId;
 };
 

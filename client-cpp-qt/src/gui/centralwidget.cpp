@@ -7,17 +7,21 @@
 #include "searchwidget.h"
 
 CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myBuffer(0), myData(0) {
+    
+// initialize fields
     myNewRequest = true;
     myView = new View(this, 0);
     myScrollArea = new QScrollArea(this);
     myErrorMessageDialog = new QErrorMessage(this);
-
+    myErrorMessageDialog->setWindowTitle("ERROR");
     myNetworkManager = NetworkManager::getInstance(); 
 
+// connect signals and slots
 	connect(myNetworkManager, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
     connect(myView, SIGNAL(stateChanged(QString)), this, SIGNAL(stateChanged(QString)));
 	//connect(myView, SIGNAL(urlRequest(const QString&)), this, SLOT(downloadFile(const QString&)));
 
+// create layout
 	QVBoxLayout *mainLayout = new QVBoxLayout();
 	mainLayout->addWidget(myScrollArea);
 	setLayout(mainLayout);
@@ -75,18 +79,25 @@ void CentralWidget::parseDownloadedFile() {
 	    myView->setData((Data*)myData);
     }
     myBuffer->open(QIODevice::ReadOnly);
-    parser.parse(myBuffer, myView->getData());
+    if (!parser.parse(myBuffer, myView->getData())) {
+        myErrorMessageDialog->showMessage("recieved no data from server");
+    }
     myBuffer->close();
     myView->update();	
     if (!myScrollArea->widget()) {
         myScrollArea->setWidget(myView);
     }
+    
     //myScrollArea->update();
    // const QString* url = parser.getNextAtomPage();
     //if (url) {
      //   myNewRequest = false;
        // downloadFile(*url);
     //}
+}
+
+void CentralWidget::resizeEvent(QResizeEvent* event) const {
+    BookWidget::setWidgetWidth(event->size().width());
 }
 
 const NetworkManager* CentralWidget::getNetworkManager() const {

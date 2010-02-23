@@ -1,7 +1,7 @@
 #include "data.h"
 #include <QDebug>
 
-Data::Data() : myTotalEntries(0) {
+Data::Data() : myTotalEntries(-1) {
 }
 
 Data::~Data() {

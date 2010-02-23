@@ -14,14 +14,14 @@ public:
 public:
     const QList<const Book*>& getBooks() const;
     size_t getSize() const;
-    size_t getTotalEntries() const;
+    int getTotalEntries() const;
 
     void addBook(const Book* book);
     void setTotalEntries(int size);
 
 private:
 	QList<const Book*> myBooks;
-    size_t myTotalEntries;
+    int myTotalEntries;
 
 private:
     Data(const Data& otherData);
@@ -32,7 +32,7 @@ inline size_t Data::getSize() const {
 	return myBooks.size();
 }
 
-inline size_t Data::getTotalEntries() const {
+inline int Data::getTotalEntries() const {
     return myTotalEntries;
 }
 

@@ -2,7 +2,6 @@
 #define _CENTRAL_WIDGET_H_
 
 #include "../view/view.h" 
-//#include <QSharedDataPointer>
 
 class QDialogButtonBox;
 class QBuffer;
@@ -14,7 +13,7 @@ class QErrorMessage;
 class CentralWidget : public QWidget {
     
     Q_OBJECT    
-    
+
 private:
     CentralWidget(QWidget* parent);
     ~CentralWidget();
@@ -29,6 +28,7 @@ signals:
 
 private:
     const NetworkManager* getNetworkManager() const;
+    void resizeEvent(QResizeEvent* event) const;
 //    void fillComboBox();
 
 private:

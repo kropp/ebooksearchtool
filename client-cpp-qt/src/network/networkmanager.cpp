@@ -60,16 +60,22 @@ void NetworkManager::writeSettings() const {
 } 
 
 int NetworkManager::download(QString urlStr, QIODevice* out) {
-	myHttpConnection->setHost(ourServer, 80);
+    QUrl url(urlStr);
+    if (!url.host().isEmpty()) {
+        myHttpConnection->setHost(url.host(), 80);
+    } else {
+        myHttpConnection->setHost(ourServer, 80);
+    }
     if (ourProxy != "undefined") { 
         myHttpConnection->setProxy(ourProxy, ourPort);
 	}
+
 	QString query(urlStr);
 	query.remove("www.");
 	query.remove("http://");
 	query.remove(ourServer); //оставляю только запрос
 
-    qDebug() << "NetworkManager::download request =" << ourServer <<  query;
+    qDebug() << "NetworkManager::download request =" << ourServer << query;
 	int id = myHttpConnection->get(query, out);
     return id;
 }
@@ -82,7 +88,7 @@ int NetworkManager::downloadCover(QString urlStr, QIODevice* out) {
         myConnectionForCovers->setProxy(ourProxy, ourPort);
 	}
 
-    qDebug() << "NetworkManager::downloadCover request =" << url.host()<<  url.path();
+   // qDebug() << "NetworkManager::downloadCover request =" << url.host()<<  url.path();
 	int id = myConnectionForCovers->get(url.path(), out);
     return id;
 }
