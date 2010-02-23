@@ -63,6 +63,7 @@ void SearchWidget::emitSearch() {
     if (!str.isEmpty()) {
         // translate query text to opensearch query
         QString query = myLineEdit->text();
+        query.replace(" ", "+");
         query.prepend(ourOpensearchSchema);
         qDebug() << "SearchWidget::emit Search " << query;
         emit search(query); 
