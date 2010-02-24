@@ -12,10 +12,6 @@ from spec.external.pdfminer.pdfparser import PDFDocument, PDFParser
 
 import random
 
-ESC_PAT = re.compile(r'[\000-\037&<>()\042\047\134\177-\377]')
-def esc(s):
-    return ESC_PAT.sub(lambda m:'&#%d;' % ord(m.group(0)), s)
-
 def read(b, feed, classif):
     ''' gets URL and classify items '''
     # get feed items
@@ -29,6 +25,10 @@ def read(b, feed, classif):
         summary = entry['summary'].encode('utf-8')
         if summary == "No description available.":
             break
+
+        # find author
+        author_ref = entry['author_detail']['href'].encode('utf-8')
+        auth_parser = feedparser.parse(author_ref)
 
         counter = counter+1
        
@@ -90,9 +90,10 @@ def read_fullbook(b, feed, classif):
     
     counter = 0
     if b == True:
-        file_handle = open("statistics", "a")
+        file_handle_stat = open("statistics", "a")
     
     for entry in f['entries']:
+        counter = counter+1
         url = entry['id'].encode('utf-8') + ".pdf"
         webFile = urllib.urlopen(url)
         localFile = open("downloads/" + url.split('/')[-1], 'w')
@@ -106,8 +107,22 @@ def read_fullbook(b, feed, classif):
         filename = "downloads/" + url.split('/')[-1]
         
         pages = set()
+        
+        doc = PDFDocument()
+        fp = file(filename, 'rb')
+        parser = PDFParser(fp)
+        parser.set_document(doc)
+        doc.set_parser(parser)
+        doc.initialize('')
+        
+        count_page = []
+        for (pageno,page) in enumerate(doc.get_pages()):
+            count_page.append(pageno)
+            
+        p_count = len(count_page)
+        
         for i in range(1, 10):
-            pages.add(random.randrange(1, 100))
+            pages.add(random.randrange(3, p_count))
         
         read_pdf(filename, pages)
         outputfile = filename[0:-4] + ".txt"
@@ -135,12 +150,12 @@ def read_fullbook(b, feed, classif):
                 classif.train(fulltext, c)
                 
             if b == True and (c == hyp[0] or c == hyp[1]):     
-                file_handle.write(c)
-                file_handle.write('\n')    
-                file_handle.flush()
+                file_handle_stat.write(c)
+                file_handle_stat.write('\n')    
+                file_handle_stat.flush()
 
-#    if b == True:
-#        file_handle.close()
+    if b == True:
+        file_handle_stat.close()
     
     return counter
 
