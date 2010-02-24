@@ -24,7 +24,7 @@ void ChooseServerDialog::createRadioButtons() {
     foreach (QString server, servers) {
         //qDebug() << it->first;
         QRadioButton* button = new QRadioButton(server, this);
-        if (server == NetworkManager::getServer()) {
+        if (server == NetworkManager::getCurrentServer()) {
             button->setChecked(true);
         }
         myButtonGroup->addButton(button);

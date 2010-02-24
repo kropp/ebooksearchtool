@@ -27,7 +27,7 @@ private:
 public:
     static NetworkManager* getInstance();
     static void setServer(const QString& newServer);
-    static const QString& getServer();
+    static const QString& getCurrentServer();
     static void initializeMap();
 
     const QString& getProxy() const;
@@ -68,7 +68,7 @@ inline int NetworkManager::getPort() const {
     return ourPort;
 }    
 
-inline const QString& NetworkManager::getServer() {
+inline const QString& NetworkManager::getCurrentServer() {
     return ourCurrentServer;
 }
 

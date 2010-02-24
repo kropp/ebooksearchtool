@@ -156,8 +156,11 @@ void MainWindow::writeSettings() {
 void MainWindow::search(const QString& query) {
     QString message(query);
    // message.prepend(NetworkManager::getServer());
+    message.prepend(tr("Searching: "));
+    message.append(tr("   on server: "));
+    message.append(NetworkManager::getCurrentServer());
     // prepend server
-    updateStatusLabel(message.prepend(tr("Searching: ")));
+    updateStatusLabel(message);
 }
 
 void MainWindow::createProgressBar() {
