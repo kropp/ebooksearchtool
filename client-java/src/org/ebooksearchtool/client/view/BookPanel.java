@@ -7,9 +7,7 @@ import org.ebooksearchtool.client.connection.Connector;
 import javax.swing.*;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
-import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
-import javax.swing.text.html.StyleSheet;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,6 +23,7 @@ public class BookPanel implements Comparable {
 	
     private JPanel myRootPanel;
     private JLabel myImageLable;
+    private int myImageWidth;
     private Box myInfoPanel;
     private JLabel myTitle;
     private JLabel mySubtitle;
@@ -43,7 +42,7 @@ public class BookPanel implements Comparable {
     
     private boolean myIsMoreInfoShown = false;
 
-    public BookPanel(Book book, Settings set, DefaultBoundedRangeModel model) throws IOException {
+    public BookPanel(Book book, Settings set, DefaultBoundedRangeModel model, int imageWidth) throws IOException {
 
         myBook = book;
         mySettings = set;
@@ -62,10 +61,15 @@ public class BookPanel implements Comparable {
 
         myImageLable = new JLabel();
         ImageIcon img = new ImageIcon("images" + File.separatorChar + myBook.getTitle() + ".jpg");
-         
+
+        if(img.getIconWidth() > imageWidth){
+            myImageWidth = img.getIconWidth();
+        }else{
+            myImageWidth = imageWidth;
+        }
         
         myImageLable.setIcon(img);
-        myImageLable.setPreferredSize(new Dimension(80, 100));
+        myImageLable.setPreferredSize(new Dimension(myImageWidth, 100));
         myRootPanel.add(myImageLable);
 
         myTitle = new JLabel(myBook.getTitle());
@@ -272,6 +276,12 @@ public class BookPanel implements Comparable {
     		}
         });
         
+    }
+
+    public int getImageWidth(){
+
+        return myImageWidth;
+
     }
 
     public JPanel getRootPanel(){
