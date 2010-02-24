@@ -2,7 +2,7 @@
 #define _NETWORK_MANAGER_H_
 
 #include <QObject>
-//#include <../gui/dialogs/internetConnectionDialog.h>
+#include <QMap>
 
 class HttpConnection;
 class QString;
@@ -17,7 +17,9 @@ private:
     static QString ourConfigFilePath;
     static QString ourProxy;
     static int ourPort;    
-    static QString ourServer;
+    static QString ourCurrentServer;
+
+    static QMap<QString, QString> ourServersSearchSchema; // map server->opensearch schema
 
 private:
     static NetworkManager* instance;
@@ -26,10 +28,11 @@ public:
     static NetworkManager* getInstance();
     static void setServer(const QString& newServer);
     static const QString& getServer();
+    static void initializeMap();
+
     const QString& getProxy() const;
     int getPort() const;    
-    
-
+    void getServers(QList<QString>& servers) const;
 public:
     ~NetworkManager();
 	
@@ -66,7 +69,7 @@ inline int NetworkManager::getPort() const {
 }    
 
 inline const QString& NetworkManager::getServer() {
-    return ourServer;
+    return ourCurrentServer;
 }
 
 #endif //_NETWORK_MANAGER_H_

@@ -7,12 +7,27 @@
 
 #include "networkmanager.h"
 
+static const QString SERVER_FEEDBOOKS = "feedbooks.com";
+static const QString OPENSEARCH_FEEDBOOKS = "/books/search.atom?query=";
+static const QString SERVER_BOOKSERVER = "bookserver.archive.org";
+static const QString OPENSEARCH_BOOKSERVER = "/catalog/opensearch?q=";
+static const QString SERVER_SMASHWORDS = "smashwords.com";
+static const QString OPENSEARCH_SMASHWORDS = "/atom/search/books?query=";
+static const QString SERVER_MANYBOOKS = "manybooks.net";
+static const QString OPENSEARCH_MANYBOOKS = "/stanza/search.php?q=";
+static const QString SERVER_ONLY_MAWHRIN = "only.mawhrin.net";
+static const QString OPENSEARCH_ONLY_MAWHRIN = "/ebooks/search.atom?title=";
+static const QString SERVER_MUNSEYS = "catalog.lexcycle.com";
+static const QString OPENSEARCH_MUNSEYS = "/munseys/op/search?search=";
+ 
+
 NetworkManager* NetworkManager::instance = 0;
 
 QString NetworkManager::ourConfigFilePath = "../.config.ini";
 QString NetworkManager::ourProxy = "undefined";
 int NetworkManager::ourPort = 80;    
-QString NetworkManager::ourServer = "undefined";
+QString NetworkManager::ourCurrentServer = "undefined";
+QMap<QString, QString> NetworkManager::ourServersSearchSchema;
 
 NetworkManager* NetworkManager::getInstance() {
     if (instance == 0) {
@@ -22,10 +37,11 @@ NetworkManager* NetworkManager::getInstance() {
 }
 
 void NetworkManager::setServer(const QString& newServer) {
-    ourServer = newServer;
+    ourCurrentServer= newServer;
 }
 
 NetworkManager::NetworkManager() {
+    initializeMap();
     myHttpConnection = new QHttp(this);
     myConnectionForCovers = new QHttp(this);
     readSettings();
@@ -47,7 +63,7 @@ void NetworkManager::readSettings() {
     QSettings settings(ourConfigFilePath, QSettings::IniFormat);
     ourProxy = settings.value("network/proxy").toString();
     ourPort = settings.value("network/port").toInt();
-    ourServer = settings.value("network/server").toString();
+    ourCurrentServer= settings.value("network/server").toString();
 }
 
 void NetworkManager::writeSettings() const {
@@ -55,33 +71,26 @@ void NetworkManager::writeSettings() const {
     settings.beginGroup("network");
     settings.setValue("proxy", ourProxy);
     settings.setValue("port", ourPort);
-    settings.setValue("server", ourServer);
+    settings.setValue("server", ourCurrentServer);
     settings.endGroup();
 } 
 
-int NetworkManager::download(QString urlStr, QIODevice* out) {
-    QUrl url(urlStr);
-    if (!url.host().isEmpty()) {
-        myHttpConnection->setHost(url.host(), 80);
-    } else {
-        myHttpConnection->setHost(ourServer, 80);
-    }
+int NetworkManager::download(QString query, QIODevice* out) {
+    myHttpConnection->setHost(ourCurrentServer, 80);
+    
     if (ourProxy != "undefined") { 
         myHttpConnection->setProxy(ourProxy, ourPort);
 	}
 
-	QString query(urlStr);
-	query.remove("www.");
-	query.remove("http://");
-	query.remove(ourServer); //оставляю только запрос
+    query.prepend(ourServersSearchSchema[ourCurrentServer]);
 
-    qDebug() << "NetworkManager::download request =" << ourServer << query;
+    qDebug() << "NetworkManager::download request =" << ourCurrentServer << query;
 	int id = myHttpConnection->get(query, out);
+    
     return id;
 }
 
 int NetworkManager::downloadCover(QString urlStr, QIODevice* out) {
-    //TODO extract Host from url
     QUrl url(urlStr);
     myConnectionForCovers->setHost(url.host(), 80);
     if (ourProxy != "undefined") { 
@@ -93,7 +102,7 @@ int NetworkManager::downloadCover(QString urlStr, QIODevice* out) {
     return id;
 }
 
-void NetworkManager::showConnectionState (int state) {
+void NetworkManager::showConnectionState (int /*state*/) {
     //qDebug() << "NetworkManager::connectionState " << state;
     // 0 unconnected
     // 1 host lookup
@@ -102,4 +111,18 @@ void NetworkManager::showConnectionState (int state) {
     // 4 reading
     // 5 connected
     // 6 closing
+}
+
+void NetworkManager::initializeMap(){
+    ourServersSearchSchema.insert(SERVER_FEEDBOOKS, OPENSEARCH_FEEDBOOKS);
+    ourServersSearchSchema.insert(SERVER_BOOKSERVER, OPENSEARCH_BOOKSERVER);
+    ourServersSearchSchema.insert(SERVER_ONLY_MAWHRIN, OPENSEARCH_ONLY_MAWHRIN);
+    ourServersSearchSchema.insert(SERVER_MANYBOOKS, OPENSEARCH_MANYBOOKS);
+    ourServersSearchSchema.insert(SERVER_SMASHWORDS, OPENSEARCH_SMASHWORDS);
+    ourServersSearchSchema.insert(SERVER_MUNSEYS, OPENSEARCH_MUNSEYS);
+}
+
+void NetworkManager::getServers(QList<QString>& servers) const {
+    servers += ourServersSearchSchema.keys();
+    return;
 }

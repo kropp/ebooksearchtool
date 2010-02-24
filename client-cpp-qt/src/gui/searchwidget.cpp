@@ -10,10 +10,11 @@
 QString SearchWidget::
 ourOpensearchSchema = "/books/search.atom?query=";
 
-void SearchWidget::setOpensearchSchema(const QString& str) {
+/*void SearchWidget::setOpensearchSchema(const QString& str) {
     qDebug() << "SearchWidget::setOpensearchSchema " << str;
     ourOpensearchSchema = str;
 }
+*/
 
 SearchWidget::SearchWidget(QWidget* parent) : QWidget(parent) {
     createLineEdit();
@@ -64,7 +65,7 @@ void SearchWidget::emitSearch() {
         // translate query text to opensearch query
         QString query = myLineEdit->text();
         query.replace(" ", "+");
-        query.prepend(ourOpensearchSchema);
+       // query.prepend(ourOpensearchSchema);
         qDebug() << "SearchWidget::emit Search " << query;
         emit search(query); 
     } 
