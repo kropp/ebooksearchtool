@@ -12,7 +12,8 @@ def getwords(doc):
         if len(s) > 2 and len(s) < 20]
         
     #return array of unic words
-    return dict([ (w,1) for w in words])
+#    return dict([ (w,1) for w in words])
+    return words
 
 def bookfeatures(doc):
     ''' now available only for english books '''
@@ -26,14 +27,34 @@ def bookfeatures(doc):
     for i in range(len(words)):
         w = words[i]
         f[w] = 1
-        if i < len(words) - 1:
-            twowords = ' '.join(words[i:i+1])
+        if (i < len(words) - 1) and words[i] != words[i+1]:
+            twowords = ' '.join(words[i:i+2])
             f[twowords] = 1
+            
+    res = {}
+    for w in f:
+        res[stem.stemWord(w)] = 1
+   
+    return res
+
+def bookfeatures2(doc):
+    ''' now available only for english books '''
+    splitter = re.compile('\\W*')
+    f = []
+    stem = stemmer.Stemmer('english')
+
+    words = [s.lower() for s in splitter.split(doc)
+        if len(s) > 2 and len(s) < 20]
+        
+    for i in range(len(words)):
+        w = words[i]
+        f.append(w)
 
     for w in words:
         w = stem.stemWord(w)
     
     return f
+
     
 class classifier:
     def __init__(self, getfeatures, filename=None):

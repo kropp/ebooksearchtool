@@ -122,7 +122,7 @@ def read_fullbook(b, feed, classif):
         p_count = len(count_page)
         
         for i in range(1, 10):
-            pages.add(random.randrange(3, p_count))
+            pages.add(random.randrange(4, p_count - 3))
         
         read_pdf(filename, pages)
         outputfile = filename[0:-4] + ".txt"
