@@ -1,9 +1,8 @@
 package org.ebooksearchtool.crawler.impl;
 
-import java.util.Map;
-import java.util.HashMap;
-
 import java.util.BitSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import org.ebooksearchtool.crawler.AbstractVisitedLinksSet;
 import org.ebooksearchtool.crawler.Link;
@@ -28,11 +27,11 @@ public String DEBUG() { return
     private final BitSet myBitSet;
     private final int myMaxNumberOfElements;
     private final int myHashCount = 10;
+    private final long[] myHashBases = new long[myHashCount];
     private final int myMaxSize = 1 << 30;
     
     private int myNumberOfElements = 0;
     private int mySize;
-    private long[] myHashBases;
     
     public VisitedLinksSet(int maxNumberOfElements, int maxLinksFromHost, int maxLinksFromLargeSource, int maxLinksFromSecondLevelDomain, long hostStatsCleanupPeriod) {
         myMaxNumberOfElements = maxNumberOfElements;
@@ -46,7 +45,6 @@ public String DEBUG() { return
         }
         mySize = (int)size;
         myBitSet = new BitSet(mySize);
-        myHashBases = new long[myHashCount];
         Random rnd = new Random();
         for (int i = 0; i < myHashCount; i++) {
             while (myHashBases[i] % 2 == 0) {

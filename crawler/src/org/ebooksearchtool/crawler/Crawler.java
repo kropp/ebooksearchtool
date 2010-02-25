@@ -1,8 +1,20 @@
 package org.ebooksearchtool.crawler;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
+import java.net.Socket;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 import org.ebooksearchtool.crawler.impl.*;
 
 public class Crawler implements Runnable {

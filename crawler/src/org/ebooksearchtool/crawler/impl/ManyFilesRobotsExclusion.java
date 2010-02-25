@@ -1,9 +1,15 @@
 package org.ebooksearchtool.crawler.impl;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
-import java.util.regex.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FilenameFilter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.URISyntaxException;
+import java.util.regex.Pattern;
 import org.ebooksearchtool.crawler.AbstractRobotsExclusion;
 import org.ebooksearchtool.crawler.Network;
 import org.ebooksearchtool.crawler.Link;

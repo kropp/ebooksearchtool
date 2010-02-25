@@ -3,7 +3,11 @@ package org.ebooksearchtool.crawler;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import net.htmlparser.jericho.*;
+import net.htmlparser.jericho.Attribute;
+import net.htmlparser.jericho.Attributes;
+import net.htmlparser.jericho.Source;
+import net.htmlparser.jericho.StartTag;
+import net.htmlparser.jericho.Tag;
 
 class HTMLParser {
     

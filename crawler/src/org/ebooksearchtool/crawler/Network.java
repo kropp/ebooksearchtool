@@ -1,10 +1,24 @@
 package org.ebooksearchtool.crawler;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
-import java.util.concurrent.*;
-import javax.net.ssl.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Proxy;
+import java.net.URLConnection;
+import java.security.cert.X509Certificate;
+import java.security.SecureRandom;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ConcurrentHashMap;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.HttpsURLConnection;
 
 public class Network {
 	
@@ -52,16 +66,16 @@ public class Network {
         // configure HttpsURLConnection so that it trusts all certificates
         TrustManager[] trustAllCerts = new TrustManager[] {
             new X509TrustManager() {
-                public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                public X509Certificate[] getAcceptedIssuers() {
                     return null;
                 }
-                public void checkClientTrusted(java.security.cert.X509Certificate[] certs, String authType) { }
-                public void checkServerTrusted(java.security.cert.X509Certificate[] certs, String authType) { }
+                public void checkClientTrusted(X509Certificate[] certs, String authType) { }
+                public void checkServerTrusted(X509Certificate[] certs, String authType) { }
             }
         };
         try {
             SSLContext context = SSLContext.getInstance("SSL");
-            context.init(null, trustAllCerts, new java.security.SecureRandom());
+            context.init(null, trustAllCerts, new SecureRandom());
             HttpsURLConnection.setDefaultSSLSocketFactory(context.getSocketFactory());
         } catch (Exception e) { }
             
@@ -98,6 +112,7 @@ public class Network {
     }
 	
     public String download(Link link, String wantedContentType, boolean logErrors, int threadID) {
+        InputStream is = null;
         try {
             String host = link.getHost();
             long nextAccess = getNextAccessTime(host);
@@ -154,14 +169,16 @@ public class Network {
             connection.setConnectTimeout(myConnectionTimeout);
             connection.setReadTimeout(myReadTimeout);
             connection.setRequestProperty("User-Agent", myUserAgent);
-            InputStream is = null;
+            connection.connect();
             try {
                 is = connection.getInputStream();
             } catch (Throwable e) {
                 return null;
             }
+            if (is == null) return null;
             String contentType = connection.getHeaderField("Content-Type");
-            if (is == null || (contentType != null && !contentType.startsWith(wantedContentType))) {
+            if (contentType != null && !contentType.startsWith(wantedContentType)) {
+                is.close();
                 return null;
             }
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -169,9 +186,7 @@ public class Network {
             char[] buf = new char[BUFFER_SIZE];
             int r;
             while ((r = br.read(buf, 0, BUFFER_SIZE)) >= 0) {
-                for (int i = 0; i < r; i++) {
-                    page.append(buf[i]);
-                }
+                page.append(buf, 0, r);
             }
             br.close();
             return page.toString();
@@ -184,6 +199,15 @@ public class Network {
                 }
             }
             return null;
+        } finally {
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    System.err.println(" error closing input stream on " + link);
+                    e.printStackTrace();
+                }
+            }
         }
     }
     

@@ -1,6 +1,13 @@
 package org.ebooksearchtool.crawler.impl;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Random;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import org.ebooksearchtool.crawler.AbstractLinksQueue;
 import org.ebooksearchtool.crawler.Link;
 

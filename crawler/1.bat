@@ -1,1 +1,1 @@
-java -Xms64m -Xmx512m -jar bin/Crawler.jar en.wikipedia.org
+java -Xmx256m -jar bin/Crawler.jar www.google.com

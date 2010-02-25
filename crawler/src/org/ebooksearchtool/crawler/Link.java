@@ -1,6 +1,9 @@
 package org.ebooksearchtool.crawler;
 
-import java.net.*;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+import java.net.URISyntaxException;
 
 public class Link implements Comparable<Link> {
     
