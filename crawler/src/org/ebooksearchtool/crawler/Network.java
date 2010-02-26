@@ -169,12 +169,12 @@ public class Network {
             connection.setConnectTimeout(myConnectionTimeout);
             connection.setReadTimeout(myReadTimeout);
             connection.setRequestProperty("User-Agent", myUserAgent);
-            connection.connect();
             try {
-                is = connection.getInputStream();
+                connection.connect();
             } catch (Throwable e) {
                 return null;
             }
+            is = connection.getInputStream();
             if (is == null) return null;
             String contentType = connection.getHeaderField("Content-Type");
             if (contentType != null && !contentType.startsWith(wantedContentType)) {
