@@ -2,8 +2,11 @@ package org.ebooksearchtool.client.logic.parsing;
 
 import org.ebooksearchtool.client.model.settings.Settings;
 import org.xml.sax.Attributes;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+
+import java.io.IOException;
 
 /*
  * Date: 18.02.2010
@@ -17,6 +20,12 @@ public class SAXQueryHandler extends DefaultHandler {
     }
 
     @Override
+    public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
+        System.out.println("Ignoring: " + publicId + ", " + systemId);
+        return new org.xml.sax.InputSource(new java.io.StringReader(""));
+    }
+
+    @Override
     public void startDocument() throws SAXException
     {
     }
@@ -25,10 +34,8 @@ public class SAXQueryHandler extends DefaultHandler {
     {
 
         if ("link".equals(qName) && "search".equals(attributes.getValue("rel"))) {
-            System.out.println(attributes.getValue("href"));
             mySearchLink = attributes.getValue("href");
         }else if("Url".equals(qName) && "application/atom+xml".equals(attributes.getValue("type"))){
-            System.out.println(attributes.getValue("template"));
             mySearchLink = attributes.getValue("template");
         }
 

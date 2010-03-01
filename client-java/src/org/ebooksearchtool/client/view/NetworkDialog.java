@@ -216,47 +216,72 @@ public class NetworkDialog extends JDialog{
                     if(i == myController.getSettings().getSupportedServers().size() - 1){
                         try {
                             Connector con = new Connector(myServerText.getText(), myController.getSettings());
+                            System.out.println(myServerText.getText());
                             if(con.getFileFromURL("searchprobe.xml")){
                                 Parser parser = new Parser();
                                 SAXQueryHandler handler = new SAXQueryHandler();
                                 parser.parse("searchprobe.xml", handler);
+                                System.out.println(handler.getSearchLink());
                                 if(handler.getSearchLink() != null){
                                     if(handler.getSearchLink().contains("{searchTerms}")){
                                         StringBuffer link = new StringBuffer(handler.getSearchLink());
                                         link.delete(link.indexOf("{searchTerms}"), link.length());
                                         myController.getSettings().getSupportedServers().put(myServerText.getText(), link.toString());
-                                    }else{
-                                        con = new Connector(handler.getSearchLink(), myController.getSettings());
-                                        if(con.getFileFromURL("searchprobe.xml")){
+                                    } else {
+
+                                        if (!handler.getSearchLink().startsWith("http://")) {
+                                            if (handler.getSearchLink().startsWith("/")) {
+                                                StringBuffer link = new StringBuffer(myServerText.getText());
+                                                if (link.indexOf("/", 9) != -1) {
+                                                    link.delete(link.indexOf("/", 8), link.length());
+                                                }
+                                                con = new Connector(link.toString() + handler.getSearchLink(), myController.getSettings());
+                                                myServerText.setText(link.toString());
+                                            } else {
+                                                if (myServerText.getText().lastIndexOf("/") == myServerText.getText().length()) {
+                                                    System.out.println(myServerText.getText() + handler.getSearchLink());
+                                                    con = new Connector(myServerText.getText() + handler.getSearchLink(), myController.getSettings());
+                                                } else {
+                                                    System.out.println(myServerText.getText() + "/" + handler.getSearchLink());
+                                                    con = new Connector(myServerText.getText() + "/" + handler.getSearchLink(), myController.getSettings());
+                                                }
+                                            }
+                                        } else {
+                                            con = new Connector(handler.getSearchLink(), myController.getSettings());
+                                        }
+
+                                        if (con.getFileFromURL("searchprobe.xml")) {
                                             handler = new SAXQueryHandler();
                                             parser.parse("searchprobe.xml", handler);
-                                            if(handler.getSearchLink() != null){
+                                            if (handler.getSearchLink() != null) {
                                                 if (handler.getSearchLink().contains("{searchTerms}")) {
                                                     StringBuffer link = new StringBuffer(handler.getSearchLink());
                                                     link.delete(link.indexOf("{searchTerms}"), link.length());
                                                     myController.getSettings().getSupportedServers().put(myServerText.getText(), link.toString());
-                                                }else{
+                                                } else {
                                                     JOptionPane.showMessageDialog(new JDialog(), "This feed hasn't search terms and can't be used as searchable catalog", "Wrong catalog", JOptionPane.WARNING_MESSAGE);
                                                     return;
                                                 }
-                                            }else{
+                                            } else {
                                                 JOptionPane.showMessageDialog(new JDialog(), "This feed hasn't search terms and can't be used as searchable catalog", "Wrong catalog", JOptionPane.WARNING_MESSAGE);
                                                 return;
                                             }
-                                        }else{
+                                        } else {
                                             JOptionPane.showMessageDialog(new JDialog(), "This feed hasn't search terms and can't be used as searchable catalog", "Wrong catalog", JOptionPane.WARNING_MESSAGE);
                                             return;
                                         }
+
                                     }
-                                }else{
+                                } else {
                                     JOptionPane.showMessageDialog(new JDialog(), "This feed hasn't search terms and can't be used as searchable catalog", "Wrong catalog", JOptionPane.WARNING_MESSAGE);
                                     return;
                                 }
-                            }else{
+                            } else {
                                 JOptionPane.showMessageDialog(new JDialog(), "Page not found", "Wrong catalog", JOptionPane.WARNING_MESSAGE);
                                 return;
                             }
                         } catch (IOException e1) {
+                            e1.printStackTrace();
                             JOptionPane.showMessageDialog(new JDialog(), "Error in connection", "Wrong catalog", JOptionPane.ERROR_MESSAGE);
                             return;
                         } catch (SAXException e1) {
