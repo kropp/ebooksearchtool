@@ -492,17 +492,7 @@ public class Window {
             			String prevPage = myController.getAnswer().getNextPage();
             			try {
             				if(e.getSource() != myMoreButton){
-            					if(myAdress == null){
-            						myQuery = new Query(myController.getSettings());
-            						String queryWord = myQueryField.getText();
-            						String queryOption = (String)myQueryCombo.getSelectedItem();
-            						try {
-            							myAdress = myQuery.getQueryAdress(queryWord, queryOption);
-            						} catch (IOException e1) {
-
-            							e1.printStackTrace();
-            						}
-            					}
+            					
             					++curModelNumber;
             					myTextPan.removeAll();
                                 myBookPanels = new ArrayList<ArrayList<BookPanel>>();
@@ -511,7 +501,7 @@ public class Window {
                                 	myController.clearModel();
                                 }
                                 lastNumber = 0;
-            					if(!myController.getQueryAnswer(myAdress)){
+            					if(!myController.getQueryAnswer(myQueryField.getText())){
             						
                                     model.setValue(100);
                                     JOptionPane.showMessageDialog(new JDialog(), "Connection failed", "error", JOptionPane.ERROR_MESSAGE);

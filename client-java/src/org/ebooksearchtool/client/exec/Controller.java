@@ -2,6 +2,7 @@ package org.ebooksearchtool.client.exec;
 
 import org.ebooksearchtool.client.connection.Connector;
 import org.ebooksearchtool.client.logic.parsing.*;
+import org.ebooksearchtool.client.logic.query.Query;
 import org.ebooksearchtool.client.model.QueryAnswer;
 import org.ebooksearchtool.client.model.books.Data;
 import org.ebooksearchtool.client.model.settings.Settings;
@@ -60,18 +61,29 @@ public class Controller {
 
     }
 
-    public boolean getQueryAnswer(String adress) throws IOException, SAXException, ParserConfigurationException {
-        
-        Connector connect = new Connector(adress, mySettings);
-        if(connect.getFileFromURL("answer_file.xml")){
-            Parser parser = new Parser();
-            SAXHandler handler = new SAXHandler(myData);
-            parser.parse("answer_file.xml", handler);
-            return true;
-        }else{
-            return false;
+    public boolean getQueryAnswer(String word) throws IOException, SAXException, ParserConfigurationException {
+
+        for (int i = 0; i < mySettings.getSupportedServers().size(); ++i) {
+            String adress = new String();
+            mySettings.setServer(mySettings.getSupportedServers().keySet().toArray(new String[mySettings.getSupportedServers().size()])[i]);
+            Query query = new Query(mySettings);
+            try {
+                adress = query.getQueryAdress(word, "General");                   //TODO переделать!
+            } catch (IOException e1) {
+
+                e1.printStackTrace();
+            }
+
+            Connector connect = new Connector(adress, mySettings);
+            if (connect.getFileFromURL("answer_file.xml")) {
+                Parser parser = new Parser();
+                SAXHandler handler = new SAXHandler(myData);
+                parser.parse("answer_file.xml", handler);
+            } else {
+                
+            }
         }
-        
+        return true;
     }
     
     public void getNextData() throws IOException, SAXException, ParserConfigurationException{
