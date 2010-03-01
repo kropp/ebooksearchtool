@@ -63,6 +63,7 @@ public class Controller {
 
     public boolean getQueryAnswer(String word) throws IOException, SAXException, ParserConfigurationException {
 
+        boolean isConnectionOK = false;
         for (int i = 0; i < mySettings.getSupportedServers().size(); ++i) {
             String adress = new String();
             mySettings.setServer(mySettings.getSupportedServers().keySet().toArray(new String[mySettings.getSupportedServers().size()])[i]);
@@ -75,15 +76,12 @@ public class Controller {
             }
 
             Connector connect = new Connector(adress, mySettings);
-            if (connect.getFileFromURL("answer_file.xml")) {
-                Parser parser = new Parser();
-                SAXHandler handler = new SAXHandler(myData);
-                parser.parse("answer_file.xml", handler);
-            } else {
-                
-            }
+            isConnectionOK = (connect.getFileFromURL("answer_file.xml") || isConnectionOK);
+            Parser parser = new Parser();
+            SAXHandler handler = new SAXHandler(myData);
+            parser.parse("answer_file.xml", handler);
         }
-        return true;
+        return isConnectionOK;
     }
     
     public void getNextData() throws IOException, SAXException, ParserConfigurationException{
