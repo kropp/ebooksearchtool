@@ -61,28 +61,74 @@ public class Controller {
 
     }
 
-    public boolean getQueryAnswer(String word) throws IOException, SAXException, ParserConfigurationException {
+    public boolean getQueryAnswer(final String word) throws IOException, SAXException, ParserConfigurationException {
 
-        boolean isConnectionOK = false;
-        for (int i = 0; i < mySettings.getSupportedServers().size(); ++i) {
-            String adress = new String();
-            mySettings.setServer(mySettings.getSupportedServers().keySet().toArray(new String[mySettings.getSupportedServers().size()])[i]);
-            Query query = new Query(mySettings);
-            try {
-                adress = query.getQueryAdress(word, "General");                   //TODO переделать!
-            } catch (IOException e1) {
+        class Downloader implements Runnable {
 
-                e1.printStackTrace();
+            String myServer;
+            String myFileName;
+
+            public Downloader(String server, String name) {
+                myServer = server;
+                myFileName = "server" + name + ".xml";
             }
 
-            Connector connect = new Connector(adress, mySettings);
-            isConnectionOK = (connect.getFileFromURL("answer_file.xml") || isConnectionOK);
-            Parser parser = new Parser();
-            SAXHandler handler = new SAXHandler(myData);
-            parser.parse("answer_file.xml", handler);
+            public void run() {
+
+                String adress = new String();
+                synchronized (mySettings) {
+                    mySettings.setServer(myServer);
+                    Query query = new Query(mySettings);
+
+                    try {
+                        adress = query.getQueryAdress(word, "General");                   //TODO переделать!
+
+                        Connector connect = new Connector(adress, mySettings);
+                        connect.getFileFromURL(myFileName);
+                    } catch (IOException e1) {
+
+                        e1.printStackTrace();
+                    }
+                }
+
+                synchronized (myData) {
+                    try {
+                        Parser parser = new Parser();
+                        SAXHandler handler = new SAXHandler(myData);
+                        parser.parse(myFileName, handler);
+                    } catch (IOException e) {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    } catch (SAXException e) {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    } catch (ParserConfigurationException e) {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    }
+
+                }
+
+            }
         }
-        return isConnectionOK;
+
+        Thread[] threads = new Thread[mySettings.getSupportedServers().size()];
+
+        for (int i = 0; i < mySettings.getSupportedServers().size(); ++i) {
+
+            threads[i] = new Thread(new Downloader(mySettings.getSupportedServers().keySet().toArray(new String[mySettings.getSupportedServers().size()])[i], Integer.toString(i)));
+            threads[i].start();
+
+        }
+
+        for (int i = 0; i < mySettings.getSupportedServers().size(); ++i) {
+            try {
+                threads[i].join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+        }
+
+        return false;
     }
+
     
     public void getNextData() throws IOException, SAXException, ParserConfigurationException{
         if("http://bookserver.archive.org".equals(mySettings.getServer())){

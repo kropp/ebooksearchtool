@@ -501,13 +501,7 @@ public class Window {
                                 	myController.clearModel();
                                 }
                                 lastNumber = 0;
-            					if(!myController.getQueryAnswer(myQueryField.getText())){
-            						
-                                    model.setValue(100);
-                                    JOptionPane.showMessageDialog(new JDialog(), "Connection failed", "error", JOptionPane.ERROR_MESSAGE);
-                                    myProgressBar.setString("");
-                                    return;
-                                }
+            					myController.getQueryAnswer(myQueryField.getText());
             					if(myController.getAnswer().getData().getBooks().size() != 0){
                                 	myController.saveModel();
                                 }
