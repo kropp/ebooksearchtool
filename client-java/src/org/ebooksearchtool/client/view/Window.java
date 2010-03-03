@@ -295,40 +295,32 @@ public class Window {
 				myController.loadModel(curModelNumber);
 
                 int imageWidth = 0;
-                
-				for(int i = 0; i < myController.getAnswer().getData().getBooks().size(); ++i){
 
-                    try {
-                        myBookPanels.get(myBookPanels.size() - 1).add(new BookPanel(myController.getAnswer().getData().getBooks().get(i), myController.getSettings(), model, 80));
-                        if (imageWidth < myBookPanels.get(myBookPanels.size() - 1).get(i).getImageWidth()) {
-                            imageWidth = myBookPanels.get(myBookPanels.size() - 1).get(i).getImageWidth();
-                            myBookPanels.get(myBookPanels.size() - 1).clear();
-                            myTextPan.removeAll();
-                            for (int j = 0; j < myController.getAnswer().getData().getBooks().size(); ++j) {
+                for (int i = 0; i < myController.getAnswer().getData().getBooks().size(); ++i) {
 
-                                myBookPanels.get(myBookPanels.size() - 1).add(new BookPanel(myController.getAnswer().getData().getBooks().get(j), myController.getSettings(), model, imageWidth));
-                                JPanel bookPan = myBookPanels.get(myBookPanels.size() - 1).get(j).getRootPanel();
-                                myTextPan.add(bookPan);
-                                bookPan.setVisible(true);
-                                myFrame.setVisible(true);
+                    myBookPanels.get(myBookPanels.size() - 1).add(new BookPanel(myController.getAnswer().getData().getBooks().get(i), myController.getSettings(), model));
+                    if (imageWidth < myBookPanels.get(myBookPanels.size() - 1).get(i).getImageWidth()) {
+                        imageWidth = myBookPanels.get(myBookPanels.size() - 1).get(i).getImageWidth();
+                        myBookPanels.get(myBookPanels.size() - 1).clear();
+                        myTextPan.removeAll();
+                        for (int j = 0; j < myBookPanels.get(myBookPanels.size() - 1).size(); ++j) {
 
-                            }
-                        } else {
-                            JPanel bookPan = myBookPanels.get(myBookPanels.size() - 1).get(i).getRootPanel();
-                            myTextPan.add(bookPan);
-                            bookPan.setVisible(true);
+                            myBookPanels.get(myBookPanels.size() - 1).get(j).drawRootPanel(imageWidth);
                             myFrame.setVisible(true);
+
                         }
-                    } catch (IOException e1) {
-                        // TODO Auto-generated catch block
-                        e1.printStackTrace();
+                    } else {
+                        JPanel bookPan = myBookPanels.get(myBookPanels.size() - 1).get(i).getRootPanel();
+                        myTextPan.add(bookPan);
+                        bookPan.setVisible(true);
+                        myFrame.setVisible(true);
                     }
-    				
-    				JPanel bookPan = myBookPanels.get(myBookPanels.size()-1).get(i).getRootPanel();
-    				myTextPan.add(bookPan);
-    				bookPan.setVisible(true);
-    				myFrame.setVisible(true);
-    			}
+
+                    JPanel bookPan = myBookPanels.get(myBookPanels.size() - 1).get(i).getRootPanel();
+                    myTextPan.add(bookPan);
+                    bookPan.setVisible(true);
+                    myFrame.setVisible(true);
+                }
 				myMorePanel.setVisible(false);
 				myActionIndex = 1;
            		if(curModelNumber == 0){
@@ -375,40 +367,32 @@ public class Window {
 				myController.loadModel(curModelNumber);
 
                 int imageWidth = 0;
-                
-				for(int i = 0; i < myController.getAnswer().getData().getBooks().size(); ++i){
 
-                    try {
-                        myBookPanels.get(myBookPanels.size() - 1).add(new BookPanel(myController.getAnswer().getData().getBooks().get(i), myController.getSettings(), model, 80));
-                        if (imageWidth < myBookPanels.get(myBookPanels.size() - 1).get(i).getImageWidth()) {
-                            imageWidth = myBookPanels.get(myBookPanels.size() - 1).get(i).getImageWidth();
-                            myBookPanels.get(myBookPanels.size() - 1).clear();
-                            myTextPan.removeAll();
-                            for (int j = 0; j < myController.getAnswer().getData().getBooks().size(); ++j) {
+                for (int i = 0; i < myController.getAnswer().getData().getBooks().size(); ++i) {
 
-                                myBookPanels.get(myBookPanels.size() - 1).add(new BookPanel(myController.getAnswer().getData().getBooks().get(j), myController.getSettings(), model, imageWidth));
-                                JPanel bookPan = myBookPanels.get(myBookPanels.size() - 1).get(j).getRootPanel();
-                                myTextPan.add(bookPan);
-                                bookPan.setVisible(true);
-                                myFrame.setVisible(true);
+                    myBookPanels.get(myBookPanels.size() - 1).add(new BookPanel(myController.getAnswer().getData().getBooks().get(i), myController.getSettings(), model));
+                    if (imageWidth < myBookPanels.get(myBookPanels.size() - 1).get(i).getImageWidth()) {
+                        imageWidth = myBookPanels.get(myBookPanels.size() - 1).get(i).getImageWidth();
+                        myBookPanels.get(myBookPanels.size() - 1).clear();
+                        myTextPan.removeAll();
+                        for (int j = 0; j < myBookPanels.get(myBookPanels.size() - 1).size(); ++j) {
 
-                            }
-                        } else {
-                            JPanel bookPan = myBookPanels.get(myBookPanels.size() - 1).get(i).getRootPanel();
-                            myTextPan.add(bookPan);
-                            bookPan.setVisible(true);
+                            myBookPanels.get(myBookPanels.size() - 1).get(j).drawRootPanel(imageWidth);
                             myFrame.setVisible(true);
+
                         }
-                    } catch (IOException e1) {
-                        // TODO Auto-generated catch block
-                        e1.printStackTrace();
+                    } else {
+                        JPanel bookPan = myBookPanels.get(myBookPanels.size() - 1).get(i).getRootPanel();
+                        myTextPan.add(bookPan);
+                        bookPan.setVisible(true);
+                        myFrame.setVisible(true);
                     }
 
-                    JPanel bookPan = myBookPanels.get(myBookPanels.size()-1).get(i).getRootPanel();
-    				myTextPan.add(bookPan);
-    				bookPan.setVisible(true);
-    				myFrame.setVisible(true);
-    			}
+                    JPanel bookPan = myBookPanels.get(myBookPanels.size() - 1).get(i).getRootPanel();
+                    myTextPan.add(bookPan);
+                    bookPan.setVisible(true);
+                    myFrame.setVisible(true);
+                }
 				myMorePanel.setVisible(false);
 				myActionIndex = 1;
 				if(curModelNumber > 0){
@@ -524,33 +508,25 @@ public class Window {
             			model.setValue(35);
 
                         int imageWidth = 0;
-            			for(int i = lastNumber; i < myController.getAnswer().getData().getBooks().size(); ++i){
-            				try {
-								myBookPanels.get(myBookPanels.size()-1).add(new BookPanel(myController.getAnswer().getData().getBooks().get(i), myController.getSettings(), model, 80));
-								model.setValue(model.getValue() + 5);
-                                if (imageWidth < myBookPanels.get(myBookPanels.size() - 1).get(i).getImageWidth()) {
-                                    imageWidth = myBookPanels.get(myBookPanels.size() - 1).get(i).getImageWidth();
-                                    myBookPanels.get(myBookPanels.size() - 1).clear();
-                                    myTextPan.removeAll();
-                                    for (int j = 0; j < myController.getAnswer().getData().getBooks().size(); ++j) {
+                        for (int i = lastNumber; i < myController.getAnswer().getData().getBooks().size(); ++i) {
+                            myBookPanels.get(myBookPanels.size() - 1).add(new BookPanel(myController.getAnswer().getData().getBooks().get(i), myController.getSettings(), model));
+                            model.setValue(model.getValue() + 5);
+                            if (imageWidth < myBookPanels.get(myBookPanels.size() - 1).get(i).getImageWidth()) {
+                                imageWidth = myBookPanels.get(myBookPanels.size() - 1).get(i).getImageWidth();
 
-                                        myBookPanels.get(myBookPanels.size() - 1).add(new BookPanel(myController.getAnswer().getData().getBooks().get(j), myController.getSettings(), model, imageWidth));
-                                        JPanel bookPan = myBookPanels.get(myBookPanels.size() - 1).get(j).getRootPanel();
-                                        myTextPan.add(bookPan);
-                                        bookPan.setVisible(true);
-                                        myFrame.setVisible(true);
-
-                                    }
-                                } else {
-                                    JPanel bookPan = myBookPanels.get(myBookPanels.size() - 1).get(i).getRootPanel();
-                                    myTextPan.add(bookPan);
-                                    bookPan.setVisible(true);
+                                for (int j = 0; j < myBookPanels.get(myBookPanels.size() - 1).size(); ++j) {
+                                    System.out.println(myBookPanels.size() + "   " + myBookPanels.get(myBookPanels.size() - 1).size());
+                                    myBookPanels.get(myBookPanels.size() - 1).get(j).drawRootPanel(imageWidth);
                                     myFrame.setVisible(true);
+
                                 }
-                                myProgressBar.setString("Viewing book... " + model.getValue() + "%");
-                            } catch (IOException e) {
-                                e.printStackTrace();
+                            } else {
+                                JPanel bookPan = myBookPanels.get(myBookPanels.size() - 1).get(i).getRootPanel();
+                                myTextPan.add(bookPan);
+                                bookPan.setVisible(true);
+                                myFrame.setVisible(true);
                             }
+                            myProgressBar.setString("Viewing book... " + model.getValue() + "%");
 
                         }
             			model.setValue(100);

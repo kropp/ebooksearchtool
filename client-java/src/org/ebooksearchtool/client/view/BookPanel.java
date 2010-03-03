@@ -42,20 +42,41 @@ public class BookPanel implements Comparable {
     
     private boolean myIsMoreInfoShown = false;
 
-    public BookPanel(Book book, Settings set, DefaultBoundedRangeModel model, int imageWidth) throws IOException {
+    public BookPanel(Book book, Settings set, DefaultBoundedRangeModel model) {
 
         myBook = book;
         mySettings = set;
         ourModel = model;
 
         myRootPanel = new JPanel();
-        myRootPanel.setLayout(new BoxLayout(myRootPanel ,BoxLayout.X_AXIS));
+        drawRootPanel(80);
         
+    }
+
+    public int getImageWidth(){
+
+        return myImageWidth;
+
+    }
+
+    public JPanel getRootPanel(){
+        return myRootPanel;
+    }
+
+    public void drawRootPanel(int imageWidth){
+
+        myRootPanel.setLayout(new BoxLayout(myRootPanel ,BoxLayout.X_AXIS));
+
         if(myBook.getImage() != null && !"".equals(myBook.getImage()) && !myBook.getImage().equals("None")){
         	File cover = new File("images" + File.separatorChar + myBook.getTitle() + ".jpg");
         	if(!cover.exists()){
-            	Connector connector = new Connector(myBook.getImage(), mySettings);
-            	connector.getBookFromURL("images" + File.separatorChar + myBook.getTitle() + ".jpg", new DefaultBoundedRangeModel(0, 0, 0, 100));
+                Connector connector = null;
+                try {
+                    connector = new Connector(myBook.getImage(), mySettings);
+                } catch (IOException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+                connector.getBookFromURL("images" + File.separatorChar + myBook.getTitle() + ".jpg", new DefaultBoundedRangeModel(0, 0, 0, 100));
         	}
         }
 
@@ -67,7 +88,7 @@ public class BookPanel implements Comparable {
         }else{
             myImageWidth = imageWidth;
         }
-        
+
         myImageLable.setIcon(img);
         myImageLable.setPreferredSize(new Dimension(myImageWidth, 100));
         myRootPanel.add(myImageLable);
@@ -87,8 +108,8 @@ public class BookPanel implements Comparable {
         myMoreButton = new JButton(new ImageIcon(getClass().getResource("/ico/info.png")));
         myMoreButton.setToolTipText("Information about book");
         myMoreButton.setPreferredSize(new Dimension(30, 30));
-        
-        
+
+
         myButtonPanel.add(myMoreButton);
         myDelButton = new JButton(new ImageIcon(getClass().getResource("/ico/delete.png")));
         myDelButton.setToolTipText("Delete book from list");
@@ -115,9 +136,9 @@ public class BookPanel implements Comparable {
 
         myInfoPanel = new Box(BoxLayout.Y_AXIS);
         myInfoPanel.setBorder(new SoftBevelBorder(BevelBorder.RAISED));
-        
+
         /*BoxLayout box = new BoxLayout(myInfoPanel, BoxLayout.Y_AXIS);
-        
+
         myInfoPanel.setLayout(box);*/
         myInfoPanel.add(myTitle);
         myTitle.setAlignmentX(JLabel.LEFT_ALIGNMENT);
@@ -139,20 +160,20 @@ public class BookPanel implements Comparable {
         myInfoPanel.setMinimumSize(new Dimension(350, 100));
 
         myRootPanel.add(myInfoPanel);
-        
-        
+
+
         JPanel checkPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         myCheckBox = new JCheckBox();
         //checkPanel.setPreferredSize(new Dimension(100, 100));
         //myCheckBox.setPreferredSize(new Dimension(100, 100));
-        
+
         checkPanel.add(myCheckBox);
         myCheckBox.setAlignmentX(JCheckBox.CENTER_ALIGNMENT);
         myCheckBox.setAlignmentY(JCheckBox.CENTER_ALIGNMENT);
         myRootPanel.add(myCheckBox);
 
         myRootPanel.setBorder(new SoftBevelBorder(BevelBorder.RAISED));
-        
+
         myMoreButton.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
     			if(!myIsMoreInfoShown){
@@ -218,7 +239,7 @@ public class BookPanel implements Comparable {
     				myMoreInfoPanel.add(mySummaryArea);
 
     				myIsMoreInfoShown = true;
-    				
+
     				myMoreInfoPanel.setVisible(true);
     				myRootPanel.updateUI();
     			}else{
@@ -227,27 +248,27 @@ public class BookPanel implements Comparable {
     				myIsMoreInfoShown = false;
     				myRootPanel.updateUI();
     			}
-    			
-				
+
+
 			}
         });
-        
+
         myDelButton.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
     			myRootPanel.setVisible(false);
     		}
         });
-        
+
         myLibButton.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
     			myLibButton.setEnabled(false);
     			myRootPanel.setVisible(true);
     		}
         });
-        
+
         myDownloadEpubButton.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
-    			
+
     			Thread process = new Thread(new Runnable() {
             		public void run() {
             			Connector connector;
@@ -262,7 +283,7 @@ public class BookPanel implements Comparable {
     			process.start();
     		}
         });
-        
+
         myDownloadPdfButton.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
     			Thread process = new Thread(new Runnable() {
@@ -276,20 +297,10 @@ public class BookPanel implements Comparable {
             			}
             		}
     			});
-    			process.start();  	        
+    			process.start();
     		}
         });
-        
-    }
 
-    public int getImageWidth(){
-
-        return myImageWidth;
-
-    }
-
-    public JPanel getRootPanel(){
-        return myRootPanel;
     }
     
     public boolean isSelected(){
