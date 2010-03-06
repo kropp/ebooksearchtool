@@ -5,11 +5,13 @@
 #include "../network/networkmanager.h"
 #include "../data/data.h"
 #include "searchwidget.h"
+#include "serversListView.h"
 
 CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myBuffer(0), myData(0) {
     
 // initialize fields
     myNewRequest = true;
+    myServersListView = new ServersListView(this);
     myView = new View(this, 0);
     myScrollArea = new QScrollArea(this);
     myErrorMessageDialog = new QErrorMessage(this);
@@ -23,12 +25,19 @@ CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myBuffer(0), my
 
 // create layout
 	QVBoxLayout *mainLayout = new QVBoxLayout();
-	mainLayout->addWidget(myScrollArea);
+	mainLayout->addWidget(myServersListView);
+    mainLayout->addWidget(myScrollArea);
 	setLayout(mainLayout);
 }
 
 CentralWidget::~CentralWidget() {
     delete myNetworkManager;
+    delete myView;
+    delete myScrollArea;
+    delete myErrorMessageDialog;
+    if (myData) {
+        delete myData;
+    }
 }
 
 void CentralWidget::downloadFile(const QString& url) {

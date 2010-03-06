@@ -7,6 +7,7 @@ class QDialogButtonBox;
 class QBuffer;
 class NetworkManager;
 class SearchWidget;
+class ServersListView;
 class QScrollArea;
 class QErrorMessage;
 
@@ -41,6 +42,7 @@ private:
    
     Data* myData;
     View* myView;
+    ServersListView* myServersListView;
     QScrollArea* myScrollArea;
    
     QErrorMessage* myErrorMessageDialog;
