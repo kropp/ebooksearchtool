@@ -59,6 +59,7 @@ void View::update() {
         BookWidget* widget = new BookWidget(this, book);
         myBooks.push_back(widget);
         myLayout->addWidget(widget, i + 1, 0, 1, 4);
+       // widget->update();
         ++i;
         //qDebug() << "View::update widget added";
     }
