@@ -52,7 +52,7 @@ public class NetworkDialog extends JDialog{
         main.setBorder(BorderFactory.createEmptyBorder(12,12,12,12));
 
         JPanel serverChange = new JPanel();
-        serverChange.setLayout(new BoxLayout(serverChange, BoxLayout.X_AXIS));
+        serverChange.setLayout(new BoxLayout(serverChange, BoxLayout.Y_AXIS));
 
         JLabel supServerLabel = new JLabel("supported server:");
         serverChange.add(supServerLabel);
@@ -63,7 +63,19 @@ public class NetworkDialog extends JDialog{
         for(int i = 0; i < myController.getSettings().getSupportedServers().size(); ++i){
             servers[i] = temp[i];
         }
-         servers[myController.getSettings().getSupportedServers().size()] = "other";
+        servers[myController.getSettings().getSupportedServers().size()] = "other";
+
+        JPanel[] servPans = new JPanel[myController.getSettings().getSupportedServers().size()];
+        for(int i = 0; i < myController.getSettings().getSupportedServers().size(); ++i){
+            servPans[i] = new JPanel();
+            JCheckBox check = new JCheckBox();
+            JLabel nameLabel = new JLabel(temp[i]);
+            servPans[i].setLayout(new BoxLayout(servPans[i], BoxLayout.X_AXIS));
+            servPans[i].add(check);
+            servPans[i].add(Box.createHorizontalStrut(12));
+            servPans[i].add(nameLabel);
+            serverChange.add(servPans[i]);
+        }
 
         myServerCombo = new JComboBox(servers);
         serverChange.add(myServerCombo);
@@ -216,16 +228,14 @@ public class NetworkDialog extends JDialog{
                     if(i == myController.getSettings().getSupportedServers().size() - 1){
                         try {
                             Connector con = new Connector(myServerText.getText(), myController.getSettings());
-                            System.out.println(myServerText.getText());
                             if(con.getFileFromURL("searchprobe.xml")){
                                 Parser parser = new Parser();
                                 SAXQueryHandler handler = new SAXQueryHandler();
                                 parser.parse("searchprobe.xml", handler);
-                                System.out.println(handler.getSearchLink());
                                 if(handler.getSearchLink() != null){
-                                    if(handler.getSearchLink().contains("{searchTerms}")){
+                                    if(handler.getSearchLink().contains("{searchTerms}") || handler.getSearchLink().contains("{searchTerms?}")){
                                         StringBuffer link = new StringBuffer(handler.getSearchLink());
-                                        link.delete(link.indexOf("{searchTerms}"), link.length());
+                                        link.delete(link.indexOf("{searchTerms"), link.length());
                                         myController.getSettings().getSupportedServers().put(myServerText.getText(), link.toString());
                                     } else {
 
@@ -239,10 +249,8 @@ public class NetworkDialog extends JDialog{
                                                 myServerText.setText(link.toString());
                                             } else {
                                                 if (myServerText.getText().lastIndexOf("/") == myServerText.getText().length()) {
-                                                    System.out.println(myServerText.getText() + handler.getSearchLink());
                                                     con = new Connector(myServerText.getText() + handler.getSearchLink(), myController.getSettings());
                                                 } else {
-                                                    System.out.println(myServerText.getText() + "/" + handler.getSearchLink());
                                                     con = new Connector(myServerText.getText() + "/" + handler.getSearchLink(), myController.getSettings());
                                                 }
                                             }
@@ -254,9 +262,9 @@ public class NetworkDialog extends JDialog{
                                             handler = new SAXQueryHandler();
                                             parser.parse("searchprobe.xml", handler);
                                             if (handler.getSearchLink() != null) {
-                                                if (handler.getSearchLink().contains("{searchTerms}")) {
+                                                if (handler.getSearchLink().contains("{searchTerms}") || handler.getSearchLink().contains("{searchTerms?}")) {
                                                     StringBuffer link = new StringBuffer(handler.getSearchLink());
-                                                    link.delete(link.indexOf("{searchTerms}"), link.length());
+                                                    link.delete(link.indexOf("{searchTerms"), link.length());
                                                     myController.getSettings().getSupportedServers().put(myServerText.getText(), link.toString());
                                                 } else {
                                                     JOptionPane.showMessageDialog(new JDialog(), "This feed hasn't search terms and can't be used as searchable catalog", "Wrong catalog", JOptionPane.WARNING_MESSAGE);

@@ -21,7 +21,6 @@ public class SAXQueryHandler extends DefaultHandler {
 
     @Override
     public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
-        System.out.println("Ignoring: " + publicId + ", " + systemId);
         return new org.xml.sax.InputSource(new java.io.StringReader(""));
     }
 

@@ -515,7 +515,6 @@ public class Window {
                                 imageWidth = myBookPanels.get(myBookPanels.size() - 1).get(i).getImageWidth();
 
                                 for (int j = 0; j < myBookPanels.get(myBookPanels.size() - 1).size(); ++j) {
-                                    System.out.println(myBookPanels.size() + "   " + myBookPanels.get(myBookPanels.size() - 1).size());
                                     myBookPanels.get(myBookPanels.size() - 1).get(j).drawRootPanel(imageWidth);
                                     myFrame.setVisible(true);
 
