@@ -170,9 +170,14 @@ public class XMLBuilder {
 		Element root = doc.createElement("settings");
         doc.appendChild(root);
 
-        Element server = doc.createElement("server");
-        server.setTextContent(sets.getServer());
-        root.appendChild(server);
+        String[] servers = sets.getSupportedServers().keySet().toArray(new String[sets.getSupportedServers().size()]);
+        for (int i = 0; i < sets.getSupportedServers().size(); ++i) {
+            Element server = doc.createElement("server");
+            server.setAttribute("name", servers[i]);
+            server.setAttribute("searchTerm", sets.getSupportedServers().get(servers[i]).getSearchTerms());
+            server.setAttribute("enabled", "" + sets.getSupportedServers().get(servers[i]).isEnabled());
+            root.appendChild(server);
+        }
 
         Element proxy = doc.createElement("proxy");
         proxy.setAttribute("enabled", "" + sets.isProxyEnabled());
@@ -185,15 +190,6 @@ public class XMLBuilder {
         Element port = doc.createElement("port");
         port.setTextContent(((Integer)sets.getPort()).toString());
         root.appendChild(port);
-
-        Set<String> keySet = sets.getSupportedServers().keySet();
-        Object[] keys = keySet.toArray();
-        for(int i = 0; i < keys.length; ++i){
-            Element ser = doc.createElement("supported");
-            ser.setAttribute("search", sets.getSupportedServers().get(keys[i]));
-            ser.setAttribute("server", (String)keys[i]);
-            root.appendChild(ser);
-        }
 
         writeFile(doc, "settings.xml");
 

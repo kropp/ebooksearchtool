@@ -413,7 +413,7 @@ public class Window {
             		String queryWord = myQueryField.getText();
             		String queryOption = (String)myQueryCombo.getSelectedItem();
             		try {
-						myAdress = myQuery.getQueryAdress(queryWord, queryOption);
+						myAdress = myQuery.getQueryAdress("http://feedbooks.com", queryWord, queryOption);
 					} catch (IOException e1) {
 						
 						e1.printStackTrace();
@@ -425,7 +425,7 @@ public class Window {
             	}else{
             		String queryWord = myQueryField.getText();
             		String queryOption = (String)myQueryCombo.getSelectedItem();
-            		myAdress = myQuery.addQueryAdress(queryWord, queryOption, myAdress);
+            		myAdress = myQuery.addQueryAdress("http://feedbooks.com", queryWord, queryOption, myAdress);
             		mySearchLabel.setText(mySearchLabel.getText() + " " + queryOption + ":" + queryWord);
             		myQueryField.setText("");
             	}
@@ -605,7 +605,7 @@ public class Window {
 
     public void setExtSearchEnabled(){
 
-        myExtQueryButton.setEnabled(myController.getSettings().getServer().equals("http://feedbooks.com"));
+        myExtQueryButton.setEnabled(true);
 
     }
 

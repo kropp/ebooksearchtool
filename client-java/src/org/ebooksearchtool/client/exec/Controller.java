@@ -5,6 +5,7 @@ import org.ebooksearchtool.client.logic.parsing.*;
 import org.ebooksearchtool.client.logic.query.Query;
 import org.ebooksearchtool.client.model.QueryAnswer;
 import org.ebooksearchtool.client.model.books.Data;
+import org.ebooksearchtool.client.model.settings.Server;
 import org.ebooksearchtool.client.model.settings.Settings;
 import org.ebooksearchtool.client.tests.SAXParserTest;
 import org.ebooksearchtool.client.utils.XMLBuilder;
@@ -48,14 +49,13 @@ public class Controller {
         try {
             getSettingsFromFile();
         } catch (FileNotFoundException exeption){
-        	mySettings.setServer("http://feedbooks.com");
             mySettings.setProxyEnabled(true);
             mySettings.setIP("192.168.0.2");
             mySettings.setPort(3128);
-            mySettings.getSupportedServers().put("http://feedbooks.com", "http://feedbooks.com/books/search.atom?query=");
-            mySettings.getSupportedServers().put("http://smashwords.com", "http://smashwords.com/atom/search/books/any?query=");
-            mySettings.getSupportedServers().put("http://manybooks.net", "http://manybooks.net/stanza/search.php?q=");
-            mySettings.getSupportedServers().put("http://bookserver.archive.org", "http://bookserver.archive.org/aggregator/opensearch?q=");
+            mySettings.getSupportedServers().put("http://feedbooks.com", new Server("http://feedbooks.com", "http://feedbooks.com/books/search.atom?query=", true));
+            mySettings.getSupportedServers().put("http://smashwords.com", new Server("http://smashwords.com", "http://smashwords.com/atom/search/books/any?query=", true));
+            mySettings.getSupportedServers().put("http://manybooks.net", new Server("http://manybooks.net", "http://manybooks.net/stanza/search.php?q=", true));
+            mySettings.getSupportedServers().put("http://bookserver.archive.org", new Server("http://bookserver.archive.org", "http://bookserver.archive.org/aggregator/opensearch?q=", true));
             writeSettings();
         }
 
@@ -75,35 +75,37 @@ public class Controller {
 
             public void run() {
 
-                String adress = new String();
-                synchronized (mySettings) {
-                    mySettings.setServer(myServer);
-                    Query query = new Query(mySettings);
+                if (mySettings.getSupportedServers().get(myServer).isEnabled()) {
 
-                    try {
-                        adress = query.getQueryAdress(word, "General");                   //TODO переделать!
+                    String adress = new String();
+                    synchronized (mySettings) {
+                        Query query = new Query(mySettings);
 
-                        Connector connect = new Connector(adress, mySettings);
-                        connect.getFileFromURL(myFileName);
-                    } catch (IOException e1) {
+                        try {
+                            adress = query.getQueryAdress(myServer, word, "General");                   //TODO переделать!
 
-                        e1.printStackTrace();
-                    }
-                }
+                            Connector connect = new Connector(adress, mySettings);
+                            connect.getFileFromURL(myFileName);
+                        } catch (IOException e1) {
 
-                synchronized (myData) {
-                    try {
-                        Parser parser = new Parser();
-                        SAXHandler handler = new SAXHandler(myData);
-                        parser.parse(myFileName, handler);
-                    } catch (IOException e) {
-                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                    } catch (SAXException e) {
-                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                    } catch (ParserConfigurationException e) {
-                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                            e1.printStackTrace();
+                        }
                     }
 
+                    synchronized (myData) {
+                        try {
+                            Parser parser = new Parser();
+                            SAXHandler handler = new SAXHandler(myData);
+                            parser.parse(myFileName, handler);
+                        } catch (IOException e) {
+                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        } catch (SAXException e) {
+                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        } catch (ParserConfigurationException e) {
+                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        }
+
+                    }
                 }
 
             }
@@ -131,9 +133,6 @@ public class Controller {
 
     
     public void getNextData() throws IOException, SAXException, ParserConfigurationException{
-        if("http://bookserver.archive.org".equals(mySettings.getServer())){
-            myData.setNextPage("http://bookserver.archive.org" + myData.getNextPage());
-        }
     	Connector connect = new Connector(myData.getNextPage(), mySettings);
         connect.getFileFromURL("answer_file.xml");
         Parser parser = new Parser();

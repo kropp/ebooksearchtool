@@ -11,22 +11,13 @@ import java.util.HashMap;
  */
 public class Settings {
 
-	private String myServer;
     private String myIP;
     private int myPort;
     private boolean myProxyIsEnabled;
 
-    private HashMap<String,  String> mySupportedServers = new HashMap<String,  String>();
+    private HashMap<String,  Server> mySupportedServers = new HashMap<String,  Server>();
 
     public Settings() throws SAXException, ParserConfigurationException {}
-
-    public String getServer() {
-        return myServer;
-    }
-
-    public void setServer(String server) {
-        this.myServer = server;
-    }
     
     public String getIP() {
         return myIP;
@@ -52,7 +43,7 @@ public class Settings {
         myProxyIsEnabled = enabled;
     }
 
-    public HashMap<String, String> getSupportedServers() {
+    public HashMap<String, Server> getSupportedServers() {
         return mySupportedServers;
     }
 }

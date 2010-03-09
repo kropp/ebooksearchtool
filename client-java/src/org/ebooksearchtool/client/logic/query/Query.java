@@ -14,25 +14,25 @@ public class Query {
 		
 	}
 	
-	public String getQueryAdress(String queryWord, String queryOption)  throws IOException{
+	public String getQueryAdress(String server, String queryWord, String queryOption)  throws IOException{
 
-        if (mySettings.getServer().equals("http://feedbooks.com")) {
+        if (server.equals("http://feedbooks.com")) {
             if (queryOption.equals("General")) {
-                return mySettings.getSupportedServers().get(mySettings.getServer()) + queryWord;
+                return mySettings.getSupportedServers().get(server).getSearchTerms() + queryWord;
             } else if (queryOption.equals("Author")) {
-                return mySettings.getSupportedServers().get(mySettings.getServer()) + "author:" + queryWord;
+                return mySettings.getSupportedServers().get(server).getSearchTerms() + "author:" + queryWord;
             } else {
-                return mySettings.getSupportedServers().get(mySettings.getServer()) + "title:" + queryWord;
+                return mySettings.getSupportedServers().get(server).getSearchTerms() + "title:" + queryWord;
             }
         } else {
-            return mySettings.getSupportedServers().get(mySettings.getServer()) + queryWord;
+            return mySettings.getSupportedServers().get(server).getSearchTerms() + queryWord;
         }
 
 	}
 
-    public String addQueryAdress(String queryWord, String queryOption, String adress){
+    public String addQueryAdress(String server, String queryWord, String queryOption, String adress){
 
-    	if(mySettings.getServer().equals("http://feedbooks.com")){
+    	if(server.equals("http://feedbooks.com")){
     		if(queryOption.equals("General")){
             	return adress + "+" + queryWord;
         	}else if(queryOption.equals("Author")){
