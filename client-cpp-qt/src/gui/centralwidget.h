@@ -42,7 +42,7 @@ private:
    
     Data* myData;
     View* myView;
-    ServersListView* myServersListView;
+//    ServersListView* myServersListView;
     QScrollArea* myScrollArea;
    
     QErrorMessage* myErrorMessageDialog;

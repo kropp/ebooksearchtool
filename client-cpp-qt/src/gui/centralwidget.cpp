@@ -11,7 +11,7 @@ CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myBuffer(0), my
     
 // initialize fields
     myNewRequest = true;
-    myServersListView = new ServersListView(this);
+    //myServersListView = new ServersListView(this);
     myView = new View(this, 0);
     myScrollArea = new QScrollArea(this);
     myErrorMessageDialog = new QErrorMessage(this);
@@ -25,7 +25,7 @@ CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myBuffer(0), my
 
 // create layout
 	QVBoxLayout *mainLayout = new QVBoxLayout();
-	mainLayout->addWidget(myServersListView);
+	//mainLayout->addWidget(myServersListView);
     mainLayout->addWidget(myScrollArea);
 	setLayout(mainLayout);
 }
@@ -85,12 +85,16 @@ void CentralWidget::parseDownloadedFile() {
             delete myData;
         }
         myData = new Data();
-	    myView->setData((Data*)myData);
-    }
+    } 
+
+    delete myView;
+    myView = new View(this, 0);
+       
     myBuffer->open(QIODevice::ReadOnly);
-    if (!parser.parse(myBuffer, myView->getData())) {
+    if (!parser.parse(myBuffer, myData)) {
         myErrorMessageDialog->showMessage("recieved no data from server");
     }
+    myView->setData(myData);
     myBuffer->close();
     myView->update();	
     if (!myScrollArea->widget()) {
