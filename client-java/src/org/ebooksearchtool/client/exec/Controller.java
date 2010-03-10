@@ -15,6 +15,7 @@ import org.ebooksearchtool.client.view.BookPanel;
 import org.ebooksearchtool.client.view.Window;
 import org.xml.sax.SAXException;
 
+import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.util.ArrayList;
@@ -71,6 +72,7 @@ public class Controller {
             String myServer;
             String myFileName;
             Window myWindow;
+            String myNextPage = new String();
 
             public Downloader(String server, String name, Window win) {
                 myServer = server;
@@ -100,6 +102,8 @@ public class Controller {
                             Parser parser = new Parser();
                             SAXHandler handler = new SAXHandler(myData, myWindow);
                             parser.parse(myFileName, handler);
+                            myNextPage = myData.getNextPage();
+                            myData.setNextPage("");
                         } catch (IOException e) {
                             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                         } catch (SAXException e) {
@@ -109,9 +113,49 @@ public class Controller {
                         }
 
                     }
+
+                    if(!"".equals(myNextPage)){
+                        getNextPage(myNextPage);
+                    }
+
                 }
 
             }
+
+            public void getNextPage(String nextAddres) {
+
+                try {
+                    Connector connect = new Connector(nextAddres, mySettings);
+                    connect.getFileFromURL(myFileName);
+                } catch (IOException e1) {
+
+                    e1.printStackTrace();
+                }
+
+                synchronized (myData) {
+                    try {
+                        Parser parser = new Parser();
+                        SAXHandler handler = new SAXHandler(myData, myWindow);
+                        parser.parse(myFileName, handler);
+                        myNextPage = myData.getNextPage();
+                        myData.setNextPage("");
+                    } catch (IOException e) {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    } catch (SAXException e) {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    } catch (ParserConfigurationException e) {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    }
+
+                }
+
+                if (!"".equals(myNextPage)) {
+                    System.out.println(myNextPage);
+                    getNextPage(myNextPage);
+                }
+
+            }
+
         }
 
         Thread[] threads = new Thread[mySettings.getSupportedServers().size()];

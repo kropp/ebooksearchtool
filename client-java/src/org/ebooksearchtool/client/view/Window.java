@@ -424,32 +424,23 @@ public class Window {
             			
             			model.setValue(8);
             			myProgressBar.setString("Receiving data... 5%");
-            			int lastNumber = myController.getAnswer().getData().getBooks().size();
-            			String prevPage = myController.getAnswer().getNextPage();
-            			try {
-            				if(e.getSource() != myMoreButton){
-            					
-            					++curModelNumber;
-            					myTextPan.removeAll();
-                                myBookPanels = new ArrayList<ArrayList<BookPanel>>();
-                                myBookPanels.add(new ArrayList<BookPanel>());
-                                if(myController.getAnswer().getData().getBooks().size() != 0){
-                                	myController.clearModel();
-                                }
-                                lastNumber = 0;
-                                myImageWidth = 0;
-            					myController.getQueryAnswer(myQueryField.getText(), myWindow);
-            					if(myController.getAnswer().getData().getBooks().size() != 0){
-                                	myController.saveModel();
-                                }
-            					myActionIndex = 1;
-            				}else{         //TODO перенести NextData
-            				/*	myController.getNextData();
-            					myController.extendModel();
-            					myActionIndex++;    */
-            				}
-						} catch (IOException e) {
-							e.printStackTrace();
+                        String prevPage = myController.getAnswer().getNextPage();
+                        try {
+                            ++curModelNumber;
+                            myTextPan.removeAll();
+                            myBookPanels = new ArrayList<ArrayList<BookPanel>>();
+                            myBookPanels.add(new ArrayList<BookPanel>());
+                            if (myController.getAnswer().getData().getBooks().size() != 0) {
+                                myController.clearModel();
+                            }
+                            myImageWidth = 0;
+                            myController.getQueryAnswer(myQueryField.getText(), myWindow);
+                            if (myController.getAnswer().getData().getBooks().size() != 0) {
+                                myController.saveModel();
+                            }
+                            myActionIndex = 1;
+                        } catch (IOException e) {
+                            e.printStackTrace();
 						} catch (SAXException e) {
 							e.printStackTrace();
 						} catch (ParserConfigurationException e) {
