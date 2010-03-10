@@ -27,18 +27,22 @@ private:
 public:
     static NetworkManager* getInstance();
     static void setServer(const QString& newServer);
+    static bool setNextServer();
     static const QString& getCurrentServer();
     static void initializeMap();
 
     const QString& getProxy() const;
     int getPort() const;    
     void getServers(QList<QString>& servers) const;
+
 public:
     ~NetworkManager();
 	
 	int download(QString url, QIODevice* out);
+	int repeatDownloading(QIODevice* out);
 	int downloadCover(QString url, QIODevice* out);
     QString errorString() const;
+   // size_t getServersNumber() const;
 
 signals:
     void requestFinished(int, bool);
@@ -56,6 +60,7 @@ private slots:
 private:
     QHttp* myHttpConnection;   
     QHttp* myConnectionForCovers;   
+    QString myOldRequest;
 
 friend class InternetConnectionDialog;
 };

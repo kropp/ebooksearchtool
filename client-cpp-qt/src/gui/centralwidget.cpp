@@ -1,5 +1,4 @@
 #include <QtGui>
-
 #include "centralwidget.h"
 #include "../opds_parser/parser.h"
 #include "../network/networkmanager.h"
@@ -77,11 +76,11 @@ void CentralWidget::parseDownloadedFile() {
     file->open(QIODevice::WriteOnly);
     file->write(myBuffer->buffer());
     file->close();
-    qDebug() << "CentralWidget::parseDownloadedFile myBuffer content has written to the file";
+   // qDebug() << "CentralWidget::parseDownloadedFile myBuffer content has written to the file";
 // TEMPORARY end
     OPDSParser parser;
-	if (myNewRequest) {
-	    if (myData) {
+    if (myNewRequest) {
+        if (myData) {
             delete myData;
         }
         myData = new Data();
@@ -89,7 +88,8 @@ void CentralWidget::parseDownloadedFile() {
 
     delete myView;
     myView = new View(this, 0);
-       
+    qDebug() << "CentralWidget::parseDownloadedFile myData.size" << myData->getSize(); 
+    
     myBuffer->open(QIODevice::ReadOnly);
     if (!parser.parse(myBuffer, myData)) {
         myErrorMessageDialog->showMessage("recieved no data from server");
@@ -101,6 +101,12 @@ void CentralWidget::parseDownloadedFile() {
         myScrollArea->setWidget(myView);
     }
     
+    //download from the next server
+    if (myNetworkManager->setNextServer()) {
+        myNewRequest = false;
+        myRequestId = myNetworkManager->repeatDownloading(myBuffer);
+    }
+
     //myScrollArea->update();
    // const QString* url = parser.getNextAtomPage();
     //if (url) {
