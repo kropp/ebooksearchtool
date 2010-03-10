@@ -210,6 +210,8 @@ public class NetworkDialog extends JDialog{
                                 StringBuffer link = new StringBuffer(handler.getSearchLink());
                                 link.delete(link.indexOf("{searchTerms"), link.length());
                                 myController.getSettings().getSupportedServers().put(myServerText.getText(), new Server(myServerText.getText(), link.toString(), true));
+                                dispose();
+                                new NetworkDialog(myController);
                             } else {
 
                                 if (!handler.getSearchLink().startsWith("http://")) {
@@ -239,6 +241,8 @@ public class NetworkDialog extends JDialog{
                                             StringBuffer link = new StringBuffer(handler.getSearchLink());
                                             link.delete(link.indexOf("{searchTerms"), link.length());
                                             myController.getSettings().getSupportedServers().put(myServerText.getText(), new Server(myServerText.getText(), link.toString(), true));
+                                            dispose();
+                                new NetworkDialog(myController);
                                         } else {
                                             JOptionPane.showMessageDialog(new JDialog(), "This feed hasn't search terms and can't be used as searchable catalog", "Wrong catalog", JOptionPane.WARNING_MESSAGE);
                                         }
