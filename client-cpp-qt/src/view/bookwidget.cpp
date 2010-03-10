@@ -52,6 +52,7 @@ BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent), myB
     myMainLayout->setRowStretch(1, 1);
     myMainLayout->setRowStretch(2, 3);
 
+    setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
     //myMainLayout->setHorizontalSpacing(2);
     downloadCover();
     setBackground(); 
@@ -62,7 +63,7 @@ BookWidget::BookWidget(QWidget* parent, const Book* book) : QWidget(parent), myB
 QSize BookWidget::sizeHint() const {
     return ourSizeHint;
 }
-    
+   
 void BookWidget::setWidgetWidth(size_t width) {
     ourSizeHint.setWidth(width);
 }

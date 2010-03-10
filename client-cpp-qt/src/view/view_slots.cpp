@@ -15,10 +15,15 @@ void View::markAllBooks(int state) {
 
 void View::remove(BookWidget* widget) {
     int index = myBooks.indexOf(widget);
+    qDebug() << "View::remove layout->removeWidget";
+    widget->hide();
+    resize(sizeHint());
+    //updateGeometry();
+   // myLayout->removeWidget(widget);
     if ((index >= 0) && (index < myBooks.size())) {
         myBooks.removeAt(index);
     }
-    widget->hide();
+
     emit stateChanged(getState());
 }
 

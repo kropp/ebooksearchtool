@@ -115,10 +115,10 @@ void CentralWidget::parseDownloadedFile() {
     //}
 }
 
-void CentralWidget::resizeEvent(QResizeEvent* event) const {
+/*void CentralWidget::resizeEvent(QResizeEvent* event) const {
     BookWidget::setWidgetWidth(event->size().width());
 }
-
+*/
 const NetworkManager* CentralWidget::getNetworkManager() const {
     return myNetworkManager;
 }

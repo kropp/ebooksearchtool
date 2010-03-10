@@ -10,8 +10,6 @@ const QString View::ourConfigFilePath = "../.config.ini";
 
 View::View(QWidget* parent, Data* data) : QWidget(parent), myData(data), myWantToRead(false) { 
     readSettings();
-    myLayout = new QGridLayout(this);
-    myLayout->setSizeConstraint(QLayout::SetNoConstraint);
 //make header    
     myCheckBox = new QCheckBox(this);
     connect(myCheckBox, SIGNAL(stateChanged(int)), this, SLOT(markAllBooks(int)));
@@ -22,15 +20,8 @@ View::View(QWidget* parent, Data* data) : QWidget(parent), myData(data), myWantT
     connect(myBookActionsButtonBox, SIGNAL(remove()), this, SLOT(removeChecked()));
 
     hideHeader();
-    myLayout->addWidget(myCheckBox, 0, 3, Qt::AlignCenter);
-    myLayout->addWidget(myBookActionsButtonBox, 0, 2, Qt::AlignRight);
-
-//format layout   
-    myLayout->setColumnStretch(0, 1);
-    myLayout->setColumnStretch(1, 13);
-    myLayout->setColumnStretch(2, 2);
-    myLayout->setColumnStretch(3, 1);
-
+    setSizePolicy (QSizePolicy::Maximum, QSizePolicy::Maximum);
+    createLayout();
 	setLayout(myLayout);
 }
 
@@ -133,3 +124,16 @@ void View::connectToButtons() const {
    }
 }
 
+void View::createLayout() {
+    myLayout = new QGridLayout(this);
+    myLayout->setSizeConstraint(QLayout::SetNoConstraint);
+
+    myLayout->addWidget(myCheckBox, 0, 3, Qt::AlignCenter);
+    myLayout->addWidget(myBookActionsButtonBox, 0, 2, Qt::AlignRight);
+
+//format layout   
+    myLayout->setColumnStretch(0, 1);
+    myLayout->setColumnStretch(1, 13);
+    myLayout->setColumnStretch(2, 2);
+    myLayout->setColumnStretch(3, 1);
+}
