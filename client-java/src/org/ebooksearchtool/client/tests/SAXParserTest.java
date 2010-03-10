@@ -4,6 +4,7 @@ import org.ebooksearchtool.client.logic.parsing.Parser;
 import org.ebooksearchtool.client.logic.parsing.SAXHandler;
 import org.ebooksearchtool.client.model.QueryAnswer;
 import org.ebooksearchtool.client.utils.XMLBuilder;
+import org.ebooksearchtool.client.view.Window;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -30,7 +31,7 @@ public class SAXParserTest {
             Parser parser = null;
             try {
                 parser = new Parser();
-                SAXHandler handler = new SAXHandler(data);
+                SAXHandler handler = new SAXHandler(data, new Window());
                 parser.parse("src/testFiles/" + testFiles[i], handler);
 
                 XMLBuilder builder = new XMLBuilder();

@@ -11,10 +11,13 @@ import org.ebooksearchtool.client.tests.SAXParserTest;
 import org.ebooksearchtool.client.utils.XMLBuilder;
 
 
+import org.ebooksearchtool.client.view.BookPanel;
+import org.ebooksearchtool.client.view.Window;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
+import java.util.ArrayList;
 
 
 public class Controller {
@@ -61,16 +64,18 @@ public class Controller {
 
     }
 
-    public boolean getQueryAnswer(final String word) throws IOException, SAXException, ParserConfigurationException {
+    public boolean getQueryAnswer(final String word, Window win) throws IOException, SAXException, ParserConfigurationException {
 
         class Downloader implements Runnable {
 
             String myServer;
             String myFileName;
+            Window myWindow;
 
-            public Downloader(String server, String name) {
+            public Downloader(String server, String name, Window win) {
                 myServer = server;
                 myFileName = "server" + name + ".xml";
+                myWindow = win;
             }
 
             public void run() {
@@ -78,24 +83,22 @@ public class Controller {
                 if (mySettings.getSupportedServers().get(myServer).isEnabled()) {
 
                     String adress = new String();
-                    synchronized (mySettings) {
-                        Query query = new Query(mySettings);
+                    Query query = new Query(mySettings);
 
-                        try {
-                            adress = query.getQueryAdress(myServer, word, "General");                   //TODO переделать!
+                    try {
+                        adress = query.getQueryAdress(myServer, word, "General");                   //TODO переделать!
 
-                            Connector connect = new Connector(adress, mySettings);
-                            connect.getFileFromURL(myFileName);
-                        } catch (IOException e1) {
+                        Connector connect = new Connector(adress, mySettings);
+                        connect.getFileFromURL(myFileName);
+                    } catch (IOException e1) {
 
-                            e1.printStackTrace();
-                        }
+                        e1.printStackTrace();
                     }
 
                     synchronized (myData) {
                         try {
                             Parser parser = new Parser();
-                            SAXHandler handler = new SAXHandler(myData);
+                            SAXHandler handler = new SAXHandler(myData, myWindow);
                             parser.parse(myFileName, handler);
                         } catch (IOException e) {
                             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -115,7 +118,7 @@ public class Controller {
 
         for (int i = 0; i < mySettings.getSupportedServers().size(); ++i) {
 
-            threads[i] = new Thread(new Downloader(mySettings.getSupportedServers().keySet().toArray(new String[mySettings.getSupportedServers().size()])[i], Integer.toString(i)));
+            threads[i] = new Thread(new Downloader(mySettings.getSupportedServers().keySet().toArray(new String[mySettings.getSupportedServers().size()])[i], Integer.toString(i), win));
             threads[i].start();
 
         }
@@ -132,13 +135,13 @@ public class Controller {
     }
 
     
-    public void getNextData() throws IOException, SAXException, ParserConfigurationException{
+ /*   public void getNextData() throws IOException, SAXException, ParserConfigurationException{
     	Connector connect = new Connector(myData.getNextPage(), mySettings);
         connect.getFileFromURL("answer_file.xml");
         Parser parser = new Parser();
-        SAXHandler handler = new SAXHandler(myData);
+        SAXHandler handler = new SAXHandler(myData, );
         parser.parse("answer_file.xml", handler);
-    }
+    }*/
 
     public Settings getSettings(){
         return mySettings;
@@ -199,13 +202,13 @@ public class Controller {
     	++myRequestCount;
     }
     
-    public void loadModel(int number){
+    public void loadModel(int number, Window win){
     	clearModel();
     	Parser parser;
 		        
         try {
         	parser = new Parser();
-        	SAXHandler handler = new SAXHandler(myData);
+        	SAXHandler handler = new SAXHandler(myData, win);
 			parser.parse(number + ".xml", handler);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

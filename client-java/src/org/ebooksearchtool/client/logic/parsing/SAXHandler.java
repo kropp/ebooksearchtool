@@ -3,9 +3,14 @@ package org.ebooksearchtool.client.logic.parsing;
 import org.ebooksearchtool.client.model.QueryAnswer;
 import org.ebooksearchtool.client.model.books.Book;
 import org.ebooksearchtool.client.model.books.Author;
+import org.ebooksearchtool.client.view.BookPanel;
+import org.ebooksearchtool.client.view.Window;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+
+import javax.swing.*;
+import java.util.ArrayList;
 
 /*
  * Date: 25.09.2009
@@ -20,10 +25,12 @@ public class SAXHandler extends DefaultHandler{
     private boolean myIsContinue = false;           //Helps with parsing non-ASCII characters
     private Author myCurAuthor;
     private boolean myIsTotalTag;
+    Window myWindow;
 
-    public SAXHandler(QueryAnswer answer){
+    public SAXHandler(QueryAnswer answer, Window win){
 
         myAnswer = answer;
+        myWindow = win;
 
     }
 
@@ -192,6 +199,7 @@ public class SAXHandler extends DefaultHandler{
 
         if("entry".equals(qName)){
             myIsEntryTag = false;
+            myWindow.appendBook(myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size() - 1), new DefaultBoundedRangeModel());
         }
         
         if("totalResults".equals(qName)){
