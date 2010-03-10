@@ -20,6 +20,7 @@ public class Book {
     private String myContent;
     private HashMap<String,  String> myLinks = new HashMap<String, String>();
     private String myImage;
+    private String mySource;
 
     public Book(){}
 
@@ -140,5 +141,13 @@ public class Book {
 
     public void setSubtitle(String mySubtitle) {
         this.mySubtitle = mySubtitle;
+    }
+
+    public void setSource(String mySource) {
+        this.mySource = mySource;
+    }
+
+    public String getSource() {
+        return mySource;
     }
 }

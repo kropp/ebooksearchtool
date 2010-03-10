@@ -26,6 +26,8 @@ public class SAXHandler extends DefaultHandler{
     private Author myCurAuthor;
     private boolean myIsTotalTag;
     Window myWindow;
+    String mySource;
+    boolean myIsSource;
 
     public SAXHandler(QueryAnswer answer, Window win){
 
@@ -50,6 +52,7 @@ public class SAXHandler extends DefaultHandler{
         if("entry".equals(qName)){
             myIsEntryTag = true;
             myAnswer.getData().addBook(new Book());
+            myAnswer.getData().setBookSource(myAnswer.getData().getBooks().size()-1, mySource);
         }
 
         if("totalResults".equals(qName)){
@@ -106,6 +109,10 @@ public class SAXHandler extends DefaultHandler{
 
         }
 
+        if(!myIsEntryTag && myBookTags.getTags()[2].getStatus() && "name".equals(qName)){
+            myIsSource = true;
+        }
+
     }
 
     @Override
@@ -114,6 +121,10 @@ public class SAXHandler extends DefaultHandler{
     	if (myIsTotalTag){
     		myAnswer.setTotalBooksNumber(Integer.parseInt((new String(ch, start, length)).trim()));
     	}
+
+        if(myIsSource){
+            mySource = new String(ch, start, length);
+        }
 
         if (myIsEntryTag){
             for(int i = 0; i < myBookTags.getTags().length; ++i){
@@ -145,6 +156,9 @@ public class SAXHandler extends DefaultHandler{
                         	myIsContinue = true;
                         }else if(myBookTags.getTags()[i].getName().equals("subtitle")){
                             myAnswer.getData().setBookSubtitle(myAnswer.getData().getBooks().size()-1, new String(ch, start, length));
+                        	myIsContinue = true;
+                        }else if(myBookTags.getTags()[i].getName().equals("sourceServer")){
+                            myAnswer.getData().setBookSource(myAnswer.getData().getBooks().size()-1, new String(ch, start, length));
                         	myIsContinue = true;
                         }else if(myBookTags.getTags()[i].getName().equals("language")){
                         	myAnswer.getData().setBookLanguage(myAnswer.getData().getBooks().size()-1, new String(ch, start, length));
@@ -191,6 +205,10 @@ public class SAXHandler extends DefaultHandler{
             if("http://purl.org/dc/terms/".equals(uri) || "http://a9.com/-/spec/opensearch/1.1/".equals(uri)){
                 qName = localName;
             }
+        }
+
+        if(!myIsEntryTag && myBookTags.getTags()[2].getStatus() && "name".equals(qName)){
+            myIsSource = false;
         }
 
         if(qName.equals("content") && myAnswer.getData().getBooks().size() != 0){

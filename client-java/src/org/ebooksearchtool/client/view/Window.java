@@ -435,9 +435,6 @@ public class Window {
                             }
                             myImageWidth = 0;
                             myController.getQueryAnswer(myQueryField.getText(), myWindow);
-                            if (myController.getAnswer().getData().getBooks().size() != 0) {
-                                myController.saveModel();
-                            }
                             myActionIndex = 1;
                         } catch (IOException e) {
                             e.printStackTrace();

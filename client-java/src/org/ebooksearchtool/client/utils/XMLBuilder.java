@@ -64,6 +64,10 @@ public class XMLBuilder {
 			title.setTextContent(data.getBooks().get(i).getTitle());
             entry.appendChild(title);
 
+            Element source = doc.createElement("sourceServer");
+			source.setTextContent(data.getBooks().get(i).getSource());
+            entry.appendChild(source);
+
             if (data.getBooks().get(i).getSubtitle() != null) {
                 Element subtitle = doc.createElement("subtitle");
                 subtitle.setTextContent(data.getBooks().get(i).getSubtitle());

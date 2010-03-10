@@ -26,6 +26,7 @@ public class BookPanel implements Comparable {
     private int myImageWidth;
     private Box myInfoPanel;
     private JLabel myTitle;
+    private JLabel mySource;
     private JLabel mySubtitle;
     private JLabel myAuthor;
     private JPanel myButtonPanel;
@@ -95,6 +96,9 @@ public class BookPanel implements Comparable {
 
         myTitle = new JLabel(myBook.getTitle());
         myTitle.setFont(new Font("Tahoma", 0, 24));
+        mySource = new JLabel(myBook.getSource());
+        mySource.setFont(new Font("Tahoma", 0, 16));
+        mySource.setForeground(Color.green);
         if (myBook.getAuthor() != null) {
             myAuthor = new JLabel(myBook.getAuthor().getName());
         }
@@ -142,6 +146,8 @@ public class BookPanel implements Comparable {
         myInfoPanel.setLayout(box);*/
         myInfoPanel.add(myTitle);
         myTitle.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+        myInfoPanel.add(mySource);
+        mySource.setAlignmentX(JLabel.LEFT_ALIGNMENT);
         if (myAuthor != null) {
             myInfoPanel.add(myAuthor);
             myAuthor.setAlignmentX(JLabel.LEFT_ALIGNMENT);

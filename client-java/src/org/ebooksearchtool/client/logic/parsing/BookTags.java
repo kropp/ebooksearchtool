@@ -9,7 +9,7 @@ public class BookTags {
     private Tag[] myTags;
 
     public BookTags(){
-        myTags = new Tag[13];
+        myTags = new Tag[14];
         myTags[0] = new Tag("title");
         myTags[1] = new Tag("id");
         myTags[2] = new Tag("author");
@@ -23,6 +23,7 @@ public class BookTags {
         myTags[10] = new Tag("rights");
         myTags[11] = new Tag("publisher");
         myTags[12] = new Tag("subtitle");
+        myTags[13] = new Tag("sourceServer");
     }
 
     public Tag[] getTags(){

@@ -174,18 +174,14 @@ public class Controller {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
         }
+        if (myData.getData().getBooks().size() != 0) {
+            saveModel();
+        }
 
         return false;
     }
 
-    
- /*   public void getNextData() throws IOException, SAXException, ParserConfigurationException{
-    	Connector connect = new Connector(myData.getNextPage(), mySettings);
-        connect.getFileFromURL("answer_file.xml");
-        Parser parser = new Parser();
-        SAXHandler handler = new SAXHandler(myData, );
-        parser.parse("answer_file.xml", handler);
-    }*/
+
 
     public Settings getSettings(){
         return mySettings;

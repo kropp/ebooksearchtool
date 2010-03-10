@@ -69,6 +69,10 @@ public class Data {
         myBooks.get(elementIndex).setGenre(value);
     }
 
+    public void setBookSource(int elementIndex, String value){
+        myBooks.get(elementIndex).setSource(value);
+    }
+
     public void addBook(Book addition){
         myBooks.add(addition);
     }
