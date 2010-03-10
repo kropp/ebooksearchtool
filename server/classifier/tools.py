@@ -3,7 +3,7 @@
 import re
 import spec.external.feedparser as feedparser
 import classifier
-import urllib
+import urllib2
 
 from spec.external.pdfminer.pdfinterp import PDFResourceManager, process_pdf
 from spec.external.pdfminer.converter import TextConverter
@@ -25,21 +25,28 @@ def read(b, feed, classif):
     
     for entry in f['entries']:
         summary = entry['summary'].encode('utf-8')
-        if summary == "No description available.":
-            break
+        
+        len_sum = len(summary.split())
+        if len_sum < 10:
+            summary = get_description(entry['title'].encode('utf-8'))
+            if summary.__str__() == "None":
+                break
 
         # find author
-        author_ref = entry['author_detail']['href'].encode('utf-8')
-        auth_parser = feedparser.parse(author_ref)
+#        author_ref = entry['author_detail']['href'].encode('utf-8')
+#        auth_parser = feedparser.parse(author_ref)
 
         counter = counter+1
        
-        fulltext = '%s\n%s' % (entry['title'].encode('utf-8'), summary)
+#        print entry['title'].encode('utf-8')
+#        fulltext = '%s\n%s' % (entry['title'].encode('utf-8'), summary)
 
+        fulltext = summary
+        
         hyp = classif.classify(fulltext)
 #        print 'Hypothesis: ' + str(hyp)
                     
-        for cat in entry['categories']:
+        for cat in entry.get('categories'):
             c = cat[1].encode('utf-8')
 #            print ' Tag : ' + c
             if b == False:
@@ -57,6 +64,8 @@ def read(b, feed, classif):
     return counter
         
 def get_statistics():
+    ''' parse statistic file and print statistics for classifier'''
+    
     file_handle = open("statistics", "r")
     lines = file_handle.readlines()
     lines.sort()
@@ -78,16 +87,48 @@ def get_statistics():
     print "Total: ", total
     
 def check_classifier(classif):
+    ''' first - train classifier, then - try to classify 50 pages from feedbooks.com'''
+    
     classif.sample_train()
     
     counter = 0
     
-    for i in range(100, 150):
+    for i in range(10, 15):
         counter += read(True, ('http://feedbooks.com/books.atom?lang=en&amp;page=%s' % i), classif)
         
     print "Total: ", counter
-       
+    
+def get_description(book_name):
+    ''' gets book description from Amazon.com'''
+    
+    name = book_name.replace(" ", "+")
+#    print name
+    name = urllib2.quote(name)
+    
+    page = urllib2.urlopen("http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Dstripbooks&field-keywords=" + "%s&x=0&y=0" % name)
+    beaut_soup = bs.BeautifulSoup(page)
+    book_tag = ""
+    book_tag = beaut_soup.find(attrs={"class":"productTitle"})
+    if book_tag.__str__() == "None":
+        return
+    book_html = book_tag.find("a")["href"]
+
+    book_page = urllib2.urlopen(book_html)
+    beaut_soup_book = bs.BeautifulSoup(book_page)
+    if beaut_soup_book.__str__() == "None":
+        return
+    descr_tag = beaut_soup_book.find(attrs={"class": "productDescriptionWrapper"})
+    if descr_tag.__str__() == "None":
+        return
+    description = descr_tag.getText()
+    page.close()
+    return description
+    
+    
+# next function are not used now       
 def read_fullbook(b, feed, classif):
+    ''' read function for full text of book'''
+    
     f = feedparser.parse(feed)
     
     counter = 0
@@ -97,7 +138,7 @@ def read_fullbook(b, feed, classif):
     for entry in f['entries']:
         counter = counter+1
         url = entry['id'].encode('utf-8') + ".pdf"
-        webFile = urllib.urlopen(url)
+        webFile = urllib2.urlopen(url)
         localFile = open("downloads/" + url.split('/')[-1], 'w')
         localFile.write(webFile.read())
         fulltext = webFile.read()
@@ -162,6 +203,8 @@ def read_fullbook(b, feed, classif):
     return counter
 
 def check_fullclassifier(classif):
+    ''' check function for full text classifier'''
+
     classif.sample_full_train()
     
     counter = 0
@@ -173,6 +216,8 @@ def check_fullclassifier(classif):
     return
 
 def read_pdf(input_file, pages):
+    ''' reads pdf file, extract information'''
+
     password = ''
     pagenos = set()
     maxpages = 0
@@ -196,15 +241,4 @@ def read_pdf(input_file, pages):
     outfp.close()
     return
     
-def get_description(book_name):
-    name = book_name.replace(" ", "+")
-
-    page = urllib.urlopen("http://www.amazon.com/s/url=search-alias%3Daps&field-keywords=" + "%s" % name)
-    beaut_soup = bs.BeautifulSoup(page)
-    book_html = beaut_soup.find(attrs={"class":"productTitle"}).find("a")["href"]
-
-    book_page = urllib.urlopen(book_html)
-    beaut_soup_book = bs.BeautifulSoup(book_page)
-    description = beaut_soup_book.find(attrs={"class": "productDescriptionWrapper"}).getText()
-    print description
 

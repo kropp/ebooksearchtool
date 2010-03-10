@@ -6,6 +6,8 @@ import spec.external.Stemmer as stemmer
 import tools
 
 def getwords(doc):
+    '''get simple features from string '''
+    
     splitter = re.compile('\\W*')
     # split under non-literals
     words = [s.lower() for s in splitter.split(doc)
@@ -192,7 +194,7 @@ class fisher_classifier(classifier):
         return (best, second)
     
     def sample_train(self):
-        for i in range(1, 100):
+        for i in range(1, 10):
             tools.read(False, ('http://feedbooks.com/books.atom?lang=en&amp;page=%s' % i), self)
             
     def sample_full_train(self):
