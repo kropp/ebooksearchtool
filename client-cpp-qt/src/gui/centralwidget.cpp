@@ -91,7 +91,7 @@ void CentralWidget::parseDownloadedFile() {
     qDebug() << "CentralWidget::parseDownloadedFile myData.size" << myData->getSize(); 
     
     myBuffer->open(QIODevice::ReadOnly);
-    if (!parser.parse(myBuffer, myData)) {
+    if (!parser.parse(myBuffer, myData, mySearchResult)) {
         myErrorMessageDialog->showMessage("recieved no data from server");
     }
     myView->setData(myData);

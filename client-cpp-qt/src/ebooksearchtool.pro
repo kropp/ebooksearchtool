@@ -28,6 +28,7 @@ INCLUDEPATH += . \
 # Input
 HEADERS += data/book_author.h \
            data/data.h \
+           data/search_result.h \
            gui/centralwidget.h \
            gui/mainwindow.h \
            gui/searchwidget.h \
@@ -48,6 +49,7 @@ HEADERS += data/book_author.h \
 SOURCES += main.cpp \
            data/book_author.cpp \
            data/data.cpp \
+           data/search_result.cpp \
            gui/centralwidget.cpp \
            gui/mainwindow.cpp \
            gui/searchwidget.cpp \

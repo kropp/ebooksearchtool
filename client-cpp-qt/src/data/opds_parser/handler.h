@@ -6,13 +6,14 @@
 
 #include "../book_author.h"
 #include "../data.h"
+#include "../search_result.h"
 #include "opds_constants.h"
 #include "XMLInputSource.h"
 
 class OPDSHandler : public QXmlDefaultHandler, public OPDSConstants {
 
 public:
-	OPDSHandler(Data* data);
+	OPDSHandler(Data* data, SearchResult& result);
 	//OPDSHandler(Data* data, const XMLInputSource* source);
    
    ~OPDSHandler();
@@ -28,7 +29,7 @@ private:
 private:
 	Data* myData; 
     Book* myBook;
-    const XMLInputSource* myInputFile;
+    //const XMLInputSource* myInputFile;
     
     QString myCurrentText;
 	bool myIsEntry;
@@ -36,6 +37,9 @@ private:
 	QString myAuthorsName;
 	QString myAuthorsUri;	
     QString myFormat;
+    QString myOpdsCatalog;
+
+    SearchResult& mySearchResult;
 };
 
 #endif //_HANDLER_H_

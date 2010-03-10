@@ -2,6 +2,7 @@
 #define _CENTRAL_WIDGET_H_
 
 #include "../view/view.h" 
+#include "../data/search_result.h"
 
 class QDialogButtonBox;
 class QBuffer;
@@ -39,9 +40,13 @@ private:
     NetworkManager* myNetworkManager;
     int myRequestId;
     bool myNewRequest;
-   
+    // содержит дополнительные результаты поиска - кроме самих книг
+    // например, ссылки на продолжение 
+    SearchResult mySearchResult;
+
     Data* myData;
     View* myView;
+    
 //    ServersListView* myServersListView;
     QScrollArea* myScrollArea;
    

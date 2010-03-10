@@ -7,8 +7,8 @@
 
 #include "networkmanager.h"
 
-static const QString SERVER_FEEDBOOKS = "feedbooks.com";
-static const QString OPENSEARCH_FEEDBOOKS = "/books/search.atom?query=";
+//static const QString SERVER_FEEDBOOKS = "feedbooks.com";
+//static const QString OPENSEARCH_FEEDBOOKS = "/books/search.atom?query=";
 static const QString SERVER_BOOKSERVER = "bookserver.archive.org";
 static const QString OPENSEARCH_BOOKSERVER = "/catalog/opensearch?q=";
 //static const QString SERVER_SMASHWORDS = "smashwords.com";
@@ -116,7 +116,7 @@ void NetworkManager::showConnectionState (int /*state*/) {
 }
 
 void NetworkManager::initializeMap(){
-    ourServersSearchSchema.insert(SERVER_FEEDBOOKS, OPENSEARCH_FEEDBOOKS);
+//    ourServersSearchSchema.insert(SERVER_FEEDBOOKS, OPENSEARCH_FEEDBOOKS);
     ourServersSearchSchema.insert(SERVER_BOOKSERVER, OPENSEARCH_BOOKSERVER);
     //ourServersSearchSchema.insert(SERVER_ONLY_MAWHRIN, OPENSEARCH_ONLY_MAWHRIN);
  //   ourServersSearchSchema.insert(SERVER_MANYBOOKS, OPENSEARCH_MANYBOOKS);

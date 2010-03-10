@@ -2,7 +2,7 @@
 
 static const QString BOOK_FORMAT = "pdf";
 
-OPDSHandler::OPDSHandler(Data* data) {
+OPDSHandler::OPDSHandler(Data* data, SearchResult& result) : mySearchResult(result) {
     myData = data;
     myIsEntry = false;
     myIsInContent = false;    
@@ -100,13 +100,18 @@ bool OPDSHandler::endElement (const QString& namespaceUri, const QString& tag, c
 }
 
 void OPDSHandler::processLink(const QXmlAttributes& attributes) {
+    // parse information about feed
     if (!myIsEntry) {
-	    if ((attributes.value(ATTRIBUTE_TYPE) == "application/atom+xml") && 
-		   (attributes.value(ATTRIBUTE_RELATION) == "next") && 
-		   (attributes.value(ATTRIBUTE_TITLE) == "Next Page"))  {
-		       // myData->setLinkToNextPage(attributes.value("href"));
-            //qDebug() << "Handler:: link to the next page " << attributes.value("href");
+	    if (attributes.value(ATTRIBUTE_TYPE) == "application/atom+xml") { 
+		   if (attributes.value(ATTRIBUTE_RELATION) == "next")  {
+                qDebug() << "Handler:: link to the next page " << attributes.value("href");
+                mySearchResult.setLinkToNextResult(myOpdsCatalog, attributes.value("href"));
+            } else if (attributes.value(ATTRIBUTE_RELATION) == "self") {
+                qDebug() << "Handler:: link to self " << attributes.value("href");
+                myOpdsCatalog = attributes.value("href");
             }
+       }
+
         return;
     }		
 // if I am inside entry 
