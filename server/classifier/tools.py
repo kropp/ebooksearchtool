@@ -10,6 +10,8 @@ from spec.external.pdfminer.converter import TextConverter
 from spec.external.pdfminer.layout import LAParams
 from spec.external.pdfminer.pdfparser import PDFDocument, PDFParser
 
+from spec.external.BeautifulSoup import BeautifulSoup as bs
+
 import random
 
 def read(b, feed, classif):
@@ -193,4 +195,16 @@ def read_pdf(input_file, pages):
     device.close()
     outfp.close()
     return
+    
+def get_description(book_name):
+    name = book_name.replace(" ", "+")
+
+    page = urllib.urlopen("http://www.amazon.com/s/url=search-alias%3Daps&field-keywords=" + "%s" % name)
+    beaut_soup = bs.BeautifulSoup(page)
+    book_html = beaut_soup.find(attrs={"class":"productTitle"}).find("a")["href"]
+
+    book_page = urllib.urlopen(book_html)
+    beaut_soup_book = bs.BeautifulSoup(book_page)
+    description = beaut_soup_book.find(attrs={"class": "productDescriptionWrapper"}).getText()
+    print description
 

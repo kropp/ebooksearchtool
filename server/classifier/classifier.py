@@ -18,23 +18,23 @@ def getwords(doc):
 def bookfeatures(doc):
     ''' now available only for english books '''
     splitter = re.compile('\\W*')
-    f = {}
+    f = list()
     stem = stemmer.Stemmer('english')
 
     words = [s.lower() for s in splitter.split(doc)
         if len(s) > 2 and len(s) < 20]
-        
-    for i in range(len(words)):
-        w = words[i]
-        f[w] = 1
+
+    res = {}
+    for w in words:
+        f.append(stem.stemWord(w))
+
+    for i in range(len(f)):
+        w = f[i]
+        res[w] = 1
         if (i < len(words) - 1) and words[i] != words[i+1]:
             twowords = ' '.join(words[i:i+2])
-            f[twowords] = 1
-            
-    res = {}
-    for w in f:
-        res[stem.stemWord(w)] = 1
-   
+            res[twowords] = 1
+              
     return res
 
 def bookfeatures2(doc):
