@@ -17,11 +17,11 @@ def getwords(doc):
 #    return dict([ (w,1) for w in words])
     return words
 
-def bookfeatures(doc):
+def bookfeatures(doc, lang = "english"):
     ''' now available only for english books '''
     splitter = re.compile('\\W*')
     f = list()
-    stem = stemmer.Stemmer('english')
+    stem = stemmer.Stemmer(lang)
 
     words = [s.lower() for s in splitter.split(doc)
         if len(s) > 2 and len(s) < 20]
@@ -99,9 +99,9 @@ class classifier:
         ''' total category count '''
         return self.cc.keys()
         
-    def train(self, item, cat):
+    def train(self, item, cat, lang = "english"):
         ''' trains our classifier '''
-        features = self.getfeatures(item)
+        features = self.getfeatures(item, lang)
         # increment counters for all feature in category
         for f in features:
             self.incf(f, cat)
@@ -153,10 +153,10 @@ class fisher_classifier(classifier):
         pr = clf/(freqsum)
         return pr
         
-    def fisher_prob(self, item, cat):
+    def fisher_prob(self, item, cat, lang="english"):
         ''' classify document '''
         pr = 1
-        features = self.getfeatures(item)
+        features = self.getfeatures(item, lang)
         for f in features:
             a = (self.weightedprob(f, cat, self.cprob))
             pr*= a
@@ -178,14 +178,14 @@ class fisher_classifier(classifier):
             
         return min(sum, 1.0)
         
-    def classify(self, item, default=None):
+    def classify(self, item, default=None, lang="english"):
         ''' search for best result '''
         best = default
         second = default
         max = 0.0
         
         for c in self.categories():
-            p = self.fisher_prob(item, c)
+            p = self.fisher_prob(item, c, lang)
             
             if p > self.get_min(c) and p > max:
                 second = best

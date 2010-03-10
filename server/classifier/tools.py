@@ -32,7 +32,7 @@ def read(b, feed, classif):
             if summary.__str__() == "None":
                 break
 
-        # find author
+        # find author and his tags
 #        author_ref = entry['author_detail']['href'].encode('utf-8')
 #        auth_parser = feedparser.parse(author_ref)
 
@@ -43,14 +43,21 @@ def read(b, feed, classif):
 
         fulltext = summary
         
-        hyp = classif.classify(fulltext)
+        if entry.get('dcterms_language') == "ru":
+            hyp = classif.classify(fulltext, lang="russian")
+        else:
+            hyp = classif.classify(fulltext)
+            
 #        print 'Hypothesis: ' + str(hyp)
                     
         for cat in entry.get('categories'):
             c = cat[1].encode('utf-8')
 #            print ' Tag : ' + c
             if b == False:
-                classif.train(fulltext, c)
+                if entry.get('dcterms_language') == "ru":
+                    classif.train(fulltext, c, "russian")
+                else:
+                    classif.train(fulltext, c)
             
             # write statistic
 
@@ -125,7 +132,7 @@ def get_description(book_name):
     return description
     
     
-# next function are not used now       
+# next functions are not used now       
 def read_fullbook(b, feed, classif):
     ''' read function for full text of book'''
     
