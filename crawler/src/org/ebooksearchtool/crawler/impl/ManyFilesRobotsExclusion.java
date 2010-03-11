@@ -64,7 +64,7 @@ public class ManyFilesRobotsExclusion extends AbstractRobotsExclusion {
         try {
             br = new BufferedReader(new FileReader(file));
         } catch (IOException ioe) {
-            myLogger.log(Logger.MessageType.ERRORS, file + " cannot be read");
+            myLogger.log(Logger.MessageType.ERRORS, file + " cannot be read: " + ioe.getMessage());
             return 1;
         }
         String s = "";

@@ -69,7 +69,9 @@ class CrawlerThread extends Thread {
             myDownloadingLink = null;
             if (myStopping) break;
             if (page == null) continue;
-            logger.log(Logger.MessageType.CRAWLED_PAGES, String.format("% 4d %d %s %d", myIndex, myCrawler.getCrawledPagesNumber(), uri, page.length()));
+            synchronized (logger) {
+                logger.log(Logger.MessageType.CRAWLED_PAGES, String.format("% 4d %d %s %d", myIndex, myCrawler.getCrawledPagesNumber(), uri, page.length()));
+            }
             myAction = "getting links out of: " + uri;
             List<Link> links = HTMLParser.parseLinks(uri, page);
             int canAddMoreLinks = maxLinksFromPage;

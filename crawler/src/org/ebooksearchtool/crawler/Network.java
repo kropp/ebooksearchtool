@@ -1,12 +1,9 @@
 package org.ebooksearchtool.crawler;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.Proxy;
 import java.net.URLConnection;
 import java.security.cert.X509Certificate;
@@ -22,7 +19,6 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class Network {
 	
-    private static final File LAST_ACCESS_FILE = new File(Util.CACHE_DIR + "/lastaccess");
 	private static final int BUFFER_SIZE = 16384;
 	
     private final Crawler myCrawler;
@@ -44,31 +40,11 @@ public class Network {
         myWaitingForAccessTimeout = waitingForAccessTimeout;
 		myUserAgent = userAgent;
         myLogger = logger;
-        try {
-            if (!LAST_ACCESS_FILE.exists()) {
-                new PrintWriter(LAST_ACCESS_FILE).close();
-            }
-            BufferedReader br = new BufferedReader(new FileReader(LAST_ACCESS_FILE));
-            String s1 = null, s2 = null, s3 = null;
-            while ((s1 = br.readLine()) != null) {
-                s2 = br.readLine();
-                s3 = br.readLine();
-                long last = Long.parseLong(s2);
-                long next = Long.parseLong(s3);
-                myLastAccess.put(s1, last);
-                myNextAccess.put(s1, next);
-            }
-            br.close();
-        } catch (Exception e) {
-            myLogger.log(Logger.MessageType.ERRORS, LAST_ACCESS_FILE + " could not be initialized, some data may be missing");
-        }
         
         // configure HttpsURLConnection so that it trusts all certificates
         TrustManager[] trustAllCerts = new TrustManager[] {
             new X509TrustManager() {
-                public X509Certificate[] getAcceptedIssuers() {
-                    return null;
-                }
+                public X509Certificate[] getAcceptedIssuers() { return null; }
                 public void checkClientTrusted(X509Certificate[] certs, String authType) { }
                 public void checkServerTrusted(X509Certificate[] certs, String authType) { }
             }
@@ -78,7 +54,6 @@ public class Network {
             context.init(null, trustAllCerts, new SecureRandom());
             HttpsURLConnection.setDefaultSSLSocketFactory(context.getSocketFactory());
         } catch (Exception e) { }
-            
 	}
     
     public long getLastAccessTime(String host) {
@@ -185,7 +160,7 @@ public class Network {
             StringBuilder page = new StringBuilder();
             char[] buf = new char[BUFFER_SIZE];
             int r;
-            while ((r = br.read(buf, 0, BUFFER_SIZE)) >= 0) {
+            while ((r = br.read(buf, 0, BUFFER_SIZE)) != -1) {
                 page.append(buf, 0, r);
             }
             br.close();
@@ -212,17 +187,6 @@ public class Network {
     }
     
 	public void finish() {
-        try {
-            PrintWriter pw = new PrintWriter(LAST_ACCESS_FILE);
-            for (String host : myLastAccess.keySet()) {
-                pw.println(host);
-                pw.println(myLastAccess.get(host));
-                pw.println(myNextAccess.get(host));
-            }
-            pw.close();
-        } catch (Exception e) {
-            myLogger.log(Logger.MessageType.ERRORS, "error while writing to " + LAST_ACCESS_FILE);
-        }
     }
     
 }

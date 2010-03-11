@@ -73,8 +73,8 @@ public class Crawler implements Runnable {
             String userAgent = properties.getProperty("user_agent");
             int connectionTimeout = Integer.parseInt(properties.getProperty("connection_timeout"));
             int readTimeout = Integer.parseInt(properties.getProperty("read_timeout"));
-            int maxLinksCount = Integer.parseInt(properties.getProperty("max_links_count"));
             
+            int maxLinksCount = Integer.parseInt(properties.getProperty("max_links_count"));
             ourMaxLinksCount = maxLinksCount == 0 ? Integer.MAX_VALUE : maxLinksCount;
             int maxLinksFromPage = Integer.parseInt(properties.getProperty("max_links_from_page"));
             ourMaxLinksFromPage = maxLinksFromPage == 0 ? Integer.MAX_VALUE : maxLinksFromPage;
@@ -87,8 +87,11 @@ public class Crawler implements Runnable {
             
             int largeAmountOfBooks = Integer.parseInt(properties.getProperty("large_amount_of_books"));
             int maxLinksFromHost = Integer.parseInt(properties.getProperty("max_links_from_host"));
+            maxLinksFromHost = maxLinksFromHost == 0 ? Integer.MAX_VALUE : maxLinksFromHost;
             int maxLinksFromLargeSource = Integer.parseInt(properties.getProperty("max_links_from_large_source"));
+            maxLinksFromLargeSource = maxLinksFromLargeSource == 0 ? Integer.MAX_VALUE : maxLinksFromLargeSource;
             int maxLinksFromSecondLevelDomain = Integer.parseInt(properties.getProperty("max_links_from_second_level_domain"));
+            maxLinksFromSecondLevelDomain = maxLinksFromSecondLevelDomain == 0 ? Integer.MAX_VALUE : maxLinksFromSecondLevelDomain;
             long hostStatsCleanupPeriod = Long.parseLong(properties.getProperty("host_stats_cleanup_period"));
             
             String[] goodDomainsArray = properties.getProperty("good_domains").split(" +");
