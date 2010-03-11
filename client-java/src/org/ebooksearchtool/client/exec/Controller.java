@@ -228,7 +228,7 @@ public class Controller {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
             }
-            return;
+            --myRequestCount;
         }
     	XMLBuilder builder = new XMLBuilder();
     	builder.makeXML(myData.getData(), Integer.toString(myRequestCount)+".xml");
