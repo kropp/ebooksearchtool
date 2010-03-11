@@ -424,13 +424,12 @@ public class Window {
             			
             			model.setValue(8);
             			myProgressBar.setString("Receiving data... 5%");
-                        String prevPage = myController.getAnswer().getNextPage();
                         try {
                             ++curModelNumber;
                             myTextPan.removeAll();
                             myBookPanels = new ArrayList<ArrayList<BookPanel>>();
                             myBookPanels.add(new ArrayList<BookPanel>());
-                            if (myController.getAnswer().getData().getBooks().size() != 0) {
+                            if (myController.getData().getBooks().size() != 0) {
                                 myController.clearModel();
                             }
                             myImageWidth = 0;
@@ -461,20 +460,6 @@ public class Window {
             			}
             			myAdress = null;
                         myProgressBar.setString("");
-                        if(!"".equals(myController.getAnswer().getNextPage())){
-                            String totalBooks;
-                            if(myController.getAnswer().getTotalBooksNumber() == 0){
-                                totalBooks = "more than " + myController.getAnswer().getData().getBooks().size();
-                            }else{
-                                totalBooks = "" + myController.getAnswer().getTotalBooksNumber();
-                            }
-                        	myNumberInfo.setText("Total books found: " + totalBooks +
-                        							" Books viewed: " + myController.getAnswer().getData().getBooks().size());
-                        	myMorePanel.setVisible(true);
-                        	if(prevPage.equals(myController.getAnswer().getNextPage())){
-                        		myMorePanel.setVisible(false);
-                        	}
-                        }
             		}
             	});
             	process.start();

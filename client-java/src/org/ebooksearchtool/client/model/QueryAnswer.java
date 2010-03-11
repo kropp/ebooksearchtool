@@ -13,8 +13,8 @@ public class QueryAnswer {
     int myTotalBooksNumber;
     String myCatMainPage;
 
-    public QueryAnswer(){
-        myData = new Data();
+    public QueryAnswer(Data data){
+        myData = data;
         myNextPage = new String();
         myCatMainPage = new String();
     }

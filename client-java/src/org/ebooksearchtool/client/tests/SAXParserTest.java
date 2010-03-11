@@ -3,6 +3,7 @@ package org.ebooksearchtool.client.tests;
 import org.ebooksearchtool.client.logic.parsing.Parser;
 import org.ebooksearchtool.client.logic.parsing.SAXHandler;
 import org.ebooksearchtool.client.model.QueryAnswer;
+import org.ebooksearchtool.client.model.books.Data;
 import org.ebooksearchtool.client.utils.XMLBuilder;
 import org.ebooksearchtool.client.view.Window;
 import org.xml.sax.SAXException;
@@ -27,7 +28,7 @@ public class SAXParserTest {
         String[] testFiles = new String[] {"pushkin.xml", "tolstoy.xml", "hawking.xml", "dikkens.xml", "doyle.xml"};
 
         for(int i = 0; i < 5; ++i){
-            QueryAnswer data = new QueryAnswer();
+            QueryAnswer data = new QueryAnswer(new Data());
             Parser parser = null;
             try {
                 parser = new Parser();

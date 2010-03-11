@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 public class Controller {
 
-    QueryAnswer myData;
+    Data myData;
     Settings mySettings;
     int myRequestCount;
 
@@ -31,7 +31,7 @@ public class Controller {
 
         //SAXParserTest.test();
 
-        myData = new QueryAnswer();
+        myData = new Data();
         mySettings = new Settings();
 
         File images = new File("images");
@@ -72,12 +72,13 @@ public class Controller {
             String myServer;
             String myFileName;
             Window myWindow;
-            String myNextPage = new String();
+            QueryAnswer myAnswer;
 
             public Downloader(String server, String name, Window win) {
                 myServer = server;
                 myFileName = "server" + name + ".xml";
                 myWindow = win;
+                myAnswer = new QueryAnswer(myData);
             }
 
             public void run() {
@@ -100,10 +101,8 @@ public class Controller {
                     synchronized (myData) {
                         try {
                             Parser parser = new Parser();
-                            SAXHandler handler = new SAXHandler(myData, myWindow);
+                            SAXHandler handler = new SAXHandler(myAnswer, myWindow);
                             parser.parse(myFileName, handler);
-                            myNextPage = myData.getNextPage();
-                            myData.setNextPage("");
                         } catch (IOException e) {
                             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                         } catch (SAXException e) {
@@ -114,8 +113,8 @@ public class Controller {
 
                     }
 
-                    if(!"".equals(myNextPage)){
-                        getNextPage(myNextPage);
+                    if(!"".equals(myAnswer.getNextPage())){
+                        getNextPage(myAnswer.getNextPage());
                     }
 
                 }
@@ -132,26 +131,24 @@ public class Controller {
                     e1.printStackTrace();
                 }
 
-                synchronized (myData) {
-                    try {
-                        Parser parser = new Parser();
-                        SAXHandler handler = new SAXHandler(myData, myWindow);
-                        parser.parse(myFileName, handler);
-                        myNextPage = myData.getNextPage();
-                        myData.setNextPage("");
-                    } catch (IOException e) {
-                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                    } catch (SAXException e) {
-                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                    } catch (ParserConfigurationException e) {
-                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                    }
+                try {
+                    Parser parser = new Parser();
+                    SAXHandler handler = new SAXHandler(myAnswer, myWindow);
+                    synchronized (myData) {
 
+                        parser.parse(myFileName, handler);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (SAXException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (ParserConfigurationException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
 
-                if (!"".equals(myNextPage)) {
-                    System.out.println(myNextPage);
-                    getNextPage(myNextPage);
+
+                if (!"".equals(myAnswer.getNextPage())) {
+                    getNextPage(myAnswer.getNextPage());
                 }
 
             }
@@ -174,7 +171,7 @@ public class Controller {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
         }
-        if (myData.getData().getBooks().size() != 0) {
+        if (myData.getBooks().size() != 0) {
             saveModel();
         }
 
@@ -199,7 +196,7 @@ public class Controller {
         builder.makeSettingsXML(mySettings);
     }
 
-    public QueryAnswer getAnswer(){
+    public Data getData(){
         return myData;
     }
     
@@ -231,14 +228,14 @@ public class Controller {
             --myRequestCount;
         }
     	XMLBuilder builder = new XMLBuilder();
-    	builder.makeXML(myData.getData(), Integer.toString(myRequestCount)+".xml");
+    	builder.makeXML(myData, Integer.toString(myRequestCount)+".xml");
     	++myRequestCount;
     }
     
     public void extendModel(){
     	--myRequestCount;
     	XMLBuilder builder = new XMLBuilder();
-    	builder.makeXML(myData.getData(), Integer.toString(myRequestCount)+".xml");
+    	builder.makeXML(myData, Integer.toString(myRequestCount)+".xml");
     	++myRequestCount;
     }
     
@@ -248,7 +245,8 @@ public class Controller {
 		        
         try {
         	parser = new Parser();
-        	SAXHandler handler = new SAXHandler(myData, win);
+            QueryAnswer answer = new QueryAnswer(myData);
+        	SAXHandler handler = new SAXHandler(answer, win);
 			parser.parse(number + ".xml", handler);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -263,7 +261,7 @@ public class Controller {
     }
     
     public void clearModel(){   	
-    	myData = new QueryAnswer();
+    	myData = new Data();
     }
 
 
