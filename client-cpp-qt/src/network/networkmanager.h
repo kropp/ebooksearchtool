@@ -39,6 +39,7 @@ public:
     ~NetworkManager();
 	
 	int download(QString url, QIODevice* out);
+    int downloadByUrl(const QString& urlStr, QIODevice* out);
 	int repeatDownloading(QIODevice* out);
 	int downloadCover(QString url, QIODevice* out);
     QString errorString() const;

@@ -7,18 +7,18 @@
 
 #include "networkmanager.h"
 
-//static const QString SERVER_FEEDBOOKS = "feedbooks.com";
-//static const QString OPENSEARCH_FEEDBOOKS = "/books/search.atom?query=";
+static const QString SERVER_FEEDBOOKS = "feedbooks.com";
+static const QString OPENSEARCH_FEEDBOOKS = "/books/search.atom?query=";
 static const QString SERVER_BOOKSERVER = "bookserver.archive.org";
 static const QString OPENSEARCH_BOOKSERVER = "/catalog/opensearch?q=";
-//static const QString SERVER_SMASHWORDS = "smashwords.com";
-//static const QString OPENSEARCH_SMASHWORDS = "/atom/search/books?query=";
-//static const QString SERVER_MANYBOOKS = "manybooks.net";
-//static const QString OPENSEARCH_MANYBOOKS = "/stanza/search.php?q=";
-//static const QString SERVER_ONLY_MAWHRIN = "only.mawhrin.net";
-//static const QString OPENSEARCH_ONLY_MAWHRIN = "/ebooks/search.atom?title=";
-//static const QString SERVER_MUNSEYS = "catalog.lexcycle.com";
-//static const QString OPENSEARCH_MUNSEYS = "/munseys/op/search?search=";
+static const QString SERVER_SMASHWORDS = "smashwords.com";
+static const QString OPENSEARCH_SMASHWORDS = "/atom/search/books?query=";
+static const QString SERVER_MANYBOOKS = "manybooks.net";
+static const QString OPENSEARCH_MANYBOOKS = "/stanza/search.php?q=";
+static const QString SERVER_ONLY_MAWHRIN = "only.mawhrin.net";
+static const QString OPENSEARCH_ONLY_MAWHRIN = "/ebooks/search.atom?title=";
+static const QString SERVER_MUNSEYS = "catalog.lexcycle.com";
+static const QString OPENSEARCH_MUNSEYS = "/munseys/op/search?search=";
  
 
 NetworkManager* NetworkManager::instance = 0;
@@ -56,6 +56,7 @@ NetworkManager::~NetworkManager() {
 }
 
 QString NetworkManager::errorString() const {
+  //  return myHttpConnection->errorString();
     return myHttpConnection->errorString();
 }
 
@@ -92,6 +93,7 @@ int NetworkManager::download(QString query, QIODevice* out) {
     return id;
 }
 
+// separate connection for covers
 int NetworkManager::downloadCover(QString urlStr, QIODevice* out) {
     QUrl url(urlStr);
     myConnectionForCovers->setHost(url.host(), 80);
@@ -103,6 +105,20 @@ int NetworkManager::downloadCover(QString urlStr, QIODevice* out) {
 	int id = myConnectionForCovers->get(url.path(), out);
     return id;
 }
+
+int NetworkManager::downloadByUrl(const QString& urlStr, QIODevice* out) {
+    QString request (urlStr);
+    QUrl url(urlStr);
+    myHttpConnection->setHost(url.host(), 80);
+
+    request.remove("http://");
+    request.remove(url.host());
+    
+    qDebug() << "NetworkManager::downloadByUrl request =" << url.host()<<  url.path() << "request " << request;
+	//int id = myConnectionForCovers->get(url.path(), out);
+	return myHttpConnection->get(request, out);
+}   
+
 
 void NetworkManager::showConnectionState (int /*state*/) {
     //qDebug() << "NetworkManager::connectionState " << state;
@@ -116,19 +132,19 @@ void NetworkManager::showConnectionState (int /*state*/) {
 }
 
 void NetworkManager::initializeMap(){
-//    ourServersSearchSchema.insert(SERVER_FEEDBOOKS, OPENSEARCH_FEEDBOOKS);
+    ourServersSearchSchema.insert(SERVER_FEEDBOOKS, OPENSEARCH_FEEDBOOKS);
     ourServersSearchSchema.insert(SERVER_BOOKSERVER, OPENSEARCH_BOOKSERVER);
     //ourServersSearchSchema.insert(SERVER_ONLY_MAWHRIN, OPENSEARCH_ONLY_MAWHRIN);
- //   ourServersSearchSchema.insert(SERVER_MANYBOOKS, OPENSEARCH_MANYBOOKS);
+    //ourServersSearchSchema.insert(SERVER_MANYBOOKS, OPENSEARCH_MANYBOOKS);
     //ourServersSearchSchema.insert(SERVER_SMASHWORDS, OPENSEARCH_SMASHWORDS);
-   // ourServersSearchSchema.insert(SERVER_MUNSEYS, OPENSEARCH_MUNSEYS);
+    //ourServersSearchSchema.insert(SERVER_MUNSEYS, OPENSEARCH_MUNSEYS);
 }
 
 // return true if succeed
 bool NetworkManager::setNextServer() {
     //get index of current Server
     
-    qDebug() << "NetworkManager::setNextServer";
+    //qDebug() << "NetworkManager::setNextServer";
     typedef QMap<QString, QString>::const_iterator MapIt;
     MapIt it = ourServersSearchSchema.find(ourCurrentServer);
     if ((it == ourServersSearchSchema.end()) || (++it == ourServersSearchSchema.end())) {
@@ -136,7 +152,7 @@ bool NetworkManager::setNextServer() {
         return false;
     }
     ourCurrentServer = it.key();
-    qDebug() << "NetworkManager::setNextServer server changed " << ourCurrentServer;
+    //qDebug() << "NetworkManager::setNextServer server changed " << ourCurrentServer;
     return true;
 }
 

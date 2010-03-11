@@ -9,6 +9,8 @@
 MainWindow::MainWindow() {
     mySearchWidget = new SearchWidget(this);
     myCentralWidget = new CentralWidget(this);
+    myNextResultButton = new QPushButton(tr("next results"), this);
+    myNextResultButton->setEnabled(false);
     createActions();
     createMenu();
     createToolBar();
@@ -19,10 +21,16 @@ MainWindow::MainWindow() {
     myInternetConnectionDialog = new InternetConnectionDialog(this);
     myChooseServerDialog = new ChooseServerDialog(this);
 
-    connect(mySearchWidget, SIGNAL(search(QString)), myCentralWidget, SLOT(downloadFile(QString))); 
-    connect(mySearchWidget, SIGNAL(search(QString)), this, SLOT(search(QString))); 
-    connect(myCentralWidget, SIGNAL(stateChanged(QString)), this, SLOT(updateStatusLabel(QString))); 
-
+    connect(mySearchWidget, SIGNAL(search(QString)), 
+            myCentralWidget, SLOT(downloadFile(QString))); 
+    connect(mySearchWidget, SIGNAL(search(QString)), 
+            this, SLOT(search(QString))); 
+    connect(myCentralWidget, SIGNAL(stateChanged(QString)),
+            this, SLOT(updateStatusLabel(QString))); 
+    connect(myCentralWidget, SIGNAL(hasNextResult(bool)),
+            myNextResultButton, SLOT(setEnabled(bool))); 
+    connect (myNextResultButton, SIGNAL(pressed()), 
+             myCentralWidget, SLOT(getNextResult()));
     const NetworkManager* nManager = myCentralWidget->getNetworkManager();
     connect(nManager, SIGNAL(dataReadProgress(int, int)),
             this, SLOT(updateProgressBar(int, int)));
@@ -105,6 +113,7 @@ void MainWindow::createStatusBar() {
     createProgressBar();
     myProgressBar->setAlignment(Qt::AlignRight);
     statusBar()->addWidget(myProgressBar);
+    statusBar()->addWidget(myNextResultButton);
 }
 
 void MainWindow::updateStatusBar() {

@@ -24,14 +24,19 @@ private slots:
 	void downloadFile(const QString& query);
 	void httpRequestFinished(int requestId, bool error);
 	void parseDownloadedFile();
+    void getNextResult();
 
 signals:
     void stateChanged(const QString& message);
+    void hasNextResult(bool);
 
 private:
     const NetworkManager* getNetworkManager() const;
     void resizeEvent(QResizeEvent* event) const;
+    void nextDownloading();
+    void updateView();
 //    void fillComboBox();
+    void saveOldData();
 
 private:
 //    QDialogButtonBox *myButtonBox;
@@ -40,6 +45,8 @@ private:
     NetworkManager* myNetworkManager;
     int myRequestId;
     bool myNewRequest;
+    bool myIsDownloadingNextResults;
+    QList<QString> myUrlsForDownloading;
     // содержит дополнительные результаты поиска - кроме самих книг
     // например, ссылки на продолжение 
     SearchResult mySearchResult;

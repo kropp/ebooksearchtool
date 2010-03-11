@@ -54,6 +54,7 @@ void View::update() {
         ++i;
         //qDebug() << "View::update widget added";
     }
+    resize(sizeHint());
     emit stateChanged(getState());
     connectToButtons();
 }

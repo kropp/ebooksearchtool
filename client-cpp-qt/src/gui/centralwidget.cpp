@@ -10,6 +10,7 @@ CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myBuffer(0), my
     
 // initialize fields
     myNewRequest = true;
+    myIsDownloadingNextResults = false;
     //myServersListView = new ServersListView(this);
     myView = new View(this, 0);
     myScrollArea = new QScrollArea(this);
@@ -49,7 +50,7 @@ void CentralWidget::downloadFile(const QString& url) {
         myBuffer->setData("", 0);	
     }
     
-    qDebug() << "CentralWidget::downloadFile try to download" << url;
+    //qDebug() << "CentralWidget::downloadFile try to download" << url;
 	myRequestId = myNetworkManager->download(url, myBuffer);
     qDebug() << "CentralWidget::downloadFile " << url << "id " << myRequestId;
   
@@ -59,8 +60,9 @@ void CentralWidget::downloadFile(const QString& url) {
 }
 
 void CentralWidget::httpRequestFinished(int requestId , bool error) {
-    if (error) {
-       myErrorMessageDialog->showMessage(myNetworkManager->errorString());
+    if (error){
+        myErrorMessageDialog->showMessage(myNetworkManager->errorString());
+        return;
     }
     
     if (requestId != myRequestId) {
@@ -78,41 +80,25 @@ void CentralWidget::parseDownloadedFile() {
     file->close();
    // qDebug() << "CentralWidget::parseDownloadedFile myBuffer content has written to the file";
 // TEMPORARY end
+   
+    saveOldData();
+   
     OPDSParser parser;
-    if (myNewRequest) {
-        if (myData) {
-            delete myData;
-        }
-        myData = new Data();
-    } 
-
-    delete myView;
-    myView = new View(this, 0);
-    qDebug() << "CentralWidget::parseDownloadedFile myData.size" << myData->getSize(); 
+   //qDebug() << "CentralWidget::parseDownloadedFile myData.size" << myData->getSize(); 
     
     myBuffer->open(QIODevice::ReadOnly);
     if (!parser.parse(myBuffer, myData, mySearchResult)) {
         myErrorMessageDialog->showMessage("recieved no data from server");
     }
-    myView->setData(myData);
-    myBuffer->close();
-    myView->update();	
-    if (!myScrollArea->widget()) {
-        myScrollArea->setWidget(myView);
-    }
-    
-    //download from the next server
-    if (myNetworkManager->setNextServer()) {
-        myNewRequest = false;
-        myRequestId = myNetworkManager->repeatDownloading(myBuffer);
+    if (mySearchResult.hasNextResult()) {
+        emit hasNextResult(true);
     }
 
-    //myScrollArea->update();
-   // const QString* url = parser.getNextAtomPage();
-    //if (url) {
-     //   myNewRequest = false;
-       // downloadFile(*url);
-    //}
+    updateView();
+    
+    //search on the next server, 
+    //or download next result page
+    nextDownloading();
 }
 
 /*void CentralWidget::resizeEvent(QResizeEvent* event) const {
@@ -121,4 +107,58 @@ void CentralWidget::parseDownloadedFile() {
 */
 const NetworkManager* CentralWidget::getNetworkManager() const {
     return myNetworkManager;
+}
+    
+void CentralWidget::getNextResult() {
+    qDebug() << "CentralWidget::getNextResult slot";
+    mySearchResult.getLinks(myUrlsForDownloading);
+    qDebug() << "CentralWidget::getNextResult urls: " << myUrlsForDownloading;
+     if (myUrlsForDownloading.isEmpty()) {
+        myIsDownloadingNextResults = false;
+        emit hasNextResult(false);
+        return;
+    }
+    myIsDownloadingNextResults = true;
+    myNewRequest = true;
+    QString url = myUrlsForDownloading.first();
+    myUrlsForDownloading.pop_front();
+    myRequestId = myNetworkManager->downloadByUrl(url, myBuffer); 
+}
+
+void CentralWidget::nextDownloading() {
+    // if I has next result pages urls
+    if (myIsDownloadingNextResults) {
+        myNewRequest = false;
+        qDebug() << "CentralWidget::nextDownloading " ;
+        if (myUrlsForDownloading.isEmpty()) {
+            myIsDownloadingNextResults = false;
+            return;
+        }
+        QString url = myUrlsForDownloading.first();
+        myUrlsForDownloading.pop_front();
+        myRequestId = myNetworkManager->downloadByUrl(url, myBuffer); 
+   
+   // searching on the next servers
+    } else if (myNetworkManager->setNextServer()) {
+        myNewRequest = false;
+        myRequestId = myNetworkManager->repeatDownloading(myBuffer);
+    }
+}
+
+void CentralWidget::updateView() {
+    myView->setData(myData);
+    myBuffer->close();
+    myView->update();	
+    if (!myScrollArea->widget()) {
+        myScrollArea->setWidget(myView);
+    }
+ }
+ 
+ void CentralWidget::saveOldData() {
+   if (myNewRequest) {
+        if (myData) {
+            delete myData;
+        }
+        myData = new Data();
+    } 
 }
