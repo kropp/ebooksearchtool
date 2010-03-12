@@ -44,9 +44,9 @@ def search_request_to_server(request, response_type, is_all):
         for word in query.split():
             request_to_server = request_to_server | Q(title__icontains=word) \
               | Q(author__name__icontains=word) \
-              | Q(author__alias__name__icontains=word) \
               | Q(annotation__name__icontains=word) \
-              | Q(book_file__more_info__icontains=word)
+              | Q(book_file__more_info__icontains=word) #\
+#              | Q(author__alias__name__icontains=word) 
     except KeyError:
         query = None    
     try:
@@ -63,8 +63,8 @@ def search_request_to_server(request, response_type, is_all):
         author = request.GET['author']
         if author != '':
             request_to_server = request_to_server\
-                          & (Q(author__name__icontains=author) \
-                          | Q(author__alias__name__icontains=author))
+                          & (Q(author__name__icontains=author)) #\
+#                          | Q(author__alias__name__icontains=author))
             main_title['author'] = author
     except KeyError:
         author = None    
