@@ -7,6 +7,7 @@
     
     <!-- Links --> 
     <link rel="search" type="application/opensearchdescription+xml" title="Opensearch description" href="opensearch" />
+    <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />
     
 <style type="text/css">
     
@@ -19,14 +20,12 @@
 <div id="header">
   
     <div class="container">
-        <div class="span-19">
-            <h1 class="fb-blue bottom">{{ author.name }}: </h1>
-        </div>
+        <h1>{{ author.name }}: </h1>
     </div>
    
 {% for book in author.book.all %}
 
-  <div class="span-2 append-bottom">
+  <div>
   
     {% if not book.book_file.all.0.img_link %}
         <a href="../book/id{{ book.id }}"><img alt="{{ book.title }}" class="cover" align="left" border="0" hspace="10" src="http://abyss.hubbe.net/gfx/covers/no_cover.gif" title="{{ book.title }}" /></a>
@@ -37,18 +36,18 @@
   </div>
 
 
-  <div class="span-15 prepend-1 append-bottom last">
+  <div>
 
 
-    <div class="float-right small">
+    <div>
         {% for tag in book.tag.all %}
             <category term="{{ tag }}"/>
         {% endfor %}
     </div>
 
     
-    <h3 class="fb-blue small-bottom-margin"><a href="../book/id{{ book.id }}">{{ book.title }}</a></h3>
-    <h4 class="charcoal">by 
+    <h3><a href="../book/id{{ book.id }}">{{ book.title }}</a></h3>
+    <h4>by 
       {% for author in book.author_set.all %}
          <em><a href="../author/id{{ author.id }}" class="gray">{{ author.name }}</a></em>
       {% endfor %}

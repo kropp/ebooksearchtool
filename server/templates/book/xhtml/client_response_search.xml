@@ -29,7 +29,6 @@
  
   
   <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="chrome=1" />
   
   <!-- Links --> 
   <link rel="search" type="application/opensearchdescription+xml" title="Opensearch description" href="opensearch" />
@@ -48,8 +47,8 @@
 <div id="header">
   
     <div class="container">
-        <div class="span-19">
-            <h1 class="fb-blue bottom">Search results for: </h1>
+        <div>
+            <h1>Search results for: </h1>
         </div>
             <form name="test" action="search">
                 {% if title.query %}
@@ -85,7 +84,7 @@
 
 <hr class="space" />
 
-<div class="span-19 prepend-1 last prepend-top">
+<div>
 
 <span>
       {% if not book.book_file.all.0.img_link %}
@@ -103,8 +102,8 @@
 <!--    </div-->
 
     
-    <h3 class="fb-blue small-bottom-margin"><a href="book/id{{ book.id }}">{{ book.title }}</a></h3>
-    <h4 class="charcoal">by 
+    <h3><a href="book/id{{ book.id }}">{{ book.title }}</a></h3>
+    <h4>by 
       {% for author in book.author_set.all %}
          <em><a href="author/id{{ author.id }}" class="gray">{{ author.name }}</a></em>
       {% endfor %}
@@ -122,7 +121,7 @@
     {% endif %}
 </span>
     
-      </div>
+</div>
 
 {% endfor %}
 <hr class="space" />
@@ -206,7 +205,7 @@
 
 {% endifnotequal %}
 </div>
-
+</div>
 </body>
 </html>
 

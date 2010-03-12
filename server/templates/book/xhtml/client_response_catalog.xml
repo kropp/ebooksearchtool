@@ -7,26 +7,26 @@
     
     <!-- Links --> 
     <link rel="search" type="application/opensearchdescription+xml" title="Opensearch description" href="opensearch" />
+    <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />
+    
 </head>
 
 <body>
 <div id="header">
   
     <div class="container">
-        <div class="span-19">
-            <h1 class="fb-blue bottom">Catalog: </h1>
-        </div>
+        <h1>Catalog: </h1>
     </div>
   
-  <h3 class="fb-blue small-bottom-margin"><a href="discover/search">Search</a></h3>
+  <h3 ><a href="discover/search">Search</a></h3>
   Search books
-  <h3 class="fb-blue small-bottom-margin"><a href="discover/authors">Authors</a></h3>
+  <h3><a href="discover/authors">Authors</a></h3>
   Alpha index of the authors available
-  <h3 class="fb-blue small-bottom-margin"><a href="discover/languages">Languages</a></h3>
+  <h3><a href="discover/languages">Languages</a></h3>
   Filter books in a specific language 
-  <h3 class="fb-blue small-bottom-margin"><a href="discover/subjects">Subjects</a></h3> 
+  <h3><a href="discover/subjects">Subjects</a></h3> 
   Browse through books based on their subjects
-  <h3 class="fb-blue small-bottom-margin"><a href="catalog.atom">OPDS catalog</a></h3>
+  <h3><a href="catalog.atom">OPDS catalog</a></h3>
   Catalog in OPDS format
 </div>
 
