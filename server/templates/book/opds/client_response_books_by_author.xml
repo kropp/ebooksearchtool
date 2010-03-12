@@ -17,13 +17,21 @@
     <icon></icon>
     <author></author-->
     
-    {% for letter in alphabet %}
+    {% for letter in string %}
     <entry>
-        <title> {{ letter }} </title>
-        <link type="application/atom+xml" href="authors.atom?letter={{letter}}"/>
-        <updated></updated>
-        <id>authors.atom?letter={{letter}}</id>
-        <content type="text"></content>
+        {% ifequal num 1 %}     
+            <title> {{ letter }} </title>
+            <link type="application/atom+xml" href="authors.atom?letter={{letter}}"/>
+            <updated></updated>
+            <id>authors.atom?letter={{letter}}</id>
+            <content type="text"></content>
+        {% else %}
+            <title> {{ letter }} </title>
+            <link type="application/atom+xml" href="authors.atom?letters={{letter}}"/>
+            <updated></updated>
+            <id>authors.atom?letters={{letter}}</id>
+            <content type="text"></content>      
+        {% endifequal %} 
     </entry>
     {% endfor %}
 
