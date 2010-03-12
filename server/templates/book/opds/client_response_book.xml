@@ -12,8 +12,8 @@
     <title> {{ book.title }} </title>
     <dcterms:language> {{ book.lang }} </dcterms:language>
     <id> {{ book.id }} </id>
-    <link type="application/atom+xml" href="book.atom/id{{ book.id }}"/>
-    <link> book.atom/id{{ book.id }}</link>
+    <link type="application/atom+xml" href="id{{ book.id }}"/>
+    <link> id{{ book.id }}</link>
     <dcterms:issued></dcterms:issued>
     
     <updated></updated>

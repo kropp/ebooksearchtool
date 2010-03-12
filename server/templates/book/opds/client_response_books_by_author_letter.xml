@@ -20,7 +20,7 @@
     {% for author in authors %}
     <entry>
         <title> {{ author.name }} </title>
-        <link type="application/atom+xml" href="../author/id{{author.id}}"/>
+        <link type="application/atom+xml" href="../author.atom/id{{author.id}}"/>
         <updated></updated>
         <id>authors.atom?id{{author.id}}/books.atom</id>
     </entry>
