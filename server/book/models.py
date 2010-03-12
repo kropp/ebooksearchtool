@@ -65,7 +65,7 @@ class Language(models.Model):
 class Book(models.Model):
     title = models.CharField(max_length=NAME_LENGTH)
     lang = models.CharField(max_length=2, choices=LANG_CODE)
-    language = models.ForeignKey(Language)
+#    language = models.ForeignKey(Language)
     annotation = models.ManyToManyField(Annotation)
     book_file = models.ManyToManyField(BookFile)
     series = models.ManyToManyField(Series)
