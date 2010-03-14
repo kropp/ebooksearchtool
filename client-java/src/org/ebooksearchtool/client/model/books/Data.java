@@ -1,11 +1,8 @@
 package org.ebooksearchtool.client.model.books;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-public class Data {
+public class Data extends Observable {
 
     private List<Book> myBooks = new ArrayList<Book>();
     private List<Author> myAuthors = new ArrayList<Author>();

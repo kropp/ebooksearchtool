@@ -29,6 +29,8 @@ public class SAXHandler extends DefaultHandler{
     String mySource;
     boolean myIsSource;
 
+    Book myCurBook;
+
     public SAXHandler(QueryAnswer answer, Window win){
 
         myAnswer = answer;
@@ -39,6 +41,7 @@ public class SAXHandler extends DefaultHandler{
     @Override
     public void startDocument() throws SAXException
     {
+        myAnswer.setNextPage("");
     }
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException
@@ -51,8 +54,8 @@ public class SAXHandler extends DefaultHandler{
 
         if("entry".equals(qName)){
             myIsEntryTag = true;
-            myAnswer.getData().addBook(new Book());
-            myAnswer.getData().setBookSource(myAnswer.getData().getBooks().size()-1, mySource);
+            myCurBook = new Book();
+            myCurBook.setSource(mySource);
         }
 
         if("totalResults".equals(qName)){
@@ -77,7 +80,7 @@ public class SAXHandler extends DefaultHandler{
                     for(int j = 0; j < attributes.getLength(); ++j){
                         tagString = tagString + " " + attributes.getQName(j) + "=\"" + attributes.getValue(j) + "\"";
                     }
-                    myAnswer.getData().setBookContent(myAnswer.getData().getBooks().size()-1, myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size()-1).getContent() + "<" + tagString + ">");
+                    myCurBook.setContent(myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size()-1).getContent() + "<" + tagString + ">");
                 }
             }
 
@@ -90,15 +93,15 @@ public class SAXHandler extends DefaultHandler{
         if (attributes != null) {
             if (myIsEntryTag) {
                 if ("application/pdf".equals(attributes.getValue("type"))) {
-                    myAnswer.getData().getBookLinks(myAnswer.getData().getBooks().size() - 1).put("pdf", attributes.getValue("href"));
+                    myCurBook.getLinks().put("pdf", attributes.getValue("href"));
                 } else if ("application/epub+zip".equals(attributes.getValue("type"))) {
-                    myAnswer.getData().getBookLinks(myAnswer.getData().getBooks().size() - 1).put("epub", attributes.getValue("href"));
+                    myCurBook.getLinks().put("epub", attributes.getValue("href"));
                 } else if ("http://opds-spec.org/thumbnail".equals(attributes.getValue("rel"))) {
-                    myAnswer.getData().setBookImage(myAnswer.getData().getBooks().size() - 1, attributes.getValue("href"));
+                    myCurBook.setImage(attributes.getValue("href"));
                 } else if ("x-stanza-cover-image-thumbnail".equals(attributes.getValue("rel"))) {
-                    myAnswer.getData().setBookImage(myAnswer.getData().getBooks().size() - 1, attributes.getValue("href"));
+                    myCurBook.setImage(attributes.getValue("href"));
                 } else if ("category".equals(qName) && attributes.getValue("term") != null) {
-                    myAnswer.getData().setBookGenre(myAnswer.getData().getBooks().size() - 1, attributes.getValue("term"));
+                    myCurBook.setGenre(attributes.getValue("term"));
                 } else if ("start".equals(attributes.getValue("rel"))) {
                     myAnswer.setCatMainPage(attributes.getValue("href"));
                 }
@@ -132,57 +135,57 @@ public class SAXHandler extends DefaultHandler{
                 	
                     if(myIsContinue){
                         if(myBookTags.getTags()[i].getName().equals("title")){
-                            myAnswer.getData().setBookTitle(myAnswer.getData().getBooks().size()-1, myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size()-1).getTitle() + new String(ch, start, length));
+                            myCurBook.setTitle(myCurBook.getTitle() + new String(ch, start, length));
                         }else if(myBookTags.getTags()[i].getName().equals("subtitle")){
-                            myAnswer.getData().setBookSubtitle(myAnswer.getData().getBooks().size()-1, myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size()-1).getSubtitle() + new String(ch, start, length));
+                            myCurBook.setSubtitle(myCurBook.getSubtitle() + new String(ch, start, length));
                         }else if(myBookTags.getTags()[i].getName().equals("language")){
-                        	myAnswer.getData().setBookLanguage(myAnswer.getData().getBooks().size()-1, myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size()-1).getLanguage() + new String(ch, start, length));
+                        	myCurBook.setLanguage(myCurBook.getLanguage() + new String(ch, start, length));
                         }else if(myBookTags.getTags()[i].getName().equals("publisher")){
-                        	myAnswer.getData().setBookPublisher(myAnswer.getData().getBooks().size()-1, myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size()-1).getPublisher() + new String(ch, start, length));
+                        	myCurBook.setPublisher(myCurBook.getPublisher() + new String(ch, start, length));
                         }else if(myBookTags.getTags()[i].getName().equals("rights")){
-                        	myAnswer.getData().setBookRights(myAnswer.getData().getBooks().size()-1, myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size()-1).getRights() + new String(ch, start, length));
+                        	myCurBook.setRights(myCurBook.getRights() + new String(ch, start, length));
                         }else if(myBookTags.getTags()[i].getName().equals("issued")){
-                        	myAnswer.getData().setBookDate(myAnswer.getData().getBooks().size()-1, myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size()-1).getDate() + new String(ch, start, length));
+                        	myCurBook.setDate(myCurBook.getDate() + new String(ch, start, length));
                         }else if(myBookTags.getTags()[i].getName().equals("updated")){
-                        	myAnswer.getData().setBookUpdateTime(myAnswer.getData().getBooks().size()-1, myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size()-1).getUpdateTime() + new String(ch, start, length));
+                        	myCurBook.setUpdateTime(myCurBook.getUpdateTime() + new String(ch, start, length));
                         }else if(myBookTags.getTags()[i].getName().equals("summary")){
-                        	myAnswer.getData().setBookSummary(myAnswer.getData().getBooks().size()-1, myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size()-1).getSummary() + new String(ch, start, length));
+                        	myCurBook.setSummary(myCurBook.getSummary() + new String(ch, start, length));
                         }else if(myBookTags.getTags()[i].getName().equals("content")){
-                        	myAnswer.getData().setBookContent(myAnswer.getData().getBooks().size()-1, myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size()-1).getContent() + new String(ch, start, length));
+                        	myCurBook.setContent(myCurBook.getContent() + new String(ch, start, length));
                         }
                     }else{
                         if(myBookTags.getTags()[i].getName().equals("title")){
-                            myAnswer.getData().setBookTitle(myAnswer.getData().getBooks().size()-1, new String(ch, start, length));
+                            myCurBook.setTitle(new String(ch, start, length));
                         	myIsContinue = true;
                         }else if(myBookTags.getTags()[i].getName().equals("subtitle")){
-                            myAnswer.getData().setBookSubtitle(myAnswer.getData().getBooks().size()-1, new String(ch, start, length));
+                            myCurBook.setSubtitle(new String(ch, start, length));
                         	myIsContinue = true;
                         }else if(myBookTags.getTags()[i].getName().equals("sourceServer")){
-                            myAnswer.getData().setBookSource(myAnswer.getData().getBooks().size()-1, new String(ch, start, length));
+                            myCurBook.setSource(new String(ch, start, length));
                         	myIsContinue = true;
                         }else if(myBookTags.getTags()[i].getName().equals("language")){
-                        	myAnswer.getData().setBookLanguage(myAnswer.getData().getBooks().size()-1, new String(ch, start, length));
+                        	myCurBook.setLanguage(new String(ch, start, length));
                         	myIsContinue = true;
                         }else if(myBookTags.getTags()[i].getName().equals("publisher")){
-                        	myAnswer.getData().setBookPublisher(myAnswer.getData().getBooks().size()-1, new String(ch, start, length));
+                        	myCurBook.setPublisher(new String(ch, start, length));
                         	myIsContinue = true;
                         }else if(myBookTags.getTags()[i].getName().equals("rights")){
-                        	myAnswer.getData().setBookRights(myAnswer.getData().getBooks().size()-1, new String(ch, start, length));
+                        	myCurBook.setRights(new String(ch, start, length));
                         	myIsContinue = true;
                         }else if(myBookTags.getTags()[i].getName().equals("issued")){
-                        	myAnswer.getData().setBookDate(myAnswer.getData().getBooks().size()-1, new String(ch, start, length));
+                        	myCurBook.setDate(new String(ch, start, length));
                         	myIsContinue = true;
                         }else if(myBookTags.getTags()[i].getName().equals("updated")){
-                        	myAnswer.getData().setBookUpdateTime(myAnswer.getData().getBooks().size()-1, new String(ch, start, length));
+                        	myCurBook.setUpdateTime(new String(ch, start, length));
                         	myIsContinue = true;
                         }else if(myBookTags.getTags()[i].getName().equals("summary")){
-                        	myAnswer.getData().setBookSummary(myAnswer.getData().getBooks().size()-1, new String(ch, start, length));
+                        	myCurBook.setSummary(new String(ch, start, length));
                         	myIsContinue = true;
                         }else if(myBookTags.getTags()[i].getName().equals("content")){
-                        	myAnswer.getData().setBookContent(myAnswer.getData().getBooks().size()-1, new String(ch, start, length));
+                        	myCurBook.setContent(new String(ch, start, length));
                         	myIsContinue = true;
                         }else if(myBookTags.getTags()[i].getName().equals("id")){
-                        	myAnswer.getData().setBookID(myAnswer.getData().getBooks().size()-1, new String(ch, start, length));
+                        	myCurBook.setID(new String(ch, start, length));
                         }
                     }
                 }
@@ -217,6 +220,11 @@ public class SAXHandler extends DefaultHandler{
 
         if("entry".equals(qName)){
             myIsEntryTag = false;
+
+            synchronized (myAnswer.getData()) {
+                myAnswer.getData().addBook(myCurBook);
+            }
+
             myWindow.appendBook(myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size() - 1), new DefaultBoundedRangeModel());
         }
         
@@ -224,8 +232,8 @@ public class SAXHandler extends DefaultHandler{
         	myIsTotalTag = false;
         }
 
-        if("title".equals(qName) && myAnswer.getData().getBooks().size() != 0){
-            StringBuffer result = new StringBuffer(myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size() - 1).getTitle());
+        if(myIsEntryTag && "title".equals(qName) && myAnswer.getData().getBooks().size() != 0){
+            StringBuffer result = new StringBuffer(myCurBook.getTitle());
             while(result.indexOf("\n") != -1){
                 result.deleteCharAt(result.indexOf("\n"));
             }
@@ -238,21 +246,25 @@ public class SAXHandler extends DefaultHandler{
             while(result.indexOf("\t") == 0){
                 result.deleteCharAt(result.indexOf("\t"));
             }
-            myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size() - 1).setTitle(result.toString());
+            myCurBook.setTitle(result.toString());
         }
         
         if("author".equals(qName) && myIsEntryTag){
             boolean authorExists = false;
-            for(int j = 0; j < myAnswer.getData().getAuthors().size(); ++j){
-                if((myCurAuthor.getID() != null) && myCurAuthor.getID().equals(myAnswer.getData().getAuthors().get(j).getID())){
-                    authorExists = true;
-                    myAnswer.getData().setBookAuthor(myAnswer.getData().getBooks().size()-1, myAnswer.getData().getAuthors().get(j));
+
+            synchronized (myAnswer.getData()) {
+                for (int j = 0; j < myAnswer.getData().getAuthors().size(); ++j) {
+                    if ((myCurAuthor.getID() != null) && myCurAuthor.getID().equals(myAnswer.getData().getAuthors().get(j).getID())) {
+                        authorExists = true;
+                        myCurBook.setAuthor(myAnswer.getData().getAuthors().get(j));
+                    }
+                }
+                if (!authorExists) {
+                    myCurBook.setAuthor(myCurAuthor);
+                    myAnswer.getData().addAuthor(myCurAuthor);
                 }
             }
-            if(!authorExists){
-                myAnswer.getData().setBookAuthor(myAnswer.getData().getBooks().size()-1, myCurAuthor);
-                myAnswer.getData().addAuthor(myCurAuthor);
-            }
+
         }
         for(int i = 0; i < myBookTags.getTags().length; ++i){
             if(qName.equals(myBookTags.getTags()[i].getName())){
@@ -262,7 +274,7 @@ public class SAXHandler extends DefaultHandler{
 
             if("content".equals(myBookTags.getTags()[i].getName())){
                 if(myBookTags.getTags()[i].getStatus()){
-                    myAnswer.getData().setBookContent(myAnswer.getData().getBooks().size()-1, myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size()-1).getContent() + "<" + qName + "/>");
+                    myCurBook.setContent(myCurBook.getContent() + "<" + qName + "/>");
                 }
             }
 

@@ -98,22 +98,20 @@ public class Controller {
                         e1.printStackTrace();
                     }
 
-                    synchronized (myData) {
-                        try {
-                            Parser parser = new Parser();
-                            SAXHandler handler = new SAXHandler(myAnswer, myWindow);
-                            parser.parse(myFileName, handler);
-                        } catch (IOException e) {
-                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                        } catch (SAXException e) {
-                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                        } catch (ParserConfigurationException e) {
-                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                        }
-
+                    try {
+                        Parser parser = new Parser();
+                        SAXHandler handler = new SAXHandler(myAnswer, myWindow);
+                        parser.parse(myFileName, handler);
+                    } catch (IOException e) {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    } catch (SAXException e) {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    } catch (ParserConfigurationException e) {
+                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                     }
 
-                    if(!"".equals(myAnswer.getNextPage())){
+
+                    if (!"".equals(myAnswer.getNextPage())) {
                         getNextPage(myAnswer.getNextPage());
                     }
 
@@ -134,10 +132,7 @@ public class Controller {
                 try {
                     Parser parser = new Parser();
                     SAXHandler handler = new SAXHandler(myAnswer, myWindow);
-                    synchronized (myData) {
-
-                        parser.parse(myFileName, handler);
-                    }
+                    parser.parse(myFileName, handler);
                 } catch (IOException e) {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 } catch (SAXException e) {
