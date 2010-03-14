@@ -28,6 +28,8 @@ class BookFile(models.Model):
     more_info = models.TextField(max_length=TEXT_LENGTH, null=True)
     img_link = models.TextField(null=True, max_length=LINK_LENGTH)
 
+    credit = models.IntegerField(default=0)
+
     def __unicode__(self):
         return '%s [size %s] [type %s]' % (self.link, self.size, self.type)
 
@@ -71,6 +73,7 @@ class Book(models.Model):
     series = models.ManyToManyField(Series)
     tag = models.ManyToManyField(Tag)
 
+    credit = models.IntegerField(default=0)
 
     # for more settings see 'spec/sphinx_conf/003_book_title.tmplt'
     title_search = SphinxSearch(
@@ -98,6 +101,8 @@ class Author(models.Model):
     book = models.ManyToManyField(Book)
     alias = models.ManyToManyField(AuthorAlias)
     tag = models.ManyToManyField(Tag)
+
+    credit = models.IntegerField(default=0)
 
     # for more settings see 'spec/sphinx_conf/001_author_simple.tmplt'
     simple_search = SphinxSearch(
