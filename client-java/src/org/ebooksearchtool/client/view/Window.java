@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.util.*;
 
 public class Window implements Observer{
-    Window myWindow = this;
     private JFrame myFrame;
     private JPanel myPanel1 = new JPanel();
     private JPanel myQueryButtonPanel;
@@ -47,6 +46,8 @@ public class Window implements Observer{
     private JButton myToolForward;
     private JButton myToolUp;
     private JButton myToolDown;
+
+    final DefaultBoundedRangeModel myModel = new DefaultBoundedRangeModel(0, 0, 0, 100);
     
     private ArrayList<ArrayList<BookPanel>> myBookPanels = new ArrayList<ArrayList<BookPanel>>();
     
@@ -67,6 +68,7 @@ public class Window implements Observer{
     public Window() throws SAXException, ParserConfigurationException, IOException {
 
         myController = new Controller();
+        myController.getData().addObserver(this);
         curModelNumber = myController.getRequestCount();
         
         myFrame = new JFrame("ebooksearchtool");
@@ -185,8 +187,7 @@ public class Window implements Observer{
         myMorePanel.setVisible(false);
         myCentralPanel.add(myMorePanel, "South");
         
-        final DefaultBoundedRangeModel model = new DefaultBoundedRangeModel(0, 0, 0, 100);
-        myProgressBar = new JProgressBar(model);
+        myProgressBar = new JProgressBar(myModel);
         myProgressBar.setStringPainted(true);
         myPanel1.add(myProgressBar, "South");
         
@@ -294,7 +295,7 @@ public class Window implements Observer{
                 
                	--curModelNumber;
 				myImageWidth = 0;
-                myController.loadModel(curModelNumber, myWindow);
+                myController.loadModel(curModelNumber);
 
 				myMorePanel.setVisible(false);
 				myActionIndex = 1;
@@ -340,7 +341,7 @@ public class Window implements Observer{
                 
                	++curModelNumber;
                 myImageWidth = 0;
-				myController.loadModel(curModelNumber, myWindow);
+				myController.loadModel(curModelNumber);
 
 
 				myMorePanel.setVisible(false);
@@ -416,11 +417,11 @@ public class Window implements Observer{
 
                         myMorePanel.setVisible(false);
 
-            			model.setValue(0);
+            			myModel.setValue(0);
             			myProgressBar.setString("Sending request... 0%");
-            			model.setValue(5);
+            			myModel.setValue(5);
             			
-            			model.setValue(8);
+            			myModel.setValue(8);
             			myProgressBar.setString("Receiving data... 5%");
                         try {
                             ++curModelNumber;
@@ -431,7 +432,7 @@ public class Window implements Observer{
                                 myController.clearModel();
                             }
                             myImageWidth = 0;
-                            myController.getQueryAnswer(myQueryField.getText(), myWindow);
+                            myController.getQueryAnswer(myQueryField.getText());
                             myActionIndex = 1;
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -440,12 +441,12 @@ public class Window implements Observer{
 						} catch (ParserConfigurationException e) {
 							e.printStackTrace();
 						}
-            			model.setValue(30);
-            			myProgressBar.setString("Recieving data... " + model.getValue() + "%");
+            			myModel.setValue(30);
+            			myProgressBar.setString("Recieving data... " + myModel.getValue() + "%");
             			
-            			model.setValue(35);
+            			myModel.setValue(35);
 
-            			model.setValue(100);
+            			myModel.setValue(100);
             			myAdress = null;
             			myQueryCombo.setSelectedIndex(0);
             			myEraseButton.setEnabled(false);
@@ -530,11 +531,12 @@ public class Window implements Observer{
             bookPan.setVisible(true);
             myFrame.setVisible(true);
         }
+        model.setValue(model.getValue() + 1);
     }
 
     public void update(Observable o, Object arg) {
 
-        
+        appendBook((Book)arg, myModel);
 
     }
 }

@@ -72,6 +72,7 @@ public class Data extends Observable {
 
     public void addBook(Book addition){
         myBooks.add(addition);
+        setChanged();
     }
 
     public void addAuthor(Author addition){

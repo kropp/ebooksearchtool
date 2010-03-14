@@ -32,7 +32,7 @@ public class SAXParserTest {
             Parser parser = null;
             try {
                 parser = new Parser();
-                SAXHandler handler = new SAXHandler(data, new Window());
+                SAXHandler handler = new SAXHandler(data);
                 parser.parse("src/testFiles/" + testFiles[i], handler);
 
                 XMLBuilder builder = new XMLBuilder();

@@ -10,16 +10,10 @@ import org.ebooksearchtool.client.model.settings.Settings;
 import org.ebooksearchtool.client.tests.SAXParserTest;
 import org.ebooksearchtool.client.utils.XMLBuilder;
 
-
-import org.ebooksearchtool.client.view.BookPanel;
-import org.ebooksearchtool.client.view.Window;
 import org.xml.sax.SAXException;
 
-import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
-import java.util.ArrayList;
-
 
 public class Controller {
 
@@ -65,19 +59,17 @@ public class Controller {
 
     }
 
-    public boolean getQueryAnswer(final String word, Window win) throws IOException, SAXException, ParserConfigurationException {
+    public boolean getQueryAnswer(final String word) throws IOException, SAXException, ParserConfigurationException {
 
         class Downloader implements Runnable {
 
             String myServer;
             String myFileName;
-            Window myWindow;
             QueryAnswer myAnswer;
 
-            public Downloader(String server, String name, Window win) {
+            public Downloader(String server, String name) {
                 myServer = server;
                 myFileName = "server" + name + ".xml";
-                myWindow = win;
                 myAnswer = new QueryAnswer(myData);
             }
 
@@ -100,7 +92,7 @@ public class Controller {
 
                     try {
                         Parser parser = new Parser();
-                        SAXHandler handler = new SAXHandler(myAnswer, myWindow);
+                        SAXHandler handler = new SAXHandler(myAnswer);
                         parser.parse(myFileName, handler);
                     } catch (IOException e) {
                         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -131,7 +123,7 @@ public class Controller {
 
                 try {
                     Parser parser = new Parser();
-                    SAXHandler handler = new SAXHandler(myAnswer, myWindow);
+                    SAXHandler handler = new SAXHandler(myAnswer);
                     parser.parse(myFileName, handler);
                 } catch (IOException e) {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -154,7 +146,7 @@ public class Controller {
 
         for (int i = 0; i < mySettings.getSupportedServers().size(); ++i) {
 
-            threads[i] = new Thread(new Downloader(mySettings.getSupportedServers().keySet().toArray(new String[mySettings.getSupportedServers().size()])[i], Integer.toString(i), win));
+            threads[i] = new Thread(new Downloader(mySettings.getSupportedServers().keySet().toArray(new String[mySettings.getSupportedServers().size()])[i], Integer.toString(i)));
             threads[i].start();
 
         }
@@ -234,14 +226,14 @@ public class Controller {
     	++myRequestCount;
     }
     
-    public void loadModel(int number, Window win){
+    public void loadModel(int number){
     	clearModel();
     	Parser parser;
 		        
         try {
         	parser = new Parser();
             QueryAnswer answer = new QueryAnswer(myData);
-        	SAXHandler handler = new SAXHandler(answer, win);
+        	SAXHandler handler = new SAXHandler(answer);
 			parser.parse(number + ".xml", handler);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
