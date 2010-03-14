@@ -11,6 +11,7 @@ MainWindow::MainWindow() {
     myCentralWidget = new CentralWidget(this);
     myNextResultButton = new QPushButton(tr("next results"), this);
     myNextResultButton->setEnabled(false);
+    mySortButton = new QPushButton(tr("sort"), this);
     createActions();
     createMenu();
     createToolBar();
@@ -31,6 +32,8 @@ MainWindow::MainWindow() {
             myNextResultButton, SLOT(setEnabled(bool))); 
     connect (myNextResultButton, SIGNAL(pressed()), 
              myCentralWidget, SLOT(getNextResult()));
+     connect (mySortButton, SIGNAL(pressed()), 
+              myCentralWidget, SLOT(sortResult()));
     const NetworkManager* nManager = myCentralWidget->getNetworkManager();
     connect(nManager, SIGNAL(dataReadProgress(int, int)),
             this, SLOT(updateProgressBar(int, int)));
@@ -114,6 +117,7 @@ void MainWindow::createStatusBar() {
     myProgressBar->setAlignment(Qt::AlignRight);
     statusBar()->addWidget(myProgressBar);
     statusBar()->addWidget(myNextResultButton);
+    statusBar()->addWidget(mySortButton);
 }
 
 void MainWindow::updateStatusBar() {

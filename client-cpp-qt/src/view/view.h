@@ -29,7 +29,9 @@ public:
     void setData(Data* data);
     void clear();
     void update();
-    
+   
+    void showBooks(const QList<const Book*>& books);
+
     QSize sizeHint() const;
 
 private:    

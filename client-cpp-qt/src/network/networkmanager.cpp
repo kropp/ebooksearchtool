@@ -114,8 +114,7 @@ int NetworkManager::downloadByUrl(const QString& urlStr, QIODevice* out) {
     request.remove("http://");
     request.remove(url.host());
     
-    qDebug() << "NetworkManager::downloadByUrl request =" << url.host()<<  url.path() << "request " << request;
-	//int id = myConnectionForCovers->get(url.path(), out);
+    qDebug() << "NetworkManager::downloadByUrl host =" << url.host()<< "request =  " << request;
 	return myHttpConnection->get(request, out);
 }   
 
@@ -132,7 +131,7 @@ void NetworkManager::showConnectionState (int /*state*/) {
 }
 
 void NetworkManager::initializeMap(){
-    ourServersSearchSchema.insert(SERVER_FEEDBOOKS, OPENSEARCH_FEEDBOOKS);
+    //ourServersSearchSchema.insert(SERVER_FEEDBOOKS, OPENSEARCH_FEEDBOOKS);
     ourServersSearchSchema.insert(SERVER_BOOKSERVER, OPENSEARCH_BOOKSERVER);
     //ourServersSearchSchema.insert(SERVER_ONLY_MAWHRIN, OPENSEARCH_ONLY_MAWHRIN);
     //ourServersSearchSchema.insert(SERVER_MANYBOOKS, OPENSEARCH_MANYBOOKS);

@@ -25,6 +25,7 @@ private slots:
 	void httpRequestFinished(int requestId, bool error);
 	void parseDownloadedFile();
     void getNextResult();
+    void sortResult();
 
 signals:
     void stateChanged(const QString& message);

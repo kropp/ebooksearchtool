@@ -30,33 +30,11 @@ void View::setData(Data* data) {
 }
     
 void View::update() {
-    clear();
     if (!myData) {
         hideHeader();
         return;
     }
-    const size_t size = myData->getSize();
-
-//don't show header if there are no books
-    if (size == 0) {
-        hideHeader();
-    } else {
-        showHeader();
-    }
-//show books
-    const QList<const Book*> books = myData->getBooks();
-    int i = 0;
-    foreach (const Book* book, books) {
-        BookWidget* widget = new BookWidget(this, book);
-        myBooks.push_back(widget);
-        myLayout->addWidget(widget, i + 1, 0, 1, 4);
-       // widget->update();
-        ++i;
-        //qDebug() << "View::update widget added";
-    }
-    resize(sizeHint());
-    emit stateChanged(getState());
-    connectToButtons();
+    showBooks(myData->getBooks());
 }
 
 QString View::getState() const {
@@ -138,3 +116,31 @@ void View::createLayout() {
     myLayout->setColumnStretch(2, 2);
     myLayout->setColumnStretch(3, 1);
 }
+    
+void View::showBooks(const QList<const Book*>& books) {
+    clear();
+    if (books.isEmpty()) {
+        hideHeader();
+        return;
+    }
+    const size_t size = books.size();
+
+//don't show header if there are no books
+    if (size == 0) {
+        hideHeader();
+    } else {
+        showHeader();
+    }
+//show books
+    int i = 0;
+    foreach (const Book* book, books) {
+        BookWidget* widget = new BookWidget(this, book);
+        myBooks.push_back(widget);
+        myLayout->addWidget(widget, i + 1, 0, 1, 4);
+        ++i;
+    }
+    resize(sizeHint());
+    emit stateChanged(getState());
+    connectToButtons();
+}
+

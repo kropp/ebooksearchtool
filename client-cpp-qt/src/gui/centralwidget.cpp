@@ -1,4 +1,5 @@
 #include <QtGui>
+#include <QtAlgorithms>
 #include "centralwidget.h"
 #include "../opds_parser/parser.h"
 #include "../network/networkmanager.h"
@@ -95,7 +96,7 @@ void CentralWidget::parseDownloadedFile() {
     }
 
     updateView();
-    
+    //sortResult();    
     //search on the next server, 
     //or download next result page
     nextDownloading();
@@ -161,4 +162,16 @@ void CentralWidget::updateView() {
         }
         myData = new Data();
     } 
+}
+    
+void CentralWidget::sortResult() {
+   QList<const Book*> sortedData(myData->getBooks());
+   qSort(sortedData.begin(), sortedData.end(), Book::compareTitles);
+   qDebug() << "sorted authors:";
+   foreach (const Book* book, sortedData) {
+      // qDebug() << book->getAuthors()[0]->getName();
+       qDebug() << book->getTitle();
+   }
+   qDebug() << "CentralWidget qsort size" << sortedData.size();
+   myView->showBooks(sortedData);
 }

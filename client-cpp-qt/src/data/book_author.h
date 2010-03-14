@@ -10,6 +10,10 @@ class Author;
 class Book {
 
 public:
+    static bool compareAuthors(const Book*, const Book*);
+    static bool compareTitles(const Book*, const Book*);
+
+public:
 	Book(const QString& title, const QString& language, const QString& summary, const QString& id);
     Book();
 

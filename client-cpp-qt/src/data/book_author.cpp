@@ -14,6 +14,13 @@ Book::Book(const QString& title,
 Book::Book() {}
 
 
+bool Book::compareAuthors(const Book* book1, const Book* book2) {
+    return book1->getAuthors()[0]->getName() < book2->getAuthors()[0]->getName();
+}
+
+bool Book::compareTitles(const Book* book1, const Book* book2) {
+    return book1->getTitle() < book2->getTitle();
+}
 void Book::setTitle(const QString& title) {
     myTitle = title;
 }

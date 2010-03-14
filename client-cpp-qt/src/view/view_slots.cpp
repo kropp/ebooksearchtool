@@ -35,7 +35,12 @@ void View::read(BookWidget* widget) {
     qDebug() <<  "slot View::read pdf";
     myWantToRead = true;
     const Book& book = widget->getBook();
-    QString link = book.getSourceLink();
+    qDebug() << " View::read all links: " << book.getSourceLinks();
+    QString link = book.getSourceLink("pdf");
+    qDebug() << " View::read pdf link: " << link;
+    if (link.isEmpty()) {
+        return;
+    }
     QString fileName(link.right(link.size() - link.lastIndexOf('/') - 1));
     qDebug() << "View::read " << fileName;
     if (QFile::exists(fileName)) {
@@ -88,7 +93,7 @@ void View::downloadToPath(const BookWidget* widget, const QString& name) {
    
     connect(connection, SIGNAL(requestFinished(int, bool)), this, SLOT(bookDownloaded(int)));  
     myActiveWidget = widget;
-    myRequestId = connection->download(link, myFile);
+    myRequestId = connection->downloadByUrl(link, myFile);
     QString str(tr("Downloading: "));
     emit stateChanged(str.append(book.getTitle()));
 }

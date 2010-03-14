@@ -49,6 +49,7 @@ private:
     QLabel* myStatusLabel;
     QProgressBar* myProgressBar;
     QPushButton* myNextResultButton;
+    QPushButton* mySortButton;
 
     QAction* myExitAction;
     QAction* myFullScreenAction;
