@@ -11,17 +11,18 @@ from sys import exc_info
 from django.shortcuts import render_to_response
 from django.template import Context
 
-from settings import ANALYZER_IP
 try:
     from settings import ANALYZER_DEBUG_MODE
 except ImportError:
     ANALYZER_DEBUG_MODE = False
 
 from spec.exception import RequestFileServerException, \
-RequestServerException, ServerException, InnerServerException
+ServerException, InnerServerException
 import spec.logger
 
 from book.search import xml_search
+
+from book.request_check import check_ip, get_xml_request
 
 MAIN_LOG = logging.getLogger("main_logger")
 
@@ -31,19 +32,8 @@ def search_view(request):
 
         messages = []
 
-        # TODO move next code to separate file, and use its code in book.view
-        # check IP adress
-        if ANALYZER_IP and request.META['REMOTE_ADDR'] != ANALYZER_IP:
-            raise RequestServerException('Bad IP adress. Your IP is %s' %
-                                            (request.META['REMOTE_ADDR']))
-
-        # check request
-        if request.method != 'POST':
-            raise RequestServerException('Use POST method in request')
-        try:
-            xml_request = request.POST['xml']
-        except KeyError:
-            raise RequestServerException("Not found xml field in POST request")
+        check_ip(request)
+        xml_request = get_xml_request(request)
 
         # parse request
         try:

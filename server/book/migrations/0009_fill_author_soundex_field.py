@@ -2,7 +2,11 @@
 from south.db import db
 from django.db import models
 from book.models import *
-from settings import SOUNDEX_LENGTH
+
+try:
+    from settings import SOUNDEX_LENGTH
+except ImportError:
+    SOUNDEX_LENGTH = 1
 
 from spec.search_util import soundex_for_string, prepare_query
 

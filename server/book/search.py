@@ -40,7 +40,7 @@ def author_search(query, max_length=5):
 
 
 
-def book_title_search(query, author_ids = [], max_length=5):
+def book_title_search(query, author_ids = None, max_length=5):
     """Searches 'query' in book.title field.
     Filter by list of author id.
     Returns list of SphinxSearch."""

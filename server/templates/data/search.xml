@@ -9,6 +9,7 @@
         <author id="{{ author.id }}">
             <name> {{ author.name }} </name>
             <rel> {{ author.sphinx_weight }} </rel>
+            <credit> {{ author.credit }} </credit>
         </author>
         {% endfor %}
     </authors>
@@ -22,6 +23,19 @@
         <book id="{{ book.id }}">
             <title> {{ book.title }} </title>
             <rel> {{ book.sphinx_weight }} </rel>
+            <credit> {{ book.credit }} </credit>
+
+            {% if book.author_set %}
+            <authors>
+                {% for author in book.author_set.all %}
+                <author id="{{ author.id }}">
+                    <name> {{ author.name }} </name>
+                    <credit> {{ author.credit }} </credit>
+                </author>
+                {% endfor %}
+            </authors>
+            {% endif %}
+
         </book>
         {% endfor %}
     </books>

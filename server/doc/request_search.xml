@@ -5,8 +5,8 @@ but NOT by author and title of book... yet.
 All results will be sorted by relevant-->
 <search>
     
-    <!-- you'll get the list of result, with length less or
-    equal value in the next tag -->
+    <!-- you'll get the list of result, with length 
+    equals value in the next tag -->
     <result_length> </result_length>
 
     <!-- search using soundex algorithm

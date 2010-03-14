@@ -13,7 +13,7 @@ from traceback import print_exc
 from django.shortcuts import render_to_response
 from django.template import Context
 
-from settings import ANALYZER_IP, EBST_NAME, EBST_VERSION, EBST_VERSION_BUILD
+from settings import EBST_NAME, EBST_VERSION, EBST_VERSION_BUILD
 
 try:
     from settings import ANALYZER_DEBUG_MODE
@@ -21,9 +21,10 @@ except ImportError:
     ANALYZER_DEBUG_MODE = False
 
 from spec.exception import RequestFileServerException, \
-RequestServerException, ServerException, InnerServerException
+ServerException, InnerServerException
 from book.insert_action import xml_exec_insert
 from book.get_action import xml_exec_get
+from book.request_check import check_ip, get_xml_request
 import spec.logger
 
 MAIN_LOG = logging.getLogger("main_logger")
@@ -34,7 +35,7 @@ ACTION = {
     'insert': 2,
 }
 
-def who(request):
+def who():
     '''Generates default page'''
     context = Context({'name': EBST_NAME,
                        'version': EBST_VERSION,
@@ -52,18 +53,8 @@ def data_modify(request, action):
 
     try:
 
-        # check IP adress
-        if ANALYZER_IP and request.META['REMOTE_ADDR'] != ANALYZER_IP:
-            raise RequestServerException('Bad IP adress. Your IP is %s' %
-                                            (request.META['REMOTE_ADDR']))
-
-        # check request
-        if request.method != 'POST':
-            raise RequestServerException('Use POST method in request')
-        try:
-            xml_request = request.POST['xml']
-        except KeyError:
-            raise RequestServerException("Not found xml field in POST request")
+        check_ip(request)
+        xml_request = get_xml_request(request)
 
         # parse request
         try:

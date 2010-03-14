@@ -105,6 +105,7 @@ def get_files(node, messages=None):
             if details_node.tag == 'type' and book_file:
                 file_type = strip_str(details_node.text)
                 # TODO check type
+                # should I check type, or maybe i should believe
                 if file_type:
                     book_file.type = file_type
 
