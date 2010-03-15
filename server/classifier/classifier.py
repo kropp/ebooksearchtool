@@ -32,7 +32,7 @@ def bookfeatures(doc, lang = "english"):
     for w in words:
         f.append(stem.stemWord(w))
 
-    for i in range(len(f)):
+    for i in xrange(len(f)):
         w = f[i]
         res[w] = 1
         if (i < len(words) - 1) and words[i] != words[i+1]:
@@ -50,7 +50,7 @@ def bookfeatures2(doc):
     words = [s.lower() for s in splitter.split(doc)
         if len(s) > 2 and len(s) < 20]
         
-    for i in range(len(words)):
+    for i in xrange(len(words)):
         w = words[i]
         f.append(w)
 
@@ -174,7 +174,7 @@ class fisher_classifier(classifier):
         m = chi/2.0
         sum = term = math.exp(-m)
         
-        for i in range(1, df//2):
+        for i in xrange(1, df//2):
             term *= m/i
             sum += term
             
@@ -197,19 +197,19 @@ class fisher_classifier(classifier):
     
     def sample_train(self):
         # train on feedbooks
-        for i in range(1, 10):
+        for i in xrange(1, 153):
             tools.read(False, ('http://feedbooks.com/books.atom?lang=en&amp;page=%s' % i), self)
 
         # train on smashwords
-#        for i in range(1, 10):
+#        for i in xrange(1, 10):
 #            tools.read_smashwords(False, ('http://www.smashwords.com/atom/books/1/popular/epub/any/0?page=%s' % i), self)
 
 #        #train on www.allromanceebooks.com
-#        for i in range(1, 10):
+#        for i in xrange(1, 10):
 #            tools.read_all_romance(False, ('http://www.allromanceebooks.com/epub-feed.xml?search=recent+additions;page=%s' % i), self)
             
     def sample_full_train(self):
-        for i in range(1, 10):
+        for i in xrange(1, 10):
             tools.read_fullbook(False, ('http://feedbooks.com/books.atom?lang=en&amp;page=%s' % i), self)
             
         

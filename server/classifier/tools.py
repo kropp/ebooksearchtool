@@ -13,7 +13,38 @@ from spec.external.pdfminer.pdfparser import PDFDocument, PDFParser
 from spec.external.BeautifulSoup import BeautifulSoup as bs
 
 from book.models import Language
+from book.models import Book
+from book.models import Tag
 import random
+
+def tag_adding():
+    classifier = deserialize()
+    books = Book.objects.all()
+    
+    for book in books:
+        ann = book.annotation.all()
+        if ann.count() == 0:
+            summary = get_description(book.title)
+            if summary == None:
+                break            
+        else:
+            for i in ann:
+                summary += i
+                     
+            len_sum = len(summary.split())
+            if len_sum < 10:
+                summary = get_description(book.title)
+                if summary == None:
+                    break
+                
+        tags = classifier.classify(summary)
+        
+        if tags[0] != None:
+            t = Tag.objects.get_or_create(name=tags[0])
+            book.tag.add(t)
+        if tags[1] != None:
+            t = Tag.objects.get_or_create(name=tags[1])
+            book.tag.add(t)
 
 def read(b, feed, classif):
     ''' gets URL and classify items '''
@@ -250,15 +281,15 @@ def check_classifier(classif):
     counter = 0
 
     #check on www.allromanceebooks.com
-#    for i in range(10, 15):
+#    for i in xrange(10, 15):
 #        counter += read_all_romance(True, ('http://www.allromanceebooks.com/epub-feed.xml?search=recent+additions;page=%s' % i), classif)
         
     # check on feedbooks
-    for i in range(10, 15):
+    for i in xrange(10, 15):
         counter += read(True, ('http://feedbooks.com/books.atom?lang=en&amp;page=%s' % i), classif)
 
     # check on smashwords
-#    for i in range(10, 15):
+#    for i in xrange(10, 15):
 #        counter += read_smashwords(True, ('http://www.smashwords.com/atom/books/1/popular/epub/any/0?page=%s' % i), classif)
         
     print "Total: ", counter
@@ -274,16 +305,16 @@ def get_description(book_name):
     beaut_soup = bs.BeautifulSoup(page)
     book_tag = ""
     book_tag = beaut_soup.find(attrs={"class":"productTitle"})
-    if book_tag.__str__() == "None":
+    if book_tag == None:
         return
     book_html = book_tag.find("a")["href"]
 
     book_page = urllib2.urlopen(book_html)
     beaut_soup_book = bs.BeautifulSoup(book_page)
-    if beaut_soup_book.__str__() == "None":
+    if beaut_soup_book == None:
         return
     descr_tag = beaut_soup_book.find(attrs={"class": "productDescriptionWrapper"})
-    if descr_tag.__str__() == "None":
+    if descr_tag == None:
         return
     description = descr_tag.getText()
     page.close()
@@ -298,8 +329,9 @@ def serialize(classifier):
     
 def deserialize():
     file_handle = open("classifier.ser", "r")
-    self = pickle.load(file_handle)
+    cl = pickle.load(file_handle)
     file_handle.close()
+    return cl
 
 # next functions are not used now       
 def read_fullbook(b, feed, classif):
@@ -340,7 +372,7 @@ def read_fullbook(b, feed, classif):
             
         p_count = len(count_page)
         
-        for i in range(1, 10):
+        for i in xrange(1, 10):
             pages.add(random.randrange(4, p_count - 3))
         
         read_pdf(filename, pages)
@@ -385,7 +417,7 @@ def check_fullclassifier(classif):
     
     counter = 0
     
-    for i in range(10, 15):
+    for i in xrange(10, 15):
         counter += read_fullbook(True, ('http://feedbooks.com/books.atom?lang=en&amp;page=%s' % i), classif)
         
     print "Total: ", counter
