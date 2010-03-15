@@ -59,11 +59,11 @@ def read(b, feed, classif):
 #        else:
 #            hyp = classif.classify(fulltext)
             
-        print 'Hypothesis: ' + str(hyp)
+#        print 'Hypothesis: ' + str(hyp)
                     
         for cat in entry.get('categories'):
             c = cat[1].encode('utf-8')
-            print ' Tag : ' + c
+#            print ' Tag : ' + c
             if b == False:
                 if language.count() == 0:
                     hyp = classif.train(fulltext, c)
@@ -125,13 +125,13 @@ def read_smashwords(b, feed, classif):
         else:
             hyp = classif.classify(fulltext, lang=language[0].full.lower())
             
-        print 'Hypothesis: ' + str(hyp)
+#        print 'Hypothesis: ' + str(hyp)
                     
         subj_index = text.find('Subject') + 8
         subjects = text[subj_index:index].split(',')
         
         for c in subjects:
-            print ' Tag : ' + c
+#            print ' Tag : ' + c
             if b == False:
                 if language.count() == 0:
                     hyp = classif.train(fulltext, c)
@@ -195,13 +195,13 @@ def read_all_romance(b, feed, classif):
         else:
             hyp = classif.classify(fulltext, lang=language[0].full.lower())
             
-        print 'Hypothesis: ' + str(hyp)
+#        print 'Hypothesis: ' + str(hyp)
                     
         subj_index = text.find('Subject') + 8
         subjects = text[subj_index:index_about].split(',')
         
         for c in subjects:
-            print ' Tag : ' + c
+#            print ' Tag : ' + c
             if b == False:
                 if language.count() == 0:
                     hyp = classif.train(fulltext, c)
@@ -250,12 +250,12 @@ def check_classifier(classif):
     counter = 0
 
     #check on www.allromanceebooks.com
-    for i in range(10, 15):
-        counter += read_all_romance(True, ('http://www.allromanceebooks.com/epub-feed.xml?search=recent+additions;page=%s' % i), classif)
+#    for i in range(10, 15):
+#        counter += read_all_romance(True, ('http://www.allromanceebooks.com/epub-feed.xml?search=recent+additions;page=%s' % i), classif)
         
     # check on feedbooks
-#    for i in range(10, 15):
-#        counter += read(True, ('http://feedbooks.com/books.atom?lang=en&amp;page=%s' % i), classif)
+    for i in range(10, 15):
+        counter += read(True, ('http://feedbooks.com/books.atom?lang=en&amp;page=%s' % i), classif)
 
     # check on smashwords
 #    for i in range(10, 15):
@@ -289,7 +289,18 @@ def get_description(book_name):
     page.close()
     return description
     
+
+def serialize(classifier):
+    ''' serialize classifier to classifier.ser'''
+    file_handle = open("classifier.ser", "a")
+    pickle.dump(classifier, file_handle)
+    file_handle.close()
     
+def deserialize():
+    file_handle = open("classifier.ser", "r")
+    self = pickle.load(file_handle)
+    file_handle.close()
+
 # next functions are not used now       
 def read_fullbook(b, feed, classif):
     ''' read function for full text of book'''
