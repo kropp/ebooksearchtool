@@ -44,8 +44,6 @@ def search_view(request):
 
         # execute search request
         (entity_type, entities) = xml_search(xml)
-        for entity in entities:
-            entity.sphinx_weight = entity._sphinx['weight']
         return render_to_response('data/search.xml', \
                                   Context({entity_type: entities,}))
 

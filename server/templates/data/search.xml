@@ -22,7 +22,7 @@
         {% for book in books %}
         <book id="{{ book.id }}">
             <title> {{ book.title }} </title>
-            <rel> {{ book.sphinx_weight }} </rel>
+            <rel> {{ book.rel }} </rel>
             <credit> {{ book.credit }} </credit>
 
             {% if book.author_set %}

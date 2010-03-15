@@ -41,10 +41,10 @@ def author_search(query, max_length=5):
     for item in result_list:
         item.rel = name_distance(query, item.name)
 
+    # sorting list by element relevant index
     result_list.sort( lambda x, y: cmp(x.rel, y.rel) )
 
     return result_list
-
 
 
 
@@ -65,6 +65,14 @@ def book_title_search(query, author_ids = None, max_length=5):
         # But i want to get books only when Book.author_id contains [query]
         query_set = query_set.filter(author_id=author_ids)
     result_list = query_set[0:max_length]
+
+
+    # calculating distance between words
+    for item in result_list:
+        item.rel = name_distance(query, item.title)
+
+    # sorting list by element relevant index
+    result_list.sort( lambda x, y: cmp(x.rel, y.rel) )
 
     return result_list
 
