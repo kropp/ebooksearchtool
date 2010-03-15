@@ -186,27 +186,8 @@ public class Controller {
     public void saveModel(){
         if(myRequestCount > 9){
             for (int i = 0; i < 9; ++i) {
-                BufferedReader in;
-                String text = new String();
-                try {
-                    in = new BufferedReader(new InputStreamReader(new FileInputStream(Integer.toString(i + 1) + ".xml")));
-                    while (in.ready()) {
-                        text += in.readLine();
-                    }
-                    in.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                try {
-                    PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream(Integer.toString(i) + ".xml"), "utf-8"));
-                    pw.print(text);
-                    pw.close();
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                }
+                File cur = new File(Integer.toString(i + 1) + ".xml");
+                cur.renameTo(new File(Integer.toString(i) + ".xml"));
             }
             --myRequestCount;
         }
