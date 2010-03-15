@@ -148,6 +148,76 @@ def read_smashwords(b, feed, classif):
         file_handle.close()
                 
     return counter
+    
+def read_all_romance(b, feed, classif):
+    ''' gets URL and classify items from smashwords '''
+    # get feed items
+    f = feedparser.parse(feed)
+
+    counter = 0
+    if b == True:
+        file_handle = open("statistics", "a")
+    
+    for entry in f['entries']:
+        subtitle = entry['subtitle'].encode('utf-8')
+        beaut_soup = bs.BeautifulSoup(subtitle)
+        text = beaut_soup.getText()
+        
+        index_about = text.find("About the book")
+        summary = text[index_about+15:-1]
+
+        len_sum = len(summary.split())
+        if len_sum < 10:
+            summary = get_description(entry['title'].encode('utf-8'))
+            if summary.__str__() == "None":
+                break
+
+        # find author and his tags
+#        author_ref = entry['author_detail']['href'].encode('utf-8')
+#        auth_parser = feedparser.parse(author_ref)
+
+        counter = counter+1
+       
+#        print entry['title'].encode('utf-8')
+#        fulltext = '%s\n%s' % (entry['title'].encode('utf-8'), summary)
+
+        fulltext = summary
+        
+        # find language
+        index = text.find(u'Language')
+        short_lang = text[index + 9:index+11]
+        
+        # different languages stemming
+        language = Language.objects.filter(short=short_lang)
+        
+        if language.count() == 0:
+            hyp = classif.classify(fulltext)
+        else:
+            hyp = classif.classify(fulltext, lang=language[0].full.lower())
+            
+        print 'Hypothesis: ' + str(hyp)
+                    
+        subj_index = text.find('Subject') + 8
+        subjects = text[subj_index:index_about].split(',')
+        
+        for c in subjects:
+            print ' Tag : ' + c
+            if b == False:
+                if language.count() == 0:
+                    hyp = classif.train(fulltext, c)
+                else:
+                    hyp = classif.train(fulltext, c, lang=language[0].full.lower())
+            
+            # write statistic
+
+            if b == True and (c == hyp[0] or c == hyp[1]):     
+                file_handle.write(c)
+                file_handle.write('\n')    
+
+    if b == True:
+        file_handle.close()
+                
+    return counter
         
 def get_statistics():
     ''' parse statistic file and print statistics for classifier'''
@@ -178,10 +248,14 @@ def check_classifier(classif):
     classif.sample_train()
     
     counter = 0
-    
-    # check on feedbooks
+
+    #check on www.allromanceebooks.com
     for i in range(10, 15):
-        counter += read(True, ('http://feedbooks.com/books.atom?lang=en&amp;page=%s' % i), classif)
+        counter += read_all_romance(True, ('http://www.allromanceebooks.com/epub-feed.xml?search=recent+additions;page=%s' % i), classif)
+        
+    # check on feedbooks
+#    for i in range(10, 15):
+#        counter += read(True, ('http://feedbooks.com/books.atom?lang=en&amp;page=%s' % i), classif)
 
     # check on smashwords
 #    for i in range(10, 15):
