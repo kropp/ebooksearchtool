@@ -21,6 +21,7 @@ public class Controller {
     Data myData;
     Settings mySettings;
     int myRequestCount;
+    Thread[] myThreads;
 
     public Controller() throws SAXException, ParserConfigurationException, IOException {
 
@@ -139,17 +140,17 @@ public class Controller {
 
         }
 
-        Thread[] threads = new Thread[mySettings.getSupportedServers().size()];
+        myThreads = new Thread[mySettings.getSupportedServers().size()];
 
         for (int i = 0; i < mySettings.getSupportedServers().size(); ++i) {
-            threads[i] = new Thread(new Downloader(mySettings.getSupportedServers().keySet().toArray(new String[mySettings.getSupportedServers().size()])[i], Integer.toString(i)));
-            threads[i].start();
+            myThreads[i] = new Thread(new Downloader(mySettings.getSupportedServers().keySet().toArray(new String[mySettings.getSupportedServers().size()])[i], Integer.toString(i)));
+            myThreads[i].start();
 
         }
 
         for (int i = 0; i < mySettings.getSupportedServers().size(); ++i) {
             try {
-                threads[i].join();
+                myThreads[i].join();
             } catch (InterruptedException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
@@ -161,7 +162,18 @@ public class Controller {
         return false;
     }
 
+    public void stopProcesses(){
 
+        for(int i = 0; i < myThreads.length; ++i){
+            if(myThreads[i] != null){
+                myThreads[i].stop();
+            }
+        }
+        if (myData.getBooks().size() != 0) {
+            saveModel();
+        }
+
+    }
 
     public Settings getSettings(){
         return mySettings;

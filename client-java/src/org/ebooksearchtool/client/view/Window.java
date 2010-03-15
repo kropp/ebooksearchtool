@@ -46,6 +46,7 @@ public class Window implements Observer{
     private JButton myToolForward;
     private JButton myToolUp;
     private JButton myToolDown;
+    JButton myToolStop;
 
     final DefaultBoundedRangeModel myModel = new DefaultBoundedRangeModel(0, 0, 0, 100);
     
@@ -133,9 +134,13 @@ public class Window implements Observer{
         myToolLibrary = new JButton(new ImageIcon(getClass().getResource("/ico/library.png")));
         myToolLibrary.setToolTipText("Library");
         myToolBar.add(myToolLibrary);
+        myToolStop = new JButton(new ImageIcon(getClass().getResource("/ico/stop_30.gif")));
+        myToolStop.setToolTipText("Stop process");
+        myToolBar.add(myToolStop);
+        myToolStop.setEnabled(false);
         myPanel1.add(myToolBar, "North");
 
-    	myQueryField = new JTextField();
+        myQueryField = new JTextField();
     	myQueryField.setSize(40, 10);
     	myQueryButtonPanel.add(myQueryField);
         String[] query = new String[] { "General", "Author", "Title" };
@@ -196,6 +201,16 @@ public class Window implements Observer{
          
 
             	
+            }
+        };
+
+        ActionListener stop = new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+
+                myController.stopProcesses();
+                myToolStop.setEnabled(false);
+
             }
         };
 
@@ -409,6 +424,8 @@ public class Window implements Observer{
 
                         myMorePanel.setVisible(false);
 
+                        myToolStop.setEnabled(true);
+
             			myModel.setValue(0);
             			myProgressBar.setString("Sending request... 0%");
             			myModel.setValue(5);
@@ -440,13 +457,13 @@ public class Window implements Observer{
             			myEraseButton.setEnabled(false);
             			myToolDelete.setEnabled(true);
             			myToolSort.setEnabled(true);
+                        myToolStop.setEnabled(false);
             			myQueryPlusPanel.setVisible(false);
             			curModelNumber = myController.getRequestCount() - 1;
             			if(myController.getRequestCount() > 1){
             				myToolUp.setEnabled(true);
             			}
             			myAdress = null;
-                        //myProgressBar.setString("");
             		}
             	});
             	process.start();
@@ -470,6 +487,7 @@ public class Window implements Observer{
         myToolUp.addActionListener(up);
         myToolDown.addActionListener(down);
         myExtQueryButton.addActionListener(extSearch);
+        myToolStop.addActionListener(stop);
 
         myNetMenu.addActionListener(new ActionListener() {
 
