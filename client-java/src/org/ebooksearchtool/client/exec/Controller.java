@@ -77,25 +77,28 @@ public class Controller {
             public void run() {
 
                 if (mySettings.getSupportedServers().get(myServer).isEnabled()) {
-
                     String adress = new String();
                     Query query = new Query(mySettings);
+                    adress = query.getQueryAdress(myServer, word, "General");                   //TODO переделать!
 
                     try {
-                        adress = query.getQueryAdress(myServer, word, "General");                   //TODO переделать!
 
+                        InputStream is;
                         Connector connect = new Connector(adress, mySettings);
-                        InputStream is = connect.getFileFromURL(myFileName);
+                        is = connect.getFileFromURL(myFileName);
 
                         Parser parser = new Parser();
                         SAXHandler handler = new SAXHandler(myAnswer);
                         parser.parse(is, handler);
                     } catch (IOException e) {
-                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        e.printStackTrace();
+                        return;
                     } catch (SAXException e) {
-                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        e.printStackTrace();
+                        return;
                     } catch (ParserConfigurationException e) {
-                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        e.printStackTrace();
+                        return;
                     }
 
 
@@ -117,11 +120,14 @@ public class Controller {
                     SAXHandler handler = new SAXHandler(myAnswer);
                     parser.parse(is, handler);
                 } catch (IOException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    e.printStackTrace();
+                    return;
                 } catch (SAXException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    e.printStackTrace();
+                    return;
                 } catch (ParserConfigurationException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    e.printStackTrace();
+                    return;
                 }
 
 
@@ -136,7 +142,6 @@ public class Controller {
         Thread[] threads = new Thread[mySettings.getSupportedServers().size()];
 
         for (int i = 0; i < mySettings.getSupportedServers().size(); ++i) {
-
             threads[i] = new Thread(new Downloader(mySettings.getSupportedServers().keySet().toArray(new String[mySettings.getSupportedServers().size()])[i], Integer.toString(i)));
             threads[i].start();
 

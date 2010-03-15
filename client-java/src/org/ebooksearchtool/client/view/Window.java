@@ -53,7 +53,6 @@ public class Window implements Observer{
     
     private Query myQuery;
     
-    private int myActionIndex;
     private int myBackIndex = 0;
     private String myAdress;
     private int curModelNumber;
@@ -298,7 +297,6 @@ public class Window implements Observer{
                 myController.loadModel(curModelNumber);
 
 				myMorePanel.setVisible(false);
-				myActionIndex = 1;
            		if(curModelNumber == 0){
            			myToolUp.setEnabled(false);
            		}
@@ -345,7 +343,6 @@ public class Window implements Observer{
 
 
 				myMorePanel.setVisible(false);
-				myActionIndex = 1;
 				if(curModelNumber > 0){
 					myToolUp.setEnabled(true);
 				}
@@ -361,17 +358,12 @@ public class Window implements Observer{
             	
 				myQuery = new Query(myController.getSettings());
             	if(myAdress==null){
-            		String queryWord = myQueryField.getText();
-            		String queryOption = (String)myQueryCombo.getSelectedItem();
-            		try {
-						myAdress = myQuery.getQueryAdress("http://feedbooks.com", queryWord, queryOption);
-					} catch (IOException e1) {
-						
-						e1.printStackTrace();
-					}
-            		mySearchLabel.setText(queryOption + ":" + queryWord);
-            		mySearchButton.setEnabled(true);
-            		myEraseButton.setEnabled(true);
+                    String queryWord = myQueryField.getText();
+                    String queryOption = (String) myQueryCombo.getSelectedItem();
+                    myAdress = myQuery.getQueryAdress("http://feedbooks.com", queryWord, queryOption);
+                    mySearchLabel.setText(queryOption + ":" + queryWord);
+                    mySearchButton.setEnabled(true);
+                    myEraseButton.setEnabled(true);
             		myQueryField.setText("");
             	}else{
             		String queryWord = myQueryField.getText();
@@ -433,7 +425,6 @@ public class Window implements Observer{
                             }
                             myImageWidth = 0;
                             myController.getQueryAnswer(myQueryField.getText());
-                            myActionIndex = 1;
                         } catch (IOException e) {
                             e.printStackTrace();
 						} catch (SAXException e) {
@@ -441,12 +432,9 @@ public class Window implements Observer{
 						} catch (ParserConfigurationException e) {
 							e.printStackTrace();
 						}
-            			myModel.setValue(30);
-            			myProgressBar.setString("Recieving data... " + myModel.getValue() + "%");
-            			
-            			myModel.setValue(35);
-
             			myModel.setValue(100);
+            			myProgressBar.setString("Complete");
+            			
             			myAdress = null;
             			myQueryCombo.setSelectedIndex(0);
             			myEraseButton.setEnabled(false);
@@ -458,7 +446,7 @@ public class Window implements Observer{
             				myToolUp.setEnabled(true);
             			}
             			myAdress = null;
-                        myProgressBar.setString("");
+                        //myProgressBar.setString("");
             		}
             	});
             	process.start();

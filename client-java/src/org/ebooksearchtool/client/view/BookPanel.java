@@ -66,6 +66,7 @@ public class BookPanel implements Comparable {
 
     public void drawRootPanel(int imageWidth){
 
+        myRootPanel = new JPanel();
         myRootPanel.setLayout(new BoxLayout(myRootPanel ,BoxLayout.X_AXIS));
 
         if(myBook.getImage() != null && !"".equals(myBook.getImage()) && !myBook.getImage().equals("None")){

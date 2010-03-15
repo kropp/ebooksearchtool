@@ -14,7 +14,7 @@ public class Query {
 		
 	}
 	
-	public String getQueryAdress(String server, String queryWord, String queryOption)  throws IOException{
+	public String getQueryAdress(String server, String queryWord, String queryOption) {
 
         if (server.equals("http://feedbooks.com")) {
             if (queryOption.equals("General")) {

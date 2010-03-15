@@ -76,13 +76,13 @@ public class SAXHandler extends DefaultHandler{
 
         for(int i = 0; i < myBookTags.getTags().length; ++i){
 
-            if("content".equals(myBookTags.getTags()[i].getName())){
+            if("content".equals(myBookTags.getTags()[i].getName()) && myIsEntryTag){
                 if(myBookTags.getTags()[i].getStatus()){
                     String tagString = qName;
                     for(int j = 0; j < attributes.getLength(); ++j){
                         tagString = tagString + " " + attributes.getQName(j) + "=\"" + attributes.getValue(j) + "\"";
                     }
-                    myCurBook.setContent(myAnswer.getData().getBooks().get(myAnswer.getData().getBooks().size()-1).getContent() + "<" + tagString + ">");
+                    myCurBook.setContent(myCurBook.getContent() + "<" + tagString + ">");
                 }
             }
 
