@@ -6,6 +6,7 @@ from settings import ANALYZER_DEFAULT_RESULT_LENGTH
 
 from spec.exception import RequestServerException
 from spec.search_util import rm_items, id_field
+from spec.distance import name_distance
 
 def author_search(query, max_length=5):
     """Searches 'query' in author field.
@@ -30,10 +31,17 @@ def author_search(query, max_length=5):
 
         # TODO should i sort query set using distance between words?
 
+
         # remove found in simple search results from soundex search
         id_set = set( [a.id for a in result_list] )
         soundex_query_set = rm_items(soundex_query_set, id_set, id_field)
         result_list.extend(soundex_query_set)
+
+    # calculating distance between words
+    for item in result_list:
+        item.rel = name_distance(query, item.name)
+
+    result_list.sort( lambda x, y: cmp(x.rel, y.rel) )
 
     return result_list
 

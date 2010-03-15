@@ -35,7 +35,7 @@ ACTION = {
     'insert': 2,
 }
 
-def who():
+def who(request):
     '''Generates default page'''
     context = Context({'name': EBST_NAME,
                        'version': EBST_VERSION,
