@@ -29,35 +29,35 @@ public class Connector{
         mySettings = set;
     }
 
-    public boolean getFileFromURL(String fileName) {
-        
+    public InputStream getFileFromURL(String fileName) {
+
         try {
         	if(!mySettings.isProxyEnabled()){
                 connection = Url.openConnection();
-                PrintWriter pw1 = new PrintWriter(new OutputStreamWriter(new FileOutputStream(fileName), "utf-8"));
+                /*PrintWriter pw1 = new PrintWriter(new OutputStreamWriter(new FileOutputStream(fileName), "utf-8"));
                 int i = connection.getInputStream().read();
                 while (i!=-1){
                 	pw1.print((char)i);
                     i = connection.getInputStream().read();
-            	                                       
+
                 }
-                pw1.close();
+                pw1.close();*/
         	}else{
                 connection = Url.openConnection(new Proxy(Proxy.Type.HTTP, new InetSocketAddress(mySettings.getIP(), mySettings.getPort())));
-                PrintWriter pw1 = new PrintWriter(new OutputStreamWriter(new FileOutputStream(fileName), "utf-8"));
+                /*PrintWriter pw1 = new PrintWriter(new OutputStreamWriter(new FileOutputStream(fileName), "utf-8"));
                 
                 int i = connection.getInputStream().read();
                 while (i != -1 ){
                 	pw1.print((char)i);
                 	i = connection.getInputStream().read();
                 }
-                pw1.close();
+                pw1.close();*/
         	}
-            return true;
+            return connection.getInputStream();
         } catch (IOException e) {
             
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            return false;
+            return null;
 
         }
 

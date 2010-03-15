@@ -201,7 +201,7 @@ public class NetworkDialog extends JDialog{
 
                 try {
                     Connector con = new Connector(myServerText.getText(), myController.getSettings());
-                    if (con.getFileFromURL("searchprobe.xml")) {
+                    if (con.getFileFromURL("searchprobe.xml") != null) {
                         Parser parser = new Parser();
                         SAXQueryHandler handler = new SAXQueryHandler();
                         parser.parse("searchprobe.xml", handler);
@@ -233,7 +233,7 @@ public class NetworkDialog extends JDialog{
                                     con = new Connector(handler.getSearchLink(), myController.getSettings());
                                 }
 
-                                if (con.getFileFromURL("searchprobe.xml")) {
+                                if (con.getFileFromURL("searchprobe.xml") != null) {
                                     handler = new SAXQueryHandler();
                                     parser.parse("searchprobe.xml", handler);
                                     if (handler.getSearchLink() != null) {

@@ -13,6 +13,7 @@ import org.ebooksearchtool.client.utils.XMLBuilder;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
 import java.io.*;
 
 public class Controller {
@@ -84,16 +85,11 @@ public class Controller {
                         adress = query.getQueryAdress(myServer, word, "General");                   //TODO переделать!
 
                         Connector connect = new Connector(adress, mySettings);
-                        connect.getFileFromURL(myFileName);
-                    } catch (IOException e1) {
+                        InputStream is = connect.getFileFromURL(myFileName);
 
-                        e1.printStackTrace();
-                    }
-
-                    try {
                         Parser parser = new Parser();
                         SAXHandler handler = new SAXHandler(myAnswer);
-                        parser.parse(myFileName, handler);
+                        parser.parse(is, handler);
                     } catch (IOException e) {
                         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                     } catch (SAXException e) {
@@ -115,16 +111,11 @@ public class Controller {
 
                 try {
                     Connector connect = new Connector(nextAddres, mySettings);
-                    connect.getFileFromURL(myFileName);
-                } catch (IOException e1) {
+                    InputStream is = connect.getFileFromURL(myFileName);
 
-                    e1.printStackTrace();
-                }
-
-                try {
                     Parser parser = new Parser();
                     SAXHandler handler = new SAXHandler(myAnswer);
-                    parser.parse(myFileName, handler);
+                    parser.parse(is, handler);
                 } catch (IOException e) {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 } catch (SAXException e) {

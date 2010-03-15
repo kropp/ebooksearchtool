@@ -4,10 +4,12 @@ import org.ebooksearchtool.client.model.QueryAnswer;
 import org.ebooksearchtool.client.model.books.Book;
 import org.ebooksearchtool.client.model.books.Author;
 import org.xml.sax.Attributes;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import javax.swing.*;
+import java.io.IOException;
 
 /*
  * Date: 25.09.2009
@@ -31,6 +33,11 @@ public class SAXHandler extends DefaultHandler{
 
         myAnswer = answer;
 
+    }
+
+    @Override
+    public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
+        return new org.xml.sax.InputSource(new java.io.StringReader(""));
     }
 
     @Override
