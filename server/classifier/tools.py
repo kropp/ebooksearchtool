@@ -47,28 +47,28 @@ def read(b, feed, classif):
         short_lang = entry.get('dcterms_language')
         
         # different languages stemming
-#        language = Language.objects.filter(short=short_lang)
+        language = Language.objects.filter(short=short_lang)
         
-#        if lang.is_empty():
-#            hyp = classif.classify(fulltext)
-#        else:
-#            hyp = classif.classify(fulltext, lang=language[0].full())
-        
-        if short_lang.lower() == "ru":
-            hyp = classif.classify(fulltext, lang="russian")
-        else:
+        if language.count() == 0:
             hyp = classif.classify(fulltext)
+        else:
+            hyp = classif.classify(fulltext, lang=language[0].full.lower())
+        
+#        if short_lang.lower() == "ru":
+#            hyp = classif.classify(fulltext, lang="russian")
+#        else:
+#            hyp = classif.classify(fulltext)
             
-#        print 'Hypothesis: ' + str(hyp)
+        print 'Hypothesis: ' + str(hyp)
                     
         for cat in entry.get('categories'):
             c = cat[1].encode('utf-8')
-#            print ' Tag : ' + c
+            print ' Tag : ' + c
             if b == False:
-                if entry.get('dcterms_language') == "ru":
-                    classif.train(fulltext, c, "russian")
+                if language.count() == 0:
+                    hyp = classif.train(fulltext, c)
                 else:
-                    classif.train(fulltext, c)
+                    hyp = classif.train(fulltext, c, lang=language[0].full.lower())
             
             # write statistic
 
@@ -115,25 +115,28 @@ def read_smashwords(b, feed, classif):
         
         # find language
         index = text.find(u'Language')
-        lang = text[index + 9:index+11]
+        short_lang = text[index + 9:index+11]
         
-        if lang == "ru":
-            hyp = classif.classify(fulltext, lang="russian")
-        else:
+        # different languages stemming
+        language = Language.objects.filter(short=short_lang)
+        
+        if language.count() == 0:
             hyp = classif.classify(fulltext)
+        else:
+            hyp = classif.classify(fulltext, lang=language[0].full.lower())
             
-#        print 'Hypothesis: ' + str(hyp)
+        print 'Hypothesis: ' + str(hyp)
                     
         subj_index = text.find('Subject') + 8
         subjects = text[subj_index:index].split(',')
         
         for c in subjects:
-#            print ' Tag : ' + c
+            print ' Tag : ' + c
             if b == False:
-                if lang == "ru":
-                    classif.train(fulltext, c, "russian")
+                if language.count() == 0:
+                    hyp = classif.train(fulltext, c)
                 else:
-                    classif.train(fulltext, c)
+                    hyp = classif.train(fulltext, c, lang=language[0].full.lower())
             
             # write statistic
 
@@ -177,12 +180,12 @@ def check_classifier(classif):
     counter = 0
     
     # check on feedbooks
-#    for i in range(10, 15):
-#        counter += read(True, ('http://feedbooks.com/books.atom?lang=en&amp;page=%s' % i), classif)
+    for i in range(10, 15):
+        counter += read(True, ('http://feedbooks.com/books.atom?lang=en&amp;page=%s' % i), classif)
 
     # check on smashwords
-    for i in range(10, 15):
-        counter += read_smashwords(True, ('http://www.smashwords.com/atom/books/1/popular/epub/any/0?page=%s' % i), classif)
+#    for i in range(10, 15):
+#        counter += read_smashwords(True, ('http://www.smashwords.com/atom/books/1/popular/epub/any/0?page=%s' % i), classif)
         
     print "Total: ", counter
     

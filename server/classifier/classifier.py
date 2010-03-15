@@ -195,12 +195,12 @@ class fisher_classifier(classifier):
     
     def sample_train(self):
         # train on feedbooks
-#        for i in range(1, 10):
-#            tools.read(False, ('http://feedbooks.com/books.atom?lang=en&amp;page=%s' % i), self)
+        for i in range(1, 10):
+            tools.read(False, ('http://feedbooks.com/books.atom?lang=en&amp;page=%s' % i), self)
 
         # train on smashwords
-        for i in range(1, 10):
-            tools.read_smashwords(False, ('http://www.smashwords.com/atom/books/1/popular/epub/any/0?page=%s' % i), self)
+#        for i in range(1, 10):
+#            tools.read_smashwords(False, ('http://www.smashwords.com/atom/books/1/popular/epub/any/0?page=%s' % i), self)
             
     def sample_full_train(self):
         for i in range(1, 10):
