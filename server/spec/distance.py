@@ -1,7 +1,7 @@
 "Distance functions"
 
 try:
-    from itertools import permutationsq
+    from itertools import permutations
 except ImportError:
     def permutations(iterable, r=None):
         # permutations('ABCD', 2) --> AB AC AD BA BC BD CA CB CD DA DB DC

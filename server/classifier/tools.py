@@ -61,7 +61,7 @@ def read(b, feed, classif):
         len_sum = len(summary.split())
         if len_sum < 10:
             summary = get_description(entry['title'].encode('utf-8'))
-            if str(summary) == "None":
+            if summary == None:
                 break
 
         # find author and his tags

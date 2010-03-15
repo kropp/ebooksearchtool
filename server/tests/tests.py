@@ -10,6 +10,7 @@ from django.test.client import Client
 
 from book.models import Author
 from book.models import Book
+from book.models import Language
 
 class OpenTestCase(TestCase):
     def test_opensearch(self):
@@ -73,7 +74,9 @@ class OpenTestCase(TestCase):
     def test_book(self):
         """ tests book response"""
         client = Client()
-        book = Book(title="Book")
+        lang = Language(id=0)
+        lang.save()
+        book = Book(title="Book", language=lang)
         book.save()
         book_id = book.id
         
@@ -96,7 +99,9 @@ class OpenTestCase(TestCase):
     def test_search(self):
         """ tests search response"""
         client = Client()
-        book = Book(title="Book")
+        lang = Language(id=0)
+        lang.save()
+        book = Book(title="Book", language=lang)
         book.save()
         
         response = client.get('/search?query=Book')        
@@ -107,13 +112,6 @@ class OpenTestCase(TestCase):
         print 'status code for good search request', response.status_code
         self.failUnlessEqual(response.status_code, 200)
         
-    def test_empty_search(self):
-        """ tests empty search request"""
-        client = Client()        
-        response = client.get('/search')        
-        expected_response = open("./tests/expected_response/empty_search.xml", "rb").read()
-        self.failUnlessEqual(response.content, expected_response)
-
     def test_discover(self):
         """ tests links from catalog"""
         client = Client()
