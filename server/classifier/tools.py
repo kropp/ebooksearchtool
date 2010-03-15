@@ -91,7 +91,10 @@ def read(b, feed, classif):
 #            hyp = classif.classify(fulltext)
             
 #        print 'Hypothesis: ' + str(hyp)
-                    
+        
+        if entry.get('categories') == None:
+            break
+                        
         for cat in entry.get('categories'):
             c = cat[1].encode('utf-8')
 #            print ' Tag : ' + c
