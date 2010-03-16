@@ -105,7 +105,7 @@ INSTALLED_APPS = (
 #    'django.contrib.admindocs',
     'south',
     'book',
-    'reader',
+   # 'reader',
     'tests',
     'djangosphinx',
     #openid
