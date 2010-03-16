@@ -73,7 +73,7 @@ class CrawlerThread extends Thread {
                 logger.log(Logger.MessageType.CRAWLED_PAGES, String.format("% 4d %d %s %d", myIndex, myCrawler.getCrawledPagesNumber(), uri, page.length()));
             }
             myAction = "getting links out of: " + uri;
-            List<Link> links = HTMLParser.parseLinks(uri, page);
+            List<Link> links = HTMLParser.parse(uri, page);
             int canAddMoreLinks = maxLinksFromPage;
             if (myStopping) break;
             for (Link link : links) {
@@ -106,7 +106,7 @@ class CrawlerThread extends Thread {
                     }
                 }
             }
-            if (myStopping) break;
+            if (myStopping||1==1) break;
         }
         myAction = "finished";
 //      System.out.print("#" + myIndex + " ");

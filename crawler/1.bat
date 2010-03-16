@@ -1,1 +1,1 @@
-java -Xmx256m -jar bin/Crawler.jar www.google.com
+java -Xmx256m -jar bin/Crawler.jar http://www.lulu.com/product/6021650

@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import org.ebooksearchtool.crawler.impl.*;
+import org.ebooksearchtool.crawler.cases.*;
 
 public class Crawler implements Runnable {
 
@@ -114,6 +115,7 @@ public class Crawler implements Runnable {
             
             
             myLogger = new Logger(loggerOutput, logToScreenEnabled, logOptions);
+            myLogger.setAsDefault();
             ourNetwork = new Network(this, proxy, connectionTimeout, readTimeout, waitingForAccessTimeout, userAgent, myLogger);
             myRobots = new ManyFilesRobotsExclusion(ourNetwork, myLogger);
             myQueue = new LinksQueue(ourMaxQueueSize, largeAmountOfBooks, goodDomains, goodSites, badSites);
@@ -186,6 +188,9 @@ public class Crawler implements Runnable {
     
     @SuppressWarnings("deprecation")
     public void run() {
+        
+        HTMLParser.addCase(new LuluCase(ourNetwork));
+        
         for (String start : myStarts) {
             Link link = Util.createLink(start);
             if (myRobots.canGo(link)) {

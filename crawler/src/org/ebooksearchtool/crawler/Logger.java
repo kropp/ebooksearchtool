@@ -13,6 +13,8 @@ public class Logger {
     private final PrintWriter myOutput;
     private final Map<Logger.MessageType, Boolean> myLogOptions;
     
+    private static Logger ourDefaultLogger;
+    
     public Logger(String logFile, boolean logToScreenEnabled, Map<Logger.MessageType, Boolean> logOptions) {
         PrintWriter output = null;
         try {
@@ -25,6 +27,14 @@ public class Logger {
         }
         myLogToScreenEnabled = logToScreenEnabled;
         myLogOptions = logOptions;
+    }
+    
+    public static Logger getDefaultLogger() {
+        return ourDefaultLogger;
+    }
+    
+    public void setAsDefault() {
+        ourDefaultLogger = this;
     }
     
     public void finish() {

@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.Proxy;
+import java.net.HttpURLConnection;
 import java.net.URLConnection;
 import java.security.cert.X509Certificate;
 import java.security.SecureRandom;
@@ -163,7 +165,9 @@ public class Network {
             while ((r = br.read(buf, 0, BUFFER_SIZE)) != -1) {
                 page.append(buf, 0, r);
             }
+            is.close();
             br.close();
+//if (connection instanceof HttpURLConnection) ((HttpURLConnection)connection).disconnect();
             return page.toString();
         } catch (IOException e) {
             if (logErrors) {
@@ -175,13 +179,61 @@ public class Network {
             }
             return null;
         } finally {
-            if (is != null) {
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    System.err.println(" error closing input stream on " + link);
-                    e.printStackTrace();
-                }
+            if (is != null) try {
+                is.close();
+            } catch (IOException e) {
+                System.err.println(" error closing input stream on " + link);
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    public String sendPOST(Link link, String request) {
+        InputStream is = null;
+        OutputStream os = null;
+        try {
+            HttpURLConnection connection = (HttpURLConnection)link.toURL().openConnection(myProxy);
+            connection.setConnectTimeout(myConnectionTimeout);
+            connection.setReadTimeout(myReadTimeout);
+            connection.setRequestProperty("User-Agent", myUserAgent);
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("X-Requested-With", "XMLHttpRequest");
+            connection.setDoOutput(true);
+            try {
+                connection.connect();
+            } catch (Throwable e) {
+                return null;
+            }
+            os = connection.getOutputStream();
+            if (os == null) return null;
+            os.write(request.getBytes());
+            os.close();
+            is = connection.getInputStream();
+            if (is == null) return null;
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+            StringBuilder page = new StringBuilder();
+            char[] buf = new char[BUFFER_SIZE];
+            int r;
+            while ((r = br.read(buf, 0, BUFFER_SIZE)) != -1) {
+                page.append(buf, 0, r);
+            }
+            is.close();
+            br.close();
+            return page.toString();
+        } catch (IOException e) {
+            myLogger.log(Logger.MessageType.ERRORS, " network error (POST) on " + link);
+            String message = e.getMessage();
+            if (message == null ? link != null : !message.equals(link + "")) {
+                myLogger.log(Logger.MessageType.ERRORS, " " + message);
+            }
+            return null;
+        } finally {
+            try {
+                if (is != null) is.close();
+                if (os != null) os.close();
+            } catch (IOException e) {
+                System.err.println(" error closing streams (POST) on " + link);
+                e.printStackTrace();
             }
         }
     }
