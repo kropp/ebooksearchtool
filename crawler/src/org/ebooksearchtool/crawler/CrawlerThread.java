@@ -77,7 +77,6 @@ class CrawlerThread extends Thread {
             int canAddMoreLinks = maxLinksFromPage;
             if (myStopping) break;
             for (Link link : links) {
-                if (canAddMoreLinks == 0) break;
                 myAction = "normalizing link: " + link;
                 link = Util.normalize(link);
                 if (myStopping) break;
@@ -91,7 +90,7 @@ class CrawlerThread extends Thread {
                         myCrawler.writeBookToOutput(link, uri, page);
                         queue.hostHasOneMoreBook(uri.getHost());
                         logger.log(Logger.MessageType.FOUND_BOOKS, String.format("% 4d  book #%d: %s", myIndex, myCrawler.getFoundBooksNumber(), link));
-                    } else {
+                    } else if (canAddMoreLinks > 0) {
                         myAction = "checking if i can go to: " + link;
                         myDownloadingLink = link;
                         boolean permitted = robots.canGo(link);
@@ -106,7 +105,7 @@ class CrawlerThread extends Thread {
                     }
                 }
             }
-            if (myStopping||1==1) break;
+            if (myStopping) break;
         }
         myAction = "finished";
 //      System.out.print("#" + myIndex + " ");
