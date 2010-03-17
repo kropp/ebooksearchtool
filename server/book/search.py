@@ -29,9 +29,6 @@ def author_search(query, max_length=5):
         soundex_query_set = \
             Author.soundex_search.query(query)[0:max_length]
 
-        # TODO should i sort query set using distance between words?
-
-
         # remove found in simple search results from soundex search
         id_set = set( [a.id for a in result_list] )
         soundex_query_set = rm_items(soundex_query_set, id_set, id_field)
@@ -41,7 +38,7 @@ def author_search(query, max_length=5):
     for item in result_list:
         item.rel = name_distance(query, item.name)
 
-    # sorting list by element relevant index
+    # sorting list by relevant index
     result_list.sort( lambda x, y: cmp(x.rel, y.rel) )
 
     return result_list
@@ -57,19 +54,39 @@ def book_title_search(query, author_ids = None, max_length=5):
 
     # simple full-text search
     query_set = Book.title_search.query(query)
+
     # filter by authors id
+#    if author_ids:
+#        # TODO unexpected behavior!
+#        # filter returns book if intersection of 
+#        # Book.author_id and [query] is not empty
+#        # But i want to get books only when Book.author_id contains [query]
+#        query_set = query_set.filter(author_id=author_ids)
     if author_ids:
-        # TODO unexpected behavior!
-        # filter returns book if intersection of 
-        # Book.author_id and [query] is not empty
-        # But i want to get books only when Book.author_id contains [query]
-        query_set = query_set.filter(author_id=author_ids)
-    result_list = query_set[0:max_length]
+        query_set = query_set.filter(author_id=author_ids[0])
+
+        if len(author_ids) > 1:
+            # select book written by first author, using sphinx tool
+            authors = set( Author.objects.filter(id__in=author_ids[1:]) )
+
+            result_list = []
+            # if amount target author_ids there are all authors in database
+            if len(authors) == len(author_ids) - 1:
+                for book in query_set:
+                    if authors.issubset(book.author_set.all()):
+                        result_list.append(book)
+                    # if we found enough books, stop filtering
+                    if len(result_list) == max_length:
+                        break
+        else:
+            result_list = query_set[0:max_length]
+    else:
+        result_list = query_set[0:max_length]
 
 
     # calculating distance between words
-    for item in result_list:
-        item.rel = name_distance(query, item.title)
+    for book in result_list:
+        book.rel = name_distance(query, book.title)
 
     # sorting list by element relevant index
     result_list.sort( lambda x, y: cmp(x.rel, y.rel) )
