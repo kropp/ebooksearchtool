@@ -8,7 +8,9 @@ except ImportError:
         # permutations(range(3)) --> 012 021 102 120 201 210
         pool = tuple(iterable)
         n = len(pool)
-        r = n if r is None else r
+#        r = n if r is None else r
+        if r is None:
+            r = n
         if r > n:
             return
         indices = range(n)
