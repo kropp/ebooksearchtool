@@ -28,7 +28,7 @@ def tag_adding():
         if ann.count() == 0:
             summary = get_description(book.title)
             if summary == None:
-                break            
+                continue
         else:
             for i in ann:
                 summary += i.name
@@ -37,7 +37,7 @@ def tag_adding():
             if len_sum < 10:
                 summary = get_description(book.title)
                 if summary == None:
-                    break
+                    continue
                 
         tags = classifier.classify(summary)
         
