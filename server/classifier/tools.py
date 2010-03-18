@@ -17,6 +17,8 @@ from book.models import Book
 from book.models import Tag
 import random
 
+import pickle
+
 def tag_adding():
     classifier = deserialize()
     books = Book.objects.all()
@@ -29,7 +31,7 @@ def tag_adding():
                 break            
         else:
             for i in ann:
-                summary += i
+                summary += i.name
                      
             len_sum = len(summary.split())
             if len_sum < 10:
@@ -41,10 +43,10 @@ def tag_adding():
         
         if tags[0] != None:
             t = Tag.objects.get_or_create(name=tags[0])
-            book.tag.add(t)
+            book.tag.add(t[0])
         if tags[1] != None:
             t = Tag.objects.get_or_create(name=tags[1])
-            book.tag.add(t)
+            book.tag.add(t[0])
 
 def read(b, feed, classif):
     ''' gets URL and classify items '''
@@ -310,7 +312,11 @@ def get_description(book_name):
     book_tag = beaut_soup.find(attrs={"class":"productTitle"})
     if book_tag == None:
         return
-    book_html = book_tag.find("a")["href"]
+    book_html = book_tag.find("a")
+    if book_html == None:
+        return
+    book_html = book_html.get("href")
+    
 
     book_page = urllib2.urlopen(book_html)
     beaut_soup_book = bs.BeautifulSoup(book_page)
@@ -335,6 +341,13 @@ def deserialize():
     cl = pickle.load(file_handle)
     file_handle.close()
     return cl
+
+def search_for_author_information(author_name):     #TODO
+    ''' search information about author in wiki '''
+    auth_url = "http://en.wikipedia.org/wiki/" + author_name
+    page = urllib2.urlopen(auth_url)
+    beaut_soup = bs.BeautifulSoup(page)
+    text = beaut_soup.getText()    
 
 # next functions are not used now       
 def read_fullbook(b, feed, classif):
