@@ -5,7 +5,6 @@ import math
 import spec.external.Stemmer as stemmer
 import tools
 
-import pickle
 
 def getwords(doc):
     '''get simple features from string '''
@@ -60,7 +59,7 @@ def bookfeatures2(doc):
     return f
 
     
-class classifier:
+class Classifier:
     def __init__(self, getfeatures, filename=None):
         #counter for feature/category
         self.fc = {}
@@ -131,10 +130,10 @@ class classifier:
         
 #Fisher classifier inherits main classifier
 
-class fisher_classifier(classifier):
+class FisherClassifier(Classifier):
     ''' usage : weightedprob(word, cat, cprob) '''
     def __init__(self, getfeatures):
-        classifier.__init__(self, getfeatures)
+        Classifier.__init__(self, getfeatures)
         self.minimums = {}
         
     def set_min(self, cat, min):
@@ -165,7 +164,7 @@ class fisher_classifier(classifier):
             if pr == 0:
                 pr = 4.94065645841e-324            
         fscore = -2 * math.log(pr)
-        
+
         # use chi^2 function
         return self.invchi2(fscore, len(features)*2)
         

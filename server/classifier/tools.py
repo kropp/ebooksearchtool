@@ -1,15 +1,9 @@
 # train classifier on feedbooks.com
 
-import re
-import urllib2
-
-from spec.external.BeautifulSoup import BeautifulSoup as bs
-
-from book.models import Language, Book, Tag
+from book.models import Book, Tag
 
 import pickle
 from read_tools import *
-import classifier
 
 def tag_adding():
     classifier = deserialize()
@@ -85,38 +79,6 @@ def check_classifier(classif):
         
     print "Total: ", counter
     
-def get_description(book_name):
-    ''' gets book description from Amazon.com'''
-    
-    name = book_name.replace(" ", "+")
-#    print name
-    name = name.encode("utf-8")
-    name = urllib2.quote(name)
-    
-    page = urllib2.urlopen("http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Dstripbooks&field-keywords=" + "%s&x=0&y=0" % name)
-    beaut_soup = bs.BeautifulSoup(page)
-    book_tag = ""
-    book_tag = beaut_soup.find(attrs={"class":"productTitle"})
-    if book_tag == None:
-        return
-    book_html = book_tag.find("a")
-    if book_html == None:
-        return
-    book_html = book_html.get("href")
-    
-
-    book_page = urllib2.urlopen(book_html)
-    beaut_soup_book = bs.BeautifulSoup(book_page)
-    if beaut_soup_book == None:
-        return
-    descr_tag = beaut_soup_book.find(attrs={"class": "productDescriptionWrapper"})
-    if descr_tag == None:
-        return
-    description = descr_tag.getText()
-    page.close()
-    return description
-    
-
 def serialize(classifier):
     ''' serialize classifier to classifier.ser'''
     file_handle = open("classifier.ser", "a")
@@ -128,6 +90,4 @@ def deserialize():
     cl = pickle.load(file_handle)
     file_handle.close()
     return cl
-
-
 
