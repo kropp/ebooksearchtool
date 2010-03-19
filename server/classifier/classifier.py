@@ -24,7 +24,7 @@ def bookfeatures(doc, lang = "english"):
     splitter = re.compile('\\W*')
     f = list()
     stem = stemmer.Stemmer(lang)
-
+    
     words = [s.lower() for s in splitter.split(doc)
         if len(s) > 2 and len(s) < 20]
 

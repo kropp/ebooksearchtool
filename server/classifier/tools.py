@@ -1,23 +1,15 @@
 # train classifier on feedbooks.com
 
 import re
-import spec.external.feedparser as feedparser
-import classifier
 import urllib2
-
-from spec.external.pdfminer.pdfinterp import PDFResourceManager, process_pdf
-from spec.external.pdfminer.converter import TextConverter
-from spec.external.pdfminer.layout import LAParams
-from spec.external.pdfminer.pdfparser import PDFDocument, PDFParser
 
 from spec.external.BeautifulSoup import BeautifulSoup as bs
 
-from book.models import Language
-from book.models import Book
-from book.models import Tag
-import random
+from book.models import Language, Book, Tag
 
 import pickle
+from read_tools import *
+import classifier
 
 def tag_adding():
     classifier = deserialize()
@@ -25,6 +17,7 @@ def tag_adding():
     
     for book in books:
         ann = book.annotation.all()
+        summary = ""
         if ann.count() == 0:
             summary = get_description(book.title)
             if summary == None:
@@ -36,8 +29,8 @@ def tag_adding():
             len_sum = len(summary.split())
             if len_sum < 10:
                 summary = get_description(book.title)
-                if summary == None:
-                    continue
+            if summary == None:
+                continue
                 
         tags = classifier.classify(summary)
         
@@ -47,213 +40,6 @@ def tag_adding():
         if tags[1] != None:
             t = Tag.objects.get_or_create(name=tags[1])
             book.tag.add(t[0])
-
-def read(b, feed, classif):
-    ''' gets URL and classify items '''
-    # get feed items
-    f = feedparser.parse(feed)
-
-    counter = 0
-    if b == True:
-        file_handle = open("statistics", "a")
-    
-    for entry in f['entries']:
-        summary = entry['summary'].encode('utf-8')
-        
-        len_sum = len(summary.split())
-        if len_sum < 10:
-            summary = get_description(entry['title'].encode('utf-8'))
-            if summary == None:
-                break
-
-        # find author and his tags
-#        author_ref = entry['author_detail']['href'].encode('utf-8')
-#        auth_parser = feedparser.parse(author_ref)
-
-        counter = counter+1
-       
-#        print entry['title'].encode('utf-8')
-#        fulltext = '%s\n%s' % (entry['title'].encode('utf-8'), summary)
-
-        fulltext = summary
-        
-        short_lang = entry.get('dcterms_language')
-        
-        # different languages stemming
-        language = Language.objects.filter(short=short_lang)
-        
-        if language.count() == 0:
-            hyp = classif.classify(fulltext)
-        else:
-            hyp = classif.classify(fulltext, lang=language[0].full.lower())
-        
-#        if short_lang.lower() == "ru":
-#            hyp = classif.classify(fulltext, lang="russian")
-#        else:
-#            hyp = classif.classify(fulltext)
-            
-#        print 'Hypothesis: ' + str(hyp)
-        
-        if entry.get('categories') == None:
-            break
-                        
-        for cat in entry.get('categories'):
-            c = cat[1].encode('utf-8')
-#            print ' Tag : ' + c
-            if b == False:
-                if language.count() == 0:
-                    hyp = classif.train(fulltext, c)
-                else:
-                    hyp = classif.train(fulltext, c, lang=language[0].full.lower())
-            
-            # write statistic
-
-            if b == True and (c == hyp[0] or c == hyp[1]):     
-                file_handle.write(c)
-                file_handle.write('\n')    
-
-    if b == True:
-        file_handle.close()
-                
-    return counter
-
-def read_smashwords(b, feed, classif):
-    ''' gets URL and classify items from smashwords '''
-    # get feed items
-    f = feedparser.parse(feed)
-
-    counter = 0
-    if b == True:
-        file_handle = open("statistics", "a")
-    
-    for entry in f['entries']:
-        subtitle = entry['subtitle'].encode('utf-8')
-        beaut_soup = bs.BeautifulSoup(subtitle)
-        text = beaut_soup.getText()
-        summary = text[0:text.find(u'Price')]
-
-        len_sum = len(summary.split())
-        if len_sum < 10:
-            summary = get_description(entry['title'].encode('utf-8'))
-            if summary.__str__() == "None":
-                break
-
-        # find author and his tags
-#        author_ref = entry['author_detail']['href'].encode('utf-8')
-#        auth_parser = feedparser.parse(author_ref)
-
-        counter = counter+1
-       
-#        print entry['title'].encode('utf-8')
-#        fulltext = '%s\n%s' % (entry['title'].encode('utf-8'), summary)
-
-        fulltext = summary
-        
-        # find language
-        index = text.find(u'Language')
-        short_lang = text[index + 9:index+11]
-        
-        # different languages stemming
-        language = Language.objects.filter(short=short_lang)
-        
-        if language.count() == 0:
-            hyp = classif.classify(fulltext)
-        else:
-            hyp = classif.classify(fulltext, lang=language[0].full.lower())
-            
-#        print 'Hypothesis: ' + str(hyp)
-                    
-        subj_index = text.find('Subject') + 8
-        subjects = text[subj_index:index].split(',')
-        
-        for c in subjects:
-#            print ' Tag : ' + c
-            if b == False:
-                if language.count() == 0:
-                    hyp = classif.train(fulltext, c)
-                else:
-                    hyp = classif.train(fulltext, c, lang=language[0].full.lower())
-            
-            # write statistic
-
-            if b == True and (c == hyp[0] or c == hyp[1]):     
-                file_handle.write(c)
-                file_handle.write('\n')    
-
-    if b == True:
-        file_handle.close()
-                
-    return counter
-    
-def read_all_romance(b, feed, classif):
-    ''' gets URL and classify items from smashwords '''
-    # get feed items
-    f = feedparser.parse(feed)
-
-    counter = 0
-    if b == True:
-        file_handle = open("statistics", "a")
-    
-    for entry in f['entries']:
-        subtitle = entry['subtitle'].encode('utf-8')
-        beaut_soup = bs.BeautifulSoup(subtitle)
-        text = beaut_soup.getText()
-        
-        index_about = text.find("About the book")
-        summary = text[index_about+15:-1]
-
-        len_sum = len(summary.split())
-        if len_sum < 10:
-            summary = get_description(entry['title'].encode('utf-8'))
-            if summary.__str__() == "None":
-                break
-
-        # find author and his tags
-#        author_ref = entry['author_detail']['href'].encode('utf-8')
-#        auth_parser = feedparser.parse(author_ref)
-
-        counter = counter+1
-       
-#        print entry['title'].encode('utf-8')
-#        fulltext = '%s\n%s' % (entry['title'].encode('utf-8'), summary)
-
-        fulltext = summary
-        
-        # find language
-        index = text.find(u'Language')
-        short_lang = text[index + 9:index+11]
-        
-        # different languages stemming
-        language = Language.objects.filter(short=short_lang)
-        
-        if language.count() == 0:
-            hyp = classif.classify(fulltext)
-        else:
-            hyp = classif.classify(fulltext, lang=language[0].full.lower())
-            
-#        print 'Hypothesis: ' + str(hyp)
-                    
-        subj_index = text.find('Subject') + 8
-        subjects = text[subj_index:index_about].split(',')
-        
-        for c in subjects:
-#            print ' Tag : ' + c
-            if b == False:
-                if language.count() == 0:
-                    hyp = classif.train(fulltext, c)
-                else:
-                    hyp = classif.train(fulltext, c, lang=language[0].full.lower())
-            
-            # write statistic
-
-            if b == True and (c == hyp[0] or c == hyp[1]):     
-                file_handle.write(c)
-                file_handle.write('\n')    
-
-    if b == True:
-        file_handle.close()
-                
-    return counter
         
 def get_statistics():
     ''' parse statistic file and print statistics for classifier'''
@@ -304,6 +90,7 @@ def get_description(book_name):
     
     name = book_name.replace(" ", "+")
 #    print name
+    name = name.encode("utf-8")
     name = urllib2.quote(name)
     
     page = urllib2.urlopen("http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Dstripbooks&field-keywords=" + "%s&x=0&y=0" % name)
@@ -342,127 +129,5 @@ def deserialize():
     file_handle.close()
     return cl
 
-def search_for_author_information(author_name):     #TODO
-    ''' search information about author in wiki '''
-    auth_url = "http://en.wikipedia.org/wiki/" + author_name
-    page = urllib2.urlopen(auth_url)
-    beaut_soup = bs.BeautifulSoup(page)
-    text = beaut_soup.getText()    
 
-# next functions are not used now       
-def read_fullbook(b, feed, classif):
-    ''' read function for full text of book'''
-    
-    f = feedparser.parse(feed)
-    
-    counter = 0
-    if b == True:
-        file_handle_stat = open("statistics", "a")
-    
-    for entry in f['entries']:
-        counter = counter+1
-        url = entry['id'].encode('utf-8') + ".pdf"
-        webFile = urllib2.urlopen(url)
-        localFile = open("downloads/" + url.split('/')[-1], 'w')
-        localFile.write(webFile.read())
-        fulltext = webFile.read()
-        webFile.close()
-        localFile.close()
-
-        content = ""
-        # parse pdf
-        filename = "downloads/" + url.split('/')[-1]
-        
-        pages = set()
-        
-        doc = PDFDocument()
-        fp = file(filename, 'rb')
-        parser = PDFParser(fp)
-        parser.set_document(doc)
-        doc.set_parser(parser)
-        doc.initialize('')
-        
-        count_page = []
-        for (pageno,page) in enumerate(doc.get_pages()):
-            count_page.append(pageno)
-            
-        p_count = len(count_page)
-        
-        for i in xrange(1, 10):
-            pages.add(random.randrange(4, p_count - 3))
-        
-        read_pdf(filename, pages)
-        outputfile = filename[0:-4] + ".txt"
-        
-        content = []
-        file_handle = open(outputfile, "r")
-        content = file_handle.readlines()
-        file_handle.close()
-
-        fulltext = ''
-        for i in content:
-            fulltext += i
-        #content = " ".join(content.replace(u"\xa0", " ").strip().split())
-
-#        fulltext = " ".join(fulltext.replace(u"\xa0", " ").strip().split())
-    #    return fulltext
-        hyp = classif.classify(fulltext)
-        print 'Hypothesis: ' + str(hyp)
-                
-        for cat in entry['categories']:
-            c = cat[1].encode('utf-8')
-            print c
-
-            if b == False:
-                classif.train(fulltext, c)
-                
-            if b == True and (c == hyp[0] or c == hyp[1]):     
-                file_handle_stat.write(c)
-                file_handle_stat.write('\n')    
-                file_handle_stat.flush()
-
-    if b == True:
-        file_handle_stat.close()
-    
-    return counter
-
-def check_fullclassifier(classif):
-    ''' check function for full text classifier'''
-
-    classif.sample_full_train()
-    
-    counter = 0
-    
-    for i in xrange(10, 15):
-        counter += read_fullbook(True, ('http://feedbooks.com/books.atom?lang=en&amp;page=%s' % i), classif)
-        
-    print "Total: ", counter
-    return
-
-def read_pdf(input_file, pages):
-    ''' reads pdf file, extract information'''
-
-    password = ''
-    pagenos = set()
-    maxpages = 0
-    # output option
-    outfile = input_file[0:-4] + ".txt"
-    outtype = 'text'
-    codec = 'utf-8'
-    laparams = LAParams()
-    pagenos.update( int(x)-1 for x in pages )
-
-    rsrc = PDFResourceManager()
-
-    outfp = file(outfile, 'w')
-
-    device = TextConverter(rsrc, outfp, codec=codec, laparams=laparams)
- 
-    fp = file(input_file, 'rb')
-    process_pdf(rsrc, device, fp, pagenos, maxpages=maxpages, password=password)
-    fp.close()
-    device.close()
-    outfp.close()
-    return
-    
 
