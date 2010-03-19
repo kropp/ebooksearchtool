@@ -7,12 +7,13 @@ from spec.external.BeautifulSoup import BeautifulSoup as bs
 
 from book.models import Language
 
-def get_description(book_name):
+def get_description(book_name, flag = False):
     ''' gets book description from Amazon.com'''
     
     name = book_name.replace(" ", "+")
 #    print name
-#    name = name.encode("utf-8")
+    if flag == True:
+        name = name.encode("utf-8")
     name = urllib2.quote(name)
     
     page = urllib2.urlopen("http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Dstripbooks&field-keywords=" + "%s&x=0&y=0" % name)

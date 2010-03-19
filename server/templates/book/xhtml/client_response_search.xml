@@ -137,19 +137,24 @@
 {% ifnotequal prev 0 %}
 
 {% if title.query %}
-    <a href="search?page={{prev}};items_per_page={{items_per_page}};query={{ title.query }}" rel="next">previous page</a>
+    <a href="search?page={{prev}};items_per_page={{items_per_page}};query={{ title.query }}" rel="prev">previous page</a>
 {% else %}        
     {% if title.author and title.tit %}
-        <a href="search?page={{prev}};items_per_page={{items_per_page}};author={{ title.author }};title={{ title.tit }}" rel="next">previous page</a>
+        <a href="search?page={{prev}};items_per_page={{items_per_page}};author={{ title.author }};title={{ title.tit }}" rel="prev">previous page</a>
     {% else %}
         {% if not title.author and not title.tit %}
-            <a href="all?page={{prev}};items_per_page={{items_per_page}}" rel="next">previous page</a>
+            {% if title.tag %}
+                <a href="search?tag={{title.tag}};page={{prev}};items_per_page={{items_per_page}}" rel="prev">previous page</a>
+            {% else %}    
+                <a href="all?page={{prev}};items_per_page={{items_per_page}}" rel="prev">previous page</a>            
+            {% endif %}    
+
         {% else %}    
             {% if title.tit %}
-                <a href="search?page={{prev}};items_per_page={{items_per_page}};title={{ title.tit }}" rel="next">previous page</a>
+                <a href="search?page={{prev}};items_per_page={{items_per_page}};title={{ title.tit }}" rel="prev">previous page</a>
             {% endif %}
             {% if title.author %}
-                <a href="search?page={{prev}};items_per_page={{items_per_page}};author={{ title.author }}" rel="next">previous page</a>
+                <a href="search?page={{prev}};items_per_page={{items_per_page}};author={{ title.author }}" rel="prev">previous page</a>
             {% endif %}
         {% endif %}
     {% endif %}
@@ -164,19 +169,23 @@
         <span class="current">{{curr}}</span>
     {% else %}
         {% if title.query %}
-            <a href="search?page={{ind}};items_per_page={{items_per_page}};query={{ title.query }}" rel="next">{{ind}}</a>
+            <a href="search?page={{ind}};items_per_page={{items_per_page}};query={{ title.query }}" rel="self">{{ind}}</a>
         {% else %}        
             {% if title.author and title.tit %}
-                <a href="search?page={{ind}};items_per_page={{items_per_page}};author={{ title.author }};title={{ title.tit }}" rel="next">{{ind}}</a>
+                <a href="search?page={{ind}};items_per_page={{items_per_page}};author={{ title.author }};title={{ title.tit }}" rel="self">{{ind}}</a>
             {% else %}
                 {% if not title.author and not title.tit %}
-                    <a href="all?page={{ ind }};items_per_page={{items_per_page}}" rel="next">{{ind}}</a>
+                    {% if title.tag %}
+                        <a href="search?tag={{title.tag}};page={{ind}};items_per_page={{items_per_page}}" rel="self">{{ind}}</a>
+                    {% else %}    
+                        <a href="all?page={{ ind }};items_per_page={{items_per_page}}" rel="self">{{ind}}</a>
+                    {% endif %} 
                 {% else %}    
                     {% if title.tit %}
-                        <a href="search?page={{ind}};items_per_page={{items_per_page}};title={{ title.tit }}" rel="next">{{ind}}</a>
+                        <a href="search?page={{ind}};items_per_page={{items_per_page}};title={{ title.tit }}" rel="self">{{ind}}</a>
                     {% endif %}
                     {% if title.author %}
-                        <a href="search?page={{ind}};items_per_page={{items_per_page}};author={{ title.author }}" rel="next">{{ind}}</a>
+                        <a href="search?page={{ind}};items_per_page={{items_per_page}};author={{ title.author }}" rel="self">{{ind}}</a>
                     {% endif %}
                 {% endif %}
             {% endif %}
@@ -192,7 +201,11 @@
         <a href="search?page={{next}};items_per_page={{items_per_page}};author={{ title.author }};title={{ title.tit }}" rel="next">next page</a>
     {% else %}
         {% if not title.author and not title.tit %}
-            <a href="all?page={{next}};items_per_page={{items_per_page}}" rel="next">next page</a>
+            {% if title.tag %}
+                <a href="search?tag={{title.tag}};page={{next}};items_per_page={{items_per_page}}" rel="next">next page</a>
+            {% else %}    
+                <a href="all?page={{next}};items_per_page={{items_per_page}}" rel="next">next page</a>
+            {% endif %} 
         {% else %}    
             {% if title.tit %}
                 <a href="search?page={{next}};items_per_page={{items_per_page}};title={{ title.tit }}" rel="next">next page</a>

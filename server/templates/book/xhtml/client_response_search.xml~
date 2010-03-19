@@ -3,19 +3,32 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head profile="http://www.w3.org/1999/xhtml/vocab">
-  <title>Search results for: 
-    {% if query %}
-        Query "{{ query }}";
+    <title>Search results for: 
+    {% if title.query %}
+        Query "{{ title.query }}";
     {% endif %}
-    {% if title %}
-        Title "{{ title }}";
+    {% if title.tit %}
+        Title "{{ title.tit }}";
     {% endif %} 
-    {% if author %}
-        Author "{{ author }}";
-    {% endif %}</title>
+    {% if title.author %}
+        Author "{{ title.author }}";
+    {% endif %}
+    {% if title.lang %}
+        Language "{{ title.lang }}";
+    {% endif %}
+    {% if title.tag %}
+        Tag "{{ title.tag }}";
+    {% endif %}
+    </title>
+
+<style type="text/css">
+    
+    img.cover {margin-top: 3px; max-height: 110px;}
+
+</style>
+ 
   
   <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="chrome=1" />
   
   <!-- Links --> 
   <link rel="search" type="application/opensearchdescription+xml" title="Opensearch description" href="opensearch" />
@@ -34,91 +47,179 @@
 <div id="header">
   
     <div class="container">
-        <div class="span-19">
-            <h1 class="fb-blue bottom">Search results for: </h1>
-            <h2 class="gray">
-                {% if query %}
-                    Query "{{ query }}";
-                {% endif %}
-                {% if title %}
-                    Title "{{ title }}";
-                {% endif %} 
-                {% if author %}
-                    Author "{{ author }}";
-                {% endif %}
-            </h2>
+        <div>
+            <h1>Search results for: </h1>
         </div>
+            <form name="test" action="search">
+                {% if title.query %}
+                Query: <input type="text" name="query" value="{{ title.query }}">
+                <input type="submit" value="Search" >
+                <a href="discover/extended" rel="extended">Extended search</a>
+               
+                {% else %}
+                <table>    
+                    <tr>
+                    <td>Title:</td>
+                    <td>  <input type="text" name="title" value="{{ title.tit }}"></td>
+                    <td><a href="discover/search" rel="simple search">Simple search</a> </td>
+                    </tr><tr>
+                    <td>Author:</td> 
+                    <td> <input type="text" name="author" value="{{ title.author }}"></td>
+                    </tr><tr>
+                    <td>Language:</td>  
+                    <td><input type="text" name="lang" value="{{ title.lang }}"></td>
+                    </tr><tr>
+                    <td>Tag:</td>
+                    <td><input type="text" name="tag" value="{{ title.tag }}"></td>
+                     </tr><tr>
+                     <td></td><td align="right"><input type="submit" value="Search" ></td>
+                </table>
+                </form>
+                    
+                {% endif %}
+                </form><br/>
     </div>
+
 
 {% for book in books %}
 
-  <div class="span-2 append-bottom">
-  
-      <a href="book/id{{ book.id }}"><img alt="{{ book.title }}" class="cover" src="{{book.book_file.all.0.img_link}}" title="{{ book.title }}" /></a> 
-  
-  </div>
+<hr class="space" />
+
+<div>
+
+<span>
+      {% if not book.book_file.all.0.img_link %}
+        <a href="book/id{{ book.id }}"><img alt="{{ book.title }}" class="cover" align="left" border="0" hspace="10" src="http://abyss.hubbe.net/gfx/covers/no_cover.gif" title="{{ book.title }}" /></a>
+      {% else %}
+        <a href="book/id{{ book.id }}"><img alt="{{ book.title }}" class="cover" align="left" border="0" hspace="10"  src="{{book.book_file.all.0.img_link}}" title="{{ book.title }}" /></a> 
+      {% endif %}  
 
 
-  <div class="span-15 prepend-1 append-bottom last">
 
-
-    <div class="float-right small">
+<!--    <div class="float-right small"-->
         {% for tag in book.tag.all %}
             <category term="{{ tag }}"/>
         {% endfor %}
-    </div>
+<!--    </div-->
 
     
-    <h3 class="fb-blue small-bottom-margin"><a href="book/id{{ book.id }}">{{ book.title }}</a></h3>
-    <h4 class="charcoal">by 
+    <h3><a href="book/id{{ book.id }}">{{ book.title }}</a></h3>
+    <h4>by 
       {% for author in book.author_set.all %}
          <em><a href="author/id{{ author.id }}" class="gray">{{ author.name }}</a></em>
       {% endfor %}
     </h4>    
-    {% for annotation in book.annotation.all %}
-            <annotation> {{ annotation }} </annotation>
-    {% endfor %}
-  </div>
-
-      
-      <hr class="space" />
+    {% if book.lang %}
+        <h4 class="charcoal">Language: <em><a href="search?lang={{ book.lang }}" class="gray">{{ book.lang }}</a>
+        </em></h4>
+    {% else %}
+    <br/>
+    {% endif %}
+    {% if not book.annotation.all.0 %}
+         <br/>
+    {% else %}
+        <annotation> {{ book.annotation.all.0 }} </annotation>
+    {% endif %}
+</span>
+    
+</div>
 
 {% endfor %}
-
+<hr class="space" />
 
 <!--    <link href="search.atom?" rel="alternate"></link>
     <link href="search.atom?items_per_page={{items_per_page}};query={{ query }}" rel="self"></link>
     <link rel="next" href="search.atom?page={{next}};items_per_page={{items_per_page}};query={{ query }}"/>
 -->    
 
-<div class="pagination">
+<div class="pagination" align="center">
 
-{% for ind in seq%}
+{% ifnotequal prev 0 %}
+
+{% if title.query %}
+    <a href="search?page={{prev}};items_per_page={{items_per_page}};query={{ title.query }}" rel="prev">previous page</a>
+{% else %}        
+    {% if title.author and title.tit %}
+        <a href="search?page={{prev}};items_per_page={{items_per_page}};author={{ title.author }};title={{ title.tit }}" rel="prev">previous page</a>
+    {% else %}
+        {% if not title.author and not title.tit %}
+            {% if title.tag %}
+                <a href="search?tag={{title.tag}}?page={{prev}};items_per_page={{items_per_page}}" rel="prev">previous page</a>
+            {% else %}    
+                <a href="all?page={{prev}};items_per_page={{items_per_page}}" rel="prev">previous page</a>            
+            {% endif %}    
+
+        {% else %}    
+            {% if title.tit %}
+                <a href="search?page={{prev}};items_per_page={{items_per_page}};title={{ title.tit }}" rel="prev">previous page</a>
+            {% endif %}
+            {% if title.author %}
+                <a href="search?page={{prev}};items_per_page={{items_per_page}};author={{ title.author }}" rel="prev">previous page</a>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+{% endif %}
+
+{% endifnotequal %}
+
+{% ifnotequal next 0 %}
+
+{% for ind in seq %}
     {% ifequal ind curr %}
         <span class="current">{{curr}}</span>
     {% else %}
-        {% if query %}
-            <a href="search?page={{ind}};items_per_page={{items_per_page}};query={{ query }}" rel="next">{{ind}}</a>
+        {% if title.query %}
+            <a href="search?page={{ind}};items_per_page={{items_per_page}};query={{ title.query }}" rel="self">{{ind}}</a>
         {% else %}        
-            {% if author and title %}
-                <a href="search?page={{ind}};items_per_page={{items_per_page}};author={{ author }};title={{ title }}" rel="next">{{ind}}</a>
+            {% if title.author and title.tit %}
+                <a href="search?page={{ind}};items_per_page={{items_per_page}};author={{ title.author }};title={{ title.tit }}" rel="self">{{ind}}</a>
             {% else %}
-                {% if not author and not title %}
-                    <a href="all?page={{ind}};items_per_page={{items_per_page}}" rel="next">{{ind}}</a>
+                {% if not title.author and not title.tit %}
+                    {% if title.tag %}
+                        <a href="search?tag={{title.tag}}?page={{ind}};items_per_page={{items_per_page}}" rel="self">{{ind}}</a>
+                    {% else %}    
+                        <a href="all?page={{ ind }};items_per_page={{items_per_page}}" rel="self">{{ind}}</a>
+                    {% endif %} 
                 {% else %}    
-                    {% if title %}
-                        <a href="search?page={{ind}};items_per_page={{items_per_page}};title={{ title }}" rel="next">{{ind}}</a>
+                    {% if title.tit %}
+                        <a href="search?page={{ind}};items_per_page={{items_per_page}};title={{ title.tit }}" rel="self">{{ind}}</a>
                     {% endif %}
-                    {% if author %}
-                        <a href="search?page={{ind}};items_per_page={{items_per_page}};author={{ author }}" rel="next">{{ind}}</a>
+                    {% if title.author %}
+                        <a href="search?page={{ind}};items_per_page={{items_per_page}};author={{ title.author }}" rel="self">{{ind}}</a>
                     {% endif %}
                 {% endif %}
             {% endif %}
         {% endif %}
     {% endifequal %}
 {%endfor%}
-</div>
 
+
+{% if title.query %}
+    <a href="search?page={{next}};items_per_page={{items_per_page}};query={{ title.query }}" rel="next">next page</a>
+{% else %}        
+    {% if title.author and title.tit %}
+        <a href="search?page={{next}};items_per_page={{items_per_page}};author={{ title.author }};title={{ title.tit }}" rel="next">next page</a>
+    {% else %}
+        {% if not title.author and not title.tit %}
+            {% if title.tag %}
+                <a href="search?tag={{title.tag}}?page={{next}};items_per_page={{items_per_page}}" rel="next">next page</a>
+            {% else %}    
+                <a href="all?page={{next}};items_per_page={{items_per_page}}" rel="next">next page</a>
+            {% endif %} 
+        {% else %}    
+            {% if title.tit %}
+                <a href="search?page={{next}};items_per_page={{items_per_page}};title={{ title.tit }}" rel="next">next page</a>
+            {% endif %}
+            {% if title.author %}
+                <a href="search?page={{next}};items_per_page={{items_per_page}};author={{ title.author }}" rel="next">next page</a>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+{% endif %}
+
+{% endifnotequal %}
+</div>
+</div>
 </body>
 </html>
 
