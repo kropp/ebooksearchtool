@@ -6,9 +6,7 @@ from django.db.models import Q
 from django.shortcuts import render_to_response
 from string import split
 
-from book.models import Book
-from book.models import Author
-from book.models import Tag
+from book.models import Book, Author, Tag
 
 from django.http import Http404
 from django.http import HttpResponse
@@ -45,52 +43,58 @@ def search_request_to_server(request, response_type, is_all):
             request_to_server = request_to_server | Q(title__icontains=word) \
               | Q(author__name__icontains=word) \
               | Q(annotation__name__icontains=word) \
-              | Q(book_file__more_info__icontains=word) #\
-#              | Q(author__alias__name__icontains=word) 
+              | Q(book_file__more_info__icontains=word) 
     except KeyError:
         query = None    
+
     try:
     # search in title
         title = request.GET['title']
-        if title != '':
-            request_to_server = request_to_server & Q(title__icontains=title)
-            main_title['tit'] = title
     except KeyError:
         title = None        
 
     try:
     # search in author.name, alias
         author = request.GET['author']
-        if author != '':
-            request_to_server = request_to_server\
-                          & (Q(author__name__icontains=author)) #\
-#                          | Q(author__alias__name__icontains=author))
-            main_title['author'] = author
     except KeyError:
         author = None    
-        
-    try:
-    # search in lang
-        lang = request.GET['lang']
-        if lang != '':
-            request_to_server = request_to_server & Q(lang=lang)
-            main_title['lang'] = lang
-    except KeyError:
-        lang = None   
 
-    try:
-    # search in tag
-        tag = request.GET['tag']
-        if tag != '':
-            request_to_server = request_to_server & Q(tag__name__icontains=tag)
-            main_title['tag'] = tag
-    except KeyError:
-        tag = None          
+    if title:
+        books = Book.title_search.query(title)
+        if author:
+            authors = Author.soundex_search.query(author)
+            authors_id = map(lambda x: x.id, authors)            
+            books = books.filter(author_id=authors_id)
+        else:
+            main_title['tit'] = title
+    elif author:
+        authors = Author.soundex_search.query(author)
+        main_title['author'] = author
+        books = Book.objects.none()             #TODO
 
-    books = Book.objects.filter(request_to_server).distinct()
+    else:        
+        try:
+        # search in lang
+            lang = request.GET['lang']
+            if lang != '':
+                request_to_server = request_to_server & Q(lang=lang)
+                main_title['lang'] = lang
+        except KeyError:
+            lang = None   
+
+        try:
+        # search in tag
+            tag = request.GET['tag']
+            if tag != '':
+                request_to_server = request_to_server & Q(tag__name__icontains=tag)
+                main_title['tag'] = tag
+        except KeyError:
+            tag = None          
+
+        books = Book.objects.filter(request_to_server).distinct()
     
-    if len(request_to_server) == 0:
-        books = Book.objects.none()
+        if len(request_to_server) == 0:
+            books = Book.objects.none()
 
     if is_all == "yes":
         query = None

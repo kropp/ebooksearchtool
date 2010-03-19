@@ -28,10 +28,9 @@ def search_for_author_information(author):
 
     beaut_soup = bs.BeautifulSoup(page)
     text = beaut_soup.getText()
-    text = text.lower()
 
     is_article = text.find("Wikipedia does not have an article with this exact name")
-    if is_article == -1:
+    if is_article != -1:
         auth_url = "http://en.wikipedia.org/wiki/Special:Search/" + author.name
         infile = opener.open(auth_url)
         page = infile.read()
@@ -46,7 +45,20 @@ def search_for_author_information(author):
             text = beaut_soup.getText()
             is_result = text.find('Search results')
             if is_result != -1:
-                break               #TODO
+                first_res = beaut_soup.find(attrs={'class':'mw-search-results'})
+                article = first_res.find('li')
+                text = article.getText().lower()
+                is_writer = text.find('writer')
+                if is_writer == -1:
+                    return
+                else:
+                    auth_url = article.find('a')['href']
+                    infile = opener.open(auth_url)
+                    page = infile.read()
+                    beaut_soup = bs.BeautifulSoup(page)
+###############
+    text = beaut_soup.getText()
+    text = text.lower()
 
     for i in genres.items():
         for j in i[1]:
