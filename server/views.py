@@ -125,7 +125,6 @@ def search_request_to_server(request, response_type, is_all):
         next = 0
         prev = 0
         
-    print main_title
     if response_type == "atom":
         return render_to_response('book/opds/client_response_search.xml',
             {'books': books[start_index:start_index+items_per_page],

@@ -145,11 +145,12 @@
         {% if not title.author and not title.tit %}
             {% if title.tag %}
                 <a href="search?tag={{title.tag}};page={{prev}};items_per_page={{items_per_page}}" rel="prev">previous page</a>
-            {% endif %}
-            {% if title.lang %}
-                <a href="search?lang={{title.lang}};page={{prev}};items_per_page={{items_per_page}}" rel="prev">previous page</a>            
-            {% else %}    
-                <a href="all?page={{prev}};items_per_page={{items_per_page}}" rel="prev">previous page</a>            
+            {% else %}
+                {% if title.lang %}
+                    <a href="search?lang={{title.lang}};page={{prev}};items_per_page={{items_per_page}}" rel="prev">previous page</a>            
+                {% else %}    
+                    <a href="all?page={{prev}};items_per_page={{items_per_page}}" rel="prev">previous page</a>            
+                {% endif %}
             {% endif %}    
 
         {% else %}    
@@ -180,11 +181,12 @@
                 {% if not title.author and not title.tit %}
                     {% if title.tag %}
                         <a href="search?tag={{title.tag}};page={{ind}};items_per_page={{items_per_page}}" rel="self">{{ind}}</a>
-                    {% endif %}
-                    {% if title.lang %}
-                        <a href="search?lang={{title.lang}};page={{ind}};items_per_page={{items_per_page}}" rel="self">{{ind}}</a>            
-                    {% else %}    
-                        <a href="all?page={{ ind }};items_per_page={{items_per_page}}" rel="self">{{ind}}</a>
+                    {% else %}
+                        {% if title.lang %}
+                            <a href="search?lang={{title.lang}};page={{ind}};items_per_page={{items_per_page}}" rel="self">{{ind}}</a>            
+                        {% else %}    
+                            <a href="all?page={{ ind }};items_per_page={{items_per_page}}" rel="self">{{ind}}</a>
+                        {% endif %}
                     {% endif %} 
                 {% else %}    
                     {% if title.tit %}
@@ -209,11 +211,12 @@
         {% if not title.author and not title.tit %}
             {% if title.tag %}
                 <a href="search?tag={{title.tag}};page={{next}};items_per_page={{items_per_page}}" rel="next">next page</a>
-            {% endif %}
-            {% if title.lang %}
-                <a href="search?lang={{title.lang}};page={{next}};items_per_page={{items_per_page}}" rel="prev">next page</a>            
-            {% else %}    
-                <a href="all?page={{next}};items_per_page={{items_per_page}}" rel="next">next page</a>
+            {% else %}
+                {% if title.lang %}
+                    <a href="search?lang={{title.lang}};page={{next}};items_per_page={{items_per_page}}" rel="prev">next page</a>            
+                {% else %}    
+                    <a href="all?page={{next}};items_per_page={{items_per_page}}" rel="next">next page</a>
+                {% endif %} 
             {% endif %} 
         {% else %}    
             {% if title.tit %}
