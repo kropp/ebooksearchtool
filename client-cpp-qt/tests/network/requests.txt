@@ -1,0 +1,4 @@
+http://www.smashwords.com/atom/search/books?query=john
+http://feedbooks.com/book/34.png?t=20091030132953
+http://only.mawhrin.net/ebooks/search.atom?query=john
+http://manybooks.net/stanza/search.php?q=john

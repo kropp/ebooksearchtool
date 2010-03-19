@@ -6,8 +6,8 @@ TEMPLATE = app
 TARGET = 
 QT += xml
 QT += network
-OBJECTS_DIR = objects_moc
-MOC_DIR = objects_moc
+OBJECTS_DIR = ../bin
+MOC_DIR = ../bin
 DEPENDPATH += . \
               data \
               gui \

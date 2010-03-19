@@ -21,7 +21,6 @@ void View::remove(BookWidget* widget) {
     if ((index >= 0) && (index < myBooks.size())) {
         myBooks.removeAt(index);
     }
-
     emit stateChanged(getState());
 }
 
