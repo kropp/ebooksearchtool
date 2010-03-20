@@ -137,8 +137,6 @@ EBST_NAME = 'ebooks server'
 # search engine settings
 # Sphinx 0.9.9
 SPHINX_API_VERSION = 0x116
-# length of soundex code
-#SOUNDEX_LENGTH = 4
 
 
 # debug settings
