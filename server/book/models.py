@@ -84,6 +84,15 @@ class Book(models.Model):
         mode='SPH_MATCH_ANY'
     )
 
+#    # for more settings see 'spec/sphinx_conf/004_book_title_author.tmplt'
+#    title_author_search = SphinxSearch(
+#        index='book_title_author',
+#        weights={
+#            'author_name': 100,
+#        },
+#        mode='SPH_MATCH_ANY',
+#    )
+
 #    # for more settings see 'spec/sphinx_conf/004_book_title_annotation.tmplt'
 #    title_annotation_search = SphinxSearch(
 #        index='book_title_annotation',
@@ -118,6 +127,7 @@ class Author(models.Model):
         weights={
             'name': 50,
         },
+        mode='SPH_MATCH_ANY'
     )
 
     def __unicode__(self):
