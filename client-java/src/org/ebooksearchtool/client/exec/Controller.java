@@ -207,6 +207,8 @@ public class Controller {
         System.out.println("save");
         if(myRequestCount > 9){
             for (int i = 0; i < 9; ++i) {
+                File prev = new File(Integer.toString(i) + ".xml");
+                prev.delete();
                 File cur = new File(Integer.toString(i + 1) + ".xml");
                 cur.renameTo(new File(Integer.toString(i) + ".xml"));
             }
