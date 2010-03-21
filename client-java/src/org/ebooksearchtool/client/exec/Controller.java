@@ -13,15 +13,16 @@ import org.ebooksearchtool.client.utils.XMLBuilder;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
 import java.io.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Controller {
 
     Data myData;
     Settings mySettings;
     int myRequestCount;
-    Thread[] myThreads;
+    ExecutorService myThreads;
 
     public Controller() throws SAXException, ParserConfigurationException, IOException {
 
@@ -83,14 +84,18 @@ public class Controller {
                     adress = query.getQueryAdress(myServer, word, "General");                   //TODO переделать!
 
                     try {
-
+                        System.out.println("IS");
                         InputStream is;
+                        System.out.println("new Connector  " + adress);
                         Connector connect = new Connector(adress, mySettings);
+                        System.out.println("get stream " + adress);
                         is = connect.getFileFromURL(myFileName);
 
                         Parser parser = new Parser();
                         SAXHandler handler = new SAXHandler(myAnswer);
+                        System.out.println("parse  " + adress);
                         parser.parse(is, handler);
+                        System.out.println("parse is over  " + adress);
                     } catch (IOException e) {
                         e.printStackTrace();
                         return;
@@ -140,21 +145,21 @@ public class Controller {
 
         }
 
-        myThreads = new Thread[mySettings.getSupportedServers().size()];
-
+        myThreads = Executors.newCachedThreadPool();
         for (int i = 0; i < mySettings.getSupportedServers().size(); ++i) {
-            myThreads[i] = new Thread(new Downloader(mySettings.getSupportedServers().keySet().toArray(new String[mySettings.getSupportedServers().size()])[i], Integer.toString(i)));
-            myThreads[i].start();
+            myThreads.submit(new Downloader(mySettings.getSupportedServers().keySet().toArray(new String[mySettings.getSupportedServers().size()])[i], Integer.toString(i)));
 
         }
 
-        for (int i = 0; i < mySettings.getSupportedServers().size(); ++i) {
+        myThreads.shutdown();
+        /*for (int i = 0; i < mySettings.getSupportedServers().size(); ++i) {
             try {
-                myThreads[i].join();
+
             } catch (InterruptedException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
-        }
+        } */
+        while(!myThreads.isTerminated()){}
         if (myData.getBooks().size() != 0) {
             saveModel();
         }
@@ -164,11 +169,14 @@ public class Controller {
 
     public void stopProcesses(){
 
-        for(int i = 0; i < myThreads.length; ++i){
-            if(myThreads[i] != null){
-                myThreads[i].stop();
+        myThreads.shutdownNow();
+        /*if (myThreads != null) {
+            for (int i = 0; i < myThreads.length; ++i) {
+                if (myThreads[i] != null) {
+                    myThreads[i].stop();
+                }
             }
-        }
+        } */
         if (myData.getBooks().size() != 0) {
             saveModel();
         }
@@ -196,6 +204,7 @@ public class Controller {
     }
     
     public void saveModel(){
+        System.out.println("save");
         if(myRequestCount > 9){
             for (int i = 0; i < 9; ++i) {
                 File cur = new File(Integer.toString(i + 1) + ".xml");

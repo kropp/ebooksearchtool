@@ -35,6 +35,7 @@ public class Parser{
     public void parse(InputStream is, DefaultHandler handler) throws IOException, SAXException {
 
         myParser.parse(is, handler);
+        is.close();
 
     }
 

@@ -222,7 +222,6 @@ public class SAXHandler extends DefaultHandler{
 
         if("entry".equals(qName)){
             myIsEntryTag = false;
-
             synchronized (myAnswer.getData()) {
                 myAnswer.getData().addBook(myCurBook);
                 myAnswer.getData().notifyObservers(myCurBook);

@@ -418,11 +418,11 @@ public class Window implements Observer{
         ActionListener act = new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
 
-                
             	Thread process = new Thread(new Runnable() {
             		public void run() {
 
                         myMorePanel.setVisible(false);
+                        //myController.stopProcesses();
 
                         myToolStop.setEnabled(true);
 
@@ -440,6 +440,7 @@ public class Window implements Observer{
                             if (myController.getData().getBooks().size() != 0) {
                                 myController.clearModel();
                             }
+                            myController.getData().addObserver(Window.this);
                             myImageWidth = 0;
                             myController.getQueryAnswer(myQueryField.getText());
                         } catch (IOException e) {
@@ -467,7 +468,12 @@ public class Window implements Observer{
             		}
             	});
             	process.start();
-        }
+                try {
+                    process.join();
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+            }
             
         };
 

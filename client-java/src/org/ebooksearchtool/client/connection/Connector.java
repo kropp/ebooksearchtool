@@ -29,6 +29,8 @@ public class Connector{
         mySettings = set;
     }
 
+
+
     public InputStream getFileFromURL(String fileName) {
 
         try {
