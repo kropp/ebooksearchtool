@@ -467,12 +467,13 @@ public class Window implements Observer{
             			myAdress = null;
             		}
             	});
-            	process.start();
+                myController.addTask(process);
+            	/*process.start();
                 try {
                     process.join();
                 } catch (InterruptedException e1) {
                     e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                }
+                } */
             }
             
         };
