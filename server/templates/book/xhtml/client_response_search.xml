@@ -81,6 +81,19 @@
     </div>
 
 
+{% if authors %}
+<h2>Found in authors:</h2>
+{% for author in authors %}
+<div>
+<span>
+    <a href="author/id{{ author.id }}" class="gray">{{ author.name }}</a></em>
+</span>
+</div>
+{% endfor %}
+{% endif %}
+
+{% if books %}
+<h2>Found in books:</h2>
 {% for book in books %}
 
 <hr class="space" />
@@ -125,6 +138,7 @@
 </div>
 
 {% endfor %}
+{% endif %}
 <hr class="space" />
 
 <!--    <link href="search.atom?" rel="alternate"></link>
@@ -133,7 +147,6 @@
 -->    
 
 <div class="pagination" align="center">
-
 {% ifnotequal prev 0 %}
 
 {% if title.query %}
