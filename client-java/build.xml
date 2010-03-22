@@ -9,6 +9,7 @@
 
     <patternset id="resources">
         <include name="**/?*.gif"/>
+        <include name="**/?*.png"/>
     </patternset>
 
     <target name="init">
