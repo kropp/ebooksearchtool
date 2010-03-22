@@ -24,21 +24,29 @@ def search_for_author_information(author):
     auth_url = "http://en.wikipedia.org/wiki/" + author.name.replace(" ", "_")
     opener = urllib2.build_opener()
     opener.addheaders = [('User-agent', 'Mozilla/5.0')]
-    infile = opener.open(auth_url)
-    page = infile.read()
+
+    page=""    
+    try:
+        infile = opener.open(auth_url)
+        page = infile.read()
+    except:
+        is_article = -1
 
     beaut_soup = bs.BeautifulSoup(page)
     text = beaut_soup.getText()
 
     is_article = text.find("Wikipedia does not have an article with this exact name")
-    if is_article != -1:
+    if is_article == -1:
         auth_url = "http://en.wikipedia.org/wiki/Special:Search/" + author.name
         infile = opener.open(auth_url)
         page = infile.read()
         beaut_soup = bs.BeautifulSoup(page)
         did_you = beaut_soup.find(attrs={'class':'searchdidyoumean'})
+        if did_you != None:
+            did_you = did_you.get('a')
         
         if did_you != None:
+            did_you = did_you['href']
             auth_url = "http://en.wikipedia.org" + did_you
             infile = opener.open(auth_url)
             page = infile.read()
@@ -47,6 +55,26 @@ def search_for_author_information(author):
             is_result = text.find('Search results')
             if is_result != -1:
                 first_res = beaut_soup.find(attrs={'class':'mw-search-results'})
+                article = first_res.find('li')
+                if article != None:
+                    article = article.find('a')
+                    if article != None:
+                        auth_url = article['href']
+                        infile = opener.open(auth_url)
+                        page = infile.read()
+                        beaut_soup = bs.BeautifulSoup(page)
+                        text = beaut_soup.getText().lower()
+                        is_writer = text.find('writer')
+                        if is_writer == -1:
+                            return
+                        else:
+                            auth_url = article.find('a')['href']
+                            infile = opener.open(auth_url)
+                            page = infile.read()
+                            beaut_soup = bs.BeautifulSoup(page)
+        else:
+            first_res = beaut_soup.find(attrs={'class':'mw-search-results'})
+            if first_res != None:
                 article = first_res.find('li')
                 text = article.getText().lower()
                 is_writer = text.find('writer')

@@ -108,7 +108,7 @@ class Book(models.Model):
 class Author(models.Model):
     name = models.CharField(max_length=NAME_LENGTH, unique=True)
     book = models.ManyToManyField(Book)
-    alias = models.ManyToManyField(AuthorAlias)
+    alias = models.ManyToManyField(AuthorAlias, null=True, blank=True)
     tag = models.ManyToManyField(Tag)
 
     credit = models.IntegerField(default=0)
