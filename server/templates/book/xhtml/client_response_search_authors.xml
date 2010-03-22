@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head profile="http://www.w3.org/1999/xhtml/vocab">
+    <title>Search results for: 
+        Author "{{ author }}";
+    </title>
+
+  <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />
+  
+  <!-- Links --> 
+  <link rel="search" type="application/opensearchdescription+xml" title="Opensearch description" href="opensearch" />
+
+  <!-- CSS 
+  <link rel="stylesheet" href="/stylesheets/screen.css" type="text/css" media="screen, projection" /> 
+  <link rel="stylesheet" href="/stylesheets/print.css" type="text/css" media="print" /> 
+  <link href="/stylesheets/normal.css?1255441690" media="screen" rel="stylesheet" type="text/css" />
+  -->
+  
+</head>
+
+
+<body>
+
+<div id="header">
+  
+    <div class="container">
+        <div>
+            <h1>Search results for: </h1>
+        </div>
+            <form name="test" action="search">
+                <table>    
+                    <tr>
+                    <td>Title:</td>
+                    <td>  <input type="text" name="title" value=""></td>
+                    <td><a href="discover/search" rel="simple search">Simple search</a> </td>
+                    </tr><tr>
+                    <td>Author:</td> 
+                    <td> <input type="text" name="author" value="{{ author }}"></td>
+                    </tr><tr>
+                    <td>Language:</td>  
+                    <td><input type="text" name="lang" value=""></td>
+                    </tr><tr>
+                    <td>Tag:</td>
+                    <td><input type="text" name="tag" value=""></td>
+                     </tr><tr>
+                     <td></td><td align="right"><input type="submit" value="Search" ></td>
+                </table>
+                </form>
+                    
+                </form><br/>
+    </div>
+
+
+{% for auth in authors %}
+
+<hr class="space" />
+
+<div>
+
+<span>
+    <a href="author/id{{ auth.id }}" class="gray">{{ auth.name }}</a></em>
+</span>
+    
+</div>
+
+{% endfor %}
+<hr class="space" />
+
+<!--    <link href="search.atom?" rel="alternate"></link>
+    <link href="search.atom?items_per_page={{items_per_page}};query={{ query }}" rel="self"></link>
+    <link rel="next" href="search.atom?page={{next}};items_per_page={{items_per_page}};query={{ query }}"/>
+-->    
+
+<div class="pagination" align="center">
+
+{% ifnotequal prev 0 %}
+
+   
+<a href="search?page={{prev}};items_per_page={{items_per_page}};author={{ author }}" rel="prev">previous page</a>
+
+{% endifnotequal %}
+
+{% ifnotequal next 0 %}
+
+{% for ind in seq %}
+    {% ifequal ind curr %}
+        <span class="current">{{curr}}</span>
+    {% else %}
+        <a href="search?page={{ind}};items_per_page={{items_per_page}};author={{ author }}" rel="self">{{ind}}</a>
+    {% endifequal %}
+{%endfor%}
+
+
+<a href="search?page={{next}};items_per_page={{items_per_page}};author={{ author }}" rel="next">next page</a>
+
+{% endifnotequal %}
+</div>
+</div>
+</body>
+</html>
+

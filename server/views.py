@@ -69,8 +69,37 @@ def search_request_to_server(request, response_type, is_all):
             main_title['tit'] = title
     elif author:
         authors = Author.soundex_search.query(author)
-        main_title['author'] = author
-        books = Book.objects.none()             #TODO
+        total = authors.count()
+
+        if page <= 10:
+            if total/items_per_page+2 > 10:
+                seq = range(1, page + 10)
+            else:
+                if total%items_per_page == 0:
+                    seq = range(1, total/items_per_page+1)
+                else:
+                    seq = range(1, total/items_per_page+2)
+                
+        if page > 10:
+            if total/items_per_page+2 > page + 10:
+                seq = range(page - 10, page + 10)
+            else:
+                if total%items_per_page == 0:
+                    seq = range(page - 10, total/items_per_page+1)
+                else:
+                    seq = range(page - 10, total/items_per_page+2)
+        
+        prev = next - 2
+        
+        if len(seq) == 1 or len(seq) == 0:
+            next = 0
+            prev = 0
+
+        return render_to_response('book/xhtml/client_response_search_authors.xml',
+            {'authors': authors[start_index:start_index+items_per_page],
+            'author': author, 'total':total,
+            'items_per_page':items_per_page, 'next':next, 'curr': next - 1,
+            'prev': prev, 'seq':seq, })
 
     else:        
         try:
@@ -125,7 +154,7 @@ def search_request_to_server(request, response_type, is_all):
     
     prev = next - 2
     
-    if seq.__len__() == 1 or seq.__len__() == 0:
+    if len(seq) == 1 or len(seq) == 0:
         next = 0
         prev = 0
         
