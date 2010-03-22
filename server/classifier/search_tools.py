@@ -2,6 +2,7 @@
 
 import urllib2
 from spec.external.BeautifulSoup import BeautifulSoup as bs
+from book.models import Tag
 
 genres = {'Adventure':['adventure'], 'Biography':['biography'], 'Collections':['collections'],
     'Crime/Mystery':['crime/mystery','crime', 'mystery'], 'Essay':['essay'], 
@@ -20,7 +21,7 @@ genres = {'Adventure':['adventure'], 'Biography':['biography'], 'Collections':['
 def search_for_author_information(author):     
     ''' search information about author in wiki '''
 
-    auth_url = "http://en.wikipedia.org/wiki/" + author.name
+    auth_url = "http://en.wikipedia.org/wiki/" + author.name.replace(" ", "_")
     opener = urllib2.build_opener()
     opener.addheaders = [('User-agent', 'Mozilla/5.0')]
     infile = opener.open(auth_url)
@@ -56,15 +57,15 @@ def search_for_author_information(author):
                     infile = opener.open(auth_url)
                     page = infile.read()
                     beaut_soup = bs.BeautifulSoup(page)
-###############
+
     text = beaut_soup.getText()
     text = text.lower()
 
     for i in genres.items():
+        t = Tag.objects.get_or_create(name = i[0])
         for j in i[1]:
             k = text.find(j)
             if k != -1:
-                t = Tag.objects.get_or_create(i[0])
                 author.tag.add(t[0])
 
 
