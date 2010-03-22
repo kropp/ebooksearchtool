@@ -95,16 +95,22 @@ def search_request_to_server(request, response_type, is_all):
     try:
     # search in lang
         lang = request.GET['lang']
-        request_to_server = request_to_server & Q(lang=lang)
-        main_title['lang'] = lang
+        if lang != '':
+            request_to_server = request_to_server & Q(lang=lang)
+            main_title['lang'] = lang
+        else:
+            lang = None
     except KeyError:
         lang = None   
 
     try:
     # search in tag
         tag = request.GET['tag']
-        request_to_server = request_to_server & Q(tag__name__icontains=tag)
-        main_title['tag'] = tag
+        if tag != '':
+            request_to_server = request_to_server & Q(tag__name__icontains=tag)
+            main_title['tag'] = tag
+        else:
+            tag = None
     except KeyError:
         tag = None          
 

@@ -145,7 +145,7 @@ def books_by_languages_request_to_server(request, response_type):
         
 def books_by_tags_request_to_server(request, response_type):
     """builds opds and xhtml response for books by tags request"""
-    tags = Tag.objects.all()
+    tags = Tag.objects.all().order_by("name")
     if response_type == "atom":
         return render_to_response('book/opds/client_response_books_by_tag.xml',
         {'tags':tags})
