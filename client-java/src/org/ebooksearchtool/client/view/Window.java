@@ -468,12 +468,6 @@ public class Window implements Observer{
             		}
             	});
                 myController.addTask(process);
-            	/*process.start();
-                try {
-                    process.join();
-                } catch (InterruptedException e1) {
-                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                } */
             }
             
         };
@@ -529,7 +523,7 @@ public class Window implements Observer{
     }
 
     public void appendBook(Book book, DefaultBoundedRangeModel model) {
-        myBookPanels.get(myBookPanels.size() - 1).add(new BookPanel(book, myController.getSettings(), model));
+        myBookPanels.get(myBookPanels.size() - 1).add(new BookPanel(book, myController.getSettings(), model, myController));
         if (myImageWidth < myBookPanels.get(myBookPanels.size() - 1).get(myBookPanels.get(myBookPanels.size() - 1).size() - 1).getImageWidth()) {
             myImageWidth = myBookPanels.get(myBookPanels.size() - 1).get(myBookPanels.get(myBookPanels.size() - 1).size() - 1).getImageWidth();
 

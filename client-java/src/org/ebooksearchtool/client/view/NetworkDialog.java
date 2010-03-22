@@ -21,7 +21,7 @@ import java.io.UnsupportedEncodingException;
 /*Date: 17.10.2009
  * Time: 21:57:00
  */
-public class NetworkDialog extends JDialog{
+public class NetworkDialog extends JDialog {
 
     JTextField myServerText;
     JTextField myIPText;
@@ -46,7 +46,7 @@ public class NetworkDialog extends JDialog{
 
         JPanel main = new JPanel();
         main.setLayout(new BoxLayout(main, BoxLayout.Y_AXIS));
-        main.setBorder(BorderFactory.createEmptyBorder(12,12,12,12));
+        main.setBorder(BorderFactory.createEmptyBorder(12, 12, 12, 12));
 
         JPanel serverChange = new JPanel();
         serverChange.setLayout(new BoxLayout(serverChange, BoxLayout.Y_AXIS));
@@ -58,7 +58,7 @@ public class NetworkDialog extends JDialog{
         String[] servers = myController.getSettings().getSupportedServers().keySet().toArray(new String[myController.getSettings().getSupportedServers().size()]);
         myChecks = new JCheckBox[myController.getSettings().getSupportedServers().size()];
 
-        for(int i = 0; i < myController.getSettings().getSupportedServers().size(); ++i){
+        for (int i = 0; i < myController.getSettings().getSupportedServers().size(); ++i) {
             myChecks[i] = new JCheckBox(servers[i]);
             serverChange.add(myChecks[i]);
             myChecks[i].setSelected(myController.getSettings().getSupportedServers().get(servers[i]).isEnabled());
@@ -133,15 +133,15 @@ public class NetworkDialog extends JDialog{
         Component[] comps = {supServerLabel, serverLabel, proxyLabel, ipLabel, portLabel};
         int labelWidth = 0;
         Dimension dim = new Dimension();
-        
-        for(int i = 0; i < 5; ++i){
-            if(labelWidth < comps[i].getPreferredSize().width){
+
+        for (int i = 0; i < 5; ++i) {
+            if (labelWidth < comps[i].getPreferredSize().width) {
                 labelWidth = comps[i].getPreferredSize().width;
                 dim = comps[i].getPreferredSize();
             }
         }
 
-        for(int i = 0; i < 5; ++i){
+        for (int i = 0; i < 5; ++i) {
             comps[i].setPreferredSize(dim);
             comps[i].setMaximumSize(dim);
             comps[i].setMinimumSize(dim);
@@ -183,7 +183,6 @@ public class NetworkDialog extends JDialog{
         myIPText.setEnabled(myProxyCheck.isSelected());
         myPortText.setEnabled(myProxyCheck.isSelected());
 
-        
 
         myCancel.addActionListener(new ActionListener() {
 
@@ -209,7 +208,11 @@ public class NetworkDialog extends JDialog{
                             if (handler.getSearchLink().contains("{searchTerms}") || handler.getSearchLink().contains("{searchTerms?}")) {
                                 StringBuffer link = new StringBuffer(handler.getSearchLink());
                                 link.delete(link.indexOf("{searchTerms"), link.length());
-                                myController.getSettings().getSupportedServers().put(myServerText.getText(), new Server(myServerText.getText(), link.toString(), true));
+                                String fullLink = link.toString();
+                                if (fullLink.startsWith("/")) {
+                                    fullLink = myServerText.getText() + fullLink;
+                                }
+                                myController.getSettings().getSupportedServers().put(myServerText.getText(), new Server(myServerText.getText(), fullLink, true));
                                 dispose();
                                 new NetworkDialog(myController);
                             } else {
@@ -232,7 +235,7 @@ public class NetworkDialog extends JDialog{
                                 } else {
                                     con = new Connector(handler.getSearchLink(), myController.getSettings());
                                 }
-
+                                System.out.println("connected");
                                 if (con.getFileFromURL("searchprobe.xml") != null) {
                                     handler = new SAXQueryHandler();
                                     parser.parse("searchprobe.xml", handler);
@@ -240,9 +243,13 @@ public class NetworkDialog extends JDialog{
                                         if (handler.getSearchLink().contains("{searchTerms}") || handler.getSearchLink().contains("{searchTerms?}")) {
                                             StringBuffer link = new StringBuffer(handler.getSearchLink());
                                             link.delete(link.indexOf("{searchTerms"), link.length());
-                                            myController.getSettings().getSupportedServers().put(myServerText.getText(), new Server(myServerText.getText(), link.toString(), true));
+                                            String fullLink = link.toString();
+                                            if(fullLink.startsWith("/")){
+                                                fullLink = myServerText.getText() + fullLink;
+                                            }
+                                            myController.getSettings().getSupportedServers().put(myServerText.getText(), new Server(myServerText.getText(), fullLink, true));
                                             dispose();
-                                new NetworkDialog(myController);
+                                            new NetworkDialog(myController);
                                         } else {
                                             JOptionPane.showMessageDialog(new JDialog(), "This feed hasn't search terms and can't be used as searchable catalog", "Wrong catalog", JOptionPane.WARNING_MESSAGE);
                                         }
@@ -277,7 +284,7 @@ public class NetworkDialog extends JDialog{
             public void actionPerformed(ActionEvent e) {
 
                 try {
-                    for(int i = 0; i < myChecks.length; ++i){
+                    for (int i = 0; i < myChecks.length; ++i) {
                         myController.getSettings().getSupportedServers().get(myChecks[i].getText()).setEnabled(myChecks[i].isSelected());
                     }
                     myController.getSettings().setIP(myIPText.getText());
@@ -294,14 +301,14 @@ public class NetworkDialog extends JDialog{
             }
 
         });
-        
+
         myProxyCheck.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
 
                 myIPText.setEnabled(myProxyCheck.isSelected());
                 myPortText.setEnabled(myProxyCheck.isSelected());
-                
+
             }
 
         });
@@ -320,17 +327,17 @@ public class NetworkDialog extends JDialog{
             }
 
         });  */
-        
-        getContentPane().add(main);       
+
+        getContentPane().add(main);
 
         getRootPane().setWindowDecorationStyle(JRootPane.INFORMATION_DIALOG);
         pack();
         setModal(true);
         setLocation(200, 200);
         setVisible(true);
-        
+
         setResizable(false);
-        
+
     }
 
 }

@@ -1,5 +1,6 @@
 package org.ebooksearchtool.client.view;
 
+import org.ebooksearchtool.client.exec.Controller;
 import org.ebooksearchtool.client.model.books.Book;
 import org.ebooksearchtool.client.model.settings.Settings;
 import org.ebooksearchtool.client.connection.Connector;
@@ -13,11 +14,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.File;
+import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
 
 public class BookPanel implements Comparable {
 
 	private Book myBook;
 	private Settings mySettings;
+    private Controller myController;
 	
 	private DefaultBoundedRangeModel ourModel;
 	
@@ -43,11 +47,37 @@ public class BookPanel implements Comparable {
     
     private boolean myIsMoreInfoShown = false;
 
-    public BookPanel(Book book, Settings set, DefaultBoundedRangeModel model) {
+    class FileDownloader implements Runnable{
+
+        String myName;
+        String myLink;
+
+        public FileDownloader(String name, String link){
+            myName = name;
+            myLink = link;
+        }
+
+        public void run(){
+            File cover = new File(myName);
+        	if(!cover.exists()){
+                Connector connector = null;
+                try {
+                    connector = new Connector(myLink, mySettings);
+                } catch (IOException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+                connector.getBookFromURL(myName, new DefaultBoundedRangeModel(0, 0, 0, 100));
+        	}
+        }
+
+    }
+
+    public BookPanel(Book book, Settings set, DefaultBoundedRangeModel model, Controller cont) {
 
         myBook = book;
         mySettings = set;
         ourModel = model;
+        myController = cont;
 
         myRootPanel = new JPanel();
         drawRootPanel(80);
@@ -70,16 +100,8 @@ public class BookPanel implements Comparable {
         myRootPanel.setLayout(new BoxLayout(myRootPanel ,BoxLayout.X_AXIS));
 
         if(myBook.getImage() != null && !"".equals(myBook.getImage()) && !myBook.getImage().equals("None")){
-        	File cover = new File("images" + File.separatorChar + myBook.getTitle() + ".jpg");
-        	if(!cover.exists()){
-                Connector connector = null;
-                try {
-                    connector = new Connector(myBook.getImage(), mySettings);
-                } catch (IOException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                }
-                connector.getBookFromURL("images" + File.separatorChar + myBook.getTitle() + ".jpg", new DefaultBoundedRangeModel(0, 0, 0, 100));
-        	}
+            FutureTask ft = myController.addTask(new FileDownloader("images" + File.separatorChar + myBook.getTitle() + ".jpg", myBook.getImage()));
+            while(!ft.isDone()){}
         }
 
         myImageLable = new JLabel();
@@ -267,44 +289,23 @@ public class BookPanel implements Comparable {
         });
 
         myLibButton.addActionListener(new ActionListener() {
-    		public void actionPerformed(ActionEvent e) {
-    			myLibButton.setEnabled(false);
-    			myRootPanel.setVisible(true);
-    		}
+            public void actionPerformed(ActionEvent e) {
+                myLibButton.setEnabled(false);
+                myRootPanel.setVisible(true);
+            }
         });
 
         myDownloadEpubButton.addActionListener(new ActionListener() {
-    		public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e) {
 
-    			Thread process = new Thread(new Runnable() {
-            		public void run() {
-            			Connector connector;
-            			try {
-            				connector = new Connector(myBook.getLinks().get("epub"), mySettings);
-            				connector.getBookFromURL("books" + File.separatorChar + myBook.getTitle() + ".epub", ourModel);
-            			} catch (IOException e1) {
-            				e1.printStackTrace();
-            			}
-            		}
-    			});
-    			process.start();
-    		}
+                myController.addTask(new FileDownloader("books" + File.separatorChar + myBook.getTitle() + ".epub", myBook.getLinks().get("epub")));
+
+            }
         });
 
         myDownloadPdfButton.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
-    			Thread process = new Thread(new Runnable() {
-            		public void run() {
-            			Connector connector;
-            			try {
-            				connector = new Connector(myBook.getLinks().get("pdf"), mySettings);
-            				connector.getBookFromURL("books" + File.separatorChar + myBook.getTitle() + ".pdf", ourModel);
-            			} catch (IOException e1) {
-            				e1.printStackTrace();
-            			}
-            		}
-    			});
-    			process.start();
+                myController.addTask(new FileDownloader("books" + File.separatorChar + myBook.getTitle() + ".pdf", myBook.getLinks().get("pdf")));
     		}
         });
 

@@ -7,7 +7,6 @@ import org.ebooksearchtool.client.model.QueryAnswer;
 import org.ebooksearchtool.client.model.books.Data;
 import org.ebooksearchtool.client.model.settings.Server;
 import org.ebooksearchtool.client.model.settings.Settings;
-import org.ebooksearchtool.client.tests.SAXParserTest;
 import org.ebooksearchtool.client.utils.XMLBuilder;
 
 import org.xml.sax.SAXException;
@@ -15,21 +14,19 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
 
 public class Controller {
 
     Data myData;
     Settings mySettings;
     int myRequestCount;
-    ArrayList<Thread> myThreads;
+    ArrayList<FutureTask> myTasks;
 
     public Controller() throws SAXException, ParserConfigurationException, IOException {
 
         //SAXParserTest.test();
-        myThreads = new ArrayList<Thread>();
+        myTasks = new ArrayList<FutureTask>();
         myData = new Data();
         mySettings = new Settings();
 
@@ -147,23 +144,13 @@ public class Controller {
 
         }
 
+        FutureTask[] mainTasks = new FutureTask[mySettings.getSupportedServers().size()];
         for (int i = 0; i < mySettings.getSupportedServers().size(); ++i) {
-            addTask(new Thread(new Downloader(mySettings.getSupportedServers().keySet().toArray(new String[mySettings.getSupportedServers().size()])[i], Integer.toString(i))));
+            mainTasks[i] = addTask(new Downloader(mySettings.getSupportedServers().keySet().toArray(new String[mySettings.getSupportedServers().size()])[i], Integer.toString(i)));
         }
-        //myThreads.shutdown();
-        /*for (int i = 0; i < mySettings.getSupportedServers().size(); ++i) {
-            try {
 
-            } catch (InterruptedException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            }
-        } */
-        for(Thread t : myThreads) {
-            try {
-                t.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            }
+        for(int i = 0; i < mainTasks.length; ++i) {
+            while(!mainTasks[i].isDone()){}                  //TODO будет ли здесь утечка памяти???
         }
         if (myData.getBooks().size() != 0) {
             saveModel();
@@ -174,27 +161,26 @@ public class Controller {
 
     public void stopProcesses(){
 
-        //myThreads.shutdownNow();
-        for (Thread t : myThreads){
-            t.stop();
-        }
-        /*if (myThreads != null) {
-            for (int i = 0; i < myThreads.length; ++i) {
-                if (myThreads[i] != null) {
-                    myThreads[i].stop();
-                }
+        synchronized (myData) {
+            for (FutureTask t : myTasks) {
+                t.cancel(true);
+                System.out.println("stoped");
             }
-        } */
+            myTasks.removeAll(myTasks);
+        }
         if (myData.getBooks().size() != 0) {
             saveModel();
         }
 
     }
 
-    public void addTask(Runnable task){
-        Thread t = new Thread(task);
-        myThreads.add(t);
+    public FutureTask addTask(Runnable task){
+        FutureTask ft = new FutureTask(task, null);
+        Thread t = new Thread(ft);
+        t.setDaemon(true);
+        myTasks.add(ft);
         t.start();
+        return ft;
     }
 
     public Settings getSettings(){
