@@ -109,19 +109,20 @@
 
 
 
-<!--    <div class="float-right small"-->
-        {% for tag in book.tag.all %}
-            <category term="{{ tag }}"/>
-        {% endfor %}
-<!--    </div-->
-
-    
     <h3><a href="book/id{{ book.id }}">{{ book.title }}</a></h3>
     <h4>by 
       {% for author in book.author_set.all %}
          <em><a href="author/id{{ author.id }}" class="gray">{{ author.name }}</a></em>
       {% endfor %}
     </h4>    
+    <div class="tags">
+        <h4 class="charcoal">Tags:
+        {% for tag in book.tag.all %}
+            <em><a href="search?tag={{ tag }}" class="gray">{{ tag }}</a> </em>
+        {% endfor %}
+    </h4>
+    </div>
+
     {% if book.lang %}
         <h4 class="charcoal">Language: <em><a href="search?lang={{ book.lang }}" class="gray">{{ book.lang }}</a>
         </em></h4>
