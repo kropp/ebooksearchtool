@@ -225,6 +225,7 @@ public class SAXHandler extends DefaultHandler{
             synchronized (myAnswer.getData()) {
                 myAnswer.getData().addBook(myCurBook);
                 myAnswer.getData().notifyObservers(myCurBook);
+                System.out.println("added");
             }
 
         }

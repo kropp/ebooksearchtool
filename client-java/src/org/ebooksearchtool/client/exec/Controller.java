@@ -14,6 +14,7 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -23,12 +24,12 @@ public class Controller {
     Data myData;
     Settings mySettings;
     int myRequestCount;
-    ExecutorService myThreads;
+    ArrayList<Thread> myThreads;
 
     public Controller() throws SAXException, ParserConfigurationException, IOException {
 
         //SAXParserTest.test();
-        myThreads = Executors.newCachedThreadPool();
+        myThreads = new ArrayList<Thread>();
         myData = new Data();
         mySettings = new Settings();
 
@@ -146,13 +147,9 @@ public class Controller {
 
         }
 
-        Future[] tasks = new Future[mySettings.getSupportedServers().size()];
         for (int i = 0; i < mySettings.getSupportedServers().size(); ++i) {
-            Downloader down = new Downloader(mySettings.getSupportedServers().keySet().toArray(new String[mySettings.getSupportedServers().size()])[i], Integer.toString(i));
-            tasks[i] = myThreads.submit(down);
-            myThreads.execute(down);
+            addTask(new Thread(new Downloader(mySettings.getSupportedServers().keySet().toArray(new String[mySettings.getSupportedServers().size()])[i], Integer.toString(i))));
         }
-
         //myThreads.shutdown();
         /*for (int i = 0; i < mySettings.getSupportedServers().size(); ++i) {
             try {
@@ -161,8 +158,12 @@ public class Controller {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
         } */
-        for(int i = 0; i < mySettings.getSupportedServers().size(); ++i) {
-            while(!tasks[i].isDone()){}
+        for(Thread t : myThreads) {
+            try {
+                t.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
         }
         if (myData.getBooks().size() != 0) {
             saveModel();
@@ -173,7 +174,10 @@ public class Controller {
 
     public void stopProcesses(){
 
-        myThreads.shutdownNow();
+        //myThreads.shutdownNow();
+        for (Thread t : myThreads){
+            t.stop();
+        }
         /*if (myThreads != null) {
             for (int i = 0; i < myThreads.length; ++i) {
                 if (myThreads[i] != null) {
@@ -188,7 +192,9 @@ public class Controller {
     }
 
     public void addTask(Runnable task){
-        myThreads.submit(task);
+        Thread t = new Thread(task);
+        myThreads.add(t);
+        t.start();
     }
 
     public Settings getSettings(){
