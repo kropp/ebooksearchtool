@@ -41,6 +41,7 @@ def simple_search(query, response_type, items_per_page, page, start_index):
     next = page+1
     if len(seq) == 1 or len(seq) == 0:
         next = prev = 0
+    tags = Tag.objects.all().order_by("name")
     if response_type == "atom":
         return render_to_response('book/opds/client_response_search.xml',
             {'books': books[start_index:start_index+items_per_page],
@@ -51,11 +52,12 @@ def simple_search(query, response_type, items_per_page, page, start_index):
         return render_to_response('book/xhtml/client_response_search.xml',
             {'books': books[start_index:start_index+items_per_page],
             'title': main_title, 'items_per_page':items_per_page, 'next':next, 
-            'curr': page, 'prev': prev, 'seq':seq, 'authors': authors[0:5]})
+            'curr': page, 'prev': prev, 'seq':seq, 'authors': authors[0:5], 'tags': tags})
 
 
 def search_request_to_server(request, response_type, is_all):
     """ builds opds and xhtml response for search request"""
+    tags = Tag.objects.all().order_by("name")
     try:
         items_per_page = int(request.GET['items_per_page'])
     except KeyError:
@@ -135,20 +137,23 @@ def search_request_to_server(request, response_type, is_all):
             {'authors': authors[start_index:start_index+items_per_page],
             'author': author, 'total':total,
             'items_per_page':items_per_page, 'next':next, 'curr': page,
-            'prev': prev, 'seq':seq, })
+            'prev': prev, 'seq':seq, 'tags': tags})
 
     elif tag or lang:        
         books = Book.objects.filter(request_to_server).distinct()
         total = books.count()
         if len(request_to_server) == 0:
             books = Book.objects.none()
+    else:
+        books = Book.objects.none()
+        total = 0
 
     if is_all == "yes":
         query = author = title = None
         
         books = Book.objects.all()
         total = books.count()
-        
+
     seq = get_page_range(page, total, items_per_page)
 
     if len(seq) == 1 or len(seq) == 0:
@@ -158,12 +163,12 @@ def search_request_to_server(request, response_type, is_all):
         return render_to_response('book/opds/client_response_search.xml',
             {'books': books[start_index:start_index+items_per_page],
             'title': main_title,  'curr': page,
-            'items_per_page':items_per_page, 'total':total, 'next':next, })
+            'items_per_page':items_per_page, 'total':total, 'next':next })
         
     if response_type == "xhtml":
         return render_to_response('book/xhtml/client_response_search.xml',
             {'books': books[start_index:start_index+items_per_page],
             'title': main_title, 'items_per_page':items_per_page, 'next':next, 'curr': page,
-            'prev': prev, 'seq':seq})
+            'prev': prev, 'seq':seq, 'tags': tags})
 
 

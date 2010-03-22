@@ -30,7 +30,13 @@
     <td><input type="text" name="lang"></td>
     </tr><tr>
     <td>Tag:</td>
-    <td><input type="text" name="tag"></td>
+    <td><select name="tag"  width="185" style="width: 185px">
+        <option value="">--None--</option>
+        {% for tag in tags %}
+        <option value="{{tag.name}}">{{tag.name}}</option>
+        {% endfor %}
+        </select>
+    </td>
      </tr><tr>
      <td></td><td align="right"><input type="submit" value="Search" ></td>
 </table>

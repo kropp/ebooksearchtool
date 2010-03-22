@@ -70,7 +70,13 @@
                     <td><input type="text" name="lang" value="{{ title.lang }}"></td>
                     </tr><tr>
                     <td>Tag:</td>
-                    <td><input type="text" name="tag" value="{{ title.tag }}"></td>
+                    <td><select name="tag"  width="185" style="width: 185px">
+                        <option value="">--None--</option>
+                        {% for tag in tags %}
+                        <option value="{{tag.name}}">{{tag.name}}</option>
+                        {% endfor %}
+                        </select>
+                    </td>
                      </tr><tr>
                      <td></td><td align="right"><input type="submit" value="Search" ></td>
                 </table>
@@ -110,11 +116,14 @@
 
 
     <h3><a href="book/id{{ book.id }}">{{ book.title }}</a></h3>
+    {% if book.author_set.all %}
     <h4>by 
       {% for author in book.author_set.all %}
          <em><a href="author/id{{ author.id }}" class="gray">{{ author.name }}</a></em>
       {% endfor %}
-    </h4>    
+    </h4>   
+    {% endif %} 
+    {% if book.tag.all %}
     <div class="tags">
         <h4 class="charcoal">Tags:
         {% for tag in book.tag.all %}
@@ -122,6 +131,7 @@
         {% endfor %}
     </h4>
     </div>
+    {% endif %} 
 
     {% if book.lang %}
         <h4 class="charcoal">Language: <em><a href="search?lang={{ book.lang }}" class="gray">{{ book.lang }}</a>

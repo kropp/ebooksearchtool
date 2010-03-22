@@ -52,24 +52,30 @@
       </div>
       <div class="span-11 invisible-colborder">
 
-        <h3>Description</h3>
         <div class="small">
-          <p><strong>Language:</strong> <a href="../search?lang={{ book.lang }}">{{ book.lang }}</a> </p>
-          <p>
-            <strong>Tags:</strong>
-                {% for tag in book.tag.all %}
-                    <a href="../search?tag={{ tag}}"> {{ tag }} </a>
-                {% endfor %}
-          </p>
+        {% if book.lang %}
+          <h4>Language:</strong> <a href="../search?lang={{ book.lang }}">{{ book.lang }}</a> </p></h4>
+        {% endif %}
+        {% if book.tag.all %}
+        <div class="tags">
+            <h4 class="charcoal">Tags:
+            {% for tag in book.tag.all %}
+                <em><a href="../search?tag={{ tag }}" class="gray">{{ tag }}</a> </em>
+            {% endfor %}
+        </h4>
+        {% endif %}
 
         </div>
         <p class="bottom">
           
+        {% if book.annotation.all %}
             <div id="partial_desc" class="justify">
+        <h3>Description</h3>
                 {% for annotation in book.annotation.all %}
                     {{ annotation }} 
                 {% endfor %}          
-            </div>          
+            </div>  
+        {% endif %}        
         </p>
         <div class="span-4 last">
             <h3>Download&nbsp;:</h3>

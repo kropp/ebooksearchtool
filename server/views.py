@@ -163,4 +163,5 @@ def no_book_cover(request):
 
 def extended_search(request):
     """ extended search """
-    return render_to_response('book/xhtml/extended_search.xml')
+    tags = Tag.objects.all().order_by("name")
+    return render_to_response('book/xhtml/extended_search.xml', {'tags': tags})
