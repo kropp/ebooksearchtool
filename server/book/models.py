@@ -68,10 +68,10 @@ class Book(models.Model):
     title = models.CharField(max_length=NAME_LENGTH)
     lang = models.CharField(max_length=2, choices=LANG_CODE)
     language = models.ForeignKey(Language)
-    annotation = models.ManyToManyField(Annotation)
+    annotation = models.ManyToManyField(Annotation, null=True, blank=True)
     book_file = models.ManyToManyField(BookFile)
-    series = models.ManyToManyField(Series)
-    tag = models.ManyToManyField(Tag)
+    series = models.ManyToManyField(Series, null=True, blank=True)
+    tag = models.ManyToManyField(Tag, null=True, blank=True)
 
     credit = models.IntegerField(default=0)
 
