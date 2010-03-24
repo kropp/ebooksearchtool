@@ -1,0 +1,34 @@
+{% include 'book/xhtml/header.xml' %}
+
+    <title> {{ author.name }} </title>    
+<style type="text/css">
+    img.cover {margin-top: 3px; max-height: 110px;}
+</style>    
+</head>
+
+<body>
+<div class="author">
+    <h1>{{ author.name }}: </h1>
+</div>
+   
+{% for book in author.book.all %}
+
+{% include 'book/xhtml/book_cover.xml' %}
+
+    <h3><a href="../book/id{{ book.id }}">{{ book.title }}</a></h3>
+    <h4>by 
+      {% for author in book.author_set.all %}
+         <em><a href="../author/id{{ author.id }}" class="gray">{{ author.name }}</a></em>
+      {% endfor %}
+    </h4>    
+    {% include 'book/xhtml/book_description.xml' %}
+    
+    {% for annotation in book.annotation.all %}
+            <annotation> {{ annotation }} </annotation>
+    {% endfor %}
+      
+<hr class="space" />
+
+{% endfor %}
+</body>
+</html>

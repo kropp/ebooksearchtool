@@ -15,7 +15,7 @@ from search import *
 
 import os
 
-def book_request_to_server(request, book_id, response_type):
+def book_request(request, book_id, response_type):
     """ builds opds and xhtml response for book id request"""
     try:
         book = Book.objects.get(id=book_id)
@@ -29,7 +29,7 @@ def book_request_to_server(request, book_id, response_type):
         return render_to_response('book/xhtml/book.xml',
             {'book': book, })
 
-def author_request_to_server(request, author_id, response_type):
+def author_request(request, author_id, response_type):
     """builds opds and xhtml response for all author's books request"""
     try:
         author = Author.objects.get(id=author_id)
@@ -39,7 +39,7 @@ def author_request_to_server(request, author_id, response_type):
         return render_to_response('book/opds/client_response_author_books.xml',
         {'author': author})
     if response_type == "xhtml":
-        return render_to_response('book/xhtml/client_response_author_books.xml',
+        return render_to_response('book/xhtml/author.xml',
         {'author': author})
 
 def opensearch_description(request):

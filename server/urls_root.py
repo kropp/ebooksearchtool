@@ -35,14 +35,14 @@ urlpatterns = patterns('',
         {'response_type': 'xhtml', 'is_all': 'yes'}),
     
     # requests
-    (r'^book.atom/id(\d{1,})/?$', 'views.book_request_to_server',
+    (r'^book.atom/id(\d{1,})/?$', 'views.book_request',
         {'response_type': 'atom',}),
-    (r'^book/id(\d{1,})/?$', 'views.book_request_to_server',
+    (r'^book/id(\d{1,})/?$', 'views.book_request',
         {'response_type': 'xhtml',}),
     
-    (r'^author.atom/id(\d{1,})/?$', 'views.author_request_to_server',
+    (r'^author.atom/id(\d{1,})/?$', 'views.author_request',
         {'response_type': 'atom',}),
-    (r'^author/id(\d{1,})/?$', 'views.author_request_to_server',
+    (r'^author/id(\d{1,})/?$', 'views.author_request',
         {'response_type': 'xhtml',}),
     
     #book catalog
