@@ -75,6 +75,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     
     'django.middleware.doc.XViewMiddleware',
+    'spec.external.pagination.middleware.PaginationMiddleware',
 #    'django_authopenid.middleware.OpenIDMiddleware',
 )
 #    'django.middleware.common.CommonMiddleware',
@@ -108,8 +109,17 @@ INSTALLED_APPS = (
    # 'reader',
     'tests',
     'djangosphinx',
+    'spec.external.pagination',
     #openid
 #    'django_authopenid',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.core.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.request",
 )
 
 TEST_RUNNER = 'test_runner.run_tests'

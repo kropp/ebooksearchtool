@@ -61,6 +61,8 @@ sphinx/bin/searchd -c sphinx/sphinx.conf
     	html + OPDS :
 			- Компоновка книг (года)
 			
+        обработка пустых форм!!!   
+        вывод нескольких аннотации
         Search (author/title+tag/lang)
 	    найти теги для автора
 

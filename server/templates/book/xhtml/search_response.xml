@@ -1,0 +1,126 @@
+{% load pagination_tags %}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head profile="http://www.w3.org/1999/xhtml/vocab">
+    <title>Search results for: 
+    {% if title.query %}
+        Query "{{ title.query }}";
+    {% endif %}
+    {% if title.tit %}
+        Title "{{ title.tit }}";
+    {% endif %} 
+    {% if title.author %}
+        Author "{{ title.author }}";
+    {% endif %}
+    {% if title.lang %}
+        Language "{{ title.lang }}";
+    {% endif %}
+    {% if title.tag %}
+        Tag "{{ title.tag }}";
+    {% endif %}
+    </title>
+
+<style type="text/css">
+    
+    img.cover {margin-top: 3px; max-height: 110px;}
+
+</style>
+ 
+  
+  <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />
+  
+  <!-- Links --> 
+  <link rel="search" type="application/opensearchdescription+xml" title="Opensearch description" href="opensearch" />
+
+  <!-- CSS 
+  <link rel="stylesheet" href="/stylesheets/screen.css" type="text/css" media="screen, projection" /> 
+  <link rel="stylesheet" href="/stylesheets/print.css" type="text/css" media="print" /> 
+  <link href="/stylesheets/normal.css?1255441690" media="screen" rel="stylesheet" type="text/css" />
+  -->
+  
+</head>
+
+
+<body>
+
+<div id="header">
+  
+    <div class="search">
+        {% if title.query %}
+            {% include "book/xhtml/simple_search.xml" %}
+        {% else %}
+            {% include "book/xhtml/extended_search.xml" %}
+        {% endif %}
+    </div>
+</div>
+
+{% if authors %}
+
+    <h2>Found in authors:</h2>
+
+    {% for author in authors %}
+        <div>
+                <a href="author/id{{ author.id }}" class="gray">{{ author.name }}</a></em>
+        </div>
+    {% endfor %}
+
+{% endif %}
+
+{% if books %}
+    <h2>Found in books:</h2>
+    
+    {% autopaginate books %}
+    {% for book in books %}
+
+    <hr class="space" />
+
+    <div>
+
+          {% if not book.book_file.all.0.img_link %}
+            <a href="book/id{{ book.id }}"><img alt="{{ book.title }}" class="cover" align="left" border="0" hspace="10" src="http://abyss.hubbe.net/gfx/covers/no_cover.gif" title="{{ book.title }}" /></a>
+          {% else %}
+            <a href="book/id{{ book.id }}"><img alt="{{ book.title }}" class="cover" align="left" border="0" hspace="10"  src="{{book.book_file.all.0.img_link}}" title="{{ book.title }}" /></a> 
+          {% endif %}  
+
+        <h3><a href="book/id{{ book.id }}" class="title">{{ book.title }}</a></h3>
+        
+        {% if book.author_set.all %}
+            <h4 class="authors">by 
+              {% for author in book.author_set.all %}
+                 <em><a href="author/id{{ author.id }}" class="author">{{ author.name }}</a></em>
+              {% endfor %}
+            </h4>   
+        {% endif %} 
+
+        {% if book.tag.all %}
+            <h4 class="tags">Tags:
+                {% for tag in book.tag.all %}
+                    <em><a href="search?tag={{ tag }}" class="tag">{{ tag }}</a> </em>
+                {% endfor %}
+            </h4>
+        {% endif %} 
+
+        {% if book.lang %}
+            <h4 class="language">Language: <em><a href="search?lang={{ book.lang }}">{{ book.lang }}</a></em>
+            </h4>
+        {% else %}
+        <br/>
+        {% endif %}
+        {% if not book.annotation.all.0 %}
+             <br/>
+        {% else %}
+            <annotation> {{ book.annotation.all.0 }} </annotation>
+        {% endif %}
+       
+    </div>
+
+    {% endfor %}
+
+<hr class="space" />
+    {% paginate %}
+{% endif %}
+</body>
+</html>
+

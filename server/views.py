@@ -6,7 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render_to_response
 from string import split
 
-from book.models import Book, Author, Tag
+from book.models import Book, Author, Tag, Language
 
 from django.http import Http404
 from django.http import HttpResponse
@@ -131,37 +131,45 @@ def books_by_authors_request_to_server(request, response_type):
         return render_to_response('book/xhtml/client_response_books_by_author.xml',
         {'string': my_list, 'num': 2, 'letter': letter })        
                     
-def books_by_languages_request_to_server(request, response_type):
+def books_by_language(request, response_type):
     """builds opds and xhtml response for books by lang request"""
     lang = Book.objects.values_list('lang')
-    languages = set(lang)
-    languages =  [x[0] for x in languages]
+    short_langs = set(lang)
+    short_langs =  [x[0] for x in short_langs]
+
+    languages = set()
+    for short_lang in short_langs:
+        language = Language.objects.filter(short=short_lang).order_by('full')
+        if language:
+            languages.add((language[0].full, short_lang))
+
+    languages = sorted(languages)
     if response_type == "atom":
         return render_to_response('book/opds/client_response_books_by_lang.xml',
-        {'languages':languages})
+        {'languages':languages, 'short_langs':short_langs})
     if response_type == "xhtml":            
-        return render_to_response('book/xhtml/client_response_books_by_lang.xml',
-        {'languages':languages})
+        return render_to_response('book/xhtml/books_by_lang.xml',
+        {'languages':languages, 'short_langs':short_langs})
         
-def books_by_tags_request_to_server(request, response_type):
+def books_by_tags(request, response_type):
     """builds opds and xhtml response for books by tags request"""
     tags = Tag.objects.all().order_by("name")
     if response_type == "atom":
         return render_to_response('book/opds/client_response_books_by_tag.xml',
         {'tags':tags})
     if response_type == "xhtml":
-        return render_to_response('book/xhtml/client_response_books_by_tag.xml',
+        return render_to_response('book/xhtml/books_by_tag.xml',
         {'tags':tags})
         
-def books_search(request):
+def simple_search(request):
     """go to search page"""
-    return render_to_response('book/xhtml/client_response_search_request.xml')
-    
-def no_book_cover(request):
-    image_data = open("pic/no_cover.gif", "rb").read()
-    return HttpResponse(image_data, mimetype="image/png")
+    return render_to_response('book/xhtml/simple_search.xml')
 
 def extended_search(request):
     """ extended search """
     tags = Tag.objects.all().order_by("name")
     return render_to_response('book/xhtml/extended_search.xml', {'tags': tags})
+
+def no_book_cover(request):
+    image_data = open("pic/no_cover.gif", "rb").read()
+    return HttpResponse(image_data, mimetype="image/png")

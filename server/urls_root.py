@@ -57,17 +57,17 @@ urlpatterns = patterns('',
     (r'^discover/authors/?$', 'views.books_by_authors_request_to_server',
         {'response_type': 'xhtml',}),
         
-    (r'^discover/languages.atom/?$', 'views.books_by_languages_request_to_server',
+    (r'^discover/languages.atom/?$', 'views.books_by_language',
         {'response_type': 'atom',}),
-    (r'^discover/languages/?$', 'views.books_by_languages_request_to_server',
+    (r'^discover/languages/?$', 'views.books_by_language',
         {'response_type': 'xhtml',}),
         
-    (r'^discover/subjects.atom/?$', 'views.books_by_tags_request_to_server',
+    (r'^discover/subjects.atom/?$', 'views.books_by_tags',
         {'response_type': 'atom',}),
-    (r'^discover/subjects/?$', 'views.books_by_tags_request_to_server',
+    (r'^discover/subjects/?$', 'views.books_by_tags',
         {'response_type': 'xhtml',}),
         
-    (r'^discover/search/?$', 'views.books_search'),
+    (r'^discover/search/?$', 'views.simple_search'),
     (r'^discover/extended/?$', 'views.extended_search'),
     
     # no book cover available

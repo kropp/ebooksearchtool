@@ -2,46 +2,46 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
-<head profile="http://www.w3.org/1999/xhtml/vocab">
-    <title>Extended search</title>
-    
-  <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />
+<head>
+    <title>Extended search</title>      
+    <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />
   
-  <!-- Links --> 
-  <link rel="search" type="application/opensearchdescription+xml" title="Opensearch description" href="opensearch" />
+    <!-- Links --> 
+    <link rel="search" type="application/opensearchdescription+xml" title="Opensearch description" href="opensearch" />
+</head>
 
 <body>
-<div id="header">
-  
-    <h1>Extended search: </h1>
+    <div id="header">
+      
+        <h2>Extended search: </h2>
 
-    <form name="test" action="../search">
-    
-<table>    
-    <tr>
-    <td>Title:</td>
-    <td>  <input type="text" name="title"></td>
-    <td><a href="search" rel="simple search">Simple search</a></td>
-    </tr><tr>
-    <td>Author:</td> 
-    <td> <input type="text" name="author"></td>
-    </tr><tr>
-    <td>Language:</td>  
-    <td><input type="text" name="lang"></td>
-    </tr><tr>
-    <td>Tag:</td>
-    <td><select name="tag"  width="185" style="width: 185px">
-        <option value="">--None--</option>
-        {% for tag in tags %}
-        <option value="{{tag.name}}">{{tag.name}}</option>
-        {% endfor %}
-        </select>
-    </td>
-     </tr><tr>
-     <td></td><td align="right"><input type="submit" value="Search" ></td>
-</table>
-    </form>
+        <form name="extended_search" action="../search">
+        
+            <table>    
+                <tr>
+                <td>Title:</td>
+                <td>  <input type="text" name="title"></td>
+                <td><a href="/discover/search" rel="simple search">Simple search</a></td>
+                </tr><tr>
+                <td>Author:</td> 
+                <td> <input type="text" name="author"></td>
+                </tr><tr>
+                <td>Language:</td>  
+                <td><input type="text" name="lang"></td>
+                </tr><tr>
+                <td>Tag:</td>
+                <td><select name="tag"  width="185" style="width: 185px">
+                    <option value="">--None--</option>
+                    {% for tag in tags %}
+                    <option value="{{tag.name}}">{{tag.name}}</option>
+                    {% endfor %}
+                    </select>
+                </td>
+                 </tr><tr>
+                 <td></td><td align="right"><input type="submit" value="Search" ></td>
+            </table>
+        </form>
 
-</div>
+    </div>
 </body>
 </html>

@@ -2,8 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
-<head profile="http://www.w3.org/1999/xhtml/vocab">
-    <title> Books by tag </title>
+<head>
+    <title> Books by language  </title>
     
     <!-- Links --> 
     <link rel="search" type="application/opensearchdescription+xml" title="Opensearch description" href="opensearch" />
@@ -12,15 +12,11 @@
 
 <body>
 <div id="header">
-  
-    <div class="container">
-        <h1>Books by tag: </h1>
-    </div>   
-
-    {% for tag in tags %}
-        <h3><a href="../search?tag={{ tag }}">{{ tag }}</a></h3>
-    {% endfor %}
+    <h1>Books by language: </h1>
 </div>
 
-</body>
-</html>
+{% for lang in languages %} 
+    <h3><a href="../search?lang={{ lang.1 }}">{{ lang.0 }}</a></h3>
+{% endfor %} 
+
+</feed>

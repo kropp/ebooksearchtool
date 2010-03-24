@@ -4,6 +4,7 @@ from django.db.models import Q
 
 from book.models import Book, Author, Tag
 from django.shortcuts import render_to_response
+from django.template import RequestContext
 
 def get_page_range(page, total, items_per_page):
     if page <= 10:
@@ -24,8 +25,12 @@ def get_page_range(page, total, items_per_page):
             else:
                 return range(page - 10, total/items_per_page+2)
 
-def simple_search(query, response_type, items_per_page, page, start_index):
+def simple_search(request, response_type, items_per_page, page, start_index):
     """ simple search with query """
+
+    if 'query' in request.GET and request.GET['query']:
+        query = request.GET['query']
+
     main_title = {'query': query}
     authors = Author.soundex_search.query(query)            # TODO sort authors by distance
     authors_id = map(lambda x: x.id, authors)
@@ -43,16 +48,16 @@ def simple_search(query, response_type, items_per_page, page, start_index):
         next = prev = 0
     tags = Tag.objects.all().order_by("name")
     if response_type == "atom":
-        return render_to_response('book/opds/client_response_search.xml',
-            {'books': books[start_index:start_index+items_per_page],
-            'title': main_title,  'curr': page,
+        return render_to_response('book/opds/search_response.xml',
+            {'books': books,
+            'title': main_title, 'curr': page,
             'items_per_page':items_per_page, 'total':total, 'next':next, })
         
     if response_type == "xhtml":
-        return render_to_response('book/xhtml/client_response_search.xml',
-            {'books': books[start_index:start_index+items_per_page],
-            'title': main_title, 'items_per_page':items_per_page, 'next':next, 
-            'curr': page, 'prev': prev, 'seq':seq, 'authors': authors[0:5], 'tags': tags})
+        return render_to_response('book/xhtml/search_response.xml',
+            {'books': books,
+            'title': main_title, 'authors': authors[0:5], 'tags': tags},
+            context_instance=RequestContext(request))
 
 
 def search_request_to_server(request, response_type, is_all):
@@ -74,14 +79,11 @@ def search_request_to_server(request, response_type, is_all):
     request_to_server = Q()
     main_title = {}
 
-    try:
+    if 'query' in request.GET and request.GET['query']:
         # search in title, author.name, alias, annotation
         query = request.GET['query']
-        return simple_search(query, response_type, items_per_page, page, 
+        return simple_search(request, response_type, items_per_page, page, 
                                 start_index)        
-    except KeyError:
-        query = None    
-
     try:
     # search in title
         title = request.GET['title']
@@ -160,15 +162,16 @@ def search_request_to_server(request, response_type, is_all):
         next = prev = 0
         
     if response_type == "atom":
-        return render_to_response('book/opds/client_response_search.xml',
+        return render_to_response('book/opds/search_response.xml',
             {'books': books[start_index:start_index+items_per_page],
             'title': main_title,  'curr': page,
             'items_per_page':items_per_page, 'total':total, 'next':next })
         
     if response_type == "xhtml":
-        return render_to_response('book/xhtml/client_response_search.xml',
+        return render_to_response('book/xhtml/search_response.xml',
             {'books': books[start_index:start_index+items_per_page],
             'title': main_title, 'items_per_page':items_per_page, 'next':next, 'curr': page,
-            'prev': prev, 'seq':seq, 'tags': tags})
+            'prev': prev, 'seq':seq, 'tags': tags},
+            context_instance=RequestContext(request))
 
 
