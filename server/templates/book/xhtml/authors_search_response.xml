@@ -1,0 +1,29 @@
+{% load pagination_tags %}
+{% include 'book/xhtml/header.xml' %}
+
+    <title>Search results for: 
+        Author "{{ author }}";
+    </title>
+</head>
+
+
+<body>
+ 
+{% include "book/xhtml/extended_search_form.xml" %}
+
+{% if authors %}
+{% autopaginate authors items_per_page %}
+{% for auth in authors %}
+
+<hr class="space" />
+
+<div class="authors">
+    <a href="author/id{{ auth.id }}" class="author">{{ auth.name }}</a></em>
+</div>
+{% endfor %}  
+<hr class="space" />
+{% paginate %}  
+{% endif %}
+</body>
+</html>
+

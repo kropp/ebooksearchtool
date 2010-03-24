@@ -4,6 +4,6 @@
 </head>
 
 <body>
-    {% include 'book/xhtml/extended_search.xml' %}
+    {% include 'book/xhtml/extended_search_form.xml' %}
 </body>
 </html>

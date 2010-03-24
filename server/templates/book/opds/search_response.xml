@@ -1,19 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet type="text/xsl" href="/stylesheets/catalog.xsl"?>
-
-<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:thr="http://purl.org/syndication/thread/1.0" xml:lang="en-US" xmlns:app="http://www.w3.org/2007/app" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns="http://www.w3.org/2005/Atom" xmlns:dcterms="http://purl.org/dc/terms/">
-
+{% include 'book/opds/header.xml' %}
     <link href="search.atom?" rel="alternate"></link>
 
     {% if next %}    
         {% include 'book/opds/self_next_links.xml' %}
     {% endif %}
-    <link type="application/opensearchdescription+xml" rel="search" title="Open Search Description" href="/opensearch"/>
 
     
     <title>Search results for: 
-    {% if title.query %}
-        Query "{{ title.query }}";
+    {% if query %}
+        Query "{{ query }}";
     {% endif %}
     {% if title.tit %}
         Title "{{ title.tit }}";
@@ -34,40 +29,7 @@
 
     {% for book in books %}
     <entry>
-        <title> {{ book.title }} </title>
-        <dcterms:language> {{ book.lang }} </dcterms:language>
-        <id> {{ book.id }} </id>
-        <link> book.atom/id{{ book.id }}</link>
-        <!--dcterms:issued></dcterms:issued>
-        <dcterms:source></dcterms:source>
-        <updated></updated-->
-        
-        {% for tag in book.tag.all %}
-            <category term="tag"/>
-        {% endfor %}
-
-        
-
-        {% for author in book.author_set.all %}
-        <author>
-            <name> {{ author.name }} </name>
-            <uri> author.atom/id{{ author.id }}</uri>
-        </author>
-        {% endfor %}
-        
-        
-        <summary>
-            {{ book.annotation.all.0 }}
-        </summary>
-
-        <link type="application/atom+xml;type=entry" rel="alternate" title="Full entry" href="book.atom/id{{ book.id }}"/>
-        {% for book_file in book.book_file.all %}
-            <link type="application/{{ book_file.type }}" href="{{ book_file.link }}" />
-            {%if book_file.img_link%}
-                <link type="image/png" rel="http://opds-spec.org/cover" href="{{book_file.img_link}}"/>
-            {%endif%}                
-        {% endfor %}  
-       
+        {% include 'book/opds/book_description.xml' %}
     </entry>
     {% endfor %}
 </feed>

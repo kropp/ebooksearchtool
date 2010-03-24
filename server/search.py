@@ -45,14 +45,14 @@ def simple_search(request, response_type, items_per_page, page, start_index):
 
     if response_type == "atom":
         return render_to_response('book/opds/search_response.xml',
-            {'books': books, 'query': query, 'curr': page,
-            'items_per_page': items_per_page, 'total':total, 'next':next, })
+            {'books': books[start_index:start_index+items_per_page], 'query': query, 'curr': page,
+            'items_per_page': items_per_page, 'total':total, 'next':next, },
+            context_instance=RequestContext(request))
         
     if response_type == "xhtml":
         return render_to_response('book/xhtml/search_response.xml',
             {'books': books,'items_per_page': items_per_page, 'query': query,
             'authors': authors[0:5], 'tags': tags}, context_instance=RequestContext(request))
-
 
 def search_request_to_server(request, response_type, is_all):
     """ builds opds and xhtml response for search request"""
@@ -69,8 +69,7 @@ def search_request_to_server(request, response_type, is_all):
     else:
         page = 1
         start_index = 0
-    next = page + 1
-    prev = page - 1
+
     request_to_server = Q()
     main_title = {}
 
@@ -78,38 +77,32 @@ def search_request_to_server(request, response_type, is_all):
         # search in title, author.name, alias, annotation
         return simple_search(request, response_type, items_per_page, page, 
                                 start_index)        
-    try:
+    if 'title' in request.GET and request.GET['title']:
     # search in title
         title = request.GET['title']
-    except KeyError:
+    else:
         title = None        
 
-    try:
+    if 'author' in request.GET and request.GET['author']:
     # search in author.name, alias
         author = request.GET['author']
-    except KeyError:
+    else:
         author = None    
 
-    try:
+    if 'lang' in request.GET and request.GET['lang']:
     # search in lang
         lang = request.GET['lang']
-        if lang != '':
-            request_to_server = request_to_server & Q(lang=lang)
-            main_title['lang'] = lang
-        else:
-            lang = None
-    except KeyError:
+        request_to_server = request_to_server & Q(lang=lang)
+        main_title['lang'] = lang
+    else:
         lang = None   
 
-    try:
+    if 'tag' in request.GET and request.GET['tag']:
     # search in tag
         tag = request.GET['tag']
-        if tag != '':
-            request_to_server = request_to_server & Q(tag__name__icontains=tag)
-            main_title['tag'] = tag
-        else:
-            tag = None
-    except KeyError:
+        request_to_server = request_to_server & Q(tag__name__icontains=tag)
+        main_title['tag'] = tag
+    else:
         tag = None          
 
     if title:
@@ -124,16 +117,19 @@ def search_request_to_server(request, response_type, is_all):
     elif author:
         authors = Author.soundex_search.query(author)
         total = authors.count()
-        seq = get_page_range(page, total, items_per_page)
-        prev = next - 2
-        
-        if len(seq) == 1 or len(seq) == 0:
-            next = prev = 0
-        return render_to_response('book/xhtml/client_response_search_authors.xml',
-            {'authors': authors[start_index:start_index+items_per_page],
-            'author': author, 'total':total,
-            'items_per_page':items_per_page, 'next':next, 'curr': page,
-            'prev': prev, 'seq':seq, 'tags': tags})
+        next = None
+        if total-1/items_per_page != 0:
+            next = page+1
+        if response_type == "atom":
+            return render_to_response('book/opds/authors_search_response.xml',
+                {'authors': authors[start_index:start_index+items_per_page],
+                'title': main_title,  'curr': page, 'next':next, 'author': author, 
+                'items_per_page':items_per_page, 'total':total })
+        if response_type == "xhtml":
+            return render_to_response('book/xhtml/authors_search_response.xml',
+                {'authors': authors, 'author': author, 
+                'items_per_page':items_per_page, 'tags': tags}, 
+                context_instance=RequestContext(request))
 
     elif tag or lang:        
         books = Book.objects.filter(request_to_server).distinct()
@@ -150,22 +146,19 @@ def search_request_to_server(request, response_type, is_all):
         books = Book.objects.all()
         total = books.count()
 
-    seq = get_page_range(page, total, items_per_page)
-
-    if len(seq) == 1 or len(seq) == 0:
-        next = prev = 0
+    next = None
+    if total-1/items_per_page != 0:
+        next = page+1
         
     if response_type == "atom":
         return render_to_response('book/opds/search_response.xml',
             {'books': books[start_index:start_index+items_per_page],
-            'title': main_title,  'curr': page,
-            'items_per_page':items_per_page, 'total':total, 'next':next })
+            'title': main_title,  'curr': page, 'next':next,
+            'items_per_page':items_per_page, 'total':total })
         
     if response_type == "xhtml":
         return render_to_response('book/xhtml/search_response.xml',
-            {'books': books[start_index:start_index+items_per_page],
-            'title': main_title, 'items_per_page':items_per_page, 'next':next, 'curr': page,
-            'prev': prev, 'seq':seq, 'tags': tags},
-            context_instance=RequestContext(request))
+            {'books': books, 'title': main_title, 'items_per_page':items_per_page, 
+            'tags': tags}, context_instance=RequestContext(request))
 
 
