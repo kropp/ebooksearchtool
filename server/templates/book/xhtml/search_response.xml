@@ -2,8 +2,8 @@
 {% include 'book/xhtml/header.xml' %}
 
     <title>Search results for: 
-    {% if title.query %}
-        Query "{{ title.query }}";
+    {% if query %}
+        Query "{{ query }}";
     {% endif %}
     {% if title.tit %}
         Title "{{ title.tit }}";
@@ -27,7 +27,7 @@
 
 <body>
 
-    {% if title.query %}
+    {% if query %}
         {% include "book/xhtml/simple_search_form.xml" %}
     {% else %}
         {% include "book/xhtml/extended_search_form.xml" %}
@@ -48,7 +48,7 @@
 {% if books %}
     <h2>Found in books:</h2>
     
-    {% autopaginate books %}
+    {% autopaginate books items_per_page %}
     {% for book in books %}
 
     <hr class="space" />

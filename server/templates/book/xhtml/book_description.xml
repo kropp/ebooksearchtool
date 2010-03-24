@@ -11,8 +11,6 @@
     </h4>
 {% endif %} 
 
-{% if not book.lang %}
-    {% if not book.tag.all %}
+{% if not book.lang and not book.tag.all%}
 <br/><br/>
-    {% endif %} 
 {% endif %} 

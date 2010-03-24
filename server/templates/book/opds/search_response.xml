@@ -4,32 +4,10 @@
 <feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:thr="http://purl.org/syndication/thread/1.0" xml:lang="en-US" xmlns:app="http://www.w3.org/2007/app" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns="http://www.w3.org/2005/Atom" xmlns:dcterms="http://purl.org/dc/terms/">
 
     <link href="search.atom?" rel="alternate"></link>
-    
-    {% if query %}
-        <link href="search.atom?page={{curr}};items_per_page={{items_per_page}};query={{ query }}" rel="self"/>
-        <link rel="next" href="search.atom?page={{next}};items_per_page={{items_per_page}};query={{ query }}"/>
-    {% else %}
-    
-        {% if author and title %}
-            <link href="search.atom?page={{curr}};items_per_page={{items_per_page}};author={{ author }};title={{ title }}" rel="self"/>
-            <link rel="next" href="search.atom?page={{next}};items_per_page={{items_per_page}};author={{ author }};title={{ title }}"/>
-        {% else %}
-            {% if not author and not title %}
-                <link href="all.atom?page={{curr}};items_per_page={{items_per_page}};" rel="self"/>     
-                <link rel="next" href="all.atom?page={{next}};items_per_page={{items_per_page}}"/>
-            {% else %}    
-                {% if title %}
-                    <link href="search.atom?page={{curr}};items_per_page={{items_per_page}};title={{ title }}" rel="self"/>
-                    <link rel="next" href="search.atom?page={{next}};items_per_page={{items_per_page}};title={{ title }}"/>
-                {% endif %}
-                {% if author %}
-                    <link href="search.atom?page={{curr}};items_per_page={{items_per_page}};author={{ author }}" rel="self"/>
-                    <link rel="next" href="search.atom?page={{next}};items_per_page={{items_per_page}};author={{ author }}"/>
-                {% endif %}
-            {% endif %}
-        {% endif %}
+
+    {% if next %}    
+        {% include 'book/opds/self_next_links.xml' %}
     {% endif %}
-    
     <link type="application/opensearchdescription+xml" rel="search" title="Open Search Description" href="/opensearch"/>
 
     
@@ -51,17 +29,9 @@
     {% endif %}
     </title>
     
-    <!--id></id>
-    <updated></updated>
-    <icon></icon>
-    <author></author-->
-    
     <opensearch:totalResults> {{ total }} </opensearch:totalResults>
     <opensearch:itemsPerPage> {{ items_per_page }} </opensearch:itemsPerPage>
-<!--    {% if start_index %}
-    <opensearch:startIndex> {{ start_index }} <opensearch:startIndex>
-    {% endif %}
--->    
+
     {% for book in books %}
     <entry>
         <title> {{ book.title }} </title>

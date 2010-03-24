@@ -27,11 +27,9 @@ def get_page_range(page, total, items_per_page):
 
 def simple_search(request, response_type, items_per_page, page, start_index):
     """ simple search with query """
+    tags = Tag.objects.all().order_by("name")
+    query = request.GET['query']
 
-    if 'query' in request.GET and request.GET['query']:
-        query = request.GET['query']
-
-    main_title = {'query': query}
     authors = Author.soundex_search.query(query)            # TODO sort authors by distance
     authors_id = map(lambda x: x.id, authors)
     books_simple = Book.title_search.query(query)
@@ -41,37 +39,34 @@ def simple_search(request, response_type, items_per_page, page, start_index):
     total = len(books)
     # + search in annotation
 
-    seq = get_page_range(page, total, items_per_page)
-    prev = page-1
-    next = page+1
-    if len(seq) == 1 or len(seq) == 0:
-        next = prev = 0
-    tags = Tag.objects.all().order_by("name")
+    next = None
+    if total-1/items_per_page != 0:
+        next = page+1
+
     if response_type == "atom":
         return render_to_response('book/opds/search_response.xml',
-            {'books': books,
-            'title': main_title, 'curr': page,
-            'items_per_page':items_per_page, 'total':total, 'next':next, })
+            {'books': books, 'query': query, 'curr': page,
+            'items_per_page': items_per_page, 'total':total, 'next':next, })
         
     if response_type == "xhtml":
         return render_to_response('book/xhtml/search_response.xml',
-            {'books': books,
-            'title': main_title, 'authors': authors[0:5], 'tags': tags},
-            context_instance=RequestContext(request))
+            {'books': books,'items_per_page': items_per_page, 'query': query,
+            'authors': authors[0:5], 'tags': tags}, context_instance=RequestContext(request))
 
 
 def search_request_to_server(request, response_type, is_all):
     """ builds opds and xhtml response for search request"""
     tags = Tag.objects.all().order_by("name")
-    try:
+
+    if 'items_per_page' in request.GET and request.GET['items_per_page']:
         items_per_page = int(request.GET['items_per_page'])
-    except KeyError:
+    else:
         items_per_page = 20
     
-    try:
+    if 'page' in request.GET and request.GET['page']:
         page = int(request.GET['page'])
         start_index = items_per_page * (page - 1)
-    except KeyError:
+    else:
         page = 1
         start_index = 0
     next = page + 1
