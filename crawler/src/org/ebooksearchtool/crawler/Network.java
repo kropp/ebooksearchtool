@@ -146,6 +146,7 @@ public class Network {
             connection.setConnectTimeout(myConnectionTimeout);
             connection.setReadTimeout(myReadTimeout);
             connection.setRequestProperty("User-Agent", myUserAgent);
+            connection.setRequestProperty("Connection", "Close");
             try {
                 connection.connect();
             } catch (Throwable e) {

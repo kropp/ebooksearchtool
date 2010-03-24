@@ -10,7 +10,6 @@ import net.htmlparser.jericho.Source;
 import net.htmlparser.jericho.StartTag;
 import net.htmlparser.jericho.Tag;
 import org.ebooksearchtool.crawler.cases.SpecialCase;
-import org.ebooksearchtool.crawler.Logger;
 
 public class HTMLParser {
     
