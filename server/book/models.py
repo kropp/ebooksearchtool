@@ -25,8 +25,8 @@ class BookFile(models.Model):
 
     size = models.IntegerField(default=0)
     type = models.CharField(max_length=10)
-    more_info = models.TextField(max_length=TEXT_LENGTH, null=True)
-    img_link = models.TextField(null=True, max_length=LINK_LENGTH)
+    more_info = models.TextField(max_length=TEXT_LENGTH, null=True, blank=True)
+    img_link = models.TextField(max_length=LINK_LENGTH, null=True, blank=True)
 
     credit = models.IntegerField(default=0)
 
