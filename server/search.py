@@ -107,12 +107,11 @@ def search_request_to_server(request, response_type, is_all):
 
     if title:
         books = Book.title_search.query(title)
+        main_title['tit'] = title
         if author:
             authors = Author.soundex_search.query(author)
             authors_id = map(lambda x: x.id, authors)    
             books = books.filter(author_id=authors_id)
-        else:
-            main_title['tit'] = title
         total = books.count()
     elif author:
         authors = Author.soundex_search.query(author)
