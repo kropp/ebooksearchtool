@@ -1,0 +1,26 @@
+{% include 'book/xhtml/header.xml' %}
+
+    <title> Authors </title>
+</head>
+
+<body>
+<div id="header">
+    <h1>Authors: </h1>
+</div>
+
+{% if string %}
+    {% for letter in string %}
+        {% ifequal num 1 %}     
+            <h3><a href="authors?letter={{letter}}">{{ letter }}</a></h3>
+        {% else %}
+            <h3><a href="authors?letters={{letter}}">{{ letter }}</a></h3>        
+        {% endifequal %} 
+    {% endfor %}
+
+{% else %}
+    {% for author in authors %}
+        <h3><a href="../author/id{{author.id}}">{{ author.name }}</a></h3>
+    {% endfor %}
+{% endif %} 
+</body>
+</html>

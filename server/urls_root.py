@@ -11,7 +11,7 @@ import views
 
 urlpatterns = patterns('',
     #home
-    (r'^$', 'views.catalog_request_to_server',
+    (r'^$', 'views.catalog',
         {'response_type': 'xhtml',}),
 
     # interface for analizer/crawler
@@ -46,15 +46,15 @@ urlpatterns = patterns('',
         {'response_type': 'xhtml',}),
     
     #book catalog
-    (r'^catalog.atom/?$', 'views.catalog_request_to_server',
+    (r'^catalog.atom/?$', 'views.catalog',
         {'response_type': 'atom',}),
-    (r'^catalog/?$', 'views.catalog_request_to_server',
+    (r'^catalog/?$', 'views.catalog',
         {'response_type': 'xhtml',}),
     
     #books sorted by authors, languages, subjects
-    (r'^discover/authors.atom/?$', 'views.books_by_authors_request_to_server',
+    (r'^discover/authors.atom/?$', 'views.books_by_authors',
         {'response_type': 'atom',}),
-    (r'^discover/authors/?$', 'views.books_by_authors_request_to_server',
+    (r'^discover/authors/?$', 'views.books_by_authors',
         {'response_type': 'xhtml',}),
         
     (r'^discover/languages.atom/?$', 'views.books_by_language',

@@ -81,7 +81,6 @@ def search_request_to_server(request, response_type, is_all):
 
     if 'query' in request.GET and request.GET['query']:
         # search in title, author.name, alias, annotation
-        query = request.GET['query']
         return simple_search(request, response_type, items_per_page, page, 
                                 start_index)        
     try:
