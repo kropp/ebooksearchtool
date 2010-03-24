@@ -26,7 +26,7 @@ def book_request_to_server(request, book_id, response_type):
         return render_to_response('book/opds/client_response_book.xml',
             {'book': book, })
     if response_type == "xhtml":
-        return render_to_response('book/xhtml/client_response_book.xml',
+        return render_to_response('book/xhtml/book.xml',
             {'book': book, })
 
 def author_request_to_server(request, author_id, response_type):

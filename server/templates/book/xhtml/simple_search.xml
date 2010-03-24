@@ -3,18 +3,7 @@
 </head>
 
 <body>
-    <div id="header">
-      
-        <h2>Search: </h2>
-
-        <form name="simple_search" action="../search">
-            Query: <input type="text" name="query">
-            <input type="submit" value="Search" >
-            <a href="/discover/extended" rel="extended search">Extended search</a>
-        </form>
-    </div>
-
-
+{% include 'book/xhtml/simple_search.xml' %}
 </body>
 </html>
 

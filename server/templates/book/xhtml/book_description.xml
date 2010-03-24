@@ -1,0 +1,12 @@
+{% if book.lang %}
+    <h4 class="language">Language: <em><a href="search?lang={{ book.lang }}">{{ book.lang }}</a></em>
+    </h4>
+{% endif %}
+
+{% if book.tag.all %}
+    <h4 class="tags">Tags:
+        {% for tag in book.tag.all %}
+            <em><a href="search?tag={{ tag }}" class="tag">{{ tag }}</a> </em>
+        {% endfor %}
+    </h4>
+{% endif %} 

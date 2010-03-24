@@ -27,16 +27,11 @@
 
 <body>
 
-<div id="header">
-  
-    <div class="search">
-        {% if title.query %}
-            {% include "book/xhtml/simple_search.xml" %}
-        {% else %}
-            {% include "book/xhtml/extended_search.xml" %}
-        {% endif %}
-    </div>
-</div>
+    {% if title.query %}
+        {% include "book/xhtml/simple_search_form.xml" %}
+    {% else %}
+        {% include "book/xhtml/extended_search_form.xml" %}
+    {% endif %}
 
 {% if authors %}
 
@@ -59,13 +54,7 @@
     <hr class="space" />
 
     <div>
-
-          {% if not book.book_file.all.0.img_link %}
-            <a href="book/id{{ book.id }}"><img alt="{{ book.title }}" class="cover" align="left" border="0" hspace="10" src="http://abyss.hubbe.net/gfx/covers/no_cover.gif" title="{{ book.title }}" /></a>
-          {% else %}
-            <a href="book/id{{ book.id }}"><img alt="{{ book.title }}" class="cover" align="left" border="0" hspace="10"  src="{{book.book_file.all.0.img_link}}" title="{{ book.title }}" /></a> 
-          {% endif %}  
-
+        {% include 'book/xhtml/book_cover.xml' %}
         <h3><a href="book/id{{ book.id }}" class="title">{{ book.title }}</a></h3>
         
         {% if book.author_set.all %}
@@ -76,26 +65,16 @@
             </h4>   
         {% endif %} 
 
-        {% if book.tag.all %}
-            <h4 class="tags">Tags:
-                {% for tag in book.tag.all %}
-                    <em><a href="search?tag={{ tag }}" class="tag">{{ tag }}</a> </em>
-                {% endfor %}
-            </h4>
-        {% endif %} 
 
-        {% if book.lang %}
-            <h4 class="language">Language: <em><a href="search?lang={{ book.lang }}">{{ book.lang }}</a></em>
-            </h4>
-        {% else %}
-        <br/>
-        {% endif %}
+        {% include 'book/xhtml/book_description.xml' %}
         {% if not book.annotation.all.0 %}
              <br/>
         {% else %}
             <annotation> {{ book.annotation.all.0 }} </annotation>
         {% endif %}
-       
+        {% if not book.lang %}
+            <br/><br/>
+        {% endif %}
     </div>
 
     {% endfor %}

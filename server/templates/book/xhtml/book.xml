@@ -1,0 +1,63 @@
+{% include 'book/xhtml/header.xml' %}
+
+  <title> {{ book.title }} </title>
+  
+<style type="text/css">
+    img.cover {margin-top: 3px; max-height: 110px;}
+</style>  
+  
+</head>
+
+<body>
+
+<div class="title">
+    <h1> {{ book.title }} </h1>
+    {% if book.author_set.all%}
+    <h2>
+      by      
+      {% for author in book.author_set.all %}
+        <em><a href="../author/id{{ author.id }}" class="gray">{{ author.name }}</a></em>
+      {% endfor %}
+    </h2>
+    {% endif %}
+</div>
+
+
+<div>
+    <div>
+        {% include 'book/xhtml/book_cover.xml' %}
+
+        {% include 'book/xhtml/book_description.xml' %}
+
+        {% if book.annotation.all %}
+            <div class="annotations">
+                <h3>Description</h3>
+                {% for annotation in book.annotation.all %}
+                    <div class="annotations"> {{ annotation }} </div>
+                {% endfor %}          
+            </div>  
+        {% endif %}        
+
+        {% if book.book_file.all %}
+            <div class="downloads">
+                <h4>Download&nbsp;:
+                {% for book_file in book.book_file.all %}
+                    <a href="{{ book_file.link }}" class="{{ book_file.type }}">
+                    {% if book_file.type %}
+                        {{ book_file.type }}
+                    {% else%}
+                        unrecognized type
+                    {% endif %}</a>&nbsp;
+                {% endfor %}
+                </h4>
+            </div>
+        {% endif %}
+
+  </div>
+
+</div>
+
+
+</body>
+</html>
+

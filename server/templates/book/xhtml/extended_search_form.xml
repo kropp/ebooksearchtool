@@ -1,0 +1,32 @@
+<div id="header">
+  
+    <h2>Extended search: </h2>
+
+    <form name="extended_search" action="../search">
+    
+        <table>    
+            <tr>
+            <td>Title:</td>
+            <td>  <input type="text" name="title"></td>
+            <td><a href="/discover/search" rel="simple search">Simple search</a></td>
+            </tr><tr>
+            <td>Author:</td> 
+            <td> <input type="text" name="author"></td>
+            </tr><tr>
+            <td>Language:</td>  
+            <td><input type="text" name="lang"></td>
+            </tr><tr>
+            <td>Tag:</td>
+            <td><select name="tag"  width="185" style="width: 185px">
+                <option value="">--None--</option>
+                {% for tag in tags %}
+                <option value="{{tag.name}}">{{tag.name}}</option>
+                {% endfor %}
+                </select>
+            </td>
+             </tr><tr>
+             <td></td><td align="right"><input type="submit" value="Search" ></td>
+        </table>
+    </form>
+
+</div>
