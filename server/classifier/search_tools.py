@@ -4,17 +4,17 @@ import urllib2
 from spec.external.BeautifulSoup import BeautifulSoup as bs
 from book.models import Tag
 
-genres = {'Adventure':['adventure'], 'Biography':['biography'], 'Collections':['collections'],
-    'Crime/Mystery':['crime/mystery','crime', 'mystery'], 'Essay':['essay'], 
-    'Fantasy':['fantasy'], 'Ghost Stories':['ghost stories', 'ghost-stories'], 'History':['history'],
-    'Horror':['horror'], 'Humor/Satire':['humor/satire','humor','satire', 'comedy', 'black comedy'],
-    'Non-Fiction':['non-fiction', 'non fiction'], 'Novels':['novels','novelist'], 
-    'Philosophy':['philosophy'], 'Plays':['plays'], 'Poetry':['poetry', 'poet'],
-    'Politics':['politics'], 'Religion':['religion'], 'Romance':['romance'],
-    'Science':['science'], 'Science Fiction':['science fiction', 'science-fiction'],
-    'Sexuality':['sexuality'], 'Short Fiction':['short fiction', 'short-fiction'], 'Thriller':['thriller'],
-    'Travel':['travel'], 'War':['war'], 'Western':['western'], 
-    'Young Readers':['young readers', 'young-readers', "children's literature"]}
+genres = {'Adventure':['Adventure'], 'Biography':['Biography'], 'Collections':['Collections'],
+    'Crime/Mystery':['Crime/Mystery','Crime', 'Mystery'], 'Essay':['Essay'], 
+    'Fantasy':['Fantasy'], 'Ghost Stories':['Ghost Stories', 'Ghost-Stories'], 'History':['Historian'],
+    'Horror':['Horror'], 'Humor/Satire':['Humor/Satire','Humor','Satire', 'Comedy', 'Black Comedy'],
+    'Non-Fiction':['Hon-Fiction', 'Non Fiction'], 'Novels':['Novels','Novelist'], 
+    'Philosophy':['Philosophy'], 'Plays':['Plays', 'Play', 'Playwright'], 'Poetry':['Poetry', 'Poet'],
+    'Politics':['Politics'], 'Religion':['Religion'], 'Romance':['Romance'],
+    'Science':['Science'], 'Science Fiction':['Science Fiction', 'Science-Fiction'],
+    'Sexuality':['Sexuality'], 'Short Fiction':['Short Fiction', 'Short-Fiction', 'Short Story '], 'Thriller':['Thriller'],
+    'Travel':['Travel'], 'War':['War'], 'Western':['Western'], 
+    'Young Readers':['Young Readers', 'Young-Readers', "Children's Literature"]}
 
 # all genres can be used with writer
 
@@ -95,6 +95,11 @@ def search_for_author_information(author):
             if k:
                 found = True
                 author.tag.add(t[0])
+            k = beaut_soup.find(attrs = {'title':j.lower()})
+            if k:
+                found = True
+                author.tag.add(t[0])
+
 
 #    genres_tag = beaut_soup.find(attrs = {'title':'Literary genre'})
 #    if not genres_tag:
@@ -117,7 +122,7 @@ def search_for_author_information(author):
         for i in genres.items():
             t = Tag.objects.get_or_create(name = i[0])
             for j in i[1]:
-                k = text.find(j)
+                k = text.find(j.lower())
                 if k != -1:
                     print author.name
                     print t[0].name
