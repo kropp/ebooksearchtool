@@ -14,7 +14,7 @@ genres = {'Adventure':['adventure'], 'Biography':['biography'], 'Collections':['
     'Science':['science'], 'Science Fiction':['science fiction', 'science-fiction'],
     'Sexuality':['sexuality'], 'Short Fiction':['short fiction', 'short-fiction'], 'Thriller':['thriller'],
     'Travel':['travel'], 'War':['war'], 'Western':['western'], 
-    'Young Readers':['young readers', 'young-readers']}
+    'Young Readers':['young readers', 'young-readers', "children's literature"]}
 
 # all genres can be used with writer
 
@@ -36,6 +36,7 @@ def search_for_author_information(author):
     text = beaut_soup.getText()
 
     is_article = text.find("Wikipedia does not have an article with this exact name")
+    text = text[0:0]
     if is_article != -1:
         auth_url = "http://en.wikipedia.org/wiki/Special:Search/" + author.name
         infile = opener.open(auth_url)
@@ -86,16 +87,40 @@ def search_for_author_information(author):
                     page = infile.read()
                     beaut_soup = bs.BeautifulSoup(page)
 
-    text = beaut_soup.getText()
-    text = text.lower()
-    
+    found = False
     for i in genres.items():
         t = Tag.objects.get_or_create(name = i[0])
         for j in i[1]:
-            k = text.find(j)
-            print author.name
-            if k != -1:
-                print t[0].name
+            k = beaut_soup.find(attrs = {'title':j})
+            if k:
+                found = True
                 author.tag.add(t[0])
+
+#    genres_tag = beaut_soup.find(attrs = {'title':'Literary genre'})
+#    if not genres_tag:
+#        employment_tag = beaut_soup.find(attrs = {'title':'Employment'})
+#        if not employment_tag:
+#            text = beaut_soup.getText()
+#        else:
+#            children = employment_tag.findParent().findParent().findChildren()
+#            for i in children:
+#                text += i.getText() + " "
+#    else:
+#        children = genres_tag.findParent().findParent().findChildren()
+#        for i in children:
+#            text += i.getText() + " "
+
+    if found == False:
+        text = beaut_soup.getText()
+        text = text.lower()
+        
+        for i in genres.items():
+            t = Tag.objects.get_or_create(name = i[0])
+            for j in i[1]:
+                k = text.find(j)
+                if k != -1:
+                    print author.name
+                    print t[0].name
+                    author.tag.add(t[0])
 
 
