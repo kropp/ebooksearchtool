@@ -4,7 +4,7 @@ try:
 except ImportError:
     from md5 import new as md5
 
-#from django.db import IntegrityError
+from django.db import IntegrityError
 #from django.core.exceptions import ObjectDoesNotExist
 
 from spec.exception import InputDataServerException
@@ -14,7 +14,7 @@ from book.models import Author, Book, BookFile, Language
 def get_tag_text(xml, tag):
     "Finds 'tag' in 'xml', returns text content or None."
     node = xml.find(tag)
-    if node:
+    if node is not None:
         text = node.text.strip()
         if not text:
             return None
@@ -47,8 +47,18 @@ def update_author(xml):
     full_name = get_tag_text(xml, 'full_name')
     if full_name:
         author.name = full_name
+    else:
+        raise IntegrityError("'full_name' can't be empty")
+    try:
+        credit_str = get_tag_text(xml, 'credit')
+        if credit_str:
+            credit = int(credit_str)
+            author.credit = credit
+    except ValueError, ex:
+        raise InputDataServerException(ex)
 
     author.save()
+    return author
                 
 
 def update_book_file(xml):
