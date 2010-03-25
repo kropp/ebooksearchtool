@@ -8,8 +8,11 @@ from read_tools import *
 def tag_adding():
     classifier = deserialize()
     books = Book.objects.all()
-    
+    counter = 0
     for book in books:
+        if book.tag.all() != None:
+            continue
+        counter +=counter
         ann = book.annotation.all()
         summary = ""
         authors = book.author_set.all()
@@ -34,7 +37,8 @@ def tag_adding():
                 continue
                 
         tags = classifier.classify(summary)
-        
+        if counter % 10 == 0:
+            print counter
         if tags[0] != None:
             t = Tag.objects.get_or_create(name=tags[0])
             book.tag.add(t[0])

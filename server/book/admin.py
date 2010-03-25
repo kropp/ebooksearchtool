@@ -30,15 +30,15 @@ class BookFileAdmin(admin.ModelAdmin):
     list_filter = ('last_check', 'credit')
 
 
-admin.site.register(Annotation, AnnotationAdmin)
-
 admin.site.register(Book, BookAdmin)
 
 admin.site.register(Author, AuthorAdmin)
 
-admin.site.register(BookFile, BookFileAdmin)
-
 admin.site.register(Tag, TagAdmin)
+
+admin.site.register(Annotation, AnnotationAdmin)
+
+admin.site.register(BookFile, BookFileAdmin)
 
 #admin.site.register(Series)
 
