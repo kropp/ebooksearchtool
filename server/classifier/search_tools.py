@@ -36,7 +36,7 @@ def search_for_author_information(author):
     text = beaut_soup.getText()
 
     is_article = text.find("Wikipedia does not have an article with this exact name")
-    if is_article == -1:
+    if is_article != -1:
         auth_url = "http://en.wikipedia.org/wiki/Special:Search/" + author.name
         infile = opener.open(auth_url)
         page = infile.read()
@@ -88,12 +88,14 @@ def search_for_author_information(author):
 
     text = beaut_soup.getText()
     text = text.lower()
-
+    
     for i in genres.items():
         t = Tag.objects.get_or_create(name = i[0])
         for j in i[1]:
             k = text.find(j)
+            print author.name
             if k != -1:
+                print t[0].name
                 author.tag.add(t[0])
 
 
