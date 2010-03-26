@@ -1,6 +1,6 @@
 # train classifier on feedbooks.com
 
-from book.models import Book, Tag
+from book.models import Book, Tag, Annotation
 
 import pickle
 from read_tools import *
@@ -12,7 +12,7 @@ def tag_adding():
     for book in books:
         if book.tag.all() != None:
             continue
-        counter +=counter
+        counter +=1
         ann = book.annotation.all()
         summary = ""
         authors = book.author_set.all()
@@ -23,6 +23,8 @@ def tag_adding():
                 summary = get_description(book.title, True)
             if summary == None:
                 continue
+            ann = Annotation.objects.get_or_create(name=summary)        
+            book.annotation.add(ann[0])
         else:
             for i in ann:
                 summary += i.name
@@ -35,7 +37,9 @@ def tag_adding():
                     summary = get_description(book.title, True)
             if summary == None:
                 continue
-                
+            ann = Annotation.objects.get_or_create(name=summary)        
+            book.annotation.add(ann[0])
+       
         tags = classifier.classify(summary)
         if counter % 10 == 0:
             print counter
