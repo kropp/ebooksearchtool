@@ -100,12 +100,12 @@ public class BookPanel implements Comparable {
         myRootPanel.setLayout(new BoxLayout(myRootPanel ,BoxLayout.X_AXIS));
 
         if(myBook.getImage() != null && !"".equals(myBook.getImage()) && !myBook.getImage().equals("None")){
-            FileDownloader fd = new FileDownloader("images" + File.separatorChar + myBook.getTitle() + ".jpg", myBook.getImage());
+            FileDownloader fd = new FileDownloader("images" + File.separatorChar + myBook.getTitle().hashCode() + ".jpg", myBook.getImage());
             fd.run();
         }
 
         myImageLable = new JLabel();
-        ImageIcon img = new ImageIcon("images" + File.separatorChar + myBook.getTitle() + ".jpg");
+        ImageIcon img = new ImageIcon("images" + File.separatorChar + myBook.getTitle().hashCode() + ".jpg");
 
         if(img.getIconWidth() > imageWidth){
             myImageWidth = img.getIconWidth();
