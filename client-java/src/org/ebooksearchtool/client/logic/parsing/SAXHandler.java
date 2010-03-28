@@ -284,6 +284,12 @@ public class SAXHandler extends DefaultHandler{
         for(int i = 0; i < myAuthorTags.getTags().length; ++i){
             myAuthorTags.getTags()[i].setStatus(false);    
         }
+
+        if(Thread.currentThread().isInterrupted()){
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            throw new SAXException();
+        }
+
     }
     @Override
     public void endDocument() throws SAXException

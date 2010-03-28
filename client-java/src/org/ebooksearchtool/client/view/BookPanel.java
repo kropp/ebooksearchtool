@@ -100,8 +100,8 @@ public class BookPanel implements Comparable {
         myRootPanel.setLayout(new BoxLayout(myRootPanel ,BoxLayout.X_AXIS));
 
         if(myBook.getImage() != null && !"".equals(myBook.getImage()) && !myBook.getImage().equals("None")){
-            FutureTask ft = myController.addTask(new FileDownloader("images" + File.separatorChar + myBook.getTitle() + ".jpg", myBook.getImage()));
-            while(!ft.isDone()){}
+            FileDownloader fd = new FileDownloader("images" + File.separatorChar + myBook.getTitle() + ".jpg", myBook.getImage());
+            fd.run();
         }
 
         myImageLable = new JLabel();

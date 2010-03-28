@@ -512,7 +512,7 @@ public class Window implements Observer{
 
 
         myFrame.setSize(700, 700);
-        myFrame.setLocation(10,10);
+        myFrame.setLocation(300,30);
         myFrame.setVisible(true);
     }
 

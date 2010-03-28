@@ -14,19 +14,20 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.concurrent.FutureTask;
+import java.util.List;
+import java.util.concurrent.*;
 
 public class Controller {
 
     Data myData;
     Settings mySettings;
     int myRequestCount;
-    ArrayList<FutureTask> myTasks;
+    ExecutorService myThreads;
 
     public Controller() throws SAXException, ParserConfigurationException, IOException {
 
         //SAXParserTest.test();
-        myTasks = new ArrayList<FutureTask>();
+        myThreads = Executors.newCachedThreadPool();
         myData = new Data();
         mySettings = new Settings();
 
@@ -69,10 +70,13 @@ public class Controller {
             String myFileName;
             QueryAnswer myAnswer;
 
+            boolean myIsFinished;
+
             public Downloader(String server, String name) {
                 myServer = server;
                 myFileName = "server" + name + ".xml";
                 myAnswer = new QueryAnswer(myData);
+                myIsFinished = false;
             }
 
             public void run() {
@@ -113,6 +117,8 @@ public class Controller {
 
                 }
 
+                myIsFinished = true;
+
             }
 
             public void getNextPage(String nextAddres) {
@@ -142,15 +148,20 @@ public class Controller {
 
             }
 
+            public boolean isFinished(){
+                return myIsFinished;
+            }
+
         }
 
-        FutureTask[] mainTasks = new FutureTask[mySettings.getSupportedServers().size()];
+        Downloader[] mainTasks = new Downloader[mySettings.getSupportedServers().size()];
         for (int i = 0; i < mySettings.getSupportedServers().size(); ++i) {
-            mainTasks[i] = addTask(new Downloader(mySettings.getSupportedServers().keySet().toArray(new String[mySettings.getSupportedServers().size()])[i], Integer.toString(i)));
+            mainTasks[i] = new Downloader(mySettings.getSupportedServers().keySet().toArray(new String[mySettings.getSupportedServers().size()])[i], Integer.toString(i));
+            addTask(mainTasks[i]);
         }
-
+                                                       
         for(int i = 0; i < mainTasks.length; ++i) {
-            while(!mainTasks[i].isDone()){}                  //TODO будет ли здесь утечка памяти???
+            while(!mainTasks[i].isFinished()){}
         }
         if (myData.getBooks().size() != 0) {
             saveModel();
@@ -161,26 +172,42 @@ public class Controller {
 
     public void stopProcesses(){
 
-        synchronized (myData) {
-            for (FutureTask t : myTasks) {
-                t.cancel(true);
-                System.out.println("stoped");
+        myThreads.shutdown();
+
+        try {
+            // Wait a while for existing tasks to terminate
+            if (!myThreads.awaitTermination(1, TimeUnit.SECONDS)) {
+                myThreads.shutdownNow(); // Cancel currently executing tasks
+                // Wait a while for tasks to respond to being cancelled
+                if (!myThreads.awaitTermination(1, TimeUnit.SECONDS))
+                    System.err.println("Pool did not terminate");
             }
-            myTasks.removeAll(myTasks);
+        } catch (InterruptedException ie) {
+            // (Re-)Cancel if current thread also interrupted
+            myThreads.shutdownNow();
+            // Preserve interrupt status
+            //Thread.currentThread().interrupt();
         }
-        if (myData.getBooks().size() != 0) {
-            saveModel();
-        }
+
+
+        /*synchronized (myData) {
+           for (Thread t : myT) {
+               t.stop();
+               System.out.println("stoped");
+           }
+           myTasks.removeAll(myTasks);
+       }
+       if (myData.getBooks().size() != 0) {
+           saveModel();
+       } */
 
     }
 
-    public FutureTask addTask(Runnable task){
-        FutureTask ft = new FutureTask(task, null);
-        Thread t = new Thread(ft);
-        t.setDaemon(true);
-        myTasks.add(ft);
-        t.start();
-        return ft;
+    public Thread addTask(Runnable task){
+        Thread t = new Thread(task);
+        myThreads.submit(task);
+        //t.start();
+        return t;
     }
 
     public Settings getSettings(){

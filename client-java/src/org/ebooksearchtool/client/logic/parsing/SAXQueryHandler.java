@@ -41,7 +41,7 @@ public class SAXQueryHandler extends DefaultHandler {
                 myIsSearched = true;
             }
         }
-
+                                                                                         
     }
     @Override
     public void characters(char[] ch, int start, int length) throws SAXException
