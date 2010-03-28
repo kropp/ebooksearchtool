@@ -1,7 +1,5 @@
 package org.ebooksearchtool.client.logic.query;
 
-import java.io.IOException;
-
 import org.ebooksearchtool.client.model.settings.Settings;
 
 public class Query {
@@ -16,6 +14,7 @@ public class Query {
 	
 	public String getQueryAdress(String server, String queryWord, String queryOption) {
 
+        queryWord = queryWord.replaceAll(" ", "+");
         if (server.equals("http://feedbooks.com")) {
             if (queryOption.equals("General")) {
                 return mySettings.getSupportedServers().get(server).getSearchTerms() + queryWord;
