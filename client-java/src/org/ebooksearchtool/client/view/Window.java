@@ -525,13 +525,13 @@ public class Window implements Observer{
 						}
             			myModel.setValue(100);
             			myProgressBar.setString("Complete");
-            			
+
             	/*		myQueryCombo.setSelectedIndex(0);
             			myEraseButton.setEnabled(false);    */
             			myToolDelete.setEnabled(true);
             			myToolSort.setEnabled(true);
                         myToolStop.setEnabled(false);
-            			myQueryPlusPanel.setVisible(false);
+            		//	myQueryPlusPanel.setVisible(false);
             			curModelNumber = myController.getRequestCount() - 1;
             			if(myController.getRequestCount() > 1){
             				myToolUp.setEnabled(true);
