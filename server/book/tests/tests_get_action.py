@@ -6,7 +6,7 @@ except ImportError:
 try:
     from hashlib import md5
 except ImportError:
-    import md5
+    from md5 import new as md5
 
 from django.test import TestCase
 from django.db.models import Q
@@ -24,7 +24,7 @@ from book.tests.tests_insert_action import InsertActionTest
 class GetActionTest(TestCase):
 
     def test_get_q(self):
-        md5.md5("sd").hexdigest()
+        md5("sd").hexdigest()
 
         q = get_q('title', 'query', 'icontains')
         qm = Q(title__icontains='query')

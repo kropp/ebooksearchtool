@@ -6,7 +6,7 @@ except ImportError:
 try:
     from hashlib import md5
 except ImportError:
-    import md5
+    from md5 import new as md5
 
 from django.test import TestCase
 from django.db.models import Q
@@ -240,7 +240,7 @@ class InsertActionTest(TestCase):
 
     def test_book_inf_files(self):
         "Tests getting book_files"
-        link_hash = md5.md5('link').hexdigest()
+        link_hash = md5('link').hexdigest()
         BookFile(link='link', link_hash=link_hash).save()
         xml_string = '''
         <book>
@@ -307,7 +307,7 @@ class InsertActionTest(TestCase):
     def test_save_book_info_add_files(self):
         'tests adding book_files to book'
         book = Book(title='title', lang='en')
-        book_file = BookFile(link='link', link_hash=md5.md5('link').hexdigest())
+        book_file = BookFile(link='link', link_hash=md5('link').hexdigest())
         book_file.save()
 
         # set book_file to unexisting book
@@ -316,7 +316,7 @@ class InsertActionTest(TestCase):
         self.failUnlessEqual(Book.objects.all()[0].book_file.all().count(), 1)
         self.failUnlessEqual(Book.objects.all()[0].book_file.all()[0], book_file)
 
-        book_file2 = BookFile(link='link2', link_hash=md5.md5('link2').hexdigest())
+        book_file2 = BookFile(link='link2', link_hash=md5('link2').hexdigest())
         book_file2.save()
 
         # add book_file to existing book

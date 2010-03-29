@@ -35,9 +35,9 @@ class BookFile(models.Model):
 
     credit = models.IntegerField(default=0)
 
-    def save(self):
+    def save(self, **kwargs):
         self.link_hash = md5(self.link).hexdigest()
-        super(BookFile, self).save()
+        super(BookFile, self).save(kwargs)
 
     def __unicode__(self):
         return '%s [size %s] [type %s]' % (self.link, self.size, self.type)
