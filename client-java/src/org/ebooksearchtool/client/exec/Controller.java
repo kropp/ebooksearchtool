@@ -63,7 +63,7 @@ public class Controller {
 
     }
 
-    public boolean getQueryAnswer(final String word) throws IOException, SAXException, ParserConfigurationException {
+    public boolean getQueryAnswer(final String[] words) throws IOException, SAXException, ParserConfigurationException {
 
         class Downloader implements Runnable {
 
@@ -85,7 +85,7 @@ public class Controller {
                 if (mySettings.getSupportedServers().get(myServer).isEnabled()) {
                     String adress = new String();
                     Query query = new Query(mySettings);
-                    adress = query.getQueryAdress(myServer, word, "General");                   //TODO переделать!
+                    adress = query.getQueryAdress(myServer, words[0], "General");                   //TODO переделать!
 
                     try {
                         System.out.println("IS");

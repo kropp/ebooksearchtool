@@ -501,7 +501,12 @@ public class Window implements Observer{
                             }
                             myController.getData().addObserver(Window.this);
                             myImageWidth = 0;
-                            myController.getQueryAnswer(myQueryField.getText());
+                            String[] terms = {myQueryField.getText(), "", ""};
+                            if (myQueryField.isEnabled()) {
+                                myController.getQueryAnswer(terms);
+                            }else{
+
+                            }
                         } catch (IOException e) {
                             e.printStackTrace();
 						} catch (SAXException e) {
