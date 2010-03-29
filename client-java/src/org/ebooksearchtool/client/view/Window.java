@@ -9,9 +9,7 @@ import org.xml.sax.SAXException;
 import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.FlowLayout;
+import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
@@ -160,20 +158,51 @@ public class Window implements Observer{
 
 
         myQueryPlusPanel.setLayout(new BoxLayout(myQueryPlusPanel, BoxLayout.Y_AXIS));
+
+        JLabel genLable = new JLabel("General");
+        JLabel titleLable = new JLabel("Title");
+        JLabel authorLable = new JLabel("Author");
+
+        Component[] comps = {genLable, titleLable, authorLable};
+        int labelWidth = 0;
+        Dimension dim = new Dimension();
+
+        for (int i = 0; i < comps.length; ++i) {
+            if (labelWidth < comps[i].getPreferredSize().width) {
+                labelWidth = comps[i].getPreferredSize().width;
+                dim = comps[i].getPreferredSize();
+            }
+        }
+
+        for (int i = 0; i < comps.length; ++i) {
+            comps[i].setPreferredSize(dim);
+            comps[i].setMaximumSize(dim);
+            comps[i].setMinimumSize(dim);
+        }
+
         JPanel gen = new JPanel();
         gen.setLayout(new BoxLayout(gen, BoxLayout.X_AXIS));
-        gen.add(new JLabel("General"));
+        gen.add(Box.createHorizontalStrut(12));
+        gen.add(genLable);
+        gen.add(Box.createHorizontalStrut(8));
         gen.add(new JTextField());
+        gen.add(Box.createHorizontalStrut(12));
 
         JPanel title = new JPanel();
         title.setLayout(new BoxLayout(title, BoxLayout.X_AXIS));
-        title.add(new JLabel("Title"));
+        title.add(Box.createHorizontalStrut(12));
+        title.add(titleLable);
+        title.add(Box.createHorizontalStrut(8));
         title.add(new JTextField());
+        title.add(Box.createHorizontalStrut(12));
 
         JPanel author = new JPanel();
         author.setLayout(new BoxLayout(author, BoxLayout.X_AXIS));
-        author.add(new JLabel("Author"));
+        author.add(Box.createHorizontalStrut(12));
+        author.add(authorLable);
+        author.add(Box.createHorizontalStrut(8));
         author.add(new JTextField());
+        author.add(Box.createHorizontalStrut(12));
 
         myQueryPlusPanel.add(Box.createVerticalStrut(8));
         myQueryPlusPanel.add(gen);
