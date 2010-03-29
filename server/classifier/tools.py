@@ -11,7 +11,8 @@ def tag_adding():
     counter = 0
     for book in books:
         if book.tag.all() != None:
-            continue
+            if book.tag.count() != 0:
+                continue
         counter +=1
         ann = book.annotation.all()
         summary = ""
@@ -37,9 +38,9 @@ def tag_adding():
                     summary = get_description(book.title, True)
             if summary == None:
                 continue
-            ann = Annotation.objects.get_or_create(name=summary)        
+            ann = Annotation.objects.get_or_create(name=summary)
             book.annotation.add(ann[0])
-       
+        
         tags = classifier.classify(summary)
         if counter % 10 == 0:
             print counter
