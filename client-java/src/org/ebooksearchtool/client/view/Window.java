@@ -30,14 +30,14 @@ public class Window implements Observer{
     private JLabel mySearchLabel;
     private JMenuItem myNetMenu;
     private JPanel myTextPan;
-    private JComboBox myQueryCombo;
+ //   private JComboBox myQueryCombo;
     private JProgressBar myProgressBar;
     private JPanel myCentralPanel;
     private JButton myMoreButton;
     private JToolBar myToolBar;
     private JLabel myNumberInfo;
     private JPanel myMorePanel;
-    private JButton myEraseButton;
+ //   private JButton myEraseButton;
     private JButton myExtQueryButton;
     private JButton myToolLibrary;
     private JButton myToolDelete;
@@ -143,10 +143,10 @@ public class Window implements Observer{
         myQueryField = new JTextField();
     	myQueryField.setSize(40, 10);
     	myQueryButtonPanel.add(myQueryField);
-        String[] query = new String[] { "General", "Author", "Title" };
+    /*    String[] query = new String[] { "General", "Author", "Title" };
         myQueryCombo = new JComboBox(query);
         myQueryPlusPanel.add(myQueryCombo);
-
+      */
     	
         mySearchButton = new JButton(new ImageIcon(getClass().getResource("/ico/search.png")));
     	mySearchButton.setEnabled(true);
@@ -158,25 +158,53 @@ public class Window implements Observer{
         myQueryButtonPanel.add(myExtQueryButton);
         setExtSearchEnabled();
 
-    	myEraseButton = new JButton("ERASE");
-    	myEraseButton.setEnabled(false);
-    	
+
+        myQueryPlusPanel.setLayout(new BoxLayout(myQueryPlusPanel, BoxLayout.Y_AXIS));
+        JPanel gen = new JPanel();
+        gen.setLayout(new BoxLayout(gen, BoxLayout.X_AXIS));
+        gen.add(new JLabel("General"));
+        gen.add(new JTextField());
+
+        JPanel title = new JPanel();
+        title.setLayout(new BoxLayout(title, BoxLayout.X_AXIS));
+        title.add(new JLabel("Title"));
+        title.add(new JTextField());
+
+        JPanel author = new JPanel();
+        author.setLayout(new BoxLayout(author, BoxLayout.X_AXIS));
+        author.add(new JLabel("Author"));
+        author.add(new JTextField());
+
+        myQueryPlusPanel.add(Box.createVerticalStrut(8));
+        myQueryPlusPanel.add(gen);
+        myQueryPlusPanel.add(Box.createVerticalStrut(8));
+        myQueryPlusPanel.add(title);
+        myQueryPlusPanel.add(Box.createVerticalStrut(8));
+        myQueryPlusPanel.add(author);
+        myQueryPlusPanel.add(Box.createVerticalStrut(8));
+
+        myQueryPlusPanel.setVisible(false);
+        
+
+        /*myEraseButton = new JButton("ERASE");
+        myEraseButton.setEnabled(false);
+
         myQueryButton = new JButton("ADD");
         myQueryButton.setToolTipText("Add a word to complex request");
-    	myQueryPlusPanel.add(Box.createHorizontalStrut(7));
-    	myQueryPlusPanel.add(myQueryButton);
-    	myQueryButton.setPreferredSize(myEraseButton.getPreferredSize());
-    	myQueryButton.setMaximumSize(myEraseButton.getPreferredSize());
-    	myQueryButton.setMinimumSize(myEraseButton.getPreferredSize());
-    	myQueryPlusPanel.add(Box.createHorizontalStrut(5));
-    	myQueryPlusPanel.add(myEraseButton);
-    	myQueryPlusPanel.add(Box.createHorizontalStrut(5));
-    	
-    	myQueryPlusPanel.add(Box.createHorizontalStrut(15));
-    	mySearchButton.setAlignmentX(Component.LEFT_ALIGNMENT);
-    	mySearchLabel = new JLabel();
+        myQueryPlusPanel.add(Box.createHorizontalStrut(7));
+        myQueryPlusPanel.add(myQueryButton);
+        myQueryButton.setPreferredSize(myEraseButton.getPreferredSize());
+        myQueryButton.setMaximumSize(myEraseButton.getPreferredSize());
+        myQueryButton.setMinimumSize(myEraseButton.getPreferredSize());
+        myQueryPlusPanel.add(Box.createHorizontalStrut(5));
+        myQueryPlusPanel.add(myEraseButton);
+        myQueryPlusPanel.add(Box.createHorizontalStrut(5));
+
+        myQueryPlusPanel.add(Box.createHorizontalStrut(15));
+        mySearchButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+        mySearchLabel = new JLabel();
         myQueryPlusPanel.add(mySearchLabel);
-        myQueryPlusPanel.setVisible(false);
+        myQueryPlusPanel.setVisible(false);*/
     	
     	myTextPan = new JPanel();
     	BoxLayout box = new BoxLayout(myTextPan, BoxLayout.Y_AXIS);
@@ -367,7 +395,7 @@ public class Window implements Observer{
             }
         };
         
-        ActionListener setAdress = new ActionListener() {
+    /*    ActionListener setAdress = new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
             	
@@ -399,16 +427,18 @@ public class Window implements Observer{
             	myEraseButton.setEnabled(false);
             	
             }
-        };
+        };            */
         
         ActionListener extSearch = new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
             	
             	if(myQueryPlusPanel.isVisible()){
             		myQueryPlusPanel.setVisible(false);
-            		myQueryCombo.setSelectedIndex(0);
+                    myQueryField.setEnabled(true);
+            		//myQueryCombo.setSelectedIndex(0);
             	}else{
             		myQueryPlusPanel.setVisible(true);
+                    myQueryField.setEnabled(false);
             	}
             	
             }
@@ -454,8 +484,8 @@ public class Window implements Observer{
             			myProgressBar.setString("Complete");
             			
             			myAdress = null;
-            			myQueryCombo.setSelectedIndex(0);
-            			myEraseButton.setEnabled(false);
+            	/*		myQueryCombo.setSelectedIndex(0);
+            			myEraseButton.setEnabled(false);    */
             			myToolDelete.setEnabled(true);
             			myToolSort.setEnabled(true);
                         myToolStop.setEnabled(false);
@@ -478,9 +508,9 @@ public class Window implements Observer{
         
         mySearchButton.addActionListener(act);
         myQueryField.addActionListener(act);
-        myQueryButton.addActionListener(setAdress);
+//        myQueryButton.addActionListener(setAdress);
         myMoreButton.addActionListener(act);
-        myEraseButton.addActionListener(erase);
+//        myEraseButton.addActionListener(erase);
         myToolDelete.addActionListener(delete);
         myToolSort.addActionListener(sort);
         myToolBack.addActionListener(back);

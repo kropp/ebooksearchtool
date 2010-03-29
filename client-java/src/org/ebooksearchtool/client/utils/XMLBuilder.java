@@ -1,13 +1,14 @@
 package org.ebooksearchtool.client.utils;
 
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
@@ -165,8 +166,23 @@ public class XMLBuilder {
 		}
 		
 		writeFile(doc, fileName);
-		
-	}
+    /*
+        OutputStreamWriter osw;
+        try {
+            osw = new OutputStreamWriter(new FileOutputStream(fileName), "utf-8");
+            XMLStreamWriter sw = XMLOutputFactory.newInstance().createXMLStreamWriter(osw);
+
+            
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (XMLStreamException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+      */
+    }
 
     public void makeSettingsXML(Settings sets){
 

@@ -22,6 +22,7 @@ public class Controller {
     Data myData;
     Settings mySettings;
     int myRequestCount;
+    int myModelCounter;
     ExecutorService myThreads;
 
     public Controller() throws SAXException, ParserConfigurationException, IOException {

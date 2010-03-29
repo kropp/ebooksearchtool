@@ -23,6 +23,18 @@ public class Query {
             } else {
                 return mySettings.getSupportedServers().get(server).getSearchTerms() + "title:" + queryWord;
             }
+        } else if (server.equals("http://only.mawhrin.net/ebooks")) {
+            if (queryOption.equals("General")) {
+                return mySettings.getSupportedServers().get(server).getSearchTerms() + queryWord;
+            } else if (queryOption.equals("Author")) {
+                StringBuffer link = new StringBuffer(mySettings.getSupportedServers().get(server).getSearchTerms());
+                link.delete(link.indexOf("query="), link.length());
+                return mySettings.getSupportedServers().get(server).getSearchTerms() + "author=" + queryWord;
+            } else {
+                StringBuffer link = new StringBuffer(mySettings.getSupportedServers().get(server).getSearchTerms());
+                link.delete(link.indexOf("query="), link.length());
+                return mySettings.getSupportedServers().get(server).getSearchTerms() + "title=" + queryWord;
+            }
         } else {
             return mySettings.getSupportedServers().get(server).getSearchTerms() + queryWord;
         }
