@@ -17,9 +17,7 @@ def get_xml_request(request):
     "Checks request type. Returns xml_request or raises exception if error."
     if request.method != 'POST':
         raise RequestServerException('Use POST method in request')
-    try:
-        xml_request = request.POST['xml']
-    except KeyError:
+    if not 'xml' in request.POST:
         raise RequestServerException("Not found xml field in POST request")
 
-    return xml_request
+    return request.POST['xml']
