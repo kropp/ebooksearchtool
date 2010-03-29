@@ -3,11 +3,16 @@
 source book_title : database_settings
 {
     sql_query           = \
-        SELECT id, title\
+        SELECT id, title, language_id \
         FROM book_book
     sql_query_info      = SELECT * FROM `book_book` WHERE `id` = $id
     sql_attr_multi = uint author_id from query; \
     select b.id, ba.author_id from book_book as b join book_author_book as ba on b.id=ba.book_id;
+
+    sql_attr_multi = uint tag_id from query; \
+    select b.id, bt.tag_id from book_book as b join book_book_tag bt on b.id=bt.book_id;
+
+    sql_attr_uint = language_id
 }
 
 index book_title

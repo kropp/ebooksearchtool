@@ -1,0 +1,18 @@
+Поиск по авторам, используя soundex
+Author.soundex_search.query('ley tolstoy')
+
+Поиск по названиям книг, используя стемминг английского языка
+qs = Book.title_search.query('book')
+
+Фильтр книг по авторам
+Не пустое персечение авторов книги и заданного списка
+qs.filter(author_id=3)
+qs.filter(author_id=[1, 2])
+
+Фильтр по языку
+qs.filter(language_id=4)
+qs.filter(language_id=[4,5])
+
+Фильтр по тэгам
+qs.filter(tag_id=4)
+qs.filter(tag_id=[4,5])
