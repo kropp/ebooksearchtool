@@ -42,8 +42,11 @@ public class Query {
             return link;
         } else if (server.equals("http://only.mawhrin.net/ebooks")) {
             String link = mySettings.getSupportedServers().get(server).getSearchTerms();
+            StringBuffer sb = new StringBuffer(link);
+            sb.delete(sb.indexOf("query="), sb.length());
+            link = sb.toString();
             if (!"".equals(queryWord[0])) {
-                link += queryWord[0];
+                link += "query=" + queryWord[0];
             }
             if (!"".equals(queryWord[1])) {
                 if ("".equals(queryWord[0])) {

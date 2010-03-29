@@ -603,6 +603,7 @@ public class Window implements Observer{
 
             for (int j = 0; j < myBookPanels.get(myBookPanels.size() - 1).size(); ++j) {
                 myBookPanels.get(myBookPanels.size() - 1).get(j).drawRootPanel(myImageWidth);
+                myTextPan.add(myBookPanels.get(myBookPanels.size() - 1).get(j).getRootPanel());
                 myFrame.setVisible(true);
 
             }

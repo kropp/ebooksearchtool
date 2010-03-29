@@ -155,9 +155,6 @@ public class Controller {
 
         }
 
-        System.out.println(words[0]);
-        System.out.println(words[1]);
-        System.out.println(words[2]);
         if (!"".equals(words[1]) || !"".equals(words[2])) {
             String[] servers = mySettings.getSupportedServers().keySet().toArray(new String[mySettings.getSupportedServers().size()]);
             for(String s : servers){
