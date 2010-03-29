@@ -1,3 +1,8 @@
+try:
+    from hashlib import md5
+except ImportError:
+    from md5 import new as md5
+
 from django.db import models
 from django.contrib import admin
 
@@ -29,6 +34,10 @@ class BookFile(models.Model):
     img_link = models.TextField(max_length=LINK_LENGTH, null=True, blank=True)
 
     credit = models.IntegerField(default=0)
+
+    def save(self):
+        self.link_hash = md5(self.link).hexdigest()
+        super(BookFile, self).save()
 
     def __unicode__(self):
         return '%s [size %s] [type %s]' % (self.link, self.size, self.type)

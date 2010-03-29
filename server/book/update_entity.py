@@ -49,6 +49,7 @@ def update_author(xml):
         author.name = full_name
     else:
         raise IntegrityError("'full_name' can't be empty")
+
     try:
         credit_str = get_tag_text(xml, 'credit')
         if credit_str:
@@ -84,7 +85,6 @@ def update_book_file(xml):
 
     if link:
         book_file.link = link
-        book_file.link_hash = md5(link).hexdigest()
     if file_type:
         book_file.type = file_type
     if more_info:
