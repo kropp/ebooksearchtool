@@ -10,12 +10,12 @@ class AuthorAdmin(admin.ModelAdmin):
 
 class BookAdmin(admin.ModelAdmin):
     search_fields = ('title', 'id')
-    filter_horizontal = ('tag', 'annotation', 'book_file')
-#    filter_horizontal = ('tag',)
+#    filter_horizontal = ('tag', 'annotation', 'book_file')
+    filter_horizontal = ('tag',)
     list_display = ('title', 'language', 'credit', 'id' )
     list_filter = ('credit',)
     fields = ('title', 'language', 'credit', 'annotation', 'book_file', 'series', 'tag')
-#    raw_id_fields = ('annotation','book_file')
+    raw_id_fields = ('annotation','book_file')
 
 
 class AnnotationAdmin(admin.ModelAdmin):
