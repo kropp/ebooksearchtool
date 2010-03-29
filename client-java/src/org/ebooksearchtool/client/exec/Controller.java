@@ -85,7 +85,7 @@ public class Controller {
                 if (mySettings.getSupportedServers().get(myServer).isEnabled()) {
                     String adress = new String();
                     Query query = new Query(mySettings);
-                    adress = query.getQueryAdress(myServer, words[0], "General");                   //TODO переделать!
+                    adress = query.getQueryAdress(myServer, words);
 
                     try {
                         System.out.println("IS");
@@ -155,9 +155,22 @@ public class Controller {
 
         }
 
+        System.out.println(words[0]);
+        System.out.println(words[1]);
+        System.out.println(words[2]);
+        if (!"".equals(words[1]) || !"".equals(words[2])) {
+            String[] servers = mySettings.getSupportedServers().keySet().toArray(new String[mySettings.getSupportedServers().size()]);
+            for(String s : servers){
+                mySettings.getSupportedServers().get(s).setEnabled(false);
+            }
+            mySettings.getSupportedServers().get("http://feedbooks.com").setEnabled(true);
+            mySettings.getSupportedServers().get("http://only.mawhrin.net/ebooks").setEnabled(true);
+        }
+
         Downloader[] mainTasks = new Downloader[mySettings.getSupportedServers().size()];
         for (int i = 0; i < mySettings.getSupportedServers().size(); ++i) {
             mainTasks[i] = new Downloader(mySettings.getSupportedServers().keySet().toArray(new String[mySettings.getSupportedServers().size()])[i], Integer.toString(i));
+            System.out.println("task");
             addTask(mainTasks[i]);
         }
                                                        
@@ -167,6 +180,8 @@ public class Controller {
         if (myData.getBooks().size() != 0) {
             saveModel();
         }
+
+        getSettingsFromFile();
 
         return false;
     }

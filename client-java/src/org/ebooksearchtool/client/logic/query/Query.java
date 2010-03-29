@@ -12,36 +12,61 @@ public class Query {
 		
 	}
 	
-	public String getQueryAdress(String server, String queryWord, String queryOption) {
+	public String getQueryAdress(String server, String[] words) {
 
-        queryWord = queryWord.replaceAll(" ", "+");
+        String queryWord[] = new String[words.length];
+        for(int i = 0; i < queryWord.length; ++i){
+            queryWord[i] = words[i];
+                queryWord[i] = queryWord[i].replaceAll(" ", "+");
+        }
+
         if (server.equals("http://feedbooks.com")) {
-            if (queryOption.equals("General")) {
-                return mySettings.getSupportedServers().get(server).getSearchTerms() + queryWord;
-            } else if (queryOption.equals("Author")) {
-                return mySettings.getSupportedServers().get(server).getSearchTerms() + "author:" + queryWord;
-            } else {
-                return mySettings.getSupportedServers().get(server).getSearchTerms() + "title:" + queryWord;
+            String link = mySettings.getSupportedServers().get(server).getSearchTerms();
+            if (!"".equals(queryWord[0])) {
+                link += queryWord[0];
             }
+            if (!"".equals(queryWord[1])) {
+                if ("".equals(queryWord[0])) {
+                    link += "title:" + queryWord[1];
+                } else {
+                    link += "+title:" + queryWord[1];
+                }
+            }
+            if (!"".equals(queryWord[2])) {
+                if ("".equals(queryWord[0]) && "".equals(queryWord[1])) {
+                    link += "author:" + queryWord[2];
+                } else {
+                    link += "+author:" + queryWord[2];
+                }
+            }
+            return link;
         } else if (server.equals("http://only.mawhrin.net/ebooks")) {
-            if (queryOption.equals("General")) {
-                return mySettings.getSupportedServers().get(server).getSearchTerms() + queryWord;
-            } else if (queryOption.equals("Author")) {
-                StringBuffer link = new StringBuffer(mySettings.getSupportedServers().get(server).getSearchTerms());
-                link.delete(link.indexOf("query="), link.length());
-                return mySettings.getSupportedServers().get(server).getSearchTerms() + "author=" + queryWord;
-            } else {
-                StringBuffer link = new StringBuffer(mySettings.getSupportedServers().get(server).getSearchTerms());
-                link.delete(link.indexOf("query="), link.length());
-                return mySettings.getSupportedServers().get(server).getSearchTerms() + "title=" + queryWord;
+            String link = mySettings.getSupportedServers().get(server).getSearchTerms();
+            if (!"".equals(queryWord[0])) {
+                link += queryWord[0];
             }
+            if (!"".equals(queryWord[1])) {
+                if ("".equals(queryWord[0])) {
+                    link += "title=" + queryWord[1];
+                } else {
+                    link += ";title=" + queryWord[1];
+                }
+            }
+            if (!"".equals(queryWord[2])) {
+                if ("".equals(queryWord[0]) && "".equals(queryWord[1])) {
+                    link += "author=" + queryWord[2];
+                } else {
+                    link += ";author=" + queryWord[2];
+                }
+            }
+            return link;
         } else {
-            return mySettings.getSupportedServers().get(server).getSearchTerms() + queryWord;
+            return mySettings.getSupportedServers().get(server).getSearchTerms() + queryWord[0];
         }
 
 	}
 
-    public String addQueryAdress(String server, String queryWord, String queryOption, String adress){
+ /*   public String addQueryAdress(String server, String queryWord, String queryOption, String adress){
 
     	if(server.equals("http://feedbooks.com")){
     		if(queryOption.equals("General")){
@@ -62,5 +87,5 @@ public class Query {
     	}
 
     }
-
+   */
 }

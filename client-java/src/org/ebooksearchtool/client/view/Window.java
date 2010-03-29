@@ -21,6 +21,9 @@ public class Window implements Observer{
     private JPanel myQueryButtonPanel;
     private JPanel myQueryPanel;
     private JPanel myQueryPlusPanel;
+    JTextField myGenTextField;
+    JTextField myTitleTextField;
+    JTextField myAuthorTextField;
     private JTextField myQueryField;
     private JButton mySearchButton;
     private JButton myQueryButton;
@@ -50,10 +53,7 @@ public class Window implements Observer{
     
     private ArrayList<ArrayList<BookPanel>> myBookPanels = new ArrayList<ArrayList<BookPanel>>();
     
-    private Query myQuery;
-    
     private int myBackIndex = 0;
-    private String myAdress;
     private int curModelNumber;
 
     private Controller myController;
@@ -185,7 +185,8 @@ public class Window implements Observer{
         gen.add(Box.createHorizontalStrut(12));
         gen.add(genLable);
         gen.add(Box.createHorizontalStrut(8));
-        gen.add(new JTextField());
+        myGenTextField = new JTextField();
+        gen.add(myGenTextField);
         gen.add(Box.createHorizontalStrut(12));
 
         JPanel title = new JPanel();
@@ -193,7 +194,8 @@ public class Window implements Observer{
         title.add(Box.createHorizontalStrut(12));
         title.add(titleLable);
         title.add(Box.createHorizontalStrut(8));
-        title.add(new JTextField());
+        myTitleTextField = new JTextField();
+        title.add(myTitleTextField);
         title.add(Box.createHorizontalStrut(12));
 
         JPanel author = new JPanel();
@@ -201,7 +203,8 @@ public class Window implements Observer{
         author.add(Box.createHorizontalStrut(12));
         author.add(authorLable);
         author.add(Box.createHorizontalStrut(8));
-        author.add(new JTextField());
+        myAuthorTextField = new JTextField();
+        author.add(myAuthorTextField);
         author.add(Box.createHorizontalStrut(12));
 
         myQueryPlusPanel.add(Box.createVerticalStrut(8));
@@ -501,12 +504,18 @@ public class Window implements Observer{
                             }
                             myController.getData().addObserver(Window.this);
                             myImageWidth = 0;
-                            String[] terms = {myQueryField.getText(), "", ""};
-                            if (myQueryField.isEnabled()) {
-                                myController.getQueryAnswer(terms);
+                            String[] terms = new String[3];
+                            if(myQueryField.isEnabled()){
+                                terms[0] = myQueryField.getText();
+                                terms[1] = "";
+                                terms[2] = "";
                             }else{
-
+                                terms[0] = myGenTextField.getText();
+                                terms[1] = myTitleTextField.getText();
+                                terms[2] = myAuthorTextField.getText();
                             }
+
+                            myController.getQueryAnswer(terms);
                         } catch (IOException e) {
                             e.printStackTrace();
 						} catch (SAXException e) {
@@ -517,7 +526,6 @@ public class Window implements Observer{
             			myModel.setValue(100);
             			myProgressBar.setString("Complete");
             			
-            			myAdress = null;
             	/*		myQueryCombo.setSelectedIndex(0);
             			myEraseButton.setEnabled(false);    */
             			myToolDelete.setEnabled(true);
@@ -528,7 +536,6 @@ public class Window implements Observer{
             			if(myController.getRequestCount() > 1){
             				myToolUp.setEnabled(true);
             			}
-            			myAdress = null;
             		}
             	});
                 myController.addTask(process);
@@ -542,8 +549,11 @@ public class Window implements Observer{
         
         mySearchButton.addActionListener(act);
         myQueryField.addActionListener(act);
+        myGenTextField.addActionListener(act);
+        myTitleTextField.addActionListener(act);
+        myAuthorTextField.addActionListener(act);
 //        myQueryButton.addActionListener(setAdress);
-        myMoreButton.addActionListener(act);
+//        myMoreButton.addActionListener(act);
 //        myEraseButton.addActionListener(erase);
         myToolDelete.addActionListener(delete);
         myToolSort.addActionListener(sort);
