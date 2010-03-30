@@ -37,14 +37,15 @@ def update_author(xml):
     "Executes xml, creates author or updates inf about it."
     entity_id = get_id(xml)
 
-    if entity_id:
-        # Modify existing author
-        author = Author.objects.get(id=entity_id)
-    else:
+    if entity_id is None:
         # Create new author
         author = Author()
+    else:
+        # Modify existing author
+        author = Author.objects.get(id=entity_id)
 
     full_name = get_tag_text(xml, 'full_name')
+
     if full_name:
         author.name = full_name
     
@@ -60,6 +61,7 @@ def update_author(xml):
         raise InputDataServerException(ex)
 
     author.save()
+
     return author
                 
 
@@ -109,6 +111,7 @@ def update_book_file(xml):
 def update_book(xml):
     "Executes xml, creates book or updates inf about it."
     entity_id = get_id(xml)
+    now_created = False
 
     if entity_id:
         # Modify existing book
@@ -116,6 +119,7 @@ def update_book(xml):
     else:
         # Create new book
         book = Book()
+        now_created = True
 
     title = get_tag_text(xml, 'title')
     lang = get_tag_text(xml, 'lang')
@@ -142,10 +146,9 @@ def update_book(xml):
 
     def relation_process(xml, entity_object, entity_set, entity_str):
         rm_entities = None
-
         if xml:
             # Get id of all authors
-            entities_id =  \
+            entities_id = \
                 [int(entity.attrib['id']) for entity in xml.findall(entity_str)]
     
             if xml.attrib.get('reset') == entity_str:
@@ -154,37 +157,22 @@ def update_book(xml):
                 rm_entities = entity_object.objects.filer(id__in=rm_entities_id)
     
                 entity_set.remove(rm_entities)
-                # TODO check rm_authors for hide in result, if its don't have book
             
             [entity_set.add(entity_id) for entity_id in entities_id]
         return rm_entities
 
-    relation_process(xml.find('authors'), Author, book.author_set, 'author')
+    rm_authors = relation_process(xml.find('authors'), Author, \
+                                  book.author_set, 'author')
+    # TODO check rm_authors for hide in result, if its don't have book
 
-    if not book.author_set.count():
-        raise IntegrityError("'authors' can't be empty")
+    rm_book_files = relation_process(xml.find('files'), BookFile, \
+                                    book.book_file, 'file')
+    # TODO check rm_book_files for hide in result, if its don't have book
 
-#    # authors tag
-#    authors = xml.find('authors')
-#    if authors:
-#        # Get id of all authors
-#        authors_id =  \
-#            [int(author.attrib['id']) for author in authors.findall('author')]
-#
-#        if xml.attrib.get('reset') == 'author':
-#            old_authors_id = set(book.author_set.values_list('id', flat=True))
-#            rm_authors_id = old_authors_id.difference(authors_id)
-#            rm_authors = Author.objects.filer(id__in=rm_authors_id)
-#
-#            book.author_set.remove(rm_authors)
-#            # TODO check rm_authors for hide in result, if its don't have book
-#        
-#        for author_id in authors_id:
-#            book.author_set.add(author_id)
-#
-#    # TODO add for book_file
-#
-#    if not book.author_set.count():
-#        raise IntegrityError("'authors' can't be empty")
+    if not now_created:
+        if not book.author_set.count():
+            raise IntegrityError("'authors' can't be empty")
+        if not book.book_file.count():
+            raise IntegrityError("'files' can't be empty")
 
     return book

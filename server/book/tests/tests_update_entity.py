@@ -98,6 +98,10 @@ class UpdateEntityTest(TestCase):
                 <author id="1" />
                 <author id="2" />
             </authors>
+            <files>
+                <file id="4" />
+                <file id="5" />
+            </files>
         </book>
         """)
         self.xml_create_book_empty_title = etree.fromstring("""
@@ -161,8 +165,14 @@ class UpdateEntityTest(TestCase):
                           self.xml_create_book_empty_title)
         a1 = Author.objects.get_or_create(id=1, name='author1')[0]
         a2 = Author.objects.get_or_create(id=2, name='author2')[0]
+        b1 = BookFile.objects.get_or_create(id=4, link='link1')[0]
+        b2 = BookFile.objects.get_or_create(id=5, link='link2')[0]
+
+        BookFile.objects.get(id=4)
+        BookFile.objects.get(id=5)
+
         book = update_book(self.xml_create_book)
         self.failUnlessEqual(book.title, 'title')
         self.failUnlessEqual(set(book.author_set.all()), set([a1,a2]))
-
+        self.failUnlessEqual(set(book.book_file.all()), set([b1,b2]))
 

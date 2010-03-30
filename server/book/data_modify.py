@@ -5,9 +5,12 @@ except ImportError:
     from md5 import new as md5
 
 from django.db import IntegrityError
+from django.db import transaction
 
-from book.models import Author, Book, BookFile, Language
 from spec.exception import InputDataServerException
+from book.models import Author, Book, BookFile, Language
+
+from update_entity import update_author, update_book_file, update_book
 
 def get_tag_text(xml, tag):
     "Finds 'tag' in 'xml', returns text content or None."
@@ -92,14 +95,14 @@ def define_entity(xml):
         
             # Create entity
             if node.tag == 'author':
-                entity_id = create_author(node).id
+                entity_id = update_author(node).id
             elif node.tag == 'file':
-                entity_id = create_book_file(node).id
+                entity_id = update_book_file(node).id
             elif node.tag == 'book':
-                entity_id = create_book(node).id
+                entity_id = update_book(node).id
             else:
                 raise InputDataServerException(
-                        "Unexpected tag '%s' in define section" % (node.tag,))
+                        "Unexpected tag '%s' in define section" % node.tag)
             ui_dic[entity_ui] = entity_id
     
     except IntegrityError, ex:
@@ -129,16 +132,16 @@ def update_entity(xml, ui_dic):
         if not node.attrib.get('id'):
             raise InputDataServerException(
                     "'%s' in update section doesn't have 'id' or 'ui'." %
-                    (node.tag,))
+                    node.tag)
         if node.tag == 'author':
-            entity_id = create_author(node).id
+            update_author(node)
         elif node.tag == 'file':
-            entity_id = create_book_file(node)
+            update_book_file(node)
         elif node.tag == 'book':
-            entity_id = create_book(node)
+            update_book(node)
         else:
             raise InputDataServerException(
-                    "Unexpected tag '%s' in define section" % (node.tag,))
+                    "Unexpected tag '%s' in define section" % node.tag)
 
 
 @transaction.commit_manually
@@ -147,14 +150,14 @@ def exec_update(xml):
     define_xml = xml.find('define')
     update_xml = xml.find('update')
 
-    if not define_xml:
-        raise InputDataServerException("Not found tag 'define'")
     if not update_xml:
         raise InputDataServerException("Not found tag 'update'")
         
     try:
-        # Create entities from define section
-        ui_dict = define_entity(define_xml)
+        ui_dict = {}
+        if define_xml:
+            # Create entities from define section
+            ui_dict = define_entity(define_xml)
         # Update entities
         update_entity(update_xml, ui_dict)
     except:

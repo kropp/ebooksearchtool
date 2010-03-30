@@ -21,6 +21,7 @@ ServerException, InnerServerException
 import spec.logger
 
 from book.search import xml_search
+from book.data_modify import exec_update
 
 from book.request_check import check_ip, get_xml_request
 
@@ -41,11 +42,13 @@ def search_view(request):
         except ExpatError, ex:
             raise RequestFileServerException(ex.message)
 
-
-        # execute search request
-        (entity_type, entities) = xml_search(xml)
-        return render_to_response('data/search.xml', \
-                                  Context({entity_type: entities,}))
+        if xml.tag == 'search':
+            # execute search request
+            (entity_type, entities) = xml_search(xml)
+            return render_to_response('data/search.xml', \
+                                      Context({entity_type: entities,}))
+        else:
+            exec_update(xml)
 
     except InnerServerException, ex:
         exception_type, exception_value, exception_traceback = exc_info()
