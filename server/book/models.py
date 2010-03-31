@@ -142,4 +142,6 @@ class Author(models.Model):
     def __unicode__(self):
         return "%s" % (self.name)
         
+    def existed_books(self):
+        return Author.objects.get(id=self.id).book.all()
 

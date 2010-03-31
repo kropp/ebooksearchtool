@@ -7,25 +7,6 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.core.exceptions import ObjectDoesNotExist
 
-def get_page_range(page, total, items_per_page):
-    if page <= 10:
-        if total/items_per_page+2 > 10:
-            return range(1, page + 10)
-        else:
-            if total%items_per_page == 0:
-                return range(1, total/items_per_page+1)
-            else:
-                return range(1, total/items_per_page+2)
-            
-    if page > 10:
-        if total/items_per_page+2 > page + 10:
-            return range(page - 10, page + 10)
-        else:
-            if total%items_per_page == 0:
-                return range(page - 10, total/items_per_page+1)
-            else:
-                return range(page - 10, total/items_per_page+2)
-
 def simple_search(request, response_type, items_per_page, page, start_index):
     """ simple search with query """
     tags = Tag.objects.all().order_by("name")
@@ -61,18 +42,18 @@ def search_in_title(title, author, tag, lang):
         authors = Author.soundex_search.query(author)
         authors_id = map(lambda x: x.id, authors)    
         books = books.filter(author_id=authors_id)
-    if tag:
-        try:
-            tags_id = Tag.objects.get(name=tag).id
-            books = books.filter(tag_id=tags_id)
-        except ObjectDoesNotExist:
-            pass                
     if lang:
         try:
             lang_id = Language.objects.get(short=lang).id
             books = books.filter(language_id=lang_id)
         except ObjectDoesNotExist:
             pass 
+    if tag:
+        try:
+            tags_id = Tag.objects.get(name=tag).id
+            books = books.filter(tag_id=tags_id)
+        except ObjectDoesNotExist:
+            pass                
     return books
 
 def search_in_author(request, response_type, items_per_page, page, 
@@ -134,13 +115,12 @@ def search_request_to_server(request, response_type, is_all):
         request_to_server = request_to_server & Q(tag__name__icontains=tag)
         main_title['tag'] = tag
 
-
+    # main logic
     if title:
         main_title['tit'] = title
         if author:
             main_title['author'] = author
         books = search_in_title(title, author, tag, lang) 
-        total = books.count()
     
     elif tag:
         if author:
@@ -151,13 +131,13 @@ def search_request_to_server(request, response_type, is_all):
             books = books.filter(author__id__in=authors_id)
             try:
                 tags_id = Tag.objects.get(name=tag).id
-                books = books.filter(tag_id=tags_id)
+                books = books.filter(tag=tags_id)
             except ObjectDoesNotExist:
                 pass                
             if lang:
                 try:
                     lang_id = Language.objects.get(short=lang).id
-                    books = books.filter(language_id=lang_id)
+                    books = books.filter(language=lang_id)
                 except ObjectDoesNotExist:
                     pass  
         else:
@@ -172,7 +152,7 @@ def search_request_to_server(request, response_type, is_all):
             books = books.filter(author__id__in=authors_id)
             try:
                 lang_id = Language.objects.get(short=lang).id
-                books = books.filter(language_id=lang_id)
+                books = books.filter(language=lang_id)
             except ObjectDoesNotExist:
                 pass                
         else:
