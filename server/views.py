@@ -72,13 +72,13 @@ def authors_by_one_letter(request, response_type):
             {'authors': authors})
         if response_type == "xhtml":
             return render_to_response('book/xhtml/books_by_author.xml',
-            {'authors': authors}) 
+            {'authors': authors})
     
     my_list = []
     my_string = letter+'a'
     for let in string:
         if my_string != letter+let:
-            my_string += "-" + letter + let 
+            my_string += "-" + letter + let
         my_list.append(my_string)
         my_string = letter+chr(ord(let)+1)
     my_string += "-" + letter+"z"
@@ -89,7 +89,7 @@ def authors_by_one_letter(request, response_type):
         {'string': my_list, 'num': 2, 'letter': letter })
     if response_type == "xhtml":
         return render_to_response('book/xhtml/books_by_author.xml',
-        {'string': my_list, 'num': 2 })        
+        {'string': my_list, 'num': 2 })
 
 def authors_by_two_letters(request, response_type):
     if 'letters' in request.GET and request.GET['letters']:
@@ -109,7 +109,7 @@ def authors_by_two_letters(request, response_type):
             {'authors': authors})
         if response_type == "xhtml":
             return render_to_response('book/xhtml/books_by_author.xml',
-            {'authors': authors}) 
+            {'authors': authors})
     else:
         alphabet_string = map(chr, range(65, 91))
         request_to_server = Q()
@@ -124,7 +124,7 @@ def authors_by_two_letters(request, response_type):
             {'string': string, 'num': 1 })
         if response_type == "xhtml":
             return render_to_response('book/xhtml/books_by_author.xml',
-            {'string': string, 'num': 1 }) 
+            {'string': string, 'num': 1 })
 
 def books_by_authors(request, response_type):
     """builds opds and xhtml response for authors by letter request"""
@@ -140,11 +140,11 @@ def books_by_language(request, response_type):
     if response_type == "atom":
         return render_to_response('book/opds/books_by_lang.xml',
         {'languages':languages})
-    if response_type == "xhtml":            
+    if response_type == "xhtml":
         return render_to_response('book/xhtml/books_by_lang.xml',
         {'languages':languages})
 
-def available_languages(): 
+def available_languages():
     lang = Book.objects.values_list('lang')
     short_langs = set(lang)
     short_langs =  [x[0] for x in short_langs]
@@ -153,8 +153,8 @@ def available_languages():
     for short_lang in short_langs:
         language = Language.objects.filter(short=short_lang).order_by('full')
         if language:
-            languages.add((language[0].full, short_lang))    
-    return sorted(languages)    
+            languages.add((language[0].full, short_lang))
+    return sorted(languages)
 
 def books_by_tags(request, response_type):
     """builds opds and xhtml response for books by tags request"""

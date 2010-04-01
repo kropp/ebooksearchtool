@@ -156,6 +156,11 @@ SPHINX_API_VERSION = 0x116
 # Analyzer setting
 ANALYZER_DEFAULT_RESULT_LENGTH = 5
 
+
+# Search engine
+# Max result length
+MAX_RESULT_LENGTH = 1000
+
 try:
     from local_settings import *
 except Exception:
