@@ -1,7 +1,85 @@
 
 from settings import MAX_RESULT_LENGTH
 
-from book.models import Author, Book
+from book.models import Author, Book, Language
+
+
+class KateSearchEngine():
+
+    def simple_search(self, **kwargs):
+        pass
+
+    def search_author(self, **kwargs):
+        pass
+
+    def search_book(self, **kwargs):
+        pass
+
+
+class SphinxKateSearchEngine(KateSearchEngine):
+
+    def simple_search(self, query, **kwargs):
+        tmp = dict(kwargs)
+        tmp['title'] = query
+        tmp['author'] = query
+        books = list(self.search_book(**tmp))
+        books_set = set(books)
+
+        del tmp['author']
+        books_a = self.search_book(**tmp)
+
+        for book in books_a:
+            if not book in books_set:
+                books.append(book)
+
+        return books
+    
+    def search_author(self, **kwargs):
+        author_query = kwargs.get('author')
+#        lang_query = kwargs.get('lang')
+        tag_query = kwargs.get('tag')
+
+        if author_query:
+            authors = Author.soundex_search.query(author_query)
+            
+#            if lang_query:
+#                lang_id = Language.objects.get(short=lang_query).id
+#                authors = authors.filter(language_id=lang_id)
+
+            if tag_query:
+                tag_id = Tag.objects.get(name=tag_query).id
+                authors = authors.filter(tag_id=tag_id)
+
+            return authors
+
+
+    def search_book(self, **kwargs):
+        title_query = kwargs.get('title')
+        author_query = kwargs.get('author')
+        lang_query = kwargs.get('lang')
+        tag_query = kwargs.get('tag')
+        
+
+        if title_query:
+            books = Book.title_search.query(title_query)
+            
+            if lang_query:
+                lang_id = Language.objects.get(short=lang_query).id
+                books = books.filter(language_id=lang_id)
+
+            if tag_query:
+                tag_id = Tag.objects.get(name=tag_query).id
+                books = books.filter(tag_id=tag_id)
+
+            if author_query:
+                authors = Author.soundex_search.query(author_query)
+                authors_id = map(lambda x: x.id, authors)
+                print authors_id
+                books = books.filter(author_id=authors_id)
+
+            return books
+
+
 
 class SearchEngine(object):
     "Abstract class, interface for search engine"
@@ -62,17 +140,16 @@ class SphinxSearchEngine(SearchEngine):
             return self.__results__['book'][0:self.max_result_length]
 
 
-search_engine = SphinxSearchEngine()
+SphinxKateSearchEngine()
+search_engine = SphinxKateSearchEngine()
 
-search_engine.update_query(author='tolstoy anna')
-authors = search_engine.get_result('author')
-#print authors
+print list(search_engine.search_author(author='tolstoy '))
+print
+print list(search_engine.search_book(title='anna karenina', author='tolstoy'))
+print
+print list(search_engine.simple_search('tolsloy anna karenina', lang='en'))
 
-# search_engine.clear_query()
-search_engine.update_query(title='tolstoy anna')
-books = search_engine.get_result('book')
 
-print books
 
 
 
