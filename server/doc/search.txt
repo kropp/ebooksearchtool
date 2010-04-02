@@ -1,34 +1,12 @@
-Поиск по авторам, используя soundex
-Author.soundex_search.query('ley tolstoy')
+See book/search.py for more details.
 
-Поиск по названиям книг, используя стемминг английского языка
-qs = Book.title_search.query('book')
+Usage example
 
-Фильтр книг по авторам
-Не пустое персечение авторов книги и заданного списка
-qs.filter(author_id=3)
-qs.filter(author_id=[1, 2])
+search_engine = SphinxSearchEngine()
 
-Фильтр по языку
-qs.filter(language_id=4)
-qs.filter(language_id=[4,5])
+print search_engine.author_search(author='jack london', max_length=10)
+print
+print search_engine.book_search(title='milan', author='casanova', max_length=10)
+print
+print search_engine.simple_search('casanove milan', max_length=10)
 
-Фильтр по тэгам
-qs.filter(tag_id=4)
-qs.filter(tag_id=[4,5])
-
-
-
-Интерфейс для поиска
-
-что хочется
-
- 1. искать авторов по имени
-   a. с фильтрацией по языкам
-   b. с фильтрацией по тэгам
- 2. искать книги по названиям
-   a. с фильтрацией по языкам
-   b. с фильтрацией по тэгам
- 3. искать книги по названию и по именам авторов (advanced)
-   a. с фильтрацией по языкам
-   b. с фильтрацией по тэгам

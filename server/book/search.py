@@ -1,12 +1,13 @@
 "Search functions by author, title of bood, etc"
 
-from book.models import Author, Book
-
-from settings import ANALYZER_DEFAULT_RESULT_LENGTH
+from settings import ANALYZER_DEFAULT_RESULT_LENGTH, MAX_RESULT_LENGTH
 
 from spec.exception import RequestServerException
 from spec.search_util import rm_items, id_field
 from spec.distance import name_distance
+
+from book.models import Author, Book, Language, Tag
+
 
 def author_search(query, max_length=5):
     """Searches 'query' in author field.
@@ -150,4 +151,103 @@ def xml_search(xml):
 
     return results
         
+
+class SearchEngine():
+    "Abstract class, interface for search engine"
+
+    def author_search(self, max_length=MAX_RESULT_LENGTH, **kwargs):
+        "Searchs query in authors."
+        raise NotImplementedError(
+            'SearchEngine.author_search() must be implemented in subclasses')
+
+    def book_search(self, max_length=MAX_RESULT_LENGTH, **kwargs):
+        "Searchs query in books."
+        raise NotImplementedError(
+            'SearchEngine.book_search() must be implemented in subclasses')
+
+    def simple_search(self, query, max_length=MAX_RESULT_LENGTH, **kwargs):
+        "Smart searchs query in books."
+        raise NotImplementedError(
+            'SearchEngine.simple_search() must be implemented in subclasses')
+
+
+class SphinxSearchEngine(SearchEngine):
+    "Search engine using sphinx search."
+
+    def author_search(self, max_length=MAX_RESULT_LENGTH, **kwargs):
+        """
+        Searchs query in authors, using soundex algorithm.
+        Supports args: author, tag, max_length.
+        """
+        author_query = kwargs.get('author')
+#        lang_query = kwargs.get('lang')
+        tag_query = kwargs.get('tag')
+
+        if author_query:
+            authors = Author.soundex_search.query(author_query)
+            
+#            if lang_query:
+#                lang_id = Language.objects.get(short=lang_query).id
+#                authors = authors.filter(language_id=lang_id)
+
+            if tag_query:
+                tag_id = Tag.objects.get(name=tag_query).id
+                authors = authors.filter(tag_id=tag_id)
+
+            # TODO sort by normal weight
+            return authors[0:max_length]
+
+    def book_search(self, max_length=MAX_RESULT_LENGTH, **kwargs):
+        """
+        Searchs query in books.
+        Supports args: title, author, tag, lang, max_length.
+        """
+        title_query = kwargs.get('title')
+        author_query = kwargs.get('author')
+        lang_query = kwargs.get('lang')
+        tag_query = kwargs.get('tag')
+        
+        if title_query:
+            books = Book.title_search.query(title_query)
+            
+            if lang_query:
+                lang_id = Language.objects.get(short=lang_query).id
+                books = books.filter(language_id=lang_id)
+
+            if tag_query:
+                tag_id = Tag.objects.get(name=tag_query).id
+                books = books.filter(tag_id=tag_id)
+
+            if author_query:
+                authors = \
+                    Author.soundex_search.query(author_query)[0:max_length]
+                authors_id = [a.id for a in authors]
+                books = books.filter(author_id=authors_id)
+
+            return books[0:max_length]
+
+    def simple_search(self, query, max_length=MAX_RESULT_LENGTH, **kwargs):
+        """
+        Smart searchs query in books (in title and authors).
+        Supports args: query, tag, lang, max_length.
+        """
+        query_ex = dict(kwargs)
+        query_ex['title'] = query
+        query_ex['author'] = query
+
+        # search in title and in author
+        books = list(self.book_search(**query_ex))
+        
+        if len(books) < max_length:
+            # search only in title
+            del query_ex['author']
+            books_a = self.book_search(**query_ex)
+
+            books_id_set = set([b.id for b in books])
+            # merge results
+            for book in books_a:
+                if not book.id in books_id_set:
+                    books.append(book)
+
+        return books[0:max_length]
 
