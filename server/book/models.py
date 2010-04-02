@@ -93,6 +93,9 @@ class Book(models.Model):
         mode='SPH_MATCH_ANY'
     )
 
+    def book_authors(self):
+        return Book.objects.get(id=self.id).author_set.all()
+
 #    # for more settings see 'spec/sphinx_conf/004_book_title_author.tmplt'
 #    title_author_search = SphinxSearch(
 #        index='book_title_author',
@@ -116,7 +119,7 @@ class Book(models.Model):
 
 class Author(models.Model):
     name = models.CharField(max_length=NAME_LENGTH, unique=True, null=False, blank=False)
-    book = models.ManyToManyField(Book, null=True, blank=True)
+    book = models.ManyToManyField(Book, null=True, blank=True)#, limit_choices_to = {'id__lte': 0})
     alias = models.ManyToManyField(AuthorAlias, null=True, blank=True)
     tag = models.ManyToManyField(Tag, null=True, blank=True)
 
@@ -145,3 +148,10 @@ class Author(models.Model):
     def existed_books(self):
         return Author.objects.get(id=self.id).book.all()
 
+#    def __getattribute__(self, p):
+#        if p == 'existed_books':        
+#            return self.__existed_books()
+    
+#    def __init__(self, **kwargs):
+#        models.Model.__init__(self, **kwargs)
+#        self.existed_books = None
