@@ -8,7 +8,6 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import javax.swing.*;
 import java.io.IOException;
 
 /*
@@ -118,6 +117,10 @@ public class SAXHandler extends DefaultHandler{
             myIsSource = true;
         }
 
+        if(Thread.currentThread().isInterrupted()){
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            throw new SAXException();
+        }
     }
 
     @Override
@@ -201,6 +204,10 @@ public class SAXHandler extends DefaultHandler{
                                 }
                 }
             }
+        }
+        if(Thread.currentThread().isInterrupted()){
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            throw new SAXException();
         }
     }
     @Override

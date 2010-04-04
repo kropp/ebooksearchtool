@@ -13,8 +13,6 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.*;
 
 public class Controller {
@@ -70,6 +68,7 @@ public class Controller {
             String myServer;
             String myFileName;
             QueryAnswer myAnswer;
+            InputStream myStream;
 
             boolean myIsFinished;
 
@@ -89,16 +88,15 @@ public class Controller {
 
                     try {
                         System.out.println("IS");
-                        InputStream is;
                         System.out.println("new Connector  " + adress);
                         Connector connect = new Connector(adress, mySettings);
                         System.out.println("get stream " + adress);
-                        is = connect.getFileFromURL(myFileName);
+                        myStream = connect.getFileFromURL(myFileName);
 
                         Parser parser = new Parser();
                         SAXHandler handler = new SAXHandler(myAnswer);
                         System.out.println("parse  " + adress);
-                        parser.parse(is, handler);
+                        parser.parse(myStream, handler);
                         System.out.println("parse is over  " + adress);
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -124,13 +122,17 @@ public class Controller {
 
             public void getNextPage(String nextAddres) {
 
+                if(nextAddres.indexOf("http") != 0){
+                    nextAddres = myServer + "/" + nextAddres;
+                }
+
                 try {
                     Connector connect = new Connector(nextAddres, mySettings);
-                    InputStream is = connect.getFileFromURL(myFileName);
+                    myStream = connect.getFileFromURL(myFileName);
 
                     Parser parser = new Parser();
                     SAXHandler handler = new SAXHandler(myAnswer);
-                    parser.parse(is, handler);
+                    parser.parse(myStream, handler);
                 } catch (IOException e) {
                     e.printStackTrace();
                     return;
@@ -151,6 +153,14 @@ public class Controller {
 
             public boolean isFinished(){
                 return myIsFinished;
+            }
+
+            public void closeStream(){
+                try {
+                    myStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
             }
 
         }
@@ -197,6 +207,7 @@ public class Controller {
             }
         } catch (InterruptedException ie) {
             // (Re-)Cancel if current thread also interrupted
+            System.out.println("shut");
             myThreads.shutdownNow();
             // Preserve interrupt status
             //Thread.currentThread().interrupt();
@@ -246,6 +257,16 @@ public class Controller {
     public void saveModel(){
         System.out.println("save");
         if(myRequestCount > 9){
+            try {
+                Parser pars = new Parser();
+                pars.parse("0.xml", new SAXClearHandler());
+            } catch (SAXException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (ParserConfigurationException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (IOException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
             for (int i = 0; i < 9; ++i) {
                 File prev = new File(Integer.toString(i) + ".xml");
                 prev.delete();
@@ -254,13 +275,6 @@ public class Controller {
             }
             --myRequestCount;
         }
-    	XMLBuilder builder = new XMLBuilder();
-    	builder.makeXML(myData, Integer.toString(myRequestCount)+".xml");
-    	++myRequestCount;
-    }
-    
-    public void extendModel(){
-    	--myRequestCount;
     	XMLBuilder builder = new XMLBuilder();
     	builder.makeXML(myData, Integer.toString(myRequestCount)+".xml");
     	++myRequestCount;
