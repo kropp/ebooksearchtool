@@ -2,6 +2,9 @@ package org.ebooksearchtool.client.logic.query;
 
 import org.ebooksearchtool.client.model.settings.Settings;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 public class Query {
 	
 	Settings mySettings;
@@ -12,7 +15,7 @@ public class Query {
 		
 	}
 	
-	public String getQueryAdress(String server, String[] words) {
+	public String getQueryAdress(String server, String[] words) throws UnsupportedEncodingException {
 
         String queryWord[] = new String[words.length];
         for(int i = 0; i < queryWord.length; ++i){
@@ -23,20 +26,20 @@ public class Query {
         if (server.equals("http://feedbooks.com")) {
             String link = mySettings.getSupportedServers().get(server).getSearchTerms();
             if (!"".equals(queryWord[0])) {
-                link += queryWord[0];
+                link += URLEncoder.encode(queryWord[0], "utf-8");
             }
             if (!"".equals(queryWord[1])) {
                 if ("".equals(queryWord[0])) {
-                    link += "title:" + queryWord[1];
+                    link += "title:" + URLEncoder.encode(queryWord[1], "utf-8");
                 } else {
-                    link += "+title:" + queryWord[1];
+                    link += "+title:" + URLEncoder.encode(queryWord[1], "utf-8");
                 }
             }
             if (!"".equals(queryWord[2])) {
                 if ("".equals(queryWord[0]) && "".equals(queryWord[1])) {
-                    link += "author:" + queryWord[2];
+                    link += "author:" + URLEncoder.encode(queryWord[2], "utf-8");
                 } else {
-                    link += "+author:" + queryWord[2];
+                    link += "+author:" + URLEncoder.encode(queryWord[2], "utf-8");
                 }
             }
             return link;
@@ -46,49 +49,27 @@ public class Query {
             sb.delete(sb.indexOf("query="), sb.length());
             link = sb.toString();
             if (!"".equals(queryWord[0])) {
-                link += "query=" + queryWord[0];
+                link += "query=" + URLEncoder.encode(queryWord[0], "utf-8");
             }
             if (!"".equals(queryWord[1])) {
                 if ("".equals(queryWord[0])) {
-                    link += "title=" + queryWord[1];
+                    link += "title=" + URLEncoder.encode(queryWord[1], "utf-8");
                 } else {
-                    link += ";title=" + queryWord[1];
+                    link += ";title=" + URLEncoder.encode(queryWord[1], "utf-8");
                 }
             }
             if (!"".equals(queryWord[2])) {
                 if ("".equals(queryWord[0]) && "".equals(queryWord[1])) {
-                    link += "author=" + queryWord[2];
+                    link += "author=" + URLEncoder.encode(queryWord[2], "utf-8");
                 } else {
-                    link += ";author=" + queryWord[2];
+                    link += ";author=" + URLEncoder.encode(queryWord[2], "utf-8");
                 }
             }
             return link;
         } else {
-            return mySettings.getSupportedServers().get(server).getSearchTerms() + queryWord[0];
+            return mySettings.getSupportedServers().get(server).getSearchTerms() + URLEncoder.encode(queryWord[0], "utf-8");
         }
 
 	}
 
- /*   public String addQueryAdress(String server, String queryWord, String queryOption, String adress){
-
-    	if(server.equals("http://feedbooks.com")){
-    		if(queryOption.equals("General")){
-            	return adress + "+" + queryWord;
-        	}else if(queryOption.equals("Author")){
-            	return adress + "+author:" + queryWord;
-        	}else{
-            	return adress + "+title:" + queryWord;
-        	}
-    	}else{
-    		if(queryOption.equals("General")){
-                return adress + ";query=" + queryWord;
-            }else if(queryOption.equals("Author")){
-                return adress + ";author=" + queryWord;
-            }else{
-                return adress + ";title=" + queryWord;
-            }
-    	}
-
-    }
-   */
 }

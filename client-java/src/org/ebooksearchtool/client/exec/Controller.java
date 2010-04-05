@@ -61,7 +61,7 @@ public class Controller {
 
     }
 
-    public boolean getQueryAnswer(final String[] words) throws SAXException, ParserConfigurationException {
+    public boolean getQueryAnswer(final String[] words) {
 
         class Downloader implements Runnable {
 
@@ -84,9 +84,9 @@ public class Controller {
                 if (mySettings.getSupportedServers().get(myServer).isEnabled()) {
                     String adress = new String();
                     Query query = new Query(mySettings);
-                    adress = query.getQueryAdress(myServer, words);
 
                     try {
+                        adress = query.getQueryAdress(myServer, words);
                         System.out.println("IS");
                         System.out.println("new Connector  " + adress);
                         Connector connect = new Connector(adress, mySettings);
@@ -117,6 +117,11 @@ public class Controller {
                         e.printStackTrace();
                         myIsFinished = true;
                         return;
+                    } catch (Exception e) {
+                        System.out.println("simple exception in  " + myServer);
+                        e.printStackTrace();
+                        myIsFinished = true;
+                        return;
                     }
 
 
@@ -131,6 +136,8 @@ public class Controller {
             }
 
             public void getNextPage(String nextAddres) {
+
+                System.out.println("next of " + myServer);
 
                 if(nextAddres.indexOf("http") != 0){
                     nextAddres = myServer + "/" + nextAddres;
@@ -157,6 +164,11 @@ public class Controller {
                     myIsFinished = true;
                     return;
                 } catch (ParserConfigurationException e) {
+                    e.printStackTrace();
+                    myIsFinished = true;
+                    return;
+                } catch (Exception e) {
+                    System.out.println("simple exception in  " + myServer);
                     e.printStackTrace();
                     myIsFinished = true;
                     return;
@@ -202,7 +214,10 @@ public class Controller {
         }
                                                        
         for(int i = 0; i < mainTasks.length; ++i) {
-            while(!mainTasks[i].isFinished()){}
+            while (!mainTasks[i].isFinished()) {
+            }
+
+            System.out.println("finished " + i);
         }
         if (myData.getBooks().size() != 0) {
             if (myIsModelSaved) {
@@ -215,6 +230,10 @@ public class Controller {
         try {
             getSettingsFromFile();
         } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (SAXException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (ParserConfigurationException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
 

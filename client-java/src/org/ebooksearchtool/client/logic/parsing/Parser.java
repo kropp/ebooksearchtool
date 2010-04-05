@@ -32,10 +32,16 @@ public class Parser{
 
     }
 
-    public void parse(InputStream is, DefaultHandler handler) throws IOException, SAXException {
+    public void parse(InputStream is, DefaultHandler handler) {
 
-        myParser.parse(is, handler);
-        is.close();
+        try {
+            myParser.parse(is, handler);
+            is.close();
+        } catch (SAXException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
 
     }
 

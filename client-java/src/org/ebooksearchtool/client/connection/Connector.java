@@ -31,23 +31,16 @@ public class Connector{
 
 
 
-    public InputStream getFileFromURL(String fileName) {
+    public InputStream getFileFromURL(String fileName) throws IOException {
 
-        try {
-        	if(!mySettings.isProxyEnabled()){
-                connection = Url.openConnection();
-                connection.setConnectTimeout(5000);
-        	}else{
-                connection = Url.openConnection(new Proxy(Proxy.Type.HTTP, new InetSocketAddress(mySettings.getIP(), mySettings.getPort())));
-                connection.setConnectTimeout(5000);
-        	}
-            return connection.getInputStream();
-        } catch (IOException e) {
-            System.out.println("exception");
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            return null;
-
+        if (!mySettings.isProxyEnabled()) {
+            connection = Url.openConnection();
+            connection.setConnectTimeout(5000);
+        } else {
+            connection = Url.openConnection(new Proxy(Proxy.Type.HTTP, new InetSocketAddress(mySettings.getIP(), mySettings.getPort())));
+            connection.setConnectTimeout(5000);
         }
+        return connection.getInputStream();
 
     }
     

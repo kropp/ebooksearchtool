@@ -496,38 +496,32 @@ public class Window implements Observer{
             			
             			myModel.setValue(8);
             			myProgressBar.setString("Receiving data... 5%");
-                        try {
-                            ++curModelNumber;
-                            myTextPan.removeAll();
-                            myBookPanels = new ArrayList<ArrayList<BookPanel>>();
-                            myBookPanels.add(new ArrayList<BookPanel>());
-                            if (myController.getData().getBooks().size() != 0) {
-                                myController.clearModel();
-                            }
-                            myController.getData().addObserver(Window.this);
-                            myImageWidth = 0;
-                            String[] terms = new String[3];
-                            if(myQueryField.isEnabled()){
-                                terms[0] = myQueryField.getText();
-                                terms[1] = "";
-                                terms[2] = "";
-                            }else{
-                                terms[0] = myGenTextField.getText();
-                                terms[1] = myTitleTextField.getText();
-                                terms[2] = myAuthorTextField.getText();
-                            }
-                            myTime = System.currentTimeMillis();
-                            myController.getQueryAnswer(terms);
-                        } catch (SAXException e) {
-							e.printStackTrace();
-						} catch (ParserConfigurationException e) {
-							e.printStackTrace();
-						}
-            			myModel.setValue(100);
-            			myProgressBar.setString("Complete");
+                        ++curModelNumber;
+                        myTextPan.removeAll();
+                        myBookPanels = new ArrayList<ArrayList<BookPanel>>();
+                        myBookPanels.add(new ArrayList<BookPanel>());
+                        if (myController.getData().getBooks().size() != 0) {
+                            myController.clearModel();
+                        }
+                        myController.getData().addObserver(Window.this);
+                        myImageWidth = 0;
+                        String[] terms = new String[3];
+                        if (myQueryField.isEnabled()) {
+                            terms[0] = myQueryField.getText();
+                            terms[1] = "";
+                            terms[2] = "";
+                        } else {
+                            terms[0] = myGenTextField.getText();
+                            terms[1] = myTitleTextField.getText();
+                            terms[2] = myAuthorTextField.getText();
+                        }
+                        myTime = System.currentTimeMillis();
+                        myController.getQueryAnswer(terms);
+                        myModel.setValue(100);
+                        myProgressBar.setString("Complete");
 
-            	/*		myQueryCombo.setSelectedIndex(0);
-            			myEraseButton.setEnabled(false);    */
+                        /*		myQueryCombo.setSelectedIndex(0);
+                              myEraseButton.setEnabled(false);    */
             			myToolDelete.setEnabled(true);
             			myToolSort.setEnabled(true);
                         myToolStop.setEnabled(false);
