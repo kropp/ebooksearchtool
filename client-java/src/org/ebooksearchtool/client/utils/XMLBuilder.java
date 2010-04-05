@@ -15,6 +15,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.ebooksearchtool.client.model.books.Book;
 import org.ebooksearchtool.client.model.books.Data;
 import org.ebooksearchtool.client.model.settings.Settings;
 import org.w3c.dom.Document;
@@ -32,12 +33,12 @@ public class XMLBuilder {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void writeFile(Document doc, String fileName){
 		try {
 			Transformer t = TransformerFactory.newInstance().newTransformer();
 			t.setOutputProperty(OutputKeys.INDENT, "yes");
-			
+
 			PrintWriter pw = new PrintWriter(new OutputStreamWriter(new FileOutputStream(fileName), "utf-8"));
 			
 			t.transform(new DOMSource(doc), new StreamResult(pw));

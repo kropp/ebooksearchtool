@@ -58,6 +58,8 @@ public class Window implements Observer{
 
     private Controller myController;
     private int myImageWidth;
+    long myTime;
+    boolean myIsModelSaved;
 
     public JFrame getFrame() {
         return myFrame;
@@ -514,7 +516,8 @@ public class Window implements Observer{
                                 terms[1] = myTitleTextField.getText();
                                 terms[2] = myAuthorTextField.getText();
                             }
-
+                            myTime = System.currentTimeMillis();
+                            myIsModelSaved = false;
                             myController.getQueryAnswer(terms);
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -597,6 +600,16 @@ public class Window implements Observer{
     }
 
     public void appendBook(Book book, DefaultBoundedRangeModel model) {
+
+        if((System.currentTimeMillis() - myTime) > 3000){
+            if (!myController.isModelSaved()) {
+                myController.saveModel();
+            } else {
+                myController.reWriteModel();
+            }
+            myTime = System.currentTimeMillis();
+        }
+
         myBookPanels.get(myBookPanels.size() - 1).add(new BookPanel(book, myController.getSettings(), model, myController));
         if (myImageWidth < myBookPanels.get(myBookPanels.size() - 1).get(myBookPanels.get(myBookPanels.size() - 1).size() - 1).getImageWidth()) {
             myImageWidth = myBookPanels.get(myBookPanels.size() - 1).get(myBookPanels.get(myBookPanels.size() - 1).size() - 1).getImageWidth();

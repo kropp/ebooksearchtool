@@ -20,7 +20,7 @@ public class Controller {
     Data myData;
     Settings mySettings;
     int myRequestCount;
-    int myModelCounter;
+    boolean myIsModelSaved;
     ExecutorService myThreads;
 
     public Controller() throws SAXException, ParserConfigurationException, IOException {
@@ -174,6 +174,8 @@ public class Controller {
             mySettings.getSupportedServers().get("http://only.mawhrin.net/ebooks").setEnabled(true);
         }
 
+        myIsModelSaved = false;
+
         Downloader[] mainTasks = new Downloader[mySettings.getSupportedServers().size()];
         for (int i = 0; i < mySettings.getSupportedServers().size(); ++i) {
             mainTasks[i] = new Downloader(mySettings.getSupportedServers().keySet().toArray(new String[mySettings.getSupportedServers().size()])[i], Integer.toString(i));
@@ -185,7 +187,11 @@ public class Controller {
             while(!mainTasks[i].isFinished()){}
         }
         if (myData.getBooks().size() != 0) {
-            saveModel();
+            if (myIsModelSaved) {
+                reWriteModel();
+            } else {
+                saveModel();
+            }
         }
 
         getSettingsFromFile();
@@ -278,6 +284,17 @@ public class Controller {
     	XMLBuilder builder = new XMLBuilder();
     	builder.makeXML(myData, Integer.toString(myRequestCount)+".xml");
     	++myRequestCount;
+        myIsModelSaved = true;
+    }
+
+    public void reWriteModel(){
+        System.out.println("rewrite");
+        XMLBuilder builder = new XMLBuilder();
+        synchronized (myData){
+            --myRequestCount;
+    	    builder.makeXML(myData, Integer.toString(myRequestCount)+".xml");
+            ++myRequestCount;
+        }
     }
     
     public void loadModel(int number){
@@ -313,5 +330,9 @@ public class Controller {
 	public void setRequestCount(int myRequestCount) {
 		this.myRequestCount = myRequestCount;
 	}
-    
+
+    public boolean isModelSaved(){
+        return myIsModelSaved;
+    }
+
 }
