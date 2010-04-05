@@ -32,7 +32,6 @@ HEADERS += data/book_author.h \
            gui/centralwidget.h \
            gui/mainwindow.h \
            gui/searchwidget.h \
-           gui/serversListView.h \
            network/networkmanager.h \
            view/bookActionButtons.h \
            view/bookDescriptionDialog.h \
@@ -53,7 +52,6 @@ SOURCES += main.cpp \
            gui/centralwidget.cpp \
            gui/mainwindow.cpp \
            gui/searchwidget.cpp \
-           gui/serversListView.cpp \
            network/networkmanager.cpp \
            view/bookActionButtons.cpp \
            view/bookDescriptionDialog.cpp \

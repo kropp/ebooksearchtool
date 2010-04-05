@@ -5,15 +5,29 @@
 #include "../network/networkmanager.h"
 #include "../data/data.h"
 #include "searchwidget.h"
-#include "serversListView.h"
+//#include "serversListView.h"
 
 CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myBuffer(0), myData(0) {
     
 // initialize fields
+   // process command-line argument for initialisation
+   /* if (QApplication::argc() > 1) {
+        QFile file(QApplication::argv[1]);
+        file->open(QIODevice::ReadOnly);
+        
+        OPDSParser parser;
+        if (!parser.parse(file, myData, mySearchResult)) {
+            myErrorMessageDialog->showMessage(tr("recieved no data from server"));
+        }
+        file->close();
+
+       
+        readData(file);
+    }*/
+   
     myNewRequest = true;
     myIsDownloadingNextResults = false;
-    //myServersListView = new ServersListView(this);
-    myView = new View(this, 0);
+    myView = new View(this, myData);
     myScrollArea = new QScrollArea(this);
     myErrorMessageDialog = new QErrorMessage(this);
     myErrorMessageDialog->setWindowTitle("ERROR");
@@ -54,13 +68,12 @@ void CentralWidget::downloadFile(const QString& url) {
     //qDebug() << "CentralWidget::downloadFile try to download" << url;
 	myRequestId = myNetworkManager->download(url, myBuffer);
     qDebug() << "CentralWidget::downloadFile " << url << "id " << myRequestId;
-  
-    if (myBuffer->isOpen()) {
-        myBuffer->close();
-    }
 }
 
 void CentralWidget::httpRequestFinished(int requestId , bool error) {
+    if (myBuffer->isOpen()) {
+        myBuffer->close();
+    }
     if (error){
         myErrorMessageDialog->showMessage(myNetworkManager->errorString());
         return;
@@ -84,21 +97,20 @@ void CentralWidget::parseDownloadedFile() {
    
     saveOldData();
    
+    //readData(myBuffer);
+
     OPDSParser parser;
-   //qDebug() << "CentralWidget::parseDownloadedFile myData.size" << myData->getSize(); 
-    
     myBuffer->open(QIODevice::ReadOnly);
     if (!parser.parse(myBuffer, myData, mySearchResult)) {
-        myErrorMessageDialog->showMessage("recieved no data from server");
+        myErrorMessageDialog->showMessage(tr("recieved no data from server"));
     }
+    myBuffer->close();
+
     if (mySearchResult.hasNextResult()) {
         emit hasNextResult(true);
     }
 
     updateView();
-    //sortResult();    
-    //search on the next server, 
-    //or download next result page
     nextDownloading();
 }
 
@@ -167,11 +179,5 @@ void CentralWidget::updateView() {
 void CentralWidget::sortResult() {
    QList<const Book*> sortedData(myData->getBooks());
    qSort(sortedData.begin(), sortedData.end(), Book::compareTitles);
-   qDebug() << "sorted authors:";
-   foreach (const Book* book, sortedData) {
-      // qDebug() << book->getAuthors()[0]->getName();
-       qDebug() << book->getTitle();
-   }
-   qDebug() << "CentralWidget qsort size" << sortedData.size();
    myView->showBooks(sortedData);
 }

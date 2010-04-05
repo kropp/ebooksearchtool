@@ -22,7 +22,7 @@ void SearchResult::setLinkToNextResult(const QString& selfLink, const QString& n
         fullLink.prepend(selfLink); 
     }
 
-    qDebug() << "SearchResult::insert server: " << server << "  full link: " << fullLink;
+//    qDebug() << "SearchResult::insert server: " << server << "  full link: " << fullLink;
     myLinksToNextAtomPage.insert(server, fullLink);
 } 
     

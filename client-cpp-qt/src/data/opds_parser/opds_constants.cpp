@@ -3,12 +3,12 @@
 /*
 other opds-tags:
 
-prism:issue
-prism:volume
-opds:price
-opds:paymentgateway
-dc:identifier
-dcterms:SizeOrDuration
+    * prism:issue
+    * prism:volume
+    * opds:price with three-letter ISO 4217 currencycode attribute
+    * opds:paymentgateway (e.g. https://www.paypal.com/us/ or http://checkout.google.com )
+    * dc:identifier with ISBN (e.g. <dc:identifier>urn:isbn:9780596806712</dc:identifier>)
+    * dcterms:SizeOrDuration with Number of Pages, if available. 
 */
 
 const QString OPDSConstants::NSPASE_OPENSEARCH = "http://a9.com/-/spec/opensearch/1.1/";

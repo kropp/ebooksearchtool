@@ -20,7 +20,6 @@ static const QString OPENSEARCH_ONLY_MAWHRIN = "/ebooks/search.atom?query=";
 static const QString SERVER_MUNSEYS = "catalog.lexcycle.com";
 static const QString OPENSEARCH_MUNSEYS = "/munseys/op/search?search=";
  
-
 NetworkManager* NetworkManager::instance = 0;
 
 QString NetworkManager::ourConfigFilePath = "../.config.ini";
@@ -37,7 +36,7 @@ NetworkManager* NetworkManager::getInstance() {
 }
 
 void NetworkManager::setServer(const QString& newServer) {
-    ourCurrentServer= newServer;
+    ourCurrentServer = newServer;
 }
 
 NetworkManager::NetworkManager() {
@@ -88,6 +87,7 @@ int NetworkManager::download(QString query, QIODevice* out) {
     query.prepend(ourServersSearchSchema[ourCurrentServer]);
 
     qDebug() << "NetworkManager::download request =" << ourCurrentServer << query;
+   // qDebug() << "NetworkManager::download request =" << ourCurrentServer << query;
 	int id = myHttpConnection->get(query, out);
     
     return id;
@@ -97,6 +97,7 @@ int NetworkManager::download(QString query, QIODevice* out) {
 int NetworkManager::downloadCover(QString urlStr, QIODevice* out) {
     QUrl url(urlStr);
     myConnectionForCovers->setHost(url.host(), 80);
+    
     if (ourProxy != "undefined") { 
         myConnectionForCovers->setProxy(ourProxy, ourPort);
 	}
@@ -108,12 +109,13 @@ int NetworkManager::downloadCover(QString urlStr, QIODevice* out) {
 
 int NetworkManager::downloadByUrl(const QString& urlStr, QIODevice* out) {
     QString request (urlStr);
+    
     QUrl url(urlStr);
-    myHttpConnection->setHost(url.host(), 80);
-
     request.remove("http://");
+    myHttpConnection->setHost(url.host(), 80);
     request.remove(url.host());
     
+    qDebug() << "NetworkManager::downloadByUrl url" << url;
     qDebug() << "NetworkManager::downloadByUrl host =" << url.host()<< "request =  " << request;
 	return myHttpConnection->get(request, out);
 }   
@@ -132,11 +134,11 @@ void NetworkManager::showConnectionState (int /*state*/) {
 
 void NetworkManager::initializeMap(){
     ourServersSearchSchema.insert(SERVER_FEEDBOOKS, OPENSEARCH_FEEDBOOKS);
-    //ourServersSearchSchema.insert(SERVER_BOOKSERVER, OPENSEARCH_BOOKSERVER);
-    //ourServersSearchSchema.insert(SERVER_ONLY_MAWHRIN, OPENSEARCH_ONLY_MAWHRIN);
-   // ourServersSearchSchema.insert(SERVER_MANYBOOKS, OPENSEARCH_MANYBOOKS);
-    //ourServersSearchSchema.insert(SERVER_SMASHWORDS, OPENSEARCH_SMASHWORDS);
-    //ourServersSearchSchema.insert(SERVER_MUNSEYS, OPENSEARCH_MUNSEYS);
+    ourServersSearchSchema.insert(SERVER_BOOKSERVER, OPENSEARCH_BOOKSERVER);
+    ourServersSearchSchema.insert(SERVER_ONLY_MAWHRIN, OPENSEARCH_ONLY_MAWHRIN);
+    ourServersSearchSchema.insert(SERVER_MANYBOOKS, OPENSEARCH_MANYBOOKS);
+    ourServersSearchSchema.insert(SERVER_SMASHWORDS, OPENSEARCH_SMASHWORDS);
+    ourServersSearchSchema.insert(SERVER_MUNSEYS, OPENSEARCH_MUNSEYS);
 }
 
 // return true if succeed

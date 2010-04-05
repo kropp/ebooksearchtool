@@ -30,7 +30,8 @@ int main(int argc, char* argv[]) {
     }
 
     QCoreApplication app(argc, argv);
-        
+
+   // setProxy();
     Loader* loader = new Loader();
     QFile* file = new QFile(argv[2]);
     loader->load(argv[1], file);

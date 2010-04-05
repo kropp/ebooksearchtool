@@ -104,10 +104,10 @@ void OPDSHandler::processLink(const QXmlAttributes& attributes) {
     if (!myIsEntry) {
 	    if (attributes.value(ATTRIBUTE_TYPE) == "application/atom+xml") { 
 		   if (attributes.value(ATTRIBUTE_RELATION) == "next")  {
-                qDebug() << "Handler:: link to the next page " << attributes.value("href");
+                //qDebug() << "Handler:: link to the next page " << attributes.value("href");
                 mySearchResult.setLinkToNextResult(myOpdsCatalog, attributes.value("href"));
             } else if (attributes.value(ATTRIBUTE_RELATION) == "self") {
-                qDebug() << "Handler:: link to self " << attributes.value("href");
+                //qDebug() << "Handler:: link to self " << attributes.value("href");
                 myOpdsCatalog = attributes.value("href");
             }
        }
