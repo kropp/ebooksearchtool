@@ -9,6 +9,7 @@
 #include "../../src/data/opds_parser/parser.h"
 #include "../../src/data/opds_parser/handler.h"
 #include "../../src/data/opds_writer/opds_writer.h"
+#include "../../src/data/search_result.h"
 
 void opdsToOpds(QFile& in, QFile& out);
 
@@ -52,7 +53,8 @@ void opdsToOpds(QFile& input, QFile& out) {
     Data* data = new Data();
     
     OPDSParser parser;
-    parser.parse(&input, data);
+    SearchResult searchResult;
+    parser.parse(&input, data, searchResult);
                             
     input.close();
    
