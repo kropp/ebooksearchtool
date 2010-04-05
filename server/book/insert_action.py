@@ -12,6 +12,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from book.models import Book, Author, AuthorAlias, BookFile, Annotation, Language
 from spec.exception import InputDataServerException
+from spec.utils import get_language
 
 analyzer_log = logging.getLogger("analyser_logger")
 MAIN_LOG = logging.getLogger("main_logger")
@@ -155,8 +156,7 @@ def get_book_inf(xml, messages=None):
             book.title = strip_str(node.text)
 
         if node.tag == 'lang':
-            # TODO add check of correct lang (from LANG_CODE)
-            book.lang = strip_str(node.text)
+            book.language = get_language(node.text)
 
         if node.tag == 'authors' and book.title:
             (authors, is_author_created) = get_authors(node, messages)

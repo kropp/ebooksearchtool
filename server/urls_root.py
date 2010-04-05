@@ -19,7 +19,7 @@ urlpatterns = patterns('',
     (r'^data/insert/?$', data_modify, {'action': ACTION['insert'],}),
     (r'^data/?$', who),
     # new interface for analyzer
-    (r'^datasearch/?$', search_view,),
+    (r'^data/search/?$', search_view,),
 
 
     # interface for search

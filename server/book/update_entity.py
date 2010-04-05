@@ -1,15 +1,9 @@
-
-try:
-    from hashlib import md5
-except ImportError:
-    from md5 import new as md5
-
 from django.db import IntegrityError
-from django.core.exceptions import ObjectDoesNotExist
 
 from spec.exception import InputDataServerException
+from spec.utils import get_language
 
-from book.models import Author, Book, BookFile, Language
+from book.models import Author, Book, BookFile
 
 def get_tag_text(xml, tag):
     "Finds 'tag' in 'xml', returns text content or None."
@@ -107,26 +101,6 @@ def update_book_file(xml):
     book_file.save()
     return book_file
 
-
-def get_language(lang_code):
-    """
-    Gets language objects by short code or full name.
-    Returns it, or 'unknown' language if not found.
-    """
-    language = None
-    try:
-        if lang_code:
-            if len(lang_code) == 2:
-                language = Language.objects.get(short=lang_code.lower())
-            else:
-                language = Language.objects.get(full=lang_code)
-    except ObjectDoesNotExist:
-        language = None
-    
-    if not language:
-        language = Language.objects.get(short='?')
-    return language
-        
 
 def update_book(xml):
     "Executes xml, creates book or updates inf about it."

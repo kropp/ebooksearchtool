@@ -203,7 +203,7 @@ class InsertActionTest(TestCase):
         xml = etree.fromstring(xml_string)
         (book, authors, book_files, annotations) = get_book_inf(xml)
         self.failUnlessEqual(book.title, 'Book title')
-        self.failUnlessEqual(book.lang, 'en')
+        self.failUnlessEqual(book.language, self.unknown_language)
 
     def test_book_inf_authors(self):
         "Tests getting book authors"

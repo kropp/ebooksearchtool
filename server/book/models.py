@@ -15,6 +15,11 @@ NAME_LENGTH = 255
 LINK_LENGTH = 4000
 TEXT_LENGTH = 10000
 
+AUTHOR_SHOW = (
+    (0, 'always'),
+    (1, 'admin'),
+)
+
 class Annotation(models.Model):
     name = models.TextField(max_length=TEXT_LENGTH)
 
@@ -120,10 +125,13 @@ class Book(models.Model):
 class Author(models.Model):
     name = models.CharField(max_length=NAME_LENGTH, unique=True, null=False, blank=False)
     book = models.ManyToManyField(Book, null=True, blank=True)#, limit_choices_to = {'id__lte': 0})
+    #book = models.ManyToManyField(Book, null=True, blank=True, through='AuthorBook')#, limit_choices_to = {'id__lte': 0})
     alias = models.ManyToManyField(AuthorAlias, null=True, blank=True)
     tag = models.ManyToManyField(Tag, null=True, blank=True)
 
     credit = models.IntegerField(default=0)
+
+    #show = models.IntegerField(default=0, choices=AUTHOR_SHOW)
 
     # for more settings see 'spec/sphinx_conf/001_author_simple.tmplt'
     simple_search = SphinxSearch(
@@ -148,10 +156,25 @@ class Author(models.Model):
     def existed_books(self):
         return Author.objects.get(id=self.id).book.all()
 
-#    def __getattribute__(self, p):
-#        if p == 'existed_books':        
-#            return self.__existed_books()
-    
-#    def __init__(self, **kwargs):
-#        models.Model.__init__(self, **kwargs)
-#        self.existed_books = None
+
+
+#class AuthorBook(models.Model):
+#    author = models.ForeignKey(Author)
+#    book = models.ForeignKey(Book)
+#
+#    class Meta:
+#        unique_together = (("book", "author"),)
+#
+#    def save(self, **kwargs):
+#        super(AuthorBook, self).save(kwargs)
+#        self.author.show = 0
+#        self.author.save()
+#
+#    def delete(self):
+#        print 'delete'
+#        super(AuthorBook, self).delete()
+#        if not self.author.book.count():
+#            self.author.show = 1
+#            self.author.save()
+
+
