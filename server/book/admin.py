@@ -3,23 +3,23 @@ from book.forms import *
 
 class AuthorAdmin(admin.ModelAdmin):
     form = AuthorForm
-#    search_fields = ('name', )
-#    filter_horizontal = ('tag',)
+    search_fields = ('name', )
+    filter_horizontal = ('tag',)
 #    filter_horizontal = ('tag', 'book')
-#    list_display = ('name', 'credit', 'id', 'existed_books')
-#    list_filter = ('credit',)
+    list_display = ('name', 'credit', 'id')
+    list_filter = ('credit',)
     raw_id_fields = ('book',)
 #    list_per_page = 10
 
-#    fieldsets = (
-#            (None, {
-#                'fields': ('name', 'book', 'tag', 'credit', )
-#            }),
-#            ('Advanced options', {
-#                'classes': ('collapse',),
-#                'fields': ('alias',)
-#            }),
-#        )
+    fieldsets = (
+            (None, {
+                'fields': ('name', 'book', 'tag', 'credit', )
+            }),
+            ('Advanced options', {
+                'classes': ('collapse',),
+                'fields': ('alias',)
+            }),
+        )
 
 class BookAdmin(admin.ModelAdmin):
     filter_horizontal = ('tag',)

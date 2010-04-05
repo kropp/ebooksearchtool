@@ -7,17 +7,20 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.core.exceptions import ObjectDoesNotExist
 
+from book.search import SphinxSearchEngine
+
+# type of search engine
+search_engine = SphinxSearchEngine()
+
 def simple_search(request, response_type, items_per_page, page, start_index):
     """ simple search with query """
     tags = Tag.objects.all().order_by("name")
     query = request.GET['query']
 
-    authors = Author.soundex_search.query(query)            # TODO sort authors by distance
-    authors_id = map(lambda x: x.id, authors)
-    books_simple = Book.title_search.query(query)
-    books_filtered = books_simple.filter(author_id=authors_id)
-    books = books_filtered[0:books_filtered.count()]
-    books.extend(books_simple)             # TODO merge books_simple and books_filtered
+    books = search_engine.simple_search(query)
+    
+    authors = search_engine.author_search(author=query, max_length=5)            # TODO sort authors by distance
+
     total = len(books)
     # + search in annotation
 
@@ -34,34 +37,15 @@ def simple_search(request, response_type, items_per_page, page, start_index):
     if response_type == "xhtml":
         return render_to_response('book/xhtml/search_response.xml',
             {'books': books,'items_per_page': items_per_page, 'query': query,
-            'authors': authors[0:5], 'tags': tags}, context_instance=RequestContext(request))
+            'tags': tags}, context_instance=RequestContext(request))
 
-def search_in_title(title, author, tag, lang):
-    books = Book.title_search.query(title)
-    if author:
-        authors = Author.soundex_search.query(author)
-        authors_id = map(lambda x: x.id, authors)    
-        books = books.filter(author_id=authors_id)
-    if lang:
-        try:
-            lang_id = Language.objects.get(short=lang).id
-            books = books.filter(language_id=lang_id)
-        except ObjectDoesNotExist:
-            pass 
-    if tag:
-        try:
-            tags_id = Tag.objects.get(name=tag).id
-            books = books.filter(tag_id=tags_id)
-        except ObjectDoesNotExist:
-            pass                
-    return books
-
-def search_in_author(request, response_type, items_per_page, page, 
+def search_in_author(request, lang, tag, response_type, items_per_page, page, 
                                 start_index, main_title):
     tags = Tag.objects.all().order_by("name")
     author = request.GET['author']
-    authors = Author.soundex_search.query(author)
-    total = authors.count()
+    #TODO language in author_search
+    authors = search_engine.author_search(author=author, lang=lang, tag=tag, max_length=10)
+    total = len(authors)
     next = None
     if total-1/items_per_page != 0:
         next = page+1
@@ -85,6 +69,7 @@ def search_request_to_server(request, response_type, is_all):
     
     page, start_index, items_per_page = 1, 0, 20
     title = author = tag = lang = None
+    books = Book.objects.none()
 
     # initialization
     if 'items_per_page' in request.GET and request.GET['items_per_page']:
@@ -93,11 +78,6 @@ def search_request_to_server(request, response_type, is_all):
     if 'page' in request.GET and request.GET['page']:
         page = int(request.GET['page'])
         start_index = items_per_page * (page - 1)
-
-    if 'query' in request.GET and request.GET['query']:
-        # search in title, author.name, alias, annotation
-        return simple_search(request, response_type, items_per_page, page, 
-                                start_index)        
 
     if 'title' in request.GET and request.GET['title']:
         title = request.GET['title']
@@ -116,59 +96,26 @@ def search_request_to_server(request, response_type, is_all):
         main_title['tag'] = tag
 
     # main logic
+    if 'query' in request.GET and request.GET['query']:
+        # search in title, author.name, alias, annotation
+        return simple_search(request, response_type, items_per_page, page, 
+                                start_index)
     if title:
         main_title['tit'] = title
         if author:
-            main_title['author'] = author
-        books = search_in_title(title, author, tag, lang) 
+            main_title['author'] = author    
+        books = search_engine.book_search(title=title, author=author, tag=tag, lang=lang)          
     
-    elif tag:
-        if author:
-            books = Book.objects.all()
-            main_title['author'] = author
-            authors = Author.soundex_search.query(author)
-            authors_id = map(lambda x: x.id, authors)    
-            books = books.filter(author__id__in=authors_id)
-            try:
-                tags_id = Tag.objects.get(name=tag).id
-                books = books.filter(tag=tags_id)
-            except ObjectDoesNotExist:
-                pass                
-            if lang:
-                try:
-                    lang_id = Language.objects.get(short=lang).id
-                    books = books.filter(language=lang_id)
-                except ObjectDoesNotExist:
-                    pass  
-        else:
-            books = Book.objects.filter(request_to_server).distinct()
-
-    elif lang:
-        if author:
-            books = Book.objects.all()
-            main_title['author'] = author
-            authors = Author.soundex_search.query(author)
-            authors_id = map(lambda x: x.id, authors)    
-            books = books.filter(author__id__in=authors_id)
-            try:
-                lang_id = Language.objects.get(short=lang).id
-                books = books.filter(language=lang_id)
-            except ObjectDoesNotExist:
-                pass                
-        else:
-            books = Book.objects.filter(request_to_server).distinct()
-
     elif author:
-        return search_in_author(request, response_type, items_per_page, page, 
+        return search_in_author(request, lang, tag, response_type, items_per_page, page, 
                                 start_index, main_title)
-
     else:
-        books = Book.objects.none()
+        books = Book.objects.filter(request_to_server).distinct()
 
     if is_all == "yes":
         books = Book.objects.all()
 
-    total = books.count()
+    total = len(books)
 
     next = None
     if total-1/items_per_page != 0:

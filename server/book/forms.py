@@ -70,15 +70,14 @@ class MyManyToManyRawIdWidget(ForeignKeyRawIdWidget):
     in a <select multiple> box.
     """
     def __init__(self, rel, attrs=None):
-        print 'my'
-        print rel
+#        print 'my'
+#        print rel
         super(MyManyToManyRawIdWidget, self).__init__(rel, attrs)
 
     def render(self, name, value, attrs=None):
         attrs['class'] = 'vManyToManyRawIdAdminField'
         if value:
             value = ','.join([str(Book.objects.get(id=v)) for v in value])
-            print value
         else:
             value = ''
         return super(MyManyToManyRawIdWidget, self).render(name, value, attrs)
@@ -91,8 +90,8 @@ class MyManyToManyRawIdWidget(ForeignKeyRawIdWidget):
 
     def value_from_datadict(self, data, files, name):
         value = data.get(name, None)
-        print 'value'
-        print value
+#        print 'value'
+#        print value
 #        for v in value
 #        value = Book.objects.get(id=v)
         if value and ',' in value:
