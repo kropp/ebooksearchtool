@@ -7,12 +7,14 @@ import org.ebooksearchtool.analyzer.utils.AnalyzerProperties;
 /**
  * @author Aleksey Podoplsky
  */
-
 public class Language {
+
     private String myFullDescription;
     private List<String> myShortDescriptions;
+    private int mycreditIndex;
+    private int myRelevanceIndex;
 
-    public Language(){
+    public Language() {
         myFullDescription = "";
         myShortDescriptions = new ArrayList<String>();
     }
@@ -22,7 +24,7 @@ public class Language {
         myShortDescriptions = new ArrayList<String>();
     }
 
-    public Language(String fullDesc, List<String> shortDesc){
+    public Language(String fullDesc, List<String> shortDesc) {
         myFullDescription = fullDesc;
         myShortDescriptions = shortDesc;
     }
@@ -59,11 +61,38 @@ public class Language {
     public void addShortDescription(String desc) {
         myShortDescriptions.add(desc);
     }
-    
-    // </editor-fold>
 
-    public String writeLanguage(){
-        if(!this.getShortDescriptions().isEmpty()){
+    /**
+     * @return the mycreditIndex
+     */
+    public int getcreditIndex() {
+        return mycreditIndex;
+    }
+
+    /**
+     * @param mycreditIndex the mycreditIndex to set
+     */
+    public void setcreditIndex(int mycreditIndex) {
+        this.mycreditIndex = mycreditIndex;
+    }
+
+    /**
+     * @return the myRelevanceIndex
+     */
+    public int getRelevanceIndex() {
+        return myRelevanceIndex;
+    }
+
+    /**
+     * @param myRelevanceIndex the myRelevanceIndex to set
+     */
+    public void setRelevanceIndex(int myRelevanceIndex) {
+        this.myRelevanceIndex = myRelevanceIndex;
+    }
+
+    // </editor-fold>
+    public String writeLanguage() {
+        if (!this.getShortDescriptions().isEmpty()) {
             StringBuilder str = new StringBuilder();
             str.append("<lang>");
             str.append(this.getShortDescriptions().get(0));

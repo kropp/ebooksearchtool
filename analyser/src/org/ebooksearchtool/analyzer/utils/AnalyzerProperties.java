@@ -13,6 +13,7 @@ public class AnalyzerProperties{
     //Default Parametrs
     static{
         ourProperties = new HashMap<String, String>();
+        ourProperties.put("number_of_request_results", "15");
         ourProperties.put("number_of_threads", "10");
         ourProperties.put("log_directory", "log");
         ourProperties.put("system_separator", System.getProperty("line.separator"));

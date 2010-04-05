@@ -16,24 +16,15 @@ public class RequestFormer {
         return encodeSpecialSymbols(info.getBookInfo());
     }
 
-    public static String formBookInfoRequest(BookInfo info) {
-        return encodeSpecialSymbols(info.getBookInfoForRequest());
-    }
-
-    public static String formBookByIDRequest(BookInfo info, String id){
-        return encodeSpecialSymbols(info.getBookInfoForBookIDRequest(id));
-    }
-
-    public static String formBookByFileIDRequest(BookInfo info, String id){
-        return encodeSpecialSymbols(info.getBookInfoForFileIDRequest(id));
-    }
-
-    public static String formBookByAuthorIDRequest(BookInfo info, String id){
-        return encodeSpecialSymbols(info.getBookInfoForAuthorIDRequest(id));
-    }
-
-    public static String formBookByBookIDReplace(BookInfo info, String id){
-        return encodeSpecialSymbols(info.getBookInfoForBookIDReplace(id));
+    /**
+     * Forms request in string from <b>BookInfo</b>. 
+     * @param info <b>BookInfo</b> to be formed
+     * @param reqType type of request (now only Authors - 0 and Title - 1). See 
+     * <b>BookInfo</b> for this types.
+     * @return request in String form.
+     */
+    public static String formSearchRequest(BookInfo info, int reqType) {
+        return encodeSpecialSymbols(info.getBookInfoForSearch(reqType));
     }
 
     private static String encodeSpecialSymbols(String message){

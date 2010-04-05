@@ -1,5 +1,6 @@
 package org.ebooksearchtool.analyzer.model;
 
+import java.util.List;
 import org.ebooksearchtool.analyzer.utils.AnalyzerProperties;
 
 /**
@@ -9,43 +10,43 @@ import org.ebooksearchtool.analyzer.utils.AnalyzerProperties;
 public class Title {
     private String myTitle;
     private String myID;
-    private int myTrustIndex;
+    private int mycreditIndex;
     private int myRelevanceIndex;
 
 
     public Title(){
         myTitle = "";
         myID = "";
-        myTrustIndex = 0;
+        mycreditIndex = 0;
         myRelevanceIndex = 0;
     }
 
     public Title(String title){
         myTitle = title;
         myID = "";
-        myTrustIndex = 0;
+        mycreditIndex = 0;
         myRelevanceIndex = 0;
     }
 
-    public Title(String title, int trust, int relev){
+    public Title(String title, int credit, int relev){
         myTitle = title;
         myID = "";
-        myTrustIndex = trust;
+        mycreditIndex = credit;
         myRelevanceIndex = relev;
     }
 
     /**
-     * @return the myTrustIndex
+     * @return the mycreditIndex
      */
     public int getTrIndex() {
-        return myTrustIndex;
+        return mycreditIndex;
     }
 
     /**
-     * @param myTrustIndex the myTrustIndex to set
+     * @param mycreditIndex the mycreditIndex to set
      */
-    public void setTrIndex(int myTrustIndex) {
-        this.myTrustIndex = myTrustIndex;
+    public void setTrIndex(int mycreditIndex) {
+        this.mycreditIndex = mycreditIndex;
     }
 
     /**
@@ -99,15 +100,39 @@ public class Title {
 
         return str.toString();
     }
-    public String writeTitleForRequest(String searchType){
+
+    public String writeTitleForRequest(List<String> IDs){
         StringBuilder str = new StringBuilder();
-        str.append("<title type=\"");
-        str.append(searchType);
-        str.append("\">");
+        str.append("<book_title>");
+        if(!IDs.isEmpty()){
+            str.append("<authors_id>");            
+            for(String id : IDs){
+                str.append("<author_id>");                
+                str.append(id);                
+                str.append("</author_id>");
+            }
+            str.append("</authors_id>");            
+        }
+        str.append("<query>");
         str.append(this.getName());
-        str.append("</title>");
+        str.append("<query>");
+        str.append("</book_title>");
         str.append(AnalyzerProperties.getPropertie("system_separator"));
 
         return str.toString();
     }
+
+   //<editor-fold defaultstate="collapsed" desc="OLD Title Request">
+//    public String writeTitleForRequest(String searchType){
+//        StringBuilder str = new StringBuilder();
+//        str.append("<title type=\"");
+//        str.append(searchType);
+//        str.append("\">");
+//        str.append(this.getName());
+//        str.append("</title>");
+//        str.append(AnalyzerProperties.getPropertie("system_separator"));
+//
+//        return str.toString();
+//    }
+    //</editor-fold>
 }

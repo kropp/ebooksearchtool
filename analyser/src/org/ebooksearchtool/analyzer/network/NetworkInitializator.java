@@ -19,7 +19,7 @@ public class NetworkInitializator{
         } catch (IOException ex) {
             Logger.setToErrorLog(ex.getMessage() + ". Can't connect to crawler."
                     + " " + address + ":" + socketNumber);
-            createCrawlerConnector(address, socketNumber);
+            //createCrawlerConnector(address, socketNumber);
             //System.exit(0);
         }
     }

@@ -26,12 +26,11 @@ public class AnnotationExtractor {
             index++;
 
             sb.append(lex.getValue() + " ");
-            lex = lexems.get(index);
 
             while(index < length && (lex.getValue().indexOf("/div") == -1)){
+                lex = lexems.get(index);
                 sb.append(lex.getValue() + " ");
                 index++;
-                lex = lexems.get(index);
             }
             sb.append(lex.getValue());
         }

@@ -11,31 +11,39 @@ public class Author {
     private String myName;
     private List<String> myAliases;
     private String myID;
-    private int myTrustIndex;
+    private int myCreditIndex;
     private int myRelevanceIndex;
 
     public Author(){
         myName = "";
         myAliases = null;
         myID="";
+        myCreditIndex = 0;
+        myRelevanceIndex = 0;
     }
     
     public Author(String name){
         myName = name;
         myAliases = null;
         myID = "";
+        myCreditIndex = 0;
+        myRelevanceIndex = 0;
     }
     
      public Author(String name, List<String> aliases){
         myName = name;
         myAliases = aliases;
         myID = "";
+        myCreditIndex = 0;
+        myRelevanceIndex = 0;
     }
 
      public Author(int ID){
-         myName = "";
-         myAliases = null;
-         myID = Integer.toString(ID);
+        myName = "";
+        myAliases = null;
+        myID = Integer.toString(ID);
+        myCreditIndex = 0;
+        myRelevanceIndex = 0;
      }
 
     /**
@@ -105,17 +113,17 @@ public class Author {
     }
 
     /**
-     * @return the myTrustIndex
+     * @return the myCreditIndex
      */
     public int getTrIndex() {
-        return myTrustIndex;
+        return myCreditIndex;
     }
 
     /**
-     * @param myTrustIndex the myTrustIndex to set
+     * @param myCreditIndex the myCreditIndex to set
      */
-    public void setTrIndex(int myTrustIndex) {
-        this.myTrustIndex = myTrustIndex;
+    public void setTrIndex(int myCreditIndex) {
+        this.myCreditIndex = myCreditIndex;
     }
 
     /**
@@ -162,35 +170,65 @@ public class Author {
         return str.toString();
     }
 
-    public static String writeAuthorsForRequest(List<Author> authors, String searchType){
+    public static String writeAuthorsForSearch(List<Author> authors, String searchType){
         StringBuilder str = new StringBuilder();
         int length = authors.size();
 
-        str.append("<authors>");
-        str.append(AnalyzerProperties.getPropertie("system_separator"));
         for (int i = 0; i < length; i++) {
             Author author = authors.get(i);
-            str.append("<author type=\"");
-            str.append(searchType);
-            str.append("\">");
+            str.append("<author>");
+            str.append(AnalyzerProperties.getPropertie("system_separator"));
+            str.append("<query>");
             str.append(author.getName());
-            //Не убирать, просто пока не нужны
-//            List<String> aliases = author.getAliases();
-//            if(aliases != null){
-//            int alLength = aliases.size();
-//                for (int j = 0; j < alLength; j++) {
-//                    str.append("<alias>");
-//                    str.append(aliases.get(j));
-//                    str.append("</alias>");
-//                    str.append(AnalyzerProperties.getPropertie("system_separator"));
-//                }
-//            }
+            str.append("</query>");
+            str.append(AnalyzerProperties.getPropertie("system_separator"));
             str.append("</author>");
             str.append(AnalyzerProperties.getPropertie("system_separator"));
         }
-        str.append("</authors>");
-        str.append(AnalyzerProperties.getPropertie("system_separator"));
-
+        
         return str.toString();
     }
+
+    public String writeAuthor(){
+        StringBuilder str = new StringBuilder();
+        str.append("<author>");
+        str.append(this.getName());
+        str.append("</author>");
+        str.append(AnalyzerProperties.getPropertie("system_separator"));
+        return str.toString();
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="OLD Authors Request">
+//    public static String writeAuthorsForRequest(List<Author> authors, String searchType){
+//        StringBuilder str = new StringBuilder();
+//        int length = authors.size();
+//
+//        str.append("<authors>");
+//        str.append(AnalyzerProperties.getPropertie("system_separator"));
+//        for (int i = 0; i < length; i++) {
+//            Author author = authors.get(i);
+//            str.append("<author type=\"");
+//            str.append(searchType);
+//            str.append("\">");
+//            str.append(author.getName());
+//            //Не убирать, просто пока не нужны
+////            List<String> aliases = author.getAliases();
+////            if(aliases != null){
+////            int alLength = aliases.size();
+////                for (int j = 0; j < alLength; j++) {
+////                    str.append("<alias>");
+////                    str.append(aliases.get(j));
+////                    str.append("</alias>");
+////                    str.append(AnalyzerProperties.getPropertie("system_separator"));
+////                }
+////            }
+//            str.append("</author>");
+//            str.append(AnalyzerProperties.getPropertie("system_separator"));
+//        }
+//        str.append("</authors>");
+//        str.append(AnalyzerProperties.getPropertie("system_separator"));
+//
+//        return str.toString();
+//    }
+    //</editor-fold>
 }

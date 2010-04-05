@@ -6,14 +6,12 @@ package org.ebooksearchtool.analyzer.network.demon;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.util.logging.Level;
 import org.ebooksearchtool.analyzer.algorithms.subalgorithms.AuthorsParser;
 import org.ebooksearchtool.analyzer.io.Logger;
 import java.util.ArrayList;
-import org.ebooksearchtool.analyzer.algorithms.subalgorithms.FormatExtractor;
 import org.ebooksearchtool.analyzer.algorithms.subalgorithms.LanguageExtractor;
 import org.ebooksearchtool.analyzer.algorithms.subalgorithms.TitleParser;
-import org.ebooksearchtool.analyzer.algorithms.subalgorithms.URLsExtractor;
+import org.ebooksearchtool.analyzer.algorithms.subalgorithms.FileInfoExtaractor;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -53,10 +51,9 @@ public class MunseyHandler extends DefaultHandler{
         }
         if(ourLinkElementFlag == true){
             String temp = new String(ch, start, length).trim();
-            String link = URLsExtractor.extractURL(Lexema.convertToLexems("<link src=\"" + temp + "\">"));
-            if(link.length() != 0){
-            ourBookInfo.addFile(new File(link, "",
-                    FormatExtractor.extractFormat(temp), "", ""));
+            File link = FileInfoExtaractor.extractFileInfo(Lexema.convertToLexems("<link src=\"" + temp + "\">"));
+            if(link.getLink().length() != 0){
+            ourBookInfo.addFile(link);
             }
         }
         if(ourAnnotationElementFlag == true){

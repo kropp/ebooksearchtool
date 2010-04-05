@@ -21,20 +21,32 @@ import org.xml.sax.SAXException;
  */
 
 public class NetUtils {
-    public static void sendMessage(HttpURLConnection connect, String s, String method) throws IOException {
-        //HttpURLConnection connect = (HttpURLConnection) url.openConnection();
-        connect.setDoInput(true);
-        connect.setDoOutput(true);
+    /**
+     * Send request to the server.
+     * @param connect connection throw that request will be sent 
+     * @param s String to be sent
+     * @param metod that will be used in request sending (POST or GET)
+     * @throws IOException if occurs
+     */
+    public static void sendMessage(HttpURLConnection connect, String s,
+            String method) throws IOException {
         connect.setRequestMethod(method);
-        connect.setRequestProperty("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
-        connect.setRequestProperty("Content-length", String.valueOf(getContentLength(s)));
+        connect.setRequestProperty("Content-type",
+                "application/x-www-form-urlencoded; charset=UTF-8");
+        connect.setRequestProperty("Content-length",
+                String.valueOf(getContentLength(s)));
         OutputStream os = connect.getOutputStream();
         PrintWriter pw = new PrintWriter(os);
         pw.println(s);
         pw.flush();
     }
 
-   public static String convertBytesToString(byte[] b){
+    /**
+     * Converts the byte array to string, represented by this bytes
+     * @param b byte array to be converted
+     * @return String that represents byte array
+     */
+    public static String convertBytesToString(byte[] b){
         int index = 0;
         StringBuilder str = new StringBuilder();
         while(index < b.length){
@@ -44,7 +56,13 @@ public class NetUtils {
         return str.toString();
     }
 
-   public static String reciveCrawlerMessage(BufferedReader is) throws IOException {
+    /**
+     * Get a message from crawler
+     * @param is InputSteram to recive the message
+     * @return recived message
+     * @throws IOException then occurs
+     */
+    public static String reciveCrawlerMessage(BufferedReader is) throws IOException {
         String input = "";
         StringBuilder str = new StringBuilder();
         while(str.indexOf("</root>") == -1){
@@ -54,7 +72,13 @@ public class NetUtils {
         return str.toString();
     }
 
-   public static String reciveServerMessage(HttpURLConnection connect) throws IOException {
+    /**
+     * Get message from server
+     * @param connect HttpURLconnection to recive message
+     * @return recived message
+     * @throws IOException then occurs
+     */
+    public static String reciveServerMessage(HttpURLConnection connect) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(connect.getInputStream()));
         String input = "";
         StringBuilder str = new StringBuilder();
@@ -66,7 +90,12 @@ public class NetUtils {
         return str.toString();
     }
 
-   public static byte[] convertToByteArray(String str){
+    /**
+     * Convert String to its byte representation
+     * @param str String to be converted
+     * @return byte array represents the String
+     */
+    public static byte[] convertToByteArray(String str){
         char[] temp = str.toCharArray();
         int index = temp.length;
         byte[] bytes = new byte[255];
@@ -76,7 +105,14 @@ public class NetUtils {
         return bytes;
     }
 
-   public static long getContentLength(String str){
+    /**
+     * Return length of String + 4. This method is need for get length for
+     * content in xml request. 4 symbols that length is added for string length
+     * is "xml="
+     * @param str message that length we need to known
+     * @return lenght of sending in xml message
+     */
+    public static long getContentLength(String str){
         return str.length() + 4;
    }
 
@@ -204,7 +240,12 @@ public class NetUtils {
     }
     //</editor-fold>
 
-     public static int getContentSize(String lnk){
+    /**
+     * Return the size of content represented by <b>lnk</b> URL
+     * @param lnk destanation of content
+     * @return size of content
+     */
+    public static int getContentSize(String lnk){
         URL link;
         URLConnection connection;
         try {

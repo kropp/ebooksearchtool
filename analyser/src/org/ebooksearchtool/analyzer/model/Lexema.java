@@ -166,4 +166,16 @@ public class Lexema {
         }
         return sb.toString().trim();
     }
+
+    public boolean isSentence(){
+        return this.getType().equals(LexemaType.sentence);
+    }
+
+    public boolean isOpenTag(){
+        return this.getType().equals(LexemaType.tagOpen);
+    }
+
+    public boolean isCloseTag(){
+        return this.getType().equals(LexemaType.tagClose);
+    }
 }

@@ -27,6 +27,7 @@ public class DemonThread extends Thread {
     public DemonThread() {
         myFilesToScan = new ArrayList<String>();
         myTodayUpdateFlag = false;
+        this.setDaemon(true);
     }
 
     @Override

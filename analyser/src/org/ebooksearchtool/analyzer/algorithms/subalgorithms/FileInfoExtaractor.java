@@ -1,23 +1,44 @@
 package org.ebooksearchtool.analyzer.algorithms.subalgorithms;
 
-import java.util.ArrayList;
+import java.util.List;
+import org.ebooksearchtool.analyzer.model.File;
 import org.ebooksearchtool.analyzer.model.Lexema;
+import org.ebooksearchtool.analyzer.utils.NetUtils;
 
 /**
  * @author Aleksey Podolskiy
  */
 
-public class URLsExtractor {
+public class FileInfoExtaractor {
 
-    public static String extractURL(ArrayList<Lexema> lexems){
+    public static File extractFileInfo(List<Lexema> lexems){
+        File file = new File();
+
+        //Link extraction
         int length = lexems.size();
         for (int i = 0; i < length; i++) {
             Lexema lex = lexems.get(i);
             if(lex.getType().equals(Lexema.LexemaType.tagOpen) && lex.getValue().indexOf("link") == 0){
-                return trim(lex.getValue());
+                file.setLink(trim(lex.getValue()));
+                break;
             }
         }
-        return "";
+
+        String link = file.getLink();
+        //Size extraction
+        file.setSize(String.valueOf(NetUtils.getContentSize(link)));
+
+        //Format extraction
+        StringBuilder str = new StringBuilder(link);
+        int index = str.length() - 1;
+        while(index > 0 && str.lastIndexOf(".") != index){
+            str.deleteCharAt(index);
+            index--;
+        }
+        if(index > 0 && index < link.length()){
+            file.setType(link.substring(index + 1));
+        }
+        return file;
     }
 
     private static String trim(String s){
