@@ -1,10 +1,18 @@
-from book.models import Author, Book
+from book.models import Author, Book, Language
+
 from django import forms
+from django.db.models.query import QuerySet
+
 from django.contrib.admin.widgets import ForeignKeyRawIdWidget
 from django.db.models.fields.related import ManyToManyRel
 from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
+from django.utils.encoding import StrAndUnicode, force_unicode
+from django.utils.html import escape, conditional_escape
+from itertools import chain
+
+from django.forms import Select
 
 class MyForeignKeyRawIdWidget(forms.Textarea):
     """
@@ -109,6 +117,47 @@ class MyManyToManyRawIdWidget(MyForeignKeyRawIdWidget):
                 return True
         return False
 
+class LanguageWidget(Select):
+    def render_options(self, choices, selected_choices):
+        def render_option(option_value, option_label):
+            option_value = force_unicode(option_value)
+            selected_html = (option_value in selected_choices) and u' selected="selected"' or ''
+            return u'<option value="%s"%s>%s</option>' % (
+                escape(option_value), selected_html,
+                conditional_escape(force_unicode(option_label)))
+        # Normalize to strings.
+        selected_choices = set([force_unicode(v) for v in selected_choices])
+        output = []
+        output.append(render_option(322, '[ru] Russian'))
+        output.append(render_option(224, '[en] English'))
+        output.append(render_option(234, '[fr] French'))
+
+        for option_value, option_label in chain(self.choices, choices):
+            if isinstance(option_label, (list, tuple)):
+                output.append(u'<optgroup label="%s">' % escape(force_unicode(option_value)))
+                for option in option_label:
+                    output.append(render_option(*option))
+                output.append(u'</optgroup>')
+            else:
+                output.append(render_option(option_value, option_label))
+        return u'\n'.join(output)
+
+class BookForm(forms.ModelForm):
+    class Meta:
+#        exclude=('tag', 'book')
+        model = Book
+
+    CREDIT_CHOICES = (
+        ('0', 'NOT CHECKED'),
+        ('1', 'CHECKING'),
+        ('2', 'CHECKED'),
+    )
+
+
+    language = forms.ModelChoiceField(queryset=Language.objects.all(), widget=LanguageWidget())
+    credit = forms.IntegerField(widget=forms.Select(choices=CREDIT_CHOICES))
+
+
 class AuthorForm(forms.ModelForm):
     class Meta:
 #        exclude=('tag', 'book')
@@ -130,6 +179,7 @@ class AuthorForm(forms.ModelForm):
         return save_author(self, self.instance, self._meta.fields,
                              fail_message, commit, exclude=self._meta.exclude)
 
+
 def save_author(form, instance, fields=None, fail_message='saved',
                   commit=True, exclude=None):
     """
@@ -145,14 +195,16 @@ def save_author(form, instance, fields=None, fail_message='saved',
                          " validate." % (opts.object_name, fail_message))
     cleaned_data = form.cleaned_data
 
+    ############### my logic for saving
     book_list = cleaned_data.pop('book')[3:-2].split(',')
-    print book_list
 
     books = list()
     for i in book_list:
         books.append(i[i.find('[')+4:i.find(']')])
 
     cleaned_data['book'] = books
+
+    ################
 
     file_field_list = []
     for f in opts.fields:

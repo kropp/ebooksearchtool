@@ -22,7 +22,7 @@ def simple_search(request, response_type, items_per_page, page, start_index):
     authors = search_engine.author_search(author=query, max_length=5)         
 
     total = len(books)
-    # + search in annotation
+    # TODO search in annotation
 
     next = None
     if (total-1)/items_per_page != 0:

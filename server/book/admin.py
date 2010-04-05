@@ -116,15 +116,17 @@ class AuthorAdmin(admin.ModelAdmin):
         return self.render_change_form(request, context, change=True, obj=obj)
 
 class BookAdmin(admin.ModelAdmin):
+    form = BookForm
+
     filter_horizontal = ('tag',)
-    fields = ('title', 'language', 'credit', 'tag', 'annotation','book_file')
+    fields = ('title', 'language', 'credit', 'tag', )
 
     list_per_page = 10
     search_fields = ('title', 'id')
 #    filter_horizontal = ('tag', 'annotation', 'book_file')
     list_display = ('title', 'language', 'credit', 'id' )
     list_filter = ('credit',)
-    raw_id_fields = ('annotation','book_file')
+#    raw_id_fields = ('annotation','book_file')
 
     
     def changelist_view(self, request, extra_context=None):
