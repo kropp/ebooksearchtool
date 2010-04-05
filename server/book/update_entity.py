@@ -5,7 +5,7 @@ except ImportError:
     from md5 import new as md5
 
 from django.db import IntegrityError
-#from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist
 
 from spec.exception import InputDataServerException
 
@@ -108,6 +108,26 @@ def update_book_file(xml):
     return book_file
 
 
+def get_language(lang_code):
+    """
+    Gets language objects by short code or full name.
+    Returns it, or 'unknown' language if not found.
+    """
+    language = None
+    try:
+        if lang_code:
+            if len(lang_code) == 2:
+                language = Language.objects.get(short=lang_code.lower())
+            else:
+                language = Language.objects.get(full=lang_code)
+    except ObjectDoesNotExist:
+        language = None
+    
+    if not language:
+        language = Language.objects.get(short='?')
+    return language
+        
+
 def update_book(xml):
     "Executes xml, creates book or updates inf about it."
     entity_id = get_id(xml)
@@ -124,8 +144,7 @@ def update_book(xml):
     title = get_tag_text(xml, 'title')
     lang = get_tag_text(xml, 'lang')
 
-    # TODO get language
-    lang = Language.objects.get(short='?')
+    lang = get_language(lang)
 
     try:
         credit_str = get_tag_text(xml, 'credit')

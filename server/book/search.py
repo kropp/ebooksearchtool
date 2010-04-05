@@ -152,7 +152,7 @@ def xml_search(xml):
     return results
         
 
-class SearchEngine():
+class SearchEngine:
     "Abstract class, interface for search engine"
 
     def author_search(self, max_length=MAX_RESULT_LENGTH, **kwargs):

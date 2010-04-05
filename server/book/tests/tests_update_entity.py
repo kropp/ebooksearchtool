@@ -35,6 +35,29 @@ XML_STRING = """
 </a>
 """
 
+class GetLanguageTest(TestCase):
+
+    def test_get_existed_lang(self):
+        un = Language(short='?', full='unknown')
+        un.save()
+        en = Language(short='en', full='English')
+        en.save()
+        lang = get_language('en')
+        self.failUnlessEqual(en, lang)
+        lang = get_language('English')
+        self.failUnlessEqual(en, lang)
+
+    def test_get_existed_lang(self):
+        un = Language(short='?', full='unknown')
+        un.save()
+        en = Language(short='en', full='English')
+        en.save()
+        lang = get_language('tn')
+        self.failUnlessEqual(un, lang)
+        lang = get_language('tipa')
+        self.failUnlessEqual(un, lang)
+
+
 class XmlUtilsTest(TestCase):
     
     def setUp(self):
@@ -63,6 +86,7 @@ class UpdateEntityTest(TestCase):
 
     def setUp(self):
         Language(short='?').save()
+        Language(short='en', full='english').save()
         self.xml_create_author_epmty = etree.fromstring("""
         <author ui="3">
             <full_name> </full_name>
@@ -94,6 +118,7 @@ class UpdateEntityTest(TestCase):
         self.xml_create_book = etree.fromstring("""
         <book>
             <title> title</title>
+            <lang> en</lang>
             <authors>
                 <author id="1" />
                 <author id="2" />
@@ -175,4 +200,5 @@ class UpdateEntityTest(TestCase):
         self.failUnlessEqual(book.title, 'title')
         self.failUnlessEqual(set(book.author_set.all()), set([a1,a2]))
         self.failUnlessEqual(set(book.book_file.all()), set([b1,b2]))
+        self.failUnlessEqual('en', book.language.short)
 
