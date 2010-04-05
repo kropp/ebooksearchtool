@@ -19,13 +19,13 @@ def simple_search(request, response_type, items_per_page, page, start_index):
 
     books = search_engine.simple_search(query)
     
-    authors = search_engine.author_search(author=query, max_length=5)            # TODO sort authors by distance
+    authors = search_engine.author_search(author=query, max_length=5)         
 
     total = len(books)
     # + search in annotation
 
     next = None
-    if total-1/items_per_page != 0:
+    if (total-1)/items_per_page != 0:
         next = page+1
 
     if response_type == "atom":
@@ -47,7 +47,7 @@ def search_in_author(request, lang, tag, response_type, items_per_page, page,
     authors = search_engine.author_search(author=author, lang=lang, tag=tag, max_length=10)
     total = len(authors)
     next = None
-    if total-1/items_per_page != 0:
+    if (total-1)/items_per_page != 0:
         next = page+1
     if response_type == "atom":
         return render_to_response('book/opds/authors_search_response.xml',
@@ -118,7 +118,7 @@ def search_request_to_server(request, response_type, is_all):
     total = len(books)
 
     next = None
-    if total-1/items_per_page != 0:
+    if (total-1)/items_per_page != 0:
         next = page+1
         
     if response_type == "atom":

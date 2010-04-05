@@ -25,10 +25,6 @@ class AuthorAdmin(admin.ModelAdmin):
             (None, {
                 'fields': ('name', 'book', 'tag', 'credit', )
             }),
-            ('Advanced options', {
-                'classes': ('collapse',),
-                'fields': ('alias',)
-            }),
         )
 
     def change_view(self, request, object_id, extra_context=None):
