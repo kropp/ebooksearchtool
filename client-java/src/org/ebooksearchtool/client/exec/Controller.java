@@ -61,7 +61,7 @@ public class Controller {
 
     }
 
-    public boolean getQueryAnswer(final String[] words) throws IOException, SAXException, ParserConfigurationException {
+    public boolean getQueryAnswer(final String[] words) throws SAXException, ParserConfigurationException {
 
         class Downloader implements Runnable {
 
@@ -93,19 +93,29 @@ public class Controller {
                         System.out.println("get stream " + adress);
                         myStream = connect.getFileFromURL(myFileName);
 
+                        if (myStream == null) {
+                            System.out.println("return null");
+                            myIsFinished = true;
+                            return;
+                        }
+
                         Parser parser = new Parser();
                         SAXHandler handler = new SAXHandler(myAnswer);
                         System.out.println("parse  " + adress);
                         parser.parse(myStream, handler);
                         System.out.println("parse is over  " + adress);
                     } catch (IOException e) {
+                        System.out.println("exception in controller");
                         e.printStackTrace();
+                        myIsFinished = true;
                         return;
                     } catch (SAXException e) {
                         e.printStackTrace();
+                        myIsFinished = true;
                         return;
                     } catch (ParserConfigurationException e) {
                         e.printStackTrace();
+                        myIsFinished = true;
                         return;
                     }
 
@@ -130,17 +140,25 @@ public class Controller {
                     Connector connect = new Connector(nextAddres, mySettings);
                     myStream = connect.getFileFromURL(myFileName);
 
+                    if(myStream == null){
+                        myIsFinished = true;
+                        return;
+                    }
+
                     Parser parser = new Parser();
                     SAXHandler handler = new SAXHandler(myAnswer);
                     parser.parse(myStream, handler);
                 } catch (IOException e) {
                     e.printStackTrace();
+                    myIsFinished = true;
                     return;
                 } catch (SAXException e) {
                     e.printStackTrace();
+                    myIsFinished = true;
                     return;
                 } catch (ParserConfigurationException e) {
                     e.printStackTrace();
+                    myIsFinished = true;
                     return;
                 }
 
@@ -194,7 +212,11 @@ public class Controller {
             }
         }
 
-        getSettingsFromFile();
+        try {
+            getSettingsFromFile();
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
 
         return false;
     }

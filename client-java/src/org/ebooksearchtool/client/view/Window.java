@@ -517,11 +517,8 @@ public class Window implements Observer{
                                 terms[2] = myAuthorTextField.getText();
                             }
                             myTime = System.currentTimeMillis();
-                            myIsModelSaved = false;
                             myController.getQueryAnswer(terms);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-						} catch (SAXException e) {
+                        } catch (SAXException e) {
 							e.printStackTrace();
 						} catch (ParserConfigurationException e) {
 							e.printStackTrace();
