@@ -1,3 +1,5 @@
+''' module for find information about authors '''
+
 import urllib2
 from spec.external.BeautifulSoup import BeautifulSoup as bs
 
@@ -9,7 +11,8 @@ def classify_authors():
     list_url = "http://en.wikipedia.org/wiki/List_of_biographers"
     beaut_soup = get_beaut_soup(list_url)
     authors_link_list = beaut_soup.find(attrs={'id': 
-                    'Some_notable_authors_of_biographies'}).findNext().findAll('li')
+                    'Some_notable_authors_of_biographies'}).findNext().\
+                                                                findAll('li')
     authors_list = list()
     for author in authors_link_list:
         auth_link = author.find('a')

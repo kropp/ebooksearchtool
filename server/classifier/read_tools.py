@@ -32,23 +32,24 @@ def get_description(book_name, flag = False):
     beaut_soup_book = bs.BeautifulSoup(book_page)
     if beaut_soup_book == None:
         return
-    descr_tag = beaut_soup_book.find(attrs={"class": "productDescriptionWrapper"})
+    descr_tag = beaut_soup_book.find(
+                        attrs={"class": "productDescriptionWrapper"})
     if descr_tag == None:
         return
     description = descr_tag.getText()
     page.close()
     return description
 
-def read(b, feed, classif):
+def read(is_statistic, feed, classif):
     ''' gets URL and classify items '''
     # get feed items
-    f = feedparser.parse(feed)
+    parse_result = feedparser.parse(feed)
 
     counter = 0
-    if b == True:
+    if is_statistic == True:
         file_handle = open("statistics", "a")
     
-    for entry in f['entries']:
+    for entry in parse_result['entries']:
         summary = entry['summary'].encode('utf-8')
         
         len_sum = len(summary.split())
@@ -88,36 +89,37 @@ def read(b, feed, classif):
         if entry.get('categories') == None:
             break
                         
-        for cat in entry.get('categories'):
-            c = cat[1].encode('utf-8')
-#            print ' Tag : ' + c
-            if b == False:
+        for cathegories in entry.get('categories'):
+            cathegory = cathegories[1].encode('utf-8')
+#            print ' Tag : ' + cathegory
+            if is_statistic == False:
                 if language.count() == 0:
-                    hyp = classif.train(fulltext, c)
+                    hyp = classif.train(fulltext, cathegory)
                 else:
-                    hyp = classif.train(fulltext, c, lang=language[0].full.lower())
+                    hyp = classif.train(fulltext, cathegory, 
+                                lang=language[0].full.lower())
             
             # write statistic
 
-            if b == True and (c == hyp[0] or c == hyp[1]):     
-                file_handle.write(c)
+            if is_statistic == True and (cathegory == hyp[0] or cathegory == hyp[1]):     
+                file_handle.write(cathegory)
                 file_handle.write('\n')    
 
-    if b == True:
+    if is_statistic == True:
         file_handle.close()
                 
     return counter
 
-def read_smashwords(b, feed, classif):
+def read_smashwords(is_statistic, feed, classif):
     ''' gets URL and classify items from smashwords '''
     # get feed items
-    f = feedparser.parse(feed)
+    parse_result = feedparser.parse(feed)
 
     counter = 0
-    if b == True:
+    if is_statistic == True:
         file_handle = open("statistics", "a")
     
-    for entry in f['entries']:
+    for entry in parse_result['entries']:
         subtitle = entry['subtitle'].encode('utf-8')
         beaut_soup = bs.BeautifulSoup(subtitle)
         text = beaut_soup.getText()
@@ -157,35 +159,36 @@ def read_smashwords(b, feed, classif):
         subj_index = text.find('Subject') + 8
         subjects = text[subj_index:index].split(',')
         
-        for c in subjects:
+        for cat in subjects:
 #            print ' Tag : ' + c
-            if b == False:
+            if is_statistic == False:
                 if language.count() == 0:
-                    hyp = classif.train(fulltext, c)
+                    hyp = classif.train(fulltext, cat)
                 else:
-                    hyp = classif.train(fulltext, c, lang=language[0].full.lower())
+                    hyp = classif.train(fulltext, cat, 
+                                        lang=language[0].full.lower())
             
             # write statistic
 
-            if b == True and (c == hyp[0] or c == hyp[1]):     
-                file_handle.write(c)
+            if is_statistic == True and (cat == hyp[0] or cat == hyp[1]):     
+                file_handle.write(cat)
                 file_handle.write('\n')    
 
-    if b == True:
+    if is_statistic == True:
         file_handle.close()
                 
     return counter
     
-def read_all_romance(b, feed, classif):
+def read_all_romance(is_statistic, feed, classif):
     ''' gets URL and classify items from smashwords '''
     # get feed items
-    f = feedparser.parse(feed)
+    parse_result = feedparser.parse(feed)
 
     counter = 0
-    if b == True:
+    if is_statistic == True:
         file_handle = open("statistics", "a")
     
-    for entry in f['entries']:
+    for entry in parse_result['entries']:
         subtitle = entry['subtitle'].encode('utf-8')
         beaut_soup = bs.BeautifulSoup(subtitle)
         text = beaut_soup.getText()
@@ -227,21 +230,22 @@ def read_all_romance(b, feed, classif):
         subj_index = text.find('Subject') + 8
         subjects = text[subj_index:index_about].split(',')
         
-        for c in subjects:
+        for cat in subjects:
 #            print ' Tag : ' + c
-            if b == False:
+            if is_statistic == False:
                 if language.count() == 0:
-                    hyp = classif.train(fulltext, c)
+                    hyp = classif.train(fulltext, cat)
                 else:
-                    hyp = classif.train(fulltext, c, lang=language[0].full.lower())
+                    hyp = classif.train(fulltext, cat, 
+                                            lang=language[0].full.lower())
             
             # write statistic
 
-            if b == True and (c == hyp[0] or c == hyp[1]):     
-                file_handle.write(c)
+            if is_statistic == True and (cat == hyp[0] or cat == hyp[1]):     
+                file_handle.write(cat)
                 file_handle.write('\n')    
 
-    if b == True:
+    if is_statistic == True:
         file_handle.close()
                 
     return counter

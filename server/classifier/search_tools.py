@@ -4,17 +4,22 @@ import urllib2
 from spec.external.BeautifulSoup import BeautifulSoup as bs
 from book.models import Tag
 
-genres = {'Adventure':['Adventure'], 'Biography':['Biography'], 'Collections':['Collections'],
-    'Crime/Mystery':['Crime/Mystery','Crime', 'Mystery'], 'Essay':['Essay'], 
-    'Fantasy':['Fantasy'], 'Ghost Stories':['Ghost Stories', 'Ghost-Stories'], 'History':['Historian'],
-    'Horror':['Horror'], 'Humor/Satire':['Humor/Satire','Humor','Satire', 'Comedy', 'Black Comedy'],
-    'Non-Fiction':['Hon-Fiction', 'Non Fiction'], 'Novels':['Novels','Novelist'], 
-    'Philosophy':['Philosophy'], 'Plays':['Plays', 'Play', 'Playwright'], 'Poetry':['Poetry', 'Poet'],
+GENRES = {'Adventure':['Adventure'], 'Biography':['Biography'], 
+    'Collections':['Collections'], 'Crime/Mystery':['Crime/Mystery','Crime', 
+    'Mystery'], 'Essay':['Essay'], 'Fantasy':['Fantasy'], 
+    'Ghost Stories':['Ghost Stories', 'Ghost-Stories'], 
+    'History':['Historian'], 'Horror':['Horror'], 
+    'Humor/Satire':['Humor/Satire','Humor','Satire', 'Comedy', 'Black Comedy'],
+    'Non-Fiction':['Hon-Fiction', 'Non Fiction'], 
+    'Novels':['Novels','Novelist'], 'Philosophy':['Philosophy'], 
+    'Plays':['Plays', 'Play', 'Playwright'], 'Poetry':['Poetry', 'Poet'],
     'Politics':['Politics'], 'Religion':['Religion'], 'Romance':['Romance'],
-    'Science':['Science'], 'Science Fiction':['Science Fiction', 'Science-Fiction'],
-    'Sexuality':['Sexuality'], 'Short Fiction':['Short Fiction', 'Short-Fiction', 'Short Story '], 'Thriller':['Thriller'],
-    'Travel':['Travel'], 'War':['War'], 'Western':['Western'], 
-    'Young Readers':['Young Readers', 'Young-Readers', "Children's Literature"]}
+    'Science':['Science'], 'Science Fiction':['Science Fiction', 
+    'Science-Fiction'], 'Sexuality':['Sexuality'], 
+    'Short Fiction':['Short Fiction', 'Short-Fiction', 'Short Story '], 
+    'Thriller':['Thriller'], 'Travel':['Travel'], 'War':['War'], 
+    'Western':['Western'], 'Young Readers':['Young Readers', 'Young-Readers', 
+    "Children's Literature"]}
 
 # all genres can be used with writer
 
@@ -25,7 +30,7 @@ def search_for_author_information(author):
     opener = urllib2.build_opener()
     opener.addheaders = [('User-agent', 'Mozilla/5.0')]
 
-    page=""    
+    page = ""    
     try:
         infile = opener.open(auth_url)
         page = infile.read()
@@ -35,7 +40,8 @@ def search_for_author_information(author):
     beaut_soup = bs.BeautifulSoup(page)
     text = beaut_soup.getText()
 
-    is_article = text.find("Wikipedia does not have an article with this exact name")
+    is_article = text.find(
+                    "Wikipedia does not have an article with this exact name")
     text = text[0:0]
     if is_article != -1:
         auth_url = "http://en.wikipedia.org/wiki/Special:Search/" + author.name
@@ -88,17 +94,17 @@ def search_for_author_information(author):
                     beaut_soup = bs.BeautifulSoup(page)
 
     found = False
-    for i in genres.items():
-        t = Tag.objects.get_or_create(name = i[0])
+    for i in GENRES.items():
+        tag = Tag.objects.get_or_create(name = i[0])
         for j in i[1]:
             k = beaut_soup.find(attrs = {'title':j})
             if k:
                 found = True
-                author.tag.add(t[0])
+                author.tag.add(tag[0])
             k = beaut_soup.find(attrs = {'title':j.lower()})
             if k:
                 found = True
-                author.tag.add(t[0])
+                author.tag.add(tag[0])
 
 
 #    genres_tag = beaut_soup.find(attrs = {'title':'Literary genre'})
@@ -119,13 +125,13 @@ def search_for_author_information(author):
         text = beaut_soup.getText()
         text = text.lower()
         
-        for i in genres.items():
-            t = Tag.objects.get_or_create(name = i[0])
+        for i in GENRES.items():
+            tag = Tag.objects.get_or_create(name = i[0])
             for j in i[1]:
                 k = text.count(j.lower())
                 if k >= 3:
                     print author.name
-                    print t[0].name
-                    author.tag.add(t[0])
+                    print tag[0].name
+                    author.tag.add(tag[0])
 
 

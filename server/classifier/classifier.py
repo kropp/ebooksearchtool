@@ -3,8 +3,7 @@
 import re
 import math
 import spec.external.Stemmer as stemmer
-import tools
-
+from read_tools import read
 
 def getwords(doc):
     '''get simple features from string '''
@@ -21,19 +20,19 @@ def getwords(doc):
 def bookfeatures(doc, lang = "english"):
     ''' now available only for english books '''
     splitter = re.compile('\\W*')
-    f = list()
+    features = list()
     stem = stemmer.Stemmer(lang)
     
     words = [s.lower() for s in splitter.split(doc)
         if len(s) > 2 and len(s) < 20]
 
     res = {}
-    for w in words:
-        f.append(stem.stemWord(w))
+    for word in words:
+        features.append(stem.stemWord(word))
 
-    for i in xrange(len(f)):
-        w = f[i]
-        res[w] = 1
+    for i in xrange(len(features)):
+        word = features[i]
+        res[word] = 1
         if (i < len(words) - 1) and words[i] != words[i+1]:
             twowords = ' '.join(words[i:i+2])
             res[twowords] = 1
@@ -43,89 +42,93 @@ def bookfeatures(doc, lang = "english"):
 def bookfeatures2(doc):
     ''' now available only for english books '''
     splitter = re.compile('\\W*')
-    f = []
+    features = []
     stem = stemmer.Stemmer('english')
 
     words = [s.lower() for s in splitter.split(doc)
         if len(s) > 2 and len(s) < 20]
         
     for i in xrange(len(words)):
-        w = words[i]
-        f.append(w)
+        word = words[i]
+        features.append(word)
 
-    for w in words:
-        w = stem.stemWord(w)
+    for word in words:
+        word = stem.stemWord(word)
     
-    return f
+    return features
 
     
 class Classifier:
-    def __init__(self, getfeatures, filename=None):
+    '''
+    Classifier defines book genre using annotation.
+    Kind of Bayes classifier.
+    '''
+    def __init__(self, getfeatures):
         #counter for feature/category
-        self.fc = {}
+        self.feature_c = {}
         # document per category counter
-        self.cc = {}
+        self.cathegory_c = {}
         # function that gets feature from document ( 'getwords' now )
         self.getfeatures = getfeatures
         
-    def incf(self, f, cat):
-        ''' increments self.fc '''
+    def incf(self, feature, cat):
+        ''' increments self.feature_c '''
         
-        self.fc.setdefault(f, {})
-        self.fc[f].setdefault(cat, 0)
-        self.fc[f][cat] += 1
+        self.feature_c.setdefault(feature, {})
+        self.feature_c[feature].setdefault(cat, 0)
+        self.feature_c[feature][cat] += 1
         
     def incc(self, cat):
-        ''' increments self.cc '''
-        self.cc.setdefault(cat, 0)
-        self.cc[cat] += 1
+        ''' increments self.cathegory_c '''
+        self.cathegory_c.setdefault(cat, 0)
+        self.cathegory_c[cat] += 1
         
-    def fcount(self, f, cat):
+    def fcount(self, feature, cat):
         ''' counts feature in current category '''
-        if f in self.fc and cat in self.fc[f]:
-            return float(self.fc[f][cat])
+        if feature in self.feature_c and cat in self.feature_c[feature]:
+            return float(self.feature_c[feature][cat])
         return 0.0
         
     def catcount(self, cat):
         ''' counts docs for category '''
-        if cat in self.cc:
-            return float(self.cc[cat])
+        if cat in self.cathegory_c:
+            return float(self.cathegory_c[cat])
         return 0
     
     def totalcount(self):
         ''' total docs count '''
-        return sum(self.cc.values())
+        return sum(self.cathegory_c.values())
         
     def categories(self):
         ''' total category count '''
-        return self.cc.keys()
+        return self.cathegory_c.keys()
         
     def train(self, item, cat, lang = "english"):
         ''' trains our classifier '''
         features = self.getfeatures(item, lang)
         # increment counters for all feature in category
-        for f in features:
-            self.incf(f, cat)
+        for feature in features:
+            self.incf(feature, cat)
             
         # increment category counter
         self.incc(cat)
                
-    def fprob(self, f, cat):
+    def fprob(self, feature, cat):
         ''' evals probability for word be in category '''
-        if self.catcount(cat) == 0: return 0
-        return self.fcount(f, cat)/self.catcount(cat)
+        if self.catcount(cat) == 0: 
+            return 0
+        return self.fcount(feature, cat)/self.catcount(cat)
         
-    def weightedprob(self, f, cat, prf, weight=1.0, ap=0.5):
+    def weightedprob(self, feature, cat, prf, weight=1.0, apr=0.5):
         ''' weight our probability '''
         # evals current probability
-        basicprob = prf(f, cat)
+        basicprob = prf(feature, cat)
         
         # counts that feature in all category
-        totals = sum([ self.fcount(f, c) for c in self.categories()])
+        totals = sum([ self.fcount(feature, cathegory) for cathegory in self.categories()])
         
         # evals middle value
-        bp = (( weight*ap) + (totals*basicprob))/ (weight+totals)
-        return bp
+        return (( weight*apr) + (totals*basicprob))/ (weight+totals)
         
         
 #Fisher classifier inherits main classifier
@@ -136,79 +139,81 @@ class FisherClassifier(Classifier):
         Classifier.__init__(self, getfeatures)
         self.minimums = {}
         
-    def set_min(self, cat, min):
-        self.minimums[cat] = min
+    def set_min(self, cat, minimum):
+        ''' set minimum probability for cathegory'''
+        self.minimums[cat] = minimum
         
     def get_min(self, cat):
-        if cat not in self.minimums: return 0
+        ''' set minimum probability for cathegory'''        
+        if cat not in self.minimums: 
+            return 0
         return self.minimums[cat]
     
-    def cprob(self, f, cat):
+    def cprob(self, feature, cat):
+        ''' evals probability for word be in category '''
         # clf frequency of feature in category
-        clf = self.fprob(f, cat)
-        if clf==0: return 0
+        clf = self.fprob(feature, cat)
+        if clf == 0: 
+            return 0
         
         # freqsum frequency of feature in all categories
-        freqsum = sum([self.fprob(f, c) for c in self.categories()])
+        freqsum = sum([self.fprob(feature, c) for c in self.categories()])
         
-        pr = clf/(freqsum)
-        return pr
+        return clf/(freqsum)
         
     def fisher_prob(self, item, cat, lang="english"):
         ''' classify document '''
-        pr = 1
+        prob = 1
         features = self.getfeatures(item, lang)
-        for f in features:
-            a = (self.weightedprob(f, cat, self.cprob))
-            pr*= a
-            if pr == 0:
-                pr = 4.94065645841e-324            
-        fscore = -2 * math.log(pr)
+        for feature in features:
+            coef = (self.weightedprob(feature, cat, self.cprob))
+            prob *= coef
+            if prob == 0:
+                prob = 4.94065645841e-324            
+        fscore = -2 * math.log(prob)
 
         # use chi^2 function
         return self.invchi2(fscore, len(features)*2)
         
     def invchi2(self, chi, df):
         ''' chi^2 function for fisher probability '''
-        m = chi/2.0
-        sum = term = math.exp(-m)
+        power = chi/2.0
+        summ = term = math.exp(-power)
         
         for i in xrange(1, df//2):
-            term *= m/i
-            sum += term
+            term *= power/i
+            summ += term
             
-        return min(sum, 1.0)
+        return min(summ, 1.0)
         
     def classify(self, item, default=None, lang="english"):
         ''' search for best result '''
         best = default
         second = default
-        max = 0.0
+        maximum = 0.0
         
-        for c in self.categories():
-            p = self.fisher_prob(item, c, lang)
+        for cathegory in self.categories():
+            prob = self.fisher_prob(item, cathegory, lang)
             
-            if p > self.get_min(c) and p > max:
+            if prob > self.get_min(cathegory) and prob > maximum:
                 second = best
-                best = c
-                max = p
+                best = cathegory
+                maximum = prob
         return (best, second)
     
     def sample_train(self):
+        '''sample train on feedbooks '''
         # train on feedbooks
         for i in xrange(1, 153):
-            tools.read(False, ('http://feedbooks.com/books.atom?lang=en&amp;page=%s' % i), self)
+            read(False, 
+            ('http://feedbooks.com/books.atom?lang=en&amp;page=%s' % i), self)
 
         # train on smashwords
 #        for i in xrange(1, 10):
-#            tools.read_smashwords(False, ('http://www.smashwords.com/atom/books/1/popular/epub/any/0?page=%s' % i), self)
+#            read_smashwords(False, ('http://www.smashwords.com/atom/books/1/popular/epub/any/0?page=%s' % i), self)
 
 #        #train on www.allromanceebooks.com
 #        for i in xrange(1, 10):
-#            tools.read_all_romance(False, ('http://www.allromanceebooks.com/epub-feed.xml?search=recent+additions;page=%s' % i), self)
-            
-    def sample_full_train(self):
-        for i in xrange(1, 10):
-            tools.read_fullbook(False, ('http://feedbooks.com/books.atom?lang=en&amp;page=%s' % i), self)
+#            read_all_romance(False, ('http://www.allromanceebooks.com/epub-feed.xml?search=recent+additions;page=%s' % i), self)
             
         
