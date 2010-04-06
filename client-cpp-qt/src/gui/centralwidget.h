@@ -36,6 +36,7 @@ private:
     void resizeEvent(QResizeEvent* event) const;
     void nextDownloading();
     void updateView();
+    void initializeData();
 //    void fillComboBox();
     void saveOldData();
 

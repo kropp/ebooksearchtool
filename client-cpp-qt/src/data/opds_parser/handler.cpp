@@ -26,7 +26,7 @@ bool OPDSHandler::characters (const QString& strText) {
 }
 
 bool OPDSHandler::startElement (const QString& namespaceUri, const QString& tag, const QString&, const QXmlAttributes& attributes) {
-    if (myIsInContent) {
+	if (myIsInContent) {
         myCurrentText += "<" + tag + ">";
         return true;
     }
@@ -49,21 +49,21 @@ bool OPDSHandler::startElement (const QString& namespaceUri, const QString& tag,
 }
 
 bool OPDSHandler::endElement (const QString& namespaceUri, const QString& tag, const QString& ) {
-	//qDebug() << "Handler::endElement namespace " << namespaceUri;
 	if (!myIsEntry) {
         if ((tag == "totalResults") && 
             (namespaceUri == NSPASE_OPENSEARCH)) {
         //qDebug() << "totalResults namespace" << myCurrentText << namespaceUri;
             myData->setTotalEntries(myCurrentText.toInt());
-        }
+       
+	 }
         return true;
     }
    
    //if I am inside entry
     if (namespaceUri == NSPACE_ATOM) {
         if (tag == TAG_ENTRY) {
-            myData->addBook(myBook);
-	        myIsEntry = false;	
+        	myData->addBook(myBook);
+	    	myIsEntry = false;	
     	} else if (tag == TAG_TITILE) {
 	    	myBook->setTitle(myCurrentText);
 	    } else if (tag == TAG_NAME) {
@@ -104,10 +104,10 @@ void OPDSHandler::processLink(const QXmlAttributes& attributes) {
     if (!myIsEntry) {
 	    if (attributes.value(ATTRIBUTE_TYPE) == "application/atom+xml") { 
 		   if (attributes.value(ATTRIBUTE_RELATION) == "next")  {
-                //qDebug() << "Handler:: link to the next page " << attributes.value("href");
+                qDebug() << "Handler:: link to the next page " << attributes.value("href");
                 mySearchResult.setLinkToNextResult(myOpdsCatalog, attributes.value("href"));
             } else if (attributes.value(ATTRIBUTE_RELATION) == "self") {
-                //qDebug() << "Handler:: link to self " << attributes.value("href");
+                qDebug() << "Handler:: link to self " << attributes.value("href");
                 myOpdsCatalog = attributes.value("href");
             }
        }

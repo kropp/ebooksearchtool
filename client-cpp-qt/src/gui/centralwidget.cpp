@@ -11,19 +11,8 @@ CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myBuffer(0), my
     
 // initialize fields
    // process command-line argument for initialisation
-   /* if (QApplication::argc() > 1) {
-        QFile file(QApplication::argv[1]);
-        file->open(QIODevice::ReadOnly);
-        
-        OPDSParser parser;
-        if (!parser.parse(file, myData, mySearchResult)) {
-            myErrorMessageDialog->showMessage(tr("recieved no data from server"));
-        }
-        file->close();
-
-       
-        readData(file);
-    }*/
+    initializeData(); 
+    
    
     myNewRequest = true;
     myIsDownloadingNextResults = false;
@@ -34,7 +23,7 @@ CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myBuffer(0), my
     myNetworkManager = NetworkManager::getInstance(); 
 
 // connect signals and slots
-	connect(myNetworkManager, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
+    connect(myNetworkManager, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
     connect(myView, SIGNAL(stateChanged(QString)), this, SIGNAL(stateChanged(QString)));
 	//connect(myView, SIGNAL(urlRequest(const QString&)), this, SLOT(downloadFile(const QString&)));
 
@@ -42,7 +31,8 @@ CentralWidget::CentralWidget(QWidget* parent) : QWidget(parent), myBuffer(0), my
 	QVBoxLayout *mainLayout = new QVBoxLayout();
 	//mainLayout->addWidget(myServersListView);
     mainLayout->addWidget(myScrollArea);
-	setLayout(mainLayout);
+    updateView();
+    setLayout(mainLayout);
 }
 
 CentralWidget::~CentralWidget() {
@@ -160,7 +150,6 @@ void CentralWidget::nextDownloading() {
 
 void CentralWidget::updateView() {
     myView->setData(myData);
-    myBuffer->close();
     myView->update();	
     if (!myScrollArea->widget()) {
         myScrollArea->setWidget(myView);
@@ -180,4 +169,18 @@ void CentralWidget::sortResult() {
    QList<const Book*> sortedData(myData->getBooks());
    qSort(sortedData.begin(), sortedData.end(), Book::compareTitles);
    myView->showBooks(sortedData);
+}
+
+void CentralWidget::initializeData() {
+    if (QApplication::argc() < 1) {
+        return;    
+    }
+    QFile file(QApplication::argv()[1]);
+    if (!file.open(QIODevice::ReadOnly)) {
+        return;
+    }    
+    OPDSParser parser;
+    myData = new Data();
+    parser.parse(&file, myData, mySearchResult);
+    file.close();
 }

@@ -9,10 +9,9 @@ bool OPDSParser::parse(QIODevice* input, Data* data, SearchResult& result) {
         return false;    
     }
     XMLInputSource source(input);
-	//OPDSHandler handler(data, &source);
-	OPDSHandler handler(data, result);
-	QXmlSimpleReader reader;
-	reader.setContentHandler(&handler);
-	reader.parse(source);
+    OPDSHandler handler(data, result);
+        QXmlSimpleReader reader;
+        reader.setContentHandler(&handler);
+        reader.parse(source);
     return true;
 }
