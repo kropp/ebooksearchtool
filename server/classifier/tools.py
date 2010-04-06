@@ -16,7 +16,7 @@ def tag_adding():
         counter += 1
         ann = book.annotation.all()
         summary = ""
-        authors = book.author_set.all()
+        authors = book.author.all()
         if ann.count() == 0:
             if authors.count() != 0:
                 summary = get_description(book.title + authors[0].name, True)

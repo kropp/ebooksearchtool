@@ -198,7 +198,7 @@ class UpdateEntityTest(TestCase):
 
         book = update_book(self.xml_create_book)
         self.failUnlessEqual(book.title, 'title')
-        self.failUnlessEqual(set(book.author_set.all()), set([a1,a2]))
+        self.failUnlessEqual(set(book.author.all()), set([a1,a2]))
         self.failUnlessEqual(set(book.book_file.all()), set([b1,b2]))
         self.failUnlessEqual('en', book.language.short)
 

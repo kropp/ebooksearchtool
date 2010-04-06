@@ -78,53 +78,9 @@ class Language(models.Model):
         return "[%s] %s" % (self.short, self.full)
 
 
-class Book(models.Model):
-    title = models.CharField(max_length=NAME_LENGTH)
-    lang = models.CharField(max_length=2, choices=LANG_CODE)
-    language = models.ForeignKey(Language)
-    annotation = models.ManyToManyField(Annotation, null=True, blank=True)
-    book_file = models.ManyToManyField(BookFile)
-    series = models.ManyToManyField(Series, null=True, blank=True)
-    tag = models.ManyToManyField(Tag, null=True, blank=True)
-
-    credit = models.IntegerField(default=0)
-
-    # for more settings see 'spec/sphinx_conf/003_book_title.tmplt'
-    title_search = SphinxSearch(
-        index='book_title',
-        weights={
-            'title': 100,
-        },
-        mode='SPH_MATCH_ANY'
-    )
-
-    def book_authors(self):
-        return Book.objects.get(id=self.id).author_set.all()
-
-#    # for more settings see 'spec/sphinx_conf/004_book_title_author.tmplt'
-#    title_author_search = SphinxSearch(
-#        index='book_title_author',
-#        weights={
-#            'author_name': 100,
-#        },
-#        mode='SPH_MATCH_ANY',
-#    )
-
-#    # for more settings see 'spec/sphinx_conf/004_book_title_annotation.tmplt'
-#    title_annotation_search = SphinxSearch(
-#        index='book_title_annotation',
-#        weights={
-#            'title': 100,
-#        }
-#    )
-
-    def __unicode__(self):
-        return '[id %s] %s (%s)' % (self.id, self.title, self.lang)
-
-
 class Author(models.Model):
     name = models.CharField(max_length=NAME_LENGTH, unique=True, null=False, blank=False)
-    book = models.ManyToManyField(Book, null=True, blank=True)#, limit_choices_to = {'id__lte': 0})
+    #book = models.ManyToManyField(Book, null=True, blank=True)#, limit_choices_to = {'id__lte': 0})
     #book = models.ManyToManyField(Book, null=True, blank=True, through='AuthorBook')#, limit_choices_to = {'id__lte': 0})
     alias = models.ManyToManyField(AuthorAlias, null=True, blank=True)
     tag = models.ManyToManyField(Tag, null=True, blank=True)
@@ -147,7 +103,8 @@ class Author(models.Model):
         weights={
             'name': 50,
         },
-        mode='SPH_MATCH_ANY'
+        mode='SPH_MATCH_ANY',
+        morphology='soundex'
     )
 
     def __unicode__(self):
@@ -177,4 +134,50 @@ class Author(models.Model):
 #            self.author.show = 1
 #            self.author.save()
 
+
+
+class Book(models.Model):
+    title = models.CharField(max_length=NAME_LENGTH)
+    lang = models.CharField(max_length=2, choices=LANG_CODE)
+    language = models.ForeignKey(Language)
+    annotation = models.ManyToManyField(Annotation, null=True, blank=True)
+    book_file = models.ManyToManyField(BookFile)
+    series = models.ManyToManyField(Series, null=True, blank=True)
+    tag = models.ManyToManyField(Tag, null=True, blank=True)
+
+    credit = models.IntegerField(default=0)
+
+    author = models.ManyToManyField(Author, null=True, blank=True)
+
+    # for more settings see 'spec/sphinx_conf/003_book_title.tmplt'
+    title_search = SphinxSearch(
+        index='book_title',
+        weights={
+            'title': 100,
+        },
+        mode='SPH_MATCH_ANY'
+    )
+
+    def book_authors(self):
+        return Book.objects.get(id=self.id).author.all()
+
+#    # for more settings see 'spec/sphinx_conf/004_book_title_author.tmplt'
+#    title_author_search = SphinxSearch(
+#        index='book_title_author',
+#        weights={
+#            'author_name': 100,
+#        },
+#        mode='SPH_MATCH_ANY',
+#    )
+
+#    # for more settings see 'spec/sphinx_conf/004_book_title_annotation.tmplt'
+#    title_annotation_search = SphinxSearch(
+#        index='book_title_annotation',
+#        weights={
+#            'title': 100,
+#        }
+#    )
+
+    def __unicode__(self):
+        return '[id %s] %s (%s)' % (self.id, self.title, self.lang)
 

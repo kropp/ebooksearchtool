@@ -289,9 +289,9 @@ class InsertActionTest(TestCase):
         save_book_inf(book, Author.objects.all(), [], [])
         
         self.failUnlessEqual(Author.objects.all().count(), 2)
-        self.failUnlessEqual(Book.objects.all()[0].author_set.all().count(), 2)
-        self.failUnlessEqual(Author.objects.all()[0], Book.objects.all()[0].author_set.all()[0])
-        self.failUnlessEqual(Author.objects.all()[1], Book.objects.all()[0].author_set.all()[1])
+        self.failUnlessEqual(Book.objects.all()[0].author.all().count(), 2)
+        self.failUnlessEqual(Author.objects.all()[0], Book.objects.all()[0].author.all()[0])
+        self.failUnlessEqual(Author.objects.all()[1], Book.objects.all()[0].author.all()[1])
 
         book = Book(title='title', lang='')
         author3 = Author(name='auhtor name3')
@@ -299,10 +299,10 @@ class InsertActionTest(TestCase):
         save_book_inf(book, Author.objects.all(), [], [])
         
         self.failUnlessEqual(Author.objects.all().count(), 3)
-        self.failUnlessEqual(Book.objects.all()[1].author_set.all().count(), 3)
-        self.failUnlessEqual(Author.objects.all()[0], Book.objects.all()[1].author_set.all()[0])
-        self.failUnlessEqual(Author.objects.all()[1], Book.objects.all()[1].author_set.all()[1])
-        self.failUnlessEqual(Author.objects.all()[2], Book.objects.all()[1].author_set.all()[2])
+        self.failUnlessEqual(Book.objects.all()[1].author.all().count(), 3)
+        self.failUnlessEqual(Author.objects.all()[0], Book.objects.all()[1].author.all()[0])
+        self.failUnlessEqual(Author.objects.all()[1], Book.objects.all()[1].author.all()[1])
+        self.failUnlessEqual(Author.objects.all()[2], Book.objects.all()[1].author.all()[2])
 
     def test_save_book_info_add_files(self):
         'tests adding book_files to book'

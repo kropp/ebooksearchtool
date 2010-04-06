@@ -155,7 +155,7 @@ def update_book(xml):
         return rm_entities
 
     rm_authors = relation_process(xml.find('authors'), Author, \
-                                  book.author_set, 'author')
+                                  book.author, 'author')
     # TODO check rm_authors for hide in result, if its don't have book
 
     rm_book_files = relation_process(xml.find('files'), BookFile, \
@@ -163,7 +163,7 @@ def update_book(xml):
     # TODO check rm_book_files for hide in result, if its don't have book
 
     if not now_created:
-        if not book.author_set.count():
+        if not book.author.count():
             raise IntegrityError("'authors' can't be empty")
         if not book.book_file.count():
             raise IntegrityError("'files' can't be empty")

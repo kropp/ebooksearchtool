@@ -8,7 +8,7 @@
             <lang> {{ book.lang }} </lang>
     
             <authors>
-                {% for author in book.author_set.all %}
+                {% for author in book.author.all %}
                 <author id="{{ author.id }}">
                     <name> {{ author.name }}</name>
                     <aliases>

@@ -74,7 +74,7 @@ def book_title_search(query, author_ids = None, max_length=5):
             # if amount target author_ids there are all authors in database
             if len(authors) == len(author_ids) - 1:
                 for book in query_set:
-                    if authors.issubset(book.author_set.all()):
+                    if authors.issubset(book.author.all()):
                         result_list.append(book)
                     # if we found enough books, stop filtering
                     if len(result_list) == max_length:

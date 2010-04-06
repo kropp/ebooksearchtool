@@ -10,7 +10,7 @@
     <updated></updated>
     <icon></icon>
     <author></author-->
-{% for book in author.book.all %}
+{% for book in author.book_set.all %}
 <entry>
     {% include 'book/opds/book_description.xml' %}
 </entry>

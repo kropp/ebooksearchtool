@@ -12,10 +12,10 @@
 
 <div class="title">
     <h1> {{ book.title }} </h1>
-    {% if book.author_set.all%}
+    {% if book.author.all%}
     <h2>
       by      
-      {% for author in book.author_set.all %}
+      {% for author in book.author.all %}
         <em><a href="../author/id{{ author.id }}" class="gray">{{ author.name }}</a></em>
       {% endfor %}
     </h2>

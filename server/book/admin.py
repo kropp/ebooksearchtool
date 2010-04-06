@@ -28,7 +28,7 @@ class AuthorAdmin(admin.ModelAdmin):
     raw_id_fields = ('book',)
 #    list_per_page = 10
 
-    fields = ('name', 'book', 'tag', 'credit', )
+    fields = ('name', 'tag', 'credit', )
 
 class BookAdmin(admin.ModelAdmin):
     ''' Admin view for model.Book'''

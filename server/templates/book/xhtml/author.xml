@@ -11,13 +11,13 @@
     <h1>{{ author.name }}: </h1>
 </div>
    
-{% for book in author.book.all %}
+{% for book in author.book_set.all %}
 
 {% include 'book/xhtml/book_cover.xml' %}
 
     <h3><a href="../book/id{{ book.id }}">{{ book.title }}</a></h3>
     <h4>by 
-      {% for author in book.author_set.all %}
+      {% for author in book.author.all %}
          <em><a href="../author/id{{ author.id }}" class="gray">{{ author.name }}</a></em>
       {% endfor %}
     </h4>    

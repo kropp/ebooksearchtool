@@ -202,7 +202,7 @@ def save_book_inf(book, authors, book_files, annotations):
     found_book_in_db = None
     # find book with the same numbers of authors
     for found_book in found_books:
-        if found_book.author_set.count() == len(authors):
+        if found_book.author.count() == len(authors):
             found_book_in_db = found_book
 
     if found_book_in_db:
@@ -232,7 +232,7 @@ def save_book_inf(book, authors, book_files, annotations):
             
     # add authors, book_files, annotations to the book
     for author in authors:
-        book.author_set.add(author)
+        book.author.add(author)
 
     for book_file in book_files:
         book.book_file.add(book_file)

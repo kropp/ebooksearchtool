@@ -9,7 +9,7 @@
     <category term="{{ tag }}"/>
 {% endfor %}
 
-{% for author in book.author_set.all %}
+{% for author in book.author.all %}
 <author>
     <name> {{ author.name }} </name>
     <uri> author.atom/id{{ author.id }}</uri>

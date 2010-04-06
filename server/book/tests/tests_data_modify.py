@@ -107,7 +107,7 @@ class ExecUpdateTest(TestCase):
     def test_all(self):
         exec_update(self.xml)
         b = Book.objects.get(title="title1")
-        self.failUnless(set(b.author_set.all()), \
+        self.failUnless(set(b.author.all()), \
                         set(Author.objects.all()))
 
         self.failUnless(set(b.book_file.all()), \
