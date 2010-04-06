@@ -119,7 +119,7 @@ class BookAdmin(admin.ModelAdmin):
     form = BookForm
 
     filter_horizontal = ('tag',)
-    fields = ('title', 'language', 'credit', 'tag', )
+    fields = ('title', 'language', 'credit', 'tag', 'book_file')
 
     list_per_page = 10
     search_fields = ('title', 'id')
