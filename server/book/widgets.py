@@ -1,18 +1,27 @@
+'''Defines widgets for admin forms '''
+# -*- coding: utf-8 -*-
+
 from django import forms
-from django.utils.encoding import StrAndUnicode, force_unicode
+from django.utils.encoding import force_unicode
 from django.utils.html import escape, conditional_escape
 from itertools import chain
+from django.conf import settings
+from django.utils.translation import ugettext as _
+from django.utils.safestring import mark_safe
+
+from book.models import Book
 
 class BookWidget(forms.Textarea):
     """
-    A Widget for displaying ManyToMany ids in the "raw_id" interface rather than
-    in a <select multiple> box.
+    A Widget for displaying ManyToMany authors(their names) in the "raw_id" 
+    interface rather than in a <select multiple> box.
     """
     def __init__(self, rel, attrs=None):
         self.rel = rel
         super(BookWidget, self).__init__(attrs)
 
     def render(self, name, value, attrs=None):
+        ''' overloads base class method render'''
         attrs['class'] = 'vManyToManyRawIdAdminField'
         if value:
             value = ',\n'.join([str(Book.objects.get(id=v)) for v in value])
@@ -21,43 +30,49 @@ class BookWidget(forms.Textarea):
         if attrs is None:
             attrs = {}
         
-        related_url = '../../../%s/%s/' % (self.rel.to._meta.app_label, self.rel.to._meta.object_name.lower())
+        related_url = '../../../%s/%s/' % (self.rel.to._meta.app_label, 
+                                        self.rel.to._meta.object_name.lower())
         params = self.url_parameters()
         if params:
             url = '?' + '&amp;'.join(['%s=%s' % (k, v) for k, v in params.items()])
         else:
             url = ''
         if not attrs.has_key('class'):
-            attrs['class'] = 'vForeignKeyRawIdAdminField' # The JavaScript looks for this hook.
+            attrs['class'] = 'vForeignKeyRawIdAdminField' 
         output = [super(BookWidget, self).render(name, value, attrs)]
 
         output.append('<a href="%s%s" class="related-lookup" id="lookup_id_%s" onclick="return showRelatedObjectLookupPopup(this);"> ' % \
             (related_url, url, name))
-        output.append('<img src="%simg/admin/selector-search.gif" width="16" height="16" alt="%s" /></a>' % (settings.ADMIN_MEDIA_PREFIX, _('Lookup')))
+        output.append('<img src="%simg/admin/selector-search.gif" width="16" height="16" alt="%s" /></a>' 
+                        % (settings.ADMIN_MEDIA_PREFIX, _('Lookup')))
         if value:
             output.append(self.label_for_value(value))
         return mark_safe(u''.join(output))
 
     def url_parameters(self):
+        ''' overloads base class method url_parameters'''
         return self.base_url_parameters()
 
     def label_for_value(self, value):
+        ''' overloads base class method label_for_value'''
         return ''
 
     def base_url_parameters(self):
+        ''' overloads base class method base_url_parameters'''
         params = {}
         if self.rel.limit_choices_to:
             items = []
-            for k, v in self.rel.limit_choices_to.items():
-                if isinstance(v, list):
-                    v = ','.join([str(x) for x in v])
+            for k, value in self.rel.limit_choices_to.items():
+                if isinstance(value, list):
+                    value = ','.join([str(x) for x in value])
                 else:
-                    v = str(v)
-                items.append((k, v))
+                    value = str(value)
+                items.append((k, value))
             params.update(dict(items))
         return params
 
     def value_from_datadict(self, data, files, name):
+        ''' overloads base class method value_from_datadict'''
         value = data.get(name, None)
         if value and ',' in value:
             return data[name].split(',')
@@ -66,6 +81,7 @@ class BookWidget(forms.Textarea):
         return None
 
     def _has_changed(self, initial, data):
+        ''' overloads base class method _has_changed'''
         if initial is None:
             initial = []
         if data is None:
@@ -78,8 +94,14 @@ class BookWidget(forms.Textarea):
         return False
 
 class LanguageWidget(forms.Select):
+    """
+    A Widget for displaying english, french, russian language in first place
+    """
+
     def render_options(self, choices, selected_choices):
+        ''' overloads base class method render_options'''
         def render_option(option_value, option_label):
+            ''' returns 'option' for each language in data base'''
             option_value = force_unicode(option_value)
             selected_html = (option_value in selected_choices) and u' selected="selected"' or ''
             return u'<option value="%s"%s>%s</option>' % (
@@ -94,7 +116,8 @@ class LanguageWidget(forms.Select):
 
         for option_value, option_label in chain(self.choices, choices):
             if isinstance(option_label, (list, tuple)):
-                output.append(u'<optgroup label="%s">' % escape(force_unicode(option_value)))
+                output.append(u'<optgroup label="%s">' 
+                                    % escape(force_unicode(option_value)))
                 for option in option_label:
                     output.append(render_option(*option))
                 output.append(u'</optgroup>')

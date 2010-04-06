@@ -4,16 +4,13 @@
 from django.core.exceptions import ObjectDoesNotExist
 
 from django.shortcuts import render_to_response
-from string import split
 
 from book.models import Book, Author, Tag, Language
 
 from django.http import Http404
 from django.http import HttpResponse
 
-from search import *
-
-import os
+from django.db.models import Q
 
 def book_request(request, book_id, response_type):
     """ builds opds and xhtml response for book id request"""
@@ -54,6 +51,7 @@ def catalog(request, response_type):
         return render_to_response('book/xhtml/catalog.xml')
         
 def authors_by_one_letter(request, response_type):
+    '''returns authors arranged by first letter in their names'''
     letter = request.GET['letter']
     alphabet_string = map(chr, range(98, 122))
     string = ""
@@ -61,12 +59,13 @@ def authors_by_one_letter(request, response_type):
         request_to_server = Q(name__istartswith=letter+let)
         auth_count = Author.objects.filter(request_to_server).distinct().count()
         if auth_count > 0:          # TODO condition
-           string += let
+            string += let
     string = string[0:-1]
     
     if len(string) < 1:
         request_to_server = Q(name__istartswith=letter)
-        authors = Author.objects.filter(request_to_server).distinct().order_by('name')
+        authors = Author.objects.filter(request_to_server).distinct().\
+                                                            order_by('name')
         if response_type == "atom":
             return render_to_response('book/opds/books_by_author.xml',
             {'authors': authors})
@@ -92,17 +91,20 @@ def authors_by_one_letter(request, response_type):
         {'string': my_list, 'num': 2 })
 
 def authors_by_two_letters(request, response_type):
+    '''returns authors arranged by first two letters in their names'''
     if 'letters' in request.GET and request.GET['letters']:
         letters = request.GET['letters']
         try:
             my_let = map(chr, range(ord(letters[1]), ord(letters[4]) + 1))
             request_to_server = Q()
             for let in my_let:
-                request_to_server = request_to_server | Q(name__istartswith=letters[0]+let)
+                request_to_server = request_to_server | \
+                                    Q(name__istartswith=letters[0]+let)
         except IndexError:
             request_to_server = Q(name__istartswith=letters)
 
-        authors = Author.objects.filter(request_to_server).distinct().order_by('name')
+        authors = Author.objects.filter(request_to_server).distinct().\
+                                                            order_by('name')
 
         if response_type == "atom":
             return render_to_response('book/opds/books_by_author.xml',
@@ -116,7 +118,8 @@ def authors_by_two_letters(request, response_type):
         string = ""
         for let in alphabet_string:
             request_to_server = Q(name__istartswith=let)
-            authors_count = Author.objects.filter(request_to_server).distinct().count()
+            authors_count = Author.objects.filter(request_to_server).\
+                                                        distinct().count()
             if authors_count != 0:
                 string += let
         if response_type == "atom":
@@ -145,6 +148,7 @@ def books_by_language(request, response_type):
         {'languages':languages})
 
 def available_languages():
+    '''returns all languages used in books in our data base'''
     lang = Book.objects.values_list('lang')
     short_langs = set(lang)
     short_langs =  [x[0] for x in short_langs]
@@ -176,5 +180,6 @@ def extended_search(request):
     return render_to_response('book/xhtml/extended_search.xml', {'tags': tags})
 
 def no_book_cover(request):
+    '''returns image for books have not self impage'''
     image_data = open("pic/no_cover.gif", "rb").read()
     return HttpResponse(image_data, mimetype="image/png")

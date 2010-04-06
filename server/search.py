@@ -1,25 +1,25 @@
 """ search module """
+# -*- coding: utf-8 -*-
 
 from django.db.models import Q
 
-from book.models import Book, Author, Tag, Language
+from book.models import Book, Tag
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.core.exceptions import ObjectDoesNotExist
 
 from book.search import SphinxSearchEngine
 
 # type of search engine
-search_engine = SphinxSearchEngine()
+SEARCH_ENGINE = SphinxSearchEngine()
 
 def simple_search(request, response_type, items_per_page, page, start_index):
     """ simple search with query """
     tags = Tag.objects.all().order_by("name")
     query = request.GET['query']
 
-    books = search_engine.simple_search(query)
+    books = SEARCH_ENGINE.simple_search(query)
     
-    authors = search_engine.author_search(author=query, max_length=5)         
+    authors = SEARCH_ENGINE.author_search(author=query, max_length=5)         
 
     total = len(books)
     # TODO search in annotation
@@ -30,21 +30,25 @@ def simple_search(request, response_type, items_per_page, page, start_index):
 
     if response_type == "atom":
         return render_to_response('book/opds/search_response.xml',
-            {'books': books[start_index:start_index+items_per_page], 'query': query, 'curr': page,
-            'items_per_page': items_per_page, 'total':total, 'next':next, },
+            {'books': books[start_index:start_index+items_per_page], 
+            'query': query, 'curr': page, 'items_per_page': items_per_page, 
+            'total':total, 'next':next, },
             context_instance=RequestContext(request))
         
     if response_type == "xhtml":
         return render_to_response('book/xhtml/search_response.xml',
             {'books': books,'items_per_page': items_per_page, 'query': query,
-            'tags': tags}, context_instance=RequestContext(request))
+            'tags': tags, 'authors': authors}, 
+            context_instance=RequestContext(request))
 
 def search_in_author(request, lang, tag, response_type, items_per_page, page, 
                                 start_index, main_title):
+    ''' search only by authors'''
     tags = Tag.objects.all().order_by("name")
     author = request.GET['author']
     #TODO language in author_search
-    authors = search_engine.author_search(author=author, lang=lang, tag=tag, max_length=10)
+    authors = SEARCH_ENGINE.author_search(author=author, lang=lang, tag=tag, 
+                                            max_length=10)
     total = len(authors)
     next = None
     if (total-1)/items_per_page != 0:
@@ -104,11 +108,12 @@ def search_request_to_server(request, response_type, is_all):
         main_title['tit'] = title
         if author:
             main_title['author'] = author    
-        books = search_engine.book_search(title=title, author=author, tag=tag, lang=lang)          
+        books = SEARCH_ENGINE.book_search(title=title, author=author, tag=tag, 
+                                            lang=lang)          
     
     elif author:
-        return search_in_author(request, lang, tag, response_type, items_per_page, page, 
-                                start_index, main_title)
+        return search_in_author(request, lang, tag, response_type, 
+                                items_per_page, page, start_index, main_title)
     else:
         books = Book.objects.filter(request_to_server).distinct()
 
@@ -129,7 +134,8 @@ def search_request_to_server(request, response_type, is_all):
         
     if response_type == "xhtml":
         return render_to_response('book/xhtml/search_response.xml',
-            {'books': books, 'title': main_title, 'items_per_page':items_per_page, 
-            'tags': tags}, context_instance=RequestContext(request))
+            {'books': books, 'title': main_title, 
+            'items_per_page':items_per_page, 'tags': tags}, 
+            context_instance=RequestContext(request))
 
 

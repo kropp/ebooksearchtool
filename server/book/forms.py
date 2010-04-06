@@ -1,21 +1,18 @@
+'''Defines forms for admin view'''
+# -*- coding: utf-8 -*-
+
 from book.models import Author, Book, Language
 
 from django import forms
-from django.db.models.query import QuerySet
 
-from django.contrib.admin.widgets import ForeignKeyRawIdWidget
 from django.db.models.fields.related import ManyToManyRel
-from django.conf import settings
-from django.utils.translation import ugettext as _
-from django.utils.safestring import mark_safe
 
-from django.forms import Select
-
-from widgets import *
+from book.widgets import BookWidget, LanguageWidget
 
 class BookForm(forms.ModelForm):
+    '''form for represent model.Book in admin change veiw'''
     class Meta:
-#        exclude=('tag', 'book')
+        '''defines model for this form '''
         model = Book
 
     CREDIT_CHOICES = (
@@ -25,13 +22,15 @@ class BookForm(forms.ModelForm):
     )
 
 
-    language = forms.ModelChoiceField(queryset=Language.objects.all(), widget=LanguageWidget())
+    language = forms.ModelChoiceField(queryset=Language.objects.all(), 
+                                        widget=LanguageWidget())
     credit = forms.IntegerField(widget=forms.Select(choices=CREDIT_CHOICES))
 
 
 class AuthorForm(forms.ModelForm):
+    '''form for represent model.Author in admin change veiw'''
     class Meta:
-#        exclude=('tag', 'book')
+        '''defines model for this form '''
         model = Author
     book = forms.CharField(widget=BookWidget(rel=ManyToManyRel(to=Book)))
     CREDIT_CHOICES = (
@@ -85,37 +84,38 @@ def save_author(form, instance, fields=None, fail_message='saved',
     ################
 
     file_field_list = []
-    for f in opts.fields:
-        if not f.editable or isinstance(f, models.AutoField) \
-                or not f.name in cleaned_data:
+    for field in opts.fields:
+        if not field.editable or isinstance(field, models.AutoField) \
+                or not field.name in cleaned_data:
             continue
-        if fields and f.name not in fields:
+        if fields and field.name not in fields:
             continue
-        if exclude and f.name in exclude:
+        if exclude and field.name in exclude:
             continue
         # OneToOneField doesn't allow assignment of None. Guard against that
         # instead of allowing it and throwing an error.
-        if isinstance(f, models.OneToOneField) and cleaned_data[f.name] is None:
+        if isinstance(field, models.OneToOneField) and cleaned_data[field.name] is None:
             continue
         # Defer saving file-type fields until after the other fields, so a
         # callable upload_to can use the values from other fields.
-        if isinstance(f, models.FileField):
-            file_field_list.append(f)
+        if isinstance(field, models.FileField):
+            file_field_list.append(field)
         else:
-            f.save_form_data(instance, cleaned_data[f.name])
+            field.save_form_data(instance, cleaned_data[field.name])
 
-    for f in file_field_list:
-        f.save_form_data(instance, cleaned_data[f.name])
+    for field in file_field_list:
+        field.save_form_data(instance, cleaned_data[field.name])
 
     # Wrap up the saving of m2m data as a function.
     def save_m2m():
+        ''' defines how to save object's m2m fields'''
         opts = instance._meta
         cleaned_data = form.cleaned_data
-        for f in opts.many_to_many:
-            if fields and f.name not in fields:
+        for field in opts.many_to_many:
+            if fields and field.name not in fields:
                 continue
-            if f.name in cleaned_data:
-                f.save_form_data(instance, cleaned_data[f.name])
+            if field.name in cleaned_data:
+                field.save_form_data(instance, cleaned_data[field.name])
     if commit:
         # If we are committing, save the instance and the m2m data immediately.
         instance.save()
