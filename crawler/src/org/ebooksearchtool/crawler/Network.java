@@ -19,6 +19,11 @@ import javax.net.ssl.X509TrustManager;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.HttpsURLConnection;
 
+import org.apache.commons.httpclient.*;
+import org.apache.commons.httpclient.cookie.CookiePolicy;
+import org.apache.commons.httpclient.methods.*;
+import org.apache.commons.httpclient.params.*;
+
 public class Network {
 	
 	private static final int BUFFER_SIZE = 16384;
@@ -33,6 +38,10 @@ public class Network {
     private final Map<String, Long> myLastAccess = new HashMap<String, Long>();
     private final Map<String, Long> myNextAccess = new HashMap<String, Long>();
     private final ConcurrentMap<String, Link> myLastAccessBlockingMap = new ConcurrentHashMap<String, Link>();
+    
+    private final MultiThreadedHttpConnectionManager myConnectionManager = new MultiThreadedHttpConnectionManager();
+    private final HttpClient myHttpClient = new HttpClient(myConnectionManager);
+    
 	
 	public Network(Crawler crawler, Proxy proxy, int connectionTimeout, int readTimeout, int waitingForAccessTimeout, String userAgent, Logger logger) {
         myCrawler = crawler;
@@ -56,6 +65,17 @@ public class Network {
             context.init(null, trustAllCerts, new SecureRandom());
             HttpsURLConnection.setDefaultSSLSocketFactory(context.getSocketFactory());
         } catch (Exception e) { }
+        
+        // System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.SimpleLog");
+        // System.setProperty("org.apache.commons.logging.simplelog.log.org.apache.commons.httpclient", "fatal");
+        // manager.setMaxTotalConnections(100);
+        myHttpClient.getParams().setParameter("http.method.retry-handler", new DefaultHttpMethodRetryHandler(2, false));
+        myHttpClient.getParams().setParameter("http.useragent", myUserAgent);
+        myHttpClient.getParams().setParameter("http.socket.timeout", new Integer(myReadTimeout));
+        myHttpClient.getParams().setParameter("http.connection.timeout", new Integer(myConnectionTimeout));
+        myHttpClient.getParams().setParameter("http.connection-manager.timeout", new Long(myConnectionTimeout));
+        myHttpClient.getParams().setParameter("http.protocol.max-redirects", new Integer(20));
+        myHttpClient.getParams().setCookiePolicy(CookiePolicy.IGNORE_COOKIES);
 	}
     
     public long getLastAccessTime(String host) {
@@ -88,88 +108,79 @@ public class Network {
         return myUserAgent;
     }
 	
-    public String download(Link link, String wantedContentType, boolean logErrors, int threadID) {
-        InputStream is = null;
-        try {
-            String host = link.getHost();
-            long nextAccess = getNextAccessTime(host);
-            if (nextAccess > Long.MIN_VALUE && threadID != -1) {
-                myCrawler.getCrawlerThread(threadID).setDoNotInterruptInAnyCase(true);
-                while (true) {
-                    Link u = myLastAccessBlockingMap.putIfAbsent(host, link);
-                    if (u == null) break;
-                    try {
-                        synchronized (this) {
-                            wait();
-                        }
-                    } catch (InterruptedException ie) {
-                        return null;
+    
+    private boolean checkLastAccess(Link link, int threadID) throws IOException {
+        String host = link.getHost();
+        long nextAccess = getNextAccessTime(host);
+        if (nextAccess > Long.MIN_VALUE && threadID != -1) {
+            myCrawler.getCrawlerThread(threadID).setDoNotInterruptInAnyCase(true);
+            while (true) {
+                Link u = myLastAccessBlockingMap.putIfAbsent(host, link);
+                if (u == null) break;
+                try {
+                    synchronized (this) {
+                        wait();
                     }
+                } catch (InterruptedException ie) {
+                    return false;
                 }
-                nextAccess = getNextAccessTime(host);
-                long now = Util.getCurrentTimeInMillis();
-                if (nextAccess > now) {
-                    if (nextAccess < now + myWaitingForAccessTimeout) {
-                        try {
-                            Thread.sleep(nextAccess - now);
-                        } catch (InterruptedException e) {
-                            myLastAccessBlockingMap.remove(host, link);
-                            synchronized (this) {
-                                notify();
-                            }
-                            myCrawler.getCrawlerThread(threadID).setDoNotInterruptInAnyCase(false);
-                            return null;
-                        }
-                    } else {
+            }
+            nextAccess = getNextAccessTime(host);
+            long now = Util.getCurrentTimeInMillis();
+            if (nextAccess > now) {
+                if (nextAccess < now + myWaitingForAccessTimeout) {
+                    try {
+                        Thread.sleep(nextAccess - now);
+                    } catch (InterruptedException e) {
                         myLastAccessBlockingMap.remove(host, link);
                         synchronized (this) {
                             notify();
                         }
                         myCrawler.getCrawlerThread(threadID).setDoNotInterruptInAnyCase(false);
-                        return null;
+                        return false;
                     }
+                } else {
+                    myLastAccessBlockingMap.remove(host, link);
+                    synchronized (this) {
+                        notify();
+                    }
+                    myCrawler.getCrawlerThread(threadID).setDoNotInterruptInAnyCase(false);
+                    return false;
                 }
-                now = Util.getCurrentTimeInMillis();
-                if (nextAccess > Long.MIN_VALUE) {
-                    long diff = nextAccess - getLastAccessTime(host);
-                    setLastAccessTime(host, now);
-                    setNextAccessTime(host, now + diff);
-                }
-                myLastAccessBlockingMap.remove(host, link);
-                synchronized (this) {
-                    notify();
-                }
-                myCrawler.getCrawlerThread(threadID).setDoNotInterruptInAnyCase(false);
             }
-            
-            URLConnection connection = link.toURL().openConnection(myProxy);
-            connection.setConnectTimeout(myConnectionTimeout);
-            connection.setReadTimeout(myReadTimeout);
-            connection.setRequestProperty("User-Agent", myUserAgent);
-            connection.setRequestProperty("Connection", "Close");
-            try {
-                connection.connect();
-            } catch (Throwable e) {
-                return null;
+            now = Util.getCurrentTimeInMillis();
+            if (nextAccess > Long.MIN_VALUE) {
+                long diff = nextAccess - getLastAccessTime(host);
+                setLastAccessTime(host, now);
+                setNextAccessTime(host, now + diff);
             }
-            is = connection.getInputStream();
-            if (is == null) return null;
-            String contentType = connection.getHeaderField("Content-Type");
-            if (contentType != null && !contentType.startsWith(wantedContentType)) {
-                is.close();
-                return null;
+            myLastAccessBlockingMap.remove(host, link);
+            synchronized (this) {
+                notify();
             }
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
-            StringBuilder page = new StringBuilder();
-            char[] buf = new char[BUFFER_SIZE];
+            myCrawler.getCrawlerThread(threadID).setDoNotInterruptInAnyCase(false);
+        }
+        return true;
+    }
+    
+    public String download(Link link, String wantedContentType, boolean logErrors, int threadID) {
+        GetMethod method = null;
+        try {
+            if (!checkLastAccess(link, threadID)) return null;
+            method = new GetMethod(link + "");
+            int status = myHttpClient.executeMethod(method);
+            Header contentType = method.getResponseHeader("Content-Type");
+            if (contentType != null && !contentType.getElements()[0].getName().startsWith(wantedContentType)) return null;
+            char[] b = new char[8192];
             int r;
-            while ((r = br.read(buf, 0, BUFFER_SIZE)) != -1) {
-                page.append(buf, 0, r);
+            StringBuilder sb = new StringBuilder();
+            InputStream stream = method.getResponseBodyAsStream();
+            InputStreamReader in = new InputStreamReader(stream);
+            while ((r = in.read(b)) != -1) {
+                sb.append(b, 0, r);
             }
-            is.close();
-            br.close();
-//if (connection instanceof HttpURLConnection) ((HttpURLConnection)connection).disconnect();
-            return page.toString();
+            stream.close();
+            return sb.toString();
         } catch (IOException e) {
             if (logErrors) {
                 myLogger.log(Logger.MessageType.ERRORS, " network error on " + link);
@@ -178,15 +189,11 @@ public class Network {
                     myLogger.log(Logger.MessageType.ERRORS, " " + message);
                 }
             }
-            return null;
+        } catch (Exception e) {
         } finally {
-            if (is != null) try {
-                is.close();
-            } catch (IOException e) {
-                System.err.println(" error closing input stream on " + link);
-                e.printStackTrace();
-            }
+            if (method != null) method.releaseConnection();
         }
+        return null;
     }
     
     public String sendPOST(Link link, String request) {

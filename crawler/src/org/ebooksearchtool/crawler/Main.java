@@ -103,7 +103,11 @@ public class Main {
             String input = "";
             String whereTo = "".equals(debugFile) ? "screen" : debugFile;
             while (true) {
-                input = keyboardScanner.nextLine();
+                try {
+                    input = keyboardScanner.nextLine();
+                } catch (Exception e) {
+                    break;
+                }
                 if ("".equals(input)) {
                     if (crawler.dumpCurrentState(debugFile)) {
                         System.out.println("current state dumped successfully to " + whereTo);
