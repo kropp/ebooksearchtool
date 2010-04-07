@@ -12,23 +12,25 @@ from django.contrib.admin.widgets import ManyToManyRawIdWidget
 
 from book.models import Book, Author
 
-class AuthorWidget(forms.Textarea, ManyToManyRawIdWidget):
+class AuthorWidget(forms.CheckboxSelectMultiple, ManyToManyRawIdWidget):
     """
     A Widget for displaying ManyToMany authors(their names) in the "raw_id" 
     interface rather than in a <select multiple> box.
     """
-    def __init__(self, rel, attrs=None):        
+    def __init__(self, rel, attrs=None):    
+#        ManyToManyRawIdWidget(self, attrs)    
         super(AuthorWidget, self).__init__(attrs)
         self.rel = rel
 
     def render(self, name, value, attrs=None):
         ''' overloads base class method render'''
         attrs['class'] = 'vManyToManyRawIdAdminField'
-        if value:
-            #########  our view logic 
-            value = ',\n'.join([str(Author.objects.get(id=v)) for v in value])
-        else:
-            value = ''
+
+
+        choices = list()        
+        for v in value:
+            choices.append((Author.objects.get(id=v).id, Author.objects.get(id=v).name))
+
         if attrs is None:
             attrs = {}
         
@@ -41,12 +43,13 @@ class AuthorWidget(forms.Textarea, ManyToManyRawIdWidget):
             url = ''
         if not attrs.has_key('class'):
             attrs['class'] = 'vForeignKeyRawIdAdminField' 
-        output = [super(AuthorWidget, self).render(name, value, attrs)]
 
-        output.append('<a href="%s%s" class="related-lookup" id="lookup_id_%s" onclick="return showRelatedObjectLookupPopup(this);"> ' % \
-            (related_url, url, name))
-        output.append('<img src="%simg/admin/selector-search.gif" width="16" height="16" alt="%s" /></a>' 
-                        % (settings.ADMIN_MEDIA_PREFIX, _('Lookup')))
+        output = [forms.CheckboxSelectMultiple.render(self,name, value, attrs, choices)]
+
+#        output.append('<a href="%s%s" class="related-lookup" id="lookup_id_%s" onclick="return showRelatedObjectLookupPopup(this);"> ' % \
+#            (related_url, url, name))
+#        output.append('<img src="%simg/admin/selector-search.gif" width="16" height="16" alt="%s" /></a>' 
+#                        % (settings.ADMIN_MEDIA_PREFIX, _('Lookup')))
         if value:
             output.append(self.label_for_value(value))
         return mark_safe(u''.join(output))

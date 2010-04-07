@@ -9,19 +9,21 @@ from django.db.models.fields.related import ManyToManyRel
 
 from book.widgets import AuthorWidget, LanguageWidget
 
+CREDIT_CHOICES = (
+    ('0', 'DOUBTFUL'),
+    ('1', 'CREDIBLE'),
+    ('2', 'VERIFIED'),
+)
+
+
 class BookForm(forms.ModelForm):
     '''form for represent model.Book in admin change veiw'''
     class Meta:
         '''defines model for this form '''
         model = Book
 
-    CREDIT_CHOICES = (
-        ('0', 'NOT CHECKED'),
-        ('1', 'CHECKING'),
-        ('2', 'CHECKED'),
-    )
-
-    author = forms.CharField(widget=AuthorWidget(rel=ManyToManyRel(to=Author)), label='Authors') #TODO help_text
+    author = forms.CharField(widget=AuthorWidget(rel=ManyToManyRel(to=Author)), 
+                                            label='Authors') #TODO help_text
     language = forms.ModelChoiceField(queryset=Language.objects.all(), 
                                         widget=LanguageWidget())
     credit = forms.IntegerField(widget=forms.Select(choices=CREDIT_CHOICES))
@@ -45,12 +47,6 @@ class AuthorForm(forms.ModelForm):
         '''defines model for this form '''
         model = Author
 
-    CREDIT_CHOICES = (
-        ('0', 'NOT CHECKED'),
-        ('1', 'CHECKING'),
-        ('2', 'CHECKED'),
-    )
-
     credit = forms.IntegerField(widget=forms.Select(choices=CREDIT_CHOICES))
 
 class BookFileForm(forms.ModelForm):
@@ -58,12 +54,6 @@ class BookFileForm(forms.ModelForm):
     class Meta:
         '''defines model for this form '''
         model = BookFile
-
-    CREDIT_CHOICES = (
-        ('0', 'NOT CHECKED'),
-        ('1', 'CHECKING'),
-        ('2', 'CHECKED'),
-    )
 
     credit = forms.IntegerField(widget=forms.Select(choices=CREDIT_CHOICES))
     link = forms.CharField(widget=forms.TextInput(attrs={'size':'50'}))
@@ -85,11 +75,12 @@ def save_book(form, instance, fields=None, fail_message='saved',
     cleaned_data = form.cleaned_data
 
     ############### my logic for saving
-    authors_list = cleaned_data.pop('author')[3:-2].split(',')
+    authors_list = cleaned_data.pop('author')
+    authors_list = authors_list[3:-2].split("', u'") # extract id's
 
     authors = list()
     for i in authors_list:
-        authors.append(i[i.find('[')+4:i.find(']')])
+        authors.append(int(i))
 
     cleaned_data['author'] = authors
 
