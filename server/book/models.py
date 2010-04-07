@@ -104,7 +104,8 @@ class Author(models.Model):
             'name': 50,
         },
         mode='SPH_MATCH_ANY',
-        morphology='soundex'
+        morphology='soundex',
+        limit=1000,
     )
 
     def __unicode__(self):

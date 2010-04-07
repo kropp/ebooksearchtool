@@ -148,7 +148,14 @@ EBST_NAME = 'ebooks server'
 # Sphinx 0.9.9
 SPHINX_API_VERSION = 0x116
 
-SPHINX_CONFIG_TEMPLATE = 'templates/sphinx_conf'
+#SPHINX_CONF_DIR = "."
+#SPHINX_CONF_FILE = "sphinx.conf"
+
+#SPHINX_LOG_PATH = '/var/log'
+#SPHINX_INDEX_PATH = '/var/data'
+
+#SPHINX_HOST = '127.0.0.1'
+#SPHINX_PORT = '3321'
 
 # debug settings
 # show django exception in response
