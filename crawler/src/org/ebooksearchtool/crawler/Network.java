@@ -19,6 +19,7 @@ import javax.net.ssl.X509TrustManager;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.HttpsURLConnection;
 
+import java.net.InetSocketAddress;
 import org.apache.commons.httpclient.*;
 import org.apache.commons.httpclient.cookie.CookiePolicy;
 import org.apache.commons.httpclient.methods.*;
@@ -41,7 +42,6 @@ public class Network {
     
     private final MultiThreadedHttpConnectionManager myConnectionManager = new MultiThreadedHttpConnectionManager();
     private final HttpClient myHttpClient = new HttpClient(myConnectionManager);
-    
 	
 	public Network(Crawler crawler, Proxy proxy, int connectionTimeout, int readTimeout, int waitingForAccessTimeout, String userAgent, Logger logger) {
         myCrawler = crawler;
@@ -69,6 +69,11 @@ public class Network {
         // System.setProperty("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.SimpleLog");
         // System.setProperty("org.apache.commons.logging.simplelog.log.org.apache.commons.httpclient", "fatal");
         // manager.setMaxTotalConnections(100);
+        if (proxy != Proxy.NO_PROXY) {
+            InetSocketAddress address = (InetSocketAddress)proxy.address();
+            HostConfiguration config = myHttpClient.getHostConfiguration();
+            config.setProxy(address.getHostName(), address.getPort());
+        }
         myHttpClient.getParams().setParameter("http.method.retry-handler", new DefaultHttpMethodRetryHandler(2, false));
         myHttpClient.getParams().setParameter("http.useragent", myUserAgent);
         myHttpClient.getParams().setParameter("http.socket.timeout", new Integer(myReadTimeout));
@@ -169,6 +174,7 @@ public class Network {
             if (!checkLastAccess(link, threadID)) return null;
             method = new GetMethod(link + "");
             int status = myHttpClient.executeMethod(method);
+            /// TODO: check status!!!!!!!!!!!!!!!!!!!!!
             Header contentType = method.getResponseHeader("Content-Type");
             if (contentType != null && !contentType.getElements()[0].getName().startsWith(wantedContentType)) return null;
             char[] b = new char[8192];

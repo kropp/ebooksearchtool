@@ -50,16 +50,9 @@ public class Crawler implements Runnable {
         try {
             Proxy proxy;
             if (Boolean.parseBoolean(properties.getProperty("proxy_enabled"))) {
-                String type = properties.getProperty("proxy_type").toLowerCase();
-                Proxy.Type proxyType = null;
-                if ("http".equals(type)) {
-                    proxyType = Proxy.Type.HTTP;
-                } else if ("socks".equals(type)) {
-                    proxyType = Proxy.Type.SOCKS;
-                }
                 String proxyHost = properties.getProperty("proxy_host");
                 String proxyPort = properties.getProperty("proxy_port");
-                proxy = new Proxy(proxyType, new InetSocketAddress(proxyHost, Integer.parseInt(proxyPort)));
+                proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyHost, Integer.parseInt(proxyPort)));
             } else {
                 proxy = Proxy.NO_PROXY;
             }
