@@ -8,22 +8,24 @@ from itertools import chain
 from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
+from django.contrib.admin.widgets import ManyToManyRawIdWidget
 
 from book.models import Book, Author
 
-class AuthorWidget(forms.Textarea):
+class AuthorWidget(forms.Textarea, ManyToManyRawIdWidget):
     """
     A Widget for displaying ManyToMany authors(their names) in the "raw_id" 
     interface rather than in a <select multiple> box.
     """
-    def __init__(self, rel, attrs=None):
-        self.rel = rel
+    def __init__(self, rel, attrs=None):        
         super(AuthorWidget, self).__init__(attrs)
+        self.rel = rel
 
     def render(self, name, value, attrs=None):
         ''' overloads base class method render'''
         attrs['class'] = 'vManyToManyRawIdAdminField'
         if value:
+            #########  our view logic 
             value = ',\n'.join([str(Author.objects.get(id=v)) for v in value])
         else:
             value = ''
@@ -48,50 +50,6 @@ class AuthorWidget(forms.Textarea):
         if value:
             output.append(self.label_for_value(value))
         return mark_safe(u''.join(output))
-
-    def url_parameters(self):
-        ''' overloads base class method url_parameters'''
-        return self.base_url_parameters()
-
-    def label_for_value(self, value):
-        ''' overloads base class method label_for_value'''
-        return ''
-
-    def base_url_parameters(self):
-        ''' overloads base class method base_url_parameters'''
-        params = {}
-        if self.rel.limit_choices_to:
-            items = []
-            for k, value in self.rel.limit_choices_to.items():
-                if isinstance(value, list):
-                    value = ','.join([str(x) for x in value])
-                else:
-                    value = str(value)
-                items.append((k, value))
-            params.update(dict(items))
-        return params
-
-    def value_from_datadict(self, data, files, name):
-        ''' overloads base class method value_from_datadict'''
-        value = data.get(name, None)
-        if value and ',' in value:
-            return data[name].split(',')
-        if value:
-            return [value]
-        return None
-
-    def _has_changed(self, initial, data):
-        ''' overloads base class method _has_changed'''
-        if initial is None:
-            initial = []
-        if data is None:
-            data = []
-        if len(initial) != len(data):
-            return True
-        for pk1, pk2 in zip(initial, data):
-            if force_unicode(pk1) != force_unicode(pk2):
-                return True
-        return False
 
 class LanguageWidget(forms.Select):
     """

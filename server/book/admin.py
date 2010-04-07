@@ -15,20 +15,21 @@ from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
 
 from book.models import Book, Author, Tag, Annotation, BookFile
-from book.forms import BookForm, AuthorForm
+from book.forms import BookForm, AuthorForm, BookFileForm
 
 class AuthorAdmin(admin.ModelAdmin):
     ''' Admin view for model.Author'''
     form = AuthorForm
+
     search_fields = ('name', )
-    filter_horizontal = ('tag',)
-#    filter_horizontal = ('tag', 'book')
     list_display = ('name', 'credit', 'id')
     list_filter = ('credit',)
-#    raw_id_fields = ('book',)
-#    list_per_page = 10
 
     fields = ('name', 'tag', 'credit', )
+    filter_horizontal = ('tag',)
+
+    list_per_page = 10
+
 
     def changelist_view(self, request, extra_context=None):
         "The 'change list' admin view for this model."
@@ -160,10 +161,12 @@ class TagAdmin(admin.ModelAdmin):
 
 class BookFileAdmin(admin.ModelAdmin):
     ''' Admin view for model.BookFile'''
+    form = BookFileForm
+
     search_fields = ('type', 'link', 'id')
     list_display = ('link', 'type', 'credit', 'id',)
     list_filter = ('last_check', 'credit', 'type')
-    fields = ('link', 'type', 'credit', 'size', 'more_info', 'img_link')
+    fields = ('link', 'type', 'img_link', 'credit', 'more_info', )
     list_per_page = 10
 
 admin.site.register(Book, BookAdmin)

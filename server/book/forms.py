@@ -1,7 +1,7 @@
 '''Defines forms for admin view'''
 # -*- coding: utf-8 -*-
 
-from book.models import Author, Book, Language
+from book.models import Author, Book, Language, BookFile
 
 from django import forms
 
@@ -21,18 +21,15 @@ class BookForm(forms.ModelForm):
         ('2', 'CHECKED'),
     )
 
-    author = forms.CharField(widget=AuthorWidget(rel=ManyToManyRel(to=Author)))
+    author = forms.CharField(widget=AuthorWidget(rel=ManyToManyRel(to=Author)), label='Authors') #TODO help_text
     language = forms.ModelChoiceField(queryset=Language.objects.all(), 
                                         widget=LanguageWidget())
     credit = forms.IntegerField(widget=forms.Select(choices=CREDIT_CHOICES))
 
     def save(self, commit=True):
         """
-        Saves this ``form``'s cleaned_data into model instance
-        ``self.instance``.
-
-        If commit=True, then the changes to ``instance`` will be saved to the
-        database. Returns ``instance``.
+        Saves this form's data into model using save_book function
+        Returns ''instance''.
         """
         if self.instance.pk is None:
             fail_message = 'created'
@@ -47,7 +44,7 @@ class AuthorForm(forms.ModelForm):
     class Meta:
         '''defines model for this form '''
         model = Author
-#    book = forms.CharField(widget=BookWidget(rel=ManyToManyRel(to=Book)))
+
     CREDIT_CHOICES = (
         ('0', 'NOT CHECKED'),
         ('1', 'CHECKING'),
@@ -56,14 +53,29 @@ class AuthorForm(forms.ModelForm):
 
     credit = forms.IntegerField(widget=forms.Select(choices=CREDIT_CHOICES))
 
+class BookFileForm(forms.ModelForm):
+    '''form for represent model.Author in admin change veiw'''
+    class Meta:
+        '''defines model for this form '''
+        model = BookFile
+
+    CREDIT_CHOICES = (
+        ('0', 'NOT CHECKED'),
+        ('1', 'CHECKING'),
+        ('2', 'CHECKED'),
+    )
+
+    credit = forms.IntegerField(widget=forms.Select(choices=CREDIT_CHOICES))
+    link = forms.CharField(widget=forms.TextInput(attrs={'size':'50'}))
+    type = forms.CharField(widget=forms.TextInput(attrs={'size':'50'}))
+    img_link = forms.CharField(widget=forms.TextInput(attrs={'size':'50'}))
+
+
 
 def save_book(form, instance, fields=None, fail_message='saved',
                   commit=True, exclude=None):
     """
-    Saves bound Form ``form``'s cleaned_data into model instance ``instance``.
-
-    If commit=True, then the changes to ``instance`` will be saved to the
-    database. Returns ``instance``.
+    Saves book, exracts authors id for saving
     """
     from django.db import models
     opts = instance._meta
