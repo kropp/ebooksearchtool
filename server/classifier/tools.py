@@ -2,7 +2,7 @@
 from book.models import Book, Tag, Annotation
 
 import pickle
-from read_tools import get_description, read, 
+from read_tools import get_description, read
 
 def tag_adding():
     ''' adds tag for books after classifying '''

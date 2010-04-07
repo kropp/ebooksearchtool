@@ -7,7 +7,7 @@ from django import forms
 
 from django.db.models.fields.related import ManyToManyRel
 
-from book.widgets import BookWidget, LanguageWidget
+from book.widgets import AuthorWidget, LanguageWidget
 
 class BookForm(forms.ModelForm):
     '''form for represent model.Book in admin change veiw'''
@@ -21,24 +21,9 @@ class BookForm(forms.ModelForm):
         ('2', 'CHECKED'),
     )
 
-
+    author = forms.CharField(widget=AuthorWidget(rel=ManyToManyRel(to=Author)))
     language = forms.ModelChoiceField(queryset=Language.objects.all(), 
                                         widget=LanguageWidget())
-    credit = forms.IntegerField(widget=forms.Select(choices=CREDIT_CHOICES))
-
-
-class AuthorForm(forms.ModelForm):
-    '''form for represent model.Author in admin change veiw'''
-    class Meta:
-        '''defines model for this form '''
-        model = Author
-    book = forms.CharField(widget=BookWidget(rel=ManyToManyRel(to=Book)))
-    CREDIT_CHOICES = (
-        ('0', 'NOT CHECKED'),
-        ('1', 'CHECKING'),
-        ('2', 'CHECKED'),
-    )
-
     credit = forms.IntegerField(widget=forms.Select(choices=CREDIT_CHOICES))
 
     def save(self, commit=True):
@@ -53,11 +38,26 @@ class AuthorForm(forms.ModelForm):
             fail_message = 'created'
         else:
             fail_message = 'changed'
-        return save_author(self, self.instance, self._meta.fields,
+        return save_book(self, self.instance, self._meta.fields,
                              fail_message, commit, exclude=self._meta.exclude)
 
 
-def save_author(form, instance, fields=None, fail_message='saved',
+class AuthorForm(forms.ModelForm):
+    '''form for represent model.Author in admin change veiw'''
+    class Meta:
+        '''defines model for this form '''
+        model = Author
+#    book = forms.CharField(widget=BookWidget(rel=ManyToManyRel(to=Book)))
+    CREDIT_CHOICES = (
+        ('0', 'NOT CHECKED'),
+        ('1', 'CHECKING'),
+        ('2', 'CHECKED'),
+    )
+
+    credit = forms.IntegerField(widget=forms.Select(choices=CREDIT_CHOICES))
+
+
+def save_book(form, instance, fields=None, fail_message='saved',
                   commit=True, exclude=None):
     """
     Saves bound Form ``form``'s cleaned_data into model instance ``instance``.
@@ -73,13 +73,13 @@ def save_author(form, instance, fields=None, fail_message='saved',
     cleaned_data = form.cleaned_data
 
     ############### my logic for saving
-    book_list = cleaned_data.pop('book')[3:-2].split(',')
+    authors_list = cleaned_data.pop('author')[3:-2].split(',')
 
-    books = list()
-    for i in book_list:
-        books.append(i[i.find('[')+4:i.find(']')])
+    authors = list()
+    for i in authors_list:
+        authors.append(i[i.find('[')+4:i.find(']')])
 
-    cleaned_data['book'] = books
+    cleaned_data['author'] = authors
 
     ################
 

@@ -25,23 +25,11 @@ class AuthorAdmin(admin.ModelAdmin):
 #    filter_horizontal = ('tag', 'book')
     list_display = ('name', 'credit', 'id')
     list_filter = ('credit',)
-    raw_id_fields = ('book',)
+#    raw_id_fields = ('book',)
 #    list_per_page = 10
 
     fields = ('name', 'tag', 'credit', )
 
-class BookAdmin(admin.ModelAdmin):
-    ''' Admin view for model.Book'''
-    form = BookForm
-
-    filter_horizontal = ('tag',)
-    fields = ('title', 'language', 'credit', 'tag', 'book_file')
-
-    list_per_page = 10
-    search_fields = ('title', 'id')
-    list_display = ('title', 'language', 'credit', 'id' )
-    list_filter = ('credit',)
-    
     def changelist_view(self, request, extra_context=None):
         "The 'change list' admin view for this model."
         from django.contrib.admin.views.main import ChangeList, ERROR_FLAG
@@ -144,6 +132,21 @@ class BookAdmin(admin.ModelAdmin):
             'admin/%s/change_list.html' % app_label,
             'admin/change_list.html'
         ], context, context_instance=context_instance)
+
+
+class BookAdmin(admin.ModelAdmin):
+    ''' Admin view for model.Book'''
+    form = BookForm
+
+    filter_horizontal = ('tag',)
+    fields = ('title', 'author', 'language', 'credit', 'tag')
+    raw_id_fields = ('author',)
+
+    search_fields = ('title', 'id')
+    list_display = ('title', 'language', 'credit', 'id' )
+    list_filter = ('credit',)
+    
+    list_per_page = 10
 
 class AnnotationAdmin(admin.ModelAdmin):
     ''' Admin view for model.Annotation'''

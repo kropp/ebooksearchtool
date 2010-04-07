@@ -9,22 +9,22 @@ from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
 
-from book.models import Book
+from book.models import Book, Author
 
-class BookWidget(forms.Textarea):
+class AuthorWidget(forms.Textarea):
     """
     A Widget for displaying ManyToMany authors(their names) in the "raw_id" 
     interface rather than in a <select multiple> box.
     """
     def __init__(self, rel, attrs=None):
         self.rel = rel
-        super(BookWidget, self).__init__(attrs)
+        super(AuthorWidget, self).__init__(attrs)
 
     def render(self, name, value, attrs=None):
         ''' overloads base class method render'''
         attrs['class'] = 'vManyToManyRawIdAdminField'
         if value:
-            value = ',\n'.join([str(Book.objects.get(id=v)) for v in value])
+            value = ',\n'.join([str(Author.objects.get(id=v)) for v in value])
         else:
             value = ''
         if attrs is None:
@@ -39,7 +39,7 @@ class BookWidget(forms.Textarea):
             url = ''
         if not attrs.has_key('class'):
             attrs['class'] = 'vForeignKeyRawIdAdminField' 
-        output = [super(BookWidget, self).render(name, value, attrs)]
+        output = [super(AuthorWidget, self).render(name, value, attrs)]
 
         output.append('<a href="%s%s" class="related-lookup" id="lookup_id_%s" onclick="return showRelatedObjectLookupPopup(this);"> ' % \
             (related_url, url, name))
