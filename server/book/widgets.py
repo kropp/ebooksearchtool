@@ -18,7 +18,6 @@ class AuthorWidget(forms.CheckboxSelectMultiple, ManyToManyRawIdWidget):
     interface rather than in a <select multiple> box.
     """
     def __init__(self, rel, attrs=None):    
-#        ManyToManyRawIdWidget(self, attrs)    
         super(AuthorWidget, self).__init__(attrs)
         self.rel = rel
 
@@ -26,10 +25,12 @@ class AuthorWidget(forms.CheckboxSelectMultiple, ManyToManyRawIdWidget):
         ''' overloads base class method render'''
         attrs['class'] = 'vManyToManyRawIdAdminField'
 
-
+        ################ our logic
         choices = list()        
         for v in value:
             choices.append((Author.objects.get(id=v).id, Author.objects.get(id=v).name))
+
+        ##################
 
         if attrs is None:
             attrs = {}
@@ -44,12 +45,15 @@ class AuthorWidget(forms.CheckboxSelectMultiple, ManyToManyRawIdWidget):
         if not attrs.has_key('class'):
             attrs['class'] = 'vForeignKeyRawIdAdminField' 
 
+        ############## our logic for view
         output = [forms.CheckboxSelectMultiple.render(self,name, value, attrs, choices)]
 
-#        output.append('<a href="%s%s" class="related-lookup" id="lookup_id_%s" onclick="return showRelatedObjectLookupPopup(this);"> ' % \
-#            (related_url, url, name))
-#        output.append('<img src="%simg/admin/selector-search.gif" width="16" height="16" alt="%s" /></a>' 
-#                        % (settings.ADMIN_MEDIA_PREFIX, _('Lookup')))
+        ##############
+
+        output.append('<a href="%s%s" class="related-lookup" id="lookup_id_%s" onclick="return showRelatedObjectLookupPopup(this);"> ' % \
+            (related_url, url, name))
+        output.append('<img src="%simg/admin/selector-search.gif" width="16" height="16" alt="%s" /></a>' 
+                        % (settings.ADMIN_MEDIA_PREFIX, _('Lookup')))
         if value:
             output.append(self.label_for_value(value))
         return mark_safe(u''.join(output))
