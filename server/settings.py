@@ -148,7 +148,7 @@ EBST_NAME = 'ebooks server'
 # Sphinx 0.9.9
 SPHINX_API_VERSION = 0x116
 
-#SPHINX_CONF_DIR = "."
+#SPHINX_CONF_DIR = "spec"
 #SPHINX_CONF_FILE = "sphinx.conf"
 
 #SPHINX_LOG_PATH = '/var/log'

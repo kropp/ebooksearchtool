@@ -62,7 +62,7 @@ def generate_config():
 if __name__ == "__main__":
     CONFIG_STRING = WARNING_MESSAGE + generate_config()
     # writing database conf to sphinx conf file
-    SPHINX_CONF_DIR = getattr(settings, 'SPHINX_CONF_DIR', '.')
+    SPHINX_CONF_DIR = getattr(settings, 'SPHINX_CONF_DIR', 'spec')
     SPHINX_CONF_FILE = getattr(settings, 'SPHINX_CONF_FILE', 'sphinx.conf')
 
     OUT_FILE = open(os.path.join(SPHINX_CONF_DIR, SPHINX_CONF_FILE), 'w')
