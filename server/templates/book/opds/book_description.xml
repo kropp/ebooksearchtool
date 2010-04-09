@@ -1,5 +1,5 @@
 <title>{{ book.title }}</title>
-<dcterms:language>{{ book.lang }}</dcterms:language>
+<dcterms:language>{{ book.language.short }}</dcterms:language>
 <id>{{ book.id }}</id>
 <link type="application/atom+xml" href="../book.atom/id{{ book.id }}"/>
 <updated></updated>

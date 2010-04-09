@@ -5,7 +5,7 @@
         {% for book in books %}
         <book id="{{ book.id }}">
             <title> {{ book.title }} </title>
-            <lang> {{ book.lang }} </lang>
+            <lang> {{ book.language.short }} </lang>
     
             <authors>
                 {% for author in book.author.all %}

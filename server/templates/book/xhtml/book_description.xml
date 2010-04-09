@@ -1,5 +1,5 @@
-{% if book.lang %}
-    <h4 class="language">Language: <em><a href="search?lang={{ book.lang }}">{{ book.lang }}</a></em>
+{% if book.language.short %}
+    <h4 class="language">Language: <em><a href="search?lang={{ book.language.short }}">{{ book.language.short }}</a></em>
     </h4>
 {% endif %}
 
@@ -11,6 +11,6 @@
     </h4>
 {% endif %} 
 
-{% if not book.lang and not book.tag.all%}
+{% if not book.language.short and not book.tag.all%}
 <br/><br/>
 {% endif %} 

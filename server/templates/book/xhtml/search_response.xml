@@ -11,8 +11,8 @@
     {% if title.author %}
         Author "{{ title.author }}";
     {% endif %}
-    {% if title.lang %}
-        Language "{{ title.lang }}";
+    {% if title.language.short %}
+        Language "{{ title.language.short }}";
     {% endif %}
     {% if title.tag %}
         Tag "{{ title.tag }}";
@@ -72,7 +72,7 @@
         {% else %}
             <annotation> {{ book.annotation.all.0 }} </annotation>
         {% endif %}
-        {% if not book.lang %}
+        {% if not book.language.short %}
             <br/><br/>
         {% endif %}
     </div>
