@@ -70,7 +70,7 @@ class Tag(models.Model):
 
 
 class Language(models.Model):
-    short = models.CharField(max_length=2)
+    short = models.CharField(max_length=2, unique=True)
     full = models.CharField(max_length=255, unique=True)
     full_national = models.CharField(max_length=255)
 
