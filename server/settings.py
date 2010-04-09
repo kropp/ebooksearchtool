@@ -136,9 +136,9 @@ ANALYZER_IP = ''#'192.168.211.26'
 
 # ebst server version
 EBST_VERSION = '0.1'
-EBST_VERSION_BUILD = '596'
+EBST_VERSION_BUILD = '1060'
 # ebst server name
-EBST_NAME = 'ebooks server'
+EBST_NAME = 'eBookSearchServe'
 
 # root url
 #ROOT_URL = r'^ebooks/'
