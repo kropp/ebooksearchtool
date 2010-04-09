@@ -90,5 +90,10 @@ urlpatterns = patterns('',
 #        {'template': 'home.html'}),
     (r'^account/', include('django_authopenid.urls')),
 
+    #media 
+    (r'^site_media/(?P<path>.*)$', 'django.views.static.serve',
+        {'document_root': 'media'}),
+
+
 )
 

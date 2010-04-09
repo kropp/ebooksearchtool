@@ -4,45 +4,7 @@
 {% block extrahead %}{{ block.super }}
 <script type="text/javascript" src="../../../jsi18n/"></script>
 
-<script type="text/javascript" src="/media/js/admin/CheckboxRealtedObjectLookups.js"></script>
-<!--<script type="text/javascript">
-function checkboxDismissRelatedLookupPopup(win, chosenId) {
-    var name = windowname_to_id(win.name) + "_0";
-//    var name = windowname_to_id(win.name);
-    var elem = document.getElementById(name);
-
-
-    ul = elem.parentNode.parentNode.parentNode;
-
-    var li = document.createElement('li'); 
-
-    var chkbox = document.createElement('input');    
-    chkbox.type = "checkbox";
-    chkbox.id = 'id_author_1';
-    chkbox.name = 'author';
-    chkbox.checked="checked";
-    chkbox.value=chosenId;
-
-    var label = document.createElement('label');    
-    label.htmlFor = 'id_author_1';
-    label.appendChild( document.createTextNode(chosenId));
-
-    label.appendChild(chkbox);
-    li.appendChild(label);        
-    ul.appendChild(li);    
-
-//    elem.innerHTML = "<input>qewr</input>";
-
-//    if (elem.className.indexOf('vManyToManyRawIdAdminField') != -1 && elem.value) {
-//        elem.value += ',' + chosenId;
-//    } else {
-//        document.getElementById(name).value = chosenId;
-//    }
-    win.close();
-}
-
-</script>
--->
+<script type="text/javascript" src="../../../../site_media/js/admin/RelatedObjectLookups.js"></script>
 {{ media }}
 {% endblock %}
 
