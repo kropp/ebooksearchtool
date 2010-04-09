@@ -9,6 +9,8 @@ from django.template import RequestContext
 
 from book.search import SphinxSearchEngine
 
+from views import available_languages
+
 # type of search engine
 SEARCH_ENGINE = SphinxSearchEngine()
 
@@ -45,6 +47,7 @@ def search_in_author(request, lang, tag, response_type, items_per_page, page,
                                 start_index, main_title):
     ''' search only by authors'''
     tags = Tag.objects.all().order_by("name")
+    langs = available_languages()
     author = request.GET['author']
     #TODO language in author_search
     authors = SEARCH_ENGINE.author_search(author=author, lang=lang, tag=tag, 
@@ -61,13 +64,14 @@ def search_in_author(request, lang, tag, response_type, items_per_page, page,
     if response_type == "xhtml":
         return render_to_response('book/xhtml/authors_search_response.xml',
             {'authors': authors, 'author': author, 
-            'items_per_page':items_per_page, 'tags': tags}, 
+            'items_per_page':items_per_page, 'tags': tags, 'langs':langs}, 
             context_instance=RequestContext(request))
 
 
 def search_request_to_server(request, response_type, is_all):
     """ builds opds and xhtml response for search request"""
     tags = Tag.objects.all().order_by("name")
+    langs = available_languages()
     request_to_server = Q()
     main_title = {}
     
@@ -91,7 +95,7 @@ def search_request_to_server(request, response_type, is_all):
 
     if 'lang' in request.GET and request.GET['lang']:
         lang = request.GET['lang']
-        request_to_server = request_to_server & Q(lang=lang)
+        request_to_server = request_to_server & Q(language__short=lang)
         main_title['lang'] = lang
 
     if 'tag' in request.GET and request.GET['tag']:
@@ -135,7 +139,7 @@ def search_request_to_server(request, response_type, is_all):
     if response_type == "xhtml":
         return render_to_response('book/xhtml/search_response.xml',
             {'books': books, 'title': main_title, 
-            'items_per_page':items_per_page, 'tags': tags}, 
+            'items_per_page':items_per_page, 'tags': tags, 'langs':langs}, 
             context_instance=RequestContext(request))
 
 

@@ -14,7 +14,14 @@
             <td> <input type="text" name="author"></td>
             </tr><tr>
             <td>Language:</td>  
-            <td><input type="text" name="lang"></td>
+            <td><select name="lang"  width="185" style="width: 185px">
+                <option value="">--None--</option>
+                {% for lang in langs %}
+                    <option value="{{lang.1}}">{{lang.0}}</option>
+                {% endfor %}
+                </select>
+            </td>
+
             </tr><tr>
             <td>Tag:</td>
             <td><select name="tag"  width="185" style="width: 185px">

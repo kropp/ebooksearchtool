@@ -163,6 +163,7 @@ def available_languages():
 def books_by_tags(request, response_type):
     """builds opds and xhtml response for books by tags request"""
     tags = Tag.objects.all().order_by("name")
+    langs = available_languages()
     if response_type == "atom":
         return render_to_response('book/opds/books_by_tag.xml',
         {'tags':tags})
@@ -177,7 +178,9 @@ def simple_search(request):
 def extended_search(request):
     """ extended search """
     tags = Tag.objects.all().order_by("name")
-    return render_to_response('book/xhtml/extended_search.xml', {'tags': tags})
+    langs = available_languages()
+    return render_to_response('book/xhtml/extended_search.xml', {'tags': tags,
+                                'langs': langs})
 
 def no_book_cover(request):
     '''returns image for books have not self impage'''
