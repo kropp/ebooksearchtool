@@ -3,7 +3,7 @@
     <h2>Search: </h2>
 
     <form name="simple_search" action="../search">
-        Query: <input type="text" name="query">
+        Query: <input type="text" name="query" value="{{query}}">
         <input type="submit" value="Search" >
         <a href="/discover/extended" rel="extended search">Extended search</a>
     </form>
