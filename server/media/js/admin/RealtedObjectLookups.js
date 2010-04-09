@@ -27,7 +27,7 @@ function windowname_to_id(text) {
     return text;
 }
 
-function showRelatedObjectLookupPopup(triggeringLink) {
+function checkboxShowRelatedObjectLookupPopup(triggeringLink) {
     var name = triggeringLink.id.replace(/^lookup_/, '');
     name = id_to_windowname(name);
     var href;
@@ -41,7 +41,7 @@ function showRelatedObjectLookupPopup(triggeringLink) {
     return false;
 }
 
-function dismissRelatedLookupPopup(win, chosenId) {
+function checkboxDismissRelatedLookupPopup(win, chosenId) {
     var name = windowname_to_id(win.name) + "_0";
 //    var name = windowname_to_id(win.name);
     var elem = document.getElementById(name);

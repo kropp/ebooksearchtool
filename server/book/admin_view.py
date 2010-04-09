@@ -104,7 +104,7 @@ def my_items_for_result(cl, result, form):
             my_result = repr(force_unicode(result))[1:]
 
             yield mark_safe(u'<%s%s><a href="%s"%s>%s</a></%s>' % \
-                (table_tag, row_class, url, (cl.is_popup and ' onclick="opener.dismissRelatedLookupPopup(window, %s); return false;"' % my_result or ''), conditional_escape(result_repr), table_tag))
+                (table_tag, row_class, url, (cl.is_popup and ' onclick="opener.checkboxDismissRelatedLookupPopup(window, %s); return false;"' % my_result or ''), conditional_escape(result_repr), table_tag))
         else:
             if form and field_name in form.fields:
                 form_field_name = form[field_name]
