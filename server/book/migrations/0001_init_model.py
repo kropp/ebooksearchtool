@@ -112,11 +112,11 @@ class Migration:
             ('bookfile', models.ForeignKey(orm.BookFile, null=False))
         ))
         
-        # Adding ManyToManyField 'Author.book'
-        db.create_table('book_author_book', (
+        # Adding ManyToManyField 'Book.author'
+        db.create_table('book_book_author', (
             ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('author', models.ForeignKey(orm.Author, null=False)),
-            ('book', models.ForeignKey(orm.Book, null=False))
+            ('book', models.ForeignKey(orm.Book, null=False)),
+            ('author', models.ForeignKey(orm.Author, null=False))
         ))
         
         # Adding ManyToManyField 'Book.tag'
@@ -169,8 +169,8 @@ class Migration:
         # Dropping ManyToManyField 'Book.book_file'
         db.delete_table('book_book_book_file')
         
-        # Dropping ManyToManyField 'Author.book'
-        db.delete_table('book_author_book')
+        # Dropping ManyToManyField 'Book.author'
+        db.delete_table('book_book_author')
         
         # Dropping ManyToManyField 'Book.tag'
         db.delete_table('book_book_tag')
@@ -183,36 +183,36 @@ class Migration:
             'name': ('django.db.models.fields.TextField', [], {'max_length': '10000'})
         },
         'book.author': {
-            'alias': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['book.AuthorAlias']"}),
-            'book': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['book.Book']"}),
+            'alias': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['book.AuthorAlias']", 'null': 'True', 'blank': 'True'}),
             'credit': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '255'}),
-            'tag': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['book.Tag']"})
+            'tag': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['book.Tag']", 'null': 'True', 'blank': 'True'})
         },
         'book.authoralias': {
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '255'})
         },
         'book.book': {
-            'annotation': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['book.Annotation']"}),
+            'annotation': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['book.Annotation']", 'null': 'True', 'blank': 'True'}),
+            'author': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['book.Author']", 'null': 'True', 'blank': 'True'}),
             'book_file': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['book.BookFile']"}),
             'credit': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'lang': ('django.db.models.fields.CharField', [], {'max_length': '2'}),
             'language': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['book.Language']"}),
-            'series': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['book.Series']"}),
-            'tag': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['book.Tag']"}),
+            'series': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['book.Series']", 'null': 'True', 'blank': 'True'}),
+            'tag': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['book.Tag']", 'null': 'True', 'blank': 'True'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '255'})
         },
         'book.bookfile': {
             'credit': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'img_link': ('django.db.models.fields.TextField', [], {'max_length': '4000', 'null': 'True'}),
+            'img_link': ('django.db.models.fields.TextField', [], {'max_length': '4000', 'null': 'True', 'blank': 'True'}),
             'last_check': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'link': ('django.db.models.fields.TextField', [], {'max_length': '4000'}),
             'link_hash': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '32'}),
-            'more_info': ('django.db.models.fields.TextField', [], {'max_length': '10000', 'null': 'True'}),
+            'more_info': ('django.db.models.fields.TextField', [], {'max_length': '10000', 'null': 'True', 'blank': 'True'}),
             'size': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
             'time_found': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'type': ('django.db.models.fields.CharField', [], {'max_length': '10'})
@@ -221,7 +221,7 @@ class Migration:
             'full': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '255'}),
             'full_national': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'short': ('django.db.models.fields.CharField', [], {'max_length': '2'})
+            'short': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '2'})
         },
         'book.series': {
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
