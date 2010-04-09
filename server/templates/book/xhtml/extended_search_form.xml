@@ -2,19 +2,19 @@
   
     <h2>Extended search: </h2>
 
-    <form name="extended_search" action="../search">
+    <form name="extended_search" action="search">
     
         <table>    
             <tr>
             <td>Title:</td>
-            <td>  <input type="text" name="title" value="{{ title.tit }}"></td>
-            <td><a href="/discover/search" rel="simple search">Simple search</a></td>
+            <td>  <input type="text" style="width: 203px;" name="title" value="{{ title.tit }}"></td>
+            <td><a href="simple_search" rel="simple search">Simple search</a></td>
             </tr><tr>
             <td>Author:</td> 
-            <td> <input type="text" name="author" value="{{ title.author }}"></td>
+            <td> <input type="text" style="width: 203px;" name="author" value="{{ title.author }}"></td>
             </tr><tr>
             <td>Language:</td>  
-            <td><select name="lang"  width="185" style="width: 185px">
+            <td><select name="lang"  width="210" style="width: 210px">
                 <option value="">--None--</option>
                 <option value="en">English</option>
                 <option value="ru">Russian</option>
@@ -33,7 +33,7 @@
 
             </tr><tr>
             <td>Tag:</td>
-            <td><select name="tag"  width="185" style="width: 185px">
+            <td><select name="tag"  width="210" style="width: 210px">
                 <option value="">--None--</option>
                 {% for tag in tags %}
                     {% ifequal tag.name title.tag %} 

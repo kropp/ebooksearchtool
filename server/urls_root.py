@@ -67,8 +67,8 @@ urlpatterns = patterns('',
     (r'^discover/subjects/?$', 'views.books_by_tags',
         {'response_type': 'xhtml',}),
         
-    (r'^discover/search/?$', 'views.simple_search'),
-    (r'^discover/extended/?$', 'views.extended_search'),
+    (r'^simple_search/?$', 'views.simple_search'),
+    (r'^extended_search/?$', 'views.extended_search'),
     
     # no book cover available
     (r'^pic/nobookcover/?$', 'views.no_book_cover'),
