@@ -7,6 +7,7 @@ import org.ebooksearchtool.client.model.QueryAnswer;
 import org.ebooksearchtool.client.model.books.Data;
 import org.ebooksearchtool.client.model.settings.Server;
 import org.ebooksearchtool.client.model.settings.Settings;
+import org.ebooksearchtool.client.utils.ControllableThread;
 import org.ebooksearchtool.client.utils.XMLBuilder;
 
 import org.xml.sax.SAXException;
@@ -63,23 +64,20 @@ public class Controller {
 
     public boolean getQueryAnswer(final String[] words) {
 
-        class Downloader implements Runnable {
+        class Downloader extends ControllableThread {
 
             String myServer;
             String myFileName;
             QueryAnswer myAnswer;
             InputStream myStream;
 
-            boolean myIsFinished;
-
             public Downloader(String server, String name) {
                 myServer = server;
                 myFileName = "server" + name + ".xml";
                 myAnswer = new QueryAnswer(myData);
-                myIsFinished = false;
             }
 
-            public void run() {
+            public void execute() {
 
                 if (mySettings.getSupportedServers().get(myServer).isEnabled()) {
                     String adress = new String();
@@ -95,7 +93,7 @@ public class Controller {
 
                         if (myStream == null) {
                             System.out.println("return null");
-                            myIsFinished = true;
+                            setFinished();
                             return;
                         }
 
@@ -107,20 +105,20 @@ public class Controller {
                     } catch (IOException e) {
                         System.out.println("exception in controller");
                         e.printStackTrace();
-                        myIsFinished = true;
+                        setFinished();
                         return;
                     } catch (SAXException e) {
                         e.printStackTrace();
-                        myIsFinished = true;
+                        setFinished();
                         return;
                     } catch (ParserConfigurationException e) {
                         e.printStackTrace();
-                        myIsFinished = true;
+                        setFinished();
                         return;
                     } catch (Exception e) {
                         System.out.println("simple exception in  " + myServer);
                         e.printStackTrace();
-                        myIsFinished = true;
+                        setFinished();
                         return;
                     }
 
@@ -131,7 +129,7 @@ public class Controller {
 
                 }
 
-                myIsFinished = true;
+                setFinished();
 
             }
 
@@ -148,7 +146,7 @@ public class Controller {
                     myStream = connect.getFileFromURL(myFileName);
 
                     if(myStream == null){
-                        myIsFinished = true;
+                        setFinished();
                         return;
                     }
 
@@ -157,20 +155,20 @@ public class Controller {
                     parser.parse(myStream, handler);
                 } catch (IOException e) {
                     e.printStackTrace();
-                    myIsFinished = true;
+                    setFinished();
                     return;
                 } catch (SAXException e) {
                     e.printStackTrace();
-                    myIsFinished = true;
+                    setFinished();
                     return;
                 } catch (ParserConfigurationException e) {
                     e.printStackTrace();
-                    myIsFinished = true;
+                    setFinished();
                     return;
                 } catch (Exception e) {
                     System.out.println("simple exception in  " + myServer);
                     e.printStackTrace();
-                    myIsFinished = true;
+                    setFinished();
                     return;
                 }
 
@@ -179,10 +177,6 @@ public class Controller {
                     getNextPage(myAnswer.getNextPage());
                 }
 
-            }
-
-            public boolean isFinished(){
-                return myIsFinished;
             }
 
             public void closeStream(){

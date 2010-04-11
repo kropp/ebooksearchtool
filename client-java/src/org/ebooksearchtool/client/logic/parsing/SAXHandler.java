@@ -3,6 +3,7 @@ package org.ebooksearchtool.client.logic.parsing;
 import org.ebooksearchtool.client.model.QueryAnswer;
 import org.ebooksearchtool.client.model.books.Book;
 import org.ebooksearchtool.client.model.books.Author;
+import org.ebooksearchtool.client.utils.ControllableThread;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
