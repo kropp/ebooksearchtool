@@ -1,0 +1,10 @@
+{% if bottom_string %}
+<br/><br/><br/><br/>
+<div id='bottom' style="position:bottom:0; text-align: center; ">
+{{bottom_string}}<br/>
+<a href = '{{google_link}}'> Project on google code </a>
+</div>
+
+{% endif %}
+</body>
+</html>

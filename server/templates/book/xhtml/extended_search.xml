@@ -5,5 +5,4 @@
 
 <body>
     {% include 'book/xhtml/extended_search_form.xml' %}
-</body>
-</html>
+

@@ -76,6 +76,7 @@ MIDDLEWARE_CLASSES = (
     
     'django.middleware.doc.XViewMiddleware',
     'spec.external.pagination.middleware.PaginationMiddleware',
+    'middleware.BoottomMiddleware'
 #    'django_authopenid.middleware.OpenIDMiddleware',
 )
 #    'django.middleware.common.CommonMiddleware',

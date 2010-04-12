@@ -24,6 +24,4 @@
 <hr class="space" />
 {% paginate %}  
 {% endif %}
-</body>
-</html>
 

@@ -30,5 +30,4 @@
 <hr class="space" />
 
 {% endfor %}
-</body>
-</html>
+
