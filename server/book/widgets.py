@@ -9,8 +9,9 @@ from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
 from django.contrib.admin.widgets import ManyToManyRawIdWidget
+from django.core.urlresolvers import reverse, NoReverseMatch
 
-from book.models import Book, Author
+from book.models import Book, Author, Annotation
 
 class AuthorWidget(forms.CheckboxSelectMultiple, ManyToManyRawIdWidget):
     """
@@ -28,7 +29,7 @@ class AuthorWidget(forms.CheckboxSelectMultiple, ManyToManyRawIdWidget):
         ################ our logic
         choices = list()        
         for v in value:
-            choices.append((Author.objects.get(id=v).id, Author.objects.get(id=v).name))
+            choices.append((v, Author.objects.get(id=v).name))
 
         ##################
 
@@ -89,3 +90,71 @@ class LanguageWidget(forms.Select):
             else:
                 output.append(render_option(option_value, option_label))
         return u'\n'.join(output)
+
+class AnnotationWidget(forms.CheckboxSelectMultiple, ManyToManyRawIdWidget):
+    """
+    A Widget for displaying ManyToMany annotation in the "raw_id" 
+    interface rather than in a <select multiple> box.
+    """
+
+    def __init__(self, rel, attrs=None):    
+        super(AnnotationWidget, self).__init__(attrs)
+        self.rel = rel
+
+    def render_checkbox(self, name, value, attrs=None, choices=()):
+        if value is None: value = []
+        has_id = attrs and 'id' in attrs
+        final_attrs = self.build_attrs(attrs, name=name)
+        output = [u'<ul>']
+        # Normalize to strings
+        str_values = set([force_unicode(v) for v in value])
+        for i, (option_value, option_label) in enumerate(chain(self.choices, choices)):
+            # If an ID attribute was given, add a numeric index as a suffix,
+            # so that the checkboxes don't all have the same ID attribute.
+            if has_id:
+                final_attrs = dict(final_attrs, id='%s_%s' % (attrs['id'], i))
+                label_for = u' for="%s"' % final_attrs['id']
+            else:
+                label_for = ''
+
+            cb = forms.CheckboxInput(final_attrs, check_test=lambda value: value in str_values)
+            option_value = force_unicode(option_value)
+            rendered_cb = cb.render(name, option_value)
+            option_label = conditional_escape(force_unicode(option_label))
+            output.append(u'<li><label%s ><a href="../../annotation/%s/">%s %s</a></label></li>' % (label_for, option_value, rendered_cb, option_label))
+        output.append(u'</ul>')
+        return mark_safe(u'\n'.join(output))
+
+    def render(self, name, value, attrs=None):
+        ''' overloads base class method render'''
+        attrs['class'] = 'vManyToManyRawIdAdminField'
+        if value is None: value = []
+        ################ our logic
+        choices = list()        
+        for v in value:
+            choices.append((v, Annotation.objects.get(id=v).name))
+
+        ##################
+
+        if attrs is None:
+            attrs = {}
+        
+        related_url = '../../../%s/%s/' % (self.rel.to._meta.app_label, 
+                                        self.rel.to._meta.object_name.lower())
+        params = self.url_parameters()
+        if params:
+            url = '?' + '&amp;'.join(['%s=%s' % (k, v) for k, v in params.items()])
+        else:
+            url = ''
+        if not attrs.has_key('class'):
+            attrs['class'] = 'vForeignKeyRawIdAdminField' 
+
+        ############## our logic for view
+        output = [self.render_checkbox( name, value, attrs, choices)]
+
+        ##############
+
+        if value:
+            output.append(self.label_for_value(value))
+        return mark_safe(u''.join(output))
+

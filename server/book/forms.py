@@ -1,13 +1,16 @@
 '''Defines forms for admin view'''
 # -*- coding: utf-8 -*-
 
-from book.models import Author, Book, Language, BookFile
+from book.models import Author, Book, Language, BookFile, Annotation
 
 from django import forms
 
 from django.db.models.fields.related import ManyToManyRel
 
-from book.widgets import AuthorWidget, LanguageWidget
+from book.widgets import AuthorWidget, LanguageWidget, AnnotationWidget
+
+from django.contrib.admin.widgets import RelatedFieldWidgetWrapper
+from django.contrib.admin.sites import site
 
 CREDIT_CHOICES = (
     ('0', 'DOUBTFUL'),
@@ -27,6 +30,12 @@ class BookForm(forms.ModelForm):
     language = forms.ModelChoiceField(queryset=Language.objects.all(), 
                                         widget=LanguageWidget())
     credit = forms.IntegerField(widget=forms.Select(choices=CREDIT_CHOICES))
+
+    annotation = forms.CharField(widget=RelatedFieldWidgetWrapper(AnnotationWidget
+                                (rel=ManyToManyRel(to=Annotation)), ManyToManyRel
+                                                    (to=Annotation), site))
+    history = forms.Textarea()
+
 
     def save(self, commit=True):
         """

@@ -20,12 +20,12 @@ class OpenTestCase(TestCase):
         print 'status code for open search', response.status_code
         self.failUnlessEqual(response.status_code, 200)
         
-    def test_all_books_xhtml(self):
-        """ tests all books in xhtml"""        
-        client = Client()
-        response = client.get('/all/')
-        print 'status code for all books', response.status_code
-        self.failUnlessEqual(response.status_code, 200)   
+#    def test_all_books_xhtml(self):
+#        """ tests all books in xhtml"""        
+#        client = Client()
+#        response = client.get('/all/')
+#        print 'status code for all books', response.status_code
+#        self.failUnlessEqual(response.status_code, 200)   
 
     def test_all_books_opds(self):
         """ tests all books in opds"""    
@@ -119,8 +119,12 @@ class OpenTestCase(TestCase):
         print 'status code for authors', response.status_code
         self.failUnlessEqual(response.status_code, 200)
 
-        response = client.get('/discover/search')        
-        print 'status code for search', response.status_code
+        response = client.get('/simple_search')        
+        print 'status code for simple search', response.status_code
+        self.failUnlessEqual(response.status_code, 200)
+
+        response = client.get('/extended_search')        
+        print 'status code for extended search', response.status_code
         self.failUnlessEqual(response.status_code, 200)
         
         response = client.get('/discover/languages')        
