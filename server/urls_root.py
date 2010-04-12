@@ -2,11 +2,9 @@ from django.conf.urls.defaults import include
 from django.conf.urls.defaults import patterns
 from django.contrib import admin
 
-from book.views import ACTION, data_modify, who
-from book.search_view import analyzer_view
+from book.views import who, analyzer_view
 
 import views
-
 
 
 urlpatterns = patterns('',
@@ -15,8 +13,8 @@ urlpatterns = patterns('',
         {'response_type': 'xhtml',}),
 
     # interface for analizer/crawler
-    (r'^data/get/?$', data_modify, {'action': ACTION['get'],}),
-    (r'^data/insert/?$', data_modify, {'action': ACTION['insert'],}),
+#    (r'^data/get/?$', data_modify, {'action': ACTION['get'],}),
+#    (r'^data/insert/?$', data_modify, {'action': ACTION['insert'],}),
     (r'^data/?$', who),
     # new interface for analyzer
     (r'^data/search/?$', analyzer_view, {'action': 'SEARCH'},),
