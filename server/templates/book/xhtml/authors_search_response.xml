@@ -18,7 +18,18 @@
 <hr class="space" />
 
 <div class="authors">
-    <a href="author/id{{ auth.id }}" class="author">{{ auth.name }}</a></em>
+    <a style="font-size:15pt;" href="author/id{{ auth.id }}" class="author"><b>{{ auth.name }}</b></a></em><br/>
+    <div class="books"><br/>
+        {% if auth.book_set.all.0%}
+        <a href="book/id{{ auth.book_set.all.0.id }}" class="book">{{ auth.book_set.all.0.title }}</a></em>
+        {% endif %}
+        {% if auth.book_set.all.1%}
+        <a href="book/id{{ auth.book_set.all.1.id }}" class="book">{{ auth.book_set.all.1.title }}</a></em>                
+        {% endif %}
+        {% if auth.book_set.all.2%}
+        <a href="book/id{{ auth.book_set.all.2.id }}" class="book">{{ auth.book_set.all.2.title }}</a></em>        
+        {% endif %}
+    </div>
 </div>
 {% endfor %}  
 <hr class="space" />

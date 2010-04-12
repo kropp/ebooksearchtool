@@ -34,12 +34,13 @@ def author_request(request, author_id, response_type):
         author = Author.objects.get(id=author_id)
     except ObjectDoesNotExist:
         raise Http404
+    books = author.book_set.all()
     if response_type == "atom":
         return render_response(request, 'book/opds/author.xml',
-        {'author': author})
+        {'author': author, 'books': books})
     if response_type == "xhtml":
         return render_response(request, 'book/xhtml/author.xml',
-        {'author': author})
+        {'author': author, 'books': books})
 
 def opensearch_description(request):
     """returns xml open search description"""

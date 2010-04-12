@@ -1,3 +1,4 @@
+{% load pagination_tags %}
 {% include 'book/xhtml/header.xml' %}
 
     <title> {{ author.name }} </title>    
@@ -10,8 +11,9 @@
 <div class="author">
     <h1>{{ author.name }}: </h1>
 </div>
-   
-{% for book in author.book_set.all %}
+
+{% autopaginate books 5%}   
+{% for book in books %}
 
 {% include 'book/xhtml/book_cover.xml' %}
 
@@ -30,4 +32,5 @@
 <hr class="space" />
 
 {% endfor %}
+{% paginate %}
 {% include 'book/xhtml/footer.xml' %}
