@@ -17,10 +17,17 @@ def simple_search(request, response_type, items_per_page, page, start_index):
     """ simple search with query """
     tags = Tag.objects.all().order_by("name")
     query = request.GET['query']
+    
+    if not query:
+        return no_results(request, is_simple = True)
 
     books = SEARCH_ENGINE.simple_search(query)
     
     authors = SEARCH_ENGINE.author_search(author=query, max_length=5)         
+
+    if not books and not authors:
+        return no_results(request, is_simple = True)
+
 
     total = len(books)
     # TODO search in annotation
@@ -48,9 +55,16 @@ def search_in_author(request, lang, tag, response_type, items_per_page, page,
     tags = Tag.objects.all().order_by("name")
     langs = available_languages()
     author = request.GET['author']
+
+    if not author:
+        return no_results(request)
+
     #TODO language in author_search
     authors = SEARCH_ENGINE.author_search(author=author, lang=lang, tag=tag, 
                                             max_length=10)
+    if not authors:
+        return no_results(request)
+
     total = len(authors)
     next = None
     if (total-1)/items_per_page != 0:
@@ -120,6 +134,9 @@ def search_request_to_server(request, response_type, is_all):
     else:
         books = Book.objects.filter(request_to_server).distinct()
 
+    if not books:
+        return no_results(request)
+
     if is_all == "yes":
         books = Book.objects.all()
 
@@ -142,3 +159,7 @@ def search_request_to_server(request, response_type, is_all):
             context_instance=RequestContext(request))
 
 
+def no_results(request, is_simple = False):
+    ''' returns 'no result' message'''
+    return render_response(request, 'book/xhtml/no_results.xml', 
+                                    {'is_simple': is_simple})

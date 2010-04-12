@@ -198,4 +198,4 @@ def render_response(req, *args, **kwargs):
                     {'bottom_string':bottom_string, 'google_link':google_link})
 
     return render_to_response(*args, **kwargs)
-
+    

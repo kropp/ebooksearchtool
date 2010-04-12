@@ -1,0 +1,15 @@
+{% include 'book/xhtml/header.xml' %}
+
+    <title>No results </title>      
+</head>
+
+<body>
+
+{% if is_simple %}
+    {% include 'book/xhtml/simple_search_form.xml' %}
+{% else %}
+    {% include 'book/xhtml/extended_search_form.xml' %}
+{% endif %}
+<hr class="space" /><br/>
+<div style="font-size:15pt;"> There are no results matching your request.</div>
+{% include 'book/xhtml/footer.xml' %}
