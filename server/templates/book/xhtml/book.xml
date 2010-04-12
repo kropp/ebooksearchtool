@@ -54,5 +54,5 @@
 
 </div>
 
-
+{% include 'book/xhtml/footer.xml' %}
 

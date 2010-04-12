@@ -4,12 +4,11 @@
 from django.db.models import Q
 
 from book.models import Book, Tag
-from django.shortcuts import render_to_response
 from django.template import RequestContext
 
 from book.search import SphinxSearchEngine
 
-from views import available_languages
+from views import available_languages, render_response
 
 # type of search engine
 SEARCH_ENGINE = SphinxSearchEngine()
@@ -31,14 +30,14 @@ def simple_search(request, response_type, items_per_page, page, start_index):
         next = page+1
 
     if response_type == "atom":
-        return render_to_response('book/opds/search_response.xml',
+        return render_response(request, 'book/opds/search_response.xml',
             {'books': books[start_index:start_index+items_per_page], 
             'query': query, 'curr': page, 'items_per_page': items_per_page, 
             'total':total, 'next':next, },
             context_instance=RequestContext(request))
         
     if response_type == "xhtml":
-        return render_to_response('book/xhtml/search_response.xml',
+        return render_response(request, 'book/xhtml/search_response.xml',
             {'books': books,'items_per_page': items_per_page, 'query': query,
             'tags': tags, 'authors': authors}, 
             context_instance=RequestContext(request))
@@ -57,12 +56,12 @@ def search_in_author(request, lang, tag, response_type, items_per_page, page,
     if (total-1)/items_per_page != 0:
         next = page+1
     if response_type == "atom":
-        return render_to_response('book/opds/authors_search_response.xml',
+        return render_response(request, 'book/opds/authors_search_response.xml',
             {'authors': authors[start_index:start_index+items_per_page],
             'title': main_title,  'curr': page, 'next':next, 'author': author, 
             'items_per_page':items_per_page, 'total':total })
     if response_type == "xhtml":
-        return render_to_response('book/xhtml/authors_search_response.xml',
+        return render_response(request, 'book/xhtml/authors_search_response.xml',
             {'authors': authors, 'author': author, 
             'items_per_page':items_per_page, 'tags': tags, 'langs':langs}, 
             context_instance=RequestContext(request))
@@ -131,13 +130,13 @@ def search_request_to_server(request, response_type, is_all):
         next = page+1
         
     if response_type == "atom":
-        return render_to_response('book/opds/search_response.xml',
+        return render_response(request, 'book/opds/search_response.xml',
             {'books': books[start_index:start_index+items_per_page],
             'title': main_title,  'curr': page, 'next':next,
             'items_per_page':items_per_page, 'total':total })
         
     if response_type == "xhtml":
-        return render_to_response('book/xhtml/search_response.xml',
+        return render_response(request, 'book/xhtml/search_response.xml',
             {'books': books, 'title': main_title, 
             'items_per_page':items_per_page, 'tags': tags, 'langs':langs}, 
             context_instance=RequestContext(request))

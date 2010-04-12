@@ -14,4 +14,4 @@
 {% endfor %}
 
 
-
+{% include 'book/xhtml/footer.xml' %}

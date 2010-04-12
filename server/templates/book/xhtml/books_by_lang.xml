@@ -13,3 +13,4 @@
 {% endfor %} 
 
 </feed>
+{% include 'book/xhtml/footer.xml' %}

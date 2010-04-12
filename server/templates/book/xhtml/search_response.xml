@@ -82,4 +82,4 @@
 <hr class="space" />
     {% paginate %}
 {% endif %}
-
+{% include 'book/xhtml/footer.xml' %}

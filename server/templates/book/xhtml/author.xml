@@ -30,4 +30,4 @@
 <hr class="space" />
 
 {% endfor %}
-
+{% include 'book/xhtml/footer.xml' %}
