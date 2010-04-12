@@ -57,12 +57,6 @@ def book_title_search(query, author_ids = None, max_length=5):
     query_set = Book.title_search.query(query)
 
     # filter by authors id
-#    if author_ids:
-#        # TODO unexpected behavior!
-#        # filter returns book if intersection of 
-#        # Book.author_id and [query] is not empty
-#        # But i want to get books only when Book.author_id contains [query]
-#        query_set = query_set.filter(author_id=author_ids)
     if author_ids:
         query_set = query_set.filter(author_id=author_ids[0])
 

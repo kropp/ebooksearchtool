@@ -26,6 +26,7 @@ from book.request_check import check_ip, get_xml_request
 
 
 MAIN_LOG = logging.getLogger("main_logger")
+ANALYSER_LOG = logging.getLogger("analyser_logger")
 
 
 def who(request):
@@ -37,7 +38,7 @@ def who(request):
 
 
 def analyzer_view(request, action):
-    "View for analyzer interface"
+    "View for analyser interface"
     try:
 
         messages = []
@@ -69,14 +70,14 @@ def analyzer_view(request, action):
         exception_type, exception_value, exception_traceback = exc_info()
         msg_body = "%s: %s" % (exception_type, exception_value)
         messages.append(('error', msg_body))
-        MAIN_LOG.warning(msg_body)
+        ANALYSER_LOG.warning(msg_body)
 
     except Exception, ex:
+        exception_type, exception_value, exception_traceback = exc_info()
+        msg_body = "%s: %s" % (exception_type, exception_value)
+        MAIN_LOG.exception(ex)
         if not ANALYZER_DEBUG_MODE:
-            exception_type, exception_value, exception_traceback = exc_info()
-            msg_body = "%s: %s" % (exception_type, exception_value)
             messages.append(('error', msg_body))
-            MAIN_LOG.exception(ex)
         else:
             raise
         
