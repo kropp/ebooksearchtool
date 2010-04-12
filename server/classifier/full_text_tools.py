@@ -136,7 +136,6 @@ def read_epub(book):
             link = book_file.link
 
     if link == None:
-        print
         return
     
     webFile = urllib2.urlopen(link)
@@ -151,7 +150,17 @@ def read_epub(book):
     data = file.read('metadata.opf')
 
     beaut_soup = bs.BeautifulSoup(data)
-    author = beaut_soup.find('dc:creator').getText()
+    author_string = beaut_soup.find('dc:creator').getText().lower()
+    ind = author_string.find(" by ")
+    if ind != -1:
+        author_string = author_string[ind+4:]
+    ind = author.find(" translated ")    
+    if ind != -1:
+        author_string = author_string[ind+12:]
+    ind = author.find(" adapted ")    
+    if ind != -1:
+        author_string = author_string[ind+9:]
+
     title = beaut_soup.find('dc:title').getText()    
     return (title, author)
 

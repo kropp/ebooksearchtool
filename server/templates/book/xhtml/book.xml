@@ -44,10 +44,7 @@
                 {% for book_file in book.book_file.all %}
                     <a href="{{ book_file.link }}" class="{{ book_file.type }}">
                     {% if book_file.type %}
-                        {{ book_file.type }}
-                    {% else%}
-                        unrecognized type
-                    {% endif %}</a>&nbsp;
+                        {{ book_file.type }}{% else%}unrecognized type{% endif %}</a>&nbsp;
                 {% endfor %}
                 </h4>
             </div>
