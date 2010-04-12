@@ -98,7 +98,7 @@ public class Controller {
                         }
 
                         Parser parser = new Parser();
-                        SAXHandler handler = new SAXHandler(myAnswer);
+                        SAXHandler handler = new SAXHandler(myAnswer, this);
                         System.out.println("parse  " + adress);
                         parser.parse(myStream, handler);
                         System.out.println("parse is over  " + adress);
@@ -151,7 +151,7 @@ public class Controller {
                     }
 
                     Parser parser = new Parser();
-                    SAXHandler handler = new SAXHandler(myAnswer);
+                    SAXHandler handler = new SAXHandler(myAnswer, this);
                     parser.parse(myStream, handler);
                 } catch (IOException e) {
                     e.printStackTrace();

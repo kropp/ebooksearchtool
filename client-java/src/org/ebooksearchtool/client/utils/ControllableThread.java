@@ -15,6 +15,7 @@ public abstract class ControllableThread extends Thread{
         }
 
         public void run() {
+            setDaemon(true);
             while(!myMasterThread.isInterrupted()){}
             setInterrupted(true);
         }

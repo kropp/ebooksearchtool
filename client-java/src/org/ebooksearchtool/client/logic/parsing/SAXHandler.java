@@ -29,9 +29,19 @@ public class SAXHandler extends DefaultHandler{
 
     Book myCurBook;
 
+    Thread myThread;
+
     public SAXHandler(QueryAnswer answer){
 
         myAnswer = answer;
+        myThread = Thread.currentThread();
+
+    }
+
+    public SAXHandler(QueryAnswer answer, Thread thread){
+
+        myAnswer = answer;
+        myThread = thread;
 
     }
 
@@ -118,10 +128,6 @@ public class SAXHandler extends DefaultHandler{
             myIsSource = true;
         }
 
-        if(Thread.currentThread().isInterrupted()){
-            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            throw new SAXException();
-        }
     }
 
     @Override
@@ -206,11 +212,8 @@ public class SAXHandler extends DefaultHandler{
                 }
             }
         }
-        if(Thread.currentThread().isInterrupted()){
-            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            throw new SAXException();
-        }
     }
+
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException
     {
@@ -293,7 +296,7 @@ public class SAXHandler extends DefaultHandler{
             myAuthorTags.getTags()[i].setStatus(false);    
         }
 
-        if(Thread.currentThread().isInterrupted()){
+        if(myThread.isInterrupted()){
             System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             throw new SAXException();
         }

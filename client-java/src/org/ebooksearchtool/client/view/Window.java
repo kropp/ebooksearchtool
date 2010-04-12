@@ -428,41 +428,7 @@ public class Window implements Observer{
            		}
             }
         };
-        
-    /*    ActionListener setAdress = new ActionListener() {
 
-            public void actionPerformed(ActionEvent e) {
-            	
-				myQuery = new Query(myController.getSettings());
-            	if(myAdress==null){
-                    String queryWord = myQueryField.getText();
-                    String queryOption = (String) myQueryCombo.getSelectedItem();
-                    myAdress = myQuery.getQueryAdress("http://feedbooks.com", queryWord, queryOption);
-                    mySearchLabel.setText(queryOption + ":" + queryWord);
-                    mySearchButton.setEnabled(true);
-                    myEraseButton.setEnabled(true);
-            		myQueryField.setText("");
-            	}else{
-            		String queryWord = myQueryField.getText();
-            		String queryOption = (String)myQueryCombo.getSelectedItem();
-            		myAdress = myQuery.addQueryAdress("http://feedbooks.com", queryWord, queryOption, myAdress);
-            		mySearchLabel.setText(mySearchLabel.getText() + " " + queryOption + ":" + queryWord);
-            		myQueryField.setText("");
-            	}
-            }
-        };
-        
-        ActionListener erase = new ActionListener() {
-            public void actionPerformed(final ActionEvent e) {
-            	
-            	myAdress = null;
-            	mySearchLabel.setText("");
-            	mySearchButton.setEnabled(false);
-            	myEraseButton.setEnabled(false);
-            	
-            }
-        };            */
-        
         ActionListener extSearch = new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
             	
