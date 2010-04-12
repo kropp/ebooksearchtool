@@ -55,6 +55,7 @@ public class Window implements Observer{
     
     private int myBackIndex = 0;
     private int curModelNumber;
+    boolean myIsNewModel = false;
 
     private Controller myController;
     private int myImageWidth;
@@ -465,6 +466,7 @@ public class Window implements Observer{
             			myModel.setValue(8);
             			myProgressBar.setString("Receiving data... 5%");
                         ++curModelNumber;
+                        myIsNewModel = true;
                         myTextPan.removeAll();
                         myBookPanels = new ArrayList<ArrayList<BookPanel>>();
                         myBookPanels.add(new ArrayList<BookPanel>());
@@ -487,7 +489,7 @@ public class Window implements Observer{
                         myController.getQueryAnswer(terms);
                         myModel.setValue(100);
                         myProgressBar.setString("Complete");
-
+                        myIsNewModel = false;
                         /*		myQueryCombo.setSelectedIndex(0);
                               myEraseButton.setEnabled(false);    */
             			myToolDelete.setEnabled(true);
@@ -560,13 +562,15 @@ public class Window implements Observer{
 
     public void appendBook(Book book, DefaultBoundedRangeModel model) {
 
-        if((System.currentTimeMillis() - myTime) > 3000){
-            if (!myController.isModelSaved()) {
-                myController.saveModel();
-            } else {
-                myController.reWriteModel();
+        if (myIsNewModel) {
+            if ((System.currentTimeMillis() - myTime) > 3000) {
+                if (!myController.isModelSaved()) {
+                    myController.saveModel();
+                } else {
+                    myController.reWriteModel();
+                }
+                myTime = System.currentTimeMillis();
             }
-            myTime = System.currentTimeMillis();
         }
 
         myBookPanels.get(myBookPanels.size() - 1).add(new BookPanel(book, myController.getSettings(), model, myController));
