@@ -333,8 +333,8 @@ public class Controller {
     }
     
     public void loadModel(int number){
-    	clearModel();
     	Parser parser;
+        myIsModelSaved = true;
 		        
         try {
         	parser = new Parser();

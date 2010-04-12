@@ -368,6 +368,7 @@ public class Window implements Observer{
             	myBookPanels = new ArrayList<ArrayList<BookPanel>>();
                 myBookPanels.add(new ArrayList<BookPanel>());
                	myController.clearModel();
+                myController.getData().addObserver(Window.this);
                 
                	--curModelNumber;
 				myImageWidth = 0;
@@ -413,7 +414,8 @@ public class Window implements Observer{
             	myBookPanels = new ArrayList<ArrayList<BookPanel>>();
                 myBookPanels.add(new ArrayList<BookPanel>());
                	myController.clearModel();
-                
+                myController.getData().addObserver(Window.this);
+
                	++curModelNumber;
                 myImageWidth = 0;
 				myController.loadModel(curModelNumber);
