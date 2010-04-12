@@ -8,13 +8,14 @@
             <tr>
             <td>Title:</td>
             <td>  <input type="text" style="width: 203px;" name="title" value="{{ title.tit }}"></td>
-            <td><a href="simple_search" rel="simple search">Simple search</a></td>
+            <td><input type="submit" value="Search" ></td>
+            <td>&nbsp;&nbsp;<a href="simple_search" rel="simple search">Simple search</a></td>
             </tr><tr>
             <td>Author:</td> 
             <td> <input type="text" style="width: 203px;" name="author" value="{{ title.author }}"></td>
             </tr><tr>
             <td style="padding-top: 20px;">Language:</td>  
-            <td><select name="lang"  width="210" style="width: 210px" valign="bottom">
+            <td style="padding-top: 20px;"><select name="lang"  width="210" style="width: 210px">
                 <option value="">--None--</option>
                 <option value="en">English</option>
                 <option value="ru">Russian</option>
@@ -33,7 +34,7 @@
 
             </tr><tr>
             <td>Tag:</td>
-            <td><select name="tag"  width="210" style="width: 210px" valign="bottom">
+            <td><select name="tag"  width="210" style="width: 210px">
                 <option value="">--None--</option>
                 {% for tag in tags %}
                     {% ifequal tag.name title.tag %} 
@@ -44,8 +45,7 @@
                 {% endfor %}
                 </select>
             </td>
-             </tr><tr>
-             <td></td><td align="right"><input type="submit" value="Search" ></td>
+             </tr>
         </table>
     </form>
 
