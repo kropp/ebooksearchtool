@@ -3,6 +3,8 @@ from book.models import Book, Tag, Annotation
 
 import pickle
 from read_tools import get_description, read
+from spec.external.BeautifulSoup import BeautifulSoup as bs
+import urllib2
 
 def tag_adding():
     ''' adds tag for books after classifying '''
@@ -113,3 +115,10 @@ def deserialize():
     file_handle.close()
     return pickle_load
 
+def get_beaut_soup(url):
+    ''' reads page and return it's beaut_soup'''
+    opener = urllib2.build_opener()
+    opener.addheaders = [('User-agent', 'Mozilla/5.0')]    
+    infile = opener.open(url)
+    page = infile.read()
+    return bs.BeautifulSoup(page)

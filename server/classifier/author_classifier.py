@@ -1,7 +1,8 @@
 ''' module for find information about authors '''
 
 import urllib2
-from spec.external.BeautifulSoup import BeautifulSoup as bs
+
+from tools import get_beaut_soup
 
 def classify_authors():
     ''' goes throw links list and tries to find 
@@ -21,13 +22,4 @@ def classify_authors():
             if author.find("(") == -1:
                 authors_list.append()
     return authors_list
-
-
-def get_beaut_soup(url):
-    ''' reads page and return it's beaut_soup'''
-    opener = urllib2.build_opener()
-    opener.addheaders = [('User-agent', 'Mozilla/5.0')]    
-    infile = opener.open(url)
-    page = infile.read()
-    return bs.BeautifulSoup(page)
 

@@ -7,6 +7,10 @@ from spec.external.pdfminer.pdfparser import PDFDocument, PDFParser
 
 import random
 
+import urllib2
+import zipfile
+from spec.external.BeautifulSoup import BeautifulSoup as bs
+
 # next functions are not used right now       
 def read_fullbook(b, feed, classif):
     ''' read function for full text of book'''
@@ -123,3 +127,31 @@ def read_pdf(input_file, pages):
     outfp.close()
     return
     
+def read_epub(book):
+    ''' extract information about book title/author from epub '''
+
+    link = None
+    for book_file in book.book_file.all():
+        if book_file.type == "epub":
+            link = book_file.link
+
+    if link == None:
+        print
+        return
+    
+    webFile = urllib2.urlopen(link)
+    filename = "downloads/" + link.split('/')[-1]
+    localFile = open(filename, 'w')
+    localFile.write(webFile.read())
+    webFile.close()
+    localFile.close()
+
+    file = zipfile.ZipFile(filename, "r")
+
+    data = file.read('metadata.opf')
+
+    beaut_soup = bs.BeautifulSoup(data)
+    author = beaut_soup.find('dc:creator').getText()
+    title = beaut_soup.find('dc:title').getText()    
+    return (title, author)
+
