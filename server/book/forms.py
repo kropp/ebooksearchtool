@@ -34,8 +34,6 @@ class BookForm(forms.ModelForm):
     annotation = forms.CharField(widget=RelatedFieldWidgetWrapper(AnnotationWidget
                                 (rel=ManyToManyRel(to=Annotation)), ManyToManyRel
                                                     (to=Annotation), site))
-    history = forms.Textarea()
-
 
     def save(self, commit=True):
         """
