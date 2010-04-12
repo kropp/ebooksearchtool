@@ -3,7 +3,7 @@ from django.conf.urls.defaults import patterns
 from django.contrib import admin
 
 from book.views import ACTION, data_modify, who
-from book.search_view import search_view
+from book.search_view import analyzer_view
 
 import views
 
@@ -19,7 +19,8 @@ urlpatterns = patterns('',
     (r'^data/insert/?$', data_modify, {'action': ACTION['insert'],}),
     (r'^data/?$', who),
     # new interface for analyzer
-    (r'^data/search/?$', search_view,),
+    (r'^data/search/?$', analyzer_view, {'action': 'SEARCH'},),
+    (r'^data/modify/?$', analyzer_view, {'action': 'MODIFY'},),
 
 
     # interface for search

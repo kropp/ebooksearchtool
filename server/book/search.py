@@ -222,7 +222,8 @@ class SphinxSearchEngine(SearchEngine):
                 authors = \
                     Author.soundex_search.query(author_query)[0:max_length]
                 authors_id = [a.id for a in authors]
-                books = books.filter(author_id=authors_id)
+                if authors_id:
+                    books = books.filter(author_id=authors_id)
 
             return books[0:max_length]
 
