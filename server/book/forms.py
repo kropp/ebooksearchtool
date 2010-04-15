@@ -9,9 +9,6 @@ from django.db.models.fields.related import ManyToManyRel
 
 from book.widgets import AuthorWidget, LanguageWidget, AnnotationWidget
 
-from django.contrib.admin.widgets import RelatedFieldWidgetWrapper
-from django.contrib.admin.sites import site
-
 CREDIT_CHOICES = (
     ('0', 'DOUBTFUL'),
     ('1', 'CREDIBLE'),
@@ -31,9 +28,8 @@ class BookForm(forms.ModelForm):
                                         widget=LanguageWidget())
     credit = forms.IntegerField(widget=forms.Select(choices=CREDIT_CHOICES))
 
-    annotation = forms.CharField(widget=RelatedFieldWidgetWrapper(AnnotationWidget
-                                (rel=ManyToManyRel(to=Annotation)), ManyToManyRel
-                                                    (to=Annotation), site))
+    annotation = forms.CharField(widget=AnnotationWidget
+                                (rel=ManyToManyRel(to=Annotation)))
 
     def save(self, commit=True):
         """

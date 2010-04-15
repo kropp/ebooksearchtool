@@ -122,7 +122,7 @@ class AnnotationWidget(forms.CheckboxSelectMultiple, ManyToManyRawIdWidget):
             option_value = force_unicode(option_value)
             rendered_cb = cb.render(name, option_value)
             option_label = conditional_escape(force_unicode(option_label))
-            output.append(u'<li><label%s ><a href="../../annotation/%s/">%s %s</a></label></li>' % (label_for, option_value, rendered_cb, option_label[0:100]+"..."))
+            output.append(u'<li><label%s >%s %s</label></li>' % (label_for, rendered_cb, option_label[0:100]+"..."))
         output.append(u'</ul>')
         return mark_safe(u'\n'.join(output))
 
