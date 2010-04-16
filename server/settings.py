@@ -110,6 +110,7 @@ INSTALLED_APPS = (
     'tests',
     'djangosphinx',
     'spec.external.pagination',
+    'didyoumean',
     #openid
 #    'django_authopenid',
 )
@@ -167,7 +168,7 @@ ANALYZER_DEFAULT_RESULT_LENGTH = 5
 
 # Search engine
 # Max result length
-MAX_RESULT_LENGTH = 1000
+MAX_RESULT_LENGTH = 200
 
 try:
     from local_settings import *

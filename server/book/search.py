@@ -146,6 +146,17 @@ def xml_search(xml):
     return results
         
 
+from UserList import UserList
+
+
+class SearchResult(UserList):
+    
+    def __init__(self, l):
+        UserList.__init__(self, l)
+        self.suggestion = None
+        
+    
+
 class SearchEngine:
     "Abstract class, interface for search engine"
 
@@ -188,8 +199,10 @@ class SphinxSearchEngine(SearchEngine):
                 tag_id = Tag.objects.get(name=tag_query).id
                 authors = authors.filter(tag_id=tag_id)
 
+            search_result = SearchResult(authors[0:max_length])
             # TODO sort by normal weight
-            return authors[0:max_length]
+            return search_result
+
 
     def book_search(self, max_length=MAX_RESULT_LENGTH, **kwargs):
         """
@@ -219,7 +232,8 @@ class SphinxSearchEngine(SearchEngine):
                 if authors_id:
                     books = books.filter(author_id=authors_id)
 
-            return books[0:max_length]
+            search_result = SearchResult(books[0:max_length])
+            return search_result
 
     def simple_search(self, query, max_length=MAX_RESULT_LENGTH, **kwargs):
         """
@@ -244,5 +258,5 @@ class SphinxSearchEngine(SearchEngine):
                 if not book.id in books_id_set:
                     books.append(book)
 
-        return books[0:max_length]
+        return SearchResult(books[0:max_length])
 
