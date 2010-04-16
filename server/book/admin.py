@@ -14,12 +14,8 @@ from django.utils.encoding import force_unicode
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
 
-from book.models import Book, Author, Tag, Annotation, BookFile, BookAnnotaionRel
+from book.models import Book, Author, Tag, Annotation, BookFile
 from book.forms import BookForm, AuthorForm, BookFileForm
-
-class BookAnnotaionRelInline(admin.TabularInline):
-    model = BookAnnotaionRel
-#    extra = 1
 
 class AuthorAdmin(admin.ModelAdmin):
     ''' Admin view for model.Author'''
@@ -40,12 +36,11 @@ class BookAdmin(admin.ModelAdmin):
 
     filter_horizontal = ('tag',)
     fields = ('title', 'author', 'language', 'credit', 'tag')
-    raw_id_fields = ('author',)
+    raw_id_fields = ('author', 'annotation')
 
     search_fields = ('title', 'id')
     list_display = ('title', 'language', 'credit', 'id' )
     list_filter = ('credit',)
-    inlines = (BookAnnotaionRelInline,)
 
     list_per_page = 10
 
