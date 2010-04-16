@@ -24,7 +24,7 @@ class Annotation(models.Model):
     name = models.TextField(max_length=TEXT_LENGTH)
 
     def __unicode__(self):
-        return self.name
+        return '[id %s] %s' % (self.id, self.name)
 
 
 class BookFile(models.Model):

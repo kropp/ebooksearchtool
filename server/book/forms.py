@@ -78,15 +78,23 @@ def save_book(form, instance, fields=None, fail_message='saved',
     cleaned_data = form.cleaned_data
 
     ############### my logic for saving
-    authors_list = cleaned_data.pop('author')
-    authors_list = authors_list[3:-2].split("', u'") # extract id's
 
+
+    authors_list = eval(cleaned_data.pop('author'))
     authors = list()
     for i in authors_list:
         authors.append(int(i))
-
     cleaned_data['author'] = authors
 
+
+    annotations_list = eval(cleaned_data.pop('annotation'))
+    annotations = list()
+    for i in annotations_list:
+        annotations.append(int(i))
+
+    cleaned_data['annotation'] = annotations
+
+    print cleaned_data
     ################
 
     file_field_list = []

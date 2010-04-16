@@ -35,7 +35,7 @@ class BookAdmin(admin.ModelAdmin):
     form = BookForm
 
     filter_horizontal = ('tag',)
-    fields = ('title', 'author', 'language', 'credit', 'tag')
+    fields = ('title', 'author', 'annotation', 'language', 'credit', 'tag')
     raw_id_fields = ('author', 'annotation')
 
     search_fields = ('title', 'id')
