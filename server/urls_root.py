@@ -73,7 +73,7 @@ urlpatterns = patterns('',
     (r'^pic/nobookcover/?$', 'views.no_book_cover'),
     
     #admin
-#    (r'^admin/book/author/(.*)/$', 'book.admin_view.author'),      #my admin view for author
+#    (r'^admin/book/author/(.*)/$', 'book.templatetags.book_tags.author'),      #my admin view for author
 
     (r'^admin/(.*)', admin.site.root),
 #    (r'^admin/doc/', include('django.contrib.admindocs.urls')),

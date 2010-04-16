@@ -1,7 +1,7 @@
 ''' Defines admin view for our model '''
 # -*- coding: utf-8 -*-
 
-import book.admin_view
+import book.templatetags.book_tags
 
 from django.contrib import admin
 
@@ -14,8 +14,12 @@ from django.utils.encoding import force_unicode
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
 
-from book.models import Book, Author, Tag, Annotation, BookFile
+from book.models import Book, Author, Tag, Annotation, BookFile, BookAnnotaionRel
 from book.forms import BookForm, AuthorForm, BookFileForm
+
+class BookAnnotaionRelInline(admin.TabularInline):
+    model = BookAnnotaionRel
+#    extra = 1
 
 class AuthorAdmin(admin.ModelAdmin):
     ''' Admin view for model.Author'''
@@ -35,13 +39,14 @@ class BookAdmin(admin.ModelAdmin):
     form = BookForm
 
     filter_horizontal = ('tag',)
-    fields = ('title', 'author', 'language', 'annotation', 'credit', 'tag')
+    fields = ('title', 'author', 'language', 'credit', 'tag')
     raw_id_fields = ('author',)
 
     search_fields = ('title', 'id')
     list_display = ('title', 'language', 'credit', 'id' )
     list_filter = ('credit',)
-    
+    inlines = (BookAnnotaionRelInline,)
+
     list_per_page = 10
 
 class AnnotationAdmin(admin.ModelAdmin):
@@ -63,6 +68,7 @@ class BookFileAdmin(admin.ModelAdmin):
     list_filter = ('last_check', 'credit', 'type')
     fields = ('link', 'type', 'img_link', 'credit', 'more_info', )
     list_per_page = 10
+
 
 admin.site.register(Book, BookAdmin)
 
