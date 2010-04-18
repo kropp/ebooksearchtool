@@ -110,7 +110,7 @@ INSTALLED_APPS = (
     'tests',
     'djangosphinx',
     'spec.external.pagination',
-    'didyoumean',
+    'queryspell',
     #openid
 #    'django_authopenid',
 )

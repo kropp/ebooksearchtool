@@ -12,20 +12,23 @@ class Dictionary(models.Model):
         pass
 
     def __unicode__(self):
-        return name
+        return self.name
 
 
 class Words(models.Model):
-    word = models.CharField(max_length=WORD_LENGTH, unique=True)
+    word = models.CharField(max_length=WORD_LENGTH)
     trigrams = models.CharField(max_length=TRIGRAM_FIELD_LENGTH)
 
     length = models.IntegerField()
     frequency = models.IntegerField()
     dictionary = models.ForeignKey(Dictionary)
 
+    class Meta:
+        unique_together = ('word', 'dictionary')
+
     def __unicode__(self):
         string = "'%s' [freq %s] [dict %s]" % \
-            self.word, self.length, self.dictionary.name
+            (self.word, self.frequency, self.dictionary.name,)
         return string
 
 
