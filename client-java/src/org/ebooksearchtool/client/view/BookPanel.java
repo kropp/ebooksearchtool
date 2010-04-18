@@ -58,16 +58,18 @@ public class BookPanel implements Comparable {
         }
 
         public void run(){
-            File cover = new File(myName);
-        	if(!cover.exists()){
+            JFileChooser dialog = new JFileChooser();
+            int res = dialog.showSaveDialog(new JFrame());
+            if (res == JFileChooser.APPROVE_OPTION) {
+                File cover = dialog.getSelectedFile();
                 Connector connector = null;
                 try {
                     connector = new Connector(myLink, mySettings);
                 } catch (IOException e) {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
-                connector.getBookFromURL(myName, new DefaultBoundedRangeModel(0, 0, 0, 100));
-        	}
+                connector.getBookFromURL(cover.getName(), new DefaultBoundedRangeModel(0, 0, 0, 100));
+            }
         }
 
     }
@@ -90,6 +92,19 @@ public class BookPanel implements Comparable {
 
     }
 
+    public void getCover(String myName, String myLink) {
+        File cover = new File(myName);
+        if (!cover.exists()) {
+            Connector connector = null;
+            try {
+                connector = new Connector(myLink, mySettings);
+            } catch (IOException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+            connector.getBookFromURL(myName, new DefaultBoundedRangeModel(0, 0, 0, 100));
+        }
+    }
+
     public JPanel getRootPanel(){
         return myRootPanel;
     }
@@ -100,8 +115,7 @@ public class BookPanel implements Comparable {
         myRootPanel.setLayout(new BoxLayout(myRootPanel ,BoxLayout.X_AXIS));
 
         if(myBook.getImage() != null && !"".equals(myBook.getImage()) && !myBook.getImage().equals("None")){
-            FileDownloader fd = new FileDownloader("images" + File.separatorChar + myBook.getTitle().hashCode() + ".jpg", myBook.getImage());
-            fd.run();
+            getCover("images" + File.separatorChar + myBook.getTitle().hashCode() + ".jpg", myBook.getImage());
         }
 
         myImageLable = new JLabel();

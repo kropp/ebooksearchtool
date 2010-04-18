@@ -9,21 +9,26 @@ public abstract class ControllableThread extends Thread{
     class InterruptController implements Runnable{
 
         Thread myMasterThread;
+        Object myMonitor;
 
-        InterruptController(Thread master){
+        InterruptController(Thread master, Object monitor){
             myMasterThread = master;
+            myMonitor = monitor;
         }
 
         public void run() {
-            setDaemon(true);
-            while(!myMasterThread.isInterrupted()){}
-            setInterrupted(true);
+            //setDaemon(true);
+            //while(!myMasterThread.isInterrupted()){}
+            //synchronized (myMonitor){
+            //setInterrupted(true);
+           // }
         }
 
     }
 
     boolean myIsFinished = false;
     boolean myIsInterrupted = false;
+    final Object monitor = new Object();
 
     public void setFinished(){
         myIsFinished = true;
@@ -44,9 +49,11 @@ public abstract class ControllableThread extends Thread{
     abstract public void execute();
 
     public void run(){
-        Thread intCon = new Thread(new InterruptController(Thread.currentThread()));
+        Thread intCon = new Thread(new InterruptController(Thread.currentThread(), monitor));
+        synchronized (monitor){
         intCon.start();
         execute();
+        }
     }
 
 }

@@ -296,6 +296,8 @@ public class SAXHandler extends DefaultHandler{
             myAuthorTags.getTags()[i].setStatus(false);    
         }
 
+                              System.out.println(Thread.currentThread().getId());
+
         if(myThread.isInterrupted()){
             System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             throw new SAXException();

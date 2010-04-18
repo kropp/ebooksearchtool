@@ -14,6 +14,8 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
+import java.nio.channels.InterruptibleChannel;
+import java.nio.channels.spi.AbstractInterruptibleChannel;
 import java.util.concurrent.*;
 
 public class Controller {
@@ -89,6 +91,18 @@ public class Controller {
                         System.out.println("new Connector  " + adress);
                         Connector connect = new Connector(adress, mySettings);
                         System.out.println("get stream " + adress);
+                        class chan implements InterruptibleChannel{
+
+                            public boolean isOpen() {
+                                return false;  //To change body of implemented methods use File | Settings | File Templates.
+                            }
+
+                            public void close() throws IOException {
+                                //To change body of implemented methods use File | Settings | File Templates.
+                            }
+                            
+                        }
+                       // AbstractInterruptibleChannel aic = new AbstractInterruptibleChannel();
                         myStream = connect.getFileFromURL(myFileName);
 
                         if (myStream == null) {
@@ -240,7 +254,7 @@ public class Controller {
 
         try {
             // Wait a while for existing tasks to terminate
-            if (!myThreads.awaitTermination(1, TimeUnit.SECONDS)) {
+            if (!myThreads.awaitTermination(5, TimeUnit.SECONDS)) {
                 myThreads.shutdownNow(); // Cancel currently executing tasks
                 // Wait a while for tasks to respond to being cancelled
                 if (!myThreads.awaitTermination(1, TimeUnit.SECONDS))
@@ -254,22 +268,11 @@ public class Controller {
             //Thread.currentThread().interrupt();
         }
 
-
-        /*synchronized (myData) {
-           for (Thread t : myT) {
-               t.stop();
-               System.out.println("stoped");
-           }
-           myTasks.removeAll(myTasks);
-       }
-       if (myData.getBooks().size() != 0) {
-           saveModel();
-       } */
-
     }
 
     public Thread addTask(Runnable task){
         Thread t = new Thread(task);
+
         myThreads.submit(task);
         //t.start();
         return t;

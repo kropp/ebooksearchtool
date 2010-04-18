@@ -262,7 +262,9 @@ public class Window implements Observer{
 
             public void actionPerformed(ActionEvent e) {
          
-
+                Library lib = new Library(myController);
+                myPanel1.add(lib.getRootPanel(), "Center");
+                myFrame.setVisible(true);
             	
             }
         };
@@ -525,6 +527,7 @@ public class Window implements Observer{
         myToolForward.addActionListener(forward);
         myToolUp.addActionListener(up);
         myToolDown.addActionListener(down);
+        myToolLibrary.addActionListener(library);
         myExtQueryButton.addActionListener(extSearch);
         myToolStop.addActionListener(stop);
 
