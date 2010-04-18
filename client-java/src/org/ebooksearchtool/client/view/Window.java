@@ -263,7 +263,9 @@ public class Window implements Observer{
             public void actionPerformed(ActionEvent e) {
          
                 Library lib = new Library(myController);
+                myCentralPanel = lib.getRootPanel();
                 myPanel1.add(lib.getRootPanel(), "Center");
+
                 myFrame.setVisible(true);
             	
             }
