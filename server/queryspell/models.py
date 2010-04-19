@@ -5,8 +5,17 @@ WORD_LENGTH = 255
 TRIGRAM_LENGTH = 3
 TRIGRAM_FIELD_LENGTH = WORD_LENGTH * (TRIGRAM_LENGTH + 1)
 
+YES_NO_CHOICES = (
+    ('y', 'yes'),
+    ('n', 'no'),
+)
+
 class Dictionary(models.Model):
     name = models.CharField(max_length=DICTIONARY_NAME_LENGTH, unique=True)
+    indexed_status = models.CharField(max_length=1, choices=YES_NO_CHOICES, default='n')
+
+    def is_indexed(self):
+        return self.indexed_status == 1
     
     def correct(self):
         pass

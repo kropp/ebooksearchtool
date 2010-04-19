@@ -2,8 +2,11 @@ import codecs
 
 from django.core.management.base import BaseCommand
 
+import settings
+
 from queryspell.models import Dictionary, Words
 from queryspell.trigram_tool import generate_trigram
+from queryspell.generate_conf import generate_sphinx_conf
 
 class Command(BaseCommand):
     option_list = BaseCommand.option_list
@@ -16,6 +19,8 @@ class Command(BaseCommand):
 
 
     def handle(self, dictname=None, filename=None, **options):
+    
+
         if not dictname:
             print 'You must name dictionary for loading data'
             print self.usage_str
@@ -29,7 +34,9 @@ class Command(BaseCommand):
         error_message = self.__load_data(dictname, filename)
         if error_message:
             print error_message
+            return
             
+        self.__generate_sphinx_conf()
 
 
     def __load_data(self, dictname, filename):
@@ -38,7 +45,6 @@ class Command(BaseCommand):
             print 'Removing old data from dictionary ...'
             Words.objects.filter(dictionary=dictionary).delete()
 
-        line_count = 0
         line = ''
         added_word_count = 0
         try:
@@ -46,8 +52,7 @@ class Command(BaseCommand):
             
             print 'Loading new data ...'
 
-            for line in in_file:
-                line_count += 1
+            for line_count, line in enumerate(in_file):
                 if line:
                     word, freq = line.split()
                     if not word.isdigit():
@@ -58,14 +63,20 @@ class Command(BaseCommand):
                                              length=len(word), frequency=freq, \
                                              dictionary=dictionary)
 
-            in_file.close()
-
         except ValueError, ex:
             return "Error in %s line: bad file format (%s)\n`%s'" % \
                    (line_count, ex, line)
+        finally:
+            in_file.close()
 
-        print 'Complete: %s words loaded into dict' % added_word_count
+        print 'Complete: %s word(s) loaded into dict' % added_word_count
         
 
     def __generate_sphinx_conf(self):
-        pass
+        SPHINX_CONF_FILE = getattr(settings, 'QUERYSPELL_SPHINX_CONF_FILE', \
+                                   './queryspell_sphinx.conf')
+        sphinx_conf_str = generate_sphinx_conf()
+        out_file = codecs.open(SPHINX_CONF_FILE, mode='w', encoding='utf8')
+        out_file.write(sphinx_conf_str)
+        out_file.close()
+            
