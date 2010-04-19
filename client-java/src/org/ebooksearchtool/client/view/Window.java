@@ -2,7 +2,6 @@
 package org.ebooksearchtool.client.view;
 
 import org.ebooksearchtool.client.exec.Controller;
-import org.ebooksearchtool.client.logic.query.Query;
 import org.ebooksearchtool.client.model.books.Book;
 import org.xml.sax.SAXException;
 
@@ -141,7 +140,7 @@ public class Window implements Observer{
         myToolBar.add(myToolSort);
         myToolSort.setEnabled(false);
         myToolLibrary = new JToggleButton(new ImageIcon(getClass().getResource("/ico/library.png")));
-        myToolLibrary.setToolTipText("Library");
+        myToolLibrary.setToolTipText("LibraryPanel");
         myToolBar.add(myToolLibrary);
         myToolStop = new JButton(new ImageIcon(getClass().getResource("/ico/stop_30.gif")));
         myToolStop.setToolTipText("Stop process");
@@ -228,27 +227,6 @@ public class Window implements Observer{
 
         myQueryPlusPanel.setVisible(false);
         
-
-        /*myEraseButton = new JButton("ERASE");
-        myEraseButton.setEnabled(false);
-
-        myQueryButton = new JButton("ADD");
-        myQueryButton.setToolTipText("Add a word to complex request");
-        myQueryPlusPanel.add(Box.createHorizontalStrut(7));
-        myQueryPlusPanel.add(myQueryButton);
-        myQueryButton.setPreferredSize(myEraseButton.getPreferredSize());
-        myQueryButton.setMaximumSize(myEraseButton.getPreferredSize());
-        myQueryButton.setMinimumSize(myEraseButton.getPreferredSize());
-        myQueryPlusPanel.add(Box.createHorizontalStrut(5));
-        myQueryPlusPanel.add(myEraseButton);
-        myQueryPlusPanel.add(Box.createHorizontalStrut(5));
-
-        myQueryPlusPanel.add(Box.createHorizontalStrut(15));
-        mySearchButton.setAlignmentX(Component.LEFT_ALIGNMENT);
-        mySearchLabel = new JLabel();
-        myQueryPlusPanel.add(mySearchLabel);
-        myQueryPlusPanel.setVisible(false);*/
-    	
     	myTextPan = new JPanel();
     	BoxLayout box = new BoxLayout(myTextPan, BoxLayout.Y_AXIS);
     	myTextPan.setLayout(box);
@@ -270,16 +248,16 @@ public class Window implements Observer{
 
             public void itemStateChanged(ItemEvent e) {
 
-                if(myToolLibrary.isSelected()){
-                myPanel1.remove(myCentralPanel);
-                Library lib = new Library(myController);
-                myCentralPanel = lib.getRootPanel();
-                myPanel1.add(myCentralPanel, "Center");
-                }else{
+                if (myToolLibrary.isSelected()) {
+                    myPanel1.remove(myCentralPanel);
+                    LibraryPanel lib = new LibraryPanel(myController);
+                    myCentralPanel = lib.getRootPanel();
+                    myPanel1.add(myCentralPanel, "Center");
+                } else {
                     showSearch();
                 }
                 myFrame.setVisible(true);
-            	
+
             }
         };
 
@@ -391,10 +369,10 @@ public class Window implements Observer{
 				myImageWidth = 0;
                 myController.loadModel(curModelNumber);
 
-				myMorePanel.setVisible(false);
+				/*myMorePanel.setVisible(false);
            		if(curModelNumber == 0){
            			myToolUp.setEnabled(false);
-           		}
+           		}*/
            		if(curModelNumber < myController.getRequestCount()-1){
            			myToolDown.setEnabled(true);
            		}
@@ -438,10 +416,10 @@ public class Window implements Observer{
 				myController.loadModel(curModelNumber);
 
 
-				myMorePanel.setVisible(false);
+				/*myMorePanel.setVisible(false);
 				if(curModelNumber > 0){
 					myToolUp.setEnabled(true);
-				}
+				}*/
 				if(curModelNumber == myController.getRequestCount()-1){
            			myToolDown.setEnabled(false);
            		}
@@ -470,15 +448,17 @@ public class Window implements Observer{
             	Thread process = new Thread(new Runnable() {
             		public void run() {
 
-                        myMorePanel.setVisible(false);
+                        System.out.println("act");
+
+                        //myMorePanel.setVisible(false);
                         //myController.stopProcesses();
 
                         myToolStop.setEnabled(true);
-
+                        System.out.println("act");
             			myModel.setValue(0);
             			myProgressBar.setString("Sending request... 0%");
             			myModel.setValue(5);
-            			
+            			System.out.println("act");
             			myModel.setValue(8);
             			myProgressBar.setString("Receiving data... 5%");
                         ++curModelNumber;

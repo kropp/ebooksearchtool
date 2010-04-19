@@ -304,6 +304,8 @@ public class BookPanel implements Comparable {
 
         myLibButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                myController.addToLibrary(myBook);
+                myController.saveLibrary();
                 myLibButton.setEnabled(false);
                 myRootPanel.setVisible(true);
             }

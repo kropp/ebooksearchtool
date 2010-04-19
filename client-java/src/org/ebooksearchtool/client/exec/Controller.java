@@ -4,7 +4,9 @@ import org.ebooksearchtool.client.connection.Connector;
 import org.ebooksearchtool.client.logic.parsing.*;
 import org.ebooksearchtool.client.logic.query.Query;
 import org.ebooksearchtool.client.model.QueryAnswer;
+import org.ebooksearchtool.client.model.books.Book;
 import org.ebooksearchtool.client.model.books.Data;
+import org.ebooksearchtool.client.model.books.Shelf;
 import org.ebooksearchtool.client.model.settings.Server;
 import org.ebooksearchtool.client.model.settings.Settings;
 import org.ebooksearchtool.client.utils.ControllableThread;
@@ -17,10 +19,12 @@ import java.io.*;
 import java.nio.channels.InterruptibleChannel;
 import java.nio.channels.spi.AbstractInterruptibleChannel;
 import java.util.concurrent.*;
+import java.util.HashMap;
 
 public class Controller {
 
     Data myData;
+    Data myLibrary;
     Settings mySettings;
     int myRequestCount;
     boolean myIsModelSaved;
@@ -31,6 +35,7 @@ public class Controller {
         //SAXParserTest.test();
         myThreads = Executors.newCachedThreadPool();
         myData = new Data();
+        myLibrary = new Data();
         mySettings = new Settings();
 
         File images = new File("images");
@@ -47,6 +52,14 @@ public class Controller {
         		answer.delete();
         		break;
         	}
+        }
+
+        File lib = new File("library.xml");
+        if (lib.exists()) {
+            Parser parser = new Parser();
+            QueryAnswer answer = new QueryAnswer(myLibrary);
+            SAXHandler handler = new SAXHandler(answer);
+            parser.parse("library.xml", handler);
         }
 
         try {
@@ -297,6 +310,14 @@ public class Controller {
     public Data getData(){
         return myData;
     }
+
+    public Data getLibrary(){
+        return myLibrary;
+    }
+
+    public void addToLibrary(Book book){
+        myLibrary.addBook(book);
+    }
     
     public void saveModel(){
         System.out.println("save");
@@ -323,6 +344,11 @@ public class Controller {
     	builder.makeXML(myData, Integer.toString(myRequestCount)+".xml");
     	++myRequestCount;
         myIsModelSaved = true;
+    }
+
+    public void saveLibrary(){
+        XMLBuilder builder = new XMLBuilder();
+        builder.makeXML(myLibrary, "library.xml");
     }
 
     public void reWriteModel(){
