@@ -1,13 +1,16 @@
 
 import sys
 import codecs
+from commands import getstatusoutput
 from optparse import make_option
 
 from django.core.management.base import BaseCommand
 from django.core.exceptions import ObjectDoesNotExist
 
+import settings
 from queryspell.models import Dictionary, Words
 from queryspell.trigram_tool import generate_trigram
+from queryspell.generate_conf import generate_sphinx_conf
 
 class Command(BaseCommand):
     option_list = BaseCommand.option_list + (
@@ -97,6 +100,7 @@ class Command(BaseCommand):
             for line_count, line in enumerate(in_file):
                 if line:
                     word, freq = line.split()
+                    # TODO add process function, for checking word
                     if not word.isdigit():
                         added_word_count += 1
                         word = word.lower()
@@ -119,15 +123,41 @@ class Command(BaseCommand):
 
     def __generate_sphinx_conf(self):
         # TODO catch IOError
-        SPHINX_CONF_FILE = getattr(settings, 'QUERYSPELL_SPHINX_CONF_FILE', \
-                                   './queryspell_sphinx.conf')
+        QUERYSPELL_SPHINX_CONF_FILE = getattr(settings, \
+            'QUERYSPELL_SPHINX_CONF_FILE', './queryspell_sphinx.conf')
         sphinx_conf_str = generate_sphinx_conf()
-        out_file = codecs.open(SPHINX_CONF_FILE, mode='w', encoding='utf8')
+        out_file = codecs.open(QUERYSPELL_SPHINX_CONF_FILE, mode='w', \
+                               encoding='utf8')
         out_file.write(sphinx_conf_str)
         out_file.close()
             
 
     def __index(self):
+        print 'Generating conf file ...'
         self.__generate_sphinx_conf()
+        QUERYSPELL_SPHINX_CONF_FILE = getattr(settings, \
+            'QUERYSPELL_SPHINX_CONF_FILE', './queryspell_sphinx.conf')
+        SPHINX_INDEXER = getattr(settings, 'SPHINX_INDEXER', \
+                                 '/usr/local/bin/indexer')
+        SPHINX_SEARCHD = getattr(settings, 'SPHINX_SEARCHD', \
+                                 '/usr/local/bin/searchd')
+        cmd_str = "%s -c %s --all --rotate" % (SPHINX_INDEXER, QUERYSPELL_SPHINX_CONF_FILE,)
+        print 'Indexing data ...'
+        print cmd_str
+        status, message = getstatusoutput(cmd_str)
 
-        pass
+        if status:
+            print >> sys.stderr, "Error: %s" % message
+            return
+
+        print 'Starting search daemon ...'
+        cmd_str = "%s -c %s" % (SPHINX_SEARCHD, QUERYSPELL_SPHINX_CONF_FILE,)
+        print cmd_str
+        status, message = getstatusoutput(cmd_str)
+        if status:
+            print >> sys.stderr, "Error: %s" % message
+            return
+        print "Ok"
+
+
+
