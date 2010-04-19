@@ -1,6 +1,11 @@
 {% if book.language.short %}
-    <h4 class="language">Language: <em><a href="search?lang={{ book.language.short }}">{{ book.language.short }}</a></em>
+    {% ifequal book.language.short "?"%}
+        <h4 class="language">Language: <em>{{ book.language.short }}</em>
+        </h4>
+    {% else %}
+    <h4 class="language">Language: <em><a href="../search?lang={{ book.language.short }}">{{ book.language.short }}</a></em>
     </h4>
+    {% endifequal %}
 {% endif %}
 
 {% if book.tag.all %}
