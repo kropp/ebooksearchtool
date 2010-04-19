@@ -11,7 +11,7 @@ from django.utils.safestring import mark_safe
 from django.contrib.admin.widgets import ManyToManyRawIdWidget
 from django.core.urlresolvers import reverse, NoReverseMatch
 
-from book.models import Book, Author, Annotation
+from book.models import Book, Author, Annotation, Language
 
 class AuthorWidget(forms.CheckboxSelectMultiple, ManyToManyRawIdWidget):
     """
@@ -67,19 +67,34 @@ class LanguageWidget(forms.Select):
 
     def render_options(self, choices, selected_choices):
         ''' overloads base class method render_options'''
-        def render_option(option_value, option_label):
+        def render_option(option_value, option_label, is_selected):
             ''' returns 'option' for each language in data base'''
             option_value = force_unicode(option_value)
             selected_html = (option_value in selected_choices) and u' selected="selected"' or ''
+            if is_selected:
+                selected_html = ''
             return u'<option value="%s"%s>%s</option>' % (
                 escape(option_value), selected_html,
                 conditional_escape(force_unicode(option_label)))
         # Normalize to strings.
+        is_selected = False
         selected_choices = set([force_unicode(v) for v in selected_choices])
         output = []
-        output.append(render_option(694, '[ru] Russian'))
-        output.append(render_option(596, '[en] English'))
-        output.append(render_option(606, '[fr] French'))
+
+        lang_id = str(Language.objects.get(short='ru').id)
+        output.append(render_option(lang_id, '[ru] Russian', is_selected))
+        if lang_id in selected_choices:
+            is_selected = True
+
+        lang_id = str(Language.objects.get(short='en').id)
+        output.append(render_option(lang_id, '[en] English', is_selected))
+        if lang_id in selected_choices:
+            is_selected = True
+    
+        lang_id = str(Language.objects.get(short='fr').id)
+        output.append(render_option(lang_id, '[fr] French', is_selected))
+        if lang_id in selected_choices:
+            is_selected = True
 
         for option_value, option_label in chain(self.choices, choices):
             if isinstance(option_label, (list, tuple)):
@@ -89,7 +104,7 @@ class LanguageWidget(forms.Select):
                     output.append(render_option(*option))
                 output.append(u'</optgroup>')
             else:
-                output.append(render_option(option_value, option_label))
+                output.append(render_option(option_value, option_label, is_selected))
         return u'\n'.join(output)
 
 class AnnotationWidget(forms.CheckboxSelectMultiple, ManyToManyRawIdWidget):
