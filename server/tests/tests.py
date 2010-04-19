@@ -27,12 +27,12 @@ class OpenTestCase(TestCase):
 #        print 'status code for all books', response.status_code
 #        self.failUnlessEqual(response.status_code, 200)   
 
-    def test_all_books_opds(self):
-        """ tests all books in opds"""    
-        client = Client()
-        response = client.get('/all.atom/')
-        print 'status code for all books in opds', response.status_code
-        self.failUnlessEqual(response.status_code, 200)         
+#    def test_all_books_opds(self):
+#        """ tests all books in opds"""    
+#        client = Client()
+#        response = client.get('/all.atom/')
+#        print 'status code for all books in opds', response.status_code
+#        self.failUnlessEqual(response.status_code, 200)         
 
     def test_catalog_xhtml(self):
         """ tests catalog response in xhtml"""

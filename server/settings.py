@@ -67,15 +67,15 @@ TEMPLATE_LOADERS = (
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.cache.CacheMiddleware',
+
 
     'django.middleware.transaction.TransactionMiddleware',
     
-    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     
     'django.middleware.doc.XViewMiddleware',
     'spec.external.pagination.middleware.PaginationMiddleware',
+    'django.middleware.cache.CacheMiddleware',
 #    'django_authopenid.middleware.OpenIDMiddleware',
 )
 #    'django.middleware.common.CommonMiddleware',
