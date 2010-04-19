@@ -5,4 +5,8 @@
 
     <link type="application/opensearchdescription+xml" rel="search" title="Open Search Description" href="/opensearch"/>
 
+    <author>
+        <name>Ebook Search Tool</name>
+    </author>
+
 {# add feed entry and close feed #}
