@@ -1,7 +1,8 @@
+from math import log10
+
 from djangosphinx.models import SphinxSearch
 
 from django.db import models
-
 from queryspell.trigram_tool import generate_trigram
 
 DICTIONARY_NAME_LENGTH = 255
@@ -17,22 +18,25 @@ YES_NO_CHOICES = (
 class Dictionary(models.Model):
     name = models.CharField(max_length=DICTIONARY_NAME_LENGTH, unique=True)
     indexed_status = models.CharField(max_length=1, choices=YES_NO_CHOICES, default='n')
-
-    def is_indexed(self):
-        return self.indexed_status == 1
     
     def correct(self, query):
+#        def cal_weight(base_length, word):
+#            weight = word._sphinx['weight'] + 2 - abs(base_length - len(word.word)) + log10(word._sphinx['attrs']['frequency'])
+#            return weight
+
         trigrams = u' '.join(generate_trigram(query))
         query_length = len(query)
-        print trigrams
         query_extended = '"%s"/2' % trigrams
+
         results = Words.search.query(query_extended)
         results = results.filter(dict_id=self.id)
-        #results = results.order_by('@weight', '-frequency')
-        #results = results.order_by('@weight')
+        results = results.filter(length=range(query_length-2, query_length+3))
+        #results = list(results)
+        #results.sort(lambda x, y: \
+        #    cmp(cal_weight(query_length, y), cal_weight(query_length, x)))
+
         return results
         
-
     def __unicode__(self):
         return self.name
 

@@ -5,7 +5,7 @@ from django.template import Context, Template
 import settings
 from queryspell.models import Dictionary, Words
 
-def generate_sphinx_conf():
+def generate_sphinx_conf(only_index=False):
     path = os.path.join(os.path.dirname(__file__), 'templates/')
     name = 'sphinx.conf'
 
@@ -21,7 +21,8 @@ def generate_sphinx_conf():
         context = {
             'table_name': Words._meta.db_table,
             'dict_id_column': dict_id_column.column,
-            'dict': 'queryspell_index',
+            'index': getattr(settings, 'QUERYSPELL_INDEX', 'queryspell_index'),
+            'only_index': only_index,
         }
         context.update({
             'SPHINX_HOST': getattr(settings, 'SPHINX_HOST', '127.0.0.1'),

@@ -14,8 +14,10 @@ from queryspell.generate_conf import generate_sphinx_conf
 
 class Command(BaseCommand):
     option_list = BaseCommand.option_list + (
-        make_option('--list', action='store_true', dest='list', default=False,
-            help='Show all dictionaries'),
+        make_option('--only-index', action='store_true', dest='only_index',
+            default=False, help='Generate sphinx conf only for source and index'),
+        make_option('--stdout', action='store_true', dest='to_stdout',
+            default=False, help='Print sphinx conf to std out instead file'),
         )
     args = "[action [dictname]]"
     
@@ -42,7 +44,7 @@ class Command(BaseCommand):
                 return
             self.__load_data(dictname, filename)
         elif action == 'index':
-            self.__index()
+            self.__index(options['only_index'], options['to_stdout'])
 
 
     def __show_dict(self, dictname):
@@ -121,20 +123,24 @@ class Command(BaseCommand):
         print 'Complete: %s word(s) loaded into dictionary' % added_word_count
 
 
-    def __generate_sphinx_conf(self):
+    def __generate_sphinx_conf(self, only_index, to_stdout):
         # TODO catch IOError
-        QUERYSPELL_SPHINX_CONF_FILE = getattr(settings, \
-            'QUERYSPELL_SPHINX_CONF_FILE', './queryspell_sphinx.conf')
-        sphinx_conf_str = generate_sphinx_conf()
-        out_file = codecs.open(QUERYSPELL_SPHINX_CONF_FILE, mode='w', \
-                               encoding='utf8')
-        out_file.write(sphinx_conf_str)
-        out_file.close()
+        sphinx_conf_str = generate_sphinx_conf(only_index)
+        if to_stdout:
+            print sphinx_conf_str
+        else:
+            QUERYSPELL_SPHINX_CONF_FILE = getattr(settings, \
+                'QUERYSPELL_SPHINX_CONF_FILE', './queryspell_sphinx.conf')
+            out_file = codecs.open(QUERYSPELL_SPHINX_CONF_FILE, mode='w', \
+                                   encoding='utf8')
+            out_file.write(sphinx_conf_str)
+            out_file.close()
+
             
 
-    def __index(self):
+    def __index(self, only_index, to_stdout):
         print 'Generating conf file ...'
-        self.__generate_sphinx_conf()
+        self.__generate_sphinx_conf(only_index, to_stdout)
         QUERYSPELL_SPHINX_CONF_FILE = getattr(settings, \
             'QUERYSPELL_SPHINX_CONF_FILE', './queryspell_sphinx.conf')
         SPHINX_INDEXER = getattr(settings, 'SPHINX_INDEXER', \
@@ -150,13 +156,13 @@ class Command(BaseCommand):
             print >> sys.stderr, "Error: %s" % message
             return
 
-        print 'Starting search daemon ...'
-        cmd_str = "%s -c %s" % (SPHINX_SEARCHD, QUERYSPELL_SPHINX_CONF_FILE,)
-        print cmd_str
-        status, message = getstatusoutput(cmd_str)
-        if status:
-            print >> sys.stderr, "Error: %s" % message
-            return
+#        print 'Starting search daemon ...'
+#        cmd_str = "%s -c %s" % (SPHINX_SEARCHD, QUERYSPELL_SPHINX_CONF_FILE,)
+#        print cmd_str
+#        status, message = getstatusoutput(cmd_str)
+#        if status:
+#            print >> sys.stderr, "Error: %s" % message
+#            return
         print "Ok"
 
 
