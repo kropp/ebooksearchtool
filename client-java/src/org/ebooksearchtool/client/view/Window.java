@@ -246,13 +246,13 @@ public class Window implements Observer{
     	myTextPan.setLayout(box);
         myCentralPanel.add(new JScrollPane(myTextPan), "Center");
 
-        myMorePanel = new JPanel(new FlowLayout());
+        /*myMorePanel = new JPanel(new FlowLayout());
         myMoreButton = new JButton("More books");
         myNumberInfo = new JLabel();
         myMorePanel.add(myMoreButton);
         myMorePanel.add(myNumberInfo);
         myMorePanel.setVisible(false);
-        myCentralPanel.add(myMorePanel, "South");
+        myCentralPanel.add(myMorePanel, "South");*/
         
         myProgressBar = new JProgressBar(myModel);
         myProgressBar.setStringPainted(true);
@@ -261,11 +261,13 @@ public class Window implements Observer{
         ActionListener library = new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-         
+
+                myPanel1.remove(myCentralPanel);
                 Library lib = new Library(myController);
                 myCentralPanel = lib.getRootPanel();
-                myPanel1.add(lib.getRootPanel(), "Center");
 
+                myPanel1.add(myCentralPanel, "Center");
+                //myPanel1.repaint();
                 myFrame.setVisible(true);
             	
             }

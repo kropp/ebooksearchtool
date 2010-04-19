@@ -7,6 +7,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
+import java.awt.*;
 
 /**
  * Date: 18.04.2010
@@ -41,6 +42,8 @@ public class Library {
         tree.setAlignmentX(JTree.LEFT_ALIGNMENT);
         //tree.setPreferredSize(myRootPanel.getSize());
         tree.setModel(model);
+
+        myRootPanel.setLayout(new GridLayout());
         myRootPanel.add(tree);
 
     }
