@@ -4,6 +4,7 @@
 from book.models import Author, Book, Language, BookFile, Annotation
 
 from django import forms
+from django.forms.widgets import RadioInput
 
 from django.db.models.fields.related import ManyToManyRel
 
@@ -26,7 +27,7 @@ class BookForm(forms.ModelForm):
                                             label='Authors') #TODO help_text
     language = forms.ModelChoiceField(queryset=Language.objects.all(), 
                                         widget=LanguageWidget())
-    credit = forms.IntegerField(widget=forms.Select(choices=CREDIT_CHOICES))
+    credit = forms.IntegerField(widget=forms.RadioSelect(choices=CREDIT_CHOICES))
 
     annotation = forms.CharField(widget=AnnotationWidget
                                 (rel=ManyToManyRel(to=Annotation)))
