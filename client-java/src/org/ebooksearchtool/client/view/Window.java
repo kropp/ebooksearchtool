@@ -50,6 +50,9 @@ public class Window implements Observer{
     private JButton myToolDown;
     JButton myToolStop;
 
+    ItemListener myLibraryLis;
+    ActionListener myStopLis, mySortLis, myDeleteLis, myUpLis, myBackLis, myDownLis, myForwardLis, myActLis;
+
     final DefaultBoundedRangeModel myModel = new DefaultBoundedRangeModel(0, 0, 0, 100);
     
     private ArrayList<ArrayList<BookPanel>> myBookPanels = new ArrayList<ArrayList<BookPanel>>();
@@ -83,32 +86,7 @@ public class Window implements Observer{
         myFrame.setContentPane(myPanel1);
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        showSearch();
-
-    }
-
-    public void showSearch(){
-
         myPanel1.setLayout(new BorderLayout());
-        myCentralPanel = new JPanel(new BorderLayout());
-        myPanel1.add(myCentralPanel, "Center");
-
-
-        myQueryPanel = new JPanel();
-        myQueryPanel.setLayout(new BoxLayout(myQueryPanel,BoxLayout.Y_AXIS));
-    	myQueryButtonPanel = new JPanel();
-    	myQueryButtonPanel.setLayout(new BoxLayout(myQueryButtonPanel,BoxLayout.X_AXIS));
-        myQueryPlusPanel = new JPanel();
-        myQueryPlusPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0)/*BoxLayout(myQueryPlusPanel,BoxLayout.X_AXIS)*/);
-
-        myQueryPanel.add(Box.createVerticalStrut(5));
-        myQueryPanel.add(myQueryButtonPanel);
-        myQueryPanel.add(Box.createVerticalStrut(5));
-        myQueryPanel.add(myQueryPlusPanel);
-        myQueryPanel.add(Box.createVerticalStrut(5));
-    	myCentralPanel.add(myQueryPanel, "North");
-
-        
 
         myToolBar = new JToolBar();
         myToolUp = new JButton(new ImageIcon(getClass().getResource("/ico/up.png")));
@@ -147,6 +125,300 @@ public class Window implements Observer{
         myToolBar.add(myToolStop);
         myToolStop.setEnabled(false);
         myPanel1.add(myToolBar, "North");
+
+        myLibraryLis = new ItemListener() {
+
+            public void itemStateChanged(ItemEvent e) {
+
+                if (myToolLibrary.isSelected()) {
+                    System.out.println("library");
+                    myPanel1.remove(myCentralPanel);
+                    LibraryPanel lib = new LibraryPanel(myController, myModel);
+                    myCentralPanel = lib.getRootPanel();
+                    myPanel1.add(myCentralPanel, "Center");
+                } else {
+                    System.out.println("search");
+                    myPanel1.remove(myCentralPanel);
+                    showSearch();
+                }
+                myFrame.setVisible(true);
+
+            }
+        };
+
+        myStopLis = new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+
+                myController.stopProcesses();
+                myToolStop.setEnabled(false);
+
+            }
+        };
+
+        mySortLis = new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+
+                if(myBookPanels != null){
+                	ArrayList<BookPanel> newView;
+                	newView = (ArrayList<BookPanel>)(myBookPanels.get(myBackIndex).clone());
+                	for(int i = myBackIndex + 1; i < myBookPanels.size(); ++i){
+                		myBookPanels.remove(i);
+                	}
+
+                	myBookPanels.add(newView);
+            		Collections.sort(myBookPanels.get(myBookPanels.size()-1));
+            	}
+
+                myTextPan.removeAll();
+
+                for(int i = 0; i < myBookPanels.get(myBookPanels.size()-1).size(); ++i){
+                    JPanel bookPan = myBookPanels.get(myBookPanels.size()-1).get(i).getRootPanel();
+            		myTextPan.add(bookPan);
+            		bookPan.setVisible(true);
+            		myFrame.setVisible(true);
+                }
+                myToolBack.setEnabled(true);
+                myToolForward.setEnabled(false);
+                ++myBackIndex;
+
+            }
+        };
+
+        myDeleteLis = new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+            	if(myBookPanels != null){
+            		ArrayList<BookPanel> newView;
+            		newView = (ArrayList)(myBookPanels.get(myBackIndex).clone());
+            		for(int i = myBackIndex + 1; i < myBookPanels.size(); ++i){
+                		myBookPanels.remove(i);
+                	}
+            		myBookPanels.add(newView);
+
+            		myTextPan.removeAll();
+
+            		for(int i = 0; i < myBookPanels.get(myBookPanels.size()-1).size(); ++i){
+            			if(myBookPanels.get(myBookPanels.size()-1).get(i).isSelected()){
+            				myBookPanels.get(myBookPanels.size()-1).remove(i);
+            				--i;
+            			}
+            		}
+            		for(int i = 0; i < myBookPanels.get(myBookPanels.size()-1).size(); ++i){
+                        JPanel bookPan = myBookPanels.get(myBookPanels.size()-1).get(i).getRootPanel();
+                		myTextPan.add(bookPan);
+                		bookPan.setVisible(true);
+                		myFrame.setVisible(true);
+                    }
+            	}
+            	myToolBack.setEnabled(true);
+            	myToolForward.setEnabled(false);
+            	++myBackIndex;
+            }
+        };
+
+        myBackLis = new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+
+            	myTextPan.removeAll();
+
+           		for(int i = 0; i < myBookPanels.get(myBackIndex-1).size(); ++i){
+           			JPanel bookPan = myBookPanels.get(myBackIndex-1).get(i).getRootPanel();
+           			myTextPan.add(bookPan);
+            		bookPan.setVisible(true);
+            		myFrame.setVisible(true);
+           		}
+           		myTextPan.updateUI();
+           		--myBackIndex;
+           		if(myBackIndex == 0){
+           			myToolBack.setEnabled(false);
+           		}
+           		myToolForward.setEnabled(true);
+            }
+        };
+
+        myUpLis = new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+
+            	myTextPan.removeAll();
+
+            	myBookPanels = new ArrayList<ArrayList<BookPanel>>();
+                myBookPanels.add(new ArrayList<BookPanel>());
+               	myController.clearModel();
+                myController.getData().addObserver(Window.this);
+
+               	--curModelNumber;
+				myImageWidth = 0;
+                myController.loadModel(curModelNumber);
+
+				/*myMorePanel.setVisible(false);
+           		if(curModelNumber == 0){
+           			myToolUp.setEnabled(false);
+           		}*/
+           		if(curModelNumber < myController.getRequestCount()-1){
+           			myToolDown.setEnabled(true);
+           		}
+            }
+        };
+
+        myForwardLis = new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+
+            	myTextPan.removeAll();
+
+           		for(int i = 0; i < myBookPanels.get(myBackIndex+1).size(); ++i){
+           			JPanel bookPan = myBookPanels.get(myBackIndex+1).get(i).getRootPanel();
+           			myTextPan.add(bookPan);
+            		bookPan.setVisible(true);
+            		myFrame.setVisible(true);
+           		}
+           		myTextPan.updateUI();
+           		++myBackIndex;
+           		if(myBackIndex == myBookPanels.size() - 1){
+           			myToolForward.setEnabled(false);
+           		}
+           		myToolBack.setEnabled(true);
+            }
+        };
+
+        myDownLis = new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+
+            	myTextPan.removeAll();
+
+            	myBookPanels = new ArrayList<ArrayList<BookPanel>>();
+                myBookPanels.add(new ArrayList<BookPanel>());
+               	myController.clearModel();
+                myController.getData().addObserver(Window.this);
+
+               	++curModelNumber;
+                myImageWidth = 0;
+				myController.loadModel(curModelNumber);
+
+				if(curModelNumber == myController.getRequestCount()-1){
+           			myToolDown.setEnabled(false);
+           		}
+            }
+        };
+
+        ActionListener extSearch = new ActionListener() {
+            public void actionPerformed(final ActionEvent e) {
+
+            	if(myQueryPlusPanel.isVisible()){
+            		myQueryPlusPanel.setVisible(false);
+                    myQueryField.setEnabled(true);
+            		//myQueryCombo.setSelectedIndex(0);
+            	}else{
+            		myQueryPlusPanel.setVisible(true);
+                    myQueryField.setEnabled(false);
+            	}
+
+            }
+        };
+
+
+        myActLis = new ActionListener() {
+            public void actionPerformed(final ActionEvent e) {
+
+            	Thread process = new Thread(new Runnable() {
+            		public void run() {
+
+                        System.out.println("act");
+
+                        //myMorePanel.setVisible(false);
+                        //myController.stopProcesses();
+
+                        myToolStop.setEnabled(true);
+                        System.out.println("act");
+            			myModel.setValue(0);
+            			myProgressBar.setString("Sending request... 0%");
+            			myModel.setValue(5);
+            			System.out.println("act");
+            			myModel.setValue(8);
+            			myProgressBar.setString("Receiving data... 5%");
+                        ++curModelNumber;
+                        myIsNewModel = true;
+                        myTextPan.removeAll();
+                        myBookPanels = new ArrayList<ArrayList<BookPanel>>();
+                        myBookPanels.add(new ArrayList<BookPanel>());
+                        if (myController.getData().getBooks().size() != 0) {
+                            myController.clearModel();
+                        }
+                        myController.getData().addObserver(Window.this);
+                        myImageWidth = 0;
+                        String[] terms = new String[3];
+                        if (myQueryField.isEnabled()) {
+                            terms[0] = myQueryField.getText();
+                            terms[1] = "";
+                            terms[2] = "";
+                        } else {
+                            terms[0] = myGenTextField.getText();
+                            terms[1] = myTitleTextField.getText();
+                            terms[2] = myAuthorTextField.getText();
+                        }
+                        myTime = System.currentTimeMillis();
+                        myController.getQueryAnswer(terms);
+                        myModel.setValue(100);
+                        myProgressBar.setString("Complete");
+                        myIsNewModel = false;
+                        /*		myQueryCombo.setSelectedIndex(0);
+                              myEraseButton.setEnabled(false);    */
+            			myToolDelete.setEnabled(true);
+            			myToolSort.setEnabled(true);
+                        myToolStop.setEnabled(false);
+            		//	myQueryPlusPanel.setVisible(false);
+            			curModelNumber = myController.getRequestCount() - 1;
+            			if(myController.getRequestCount() > 1){
+            				myToolUp.setEnabled(true);
+            			}
+            		}
+                });
+                myController.addTask(process);
+            }
+
+        };
+
+        myToolDelete.addActionListener(myDeleteLis);
+        myToolSort.addActionListener(mySortLis);
+        myToolBack.addActionListener(myBackLis);
+        myToolForward.addActionListener(myForwardLis);
+        myToolUp.addActionListener(myUpLis);
+        myToolDown.addActionListener(myDownLis);
+        myToolLibrary.addItemListener(myLibraryLis);
+        myToolStop.addActionListener(myStopLis);
+
+
+        showSearch();
+
+    }
+
+    public void showSearch(){
+
+        myCentralPanel = new JPanel(new BorderLayout());
+        myPanel1.add(myCentralPanel, "Center");
+
+
+        myQueryPanel = new JPanel();
+        myQueryPanel.setLayout(new BoxLayout(myQueryPanel,BoxLayout.Y_AXIS));
+    	myQueryButtonPanel = new JPanel();
+    	myQueryButtonPanel.setLayout(new BoxLayout(myQueryButtonPanel,BoxLayout.X_AXIS));
+        myQueryPlusPanel = new JPanel();
+        myQueryPlusPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0)/*BoxLayout(myQueryPlusPanel,BoxLayout.X_AXIS)*/);
+
+        myQueryPanel.add(Box.createVerticalStrut(5));
+        myQueryPanel.add(myQueryButtonPanel);
+        myQueryPanel.add(Box.createVerticalStrut(5));
+        myQueryPanel.add(myQueryPlusPanel);
+        myQueryPanel.add(Box.createVerticalStrut(5));
+    	myCentralPanel.add(myQueryPanel, "North");
+
+        
+
 
         myQueryField = new JTextField();
     	myQueryField.setSize(40, 10);
@@ -232,298 +504,15 @@ public class Window implements Observer{
     	myTextPan.setLayout(box);
         myCentralPanel.add(new JScrollPane(myTextPan), "Center");
 
-        /*myMorePanel = new JPanel(new FlowLayout());
-        myMoreButton = new JButton("More books");
-        myNumberInfo = new JLabel();
-        myMorePanel.add(myMoreButton);
-        myMorePanel.add(myNumberInfo);
-        myMorePanel.setVisible(false);
-        myCentralPanel.add(myMorePanel, "South");*/
-        
         myProgressBar = new JProgressBar(myModel);
         myProgressBar.setStringPainted(true);
         myPanel1.add(myProgressBar, "South");
         
-        ItemListener library = new ItemListener() {
-
-            public void itemStateChanged(ItemEvent e) {
-
-                if (myToolLibrary.isSelected()) {
-                    myPanel1.remove(myCentralPanel);
-                    LibraryPanel lib = new LibraryPanel(myController);
-                    myCentralPanel = lib.getRootPanel();
-                    myPanel1.add(myCentralPanel, "Center");
-                } else {
-                    showSearch();
-                }
-                myFrame.setVisible(true);
-
-            }
-        };
-
-        ActionListener stop = new ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-
-                myController.stopProcesses();
-                myToolStop.setEnabled(false);
-
-            }
-        };
-
-        ActionListener sort = new ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-
-                if(myBookPanels != null){
-                	ArrayList<BookPanel> newView;
-                	newView = (ArrayList<BookPanel>)(myBookPanels.get(myBackIndex).clone());
-                	for(int i = myBackIndex + 1; i < myBookPanels.size(); ++i){
-                		myBookPanels.remove(i);
-                	}
-                	
-                	myBookPanels.add(newView);
-            		Collections.sort(myBookPanels.get(myBookPanels.size()-1));
-            	}
-
-                myTextPan.removeAll();
-
-                for(int i = 0; i < myBookPanels.get(myBookPanels.size()-1).size(); ++i){
-                    JPanel bookPan = myBookPanels.get(myBookPanels.size()-1).get(i).getRootPanel();
-            		myTextPan.add(bookPan);
-            		bookPan.setVisible(true);
-            		myFrame.setVisible(true);
-                }
-                myToolBack.setEnabled(true);
-                myToolForward.setEnabled(false);
-                ++myBackIndex;
-
-            }
-        };
-        
-        ActionListener delete = new ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-            	if(myBookPanels != null){
-            		ArrayList<BookPanel> newView;
-            		newView = (ArrayList)(myBookPanels.get(myBackIndex).clone());
-            		for(int i = myBackIndex + 1; i < myBookPanels.size(); ++i){
-                		myBookPanels.remove(i);
-                	}
-            		myBookPanels.add(newView);
-         
-            		myTextPan.removeAll();
-            		
-            		for(int i = 0; i < myBookPanels.get(myBookPanels.size()-1).size(); ++i){
-            			if(myBookPanels.get(myBookPanels.size()-1).get(i).isSelected()){
-            				myBookPanels.get(myBookPanels.size()-1).remove(i);
-            				--i;
-            			}
-            		}
-            		for(int i = 0; i < myBookPanels.get(myBookPanels.size()-1).size(); ++i){
-                        JPanel bookPan = myBookPanels.get(myBookPanels.size()-1).get(i).getRootPanel();
-                		myTextPan.add(bookPan);
-                		bookPan.setVisible(true);
-                		myFrame.setVisible(true);
-                    }
-            	}
-            	myToolBack.setEnabled(true);
-            	myToolForward.setEnabled(false);
-            	++myBackIndex;
-            }
-        };
-        
-        ActionListener back = new ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-            	
-            	myTextPan.removeAll();
-            	
-           		for(int i = 0; i < myBookPanels.get(myBackIndex-1).size(); ++i){
-           			JPanel bookPan = myBookPanels.get(myBackIndex-1).get(i).getRootPanel();
-           			myTextPan.add(bookPan);
-            		bookPan.setVisible(true);
-            		myFrame.setVisible(true);
-           		}
-           		myTextPan.updateUI();
-           		--myBackIndex;
-           		if(myBackIndex == 0){
-           			myToolBack.setEnabled(false);
-           		}
-           		myToolForward.setEnabled(true);
-            }
-        };
-        
-        ActionListener up = new ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-            	
-            	myTextPan.removeAll();
-            	
-            	myBookPanels = new ArrayList<ArrayList<BookPanel>>();
-                myBookPanels.add(new ArrayList<BookPanel>());
-               	myController.clearModel();
-                myController.getData().addObserver(Window.this);
-                
-               	--curModelNumber;
-				myImageWidth = 0;
-                myController.loadModel(curModelNumber);
-
-				/*myMorePanel.setVisible(false);
-           		if(curModelNumber == 0){
-           			myToolUp.setEnabled(false);
-           		}*/
-           		if(curModelNumber < myController.getRequestCount()-1){
-           			myToolDown.setEnabled(true);
-           		}
-            }
-        };
-        
-        ActionListener forward = new ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-            	
-            	myTextPan.removeAll();
-            	
-           		for(int i = 0; i < myBookPanels.get(myBackIndex+1).size(); ++i){
-           			JPanel bookPan = myBookPanels.get(myBackIndex+1).get(i).getRootPanel();
-           			myTextPan.add(bookPan);
-            		bookPan.setVisible(true);
-            		myFrame.setVisible(true);
-           		}
-           		myTextPan.updateUI();
-           		++myBackIndex;
-           		if(myBackIndex == myBookPanels.size() - 1){
-           			myToolForward.setEnabled(false);
-           		}
-           		myToolBack.setEnabled(true);
-            }
-        };
-        
-        ActionListener down = new ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-            	
-            	myTextPan.removeAll();
-            	
-            	myBookPanels = new ArrayList<ArrayList<BookPanel>>();
-                myBookPanels.add(new ArrayList<BookPanel>());
-               	myController.clearModel();
-                myController.getData().addObserver(Window.this);
-
-               	++curModelNumber;
-                myImageWidth = 0;
-				myController.loadModel(curModelNumber);
-
-
-				/*myMorePanel.setVisible(false);
-				if(curModelNumber > 0){
-					myToolUp.setEnabled(true);
-				}*/
-				if(curModelNumber == myController.getRequestCount()-1){
-           			myToolDown.setEnabled(false);
-           		}
-            }
-        };
-
-        ActionListener extSearch = new ActionListener() {
-            public void actionPerformed(final ActionEvent e) {
-            	
-            	if(myQueryPlusPanel.isVisible()){
-            		myQueryPlusPanel.setVisible(false);
-                    myQueryField.setEnabled(true);
-            		//myQueryCombo.setSelectedIndex(0);
-            	}else{
-            		myQueryPlusPanel.setVisible(true);
-                    myQueryField.setEnabled(false);
-            	}
-            	
-            }
-        };
-          
-        
-        ActionListener act = new ActionListener() {
-            public void actionPerformed(final ActionEvent e) {
-
-            	Thread process = new Thread(new Runnable() {
-            		public void run() {
-
-                        System.out.println("act");
-
-                        //myMorePanel.setVisible(false);
-                        //myController.stopProcesses();
-
-                        myToolStop.setEnabled(true);
-                        System.out.println("act");
-            			myModel.setValue(0);
-            			myProgressBar.setString("Sending request... 0%");
-            			myModel.setValue(5);
-            			System.out.println("act");
-            			myModel.setValue(8);
-            			myProgressBar.setString("Receiving data... 5%");
-                        ++curModelNumber;
-                        myIsNewModel = true;
-                        myTextPan.removeAll();
-                        myBookPanels = new ArrayList<ArrayList<BookPanel>>();
-                        myBookPanels.add(new ArrayList<BookPanel>());
-                        if (myController.getData().getBooks().size() != 0) {
-                            myController.clearModel();
-                        }
-                        myController.getData().addObserver(Window.this);
-                        myImageWidth = 0;
-                        String[] terms = new String[3];
-                        if (myQueryField.isEnabled()) {
-                            terms[0] = myQueryField.getText();
-                            terms[1] = "";
-                            terms[2] = "";
-                        } else {
-                            terms[0] = myGenTextField.getText();
-                            terms[1] = myTitleTextField.getText();
-                            terms[2] = myAuthorTextField.getText();
-                        }
-                        myTime = System.currentTimeMillis();
-                        myController.getQueryAnswer(terms);
-                        myModel.setValue(100);
-                        myProgressBar.setString("Complete");
-                        myIsNewModel = false;
-                        /*		myQueryCombo.setSelectedIndex(0);
-                              myEraseButton.setEnabled(false);    */
-            			myToolDelete.setEnabled(true);
-            			myToolSort.setEnabled(true);
-                        myToolStop.setEnabled(false);
-            		//	myQueryPlusPanel.setVisible(false);
-            			curModelNumber = myController.getRequestCount() - 1;
-            			if(myController.getRequestCount() > 1){
-            				myToolUp.setEnabled(true);
-            			}
-            		}
-            	});
-                myController.addTask(process);
-            }
-            
-        };
-
-
-        
-        
-        
-        mySearchButton.addActionListener(act);
-        myQueryField.addActionListener(act);
-        myGenTextField.addActionListener(act);
-        myTitleTextField.addActionListener(act);
-        myAuthorTextField.addActionListener(act);
-//        myQueryButton.addActionListener(setAdress);
-//        myMoreButton.addActionListener(act);
-//        myEraseButton.addActionListener(erase);
-        myToolDelete.addActionListener(delete);
-        myToolSort.addActionListener(sort);
-        myToolBack.addActionListener(back);
-        myToolForward.addActionListener(forward);
-        myToolUp.addActionListener(up);
-        myToolDown.addActionListener(down);
-        myToolLibrary.addItemListener(library);
-        myExtQueryButton.addActionListener(extSearch);
-        myToolStop.addActionListener(stop);
+        mySearchButton.addActionListener(myActLis);
+        myQueryField.addActionListener(myActLis);
+        myGenTextField.addActionListener(myActLis);
+        myTitleTextField.addActionListener(myActLis);
+        myAuthorTextField.addActionListener(myActLis);
 
         myNetMenu.addActionListener(new ActionListener() {
 

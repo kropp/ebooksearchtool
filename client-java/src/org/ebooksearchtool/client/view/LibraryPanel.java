@@ -1,12 +1,14 @@
 package org.ebooksearchtool.client.view;
 
 import org.ebooksearchtool.client.exec.Controller;
+import org.ebooksearchtool.client.model.books.Book;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * Date: 18.04.2010
@@ -17,10 +19,15 @@ public class LibraryPanel {
 
     Controller myController;
     JPanel myRootPanel;
+    JPanel myTextPan;
+    ArrayList<BookPanel> myBookPanels = new ArrayList<BookPanel>();
+    DefaultBoundedRangeModel myModel;
+    private int myImageWidth;
 
-    public LibraryPanel(Controller cont){
+    public LibraryPanel(Controller cont, DefaultBoundedRangeModel model){
         myController = cont;
         myRootPanel = new JPanel();
+        myModel = model;
         drawLibrary();
     }
 
@@ -30,19 +37,36 @@ public class LibraryPanel {
 
     public void drawLibrary(){
 
-        MutableTreeNode node = new DefaultMutableTreeNode("library");
-        DefaultTreeModel model = new DefaultTreeModel(node);
-        model.insertNodeInto(new DefaultMutableTreeNode("shelf 1"), node, 0);
-        model.insertNodeInto(new DefaultMutableTreeNode("shelf 2"), node, 1);
-        model.insertNodeInto(new DefaultMutableTreeNode("shelf 3"), node, 2);
-
-        JTree tree = new JTree();
-        tree.setAlignmentX(JTree.LEFT_ALIGNMENT);
-        tree.setModel(model);
-
         myRootPanel.setLayout(new GridLayout());
-        myRootPanel.add(tree);
+        myTextPan = new JPanel();
+    	BoxLayout box = new BoxLayout(myTextPan, BoxLayout.Y_AXIS);
+    	myTextPan.setLayout(box);
+        myRootPanel.add(new JScrollPane(myTextPan));
 
+        for(int i = 0; i < myController.getLibrary().getBooks().size(); ++i){
+            appendBook(myController.getLibrary().getBooks().get(i));
+        }
+
+    }
+
+    public void appendBook(Book book) {
+
+        myBookPanels.add(new BookPanel(book, myController.getSettings(), myModel, myController));
+        if (myImageWidth < myBookPanels.get(myBookPanels.size() - 1).getImageWidth()) {
+            myImageWidth = myBookPanels.get(myBookPanels.size() - 1).getImageWidth();
+
+            for (int j = 0; j < myBookPanels.size(); ++j) {
+                myBookPanels.get(j).drawRootPanel(myImageWidth);
+                myTextPan.add(myBookPanels.get(j).getRootPanel());
+                myRootPanel.setVisible(true);
+
+            }
+        } else {
+            JPanel bookPan = myBookPanels.get(myBookPanels.size() - 1).getRootPanel();
+            myTextPan.add(bookPan);
+            bookPan.setVisible(true);
+            myRootPanel.setVisible(true);
+        }
     }
 
 }
