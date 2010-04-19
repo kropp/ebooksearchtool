@@ -94,7 +94,6 @@ def save_book(form, instance, fields=None, fail_message='saved',
 
     cleaned_data['annotation'] = annotations
 
-    print cleaned_data
     ################
 
     file_field_list = []

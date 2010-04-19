@@ -13,6 +13,9 @@ from django.utils.translation import ugettext, ungettext
 from django.utils.encoding import force_unicode
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
+from django.utils.translation import ugettext as _
+from django.http import HttpResponse
+from django.utils.html import escape
 
 from book.models import Book, Author, Tag, Annotation, BookFile
 from book.forms import BookForm, AuthorForm, BookFileForm
@@ -48,6 +51,20 @@ class AnnotationAdmin(admin.ModelAdmin):
     ''' Admin view for model.Annotation'''
     search_fields = ('name', )
     list_per_page = 10
+
+    def response_change(self, request, obj):
+        """
+        Determines the HttpResponse for the change_view stage.
+        """
+        opts = obj._meta
+        pk_value = obj._get_pk_val()
+
+        msg = _('The %(name)s "%(obj)s" was added successfully.') % {'name': force_unicode(opts.verbose_name), 'obj': force_unicode(obj)}
+        # Here, we distinguish between different save types by checking for
+        # the presence of keys in request.POST.
+        return HttpResponse('<script type="text/javascript">opener.annotationDismissRelatedLookupPopup(window, "%s", "%s");</script>' % \
+            # escape() calls force_unicode.
+            (escape(pk_value), escape(obj.name[0:100] + "...")))
 
 class TagAdmin(admin.ModelAdmin):
     ''' Admin view for model.Tag'''

@@ -113,7 +113,7 @@ class AnnotationWidget(forms.CheckboxSelectMultiple, ManyToManyRawIdWidget):
             # If an ID attribute was given, add a numeric index as a suffix,
             # so that the checkboxes don't all have the same ID attribute.
             if has_id:
-                final_attrs = dict(final_attrs, id='%s_%s' % (attrs['id'], i))
+                final_attrs = dict(final_attrs, id='%s_%s' % (attrs['id'], option_value))
                 label_for = u' for="%s"' % final_attrs['id']
             else:
                 label_for = ''
@@ -122,7 +122,7 @@ class AnnotationWidget(forms.CheckboxSelectMultiple, ManyToManyRawIdWidget):
             option_value = force_unicode(option_value)
             rendered_cb = cb.render(name, option_value)
             option_label = conditional_escape(force_unicode(option_label))
-            output.append(u'<li><label%s >%s %s</label></li>' % (label_for, rendered_cb, option_label[0:100]+"..."))
+            output.append(u'<li><label%s >%s<a href="../../annotation/%s/" onclick="return showRelatedObjectLookupPopup(this);"> %s</a></label></li>' % (label_for, rendered_cb, option_value, option_label[0:100]+"..."))
         output.append(u'</ul>')
         return mark_safe(u'\n'.join(output))
 
