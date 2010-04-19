@@ -20,13 +20,6 @@ AUTHOR_SHOW = (
     (1, 'admin'),
 )
 
-class Annotation(models.Model):
-    name = models.TextField(max_length=TEXT_LENGTH)
-
-    def __unicode__(self):
-        return '[id %s] %s' % (self.id, self.name)
-
-
 class BookFile(models.Model):
     link = models.TextField(max_length=LINK_LENGTH)
     link_hash = models.CharField(unique=True, max_length=32)
@@ -141,7 +134,6 @@ class Book(models.Model):
     title = models.CharField(max_length=NAME_LENGTH)
     lang = models.CharField(max_length=2, choices=LANG_CODE)
     language = models.ForeignKey(Language)
-    annotation = models.ManyToManyField(Annotation, null=True, blank=True)
     book_file = models.ManyToManyField(BookFile)
     series = models.ManyToManyField(Series, null=True, blank=True)
     tag = models.ManyToManyField(Tag, null=True, blank=True)
@@ -182,3 +174,17 @@ class Book(models.Model):
     def __unicode__(self):
         return '[id %s] %s (%s)' % (self.id, self.title, self.lang)
 
+
+#class Annotation2(models.Model):
+#    name = models.TextField()
+#    book = models.ForeignKey(Book)
+#
+#    def __unicode__(self):
+#        return '[id %s] %s' % (self.id, self.name)
+
+class Annotation(models.Model):
+    name = models.TextField()
+    book = models.ForeignKey(Book)
+
+    def __unicode__(self):
+        return '[id %s] %s' % (self.id, self.name)
