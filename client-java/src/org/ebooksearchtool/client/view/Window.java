@@ -12,6 +12,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.IOException;
 import java.util.*;
 
@@ -40,7 +42,7 @@ public class Window implements Observer{
     private JPanel myMorePanel;
  //   private JButton myEraseButton;
     private JButton myExtQueryButton;
-    private JButton myToolLibrary;
+    private JToggleButton myToolLibrary;
     private JButton myToolDelete;
     private JButton myToolSort;
     private JButton myToolBack;
@@ -81,6 +83,12 @@ public class Window implements Observer{
         myFrame.setJMenuBar(myMenuBar);
         myFrame.setContentPane(myPanel1);
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        showSearch();
+
+    }
+
+    public void showSearch(){
 
         myPanel1.setLayout(new BorderLayout());
         myCentralPanel = new JPanel(new BorderLayout());
@@ -132,7 +140,7 @@ public class Window implements Observer{
         myToolSort.setToolTipText("Sort books by title");
         myToolBar.add(myToolSort);
         myToolSort.setEnabled(false);
-        myToolLibrary = new JButton(new ImageIcon(getClass().getResource("/ico/library.png")));
+        myToolLibrary = new JToggleButton(new ImageIcon(getClass().getResource("/ico/library.png")));
         myToolLibrary.setToolTipText("Library");
         myToolBar.add(myToolLibrary);
         myToolStop = new JButton(new ImageIcon(getClass().getResource("/ico/stop_30.gif")));
@@ -258,16 +266,18 @@ public class Window implements Observer{
         myProgressBar.setStringPainted(true);
         myPanel1.add(myProgressBar, "South");
         
-        ActionListener library = new ActionListener() {
+        ItemListener library = new ItemListener() {
 
-            public void actionPerformed(ActionEvent e) {
+            public void itemStateChanged(ItemEvent e) {
 
+                if(myToolLibrary.isSelected()){
                 myPanel1.remove(myCentralPanel);
                 Library lib = new Library(myController);
                 myCentralPanel = lib.getRootPanel();
-
                 myPanel1.add(myCentralPanel, "Center");
-                //myPanel1.repaint();
+                }else{
+                    showSearch();
+                }
                 myFrame.setVisible(true);
             	
             }
@@ -531,7 +541,7 @@ public class Window implements Observer{
         myToolForward.addActionListener(forward);
         myToolUp.addActionListener(up);
         myToolDown.addActionListener(down);
-        myToolLibrary.addActionListener(library);
+        myToolLibrary.addItemListener(library);
         myExtQueryButton.addActionListener(extSearch);
         myToolStop.addActionListener(stop);
 
@@ -560,6 +570,8 @@ public class Window implements Observer{
         myFrame.setLocation(300,30);
         myFrame.setVisible(true);
     }
+
+
 
     public void setExtSearchEnabled(){
 
