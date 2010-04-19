@@ -187,4 +187,4 @@ class Annotation(models.Model):
     book = models.ForeignKey(Book)
 
     def __unicode__(self):
-        return '[id %s] %s' % (self.id, self.name)
+        return '[id %s] %s' % (self.id, self.name[0:20]+"...")

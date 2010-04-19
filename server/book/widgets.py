@@ -147,8 +147,7 @@ class AnnotationWidget(forms.CheckboxSelectMultiple, ManyToManyRawIdWidget):
             url = '?' + '&amp;'.join(['%s=%s' % (k, v) for k, v in params.items()])
         else:
             url = ''
-        if not attrs.has_key('class'):
-            attrs['class'] = 'vForeignKeyRawIdAdminField' 
+
 
         ############## our logic for view
         output = [self.render_checkbox( name, value, attrs, choices)]
@@ -157,5 +156,8 @@ class AnnotationWidget(forms.CheckboxSelectMultiple, ManyToManyRawIdWidget):
 
         if value:
             output.append(self.label_for_value(value))
+        output.append(u'<a href="%s" class="add-another" id="add_id_%s" onclick="return showAddAnotherPopup(this);"> ' % \
+            (related_url, name))
+        output.append(u'<img src="%simg/admin/icon_addlink.gif" width="10" height="10" alt="%s"/></a>' % (settings.ADMIN_MEDIA_PREFIX, _('Add Another')))
         return mark_safe(u''.join(output))
 
