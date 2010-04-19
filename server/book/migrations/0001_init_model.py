@@ -26,6 +26,7 @@ class Migration:
         db.create_table('book_annotation', (
             ('id', orm['book.Annotation:id']),
             ('name', orm['book.Annotation:name']),
+            ('book', orm['book.Annotation:book']),
         ))
         db.send_create_signal('book', ['Annotation'])
         
@@ -82,13 +83,6 @@ class Migration:
             ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
             ('author', models.ForeignKey(orm.Author, null=False)),
             ('authoralias', models.ForeignKey(orm.AuthorAlias, null=False))
-        ))
-        
-        # Adding ManyToManyField 'Book.annotation'
-        db.create_table('book_book_annotation', (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('book', models.ForeignKey(orm.Book, null=False)),
-            ('annotation', models.ForeignKey(orm.Annotation, null=False))
         ))
         
         # Adding ManyToManyField 'Author.tag'
@@ -157,9 +151,6 @@ class Migration:
         # Dropping ManyToManyField 'Author.alias'
         db.delete_table('book_author_alias')
         
-        # Dropping ManyToManyField 'Book.annotation'
-        db.delete_table('book_book_annotation')
-        
         # Dropping ManyToManyField 'Author.tag'
         db.delete_table('book_author_tag')
         
@@ -179,8 +170,9 @@ class Migration:
     
     models = {
         'book.annotation': {
+            'book': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['book.Book']"}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.TextField', [], {'max_length': '10000'})
+            'name': ('django.db.models.fields.TextField', [], {})
         },
         'book.author': {
             'alias': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['book.AuthorAlias']", 'null': 'True', 'blank': 'True'}),
@@ -194,7 +186,6 @@ class Migration:
             'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '255'})
         },
         'book.book': {
-            'annotation': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['book.Annotation']", 'null': 'True', 'blank': 'True'}),
             'author': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['book.Author']", 'null': 'True', 'blank': 'True'}),
             'book_file': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['book.BookFile']"}),
             'credit': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
