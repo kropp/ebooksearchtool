@@ -59,6 +59,8 @@ def search_in_author(request, lang, tag, response_type, items_per_page, page,
     if not author:
         return no_results(request)
 
+    main_title['author'] = author
+
     #TODO language in author_search
     authors = SEARCH_ENGINE.author_search(author=author, lang=lang, tag=tag, 
                                             max_length=10)
@@ -76,7 +78,7 @@ def search_in_author(request, lang, tag, response_type, items_per_page, page,
             'items_per_page':items_per_page, 'total':total })
     if response_type == "xhtml":
         return render_response(request, 'book/xhtml/authors_search_response.xml',
-            {'authors': authors, 'author': author, 
+            {'authors': authors, 'author': author, 'title':main_title,
             'items_per_page':items_per_page, 'tags': tags, 'langs':langs}, 
             context_instance=RequestContext(request))
 

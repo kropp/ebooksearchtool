@@ -77,9 +77,9 @@ class LanguageWidget(forms.Select):
         # Normalize to strings.
         selected_choices = set([force_unicode(v) for v in selected_choices])
         output = []
-        output.append(render_option(322, '[ru] Russian'))
-        output.append(render_option(224, '[en] English'))
-        output.append(render_option(234, '[fr] French'))
+        output.append(render_option(694, '[ru] Russian'))
+        output.append(render_option(596, '[en] English'))
+        output.append(render_option(606, '[fr] French'))
 
         for option_value, option_label in chain(self.choices, choices):
             if isinstance(option_label, (list, tuple)):

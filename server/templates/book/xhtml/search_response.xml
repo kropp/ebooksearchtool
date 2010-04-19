@@ -35,7 +35,7 @@
 
 {% if authors %}
 
-    <h2>Found in authors:</h2>
+    <h2>Search results by authors: <a href="search?title=;author={{ query }};lang=;tag=" class="gray">{{ query }}</a></em></h2>
 
     {% for author in authors %}
         <div>
