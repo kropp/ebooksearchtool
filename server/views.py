@@ -13,6 +13,7 @@ from django.http import Http404
 from django.http import HttpResponse
 
 from django.db.models import Q
+from forms.views_forms import SampleForm
 
 def book_request(request, book_id, response_type):
     """ builds opds and xhtml response for book id request"""
@@ -199,3 +200,25 @@ def render_response(req, *args, **kwargs):
 
     return render_to_response(*args, **kwargs)
     
+
+def autocomplete_books(request):
+    def results_to_string(results):
+        if results:
+            for r in results:
+                yield '%s|%s\n' % (r.title, r.pk)
+
+    query = request.REQUEST.get('q', None)
+
+    if query:
+        books = Book.objects.filter(title__istartswith=query)
+    else:
+        books = Book.objects.all()
+
+
+    books = books[:int(request.REQUEST.get('limit', 15))]
+    return HttpResponse(results_to_string(books), mimetype='text/plain')
+
+def books(request):
+    form = SampleForm()
+    return render_response(request, 'book.html', {'form': form})
+

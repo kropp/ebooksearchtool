@@ -5,6 +5,7 @@ from django.contrib import admin
 from book.views import who, analyzer_view
 
 import views
+from django.conf.urls.defaults import url 
 
 
 urlpatterns = patterns('',
@@ -93,6 +94,7 @@ urlpatterns = patterns('',
     (r'^site_media/(?P<path>.*)$', 'django.views.static.serve',
         {'document_root': 'media'}),
 
-
+    url(r'^book/autocomplete/?$', 'views.autocomplete_books', name='autocomplete_books'),
+    (r'^book/?$', 'views.books'),
 )
 
