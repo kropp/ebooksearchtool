@@ -13,6 +13,7 @@ from django.http import Http404
 from django.http import HttpResponse
 
 from django.db.models import Q
+
 from forms.views_forms import SampleForm
 
 def book_request(request, book_id, response_type):
@@ -45,6 +46,7 @@ def author_request(request, author_id, response_type):
 
 def opensearch_description(request):
     """returns xml open search description"""
+    print list(RequestContext(request))[0]['request'].META['REMOTE_ADDR']
     return render_response(request, "data/opensearchdescription.xml", )
     
 def catalog(request, response_type):
@@ -201,6 +203,23 @@ def render_response(req, *args, **kwargs):
     return render_to_response(*args, **kwargs)
     
 
+def autocomplete_title(request):
+    def results_to_string(results):
+        if results:
+            for r in results:
+                yield '%s|%s\n' % (r.title, r.pk)
+
+    query = request.REQUEST.get('q', None)
+
+    if query:
+        books = Book.objects.filter(title__istartswith=query)
+    else:
+        books = Book.objects.all()
+
+    books = books[:15]
+#    books = books[:int(request.REQUEST.get('limit', 15))]
+    return HttpResponse(results_to_string(books), mimetype='text/plain')
+
 def autocomplete_books(request):
     def results_to_string(results):
         if results:
@@ -214,8 +233,8 @@ def autocomplete_books(request):
     else:
         books = Book.objects.all()
 
-
-    books = books[:int(request.REQUEST.get('limit', 15))]
+    books = books[:15]
+#    books = books[:int(request.REQUEST.get('limit', 15))]
     return HttpResponse(results_to_string(books), mimetype='text/plain')
 
 def books(request):

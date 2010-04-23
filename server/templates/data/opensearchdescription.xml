@@ -1,4 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/" >
+    <ShortName>EBookSearchTool</ShortName>
+    <Description>Search for e-books </Description>
+    <Tags>Ebooksearch</Tags>
+    <Contact/>
+    <!-- Opensearch description for firefox -->
+<!--    <Image width="32" height="32" type="image/x-icon">http://pricing.com.ua/favicon.ico</Image> -->
+    <Url type="text/html" template="http://{{request.META.HTTP_HOST}}/search?query={searchTerms}"/>
+<!--    <Url type="application/x-suggestions+json" method="GET" template="http://pricing.com.ua/items/suggest.json?q={searchTerms}"/> -->
+
+<!-- OPSD opensearch description -->
+    <Url type="application/atom+xml" template="{{ server }}/search.atom?query={searchTerms?}"/>
+    <Query role="example" searchTerms="robot" />
+
+    <InputEncoding>UTF-8</InputEncoding>
+</OpenSearchDescription>
+
+<!--
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
     <ShortName>EBookSearchTool</ShortName>
     <Description>Search for e-books </Description>
@@ -21,3 +40,4 @@
     <Query role="example" searchTerms="Pushkin" count="2" />
     
 </OpenSearchDescription>
+-->
