@@ -1,4 +1,5 @@
 
+import os
 import sys
 import codecs
 from commands import getstatusoutput
@@ -20,6 +21,7 @@ class Command(BaseCommand):
             default=False, help='Print sphinx conf to std out instead file'),
         )
     args = "[action [dictname]]"
+    usage_str = "python manager.py dictmanage [show [dictname]]"
     
     def handle(self, action=None, dictname=None, filename=None, **options):
         if action == 'show':
@@ -30,18 +32,19 @@ class Command(BaseCommand):
             else:
                 print >> sys.stderr, "Error: you must provide a dictionary \
                     name or '*' for remove all dictionaries" % dictname
+                sys.exit(os.EX_USAGE)
         elif action == 'rmall':
             self.__rm_dict()
         elif action == 'load':
             if not dictname:
                 print 'You must name dictionary for loading data'
                 print self.usage_str
-                return
+                sys.exit(os.EX_USAGE)
 
             if not filename:
                 print 'Please provide a file with data for reading'
                 print self.usage_str
-                return
+                sys.exit(os.EX_USAGE)
             self.__load_data(dictname, filename)
         elif action == 'index':
             self.__index(options['only_index'], options['to_stdout'])

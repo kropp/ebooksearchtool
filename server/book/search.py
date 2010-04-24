@@ -1,11 +1,13 @@
 "Search functions by author, title of bood, etc"
 
+from UserList import UserList
+
 from settings import ANALYZER_DEFAULT_RESULT_LENGTH, MAX_RESULT_LENGTH
 
 from spec.exception import RequestServerException
 from spec.search_util import rm_items, id_field
 from spec.distance import name_distance
-
+from queryspell.models import Dictionary
 from book.models import Author, Book, Language, Tag
 
 
@@ -146,16 +148,7 @@ def xml_search(xml):
     return results
         
 
-from UserList import UserList
 
-
-class SearchResult(UserList):
-    
-    def __init__(self, l):
-        UserList.__init__(self, l)
-        self.suggestion = None
-        
-    
 
 class SearchEngine:
     "Abstract class, interface for search engine"
@@ -199,8 +192,13 @@ class SphinxSearchEngine(SearchEngine):
                 tag_id = Tag.objects.get(name=tag_query).id
                 authors = authors.filter(tag_id=tag_id)
 
-            search_result = SearchResult(authors[0:max_length])
+            search_result = UserList(authors[0:max_length])
             # TODO sort by normal weight
+
+            author_query_suggestion = \
+                Dictionary.objects.get(name='author').correct(author_query)
+            search_result.suggestion = \
+                dict(author_query=author_query_suggestion)
             return search_result
 
 
@@ -232,7 +230,14 @@ class SphinxSearchEngine(SearchEngine):
                 if authors_id:
                     books = books.filter(author_id=authors_id)
 
-            search_result = SearchResult(books[0:max_length])
+            search_result = UserList(books[0:max_length])
+            author_query_suggestion = \
+                Dictionary.objects.get(name='author').correct(author_query)
+            title_query_suggestion = \
+                Dictionary.objects.get(name='words').correct(title_query)
+            search_result.suggestion = \
+                dict(author_query=author_query_suggestion, \
+                     title_query=title_query_suggestion)
             return search_result
 
     def simple_search(self, query, max_length=MAX_RESULT_LENGTH, **kwargs):
@@ -258,5 +263,11 @@ class SphinxSearchEngine(SearchEngine):
                 if not book.id in books_id_set:
                     books.append(book)
 
-        return SearchResult(books[0:max_length])
+        search_result = UserList(books[0:max_length])
+        # TODO search in 'common' dictionary
+        query_suggestion = \
+            Dictionary.objects.get(name='words').correct(query)
+        search_result.suggestion = dict(query=query_suggestion)
+
+        return search_result
 

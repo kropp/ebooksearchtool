@@ -23,19 +23,29 @@ class Dictionary(models.Model):
 #        def cal_weight(base_length, word):
 #            weight = word._sphinx['weight'] + 2 - abs(base_length - len(word.word)) + log10(word._sphinx['attrs']['frequency'])
 #            return weight
-
-        trigrams = u' '.join(generate_trigram(query))
-        query_length = len(query)
-        query_extended = '"%s"/2' % trigrams
-
-        results = Words.search.query(query_extended)
-        results = results.filter(dict_id=self.id)
-        results = results.filter(length=range(query_length-2, query_length+3))
-        #results = list(results)
-        #results.sort(lambda x, y: \
-        #    cmp(cal_weight(query_length, y), cal_weight(query_length, x)))
-
-        return results
+        def correct_word(word):
+            trigrams = u' '.join(generate_trigram(word))
+            query_length = len(word)
+            query_extended = '"%s"/2' % trigrams
+    
+            results = Words.search.query(query_extended)
+            results = results.filter(dict_id=self.id)
+            results = results.filter(length=range(query_length-2, query_length+3))
+            #results = list(results)
+            #results.sort(lambda x, y: \
+            #    cmp(cal_weight(query_length, y), cal_weight(query_length, x)))
+    
+            if results:
+                result = results[0].word
+            else:
+                result = word
+            return result
+        if query:
+            query_words = query.split()
+            corrected_words = [correct_word(word) for word in query_words]
+            for first, second in zip(corrected_words, query_words):
+                if first.lower() != second.lower:
+                    return ' '.join(corrected_words)
         
     def __unicode__(self):
         return self.name
