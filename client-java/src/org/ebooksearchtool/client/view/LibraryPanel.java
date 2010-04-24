@@ -20,7 +20,7 @@ public class LibraryPanel {
     Controller myController;
     JPanel myRootPanel;
     JPanel myTextPan;
-    ArrayList<BookPanel> myBookPanels = new ArrayList<BookPanel>();
+    ArrayList<LibBookPanel> myBookPanels = new ArrayList<LibBookPanel>();
     DefaultBoundedRangeModel myModel;
     private int myImageWidth;
 
@@ -51,7 +51,7 @@ public class LibraryPanel {
 
     public void appendBook(Book book) {
 
-        myBookPanels.add(new BookPanel(book, myController.getSettings(), myModel, myController));
+        myBookPanels.add(new LibBookPanel(book, myController.getSettings(), myModel, myController));
         if (myImageWidth < myBookPanels.get(myBookPanels.size() - 1).getImageWidth()) {
             myImageWidth = myBookPanels.get(myBookPanels.size() - 1).getImageWidth();
 
