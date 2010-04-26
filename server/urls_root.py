@@ -96,5 +96,10 @@ urlpatterns = patterns('',
 
     url(r'^extended_search/autocomplete_title/?$', 'views.autocomplete_title', name='autocomplete_title'),
     url(r'^extended_search/autocomplete_author/?$', 'views.autocomplete_author', name='autocomplete_author'),
+
+)
+
+urlpatterns += patterns('',
+    (r'^spellcheck/$', 'views.spellcheck'), 
 )
 

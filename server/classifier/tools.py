@@ -11,7 +11,9 @@ def tag_adding():
     classifier = deserialize()
     books = Book.objects.all()
     counter = 0
+    counter_all = 0
     for book in books:
+        counter_all += 1
         if book.tag.count() != 0:
             continue
         ann = book.annotation_set.all()
@@ -45,7 +47,7 @@ def tag_adding():
             counter += 1        
             tags = classifier.classify(summary)
             if counter % 10 == 0:
-                print counter
+                print counter, "of cheched ", counter_all
             if tags[0] != None:
                 tag = Tag.objects.get_or_create(name=tags[0])
                 book.tag.add(tag[0])

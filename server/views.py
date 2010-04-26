@@ -17,6 +17,12 @@ from django.db.models import Q
 from forms.views_forms import ExtendedSearch
 from forms.views_forms import available_languages
 
+from django.utils import simplejson
+import httplib
+
+GOOGLE_URL = "www.google.com"
+
+
 def book_request(request, book_id, response_type):
     """ builds opds and xhtml response for book id request"""
     try:
@@ -226,4 +232,19 @@ def autocomplete_author(request):
     authors = authors[:15]
 #    books = books[:int(request.REQUEST.get('limit', 15))]
     return HttpResponse(results_to_string(authors), mimetype='text/plain')
+
+
+def spellcheck(request):
+    '''
+        function for spellcheck annotation in admin
+    '''
+    if request.method == 'POST':
+        lang = request.GET.get("lang", "en")
+        data = request.raw_post_data
+        con = httplib.HTTPSConnection(GOOGLE_URL)
+        con.request("POST", "/tbproxy/spell?lang=%s" % lang, data)
+        response = con.getresponse()
+        r_text = response.read()
+        con.close()
+        return HttpResponse(r_text, mimetype='text/javascript')
 

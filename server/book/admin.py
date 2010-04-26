@@ -55,7 +55,6 @@ class BookAdmin(admin.ModelAdmin):
         AnnotationInline,
     ]
 
-
 class AnnotationAdmin(admin.ModelAdmin):
     ''' Admin view for model.Annotation'''
     search_fields = ('name', )

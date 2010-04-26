@@ -38,10 +38,10 @@
                 <option disabled>-----------</option>                    
 
                 {% for lang in langs %}
-                    {% ifequal lang.1 title.lang %} 
-                        <option selected value="{{lang.1}}">{{lang.0}}</option>                    
+                    {% ifequal lang.0 title.lang %} 
+                        <option selected value="{{lang.0}}">{{lang.1}}</option>                    
                     {% else %}
-                    <option value="{{lang.1}}">{{lang.0}}</option>
+                    <option value="{{lang.0}}">{{lang.1}}</option>
                     {% endifequal %}
                 {% endfor %}
                 </select>

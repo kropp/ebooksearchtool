@@ -5,10 +5,18 @@
 <script type="text/javascript" src="../../../jsi18n/"></script>
 
 <script type="text/javascript" src="../../../../site_media/js/admin/RelatedObjectLookups.js"></script>
+<script type="text/javascript" src="/site_media/googiespell/AJS.js" ></script>
+<script type="text/javascript" src="/site_media/googiespell/googiespell.js" ></script>
+<script type="text/javascript" src="/site_media/googiespell/cookiesupport.js" ></script>
+<script type="text/javascript" src="/site_media/js/admin/spellcheck.js" ></script>
+
 {{ media }}
 {% endblock %}
 
-{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/forms.css" />{% endblock %}
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/forms.css" />
+<link rel="stylesheet" type="text/css" href="/site_media/googiespell/googiespell.css" />
+{% endblock %}
+
 
 {% block coltype %}{% if ordered_objects %}colMS{% else %}colM{% endif %}{% endblock %}
 
@@ -50,6 +58,7 @@
 
 {% for inline_admin_formset in inline_admin_formsets %}
     {% include inline_admin_formset.opts.template %}
+    <script type="text/javascript">addLoadEvent();</script>
 {% endfor %}
 
 {% block after_related_objects %}{% endblock %}
