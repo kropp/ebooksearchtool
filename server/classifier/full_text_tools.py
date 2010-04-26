@@ -5,7 +5,7 @@ from spec.external.pdfminer.converter import TextConverter
 from spec.external.pdfminer.layout import LAParams
 from spec.external.pdfminer.pdfparser import PDFDocument, PDFParser
 
-from book.models import Author, Book, Language
+from book.models import Author, Book, Language, Annotation, Tag
 
 import random
 
@@ -203,4 +203,15 @@ def read_epub(book_file):
     author = Author.objects.get_or_create(name=author_string)[0]
     author.save()
     book.author.add(author)
+
+    description_string = beaut_soup.find('dc:description').getText()
+    if description_string:
+        ann = Annotation.objects.get_or_create(name=description_string, book=book)        
+
+    tag_string = beaut_soup.find('dc:subject').getText()
+    if tag_string:
+        tags = tag_string.split(',')
+        for tag_name in tags:
+            tag = Tag.objects.get_or_create(name=tag_name)        
+            book.tag.add(tag[0])
 
