@@ -29,11 +29,11 @@
 
         {% include 'book/xhtml/book_description.xml' %}
 
-        {% if book.annotation.all %}
+        {% if book.annotation_set.all %}
             <div class="annotations">
                 <h3>Description</h3>
-                {% for annotation in book.annotation.all %}
-                    <div class="annotations"> {{ annotation }} </div>
+                {% for annotation in book.annotation_set.all %}
+                    <div class="annotations"> {{ annotation.name }} </div>
                 {% endfor %}          
             </div>  
         {% endif %}        

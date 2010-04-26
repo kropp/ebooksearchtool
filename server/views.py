@@ -17,8 +17,6 @@ from django.db.models import Q
 from forms.views_forms import ExtendedSearch
 from forms.views_forms import available_languages
 
-EXTENDED_FORM = ExtendedSearch()
-
 def book_request(request, book_id, response_type):
     """ builds opds and xhtml response for book id request"""
     try:
@@ -154,17 +152,17 @@ def books_by_language(request, response_type):
         {'languages':languages})
     if response_type == "xhtml":
         return render_response(request, 'book/xhtml/books_by_lang.xml',
-        {'form':EXTENDED_FORM})
+        {'languages':languages})
 
 def books_by_tags(request, response_type):
     """builds opds and xhtml response for books by tags request"""
     tags = Tag.objects.all().order_by("name")
     if response_type == "atom":
         return render_response(request, 'book/opds/books_by_tag.xml',
-        {'tags':tags, 'form':EXTENDED_FORM})
+        {'tags':tags, 'languages':languages})
     if response_type == "xhtml":
         return render_response(request, 'book/xhtml/books_by_tag.xml',
-        {'tags':tags, 'form':EXTENDED_FORM})
+        {'tags':tags, 'languages':languages})
         
 def simple_search(request):
     """go to search page"""
@@ -175,7 +173,7 @@ def extended_search(request):
     tags = Tag.objects.all().order_by("name")
     langs = available_languages()
     return render_response(request, 'book/xhtml/extended_search.xml', {'tags': tags,
-                                'langs': langs, 'form':EXTENDED_FORM})
+                                'langs': langs,})
 
 def no_book_cover(request):
     '''returns image for books have not self impage'''

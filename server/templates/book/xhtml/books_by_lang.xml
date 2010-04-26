@@ -9,8 +9,7 @@
 </div>
 
 {% for lang in languages %} 
-    <h3><a href="../search?lang={{ lang.1 }}">{{ lang.0 }}</a></h3>
+    <h3><a href="../search?lang={{ lang.0 }}">{{ lang.1 }}</a></h3>
 {% endfor %} 
 
-</feed>
 {% include 'book/xhtml/footer.xml' %}

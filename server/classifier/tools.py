@@ -12,9 +12,8 @@ def tag_adding():
     books = Book.objects.all()
     counter = 0
     for book in books:
-        if book.tag.all() != None:
-            if book.tag.count() != 0:
-                continue
+        if book.tag.count() != 0:
+            continue
         ann = book.annotation_set.all()
         summary = ""
         authors = book.author.all()
@@ -42,16 +41,17 @@ def tag_adding():
                 continue
             ann = Annotation.objects.get_or_create(name=summary, book=book)
 
-        counter += 1        
-        tags = classifier.classify(summary)
-        if counter % 10 == 0:
-            print counter
-        if tags[0] != None:
-            tag = Tag.objects.get_or_create(name=tags[0])
-            book.tag.add(tag[0])
-        if tags[1] != None:
-            tag = Tag.objects.get_or_create(name=tags[1])
-            book.tag.add(tag[0])
+        if summary:
+            counter += 1        
+            tags = classifier.classify(summary)
+            if counter % 10 == 0:
+                print counter
+            if tags[0] != None:
+                tag = Tag.objects.get_or_create(name=tags[0])
+                book.tag.add(tag[0])
+            if tags[1] != None:
+                tag = Tag.objects.get_or_create(name=tags[1])
+                book.tag.add(tag[0])
         
 def get_statistics():
     ''' parse statistic file and print statistics for classifier'''
