@@ -49,7 +49,6 @@ def query_spell_check(query, lang=None):
                 correct_words.append(word)
             else:
                 correct_word = speller.suggest(word)
-                print correct_word
                 if correct_word:
                     correct_words.append(correct_word[0])
                     if word.lower() != correct_word[0].lower():
@@ -62,7 +61,6 @@ def query_spell_check(query, lang=None):
                
     except AspellSpellerError, ex:
         MAIN_LOG.warning("aspell error " + ex.message)
-        print ex.message
         
 
 def author_search(query, max_length=5):
