@@ -122,3 +122,4 @@ class AutocompleteWidget(TextInput):
             if v == data[autocomplete_name]:
                 self.set_current_choice(k)
                 return k
+

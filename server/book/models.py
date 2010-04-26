@@ -68,7 +68,7 @@ class Language(models.Model):
     full_national = models.CharField(max_length=255)
 
     def __unicode__(self):
-        return "[%s] %s" % (self.short, self.full)
+        return "%s" % ( self.full,)
 
 
 class Author(models.Model):

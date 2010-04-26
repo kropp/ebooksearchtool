@@ -82,19 +82,21 @@ class LanguageWidget(forms.Select):
         output = []
 
         lang_id = str(Language.objects.get(short='ru').id)
-        output.append(render_option(lang_id, '[ru] Russian', is_selected))
+        output.append(render_option(lang_id, 'Russian', is_selected))
         if lang_id in selected_choices:
             is_selected = True
 
         lang_id = str(Language.objects.get(short='en').id)
-        output.append(render_option(lang_id, '[en] English', is_selected))
+        output.append(render_option(lang_id, 'English', is_selected))
         if lang_id in selected_choices:
             is_selected = True
     
         lang_id = str(Language.objects.get(short='fr').id)
-        output.append(render_option(lang_id, '[fr] French', is_selected))
+        output.append(render_option(lang_id, 'French', is_selected))
         if lang_id in selected_choices:
             is_selected = True
+
+        output.append("<option disabled>------------</option>")
 
         for option_value, option_label in chain(self.choices, choices):
             if isinstance(option_label, (list, tuple)):

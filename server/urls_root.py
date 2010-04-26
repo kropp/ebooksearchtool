@@ -94,7 +94,8 @@ urlpatterns = patterns('',
     (r'^site_media/(?P<path>.*)$', 'django.views.static.serve',
         {'document_root': 'media'}),
 
-    url(r'^book/autocomplete/?$', 'views.autocomplete_books', name='autocomplete_books'),
+    url(r'^extended_search/autocomplete_title/?$', 'views.autocomplete_title', name='autocomplete_title'),
+    url(r'^extended_search/autocomplete_author/?$', 'views.autocomplete_author', name='autocomplete_author'),
     (r'^book/?$', 'views.books'),
 )
 

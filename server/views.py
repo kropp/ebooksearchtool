@@ -14,7 +14,7 @@ from django.http import HttpResponse
 
 from django.db.models import Q
 
-from forms.views_forms import SampleForm
+from forms.views_forms import ExtendedSearch
 
 def book_request(request, book_id, response_type):
     """ builds opds and xhtml response for book id request"""
@@ -46,7 +46,6 @@ def author_request(request, author_id, response_type):
 
 def opensearch_description(request):
     """returns xml open search description"""
-    print list(RequestContext(request))[0]['request'].META['REMOTE_ADDR']
     return render_response(request, "data/opensearchdescription.xml", )
     
 def catalog(request, response_type):
@@ -220,24 +219,24 @@ def autocomplete_title(request):
 #    books = books[:int(request.REQUEST.get('limit', 15))]
     return HttpResponse(results_to_string(books), mimetype='text/plain')
 
-def autocomplete_books(request):
+def autocomplete_author(request):
     def results_to_string(results):
         if results:
             for r in results:
-                yield '%s|%s\n' % (r.title, r.pk)
+                yield '%s|%s\n' % (r.name, r.pk)
 
     query = request.REQUEST.get('q', None)
 
     if query:
-        books = Book.objects.filter(title__istartswith=query)
+        books = Author.objects.filter(name__istartswith=query)
     else:
-        books = Book.objects.all()
+        books = Author.objects.all()
 
     books = books[:15]
 #    books = books[:int(request.REQUEST.get('limit', 15))]
     return HttpResponse(results_to_string(books), mimetype='text/plain')
 
 def books(request):
-    form = SampleForm()
+    form = ExtendedSearch()
     return render_response(request, 'book.html', {'form': form})
 
