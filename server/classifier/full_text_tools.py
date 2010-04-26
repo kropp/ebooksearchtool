@@ -149,7 +149,10 @@ def read_epub(book_file):
 
     file = zipfile.ZipFile(filename, "r")
 
-    data = file.read('metadata.opf')
+    data = None
+    for i in file.namelist():
+        if i.endswith('opf'):
+            data = file.read(i)
 
     beaut_soup = bs.BeautifulSoup(data)
     author_string = beaut_soup.find('dc:creator').getText().lower()

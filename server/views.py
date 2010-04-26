@@ -15,6 +15,7 @@ from django.http import HttpResponse
 from django.db.models import Q
 
 from forms.views_forms import ExtendedSearch
+from forms.views_forms import available_languages
 
 EXTENDED_FORM = ExtendedSearch()
 
@@ -154,19 +155,6 @@ def books_by_language(request, response_type):
     if response_type == "xhtml":
         return render_response(request, 'book/xhtml/books_by_lang.xml',
         {'form':EXTENDED_FORM})
-
-def available_languages():
-    '''returns all languages used in books in our data base'''
-    lang = Book.objects.values_list('lang')
-    short_langs = set(lang)
-    short_langs =  [x[0] for x in short_langs]
-
-    languages = set()
-    for short_lang in short_langs:
-        language = Language.objects.filter(short=short_lang).order_by('full')
-        if language:
-            languages.add((language[0].full, short_lang))
-    return sorted(languages)
 
 def books_by_tags(request, response_type):
     """builds opds and xhtml response for books by tags request"""
