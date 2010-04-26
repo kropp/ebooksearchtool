@@ -16,6 +16,8 @@ from django.db.models import Q
 
 from forms.views_forms import ExtendedSearch
 
+EXTENDED_FORM = ExtendedSearch()
+
 def book_request(request, book_id, response_type):
     """ builds opds and xhtml response for book id request"""
     try:
@@ -145,12 +147,13 @@ def books_by_authors(request, response_type):
 def books_by_language(request, response_type):
     """builds opds and xhtml response for books by lang request"""
     languages = available_languages()
+
     if response_type == "atom":
         return render_response(request, 'book/opds/books_by_lang.xml',
         {'languages':languages})
     if response_type == "xhtml":
         return render_response(request, 'book/xhtml/books_by_lang.xml',
-        {'languages':languages})
+        {'form':EXTENDED_FORM})
 
 def available_languages():
     '''returns all languages used in books in our data base'''
@@ -168,13 +171,12 @@ def available_languages():
 def books_by_tags(request, response_type):
     """builds opds and xhtml response for books by tags request"""
     tags = Tag.objects.all().order_by("name")
-    langs = available_languages()
     if response_type == "atom":
         return render_response(request, 'book/opds/books_by_tag.xml',
-        {'tags':tags})
+        {'tags':tags, 'form':EXTENDED_FORM})
     if response_type == "xhtml":
         return render_response(request, 'book/xhtml/books_by_tag.xml',
-        {'tags':tags})
+        {'tags':tags, 'form':EXTENDED_FORM})
         
 def simple_search(request):
     """go to search page"""
@@ -185,7 +187,7 @@ def extended_search(request):
     tags = Tag.objects.all().order_by("name")
     langs = available_languages()
     return render_response(request, 'book/xhtml/extended_search.xml', {'tags': tags,
-                                'langs': langs})
+                                'langs': langs, 'form':EXTENDED_FORM})
 
 def no_book_cover(request):
     '''returns image for books have not self impage'''
@@ -235,8 +237,4 @@ def autocomplete_author(request):
     books = books[:15]
 #    books = books[:int(request.REQUEST.get('limit', 15))]
     return HttpResponse(results_to_string(books), mimetype='text/plain')
-
-def books(request):
-    form = ExtendedSearch()
-    return render_response(request, 'book.html', {'form': form})
 

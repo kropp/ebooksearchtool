@@ -1,3 +1,6 @@
+<script type="text/javascript" src="../site_media/js/views/jQuery.js"></script>
+<script type="text/javascript" src="../site_media/js/views/jquery-autocomplete/jquery.autocomplete.js"></script>
+<link rel="stylesheet" type="text/css" href="../site_media/css/jquery.autocomplete.css" />
 <div id="header">
   
     <h2>Extended search: </h2>
@@ -5,14 +8,26 @@
     <form name="extended_search" action="search">
     
         <table>    
-            <tr>
-            <td>Title:</td>
-            <td>  <input type="text" style="width: 203px;" name="title" value="{{ title.tit }}"></td>
+            <tr><td>Title:</td>
+            <td>  <input type="text" style="width: 203px;" name="title" id="id_title" value="{{ title.tit }}">
+            <script type="text/javascript">function author_value() { return $('#id_author').val(); }
+            $('#id_title').autocomplete("/extended_search/autocomplete_title", {
+                "extraParams": {
+                    "author": author_value
+                }
+            });</script></td>
             <td><input type="submit" value="Search" ></td>
             <td>&nbsp;&nbsp;<a href="simple_search" rel="simple search">Simple search</a></td>
             </tr><tr>
             <td>Author:</td> 
-            <td> <input type="text" style="width: 203px;" name="author" value="{{ title.author }}"></td>
+            <td> <input type="text" style="width: 203px;" name="author" value="{{ title.author }}" id="id_author"></td>
+            <script type="text/javascript">function title_value() { return $('#id_title').val(); }
+            $('#id_author').autocomplete("/extended_search/autocomplete_author", {
+                "extraParams": {
+                    "title": title_value
+                }
+            });</script>
+
             </tr><tr>
             <td style="padding-top: 20px;">Language:</td>  
             <td style="padding-top: 20px;"><select name="lang"  width="210" style="width: 210px">
