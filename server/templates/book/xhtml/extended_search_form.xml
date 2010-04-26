@@ -9,7 +9,7 @@
     
         <table>    
             <tr><td>Title:</td>
-            <td>  <input type="text" style="width: 203px;" name="title" id="id_title" value="{{ title.tit }}">
+            <td>  <input type="text" style="width: 253px;" name="title" id="id_title" value="{{ title.tit }}">
             <script type="text/javascript">function author_value() { return $('#id_author').val(); }
             $('#id_title').autocomplete("/extended_search/autocomplete_title", {
                 "extraParams": {
@@ -20,7 +20,7 @@
             <td>&nbsp;&nbsp;<a href="simple_search" rel="simple search">Simple search</a></td>
             </tr><tr>
             <td>Author:</td> 
-            <td> <input type="text" style="width: 203px;" name="author" value="{{ title.author }}" id="id_author"></td>
+            <td> <input type="text" style="width: 253px;" name="author" value="{{ title.author }}" id="id_author"></td>
             <script type="text/javascript">function title_value() { return $('#id_title').val(); }
             $('#id_author').autocomplete("/extended_search/autocomplete_author", {
                 "extraParams": {
@@ -30,7 +30,7 @@
 
             </tr><tr>
             <td style="padding-top: 20px;">Language:</td>  
-            <td style="padding-top: 20px;"><select name="lang"  width="210" style="width: 210px">
+            <td style="padding-top: 20px;"><select name="lang"  width="260" style="width: 260px">
                 <option value="">--None--</option>
                 <option value="en">English</option>
                 <option value="ru">Russian</option>
@@ -49,7 +49,7 @@
 
             </tr><tr>
             <td>Tag:</td>
-            <td><select name="tag"  width="210" style="width: 210px">
+            <td><select name="tag"  width="260" style="width: 260px">
                 <option value="">--None--</option>
                 {% for tag in tags %}
                     {% ifequal tag.name title.tag %} 

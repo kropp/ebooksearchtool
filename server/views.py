@@ -211,11 +211,14 @@ def autocomplete_title(request):
                 yield '%s|%s\n' % (r.title, r.pk)
 
     query = request.REQUEST.get('q', None)
+    author = request.REQUEST.get('author', None)
 
     if query:
         books = Book.objects.filter(title__istartswith=query)
     else:
         books = Book.objects.all()
+    if author:
+        books = books.filter(author__name__istartswith=author)        
 
     books = books[:15]
 #    books = books[:int(request.REQUEST.get('limit', 15))]
@@ -230,11 +233,11 @@ def autocomplete_author(request):
     query = request.REQUEST.get('q', None)
 
     if query:
-        books = Author.objects.filter(name__istartswith=query)
+        authors = Author.objects.filter(name__istartswith=query)
     else:
-        books = Author.objects.all()
+        authors = Author.objects.none()
 
-    books = books[:15]
+    authors = authors[:15]
 #    books = books[:int(request.REQUEST.get('limit', 15))]
-    return HttpResponse(results_to_string(books), mimetype='text/plain')
+    return HttpResponse(results_to_string(authors), mimetype='text/plain')
 
