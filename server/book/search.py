@@ -1,15 +1,69 @@
+# -*- coding: utf-8 -*-
+
 "Search functions by author, title of bood, etc"
 
 from UserList import UserList
+import logging
+
+try:
+    any
+except NameError:
+    def any(iterable):
+        for element in iterable:
+            if element:
+                return True
+        return False
 
 from settings import ANALYZER_DEFAULT_RESULT_LENGTH, MAX_RESULT_LENGTH
 
 from spec.exception import RequestServerException
+from spec.external.aspell import Speller, AspellSpellerError
 from spec.search_util import rm_items, id_field
 from spec.distance import name_distance
 from queryspell.models import Dictionary
 from book.models import Author, Book, Language, Tag
 
+MAIN_LOG = logging.getLogger("main_logger")
+
+def recognize_lang(query):
+    russian_letters = u'абвгдеёжзийклмнопрстуфхцчшщъыьэюя'
+    if any( (letter in russian_letters for letter in query) ):
+        return 'ru'
+    else:
+        return 'en'
+
+def query_spell_check(query, lang=None):
+    if not query:
+        return
+    try:
+        if not lang:
+            lang = recognize_lang(query)
+        speller = Speller(('lang', lang), ('encoding', 'utf-8'))
+        correct_words = []
+        corrected = False
+
+        query = query.encode('utf8')
+
+        for word in query.split():
+            if speller.check(word):
+                correct_words.append(word)
+            else:
+                correct_word = speller.suggest(word)
+                print correct_word
+                if correct_word:
+                    correct_words.append(correct_word[0])
+                    if word.lower() != correct_word[0].lower():
+                        corrected = True
+                else:
+                    correct_words.append(word)
+
+        if corrected:
+            return ' '.join(correct_words)
+               
+    except AspellSpellerError, ex:
+        MAIN_LOG.warning("aspell error " + ex.message)
+        print ex.message
+        
 
 def author_search(query, max_length=5):
     """Searches 'query' in author field.
@@ -195,8 +249,9 @@ class SphinxSearchEngine(SearchEngine):
             search_result = UserList(authors[0:max_length])
             # TODO sort by normal weight
 
-            author_query_suggestion = \
-                Dictionary.objects.get(name='author').correct(author_query)
+#            author_query_suggestion = \
+#                Dictionary.objects.get(name='author').correct(author_query)
+            author_query_suggestion = query_spell_check(author_query)
             search_result.suggestion = \
                 dict(author_query=author_query_suggestion)
             return search_result
@@ -231,10 +286,10 @@ class SphinxSearchEngine(SearchEngine):
                     books = books.filter(author_id=authors_id)
 
             search_result = UserList(books[0:max_length])
-            author_query_suggestion = \
-                Dictionary.objects.get(name='author').correct(author_query)
-            title_query_suggestion = \
-                Dictionary.objects.get(name='words').correct(title_query)
+#            author_query_suggestion = \
+#                Dictionary.objects.get(name='author').correct(author_query)
+            title_query_suggestion = query_spell_check(title_query, lang_query)
+            author_query_suggestion = query_spell_check(author_query, lang_query)
             search_result.suggestion = \
                 dict(author_query=author_query_suggestion, \
                      title_query=title_query_suggestion)
@@ -265,9 +320,10 @@ class SphinxSearchEngine(SearchEngine):
 
         search_result = UserList(books[0:max_length])
         # TODO search in 'common' dictionary
-        query_suggestion = \
-            Dictionary.objects.get(name='words').correct(query)
-        search_result.suggestion = dict(query=query_suggestion)
+#        query_suggestion = \
+#            Dictionary.objects.get(name='words').correct(query)
+#        search_result.suggestion = dict(query=query_suggestion)
+        search_result.suggestion = dict(query=query_spell_check(query))
 
         return search_result
 
