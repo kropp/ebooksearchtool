@@ -20,11 +20,10 @@ try:
 except ImportError:
     ASPELL_DICTIONARIES = None
 
-from spec.exception import RequestServerException
 from spec.external.aspell import Speller, AspellSpellerError
+from spec.exception import RequestServerException
 from spec.search_util import rm_items, id_field
 from spec.distance import name_distance
-from queryspell.models import Dictionary
 from book.models import Author, Book, Language, Tag
 
 MAIN_LOG = logging.getLogger("main_logger")
@@ -36,18 +35,17 @@ def recognize_lang(query):
     else:
         return 'en'
 
-def query_spell_check(query, lang=None):
+def spell_check(query, lang=None):
     if not query:
         return
     try:
-        # TODO should i recognize lanhuage for hole query or for each word?
+        # TODO should i recognize language for hole query or for each word?
         if not lang:
             lang = recognize_lang(query)
         speller_options = [('lang', lang), ('encoding', 'utf-8')]
         if ASPELL_DICTIONARIES:
             speller_options.append(('data-dir', ASPELL_DICTIONARIES))
         speller = Speller(*speller_options)
-	print speller.ConfigKeys()
         correct_words = []
         corrected = False
 
@@ -235,42 +233,47 @@ class SearchEngine:
 class SphinxSearchEngine(SearchEngine):
     "Search engine using sphinx search."
 
-    def author_search(self, max_length=MAX_RESULT_LENGTH, **kwargs):
-        """
-        Searchs query in authors, using soundex algorithm.
-        Supports args: author, tag, max_length.
-        """
+    def __get_suggetions(self, **kwargs):
+        lang = kwargs.get('lang')
+        spelling_field = ['query', 'title', 'author']
+        suggestions = \
+            dict([(key, spell_check(value, lang)) for key, value in kwargs.items() \
+                                                  if key in spelling_field])
+        suggestions = \
+            dict([(key, value) for key, value in suggestions.items() \
+                                              if value])
+        if suggestions:
+            return suggestions
+
+    def __author_search(self, max_length, **kwargs):
         author_query = kwargs.get('author')
 #        lang_query = kwargs.get('lang')
         tag_query = kwargs.get('tag')
 
         if author_query:
             authors = Author.soundex_search.query(author_query)
-            
 #            if lang_query:
 #                lang_id = Language.objects.get(short=lang_query).id
 #                authors = authors.filter(language_id=lang_id)
-
             if tag_query:
                 tag_id = Tag.objects.get(name=tag_query).id
                 authors = authors.filter(tag_id=tag_id)
-
-            search_result = UserList(authors[0:max_length])
             # TODO sort by normal weight
 
-#            author_query_suggestion = \
-#                Dictionary.objects.get(name='author').correct(author_query)
-            author_query_suggestion = query_spell_check(author_query)
-            search_result.suggestion = \
-                dict(author_query=author_query_suggestion)
+            return authors[0:max_length]
+
+
+    def author_search(self, max_length=MAX_RESULT_LENGTH, **kwargs):
+        """
+        Searchs query in authors, using soundex algorithm.
+        Supports args: author, tag, max_length.
+        """
+        search_result = UserList(self.__author_search(max_length, **kwargs))
+        if search_result is not None:
+            search_result.suggestion = self.__get_suggetions(**kwargs)
             return search_result
 
-
-    def book_search(self, max_length=MAX_RESULT_LENGTH, **kwargs):
-        """
-        Searchs query in books.
-        Supports args: title, author, tag, lang, max_length.
-        """
+    def __book_search(self, max_length, **kwargs):
         title_query = kwargs.get('title')
         author_query = kwargs.get('author')
         lang_query = kwargs.get('lang')
@@ -294,14 +297,17 @@ class SphinxSearchEngine(SearchEngine):
                 if authors_id:
                     books = books.filter(author_id=authors_id)
 
-            search_result = UserList(books[0:max_length])
-#            author_query_suggestion = \
-#                Dictionary.objects.get(name='author').correct(author_query)
-            title_query_suggestion = query_spell_check(title_query, lang_query)
-            author_query_suggestion = query_spell_check(author_query, lang_query)
-            search_result.suggestion = \
-                dict(author_query=author_query_suggestion, \
-                     title_query=title_query_suggestion)
+            return books[0:max_length]
+        
+
+    def book_search(self, max_length=MAX_RESULT_LENGTH, **kwargs):
+        """
+        Searchs query in books.
+        Supports args: title, author, tag, lang, max_length.
+        """
+        search_result = UserList(self.__book_search(max_length, **kwargs))
+        if search_result is not None:
+            search_result.suggestion = self.__get_suggetions(**kwargs)
             return search_result
 
     def simple_search(self, query, max_length=MAX_RESULT_LENGTH, **kwargs):
@@ -314,25 +320,25 @@ class SphinxSearchEngine(SearchEngine):
         query_ex['author'] = query
 
         # search in title and in author
-        books = list(self.book_search(**query_ex))
+        books = UserList(self.__book_search(max_length, **query_ex))
         
         if len(books) < max_length:
             # search only in title
             del query_ex['author']
-            books_a = self.book_search(**query_ex)
+            books_a = self.__book_search(max_length, **query_ex)
 
             books_id_set = set([b.id for b in books])
             # merge results
+            added_book_num = len(books)
             for book in books_a:
                 if not book.id in books_id_set:
                     books.append(book)
+                    added_book_num += 1
+                    if added_book_num == max_length:
+                        break
 
-        search_result = UserList(books[0:max_length])
-        # TODO search in 'common' dictionary
-#        query_suggestion = \
-#            Dictionary.objects.get(name='words').correct(query)
-#        search_result.suggestion = dict(query=query_suggestion)
-        search_result.suggestion = dict(query=query_spell_check(query))
-
-        return search_result
+        del query_ex['title']
+        query_ex['query'] = query
+        books.suggestion = self.__get_suggetions(**query_ex)
+        return books
 

@@ -171,7 +171,7 @@ ANALYZER_DEFAULT_RESULT_LENGTH = 5
 MAX_RESULT_LENGTH = 200
 
 # Path to aspell dictionaries
-ASPELL_DICTIONARIES = '/usr/lib/aspell-0.60'
+#ASPELL_DICTIONARIES = '/usr/lib/aspell-0.60'
 
 try:
     from local_settings import *
