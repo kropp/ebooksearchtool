@@ -47,10 +47,12 @@ def query_spell_check(query, lang=None):
         if ASPELL_DICTIONARIES:
             speller_options.append(('data-dir', ASPELL_DICTIONARIES))
         speller = Speller(*speller_options)
+	print speller.ConfigKeys()
         correct_words = []
         corrected = False
 
-        query = query.encode('utf8')
+        if isinstance(query, unicode):
+            query = query.encode('utf-8')
 
         for word in query.split():
             if speller.check(word):
@@ -58,14 +60,15 @@ def query_spell_check(query, lang=None):
             else:
                 correct_word = speller.suggest(word)
                 if correct_word:
-                    correct_words.append(correct_word[0])
-                    if word.lower() != correct_word[0].lower():
+                    corrected_word = correct_word[0]
+                    correct_words.append(corrected_word)
+                    if word.lower() != corrected_word.lower():
                         corrected = True
                 else:
                     correct_words.append(word)
 
         if corrected:
-            return ' '.join(correct_words)
+            return unicode(' '.join(correct_words), 'utf-8')
                
     except AspellSpellerError, ex:
         MAIN_LOG.warning("aspell error: %s" % ex)
