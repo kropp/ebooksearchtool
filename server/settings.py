@@ -170,6 +170,9 @@ ANALYZER_DEFAULT_RESULT_LENGTH = 5
 # Max result length
 MAX_RESULT_LENGTH = 200
 
+# Path to aspell dictionaries
+ASPELL_DICTIONARIES = '/usr/lib/aspell-0.60'
+
 try:
     from local_settings import *
 except Exception:

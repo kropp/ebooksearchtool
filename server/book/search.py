@@ -15,6 +15,10 @@ except NameError:
         return False
 
 from settings import ANALYZER_DEFAULT_RESULT_LENGTH, MAX_RESULT_LENGTH
+try:
+    from settings import ASPELL_DICTIONARIES
+except ImportError:
+    ASPELL_DICTIONARIES = None
 
 from spec.exception import RequestServerException
 from spec.external.aspell import Speller, AspellSpellerError
@@ -36,9 +40,13 @@ def query_spell_check(query, lang=None):
     if not query:
         return
     try:
+        # TODO should i recognize lanhuage for hole query or for each word?
         if not lang:
             lang = recognize_lang(query)
-        speller = Speller(('lang', lang), ('encoding', 'utf-8'))
+        speller_options = [('lang', lang), ('encoding', 'utf-8')]
+        if ASPELL_DICTIONARIES:
+            speller_options.append(('data-dir', ASPELL_DICTIONARIES))
+        speller = Speller(*speller_options)
         correct_words = []
         corrected = False
 
@@ -60,7 +68,7 @@ def query_spell_check(query, lang=None):
             return ' '.join(correct_words)
                
     except AspellSpellerError, ex:
-        MAIN_LOG.warning("aspell error " + ex.message)
+        MAIN_LOG.warning("aspell error: %s" % ex)
         
 
 def author_search(query, max_length=5):
