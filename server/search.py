@@ -6,7 +6,7 @@ from django.db.models import Q
 from book.models import Book, Tag
 from django.template import RequestContext
 
-from book.search import SphinxSearchEngine
+from book.search_engine.sphinx_engine import SphinxSearchEngine
 
 from views import available_languages, render_response
 

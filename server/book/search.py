@@ -1,76 +1,16 @@
-# -*- coding: utf-8 -*-
 
 "Search functions by author, title of bood, etc"
 
-from UserList import UserList
-import logging
 
-try:
-    any
-except NameError:
-    def any(iterable):
-        for element in iterable:
-            if element:
-                return True
-        return False
 
-from settings import ANALYZER_DEFAULT_RESULT_LENGTH, MAX_RESULT_LENGTH
-try:
-    from settings import ASPELL_DICTIONARIES
-except ImportError:
-    ASPELL_DICTIONARIES = None
+from settings import ANALYZER_DEFAULT_RESULT_LENGTH
 
-from spec.external.aspell import Speller, AspellSpellerError
 from spec.exception import RequestServerException
 from spec.search_util import rm_items, id_field
 from spec.distance import name_distance
-from book.models import Author, Book, Language, Tag
+from book.models import Author, Book
 
-MAIN_LOG = logging.getLogger("main_logger")
 
-def recognize_lang(query):
-    russian_letters = u'абвгдеёжзийклмнопрстуфхцчшщъыьэюя'
-    if any( (letter in russian_letters for letter in query) ):
-        return 'ru'
-    else:
-        return 'en'
-
-def spell_check(query, lang=None):
-    if not query:
-        return
-    try:
-        # TODO should i recognize language for hole query or for each word?
-        if not lang:
-            lang = recognize_lang(query)
-        speller_options = [('lang', lang), ('encoding', 'utf-8')]
-        if ASPELL_DICTIONARIES:
-            speller_options.append(('data-dir', ASPELL_DICTIONARIES))
-        speller = Speller(*speller_options)
-        correct_words = []
-        corrected = False
-
-        if isinstance(query, unicode):
-            query = query.encode('utf-8')
-
-        for word in query.split():
-            if speller.check(word):
-                correct_words.append(word)
-            else:
-                correct_word = speller.suggest(word)
-                if correct_word:
-                    corrected_word = correct_word[0]
-                    correct_words.append(corrected_word)
-                    if word.lower() != corrected_word.lower():
-                        corrected = True
-                else:
-                    correct_words.append(word)
-
-        if corrected:
-            return unicode(' '.join(correct_words), 'utf-8')
-               
-    except AspellSpellerError, ex:
-        MAIN_LOG.warning("aspell error: %s" % ex)
-        
 
 def author_search(query, max_length=5):
     """Searches 'query' in author field.
@@ -211,134 +151,5 @@ def xml_search(xml):
 
 
 
-class SearchEngine:
-    "Abstract class, interface for search engine"
 
-    def author_search(self, max_length=MAX_RESULT_LENGTH, **kwargs):
-        "Searchs query in authors."
-        raise NotImplementedError(
-            'SearchEngine.author_search() must be implemented in subclasses')
-
-    def book_search(self, max_length=MAX_RESULT_LENGTH, **kwargs):
-        "Searchs query in books."
-        raise NotImplementedError(
-            'SearchEngine.book_search() must be implemented in subclasses')
-
-    def simple_search(self, query, max_length=MAX_RESULT_LENGTH, **kwargs):
-        "Smart searchs query in books."
-        raise NotImplementedError(
-            'SearchEngine.simple_search() must be implemented in subclasses')
-
-
-class SphinxSearchEngine(SearchEngine):
-    "Search engine using sphinx search."
-
-    def __get_suggetions(self, **kwargs):
-        lang = kwargs.get('lang')
-        spelling_field = ['query', 'title', 'author']
-        suggestions = \
-            dict([(key, spell_check(value, lang)) for key, value in kwargs.items() \
-                                                  if key in spelling_field])
-        suggestions = \
-            dict([(key, value) for key, value in suggestions.items() \
-                                              if value])
-        if suggestions:
-            return suggestions
-
-    def __author_search(self, max_length, **kwargs):
-        author_query = kwargs.get('author')
-#        lang_query = kwargs.get('lang')
-        tag_query = kwargs.get('tag')
-
-        if author_query:
-            authors = Author.soundex_search.query(author_query)
-#            if lang_query:
-#                lang_id = Language.objects.get(short=lang_query).id
-#                authors = authors.filter(language_id=lang_id)
-            if tag_query:
-                tag_id = Tag.objects.get(name=tag_query).id
-                authors = authors.filter(tag_id=tag_id)
-            # TODO sort by normal weight
-
-            return authors[0:max_length]
-
-
-    def author_search(self, max_length=MAX_RESULT_LENGTH, **kwargs):
-        """
-        Searchs query in authors, using soundex algorithm.
-        Supports args: author, tag, max_length.
-        """
-        search_result = UserList(self.__author_search(max_length, **kwargs))
-        if search_result is not None:
-            search_result.suggestion = self.__get_suggetions(**kwargs)
-            return search_result
-
-    def __book_search(self, max_length, **kwargs):
-        title_query = kwargs.get('title')
-        author_query = kwargs.get('author')
-        lang_query = kwargs.get('lang')
-        tag_query = kwargs.get('tag')
-        
-        if title_query:
-            books = Book.title_search.query(title_query)
-            
-            if lang_query:
-                lang_id = Language.objects.get(short=lang_query).id
-                books = books.filter(language_id=lang_id)
-
-            if tag_query:
-                tag_id = Tag.objects.get(name=tag_query).id
-                books = books.filter(tag_id=tag_id)
-
-            if author_query:
-                authors = \
-                    Author.soundex_search.query(author_query)[0:max_length]
-                authors_id = [a.id for a in authors]
-                if authors_id:
-                    books = books.filter(author_id=authors_id)
-
-            return books[0:max_length]
-        
-
-    def book_search(self, max_length=MAX_RESULT_LENGTH, **kwargs):
-        """
-        Searchs query in books.
-        Supports args: title, author, tag, lang, max_length.
-        """
-        search_result = UserList(self.__book_search(max_length, **kwargs))
-        if search_result is not None:
-            search_result.suggestion = self.__get_suggetions(**kwargs)
-            return search_result
-
-    def simple_search(self, query, max_length=MAX_RESULT_LENGTH, **kwargs):
-        """
-        Smart searchs query in books (in title and authors).
-        Supports args: query, tag, lang, max_length.
-        """
-        query_ex = dict(kwargs)
-        query_ex['title'] = query
-        query_ex['author'] = query
-
-        # search in title and in author
-        books = UserList(self.__book_search(max_length, **query_ex))
-        
-        if len(books) < max_length:
-            # search only in title
-            del query_ex['author']
-            books_a = self.__book_search(max_length, **query_ex)
-
-            books_id_set = set([b.id for b in books])
-            # merge results
-            added_book_num = len(books)
-            for book in books_a:
-                if not book.id in books_id_set:
-                    books.append(book)
-                    added_book_num += 1
-                    if added_book_num == max_length:
-                        break
-
-        del query_ex['title']
-        query_ex['query'] = query
-        books.suggestion = self.__get_suggetions(**query_ex)
-        return books
 
