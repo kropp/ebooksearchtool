@@ -4,11 +4,11 @@
 {% block extrahead %}{{ block.super }}
 <script type="text/javascript" src="../../../jsi18n/"></script>
 
-<script type="text/javascript" src="../../../../site_media/js/admin/RelatedObjectLookups.js"></script>
-<script type="text/javascript" src="/site_media/googiespell/AJS.js" ></script>
-<script type="text/javascript" src="/site_media/googiespell/googiespell.js" ></script>
-<script type="text/javascript" src="/site_media/googiespell/cookiesupport.js" ></script>
-<script type="text/javascript" src="/site_media/js/admin/spellcheck.js" ></script>
+<script type="text/javascript" src="../../../../{{MEDIA_URL}}/js/admin/RelatedObjectLookups.js"></script>
+<script type="text/javascript" src="/{{MEDIA_URL}}/googiespell/AJS.js" ></script>
+<script type="text/javascript" src="/{{MEDIA_URL}}/googiespell/googiespell.js" ></script>
+<script type="text/javascript" src="/{{MEDIA_URL}}/googiespell/cookiesupport.js" ></script>
+<script type="text/javascript" src="/{{MEDIA_URL}}/js/admin/spellcheck.js" ></script>
 
 {{ media }}
 {% endblock %}
