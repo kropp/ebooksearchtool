@@ -169,7 +169,7 @@ def books_by_tags(request, response_type):
         {'tags':tags, 'languages':languages})
     if response_type == "xhtml":
         return render_response(request, 'book/xhtml/books_by_tag.xml',
-        {'tags':tags})#, 'languages':languages})
+        {'tags':tags, 'languages':languages})
         
 def simple_search(request):
     """go to search page"""
