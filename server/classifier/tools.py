@@ -6,6 +6,8 @@ from read_tools import get_description, read
 from spec.external.BeautifulSoup import BeautifulSoup as bs
 import urllib2
 
+from search_tools import GENRES
+
 def tag_adding():
     ''' adds tag for books after classifying '''
     classifier = deserialize()
@@ -16,6 +18,14 @@ def tag_adding():
         counter_all += 1
         if book.tag.count() != 0:
             continue
+
+        title = book.title
+        for i in GENRES.items():
+            for j in i[1]:
+                if title.find(j) != -1:
+                    tag = Tag.objects.get_or_create(name=i[0])
+                    book.tag.add(tag[0])
+
         ann = book.annotation_set.all()
         summary = ""
         authors = book.author.all()

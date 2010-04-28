@@ -4,17 +4,17 @@
 {% block extrahead %}{{ block.super }}
 <script type="text/javascript" src="../../../jsi18n/"></script>
 
-<script type="text/javascript" src="../../../../{{MEDIA_URL}}/js/admin/RelatedObjectLookups.js"></script>
-<script type="text/javascript" src="/{{MEDIA_URL}}/googiespell/AJS.js" ></script>
-<script type="text/javascript" src="/{{MEDIA_URL}}/googiespell/googiespell.js" ></script>
-<script type="text/javascript" src="/{{MEDIA_URL}}/googiespell/cookiesupport.js" ></script>
-<script type="text/javascript" src="/{{MEDIA_URL}}/js/admin/spellcheck.js" ></script>
+<script type="text/javascript" src="{{MEDIA_URL}}/js/admin/RelatedObjectLookups.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}/googiespell/AJS.js" ></script>
+<script type="text/javascript" src="{{MEDIA_URL}}/googiespell/googiespell.js" ></script>
+<script type="text/javascript" src="{{MEDIA_URL}}/googiespell/cookiesupport.js" ></script>
+<script type="text/javascript" src="{{MEDIA_URL}}/js/admin/spellcheck.js" ></script>
 
 {{ media }}
 {% endblock %}
 
 {% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/forms.css" />
-<link rel="stylesheet" type="text/css" href="/site_media/googiespell/googiespell.css" />
+<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/googiespell/googiespell.css" />
 {% endblock %}
 
 

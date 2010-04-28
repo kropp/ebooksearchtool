@@ -5,8 +5,8 @@ from spec.external.BeautifulSoup import BeautifulSoup as bs
 from book.models import Tag
 
 GENRES = {'Adventure':['Adventure'], 'Biography':['Biography'], 
-    'Collections':['Collections'], 'Crime/Mystery':['Crime/Mystery','Crime', 
-    'Mystery'], 'Essay':['Essay'], 'Fantasy':['Fantasy'], 
+    'Collections':['Collections', 'Collection'], 'Crime/Mystery':['Crime/Mystery',
+    'Crime', 'Mystery'], 'Essay':['Essay'], 'Fantasy':['Fantasy'], 
     'Ghost Stories':['Ghost Stories', 'Ghost-Stories'], 
     'History':['Historian'], 'Horror':['Horror'], 
     'Humor/Satire':['Humor/Satire','Humor','Satire', 'Comedy', 'Black Comedy'],
