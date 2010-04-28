@@ -4,7 +4,6 @@
 <div id="header">
   
     <h2>Extended search: </h2>
-
     <form name="extended_search" action="search">
     
         <table>    
@@ -32,18 +31,71 @@
             <td style="padding-top: 20px;">Language:</td>  
             <td style="padding-top: 20px;"><select name="lang"  width="260" style="width: 260px">
                 <option value="">--None--</option>
-                <option value="en">English</option>
-                <option value="ru">Russian</option>
-                <option value="fr">French</option>
-                <option disabled>-----------</option>                    
+                {% ifequal "en" title.lang %}
+                    <option selected value="en">English</option>
+                    <option value="ru">Russian</option>
+                    <option value="fr">French</option>
+                    <option disabled>-----------</option> 
+                    {% for lang in langs %}
+                        <option value="{{lang.0}}">{{lang.1}}</option>
+                    {% endfor %}
+                {% else %}
+                    <option value="en">English</option>
+                    <option value="ru">Russian</option>
+                    <option value="fr">French</option>
+                    <option disabled>-----------</option>
+                    {% for lang in langs %}
+                        {% ifequal lang.0 title.lang %} 
+                            <option selected value="{{lang.0}}">{{lang.1}}</option>                    
+                        {% else %}
+                        <option value="{{lang.0}}">{{lang.1}}</option>
+                        {% endifequal %}
+                    {% endfor %}
+                {% endifequal %}
 
-                {% for lang in langs %}
-                    {% ifequal lang.0 title.lang %} 
-                        <option selected value="{{lang.0}}">{{lang.1}}</option>                    
-                    {% else %}
-                    <option value="{{lang.0}}">{{lang.1}}</option>
-                    {% endifequal %}
-                {% endfor %}
+                {% ifequal "ru" title.lang %}
+                    <option value="en">English</option>
+                    <option selected value="ru">Russian</option>
+                    <option value="fr">French</option>
+                    <option disabled>-----------</option> 
+                    {% for lang in langs %}
+                        <option value="{{lang.0}}">{{lang.1}}</option>
+                    {% endfor %}
+                {% else %}
+                    <option value="en">English</option>
+                    <option value="ru">Russian</option>
+                    <option value="fr">French</option>
+                    <option disabled>-----------</option>
+                    {% for lang in langs %}
+                        {% ifequal lang.0 title.lang %} 
+                            <option selected value="{{lang.0}}">{{lang.1}}</option>                    
+                        {% else %}
+                        <option value="{{lang.0}}">{{lang.1}}</option>
+                        {% endifequal %}
+                    {% endfor %}
+                {% endifequal %}
+
+                {% ifequal "fr" title.lang %}
+                    <option value="en">English</option>
+                    <option value="ru">Russian</option>
+                    <option selected value="fr">French</option>
+                    <option disabled>-----------</option> 
+                    {% for lang in langs %}
+                        <option value="{{lang.0}}">{{lang.1}}</option>
+                    {% endfor %}
+                {% else %}
+                    <option value="en">English</option>
+                    <option value="ru">Russian</option>
+                    <option value="fr">French</option>
+                    <option disabled>-----------</option>
+                    {% for lang in langs %}
+                        {% ifequal lang.0 title.lang %} 
+                            <option selected value="{{lang.0}}">{{lang.1}}</option>                    
+                        {% else %}
+                        <option value="{{lang.0}}">{{lang.1}}</option>
+                        {% endifequal %}
+                    {% endfor %}
+                {% endifequal %}
                 </select>
             </td>
 
@@ -65,3 +117,4 @@
     </form>
 
 </div>
+
