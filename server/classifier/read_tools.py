@@ -30,7 +30,10 @@ def get_description(book_name, flag = False):
     
 
     book_page = urllib2.urlopen(book_html)
-    beaut_soup_book = bs.BeautifulSoup(book_page)
+    try:
+        beaut_soup_book = bs.BeautifulSoup(book_page)
+    except:
+        return
     if beaut_soup_book == None:
         return
     descr_tag = beaut_soup_book.find(
