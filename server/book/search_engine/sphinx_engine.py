@@ -32,9 +32,9 @@ class SphinxSearchEngine(SearchEngine):
 #            if lang_query:
 #                lang_id = Language.objects.get(short=lang_query).id
 #                authors = authors.filter(language_id=lang_id)
-            if tag_query:
-                tag_id = Tag.objects.get(name=tag_query).id
-                authors = authors.filter(tag_id=tag_id)
+#            if tag_query:
+#                tag_id = Tag.objects.get(name=tag_query).id
+#                authors = authors.filter(tag_id=tag_id)
             # TODO sort by normal weight
 
             return authors[0:max_length]
