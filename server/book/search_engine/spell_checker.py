@@ -11,7 +11,7 @@ except NameError:
                 return True
         return False
 
-from spec.external.aspell import Speller, AspellSpellerError
+#from spec.external.aspell import Speller, AspellSpellerError
 try:
     from settings import ASPELL_DICTIONARIES
 except ImportError:

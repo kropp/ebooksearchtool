@@ -2,6 +2,7 @@
 
 import spec.external.feedparser as feedparser
 import urllib2
+import urllib
 
 from spec.external.BeautifulSoup import BeautifulSoup as bs
 
@@ -14,7 +15,7 @@ def get_description(book_name, flag = False):
 #    print name
     if flag == True:
         name = name.encode("utf-8")
-    name = urllib2.quote(name)
+    name = urllib.quote(name)
     
     page = urllib2.urlopen("http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Dstripbooks&field-keywords=" + "%s&x=0&y=0" % name)
     beaut_soup = bs.BeautifulSoup(page)
