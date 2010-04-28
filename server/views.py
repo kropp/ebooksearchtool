@@ -163,12 +163,13 @@ def books_by_language(request, response_type):
 def books_by_tags(request, response_type):
     """builds opds and xhtml response for books by tags request"""
     tags = Tag.objects.all().order_by("name")
+    languages = available_languages()
     if response_type == "atom":
         return render_response(request, 'book/opds/books_by_tag.xml',
         {'tags':tags, 'languages':languages})
     if response_type == "xhtml":
         return render_response(request, 'book/xhtml/books_by_tag.xml',
-        {'tags':tags, 'languages':languages})
+        {'tags':tags})#, 'languages':languages})
         
 def simple_search(request):
     """go to search page"""
@@ -187,7 +188,7 @@ def no_book_cover(request):
     return HttpResponse(image_data, mimetype="image/png")
 
 def render_response(req, *args, **kwargs):
-    bottom_string = "%s v%s (build %s)" % (EBST_NAME, EBST_VERSION, 
+    bottom_string = "%s v%s (r%s)" % (EBST_NAME, EBST_VERSION, 
                                                         EBST_VERSION_BUILD)
     google_link = 'http://code.google.com/p/ebooksearchtool/'
     kwargs['context_instance'] = RequestContext(req, 
