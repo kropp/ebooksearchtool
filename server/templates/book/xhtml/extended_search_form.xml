@@ -1,6 +1,7 @@
 <script type="text/javascript" src="{{MEDIA_URL}}/js/views/jQuery.js"></script>
 <script type="text/javascript" src="{{MEDIA_URL}}/js/views/jquery-autocomplete/jquery.autocomplete.js"></script>
 <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/jquery.autocomplete.css" />
+<a href="/" rel="main_page">Back to catalog</a>
 <div id="header">
 
     <center><b><font color="#003ba6" size="6">eBookSearch</font></b></center>

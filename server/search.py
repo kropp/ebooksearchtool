@@ -19,14 +19,14 @@ def simple_search(request, response_type, items_per_page, page, start_index):
     query = request.GET['query']
     
     if not query:
-        return no_results(request, main_title, is_simple = True)
+        return no_results(request, query, is_simple = True)
 
     books = SEARCH_ENGINE.simple_search(query)
     
     authors = SEARCH_ENGINE.author_search(author=query, max_length=5)         
 
     if not books and not authors:
-        return no_results(request, main_title, is_simple = True)
+        return no_results(request, query, is_simple = True)
 
 
     total = len(books)
@@ -163,5 +163,9 @@ def search_request_to_server(request, response_type, is_all):
 
 def no_results(request, main_title, is_simple = False):
     ''' returns 'no result' message'''
-    return render_response(request, 'book/xhtml/no_results.xml', 
-                                {'is_simple': is_simple, 'title': main_title})
+    if is_simple:
+        return render_response(request, 'book/xhtml/no_results.xml', 
+                                    {'is_simple': is_simple, 'query': main_title})
+    else:
+        return render_response(request, 'book/xhtml/no_results.xml', 
+                                    {'is_simple': is_simple, 'title': main_title})

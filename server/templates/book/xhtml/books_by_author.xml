@@ -4,7 +4,9 @@
 </head>
 
 <body>
+<a href="/" rel="main_page">Back to catalog</a>
     <center><b><font color="#003ba6" size="6">eBookSearch</font></b></center>
+
 <div id="header">
     <h1>Authors: </h1>
 </div>
