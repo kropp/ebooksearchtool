@@ -1,6 +1,6 @@
 {% include 'book/xhtml/header.xml' %}
 
-    <title>No results </title>      
+    <title>No results | eBookSearch</title>      
 </head>
 
 <body>

@@ -1,5 +1,5 @@
 {% include 'book/xhtml/header.xml' %}
-    <title>Search </title>
+    <title>Search | eBookSearch</title>
 </head>
 
 <body>

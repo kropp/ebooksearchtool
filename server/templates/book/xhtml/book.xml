@@ -1,6 +1,6 @@
 {% include 'book/xhtml/header.xml' %}
 
-  <title> {{ book.title }} </title>
+  <title> {{ book.title }} | eBookSearch</title>
   
 <style type="text/css">
     img.cover {margin-top: 3px; max-height: 110px;}
@@ -9,6 +9,7 @@
 </head>
 
 <body>
+    <center><b><font color="#003ba6" size="6">eBookSearch</font></b></center>
 
 <div class="title">
     <h1> {{ book.title }} </h1>

@@ -1,16 +1,20 @@
 {% include 'book/xhtml/header.xml' %}
 
-    <title> Catalog </title>   
+    <title> eBookSearch Catalog</title>   
 </head>
 
 <body>
 <div id="header">
-  
-    <h1>Catalog: </h1>
+
+    <center>
+    <b><font color="#003ba6" size="8">eBookSearch</font></b> <br />
+    <font color="#444444" size="4">ebook search service</font> <br />
+    </center>
+    <!--h1>Catalog: </h1-->
 </div>
   
 <h3 ><a href="simple_search">Search</a></h3>
-Search books
+Search books using <a href="simple_search">simple search</a> or <a href="extended_search">extended</a>
 <h3><a href="discover/authors">Authors</a></h3>
 Alpha index of the authors available
 <h3><a href="discover/languages">Languages</a></h3>

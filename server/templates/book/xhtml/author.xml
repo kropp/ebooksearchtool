@@ -1,13 +1,14 @@
 {% load pagination_tags %}
 {% include 'book/xhtml/header.xml' %}
 
-    <title> {{ author.name }} </title>    
+    <title> {{ author.name }} | eBookSearch </title>    
 <style type="text/css">
     img.cover {margin-top: 3px; max-height: 110px;}
 </style>    
 </head>
 
 <body>
+    <center><b><font color="#003ba6" size="6">eBookSearch</font></b></center>
 <div class="author">
     <h1>{{ author.name }}: </h1>
 </div>

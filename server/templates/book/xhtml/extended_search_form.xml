@@ -3,7 +3,8 @@
 <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/jquery.autocomplete.css" />
 <div id="header">
 
-    <h2>Extended search: </h2>
+    <center><b><font color="#003ba6" size="6">eBookSearch</font></b></center>
+    <h2>Extended search</h2>
     <form name="extended_search" action="search">
     
         <table>    

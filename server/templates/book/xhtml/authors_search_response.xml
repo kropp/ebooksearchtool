@@ -3,6 +3,7 @@
 
     <title>Search results for: 
         Author "{{ author }}";
+        | eBookSearch
     </title>
 </head>
 

@@ -1,9 +1,10 @@
 {% include 'book/xhtml/header.xml' %}
 
-    <title> Books by language  </title>
+    <title> Books by language | eBookSearch </title>
 </head>
 
 <body>
+    <center><b><font color="#003ba6" size="6">eBookSearch</font></b></center>
 <div id="header">
     <h1>Books by language: </h1>
 </div>

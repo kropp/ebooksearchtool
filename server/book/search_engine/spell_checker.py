@@ -34,36 +34,36 @@ def spell_check(query, lang=None):
     "Chekces spelling using lang or tries to recognize language."
     if not query:
         return
-    try:
-        # TODO should i recognize language for hole query or for each word?
-        if not lang:
-            lang = recognize_lang(query)
-        speller_options = [('lang', lang), ('encoding', 'utf-8')]
-        if ASPELL_DICTIONARIES:
-            speller_options.append(('data-dir', ASPELL_DICTIONARIES))
-        speller = Speller(*speller_options)
-        correct_words = []
-        corrected = False
-
-        if isinstance(query, unicode):
-            query = query.encode('utf-8')
-
-        for word in query.split():
-            if speller.check(word):
-                correct_words.append(word)
-            else:
-                correct_word = speller.suggest(word)
-                if correct_word:
-                    corrected_word = correct_word[0]
-                    correct_words.append(corrected_word)
-                    if word.lower() != corrected_word.lower():
-                        corrected = True
-                else:
-                    correct_words.append(word)
-
-        if corrected:
-            return unicode(' '.join(correct_words), 'utf-8')
-               
-    except AspellSpellerError, ex:
-        MAIN_LOG.warning("aspell error: %s" % ex)
+#    try:
+#        # TODO should i recognize language for hole query or for each word?
+#        if not lang:
+#            lang = recognize_lang(query)
+#        speller_options = [('lang', lang), ('encoding', 'utf-8')]
+#        if ASPELL_DICTIONARIES:
+#            speller_options.append(('data-dir', ASPELL_DICTIONARIES))
+#        speller = Speller(*speller_options)
+#        correct_words = []
+#        corrected = False
+#
+#        if isinstance(query, unicode):
+#            query = query.encode('utf-8')
+#
+#        for word in query.split():
+#            if speller.check(word):
+#                correct_words.append(word)
+#            else:
+#                correct_word = speller.suggest(word)
+#                if correct_word:
+#                    corrected_word = correct_word[0]
+#                    correct_words.append(corrected_word)
+#                    if word.lower() != corrected_word.lower():
+#                        corrected = True
+#                else:
+#                    correct_words.append(word)
+#
+#        if corrected:
+#            return unicode(' '.join(correct_words), 'utf-8')
+#               
+#    except AspellSpellerError, ex:
+#        MAIN_LOG.warning("aspell error: %s" % ex)
         

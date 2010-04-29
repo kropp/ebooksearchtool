@@ -1,8 +1,7 @@
 <div id="header">
   
-    <h2>Search: </h2>
-
     <form name="simple_search" action="search">
+        <center><b><font color="#003ba6" size="6">eBookSearch</font></b></center>
         Query: <input type="text" style="width: 203px;" name="query" value="{{query}}">
         <input type="submit" value="Search" >
         <a href="extended_search" rel="extended search">Extended search</a>

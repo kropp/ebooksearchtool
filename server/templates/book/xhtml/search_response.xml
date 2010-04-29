@@ -17,6 +17,7 @@
     {% if title.tag %}
         Tag "{{ title.tag }}";
     {% endif %}
+    | eBookSearch
     </title>
 
 <style type="text/css">    
