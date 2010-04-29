@@ -19,14 +19,14 @@ def simple_search(request, response_type, items_per_page, page, start_index):
     query = request.GET['query']
     
     if not query:
-        return no_results(request, is_simple = True)
+        return no_results(request, main_title, is_simple = True)
 
     books = SEARCH_ENGINE.simple_search(query)
     
     authors = SEARCH_ENGINE.author_search(author=query, max_length=5)         
 
     if not books and not authors:
-        return no_results(request, is_simple = True)
+        return no_results(request, main_title, is_simple = True)
 
 
     total = len(books)
@@ -57,7 +57,7 @@ def search_in_author(request, lang, tag, response_type, items_per_page, page,
     author = request.GET['author']
 
     if not author:
-        return no_results(request)
+        return no_results(request, main_title)
 
     main_title['author'] = author
 
@@ -65,7 +65,7 @@ def search_in_author(request, lang, tag, response_type, items_per_page, page,
     authors = SEARCH_ENGINE.author_search(author=author, lang=lang, tag=tag, 
                                             max_length=10)
     if not authors:
-        return no_results(request)
+        return no_results(request, main_title)
 
     total = len(authors)
     next = None
@@ -137,7 +137,7 @@ def search_request_to_server(request, response_type, is_all):
         books = Book.objects.filter(request_to_server).distinct()
 
     if not books:
-        return no_results(request)
+        return no_results(request, main_title)
 
     if is_all == "yes":
         books = Book.objects.all()
@@ -161,7 +161,7 @@ def search_request_to_server(request, response_type, is_all):
             context_instance=RequestContext(request))
 
 
-def no_results(request, is_simple = False):
+def no_results(request, main_title, is_simple = False):
     ''' returns 'no result' message'''
     return render_response(request, 'book/xhtml/no_results.xml', 
-                                    {'is_simple': is_simple})
+                                {'is_simple': is_simple, 'title': main_title})
