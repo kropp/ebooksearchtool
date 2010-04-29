@@ -4,7 +4,7 @@
 <a href="/" rel="main_page">Back to catalog</a>
 <div id="header">
 
-    <center><b><font color="#003ba6" size="6">eBookSearch</font></b></center>
+<center><a href="/"><img alt="eBookSearch" border="0" hspace="10"  src="{{MEDIA_URL}}/pic/title.jpg" title="eBookSearch" /></a></center>
     <h2>Extended search</h2>
     <form name="extended_search" action="search">
     
