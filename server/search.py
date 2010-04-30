@@ -167,11 +167,15 @@ def search_request_to_server(request, response_type, is_all):
 
 def no_results(request, main_title, suggestions, is_simple = False):
     ''' returns 'no result' message'''
+    tags = Tag.objects.all().order_by("name")
+    langs = available_languages()
     if is_simple:
         return render_response(request, 'book/xhtml/no_results.xml', 
                                     {'is_simple': is_simple, 'query': main_title,
-                                    'suggestions':suggestions})
+                                    'suggestions':suggestions, 'tags': tags, 
+                                    'langs':langs})
     else:
         return render_response(request, 'book/xhtml/no_results.xml', 
                                     {'is_simple': is_simple, 'title': main_title,
-                                    'suggestions':suggestions})
+                                    'suggestions':suggestions, 'tags': tags, 
+                                    'langs':langs})

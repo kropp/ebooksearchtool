@@ -12,7 +12,7 @@
 {% endif %}
 <hr class="space" /><br/>
 <div style="font-size:15pt;"> 
-Your search did not match any documents.<br/>
+Your search did not match any documents.<br/><br/>
 
 Suggestions:
 <ul>
