@@ -12,12 +12,12 @@
 {% endif %}
 <hr class="space" /><br/>
 <div style="font-size:15pt;"> 
-Your search did not match any documents.
+Your search did not match any documents.<br/>
 
 Suggestions:
 <ul>
     <li> Make sure all words are spelled correctly.</li>
     <li> Try fewer keywords.</li>
 </ul>
-There are no results matching your request.</div>
+</div>
 {% include 'book/xhtml/footer.xml' %}
