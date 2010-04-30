@@ -79,7 +79,8 @@ def search_in_author(request, lang, tag, response_type, items_per_page, page,
     if response_type == "xhtml":
         return render_response(request, 'book/xhtml/authors_search_response.xml',
             {'authors': authors, 'author': author, 'title':main_title,
-            'items_per_page':items_per_page, 'tags': tags, 'langs':langs}, 
+            'items_per_page':items_per_page, 'tags': tags, 'langs':langs,
+            'suggestions':authors.suggestion}, 
             context_instance=RequestContext(request))
 
 
@@ -157,7 +158,8 @@ def search_request_to_server(request, response_type, is_all):
     if response_type == "xhtml":
         return render_response(request, 'book/xhtml/search_response.xml',
             {'books': books, 'title': main_title, 
-            'items_per_page':items_per_page, 'tags': tags, 'langs':langs}, 
+            'items_per_page':items_per_page, 'tags': tags, 'langs':langs,
+            'suggestions':books.suggestion}, 
             context_instance=RequestContext(request))
 
 

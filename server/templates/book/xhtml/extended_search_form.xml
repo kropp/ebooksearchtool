@@ -92,6 +92,19 @@
             </td>
              </tr>
         </table>
+        {%if suggestions%}
+            {%if suggestions.title%}
+                {%if suggestions.author%}
+                    <h4>Did you mean: <a href="search?author={{ suggestions.author }};title={{ suggestions.title }};lang={{title.lang}};tag={{title.tag}}" class="gray">Title: {{ suggestions.title }}  Author: {{ suggestions.author }}</a></em></h4>
+                {%endif%}
+                <h4>Did you mean: <a href="search?author={{ title.author }};title={{ suggestions.title }};lang={{title.lang}};tag={{title.tag}}" class="gray">Title: {{ suggestions.title }}</a></em></h4>
+            {%endif%}
+            {%if suggestions.author%}
+                <h4>Did you mean: <a href="search?author={{ suggestions.author }};title={{ title.tit }};lang={{title.lang}};tag={{title.tag}}" class="gray">Author: {{ suggestions.author }}</a></em></h4>
+            {%endif%}
+
+        {%endif%}
+        
     </form>
 
 </div>
