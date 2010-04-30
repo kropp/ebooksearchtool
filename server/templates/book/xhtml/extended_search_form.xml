@@ -3,7 +3,7 @@
 <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/jquery.autocomplete.css" />
 <div id="header">
 
-<center><a href="/"><img alt="eBookSearch" border="0" hspace="10"  src="{{MEDIA_URL}}/pic/title.jpg" title="eBookSearch" /></a></center>
+<center><a href="/"><img alt="eBookSearch" border="0" hspace="10"  src="{{MEDIA_URL}}/pic/title.png" title="eBookSearch" /></a></center>
     <h2>Extended search</h2>
     <form name="extended_search" action="search">
     

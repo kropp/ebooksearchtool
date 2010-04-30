@@ -8,7 +8,7 @@
 </head>
 
 <body>
-<center><a href="/"><img alt="eBookSearch" border="0" hspace="10"  src="{{MEDIA_URL}}/pic/title.jpg" title="eBookSearch" /></a></center>
+<center><a href="/"><img alt="eBookSearch" border="0" hspace="10"  src="{{MEDIA_URL}}/pic/title.png" title="eBookSearch" /></a></center>
 <div class="author">
     <h1>{{ author.name }}: </h1>
 </div>
