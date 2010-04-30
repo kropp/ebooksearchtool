@@ -27,7 +27,6 @@
 
 
 <body>
-<a href="/" rel="main_page">Back to catalog</a>  
     {% if query %}
         {% include "book/xhtml/simple_search_form.xml" %}
     {% else %}
@@ -35,15 +34,16 @@
     {% endif %}
 
 {% if authors %}
-
-    <h2>Search results by authors: <a href="search?title=;author={{ query }};lang=;tag=" class="gray">{{ query }}</a></em></h2>
+<div id="authors">
+    <h3>Authors:</h3>
 
     {% for author in authors %}
         <div>
                 <a href="author/id{{ author.id }}" class="gray">{{ author.name }}</a></em>
         </div>
     {% endfor %}
-
+    <h4>More results:  <a href="search?title=;author={{ query }};lang=;tag=" class="gray">{{ query }}</a></em></h4>
+</div>
 {% endif %}
 
 {% if books %}

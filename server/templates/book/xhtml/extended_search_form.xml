@@ -1,7 +1,6 @@
 <script type="text/javascript" src="{{MEDIA_URL}}/js/views/jQuery.js"></script>
 <script type="text/javascript" src="{{MEDIA_URL}}/js/views/jquery-autocomplete/jquery.autocomplete.js"></script>
 <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/jquery.autocomplete.css" />
-<a href="/" rel="main_page">Back to catalog</a>
 <div id="header">
 
 <center><a href="/"><img alt="eBookSearch" border="0" hspace="10"  src="{{MEDIA_URL}}/pic/title.jpg" title="eBookSearch" /></a></center>
@@ -97,11 +96,11 @@
                 {%if suggestions.author%}
                     <h4>Did you mean: <a href="search?author={{ suggestions.author }};title={{ suggestions.title }};lang={{title.lang}};tag={{title.tag}}" class="gray">Title: {{ suggestions.title }}  Author: {{ suggestions.author }}</a></em></h4>
                 {%else%}
-                <h4>Did you mean: <a href="search?author={{ title.author }};title={{ suggestions.title }};lang={{title.lang}};tag={{title.tag}}" class="gray">Title: {{ suggestions.title }}</a></em></h4>
+                <h4>Did you mean: <a href="search?author={{ title.author }};title={{ suggestions.title }};lang={{title.lang}};tag={{title.tag}}" class="gray">Title: {{ suggestions.title }}  Author: {{ title.author }}</a></em></h4>
                 {%endif%}
             {%else%}
                 {%if suggestions.author%}
-                    <h4>Did you mean: <a href="search?author={{ suggestions.author }};title={{ title.tit }};lang={{title.lang}};tag={{title.tag}}" class="gray">Author: {{ suggestions.author }}</a></em></h4>
+                    <h4>Did you mean: <a href="search?author={{ suggestions.author }};title={{ title.tit }};lang={{title.lang}};tag={{title.tag}}" class="gray">Title: {{ title.tit }}  Author: {{ suggestions.author }}</a></em></h4>
                 {%endif%}
             {%endif%}
 

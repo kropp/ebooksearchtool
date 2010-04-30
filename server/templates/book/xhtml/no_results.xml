@@ -11,5 +11,13 @@
     {% include 'book/xhtml/extended_search_form.xml' %}
 {% endif %}
 <hr class="space" /><br/>
-<div style="font-size:15pt;"> There are no results matching your request.</div>
+<div style="font-size:15pt;"> 
+Your search did not match any documents.
+
+Suggestions:
+<ul>
+    <li> Make sure all words are spelled correctly.</li>
+    <li> Try fewer keywords.</li>
+</ul>
+There are no results matching your request.</div>
 {% include 'book/xhtml/footer.xml' %}
