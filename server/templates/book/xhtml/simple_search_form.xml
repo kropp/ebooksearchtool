@@ -8,5 +8,9 @@
         Query: <input type="text" style="width: 203px;" name="query" value="{{query}}">
         <input type="submit" value="Search" >
         <a href="extended_search" rel="extended search">Extended search</a>
+
+{%if suggestions%}
+        <h4>Did you mean: <a href="search?query={{ suggestions.query }}" class="gray">{{ suggestions.query }}</a></em></h4>
+{%endif%}
     </form>
 </div>

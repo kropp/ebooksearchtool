@@ -46,7 +46,7 @@ def simple_search(request, response_type, items_per_page, page, start_index):
     if response_type == "xhtml":
         return render_response(request, 'book/xhtml/search_response.xml',
             {'books': books,'items_per_page': items_per_page, 'query': query,
-            'tags': tags, 'authors': authors}, 
+            'tags': tags, 'authors': authors, 'suggestions':books.suggestions}, 
             context_instance=RequestContext(request))
 
 def search_in_author(request, lang, tag, response_type, items_per_page, page, 
