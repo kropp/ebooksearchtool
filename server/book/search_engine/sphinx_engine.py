@@ -84,6 +84,8 @@ class SphinxSearchEngine(SearchEngine):
                         additional_books = \
                             books.filter(author_id=authors_id)[0:max_length]
                         result_books.extend(additional_books)
+            else:
+                result_books = books[0:max_length]
 
             return result_books
         
