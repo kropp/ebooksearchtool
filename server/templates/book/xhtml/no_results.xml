@@ -1,6 +1,7 @@
+{% load i18n %}
 {% include 'book/xhtml/header.xml' %}
 
-    <title>No results | eBookSearch</title>      
+    <title>{%trans "No results"%} | eBookSearch</title>      
 </head>
 
 <body>
@@ -12,12 +13,12 @@
 {% endif %}
 <hr class="space" /><br/>
 <div style="font-size:15pt;"> 
-Your search did not match any documents.<br/><br/>
+{%trans "Your search did not match any documents."%}<br/><br/>
 
-Suggestions:
+{%trans "Suggestions"%}:
 <ul>
-    <li> Make sure all words are spelled correctly.</li>
-    <li> Try fewer keywords.</li>
+    <li> {%trans "Make sure all words are spelled correctly."%}</li>
+    <li> {%trans "Try fewer keywords."%}</li>
 </ul>
 </div>
 {% include 'book/xhtml/footer.xml' %}

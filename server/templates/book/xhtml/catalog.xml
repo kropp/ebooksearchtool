@@ -1,3 +1,4 @@
+{% load i18n %}
 {% include 'book/xhtml/header.xml' %}
 
     <title> eBookSearch Catalog</title>   
@@ -13,16 +14,17 @@
     <!--h1>Catalog: </h1-->
 </div>
   
-<h3 ><a href="simple_search">Search</a></h3>
-Search books using <a href="simple_search">simple search</a> or <a href="extended_search">extended</a>
-<h3><a href="discover/authors">Authors</a></h3>
-Alpha index of the authors available
-<h3><a href="discover/languages">Languages</a></h3>
-Filter books in a specific language 
-<h3><a href="discover/subjects">Subjects</a></h3> 
-Browse through books based on their subjects
-<h3><a href="catalog.atom">OPDS catalog</a></h3>
-Catalog in OPDS format
+<h3 ><a href="simple_search">{%trans "Search"%}</a></h3>
+{%trans "Search books using"%} <a href="simple_search">{%trans "simple search"%}</a> {%trans "or"%} <a href="extended_search">{%trans "extended" %}</a>
+<h3><a href="discover/authors">{% trans "Authors"%}</a></h3>
+{%trans "Alpha index of the authors available"%}
+<h3><a href="discover/languages">{%trans "Languages"%}</a></h3>
+{%trans "Filter books in a specific language"%} 
+<h3><a href="discover/subjects">{% trans "Subjects"%}</a></h3> 
+{% trans "Browse through books based on their subjects"%}
+<h3><a href="catalog.atom">OPDS {%trans "catalog"%}</a></h3>
+{%trans "Catalog in OPDS format"%}
 
 <br/><br/><br/><br/>
+
 {% include 'book/xhtml/footer.xml' %}

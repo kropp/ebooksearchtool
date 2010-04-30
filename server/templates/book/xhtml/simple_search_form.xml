@@ -1,14 +1,15 @@
+{% load i18n %}
 <center><a href="/"><img alt="eBookSearch" border="0" hspace="10"  src="{{MEDIA_URL}}/pic/title.png" title="eBookSearch" /></a></center>
 
 <div id="header">
   
     <form name="simple_search" action="search">
-        Query: <input type="text" style="width: 203px;" name="query" value="{{query}}">
+        {%trans "Query"%}: <input type="text" style="width: 203px;" name="query" value="{{query}}">
         <input type="submit" value="Search" >
-        <a href="extended_search" rel="extended search">Extended search</a>
+        <a href="extended_search" rel="extended search">{%trans "Extended search"%}</a>
 
 {%if suggestions%}
-        <h4>Did you mean: <a href="search?query={{ suggestions.query }}" class="gray">{{ suggestions.query }}</a></em></h4>
+        <h4>{%trans "Did you mean"%}: <a href="search?query={{ suggestions.query }}" class="gray">{{ suggestions.query }}</a></em></h4>
 {%endif%}
     </form>
 </div>

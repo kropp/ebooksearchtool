@@ -1,8 +1,9 @@
+{% load i18n %}
 {% load pagination_tags %}
 {% include 'book/xhtml/header.xml' %}
 
-    <title>Search results for: 
-        Author "{{ author }}";
+    <title>{% trans "Search results for: 
+        Author"%} "{{ author }}";
         | eBookSearch
     </title>
 </head>

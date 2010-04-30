@@ -1,13 +1,14 @@
+{% load i18n %}
 {% include 'book/xhtml/header.xml' %}
 
-    <title> Books by language | eBookSearch </title>
+    <title> {%trans "Books by language"%} | eBookSearch </title>
 </head>
 
 <body>
 <center><a href="/"><img alt="eBookSearch" border="0" hspace="10"  src="{{MEDIA_URL}}/pic/title.png" title="eBookSearch" /></a></center>
 
 <div id="header">
-    <h1>Books by language: </h1>
+    <h1>{%trans "Books by language"%}: </h1>
 </div>
 
 {% for lang in languages %} 

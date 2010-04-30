@@ -1,6 +1,7 @@
+{% load i18n %}
 {% include 'book/xhtml/header.xml' %}
 
-    <title> Books by tag | eBookSearch</title>
+    <title> {%trans "Books by tag"%} | eBookSearch</title>
 </head>
 
 <body>
@@ -8,7 +9,7 @@
 
 <div id="header">
   
-    <h1>Books by tag: </h1>
+    <h1>{%trans "Books by tag"%}: </h1>
 </div>
 
 {% for tag in tags %}

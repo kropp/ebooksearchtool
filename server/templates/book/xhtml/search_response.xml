@@ -1,21 +1,22 @@
+{% load i18n %}
 {% load pagination_tags %}
 {% include 'book/xhtml/header.xml' %}
 
-    <title>Search results for: 
+    <title>{%trans "Search results for"%}: 
     {% if query %}
-        Query "{{ query }}";
+        {%trans "Query"%} "{{ query }}";
     {% endif %}
     {% if title.tit %}
-        Title "{{ title.tit }}";
+        {%trans "Title"%} "{{ title.tit }}";
     {% endif %} 
     {% if title.author %}
-        Author "{{ title.author }}";
+        {%trans "Author"%} "{{ title.author }}";
     {% endif %}
     {% if title.language.short %}
-        Language "{{ title.language.short }}";
+        {%trans "Language"%} "{{ title.language.short }}";
     {% endif %}
     {% if title.tag %}
-        Tag "{{ title.tag }}";
+        {%trans "Tag"%} "{{ title.tag }}";
     {% endif %}
     | eBookSearch
     </title>
@@ -35,19 +36,19 @@
 
 {% if authors %}
 <div id="authors">
-    <h3>Authors:</h3>
+    <h3>{%trans "Authors"%}:</h3>
 
     {% for author in authors %}
         <div>
                 <a href="author/id{{ author.id }}" class="gray">{{ author.name }}</a></em>
         </div>
     {% endfor %}
-    <h4>More results:  <a href="search?title=;author={{ query }};lang=;tag=" class="gray">{{ query }}</a></em></h4>
+    <h4>{%trans "More results"%}:  <a href="search?title=;author={{ query }};lang=;tag=" class="gray">{{ query }}</a></em></h4>
 </div>
 {% endif %}
 
 {% if books %}
-    <h2>Found in books:</h2>
+    <h2>{%trans "Found in books"%}:</h2>
     
     {% autopaginate books items_per_page %}
     {% for book in books %}
@@ -59,7 +60,7 @@
         <h3><a href="book/id{{ book.id }}" class="title">{{ book.title }}</a></h3>
         
         {% if book.author.all %}
-            <h4 class="authors">by 
+            <h4 class="authors">{%trans "by"%} 
               {% for author in book.author.all %}
                  <em><a href="author/id{{ author.id }}" class="author">{{ author.name }}</a></em>
               {% endfor %}

@@ -96,6 +96,7 @@ urlpatterns = patterns('',
 
     url(r'^extended_search/autocomplete_title/?$', 'views.autocomplete_title', name='autocomplete_title'),
     url(r'^extended_search/autocomplete_author/?$', 'views.autocomplete_author', name='autocomplete_author'),
+    (r'^i18n/', include('django.conf.urls.i18n')),
 
 )
 

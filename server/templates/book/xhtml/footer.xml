@@ -1,8 +1,9 @@
+{% load i18n %}
 {% if bottom_string %}
 <br/><br/><br/><br/>
 <div id='bottom' style="position:bottom:0; text-align: center; ">
 {{bottom_string}}<br/>
-<a href = '{{google_link}}'> Project on google code </a>
+<a href = '{{google_link}}'> {%trans "Project on google code"%} </a>
 </div>
 
 {% endif %}

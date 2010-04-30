@@ -30,7 +30,7 @@ TIME_ZONE = 'Europe/Moscow'
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en-us'
-
+#LANGUAGE_CODE = 'ru'
 SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
@@ -76,6 +76,8 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.doc.XViewMiddleware',
     'spec.external.pagination.middleware.PaginationMiddleware',
     'django.middleware.cache.CacheMiddleware',
+#    'django.middleware.locale.LocaleMiddleware'
+
 #    'django_authopenid.middleware.OpenIDMiddleware',
 )
 #    'django.middleware.common.CommonMiddleware',
