@@ -88,6 +88,7 @@ class Author(models.Model):
         weights={
             'name': 100,
         },
+        mode='SPH_MATCH_ANY',
     )
 
     # for more settings see 'spec/sphinx_conf/002_author_soundex.tmplt'

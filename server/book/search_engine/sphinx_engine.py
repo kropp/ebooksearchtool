@@ -28,7 +28,12 @@ class SphinxSearchEngine(SearchEngine):
         tag_query = kwargs.get('tag')
 
         if author_query:
-            authors = Author.soundex_search.query(author_query)
+            authors = Author.simple_search.query(author_query)[0:5]
+            authors_id = [a.id for a in authors]
+            authors_soundex = Author.soundex_search.query(author_query)[0:max_length]
+            for author in authors_soundex:
+                if author.id not in authors_id:
+                    authors.append(author)
 #            if lang_query:
 #                lang_id = Language.objects.get(short=lang_query).id
 #                authors = authors.filter(language_id=lang_id)
@@ -37,7 +42,7 @@ class SphinxSearchEngine(SearchEngine):
 #                authors = authors.filter(tag_id=tag_id)
             # TODO sort by normal weight
 
-            return authors[0:max_length]
+            return authors
 
 
     def author_search(self, max_length=MAX_RESULT_LENGTH, **kwargs):
@@ -68,13 +73,19 @@ class SphinxSearchEngine(SearchEngine):
                 books = books.filter(tag_id=tag_id)
 
             if author_query:
-                authors = \
-                    Author.soundex_search.query(author_query)[0:max_length]
+                authors = self.__author_search(author=author_query, max_length=max_length)
                 authors_id = [a.id for a in authors]
                 if authors_id:
-                    books = books.filter(author_id=authors_id)
+                    first_author_id = authors_id[0]
+                    result_books = books._clone().filter(author_id=first_author_id)[0:max_length]
 
-            return books[0:max_length]
+                    authors_id = authors_id[1:]
+                    if authors_id:
+                        additional_books = \
+                            books.filter(author_id=authors_id)[0:max_length]
+                        result_books.extend(additional_books)
+
+            return result_books
         
 
     def book_search(self, max_length=MAX_RESULT_LENGTH, **kwargs):
