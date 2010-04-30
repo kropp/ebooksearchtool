@@ -90,6 +90,7 @@ def search_request_to_server(request, response_type, is_all):
     langs = available_languages()
     request_to_server = Q()
     main_title = {}
+    suggestions = None
     
     page, start_index, items_per_page = 1, 0, 20
     title = author = tag = lang = None
@@ -129,7 +130,8 @@ def search_request_to_server(request, response_type, is_all):
         if author:
             main_title['author'] = author    
         books = SEARCH_ENGINE.book_search(title=title, author=author, tag=tag, 
-                                            lang=lang)          
+                                            lang=lang)   
+        suggestions = books.suggestion       
     
     elif author:
         return search_in_author(request, lang, tag, response_type, 
@@ -159,7 +161,7 @@ def search_request_to_server(request, response_type, is_all):
         return render_response(request, 'book/xhtml/search_response.xml',
             {'books': books, 'title': main_title, 
             'items_per_page':items_per_page, 'tags': tags, 'langs':langs,
-            'suggestions':books.suggestion}, 
+            'suggestions':suggestions}, 
             context_instance=RequestContext(request))
 
 
