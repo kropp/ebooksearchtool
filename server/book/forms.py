@@ -63,7 +63,8 @@ class BookFileForm(forms.ModelForm):
     credit = forms.IntegerField(widget=forms.Select(choices=CREDIT_CHOICES))
     link = forms.CharField(widget=forms.TextInput(attrs={'size':'50'}))
     type = forms.CharField(widget=forms.TextInput(attrs={'size':'50'}))
-    img_link = forms.CharField(widget=forms.TextInput(attrs={'size':'50'}))
+    img_link = forms.CharField(widget=forms.TextInput(attrs={'size':'50'}), 
+                                                                required=False)
 
 
 

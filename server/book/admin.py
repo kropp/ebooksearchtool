@@ -86,7 +86,7 @@ class BookFileAdmin(admin.ModelAdmin):
     search_fields = ('type', 'link', 'id')
     list_display = ('link', 'type', 'credit', 'id',)
     list_filter = ('last_check', 'credit', 'type')
-    fields = ('link', 'type', 'img_link', 'credit', 'more_info', )
+    fields = ('link', 'type', 'img_link','credit', 'more_info', )
     list_per_page = 10
 
 
