@@ -9,5 +9,6 @@
   
     <!-- Links --> 
     <link rel="search" type="application/opensearchdescription+xml" title="Ebooksearch" href="opensearch" />
+    <link href="{{MEDIA_URL}}/css/base.css" rel="stylesheet" />
 
 {# add your title and close head tag #}

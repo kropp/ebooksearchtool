@@ -10,7 +10,7 @@
 
 <div id="lang" align="right">
     <form action="/i18n/setlang/" method="post">
-        <font size="2">{% trans "Change language:" %}</font>
+        {% trans "Change language:" %}
         <select name="language">
         {% for lang in LANGUAGES %}
         {% ifequal  lang.0 request.LANGUAGE_CODE%}
@@ -20,7 +20,6 @@
         {%endifequal%}
         
         {% endfor %}
-        </select>
         <input type="submit" value="Go" />
     </form>
 </div>
@@ -30,19 +29,51 @@
     <font color="#444444" size="4">ebook search service</font> <br />
     </center>
     <!--h1>Catalog: </h1-->
-</div>
-  
-<h3 ><a href="simple_search">{%trans "Search"%}</a></h3>
-{%trans "Search books using"%} <a href="simple_search">{%trans "simple search"%}</a> {%trans "or"%} <a href="extended_search">{%trans "extended" %}</a>
-<h3><a href="discover/authors">{% trans "Authors"%}</a></h3>
-{%trans "Alpha index of the authors available"%}
-<h3><a href="discover/languages">{%trans "Languages"%}</a></h3>
-{%trans "Filter books in a specific language"%} 
-<h3><a href="discover/subjects">{% trans "Subjects"%}</a></h3> 
-{% trans "Browse through books based on their subjects"%}
-<h3><a href="catalog.atom">OPDS {%trans "catalog"%}</a></h3>
-{%trans "Catalog in OPDS format"%}
+<br/><br/>
 
-<br/><br/><br/><br/>
+<div id="header">
+<center><input type="hidden" maxlength=2048 size=40 class=lst value=""><center>
+<form action="search" name="simple_search" >
+
+    <table cellpadding=0 cellspacing=0>
+    <tr valign=top>
+        <td width=25%>&nbsp;</td>
+        <td align=center nowrap>
+            <input type="text" maxlength=2048 size=40 class=lst name="query" value="{{query}}">
+        </td>
+        <td nowrap width=25% align=left id=sbl>
+            &nbsp;<input type="submit" value="{% trans "Search" %}" ><font size=-2>&nbsp;&nbsp;<a href="extended_search" rel="extended search">{%trans "Extended search"%}</a></font>
+        </td>
+    </tr>
+    </table>
+</form>
+</div>
+
+{%if suggestions%}
+        <h4>{%trans "Did you mean"%}: <a href="search?query={{ suggestions.query }}" class="gray">{{ suggestions.query }}</a></em></h4>
+{%endif%}
+    </form>
+</div>
+
+</div>
+<br/><br/><br/>
+<center>
+<table cellpadding=5 cellspacing=5>
+<tr>
+<td>  
+<div class="catalog_link"><a href="discover/authors">{% trans "Authors"%}</a></div></td>
+<td>{%trans "Alpha index of the authors available"%}</td></tr>
+<tr>
+<td><div class="catalog_link"><a href="discover/languages">{%trans "Languages"%}</a></div></td>
+<td>{%trans "Filter books in a specific language"%} </td></tr>
+<tr>
+<td><div class="catalog_link"><a href="discover/subjects">{% trans "Subjects"%}</a></div> </td>
+<td>{% trans "Browse by subjects"%}</td></tr>
+<tr>
+<td><div class="catalog_link"><a href="catalog.atom">OPDS {%trans "catalog"%}</a></div></td>
+<td>{%trans "Catalog in OPDS format"%}</td></tr>
+</table>
+</center>
+<br/><br/>
 
 {% include 'book/xhtml/footer.xml' %}

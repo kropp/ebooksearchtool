@@ -1,7 +1,7 @@
 {% load i18n %}
-<div id="lang" align="right">
+<div id="lang" align="right" >
     <form action="/i18n/setlang/" method="post">
-        <font size="2">{% trans "Change language:" %}</font>
+        {% trans "Change language:" %}
         <select name="language">
         {% for lang in LANGUAGES %}
         {% ifequal  lang.0 request.LANGUAGE_CODE%}
