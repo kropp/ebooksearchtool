@@ -44,7 +44,7 @@ class BookAdmin(admin.ModelAdmin):
 
     filter_horizontal = ('tag',)
     fields = ('title', 'author', 'language', 'credit', 'tag')
-    raw_id_fields = ('author', )
+    raw_id_fields = ('author', 'language')
 
     search_fields = ('title', 'id')
     list_display = ('title', 'language', 'credit', 'id' )
