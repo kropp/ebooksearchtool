@@ -31,7 +31,7 @@
 {% if string %}
     {% for letter in string %}
         {% ifequal num 1 %}     
-            <font color="#003ba6" size="5"><a href="authors?letter={{letter}}">{{ letter }}</a></font>
+            <font color="#003ba6" size="5"><a href="authors?letter={{letter}}">{{ letter }}</a></font>&nbsp;
         {% else %}
             <font color="#003ba6" size="5"><a href="authors?letters={{letter}}">{{ letter }}</a></font><br/><br/>
         {% endifequal %} 
