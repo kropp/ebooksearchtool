@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-04 15:03+0400\n"
+"POT-Creation-Date: 2010-05-04 21:51+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -551,7 +551,7 @@ msgid "Run the selected action"
 msgstr ""
 
 #: django/contrib/admin/templates/admin/actions.html:4
-#: templates/book/xhtml/extended_search_form.xml:20
+#: templates/book/xhtml/extended_search_form.xml:23
 msgid "Go"
 msgstr "Изменить"
 
@@ -767,8 +767,8 @@ msgid "Save"
 msgstr ""
 
 #: django/contrib/admin/templates/admin/search_form.html:8
-#: templates/book/xhtml/catalog.xml:35
-#: templates/book/xhtml/extended_search_form.xml:37
+#: templates/book/xhtml/catalog.xml:45
+#: templates/book/xhtml/extended_search_form.xml:42
 #: templates/book/xhtml/simple_search_form.xml:25
 msgid "Search"
 msgstr "Поиск"
@@ -4293,7 +4293,7 @@ msgstr ""
 msgid "Dec."
 msgstr ""
 
-#: django/utils/text.py:128 templates/book/xhtml/catalog.xml:36
+#: django/utils/text.py:128
 msgid "or"
 msgstr ""
 
@@ -4839,17 +4839,17 @@ msgstr ""
 msgid "OpenID Signup"
 msgstr ""
 
-#: forms/views_forms.py:23 templates/book/xhtml/extended_search_form.xml:29
-#: templates/book/xhtml/extended_search_form.xml:115
-#: templates/book/xhtml/extended_search_form.xml:117
+#: forms/views_forms.py:23 templates/book/xhtml/extended_search_form.xml:32
 #: templates/book/xhtml/extended_search_form.xml:121
+#: templates/book/xhtml/extended_search_form.xml:123
+#: templates/book/xhtml/extended_search_form.xml:128
 msgid "Title"
 msgstr "Название"
 
-#: forms/views_forms.py:27 templates/book/xhtml/extended_search_form.xml:40
-#: templates/book/xhtml/extended_search_form.xml:115
-#: templates/book/xhtml/extended_search_form.xml:117
+#: forms/views_forms.py:27 templates/book/xhtml/extended_search_form.xml:45
 #: templates/book/xhtml/extended_search_form.xml:121
+#: templates/book/xhtml/extended_search_form.xml:124
+#: templates/book/xhtml/extended_search_form.xml:128
 msgid "Author"
 msgstr "Автор"
 
@@ -4935,19 +4935,39 @@ msgstr ""
 msgid "JOIN FREE"
 msgstr ""
 
-#: templates/book/xhtml/author.xml:14 templates/book/xhtml/book.xml:14
+#: templates/book/opds/no_results.xml:11
+#: templates/book/xhtml/no_results.xml:16
+msgid "Your search did not match any documents."
+msgstr "Не найдено ни одного документа, соответствующего вашему запросу"
+
+#: templates/book/opds/no_results.xml:14
+#: templates/book/xhtml/no_results.xml:18
+msgid "Suggestions"
+msgstr "Рекомендации"
+
+#: templates/book/opds/no_results.xml:15
+#: templates/book/xhtml/no_results.xml:20
+msgid "Make sure all words are spelled correctly."
+msgstr "Убедитесь, что все слова написаны без ошибок."
+
+#: templates/book/opds/no_results.xml:16
+#: templates/book/xhtml/no_results.xml:21
+msgid "Try fewer keywords."
+msgstr "Попробуйте использовать меньше слов."
+
+#: templates/book/xhtml/author.xml:14 templates/book/xhtml/book.xml:15
 #: templates/book/xhtml/books_by_author.xml:10
 #: templates/book/xhtml/books_by_lang.xml:10
 #: templates/book/xhtml/books_by_tag.xml:10
 #: templates/book/xhtml/catalog.xml:13
-#: templates/book/xhtml/extended_search_form.xml:9
+#: templates/book/xhtml/extended_search_form.xml:12
 #: templates/book/xhtml/simple_search_form.xml:4
 msgid "Change language:"
 msgstr "Изменить язык:"
 
 #: templates/book/xhtml/book_description.xml:4
 #: templates/book/xhtml/book_description.xml:7
-#: templates/book/xhtml/extended_search_form.xml:50
+#: templates/book/xhtml/extended_search_form.xml:56
 msgid "Language"
 msgstr "Язык"
 
@@ -4956,7 +4976,7 @@ msgid "Tags"
 msgstr "Жанры"
 
 #: templates/book/xhtml/books_by_author.xml:28
-#: templates/book/xhtml/catalog.xml:37
+#: templates/book/xhtml/catalog.xml:64
 #: templates/book/xhtml/search_response.xml:39
 msgid "Authors"
 msgstr "Авторы"
@@ -4969,84 +4989,58 @@ msgstr "Языки"
 msgid "Books by tag"
 msgstr "Теги"
 
-#: templates/book/xhtml/catalog.xml:36
-msgid "Search books using"
-msgstr "Ищите книги с помощью"
-
-#: templates/book/xhtml/catalog.xml:36
-msgid "simple search"
-msgstr "простого поиска"
-
-#: templates/book/xhtml/catalog.xml:36
-msgid "extended"
-msgstr "расширенного "
-
-#: templates/book/xhtml/catalog.xml:38
-msgid "Alpha index of the authors available"
-msgstr "Авторы, отсортированные по первым буквам"
-
-#: templates/book/xhtml/catalog.xml:39
-msgid "Languages"
-msgstr "Языки"
-
-#: templates/book/xhtml/catalog.xml:40
-msgid "Filter books in a specific language"
-msgstr "Книги, отсортированные по языкам"
-
-#: templates/book/xhtml/catalog.xml:41
-msgid "Subjects"
-msgstr "Жанры"
-
-#: templates/book/xhtml/catalog.xml:42
-msgid "Browse through books based on their subjects"
-msgstr "Книги, отсортированные по жанрам"
-
-#: templates/book/xhtml/catalog.xml:43
-msgid "catalog"
-msgstr "каталог"
-
-#: templates/book/xhtml/catalog.xml:44
-msgid "Catalog in OPDS format"
-msgstr "Каталог в формате OPDS"
-
-#: templates/book/xhtml/extended_search_form.xml:25
+#: templates/book/xhtml/catalog.xml:45
+#: templates/book/xhtml/extended_search_form.xml:28
 #: templates/book/xhtml/simple_search_form.xml:26
 msgid "Extended search"
 msgstr "Расширенный поиск"
 
-#: templates/book/xhtml/extended_search_form.xml:38
-msgid "Simple search"
-msgstr "Простой поиск"
-
-#: templates/book/xhtml/extended_search_form.xml:98
-msgid "Tag"
-msgstr "Жанр"
-
-#: templates/book/xhtml/extended_search_form.xml:115
-#: templates/book/xhtml/extended_search_form.xml:117
+#: templates/book/xhtml/catalog.xml:53
+#: templates/book/xhtml/extended_search_form.xml:121
+#: templates/book/xhtml/extended_search_form.xml:123
 #: templates/book/xhtml/simple_search_form.xml:29
 msgid "Did you mean"
 msgstr "Возможно вы имели ввиду"
 
+#: templates/book/xhtml/catalog.xml:65
+msgid "Alpha index of the authors available"
+msgstr "Алфавитный список авторов"
+
+#: templates/book/xhtml/catalog.xml:67
+msgid "Languages"
+msgstr "Языки"
+
+#: templates/book/xhtml/catalog.xml:68
+msgid "Browse by languages"
+msgstr "Книги на разных языках"
+
+#: templates/book/xhtml/catalog.xml:70
+msgid "Subjects"
+msgstr "Жанры"
+
+#: templates/book/xhtml/catalog.xml:71
+msgid "Browse by subjects"
+msgstr "Книги разных жанров"
+
+#: templates/book/xhtml/catalog.xml:73
+msgid "catalog"
+msgstr "каталог"
+
+#: templates/book/xhtml/catalog.xml:74
+msgid "Catalog in OPDS format"
+msgstr "Каталог в формате OPDS"
+
+#: templates/book/xhtml/extended_search_form.xml:43
+msgid "Simple search"
+msgstr "Простой поиск"
+
+#: templates/book/xhtml/extended_search_form.xml:104
+msgid "Tag"
+msgstr "Жанр"
+
 #: templates/book/xhtml/footer.xml:6
 msgid "Project on google code"
 msgstr "Проект на google code"
-
-#: templates/book/xhtml/no_results.xml:16
-msgid "Your search did not match any documents."
-msgstr "Не найдено ни одного документа, соответствующего вашему запросу"
-
-#: templates/book/xhtml/no_results.xml:18
-msgid "Suggestions"
-msgstr "Рекомендации"
-
-#: templates/book/xhtml/no_results.xml:20
-msgid "Make sure all words are spelled correctly."
-msgstr "Убедитесь, что все слова написаны без ошибок."
-
-#: templates/book/xhtml/no_results.xml:21
-msgid "Try fewer keywords."
-msgstr "Попробуйте использовать меньше слов."
 
 #: templates/book/xhtml/search_response.xml:46
 msgid "More results"
@@ -5059,3 +5053,18 @@ msgstr "Найденно в книгах"
 #: templates/book/xhtml/search_response.xml:63
 msgid "by"
 msgstr ""
+
+#~ msgid "Filter books in a specific language"
+#~ msgstr "Книги, отсортированные по языкам"
+
+#~ msgid "Search books using"
+#~ msgstr "Ищите книги с помощью"
+
+#~ msgid "simple search"
+#~ msgstr "простого поиска"
+
+#~ msgid "extended"
+#~ msgstr "расширенного "
+
+#~ msgid "Browse through books based on their subjects"
+#~ msgstr "Книги, отсортированные по жанрам"

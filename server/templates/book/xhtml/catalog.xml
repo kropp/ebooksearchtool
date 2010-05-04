@@ -65,7 +65,7 @@
 <td>{%trans "Alpha index of the authors available"%}</td></tr>
 <tr>
 <td><div class="catalog_link"><a href="discover/languages">{%trans "Languages"%}</a></div></td>
-<td>{%trans "Filter books in a specific language"%} </td></tr>
+<td>{%trans "Browse by languages"%} </td></tr>
 <tr>
 <td><div class="catalog_link"><a href="discover/subjects">{% trans "Subjects"%}</a></div> </td>
 <td>{% trans "Browse by subjects"%}</td></tr>
