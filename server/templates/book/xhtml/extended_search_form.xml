@@ -1,7 +1,10 @@
 {% load i18n %}
+
+{%if USE_AUTOCOMPLETE%}
 <script type="text/javascript" src="{{MEDIA_URL}}/js/views/jQuery.js"></script>
 <script type="text/javascript" src="{{MEDIA_URL}}/js/views/jquery-autocomplete/jquery.autocomplete.js"></script>
 <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/jquery.autocomplete.css" />
+{%endif%}
 <div id="header">
 
 <div id="lang" align="right">
@@ -28,24 +31,27 @@
         <table>    
             <tr><td>{%trans "Title"%}:</td>
             <td>  <input type="text" style="width: 253px;" name="title" id="id_title" value="{{ title.tit }}">
+            {%if USE_AUTOCOMPLETE%}
             <script type="text/javascript">function author_value() { return $('#id_author').val(); }
             $('#id_title').autocomplete("/extended_search/autocomplete_title", {
                 "extraParams": {
                     "author": author_value
                 }
-            });</script></td>
+            });</script>
+            {%endif%}</td>
             <td><input type="submit" value="{%trans "Search"%}" ></td>
             <td>&nbsp;&nbsp;<a href="simple_search" rel="simple search">{%trans "Simple search"%}</a></td>
             </tr><tr>
             <td>{%trans "Author"%}:</td> 
             <td> <input type="text" style="width: 253px;" name="author" value="{{ title.author }}" id="id_author"></td>
+            {%if USE_AUTOCOMPLETE%}
             <script type="text/javascript">function title_value() { return $('#id_title').val(); }
             $('#id_author').autocomplete("/extended_search/autocomplete_author", {
                 "extraParams": {
                     "title": title_value
                 }
             });</script>
-
+            {%endif%}
             </tr><tr>
             <td style="padding-top: 20px;">{%trans "Language"%}:</td>  
             <td style="padding-top: 20px;"><select name="lang"  width="260" style="width: 260px">
@@ -114,11 +120,12 @@
                 {%if suggestions.author%}
                     <h4>{%trans "Did you mean"%}: <a href="search?author={{ suggestions.author }};title={{ suggestions.title }};lang={{title.lang}};tag={{title.tag}}" class="gray">{%trans "Title"%}: {{ suggestions.title }}  {%trans "Author"%}: {{ suggestions.author }}</a></em></h4>
                 {%else%}
-                <h4>{%trans "Did you mean"%}: <a href="search?author={{ title.author }};title={{ suggestions.title }};lang={{title.lang}};tag={{title.tag}}" class="gray">{%trans "Title"%}: {{ suggestions.title }}  {%trans "Author"%}: {{ title.author }}</a></em></h4>
+                <h4>{%trans "Did you mean"%}: <a href="search?author={{ title.author }};title={{ suggestions.title }};lang={{title.lang}};tag={{title.tag}}" class="gray">{%trans "Title"%}: {{ suggestions.title }}  
+                            {%if title.author%}{%trans "Author"%}: {{ title.author }} {%endif%}</a></em></h4>
                 {%endif%}
             {%else%}
                 {%if suggestions.author%}
-                    <h4>Did you mean: <a href="search?author={{ suggestions.author }};title={{ title.tit }};lang={{title.lang}};tag={{title.tag}}" class="gray">{%trans "Title"%}: {{ title.tit }}  {%trans "Author"%}: {{ suggestions.author }}</a></em></h4>
+                    <h4>Did you mean: <a href="search?author={{ suggestions.author }};title={{ title.tit }};lang={{title.lang}};tag={{title.tag}}" class="gray">{%if title.tit%}{%trans "Title"%}: {{ title.tit }}{%endif%}  {%trans "Author"%}: {{ suggestions.author }}</a></em></h4>
                 {%endif%}
             {%endif%}
 

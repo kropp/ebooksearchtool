@@ -36,7 +36,7 @@ LANGUAGES = (
       ('ru', _('Russian')),
       ('en', _('English')),
 )
-
+USE_AUTOCOMPLETE = False
 
 LANGUAGE_CODE = 'en-us'
 #LANGUAGE_CODE = 'ru'
