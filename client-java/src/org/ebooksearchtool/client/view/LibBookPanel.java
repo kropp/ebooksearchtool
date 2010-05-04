@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.Callable;
 
 /**
  * Date: 22.04.2010
@@ -50,7 +51,7 @@ public class LibBookPanel {
 
     private boolean myIsMoreInfoShown = false;
 
-    class FileDownloader implements Runnable {
+    class FileDownloader implements Callable<Boolean> {
 
         String myName;
         String myLink;
@@ -60,7 +61,7 @@ public class LibBookPanel {
             myLink = link;
         }
 
-        public void run() {
+        public Boolean call(){
             JFileChooser dialog = new JFileChooser();
             int res = dialog.showSaveDialog(new JFrame());
             if (res == JFileChooser.APPROVE_OPTION) {
@@ -70,9 +71,12 @@ public class LibBookPanel {
                     connector = new Connector(myLink, mySettings);
                 } catch (IOException e) {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    return false;
                 }
                 connector.getBookFromURL(cover.getName(), new DefaultBoundedRangeModel(0, 0, 0, 100));
             }
+
+            return true;
         }
 
     }

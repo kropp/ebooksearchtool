@@ -18,8 +18,8 @@ import javax.swing.BoundedRangeModel;
 /* Date: 22.09.2009
  * Time: 20:38:21
  */
-public class Connector{
-	
+public class Connector {
+
     URL Url;
     URLConnection connection;
     Settings mySettings;
@@ -28,7 +28,6 @@ public class Connector{
         Url = new URL(adress);
         mySettings = set;
     }
-
 
 
     public InputStream getFileFromURL(String fileName) throws IOException {
@@ -43,54 +42,54 @@ public class Connector{
         return connection.getInputStream();
 
     }
-    
-public boolean getBookFromURL(String fileName, BoundedRangeModel model) {
-        
-        try {
-        	if(!mySettings.isProxyEnabled()){
-        		connection = Url.openConnection();
-        		File outFile = new File(fileName);
-        		FileOutputStream outStream = new FileOutputStream(outFile);
-        		InputStream IS = connection.getInputStream();
 
-        		model.setValue(0);
-        		int proc = connection.getContentLength() / 100;
-        		int j = 0;
-        		int i = 0;
-        		while (i != -1){
-        			i = IS.read();
-        			outStream.write(i);
-        			++j;
-        			if(j == proc){
-        				model.setValue(model.getValue() + 1);
-        				j = 0;
-        			}
-        		}
-        		outStream.close();
-        	}else{
+    public boolean getBookFromURL(String fileName, BoundedRangeModel model) {
+
+        try {
+            if (!mySettings.isProxyEnabled()) {
+                connection = Url.openConnection();
+                File outFile = new File(fileName);
+                FileOutputStream outStream = new FileOutputStream(outFile);
+                InputStream IS = connection.getInputStream();
+
+                model.setValue(0);
+                int proc = connection.getContentLength() / 100;
+                int j = 0;
+                int i = 0;
+                while (i != -1) {
+                    i = IS.read();
+                    outStream.write(i);
+                    ++j;
+                    if (j == proc) {
+                        model.setValue(model.getValue() + 1);
+                        j = 0;
+                    }
+                }
+                outStream.close();
+            } else {
                 connection = Url.openConnection(new Proxy(Proxy.Type.HTTP, new InetSocketAddress(mySettings.getIP(), mySettings.getPort())));
-                
+
                 File outFile = new File(fileName);
                 FileOutputStream outStream = new FileOutputStream(outFile);
                 InputStream IS = connection.getInputStream();
                 int i = 0;
                 model.setValue(0);
-        		int proc = connection.getContentLength() / 100;
-        		int j = 0;
-                while (i != -1){
-                	i = IS.read();
-                	outStream.write(i);
+                int proc = connection.getContentLength() / 100;
+                int j = 0;
+                while (i != -1) {
+                    i = IS.read();
+                    outStream.write(i);
                     //pw1.print((char)connection.getInputStream().read());     
-                	++j;
-        			if(j == proc){
-        				model.setValue(model.getValue() + 1);
-        				j = 0;
-        			}
+                    ++j;
+                    if (j == proc) {
+                        model.setValue(model.getValue() + 1);
+                        j = 0;
+                    }
                 }
                 outStream.close();
-        	}
+            }
             return true;
-            
+
         } catch (IOException e1) {
 
             e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -98,7 +97,6 @@ public boolean getBookFromURL(String fileName, BoundedRangeModel model) {
 
         }
         //connection = Url.openConnection(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("192.168.0.2", 3128)));
-
 
 
     }

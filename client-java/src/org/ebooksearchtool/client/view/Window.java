@@ -15,6 +15,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.Callable;
 
 public class Window implements Observer{
     private JFrame myFrame;
@@ -54,9 +55,9 @@ public class Window implements Observer{
     ActionListener myStopLis, mySortLis, myDeleteLis, myUpLis, myBackLis, myDownLis, myForwardLis, myActLis;
 
     final DefaultBoundedRangeModel myModel = new DefaultBoundedRangeModel(0, 0, 0, 100);
-    
+
     private ArrayList<ArrayList<BookPanel>> myBookPanels = new ArrayList<ArrayList<BookPanel>>();
-    
+
     private int myBackIndex = 0;
     private int curModelNumber;
     boolean myIsNewModel = false;
@@ -75,7 +76,7 @@ public class Window implements Observer{
         myController = new Controller();
         myController.getData().addObserver(this);
         curModelNumber = myController.getRequestCount();
-        
+
         myFrame = new JFrame("ebooksearchtool");
         JMenuBar myMenuBar;
         myMenuBar = new JMenuBar();
@@ -323,64 +324,62 @@ public class Window implements Observer{
 
 
         myActLis = new ActionListener() {
-            public void actionPerformed(final ActionEvent e) {
+          public void actionPerformed(final ActionEvent e) {
+            Callable<Boolean> process = new Callable<Boolean>() {
+              public Boolean call() {
+                //myMorePanel.setVisible(false);
+                //myController.stopProcesses();
 
-            	Thread process = new Thread(new Runnable() {
-            		public void run() {
-
-                        System.out.println("act");
-
-                        //myMorePanel.setVisible(false);
-                        //myController.stopProcesses();
-
-                        myToolStop.setEnabled(true);
-                        System.out.println("act");
-            			myModel.setValue(0);
-            			myProgressBar.setString("Sending request... 0%");
-            			myModel.setValue(5);
-            			System.out.println("act");
-            			myModel.setValue(8);
-            			myProgressBar.setString("Receiving data... 5%");
-                        ++curModelNumber;
-                        myIsNewModel = true;
-                        myTextPan.removeAll();
-                        myBookPanels = new ArrayList<ArrayList<BookPanel>>();
-                        myBookPanels.add(new ArrayList<BookPanel>());
-                        if (myController.getData().getBooks().size() != 0) {
-                            myController.clearModel();
-                        }
-                        myController.getData().addObserver(Window.this);
-                        myImageWidth = 0;
-                        String[] terms = new String[3];
-                        if (myQueryField.isEnabled()) {
-                            terms[0] = myQueryField.getText();
-                            terms[1] = "";
-                            terms[2] = "";
-                        } else {
-                            terms[0] = myGenTextField.getText();
-                            terms[1] = myTitleTextField.getText();
-                            terms[2] = myAuthorTextField.getText();
-                        }
-                        myTime = System.currentTimeMillis();
-                        myController.getQueryAnswer(terms);
-                        myModel.setValue(100);
-                        myProgressBar.setString("Complete");
-                        myIsNewModel = false;
-                        /*		myQueryCombo.setSelectedIndex(0);
+                myToolStop.setEnabled(true);
+                System.out.println("act");
+                myModel.setValue(0);
+                myProgressBar.setString("Sending request... 0%");
+                myModel.setValue(5);
+                System.out.println("act");
+                myModel.setValue(8);
+                myProgressBar.setString("Receiving data... 5%");
+                ++curModelNumber;
+                myIsNewModel = true;
+                myTextPan.removeAll();
+                myBookPanels = new ArrayList<ArrayList<BookPanel>>();
+                myBookPanels.add(new ArrayList<BookPanel>());
+                if (myController.getData().getBooks().size() != 0) {
+                  myController.clearModel();
+                }
+                myController.getData().addObserver(Window.this);
+                myImageWidth = 0;
+                String[] terms = new String[3];
+                if (myQueryField.isEnabled()) {
+                  terms[0] = myQueryField.getText();
+                  terms[1] = "";
+                  terms[2] = "";
+                } else {
+                  terms[0] = myGenTextField.getText();
+                  terms[1] = myTitleTextField.getText();
+                  terms[2] = myAuthorTextField.getText();
+                }
+                myTime = System.currentTimeMillis();
+                myController.getQueryAnswer(terms);
+                myModel.setValue(100);
+                myProgressBar.setString("Complete");
+                myIsNewModel = false;
+                /*		myQueryCombo.setSelectedIndex(0);
                               myEraseButton.setEnabled(false);    */
-            			myToolDelete.setEnabled(true);
-            			myToolSort.setEnabled(true);
-                        myToolStop.setEnabled(false);
-            		//	myQueryPlusPanel.setVisible(false);
-            			curModelNumber = myController.getRequestCount() - 1;
-            			if(myController.getRequestCount() > 1){
-            				myToolUp.setEnabled(true);
-            			}
-            		}
-                });
-                myController.addTask(process);
-            }
+                myToolDelete.setEnabled(true);
+                myToolSort.setEnabled(true);
+                myToolStop.setEnabled(false);
+                //	myQueryPlusPanel.setVisible(false);
+                curModelNumber = myController.getRequestCount() - 1;
+                if(myController.getRequestCount() > 1){
+                  myToolUp.setEnabled(true);
+                }
 
+                return true;
+              }
+            };
+
+            myController.addTask(process);
+          }
         };
 
         myToolDelete.addActionListener(myDeleteLis);
@@ -417,7 +416,7 @@ public class Window implements Observer{
         myQueryPanel.add(Box.createVerticalStrut(5));
     	myCentralPanel.add(myQueryPanel, "North");
 
-        
+
 
 
         myQueryField = new JTextField();
@@ -427,12 +426,12 @@ public class Window implements Observer{
         myQueryCombo = new JComboBox(query);
         myQueryPlusPanel.add(myQueryCombo);
       */
-    	
+
         mySearchButton = new JButton(new ImageIcon(getClass().getResource("/ico/search.png")));
     	mySearchButton.setEnabled(true);
     	mySearchButton.setToolTipText("Search");
     	myQueryButtonPanel.add(mySearchButton);
-        
+
         myExtQueryButton = new JButton(new ImageIcon(getClass().getResource("/ico/ext_search.png")));
         myExtQueryButton.setToolTipText("Extended search");
         myQueryButtonPanel.add(myExtQueryButton);
@@ -498,7 +497,7 @@ public class Window implements Observer{
         myQueryPlusPanel.add(Box.createVerticalStrut(8));
 
         myQueryPlusPanel.setVisible(false);
-        
+
     	myTextPan = new JPanel();
     	BoxLayout box = new BoxLayout(myTextPan, BoxLayout.Y_AXIS);
     	myTextPan.setLayout(box);
@@ -507,7 +506,7 @@ public class Window implements Observer{
         myProgressBar = new JProgressBar(myModel);
         myProgressBar.setStringPainted(true);
         myPanel1.add(myProgressBar, "South");
-        
+
         mySearchButton.addActionListener(myActLis);
         myQueryField.addActionListener(myActLis);
         myGenTextField.addActionListener(myActLis);
@@ -530,7 +529,7 @@ public class Window implements Observer{
                     e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
 
-            }                  
+            }
 
         });
 

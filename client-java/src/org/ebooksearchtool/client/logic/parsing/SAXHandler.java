@@ -1,15 +1,19 @@
 package org.ebooksearchtool.client.logic.parsing;
 
+import org.ebooksearchtool.client.exec.Completive;
 import org.ebooksearchtool.client.model.QueryAnswer;
 import org.ebooksearchtool.client.model.books.Book;
 import org.ebooksearchtool.client.model.books.Author;
 import org.ebooksearchtool.client.utils.ControllableThread;
+import org.ebooksearchtool.client.utils.StopParsingException;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import java.io.IOException;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
 
 /*
  * Date: 25.09.2009
@@ -28,21 +32,15 @@ public class SAXHandler extends DefaultHandler{
     boolean myIsSource;
 
     Book myCurBook;
+    Completive m_parent;
 
-    Thread myThread;
-
-    public SAXHandler(QueryAnswer answer){
-
+    public SAXHandler(QueryAnswer answer, Completive parent){
         myAnswer = answer;
-        myThread = Thread.currentThread();
-
+        m_parent = parent;
     }
 
-    public SAXHandler(QueryAnswer answer, Thread thread){
-
-        myAnswer = answer;
-        myThread = thread;
-
+    public SAXHandler(QueryAnswer answer){
+      myAnswer = answer;
     }
 
     @Override
@@ -144,7 +142,7 @@ public class SAXHandler extends DefaultHandler{
         if (myIsEntryTag){
             for(int i = 0; i < myBookTags.getTags().length; ++i){
                 if(myBookTags.getTags()[i].getStatus()) {
-                	
+
                     if(myIsContinue){
                         if(myBookTags.getTags()[i].getName().equals("title")){
                             myCurBook.setTitle(myCurBook.getTitle() + new String(ch, start, length));
@@ -240,7 +238,7 @@ public class SAXHandler extends DefaultHandler{
             }
 
         }
-        
+
         if("totalResults".equals(qName)){
         	myIsTotalTag = false;
         }
@@ -261,7 +259,7 @@ public class SAXHandler extends DefaultHandler{
             }
             myCurBook.setTitle(result.toString());
         }
-        
+
         if("author".equals(qName) && myIsEntryTag){
             boolean authorExists = false;
 
@@ -293,20 +291,17 @@ public class SAXHandler extends DefaultHandler{
 
         }
         for(int i = 0; i < myAuthorTags.getTags().length; ++i){
-            myAuthorTags.getTags()[i].setStatus(false);    
+            myAuthorTags.getTags()[i].setStatus(false);
         }
 
-                              System.out.println(Thread.currentThread().getId());
-
-        if(myThread.isInterrupted()){
+        if(m_parent != null && m_parent.isComplete()){
             System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            throw new SAXException();
+            myAnswer.setNextPage("");
+            throw new StopParsingException();
         }
-
     }
     @Override
     public void endDocument() throws SAXException
     {
     }
-
 }

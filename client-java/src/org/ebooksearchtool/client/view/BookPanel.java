@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.File;
+import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 
@@ -22,9 +23,9 @@ public class BookPanel implements Comparable {
 	private Book myBook;
 	private Settings mySettings;
     private Controller myController;
-	
+
 	private DefaultBoundedRangeModel ourModel;
-	
+
     private JPanel myRootPanel;
     private JLabel myImageLable;
     private int myImageWidth;
@@ -44,10 +45,10 @@ public class BookPanel implements Comparable {
     private JLabel myDateLabel;
     private JLabel myGenreLabel;
     private JComponent mySummaryArea;
-    
+
     private boolean myIsMoreInfoShown = false;
 
-    class FileDownloader implements Runnable{
+    class FileDownloader implements Callable<Boolean>{
 
         String myName;
         String myLink;
@@ -57,7 +58,7 @@ public class BookPanel implements Comparable {
             myLink = link;
         }
 
-        public void run(){
+        public Boolean call(){
             JFileChooser dialog = new JFileChooser();
             int res = dialog.showSaveDialog(new JFrame());
             if (res == JFileChooser.APPROVE_OPTION) {
@@ -67,9 +68,12 @@ public class BookPanel implements Comparable {
                     connector = new Connector(myLink, mySettings);
                 } catch (IOException e) {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    return false;
                 }
                 connector.getBookFromURL(cover.getName(), new DefaultBoundedRangeModel(0, 0, 0, 100));
             }
+
+            return true;
         }
 
     }
@@ -83,7 +87,7 @@ public class BookPanel implements Comparable {
 
         myRootPanel = new JPanel();
         drawRootPanel(80);
-        
+
     }
 
     public int getImageWidth(){
@@ -313,22 +317,20 @@ public class BookPanel implements Comparable {
 
         myDownloadEpubButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
                 myController.addTask(new FileDownloader("books" + File.separatorChar + myBook.getTitle() + ".epub", myBook.getLinks().get("epub")));
-
             }
         });
 
         myDownloadPdfButton.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
                 myController.addTask(new FileDownloader("books" + File.separatorChar + myBook.getTitle() + ".pdf", myBook.getLinks().get("pdf")));
-    		}
+    		  }
         });
 
     }
-    
+
     public boolean isSelected(){
-    	return myCheckBox.isSelected(); 
+    	return myCheckBox.isSelected();
     }
 
     public int compareTo(Object obj){
