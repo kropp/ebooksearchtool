@@ -5,7 +5,7 @@ import pickle
 from read_tools import get_description, read
 from spec.external.BeautifulSoup import BeautifulSoup as bs
 import urllib2
-
+import datetime
 from search_tools import GENRES
 
 def tag_adding():

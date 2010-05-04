@@ -29,8 +29,17 @@ TIME_ZONE = 'Europe/Moscow'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'en-us'
-#LANGUAGE_CODE = 'ru'
+
+_ = lambda s: s
+
+LANGUAGES = (
+      ('ru', _('Russian')),
+      ('en', _('English')),
+)
+
+
+#LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru'
 SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
@@ -65,9 +74,8 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
-    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-
+    'django.contrib.sessions.middleware.SessionMiddleware',
 
     'django.middleware.transaction.TransactionMiddleware',
     

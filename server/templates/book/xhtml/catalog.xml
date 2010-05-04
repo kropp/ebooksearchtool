@@ -27,4 +27,17 @@
 
 <br/><br/><br/><br/>
 
+
+<form action="/i18n/setlang/" method="get">
+
+<select name="language">
+{% for lang in LANGUAGES %}
+<option value="{{ lang.0 }}">{{ lang.1 }}</option>
+{% endfor %}
+</select>
+<input type="submit" value="Go" />
+</form>
+
+
+
 {% include 'book/xhtml/footer.xml' %}
