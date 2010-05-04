@@ -12,8 +12,8 @@
     {% if title.author %}
         Author "{{ title.author }}";
     {% endif %}
-    {% if title.language.short %}
-        Language "{{ title.language.short }}";
+    {% if title.lang %}
+        Language "{{ title.lang }}";
     {% endif %}
     {% if title.tag %}
         Tag "{{ title.tag }}";

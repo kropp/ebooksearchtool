@@ -12,10 +12,10 @@
     
     {% for lang in languages %} 
     <entry>
-        <title> {{ lang.0 }} </title>
-        <link type="application/atom+xml" href="../search.atom?lang={{ lang.1 }}"/>
+        <title> {{ lang.1 }} </title>
+        <link type="application/atom+xml" href="../search.atom?lang={{ lang.0 }}"/>
         <updated></updated>
-        <id>../search.atom?lang={{ lang.1 }}</id>
+        <id>../search.atom?lang={{ lang.0 }}</id>
         <content type="text"></content>
     </entry>
     {% endfor %} 
