@@ -1,6 +1,6 @@
 {% load i18n %}
 {% include 'book/xhtml/header.xml' %}
-    <title>{%trans "Search"%} | eBookSearch</title>
+    <title>Search | eBookSearch</title>
 </head>
 
 <body>

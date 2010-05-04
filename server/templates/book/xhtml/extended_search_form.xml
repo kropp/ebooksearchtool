@@ -4,6 +4,23 @@
 <link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}/css/jquery.autocomplete.css" />
 <div id="header">
 
+<div id="lang" align="right">
+    <form action="/i18n/setlang/" method="post">
+        <font size="2">{% trans "Change language:" %}</font>
+        <select name="language">
+        {% for lang in LANGUAGES %}
+        {% ifequal  lang.0 request.LANGUAGE_CODE%}
+            <option value="{{ lang.0 }}" selected>{{ lang.1 }}</option>
+        {% else %}
+            <option value="{{ lang.0 }}" >{{ lang.1 }}</option>
+        {%endifequal%}
+        
+        {% endfor %}
+        </select>
+        <input type="submit" value="{%trans "Go" %}" />
+    </form>
+</div>
+
 <center><a href="/"><img alt="eBookSearch" border="0" hspace="10"  src="{{MEDIA_URL}}/pic/title.png" title="eBookSearch" /></a></center>
     <h2>{%trans "Extended search"%}</h2>
     <form name="extended_search" action="search">
@@ -17,8 +34,8 @@
                     "author": author_value
                 }
             });</script></td>
-            <td><input type="submit" value="Search" ></td>
-            <td>&nbsp;&nbsp;<a href="simple_search" rel="simple search">Simple search</a></td>
+            <td><input type="submit" value="{%trans "Search"%}" ></td>
+            <td>&nbsp;&nbsp;<a href="simple_search" rel="simple search">{%trans "Simple search"%}</a></td>
             </tr><tr>
             <td>{%trans "Author"%}:</td> 
             <td> <input type="text" style="width: 253px;" name="author" value="{{ title.author }}" id="id_author"></td>

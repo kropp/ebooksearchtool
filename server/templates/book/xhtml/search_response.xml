@@ -2,21 +2,21 @@
 {% load pagination_tags %}
 {% include 'book/xhtml/header.xml' %}
 
-    <title>{%trans "Search results for"%}: 
+    <title>Search results for: 
     {% if query %}
-        {%trans "Query"%} "{{ query }}";
+        Query "{{ query }}";
     {% endif %}
     {% if title.tit %}
-        {%trans "Title"%} "{{ title.tit }}";
+        Title "{{ title.tit }}";
     {% endif %} 
     {% if title.author %}
-        {%trans "Author"%} "{{ title.author }}";
+        Author "{{ title.author }}";
     {% endif %}
     {% if title.language.short %}
-        {%trans "Language"%} "{{ title.language.short }}";
+        Language "{{ title.language.short }}";
     {% endif %}
     {% if title.tag %}
-        {%trans "Tag"%} "{{ title.tag }}";
+        Tag "{{ title.tag }}";
     {% endif %}
     | eBookSearch
     </title>

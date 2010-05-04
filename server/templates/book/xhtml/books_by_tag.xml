@@ -1,10 +1,27 @@
 {% load i18n %}
 {% include 'book/xhtml/header.xml' %}
 
-    <title> {%trans "Books by tag"%} | eBookSearch</title>
+    <title> Books by tag | eBookSearch</title>
 </head>
 
 <body>
+<div id="lang" align="right">
+    <form action="/i18n/setlang/" method="post">
+        <font size="2">{% trans "Change language:" %}</font>
+        <select name="language">
+        {% for lang in LANGUAGES %}
+        {% ifequal  lang.0 request.LANGUAGE_CODE%}
+            <option value="{{ lang.0 }}" selected>{{ lang.1 }}</option>
+        {% else %}
+            <option value="{{ lang.0 }}" >{{ lang.1 }}</option>
+        {%endifequal%}
+        
+        {% endfor %}
+        </select>
+        <input type="submit" value="Go" />
+    </form>
+</div>
+
 <center><a href="/"><img alt="eBookSearch" border="0" hspace="10"  src="{{MEDIA_URL}}/pic/title.png" title="eBookSearch" /></a></center>
 
 <div id="header">

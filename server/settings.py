@@ -38,8 +38,8 @@ LANGUAGES = (
 )
 
 
-#LANGUAGE_CODE = 'en-us'
-LANGUAGE_CODE = 'ru'
+LANGUAGE_CODE = 'en-us'
+#LANGUAGE_CODE = 'ru'
 SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
@@ -84,7 +84,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.doc.XViewMiddleware',
     'spec.external.pagination.middleware.PaginationMiddleware',
     'django.middleware.cache.CacheMiddleware',
-#    'django.middleware.locale.LocaleMiddleware'
+    'django.middleware.locale.LocaleMiddleware'
 
 #    'django_authopenid.middleware.OpenIDMiddleware',
 )
@@ -131,6 +131,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.i18n",
     "django.core.context_processors.media",
     "django.core.context_processors.request",
+
 )
 
 TEST_RUNNER = 'test_runner.run_tests'
