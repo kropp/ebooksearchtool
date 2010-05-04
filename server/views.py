@@ -182,11 +182,6 @@ def extended_search(request):
     return render_response(request, 'book/xhtml/extended_search.xml', {'tags': tags,
                                 'langs': langs,})
 
-def no_book_cover(request):
-    '''returns image for books have not self impage'''
-    image_data = open("pic/no_cover.gif", "rb").read()
-    return HttpResponse(image_data, mimetype="image/png")
-
 def render_response(req, *args, **kwargs):
     bottom_string = "%s v%s (r%s)" % (EBST_NAME, EBST_VERSION, 
                                                         EBST_VERSION_BUILD)
