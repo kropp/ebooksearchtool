@@ -288,6 +288,8 @@ public class Controller implements Completive {
             //Thread.currentThread().interrupt();
         }
 
+        myThreads = Executors.newCachedThreadPool(); 
+
     }
 
     public void addTask(Callable<?> task) {
