@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-04 21:51+0400\n"
+"POT-Creation-Date: 2010-05-05 16:39+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -551,7 +551,13 @@ msgid "Run the selected action"
 msgstr ""
 
 #: django/contrib/admin/templates/admin/actions.html:4
+#: templates/book/xhtml/author.xml:25 templates/book/xhtml/book.xml:26
+#: templates/book/xhtml/books_by_author.xml:21
+#: templates/book/xhtml/books_by_lang.xml:21
+#: templates/book/xhtml/books_by_tag.xml:21
+#: templates/book/xhtml/catalog.xml:23
 #: templates/book/xhtml/extended_search_form.xml:23
+#: templates/book/xhtml/simple_search_form.xml:15
 msgid "Go"
 msgstr "Изменить"
 

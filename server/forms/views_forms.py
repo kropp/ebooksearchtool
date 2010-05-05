@@ -8,16 +8,7 @@ from book.widgets import LanguageWidget
 
 def available_languages():
     '''returns all languages used in books in our data base'''
-    lang = Book.objects.values_list('lang')
-    short_langs = set(lang)
-    short_langs =  [x[0] for x in short_langs]
-
-    languages = set()
-    for short_lang in short_langs:
-        language = Language.objects.filter(short=short_lang).order_by('full')
-        if language:
-            languages.add((short_lang, language[0].full))
-    return sorted(languages)
+    return Language.objects.exclude(book__isnull=True)[1:]
 
 class ExtendedSearch(forms.Form):
     title = forms.CharField(label=_('Title'),
