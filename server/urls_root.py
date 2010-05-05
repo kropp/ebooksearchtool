@@ -70,9 +70,7 @@ urlpatterns = patterns('',
     (r'^simple_search/?$', 'views.simple_search'),
     (r'^extended_search/?$', 'views.extended_search'),
     
-    # no book cover available
-    (r'^pic/nobookcover/?$', 'views.no_book_cover'),
-    
+   
     #admin
 #    (r'^admin/book/author/(.*)/$', 'book.templatetags.book_tags.author'),      #my admin view for author
 
