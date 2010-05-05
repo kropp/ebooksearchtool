@@ -40,7 +40,7 @@
             });</script>
             {%endif%}</td>
             <td><input type="submit" value="{%trans "Search"%}" ></td>
-            <td>&nbsp;&nbsp;<a href="simple_search" rel="simple search">{%trans "Simple search"%}</a></td>
+            <td>&nbsp;&nbsp;<a href="/" rel="simple search">{%trans "Simple search"%}</a></td>
             </tr><tr>
             <td>{%trans "Author"%}:</td> 
             <td> <input type="text" style="width: 253px;" name="author" value="{{ title.author }}" id="id_author"></td>
@@ -62,7 +62,7 @@
                     <option value="fr">French</option>
                     <option disabled>-----------</option> 
                     {% for lang in langs %}
-                        <option value="{{lang.0}}">{{lang.1}}</option>
+                        <option value="{{lang.short}}">{{lang.full}}</option>
                     {% endfor %}
                 {% else %}
                     {% ifequal "ru" title.lang %}
@@ -71,7 +71,7 @@
                         <option value="fr">French</option>
                         <option disabled>-----------</option> 
                         {% for lang in langs %}
-                            <option value="{{lang.0}}">{{lang.1}}</option>
+                            <option value="{{lang.short}}">{{lang.full}}</option>
                         {% endfor %}
                     {% else %}
                         {% ifequal "fr" title.lang %}
@@ -80,7 +80,7 @@
                             <option selected value="fr">French</option>
                             <option disabled>-----------</option> 
                             {% for lang in langs %}
-                                <option value="{{lang.0}}">{{lang.1}}</option>
+                                <option value="{{lang.short}}">{{lang.full}}</option>
                             {% endfor %}
                         {% else %}
                             <option value="en">English</option>
@@ -88,10 +88,10 @@
                             <option value="fr">French</option>
                             <option disabled>-----------</option>
                             {% for lang in langs %}
-                                {% ifequal lang.0 title.lang %} 
-                                    <option selected value="{{lang.0}}">{{lang.1}}</option>                    
+                                {% ifequal lang.short title.lang %} 
+                                    <option selected value="{{lang.short}}">{{lang.full}}</option>                    
                                 {% else %}
-                                <option value="{{lang.0}}">{{lang.1}}</option>
+                                <option value="{{lang.short}}">{{lang.full}}</option>
                                 {% endifequal %}
                             {% endfor %}                            
                         {% endifequal %}
