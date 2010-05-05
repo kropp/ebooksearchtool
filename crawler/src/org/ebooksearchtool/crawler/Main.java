@@ -80,20 +80,26 @@ public class Main {
         boolean debug = Boolean.parseBoolean(properties.getProperty("debug"));
         String debugFile = properties.getProperty("debug_file");
         String foundBooksFile = properties.getProperty("found_books_file");
+
+        int maxRecordCount = Integer.parseInt(properties.getProperty("max_record_count"));
+        maxRecordCount = maxRecordCount == 0 ? Integer.MAX_VALUE : maxRecordCount;
         
-        PrintWriter output = null;
-        if (!"".equals(foundBooksFile)) {
-            try {
-                output = new PrintWriter(foundBooksFile);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
+//        PrintWriter output = null;
+//        if (!"".equals(foundBooksFile)) {
+//            try {
+//                output = new PrintWriter(foundBooksFile);
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//            }
+//        }
+        FoundBookLogConfigure(foundBooksFile, maxRecordCount);
+
+
         if (!Util.init()) {
             System.err.println("initialization failed");
             System.exit(0);
         }
-        Crawler crawler = new Crawler(properties, starts, output);
+        Crawler crawler = new Crawler(properties, starts);
         Thread crawlingThread = new Thread(crawler);
         crawlingThread.start();
         
@@ -124,10 +130,109 @@ public class Main {
         } else try {
             Thread.sleep(Long.MAX_VALUE);
         } catch (InterruptedException ie) { }
-        if (output != null) {
-            output.close();
-        }
+//        if (output != null) {
+//            output.close();
+//        }
         System.exit(0);
+    }
+
+
+   /**
+    * Simple file logging Handler.
+    *
+    * The FileSplitHandler writes to a set of files.
+    * With a specified name and added counter "0", "1", "2", etc.
+    * For a set of files, as each file reaches a given record number limit,
+    * it is closed, and a new file opened.
+    * The next file will be named like the previous file, but the counter will be incremented.
+    */
+    static class FileSplitHandler extends java.util.logging.Handler {
+        private int myRecordCount;
+        private int myFileCount = 0;
+        private java.util.logging.FileHandler myFileHandler = null;
+
+        private final String myFileName;
+        private final int myMaxRecordCount;
+
+       /**
+        * Initialize a FileSplitHandler to write to a set of files.
+        *
+        * When the given limit has been written to one file, another file will be opened.
+        * @param fileName - the pattern for naming the output file
+        * @param maxRecordCount - the maximum number of records to write to any one file
+        */
+        public FileSplitHandler(String fileName, int maxRecordCount) {
+            this.myFileName = fileName;
+            this.myMaxRecordCount = maxRecordCount;
+            this.myRecordCount = maxRecordCount;
+        }
+
+        public void close() {
+            if (myFileHandler != null) {
+                try {
+                    myFileHandler.close();
+                } catch (SecurityException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        public void flush() {
+            if (myFileHandler != null)
+                myFileHandler.flush();
+        }
+
+        public void publish(java.util.logging.LogRecord record) {
+            if (myRecordCount == myMaxRecordCount) {
+                myRecordCount = 0;
+                nextFileHandler();
+            }
+            if (myFileHandler != null)
+                myFileHandler.publish(record);
+            myRecordCount++;
+        }
+
+       /**
+        * Initialize the next FileHandler.
+        *
+        * Closes the current FileHandler, opens the next FileHandler.
+        */
+        private void nextFileHandler() {
+            close();
+            myFileHandler = null;
+            try {
+                myFileHandler = new java.util.logging.FileHandler(myFileName + "." + myFileCount, false);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            myFileCount++;
+        }
+
+        protected void finalize() {
+            close();
+        }
+    }
+
+
+   /**
+    * Configures "foundBookLog" logger.
+    *
+    * Configures "foundBookLog" logger with FileSplitHandler.
+    * @param fileName - the pattern for naming the output file, if it is null or empty turns off logger
+    * @param maxRecordCount - the maximum number of records to write to any one file
+    */
+    static private void FoundBookLogConfigure(String fileName, int maxRecordCount) {
+        java.util.logging.Logger logger = java.util.logging.Logger.getLogger("foundBookLog");
+        if (fileName != null && !"".equals(fileName)) {
+            logger.setLevel(java.util.logging.Level.ALL);
+            java.util.logging.XMLFormatter formatter = new java.util.logging.XMLFormatter();
+            java.util.logging.Handler handler = new FileSplitHandler(fileName, maxRecordCount);
+
+            handler.setFormatter(formatter);
+            logger.addHandler(handler);
+        } else {
+            logger.setLevel(java.util.logging.Level.OFF);
+        }
     }
     
 }

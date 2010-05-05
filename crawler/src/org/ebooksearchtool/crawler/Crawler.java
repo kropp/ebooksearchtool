@@ -34,7 +34,7 @@ public class Crawler implements Runnable {
     
     private final Socket myAnalyzerSocket;
     private final BufferedWriter myAnalyzerWriter;
-    private final PrintWriter myOutput;
+    private final java.util.logging.Logger foundBookLog = java.util.logging.Logger.getLogger("foundBookLog");
     private final String[] myStarts;
     
     private final AbstractRobotsExclusion myRobots;
@@ -44,8 +44,7 @@ public class Crawler implements Runnable {
     
     private final CrawlerThread[] myThread;
     
-    Crawler(Properties properties, String[] starts, PrintWriter output) {
-        myOutput = output;
+    Crawler(Properties properties, String[] starts) {
         myStarts = starts;
         try {
             Proxy proxy;
@@ -191,9 +190,9 @@ public class Crawler implements Runnable {
                 myQueue.offer(link);
             }
         }
-        if (myOutput != null) {
-            myOutput.println("<books>");
-        }
+//        if (myOutput != null) {
+//            myOutput.println("<books>");
+//        }
         
         
         for (int i = 0; i < ourThreadsCount; i++) {
@@ -244,9 +243,9 @@ public class Crawler implements Runnable {
             myThread[i].stop();
         }
         
-        if (myOutput != null) {
-            myOutput.println("</books>");
-        }
+//        if (myOutput != null) {
+//            myOutput.println("</books>");
+//        }
         System.out.println();
         System.out.println("finished");
         myLogger.finish();
@@ -289,13 +288,15 @@ sb.append(((VisitedLinksSet)myVisited).DEBUG());
     synchronized void writeBookToOutput(Link source, Link referrer, String referrerPage) {
         String link = source.toString().replaceAll("&", "&amp;");
         String from = referrer.toString().replaceAll("&", "&amp;");
-        if (myOutput != null) {
-            myOutput.println("\t<book>");
-            myOutput.println("\t\t<link src=\"" + link + "\" />");
-            myOutput.println("\t\t<referrer src=\"" + from + "\" />");
-            myOutput.println("\t</book>");
-            myOutput.flush();
-        }
+//        if (myOutput != null) {
+//            myOutput.println("\t<book>");
+//            myOutput.println("\t\t<link src=\"" + link + "\" />");
+//            myOutput.println("\t\t<referrer src=\"" + from + "\" />");
+//            myOutput.println("\t</book>");
+//            myOutput.flush();
+//        }
+        foundBookLog.info(link);
+
         if (ourAnalyzerEnabled) {
             try {
                 if (myAnalyzerSocket != null) {

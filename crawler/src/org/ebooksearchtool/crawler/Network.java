@@ -176,7 +176,23 @@ public class Network {
             int status = myHttpClient.executeMethod(method);
             /// TODO: check status!!!!!!!!!!!!!!!!!!!!!
             Header contentType = method.getResponseHeader("Content-Type");
-            if (contentType != null && !contentType.getElements()[0].getName().startsWith(wantedContentType)) return null;
+            if (contentType != null) {
+                String contentTypeString = contentType.getElements()[0].getName();
+
+                //System.err.println(link);
+                //System.err.println(contentTypeString);
+
+                // Sometimes a link with ebook ends with "php", etc
+                // That's why you need to check content type
+                // TODO: check another content types
+                if (contentTypeString.equals("application/epub+zip"))
+                    // TODO: can I get information about page with this link
+                    myCrawler.writeBookToOutput(link, link, "");
+                    
+
+                if (!contentTypeString.startsWith(wantedContentType))
+                    return null;
+            }
             char[] b = new char[8192];
             int r;
             StringBuilder sb = new StringBuilder();

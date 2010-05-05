@@ -62,7 +62,8 @@ public class Util {
     
     public static boolean isBook(Link link) {
         String s = link.getPath();
-        return s != null && (s.endsWith(".epub") || s.endsWith(".pdf") || s.endsWith(".txt") || s.endsWith(".doc"));
+//        return s != null && (s.endsWith(".epub") || s.endsWith(".pdf") || s.endsWith(".txt") || s.endsWith(".doc"));
+        return s != null && (s.endsWith(".epub"));
     }
     
     public static Link createLink(String s) {
