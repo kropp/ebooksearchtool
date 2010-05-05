@@ -56,17 +56,22 @@
     <hr class="space" />
 
     <div>
+        <table cellpadding=5 cellspacing=5>
+        <tr><td>
+
         {% include 'book/xhtml/book_cover.xml' %}
-        <h3><a href="book/id{{ book.id }}" class="title">{{ book.title }}</a></h3>
+        </td>
+        <td>
+        <div id="book_title"><a href="book/id{{ book.id }}" class="title">{{ book.title }}</a></div>
         
         {% if book.author.all %}
-            <h4 class="authors">{%trans "by"%} 
+            <div id="author">&nbsp;&nbsp;&nbsp;<em>{%trans "by"%} 
               {% for author in book.author.all %}
-                 <em><a href="author/id{{ author.id }}" class="author">{{ author.name }}</a></em>
+                 <a href="author/id{{ author.id }}" class="author">{{ author.name }}</a></em>
               {% endfor %}
-            </h4>   
+            </div>   
         {% endif %} 
-
+        <br/>
 
         {% include 'book/xhtml/book_description.xml' %}
         {% if not book.annotation.all.0 %}
@@ -78,6 +83,8 @@
             <br/><br/>
         {% endif %}
     </div>
+    </td></tr>
+    </table>
 
     {% endfor %}
 

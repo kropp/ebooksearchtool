@@ -33,21 +33,23 @@
 
 {% autopaginate books 5%}   
 {% for book in books %}
-
+<table cellpadding=5 cellspacing=5>
+<tr><td>
 {% include 'book/xhtml/book_cover.xml' %}
-
-    <h3><a href="../book/id{{ book.id }}">{{ book.title }}</a></h3>
-    <h4>by 
+</td><td>
+    <div id="author"><a href="../book/id{{ book.id }}">{{ book.title }}</a></div>
+    <div>&nbsp;&nbsp;&nbsp;<em>by 
       {% for author in book.author.all %}
-         <em><a href="../author/id{{ author.id }}" class="gray">{{ author.name }}</a></em>
+         <a href="../author/id{{ author.id }}" class="gray">{{ author.name }}</a></em>
       {% endfor %}
-    </h4>    
+    </div><br/>    
     {% include 'book/xhtml/book_description.xml' %}
     
     {% for annotation in book.annotation.all %}
             <annotation> {{ annotation }} </annotation>
     {% endfor %}
-      
+</td></tr>
+</table>      
 <hr class="space" />
 
 {% endfor %}

@@ -28,26 +28,29 @@
 </div>
 
 <center><a href="/"><img alt="eBookSearch" border="0" hspace="10"  src="{{MEDIA_URL}}/pic/title.png" title="eBookSearch" /></a></center>
-
+<br/>
 <div class="title">
-    <h1> {{ book.title }} </h1>
+    <div id="book_title"> {{ book.title }} </div>
     {% if book.author.all%}
-    <h2>
-      by      
+    <div>
+      <em>&nbsp;&nbsp;&nbsp;by      
       {% for author in book.author.all %}
-        <em><a href="../author/id{{ author.id }}" class="gray">{{ author.name }}</a></em>
+        <a href="../author/id{{ author.id }}" class="gray">{{ author.name }}</a></em>
       {% endfor %}
-    </h2>
+    </div>
     {% endif %}
 </div>
-
+<br/>
 
 <div>
     <div>
+        <table cellpadding=5 cellspacing=5>
+        <tr><td>
         {% include 'book/xhtml/book_cover.xml' %}
-
+        </td><td>
         {% include 'book/xhtml/book_description.xml' %}
-
+        </td></tr>
+        </table><br/>
         {% if book.annotation_set.all %}
             <div class="annotations">
                 <h3>Description</h3>
@@ -68,6 +71,7 @@
                 </h4>
             </div>
         {% endif %}
+
 
   </div>
 

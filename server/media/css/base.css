@@ -91,4 +91,9 @@ img[align="center"] {
 .hidden { display: none !important;}
 
 div#lang {font-size:0.75em}
+div#author {font-size:1.35em; color:#444444;}
+div#book_title {font-size:1.35em; color:#444444;}
+div.language {font-size:1.15em; color:#444444;}
+div.tags {font-size:1.15em; color:#444444;}
+
 
