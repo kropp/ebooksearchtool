@@ -23,7 +23,7 @@ def add_bookfile(file_name):
 
 def read_epub(book_file):
     ''' extract information about book title/author from epub '''
-
+    digits = "0123456789"
     link = None
 
     if book_file.type == "epub":
@@ -70,6 +70,9 @@ def read_epub(book_file):
     if ind != -1:
         author_string = author_string[ind+9:]
 
+    for c in digits:
+        author_string = author_string.replace(c, '')
+
     title_string = beaut_soup.find('dc:title').getText()
 
     if not title_string:
@@ -86,6 +89,10 @@ def read_epub(book_file):
     if ind != -1:
         title_string = title_string[:ind]
 
+    for c in digits:
+        title_string = title_string.replace(c, '')
+
+
     lang_tag = beaut_soup.find('dc:language')
     if lang_tag:
         lang_string = lang_tag.getText()   
@@ -94,7 +101,10 @@ def read_epub(book_file):
             try:
                 language = Language.objects.get(short=lang_string)         #TODO language
             except:
-                language = Language.objects.get(short="?")             
+                try:
+                    language = Language.objects.get(short=lang_string[0:2])         #TODO language
+                except:
+                    language = Language.objects.get(short="?")           
         else:
             language = Language.objects.get(short="?") 
     else:
@@ -124,6 +134,8 @@ def read_epub(book_file):
     if tag_tag:
         tag_string = tag_tag.getText()
         if tag_string:
+            for c in digits:
+                tag_string = tag_string.replace(c, '')
             tags = tag_string.split(',')
             for tag_name in tags:
                 tag = Tag.objects.get_or_create(name=tag_name)        
