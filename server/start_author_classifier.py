@@ -7,7 +7,7 @@ setup_environ(settings)
 import classifier.search_tools as search_tools
 from book.models import Author
 
-AUTHORS = Author.objects.all()
+AUTHORS = Author.objects.exclude(tag__isnull=False)
 
 for author in AUTHORS:
     if author.tag.count() == 0:

@@ -29,7 +29,7 @@
 </div>
 
 {% for lang in languages %} 
-    <h3><a href="../search?lang={{ lang.0 }}">{{ lang.1 }}</a></h3>
+    <h3><a href="../search?lang={{ lang.short }}">{{ lang.full }}</a></h3>
 {% endfor %} 
 
 {% include 'book/xhtml/footer.xml' %}
