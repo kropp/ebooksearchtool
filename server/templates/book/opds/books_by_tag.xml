@@ -13,9 +13,9 @@
     {% for tag in tags %}
     <entry>
         <title> {{ tag }} </title>
-        <link type="application/atom+xml" href="../search.atom?tag={{ tag }}"/>
+        <link type="application/atom+xml" href="/search.atom?tag={{ tag }}"/>
         <updated></updated>
-        <id>../search.atom?tag={{ tag }}</id>
+        <id>/search.atom?tag={{ tag }}</id>
         <content type="text"></content>
     </entry>
     {% endfor %}
