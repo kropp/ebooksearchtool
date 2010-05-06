@@ -20,7 +20,7 @@
 
 <link type="application/atom+xml;type=entry" rel="alternate" title="Full entry" href="../book.atom/id{{ book.id }}"/>
 {% for book_file in book.book_file.all %}
-    <link type="application/{{ book_file.type }}" href="{{ book_file.link }}" />
+    <link type="application/{{ book_file.type }}{%ifequal book_file.type "epub"%}+zip {%endifequal%}" href="{{ book_file.link }}" rel="http://opds-spec.org/acquisition" />
     {%if book_file.img_link%}
         <link type="image/png" rel="http://opds-spec.org/cover" href="{{book_file.img_link}}"/>
     {%endif%}                
