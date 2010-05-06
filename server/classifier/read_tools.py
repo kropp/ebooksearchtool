@@ -12,13 +12,14 @@ def get_description(book_name, flag = False):
     ''' gets book description from Amazon.com'''
     
     name = book_name.replace(" ", "+")
-#    print name
+    print name
     if flag == True:
         name = name.encode("utf-8")
     name = urllib.quote(name)
     
     page = urllib2.urlopen("http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Dstripbooks&field-keywords=" + "%s&x=0&y=0" % name)
     beaut_soup = bs.BeautifulSoup(page)
+    page.close()
     book_tag = ""
     book_tag = beaut_soup.find(attrs={"class":"productTitle"})
     if book_tag == None:
@@ -27,12 +28,14 @@ def get_description(book_name, flag = False):
     if book_html == None:
         return
     book_html = book_html.get("href")
-    
+    print book_html
 
     book_page = urllib2.urlopen(book_html)
     try:
         beaut_soup_book = bs.BeautifulSoup(book_page)
+        book_page.close()
     except:
+        book_page.close()
         return
     if beaut_soup_book == None:
         return
@@ -41,7 +44,7 @@ def get_description(book_name, flag = False):
     if descr_tag == None:
         return
     description = descr_tag.getText()
-    page.close()
+    
     return description
 
 def read(is_statistic, feed, classif):

@@ -25,18 +25,23 @@ def tag_adding():
                 if title.find(j) != -1:
                     tag = Tag.objects.get_or_create(name=i[0])
                     book.tag.add(tag[0])
+                    continue
 
         ann = book.annotation_set.all()
         summary = ""
         authors = book.author.all()
+
         if ann.count() == 0:
             if authors.count() != 0:
-                summary = get_description(book.title + authors[0].name, True)
+                summary = get_description(book.title + "+" + authors[0].name, True)
             else:
                 summary = get_description(book.title, True)
             if summary == None:
                 continue
-            ann = Annotation.objects.get_or_create(name=summary, book=book)        
+            if len(summary) >= 50:
+                ann = Annotation.objects.get_or_create(name=summary, book=book)        
+            else:
+                continue
 
         else:
             for i in ann:
@@ -45,7 +50,7 @@ def tag_adding():
             len_sum = len(summary.split())
             if len_sum < 50:
                 if authors.count() != 0:
-                    summary = get_description(book.title + authors[0].name, 
+                    summary = get_description(book.title + "+" + authors[0].name, 
                                                                         True)
                 else:
                     summary = get_description(book.title, True)
