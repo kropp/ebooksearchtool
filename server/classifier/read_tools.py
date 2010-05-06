@@ -16,7 +16,10 @@ def get_description(book_name, flag = False):
         name = name.encode("utf-8")
     name = urllib.quote(name)
     
-    page = urllib2.urlopen("http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Dstripbooks&field-keywords=" + "%s&x=0&y=0" % name)
+    try:
+        page = urllib2.urlopen("http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Dstripbooks&field-keywords=" + "%s&x=0&y=0" % name)
+    except:
+        return 
     beaut_soup = bs.BeautifulSoup(page)
     page.close()
     book_tag = ""
@@ -28,7 +31,10 @@ def get_description(book_name, flag = False):
         return
     book_html = book_html.get("href")
 
-    book_page = urllib2.urlopen(book_html)
+    try:
+        book_page = urllib2.urlopen(book_html)
+    except:
+        return
     try:
         beaut_soup_book = bs.BeautifulSoup(book_page)
         book_page.close()
