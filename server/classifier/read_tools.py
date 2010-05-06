@@ -12,7 +12,6 @@ def get_description(book_name, flag = False):
     ''' gets book description from Amazon.com'''
     
     name = book_name.replace(" ", "+")
-    print name
     if flag == True:
         name = name.encode("utf-8")
     name = urllib.quote(name)
@@ -28,7 +27,6 @@ def get_description(book_name, flag = False):
     if book_html == None:
         return
     book_html = book_html.get("href")
-    print book_html
 
     book_page = urllib2.urlopen(book_html)
     try:
