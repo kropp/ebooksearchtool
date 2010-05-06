@@ -56,13 +56,16 @@ def tag_adding():
         if summary:
             counter += 1        
             tags = classifier.classify(summary)
-            if counter % 10 == 0:
-                print counter, "of cheched ", counter_all
+            print counter, "of cheched ", counter_all
             if tags[0] != None:
                 tag = Tag.objects.get_or_create(name=tags[0])
                 book.tag.add(tag[0])
             if tags[1] != None:
                 tag = Tag.objects.get_or_create(name=tags[1])
-                book.tag.add(tag[0])    
+                book.tag.add(tag[0]) 
+
+    print "Classification complete"
+    print counter, " books has been classified"
+   
 
 tag_adding()    

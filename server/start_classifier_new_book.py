@@ -16,7 +16,7 @@ def add_tag_for_new_books():
     today = datetime.date.today()
     today.replace(day=today.day-1)
 
-    books = Book.objects.filter(book_file__time_found__gt=datetime.date(2005,1,2))
+    books = Book.objects.filter(book_file__time_found__gt=today)
     counter = 0
     counter_all = 0
     for book in books:
@@ -69,5 +69,7 @@ def add_tag_for_new_books():
             if tags[1] != None:
                 tag = Tag.objects.get_or_create(name=tags[1])
                 book.tag.add(tag[0])
+    print "Classification complete"
+    print counter, " books has been classified"
 
 add_tag_for_new_books()
