@@ -1,0 +1,45 @@
+QLabel#catalogPictureLabel
+{
+	background-image: url(:/CatalogIcon); 
+	background-repeat: no-repeat; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 65px; 
+	max-width: 65px; 
+	min-height: 65px; 
+	max-height: 65px; 
+}
+
+QLabel#catalogTitleLabel
+{
+	font-family: "Arial";
+	font-size: 14px;
+	font-weight: bold;
+}
+
+QPushButton#openButton
+{
+	background-image: url(:/OpenCatalog); 
+	background-repeat: no-repeat; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 65px; 
+	max-width: 65px; 
+	min-height: 65px; 
+	max-height: 65px; 
+}
+
+QPushButton#openButton:pressed
+{
+	background-image: url(:/OpenCatalogPressed); 
+	background-repeat: no-repeat; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 65px; 
+	max-width: 65px; 
+	min-height: 65px; 
+	max-height: 65px; 
+}

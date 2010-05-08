@@ -1,0 +1,47 @@
+QFrame#upperBarLeftFrame
+{
+	background-image: url(:/ToolbarLeft); 
+	background-repeat: repeat-x; 
+	background-color: argb(0, 0, 0, 0%);
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 230px; 
+	max-width: 230px; 
+	min-height: 50px; 
+	max-height: 50px; 
+}
+
+QFrame#upperBarRightFrame
+{
+	background-image: url(:/Toolbar); 
+	background-repeat: repeat-x; 
+	background-color: argb(0, 0, 0, 0%);
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-height: 50px; 
+	max-height: 50px; 
+}
+
+QFrame#contentLeftFrame
+{
+	background-image: url(:/ContentLeftBack);
+	background-repeat: repeat-y; 
+	background-color: argb(0, 0, 0, 0%);
+    border-style: none; 
+    border: 0px; 
+    padding: 0px; 
+	min-width: 270px; 
+    max-width: 270px; 
+}
+
+
+QFrame#contentRightFrame
+{
+	background-image: url(:/ContentStretchBack); 
+	background-color: argb(0, 0, 0, 0%);
+    border-style: none; 
+    border: 0px; 
+    padding: 0px; 
+}

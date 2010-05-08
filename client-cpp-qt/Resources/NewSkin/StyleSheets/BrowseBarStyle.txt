@@ -1,0 +1,164 @@
+QFrame#barFrame
+{
+	margin: 0px;
+	padding: 0px;
+	min-height: 40px; 
+	max-height: 40px;
+}
+
+QPushButton#homeButton
+{
+	background-image: url(:/Home); 
+	background-repeat: no-repeat; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 65px; 
+	max-width: 65px; 
+	min-height: 65px; 
+	max-height: 65px; 
+}
+
+QPushButton#goUpButton
+{
+	background-image: url(:/Up); 
+	background-repeat: no-repeat; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 65px; 
+	max-width: 65px; 
+	min-height: 65px; 
+	max-height: 65px; 
+}
+
+QPushButton#goBackButton
+{
+	background-image: url(:/Back); 
+	background-repeat: no-repeat; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 65px; 
+	max-width: 65px; 
+	min-height: 65px; 
+	max-height: 65px; 
+}
+
+QPushButton#goForwardButton
+{
+	background-image: url(:/Forward); 
+	background-repeat: no-repeat; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 65px; 
+	max-width: 65px; 
+	min-height: 65px; 
+	max-height: 65px; 
+}
+
+
+QPushButton#homeButton:pressed
+{
+	background-image: url(:/HomePressed); 
+	background-repeat: no-repeat; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 65px; 
+	max-width: 65px; 
+	min-height: 65px; 
+	max-height: 65px; 
+}
+
+QPushButton#goUpButton:pressed
+{
+	background-image: url(:/UpPressed); 
+	background-repeat: no-repeat; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 65px; 
+	max-width: 65px; 
+	min-height: 65px; 
+	max-height: 65px; 
+}
+
+QPushButton#goBackButton:pressed
+{
+	background-image: url(:/BackPressed); 
+	background-repeat: no-repeat; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 65px; 
+	max-width: 65px; 
+	min-height: 65px; 
+	max-height: 65px; 
+}
+
+QPushButton#goForwardButton:pressed
+{
+	background-image: url(:/ForwardPressed); 
+	background-repeat: no-repeat; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 65px; 
+	max-width: 65px; 
+	min-height: 65px; 
+	max-height: 65px; 
+}
+
+QPushButton#homeButton:disabled
+{
+	background-image: url(:/HomeDisabled); 
+	background-repeat: no-repeat; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 65px; 
+	max-width: 65px; 
+	min-height: 65px; 
+	max-height: 65px; 
+}
+
+QPushButton#goUpButton:disabled
+{
+	background-image: url(:/UpDisabled); 
+	background-repeat: no-repeat; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 65px; 
+	max-width: 65px; 
+	min-height: 65px; 
+	max-height: 65px; 
+}
+
+QPushButton#goBackButton:disabled
+{
+	background-image: url(:/BackDisabled); 
+	background-repeat: no-repeat; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 65px; 
+	max-width: 65px; 
+	min-height: 65px; 
+	max-height: 65px; 
+}
+
+QPushButton#goForwardButton:disabled
+{
+	background-image: url(:/ForwardDisabled); 
+	background-repeat: no-repeat; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 65px; 
+	max-width: 65px; 
+	min-height: 65px; 
+	max-height: 65px; 
+}

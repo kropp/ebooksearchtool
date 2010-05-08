@@ -1,0 +1,9 @@
+QScrollArea
+{
+	border: 2px solid #cfcfcf; 
+	border-radius: 6px; 
+	background: #ffffff;
+	min-width: 750px; 
+	min-height: 400px; 
+
+}

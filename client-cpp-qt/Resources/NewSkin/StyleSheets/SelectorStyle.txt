@@ -1,0 +1,123 @@
+QLabel#headerLeftImage
+{
+	background-image: url(:/HeaderLeftItem); 
+	background-repeat: no-repeat; 
+	background-origin: margin; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 229px; 
+	max-width: 229px; 
+	min-height: 200px; 
+	max-height: 200px; 
+}
+
+QLabel#headerStretchImage 
+{
+	background-image: url(:/HeaderStretchItem); 
+	background-repeat: repeat-x; 
+	background-origin: margin; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-height: 200px; 
+	max-height: 200px; 
+}
+
+QFrame#headerRightImage 
+{
+	background-image: url(:/HeaderRightItem); 
+	background-repeat: no-repeat; 
+	background-origin: margin; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 410px; 
+	max-width: 410px; 
+	min-height: 200px; 
+	max-height: 200px; 
+}
+
+MultiStateButton#searchModeButton[state="normal"]
+{
+	background-image: url(:/SearchNavigationIcon); 
+	background-repeat: no-repeat; 
+	background-origin: margin; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 90px; 
+	max-width: 90px; 
+	min-height: 100px; 
+	max-height: 100px; 
+}
+
+MultiStateButton#searchModeButton[state="grayed"]
+{
+	background-image: url(:/SearchNavigationIconInactive); 
+	background-repeat: no-repeat; 
+	background-origin: margin; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 90px; 
+	max-width: 90px; 
+	min-height: 100px; 
+	max-height: 100px; 
+}
+
+MultiStateButton#libraryModeButton[state="normal"] 
+{
+	background-image: url(:/MyLibraryNavigationIcon); 
+	background-repeat: no-repeat; 
+	background-origin: margin; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 90px; 
+	max-width: 90px; 
+	min-height: 100px; 
+	max-height: 100px;  
+}
+
+MultiStateButton#libraryModeButton[state="grayed"] 
+{
+	background-image: url(:/MyLibraryNavigationIconInactive); 
+	background-repeat: no-repeat; 
+	background-origin: margin; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 90px; 
+	max-width: 90px; 
+	min-height: 100px; 
+	max-height: 100px; 
+}
+
+MultiStateButton#catalogModeButton[state="normal"]
+{
+	background-image: url(:/CatalogNavigationIcon); 
+	background-repeat: no-repeat; 
+	background-origin: margin; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 90px; 
+	max-width: 90px; 
+	min-height: 100px; 
+	max-height: 100px; 
+}
+
+MultiStateButton#catalogModeButton[state="grayed"]
+{
+	background-image: url(:/CatalogNavigationIconInactive); 
+	background-repeat: no-repeat; 
+	background-origin: margin; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 90px; 
+	max-width: 90px; 
+	min-height: 100px; 
+	max-height: 100px; 
+}

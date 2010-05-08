@@ -1,0 +1,170 @@
+QLabel#bookPictureLabel
+{
+	background-image: url(:/UnknownBook); 
+	background-repeat: no-repeat; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 65px; 
+	max-width: 65px; 
+	min-height: 65px; 
+	max-height: 65px; 
+}
+
+QLabel#bookTitleLabel
+{
+	font-family: "Arial";
+	font-size: 14px;
+	font-weight: bold;
+}
+
+QLabel#bookAuthorLabel
+{
+	font-family: "Arial";
+	font-size: 12px;
+	font-weight: bold;
+}
+
+QLabel#bookLanguageLabel
+{
+	font-family: "Arial";
+	font-size: 12px;
+}
+
+QLabel#bookServerLabel
+{
+	font-family: "Arial";
+	font-size: 12px;
+}
+
+QPushButton#downloadButton
+{
+	background-image: url(:/Download); 
+	background-repeat: no-repeat; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 65px; 
+	max-width: 65px; 
+	min-height: 65px; 
+	max-height: 65px; 
+}
+
+QPushButton#addToLibraryButton
+{
+	background-image: url(:/AddToLibrary); 
+	background-repeat: no-repeat; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 65px; 
+	max-width: 65px; 
+	min-height: 65px; 
+	max-height: 65px; 
+}
+
+QPushButton#removeFromLibraryButton
+{
+	background-image: url(:/Delete); 
+	background-repeat: no-repeat; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 65px; 
+	max-width: 65px; 
+	min-height: 65px; 
+	max-height: 65px; 
+}
+
+
+QPushButton#readButton
+{
+	background-image: url(:/Read); 
+	background-repeat: no-repeat; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 65px; 
+	max-width: 65px; 
+	min-height: 65px; 
+	max-height: 65px; 
+}
+
+QPushButton#informationButton
+{
+	background-image: url(:/Info); 
+	background-repeat: no-repeat; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 65px; 
+	max-width: 65px; 
+	min-height: 65px; 
+	max-height: 65px; 
+}
+
+
+QPushButton#downloadButton:pressed
+{
+	background-image: url(:/DownloadPressed); 
+	background-repeat: no-repeat; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 65px; 
+	max-width: 65px; 
+	min-height: 65px; 
+	max-height: 65px; 
+}
+
+QPushButton#addToLibraryButton:pressed
+{
+	background-image: url(:/AddToLibraryPressed); 
+	background-repeat: no-repeat; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 65px; 
+	max-width: 65px; 
+	min-height: 65px; 
+	max-height: 65px; 
+}
+
+QPushButton#removeFromLibraryButton:pressed
+{
+	background-image: url(:/DeletePressed); 
+	background-repeat: no-repeat; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 65px; 
+	max-width: 65px; 
+	min-height: 65px; 
+	max-height: 65px; 
+}
+
+QPushButton#readButton:pressed
+{
+	background-image: url(:/ReadPressed); 
+	background-repeat: no-repeat; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 65px; 
+	max-width: 65px; 
+	min-height: 65px; 
+	max-height: 65px; 
+}
+
+QPushButton#informationButton:pressed
+{
+	background-image: url(:/InfoPressed); 
+	background-repeat: no-repeat; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 65px; 
+	max-width: 65px; 
+	min-height: 65px; 
+	max-height: 65px; 
+}

@@ -1,0 +1,58 @@
+StandardView
+{
+	background-color: white;
+}
+
+QComboBox 
+{
+	border: 1px solid gray;
+	border-radius: 3px;
+	padding: 1px 18px 1px 3px;
+	min-width: 6em;
+}
+
+QComboBox::down-arrow 
+{
+	border-style: none; 
+	border: 0px; 
+	padding: 1px; 
+	min-width: 20;
+	max-width: 20;
+	min-height: 20;
+	max-height: 20;
+	image: url(:/ComboNotPressed);
+}
+
+QComboBox::down-arrow:on 
+{
+	border-style: none; 
+	border: 0px; 
+	padding: 1px; 
+	min-width: 20;
+	max-width: 20;
+	min-height: 20;
+	max-height: 20;
+	image: url(:/ComboPressed);
+}
+
+QComboBox::drop-down 
+{
+	border-style: none; 
+	border: 0px; 
+}
+
+QComboBox QAbstractItemView  
+{
+	border: 1px solid gray;
+	border-radius: 3px;
+	padding: 5px;
+	selection-color: #333333;
+	background-color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1,
+                                 stop: 0 #E8E8E8, stop: 0.2 #F0F0F0,
+                                 stop: 0.4 #F2F2F2, stop: 1.0 #FFFFFF);
+    selection-background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0 #D3D3D3, stop: 0.4 #D8D8D8,
+                                 stop: 0.5 #DDDDDD, stop: 1.0 #E1E1E1);
+}
+
+

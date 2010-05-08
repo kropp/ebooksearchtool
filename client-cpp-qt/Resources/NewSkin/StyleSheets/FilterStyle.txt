@@ -1,0 +1,16 @@
+QLabel
+{
+	min-width: 80;
+	max-width: 80;
+}
+
+QFrame#filterFrame
+{
+	margin: 10px;
+}
+
+QFrame *
+{
+	font-family: "Arial";
+	font-size: 12px;
+}

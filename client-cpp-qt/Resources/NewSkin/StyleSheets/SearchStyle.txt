@@ -1,0 +1,68 @@
+QLabel#searchLabel
+{
+	background-image: url(:/SearchLeftLabel); 
+	background-repeat: no-repeat; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 220px; 
+	max-width: 220px; 
+	min-height: 40px; 
+	max-height: 40px; 
+}
+
+QLineEdit#searchLine
+{
+	border: 1px solid gray;
+	border-radius: 10px;
+	padding: 0 8px;
+	background: white;
+	font: 18px "Times New Roman"
+}
+
+QPushButton#searchButton
+{
+	background-image: url(:/SearchButton); 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 40px; 
+	max-width: 40px; 
+	min-height: 40px; 
+	max-height: 40px; 
+}
+
+QPushButton#searchButton:pressed 
+{
+	background-image: url(:/SearchButtonPressed); 
+}
+
+QPushButton#moreButton
+{
+	background-image: url(:/MoreButton); 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 40px; 
+	max-width: 40px; 
+	min-height: 40px; 
+	max-height: 40px; 
+}
+
+QPushButton#moreButton:pressed 
+{
+	background-image: url(:/MoreButtonPressed); 
+}
+
+QLabel#searchLabel
+{
+	background-image: url(:/SearchLeftLabel); 
+	background-repeat: no-repeat; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 220px; 
+	max-width: 220px; 
+	min-height: 40px; 
+	max-height: 40px; 
+}

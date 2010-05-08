@@ -1,0 +1,56 @@
+QPushButton#prevButton
+{
+	background-image: url(:/PreviousPage); 
+	background-repeat: no-repeat; 
+	border-style: none; 
+	border: 0px; 
+	min-width: 30px; 
+	max-width: 30px; 
+	min-height: 30px; 
+	max-height: 30px; 
+}
+
+QPushButton#nextButton
+{
+	background-image: url(:/NextPage); 
+	background-repeat: no-repeat; 
+	border-style: none; 
+	border: 0px; 
+	min-width: 30px; 
+	max-width: 30px; 
+	min-height: 30px; 
+	max-height: 30px; 
+}
+
+MultiStateButton[state="normal"]
+{
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-height: 30px; 
+	max-height: 30px; 
+	font-family: "Arial";
+	font-size: 12px;
+	color: rgb(0, 40, 0);
+}
+
+MultiStateButton[state="selected"]
+{
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-height: 30px; 
+	max-height: 30px; 
+	font-family: "Arial";
+	font-weight: bold;
+	font-size: 13px;
+	color: rgb(0, 40, 0);
+}
+
+QLabel
+{
+	font-family: "Arial";
+	font-size: 14px;
+	min-height: 50px; 
+	max-height: 30px; 
+}

@@ -1,0 +1,22 @@
+QLabel#catalogLabel
+{
+	background-image: url(:/Catalogs); 
+	background-repeat: no-repeat; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 220px; 
+	max-width: 220px; 
+	min-height: 40px; 
+	max-height: 40px; 
+}
+
+QScrollArea
+{
+	border: 2px solid #cfcfcf; 
+	border-radius: 6px; 
+	background: #ffffff;
+	min-width: 750px; 
+	min-height: 400px; 
+
+}

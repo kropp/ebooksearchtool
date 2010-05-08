@@ -1,0 +1,12 @@
+QLabel#libraryLabel
+{
+	background-image: url(:/Library); 
+	background-repeat: no-repeat; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 220px; 
+	max-width: 220px; 
+	min-height: 40px; 
+	max-height: 40px; 
+}
