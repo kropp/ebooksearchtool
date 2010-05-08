@@ -74,3 +74,12 @@ bool DownloaderThread::isFinished()
     return myIsFinished;
 }
 
+void DownloaderThread::parseError(int requestId)
+{
+
+}
+
+void DownloaderThread::parseReceivedData(int requestId)
+{
+
+}
