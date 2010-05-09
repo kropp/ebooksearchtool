@@ -1,5 +1,7 @@
 QT += xml
 QT += network
+OBJECTS_DIR = bin
+MOC_DIR = bin
 HEADERS += Model/book.h \
     Model/author.h \
     View/mainview.h \

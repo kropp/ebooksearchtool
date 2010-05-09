@@ -98,22 +98,22 @@ void StandardContentView::setConnections()
 
 }
 
-void StandardContentView::addItemsToLeftBarPartLayout(QHBoxLayout* leftPartLayout)
+void StandardContentView::addItemsToLeftBarPartLayout(QHBoxLayout* /*leftPartLayout*/)
 {
 
 }
 
-void StandardContentView::addItemsToRightBarPartLayout(QHBoxLayout* rightPartLayout)
+void StandardContentView::addItemsToRightBarPartLayout(QHBoxLayout* /*rightPartLayout*/)
 {
 
 }
 
-void StandardContentView::addItemsToLeftContentPartLayout(QHBoxLayout* leftPartLayout)
+void StandardContentView::addItemsToLeftContentPartLayout(QHBoxLayout* /*leftPartLayout*/)
 {
 
 }
 
-void StandardContentView::addItemsToRightContentPartLayout(QHBoxLayout* rightPartLayout)
+void StandardContentView::addItemsToRightContentPartLayout(QHBoxLayout* /*rightPartLayout*/)
 {
 
 }

@@ -31,7 +31,7 @@ void BookDownloader::startDownloadingBooks(QString searchRequest)
 }
 
 
-void BookDownloader::parseReceivedData(int requestId)
+void BookDownloader::parseReceivedData(int /*requestId*/)
 {
     if (myInputBuffer)
     {
@@ -101,7 +101,7 @@ void BookDownloader::getMore()
     }
 }
 
-void BookDownloader::parseError(int requestId)
+void BookDownloader::parseError(int /*requestId*/)
 {
     emit downloadFinished(false, new QVector<Book*>());
 }
