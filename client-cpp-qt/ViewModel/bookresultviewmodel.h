@@ -44,8 +44,8 @@ private:
 
 private:
 
-    Book* myShownBook;
-    BookResultsViewModel* myParentModel;
+    Book* shownBook;
+    BookResultsViewModel* parentModel;
 
 };
 

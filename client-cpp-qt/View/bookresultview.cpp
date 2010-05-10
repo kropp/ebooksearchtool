@@ -147,7 +147,7 @@ void BookResultView::bookInfoPressed()
     myViewModel->bookInfoRequested();
 }
 
-void BookResultView::resizeEvent(QResizeEvent* /*event*/)
+void BookResultView::resizeEvent(QResizeEvent* event)
 {
 
 }

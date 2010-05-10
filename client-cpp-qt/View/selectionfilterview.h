@@ -36,27 +36,27 @@ private slots:
 
 private:
 
-        QLabel* myGroupLabel;
-        QComboBox* myGroupCombo;
+        QLabel* groupLabel;
+        QComboBox* groupCombo;
 
-        QLabel* mySortLabel;
-        QComboBox* mySortCombo;
+        QLabel* sortLabel;
+        QComboBox* sortCombo;
 
-        QLabel* myFilterGroupLabel;
-        QComboBox* myFilterCombo;
+        QLabel* filterGroupLabel;
+        QComboBox* filterCombo;
 
-        QLabel* myFilterWordsLabel;
-        QLineEdit* myFilterEditBox;
-        QPushButton* myPerformButton;
+        QLabel* filterWordsLabel;
+        QLineEdit* filterEditBox;
+        QPushButton* performButton;
 
-        SelectionType mySelectedGroupType;
-        SelectionType mySelectedSortType;
-        SelectionType mySelectedFilterType;
-        QString mySelectedFilterTerm;
+        SelectionType selectedGroupType;
+        SelectionType selectedSortType;
+        SelectionType selectedFilterType;
+        QString selectedFilterTerm;
 
-        QFrame* myFilterFrame;
+        QFrame* filterFrame;
 
-        BookResultsViewModel* myViewModel;
+        BookResultsViewModel* viewModel;
 
 };
 

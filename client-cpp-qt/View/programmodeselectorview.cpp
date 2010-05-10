@@ -1,6 +1,7 @@
 #include "programmodeselectorview.h"
 
 #include <QHBoxLayout>
+#include <QGraphicsColorizeEffect>
 #include <QSplitter>
 #include <QLineEdit>
 #include <QFile>
@@ -8,6 +9,8 @@
 #include "../ViewModel/programmodeviewmodel.h"
 
 #include "searchview.h"
+#include "libraryview.h"
+#include "catalogview.h"
 
 static const QString SEARCH_MODE_ICON = ":SearchMode";
 static const QString LIBRARY_MODE_ICON = ":LibraryMode";
@@ -15,28 +18,34 @@ static const QString CATALOG_MODE_ICON = ":CatalogMode";
 
 ProgramModeSelectorView::ProgramModeSelectorView(QWidget* parent,ProgramModeViewModel* resultsModel) : StandardView(parent)
 {
-    myViewModel = resultsModel;
+    viewModel = resultsModel;
     initialize();
 
     hideAllModeChildren();
-    myViewModel->requestToChangeProgramMode(SEARCH);
+    viewModel->requestToChangeProgramMode(SEARCH);
 }
 
 void ProgramModeSelectorView::createComponents()
 {
-    mySearchView = new SearchView(this, myViewModel->getSearchViewModel());
+    searchView = new SearchView(this, viewModel->getSearchViewModel());
+    libraryView = new LibraryView(this, viewModel->getLibraryViewModel());
+    catalogView = new CatalogView(this, viewModel->getCatalogViewModel());
 
-    myHeaderLeftImage = new QLabel(this);
-    myHeaderStretchImage = new QLabel(this);
-    myHeaderRightImage = new QLabel(this);
+    headerLeftImage = new QLabel(this);
+    headerStretchImage = new QLabel(this);
+    headerRightImage = new QLabel(this);
 
-    myHeaderLeftImage->setObjectName("headerLeftImage");
-    myHeaderStretchImage->setObjectName("headerStretchImage");
-    myHeaderRightImage->setObjectName("headerRightImage");
+    headerLeftImage->setObjectName("headerLeftImage");
+    headerStretchImage->setObjectName("headerStretchImage");
+    headerRightImage->setObjectName("headerRightImage");
 
-    mySearchModeButton = new MultiStateButton(this);
+    searchModeButton = new MultiStateButton(this);
+  //  libraryModeButton = new MultiStateButton(this);
+    catalogModeButton = new MultiStateButton(this);
 
-    mySearchModeButton->setObjectName("searchModeButton");
+    searchModeButton->setObjectName("searchModeButton");
+   // libraryModeButton->setObjectName("libraryModeButton");
+    catalogModeButton->setObjectName("catalogModeButton");
 }
 
 void ProgramModeSelectorView::layoutComponents()
@@ -46,20 +55,24 @@ void ProgramModeSelectorView::layoutComponents()
 
     headerLayout->setMargin(0);
     headerLayout->setSpacing(0);
-    headerLayout->addWidget(myHeaderLeftImage);
+    headerLayout->addWidget(headerLeftImage);
 
     QHBoxLayout* rightHeaderPartLayout = new QHBoxLayout();
 
     rightHeaderPartLayout->addSpacing(15);
-    rightHeaderPartLayout->addWidget(mySearchModeButton, 0, Qt::AlignBottom | Qt::AlignLeft);
+    rightHeaderPartLayout->addWidget(searchModeButton, 0, Qt::AlignBottom | Qt::AlignLeft);
+   // rightHeaderPartLayout->addWidget(libraryModeButton, 0, Qt::AlignBottom | Qt::AlignLeft);
+    rightHeaderPartLayout->addWidget(catalogModeButton, 0, Qt::AlignBottom | Qt::AlignLeft);
 
-    myHeaderRightImage->setLayout(rightHeaderPartLayout);
+    headerRightImage->setLayout(rightHeaderPartLayout);
 
-    headerLayout->addWidget(myHeaderRightImage);
-    headerLayout->addWidget(myHeaderStretchImage);
+    headerLayout->addWidget(headerRightImage);
+    headerLayout->addWidget(headerStretchImage);
 
     layout->addItem(headerLayout);
-    layout->addWidget(mySearchView);
+    layout->addWidget(searchView);
+    layout->addWidget(libraryView);
+    layout->addWidget(catalogView);
     layout->setMargin(0);
     layout->setSpacing(0);
 
@@ -68,26 +81,48 @@ void ProgramModeSelectorView::layoutComponents()
 
 void ProgramModeSelectorView::hideAllModeChildren()
 {
-    mySearchView->hide();
+    searchView->hide();
+    libraryView->hide();
+    catalogView->hide();
 }
 
 void ProgramModeSelectorView::grayAllButtons()
 {
-    mySearchModeButton->setState("grayed");
+    searchModeButton->setState("grayed");
+  //  libraryModeButton->setState("grayed");
+    catalogModeButton->setState("grayed");
 }
 
 void ProgramModeSelectorView::enableSearchButton()
 {
-    mySearchModeButton->setState("normal");
+    searchModeButton->setState("normal");
+}
+
+void ProgramModeSelectorView::enableLibraryButton()
+{
+    libraryModeButton->setProperty("state", "normal");
+}
+
+void ProgramModeSelectorView::enableCatalogButton()
+{
+    catalogModeButton->setState("normal");
 }
 
 void ProgramModeSelectorView::modeButtonPressed()
 {
     QPushButton* senderButton = (QPushButton*)sender();
 
-    if (senderButton == mySearchModeButton)
+    if (senderButton == searchModeButton)
     {
-        myViewModel->requestToChangeProgramMode(SEARCH);
+        viewModel->requestToChangeProgramMode(SEARCH);
+    }
+    else if (senderButton == libraryModeButton)
+    {
+        viewModel->requestToChangeProgramMode(LIBRARY);
+    }
+    else if (senderButton == catalogModeButton)
+    {
+        viewModel->requestToChangeProgramMode(CATALOG);
     }
 }
 
@@ -100,8 +135,10 @@ void ProgramModeSelectorView::setWindowParameters()
 
 void ProgramModeSelectorView::setConnections()
 {
-    connect(myViewModel, SIGNAL(viewModeChanged(ProgramMode)), this, SLOT(viewModeChanged(ProgramMode)));
-    connect(mySearchModeButton, SIGNAL(clicked()), this, SLOT(modeButtonPressed()));
+    connect(viewModel, SIGNAL(viewModeChanged(ProgramMode)), this, SLOT(viewModeChanged(ProgramMode)));
+    connect(searchModeButton, SIGNAL(clicked()), this, SLOT(modeButtonPressed()));
+  //  connect(libraryModeButton, SIGNAL(clicked()), this, SLOT(modeButtonPressed()));
+    connect(catalogModeButton, SIGNAL(clicked()), this, SLOT(modeButtonPressed()));
 }
 
 void ProgramModeSelectorView::viewModeChanged(ProgramMode newMode)
@@ -112,10 +149,21 @@ void ProgramModeSelectorView::viewModeChanged(ProgramMode newMode)
     switch(newMode)
     {
     case SEARCH:
-        mySearchView->show();
+        searchView->show();
         enableSearchButton();
+        break;
+  /*  case LIBRARY:
+        libraryView->show();
+        enableLibraryButton();
+        break;*/
+    case CATALOG:
+        catalogView->show();
+        enableCatalogButton();
         break;
     }
 
-    mySearchModeButton->setStyleSheet(this->styleSheet());
+    searchModeButton->setStyleSheet(this->styleSheet());
+   // libraryModeButton->setStyleSheet(this->styleSheet());
+    catalogModeButton->setStyleSheet(this->styleSheet());
+
 }

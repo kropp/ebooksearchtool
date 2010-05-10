@@ -6,8 +6,11 @@
 #include "../ViewModel/programmodeviewmodel.h"
 
 #include <QLabel>
+#include <QGraphicsColorizeEffect>
 
 class SearchView;
+class LibraryView;
+class CatalogView;
 
 class ProgramModeSelectorView : public StandardView
 {
@@ -35,21 +38,25 @@ private:
     void hideAllModeChildren();
     void grayAllButtons();
     void enableSearchButton();
+    void enableLibraryButton();
+    void enableCatalogButton();
 
 private:
 
-    ProgramModeViewModel* myViewModel;
+    ProgramModeViewModel* viewModel;
 
-    SearchView* mySearchView;
-// TODO myLibraryView
-    //  myCatalogView
+    SearchView* searchView;
+    LibraryView* libraryView;
+    CatalogView* catalogView;
 
-    QFrame* myHeaderRightImage;
-    QLabel* myHeaderStretchImage;
-    QLabel* myHeaderLeftImage;
+    QFrame* headerRightImage;
+    QLabel* headerStretchImage;
+    QLabel* headerLeftImage;
 
-    QFrame* mySelectorFrame;
-    MultiStateButton* mySearchModeButton;
+    QFrame* selectorFrame;
+    MultiStateButton* searchModeButton;
+    MultiStateButton* libraryModeButton;
+    MultiStateButton* catalogModeButton;
 };
 
 #endif // PROGRAMMODESELECTORVIEW_H

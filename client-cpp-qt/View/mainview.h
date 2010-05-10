@@ -21,7 +21,7 @@ protected:
 private:
 
 
-    ProgramModeSelectorView* myProgramSelectorView;
+    ProgramModeSelectorView* programSelectorView;
 
 };
 

@@ -70,19 +70,19 @@ private:
 
 private:
 
-    QVector<BookResultViewModel*> myReceivedBooks;
-    QVector<BookResultViewModel*> myCurrentlyFilteredBooks;
+    QVector<BookResultViewModel*> receivedBooks;
+    QVector<BookResultViewModel*> currentlyFilteredBooks;
 
-    QString myFilterWords;
+    QString filterWords;
 
-    SelectionType myGroupType;
-    SelectionType mySortType;
-    SelectionType myFilterType;
+    SelectionType groupType;
+    SelectionType sortType;
+    SelectionType filterType;
 
-    int myCurrentPageWithPageWindowCorrection;
-    int myCurrentPageWithoutPageWindowCorrection;
+    int currentPageWithPageWindowCorrection;
+    int currentPageWithoutPageWindowCorrection;
 
-    int myPageWindowIndex;
+    int pageWindowIndex;
 };
 
 #endif // BOOKRESULTSVIEWMODEL_H

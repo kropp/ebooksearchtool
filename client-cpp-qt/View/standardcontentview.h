@@ -30,10 +30,10 @@ protected:
 
 private:
 
-    QFrame* myUpperBarLeftFrame;
-    QFrame* myUpperBarRightFrame;
-    QFrame* myContentLeftFrame;
-    QFrame* myContentRightFrame;
+    QFrame* upperBarLeftFrame;
+    QFrame* upperBarRightFrame;
+    QFrame* contentLeftFrame;
+    QFrame* contentRightFrame;
 };
 
 #endif // STANDARDCONTENTVIEW_H

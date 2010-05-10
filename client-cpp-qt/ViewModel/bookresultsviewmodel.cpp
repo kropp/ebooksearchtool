@@ -9,29 +9,29 @@
 static const int RESULTS_ON_PAGE = 15;
 static const int PAGES_WINDOW_SIZE = 17;
 
-static bool sortingLessThanByAuthor(BookResultViewModel* b1, BookResultViewModel* b2)
+bool sortingLessThanByAuthor(BookResultViewModel* b1, BookResultViewModel* b2)
 {
     return b1->getAuthorName().toLower() < b2->getAuthorName().toLower();
 }
 
-static bool sortingLessThanByLanguage(BookResultViewModel* b1, BookResultViewModel* b2)
+bool sortingLessThanByLanguage(BookResultViewModel* b1, BookResultViewModel* b2)
 {
     return b1->getLanguage().toLower() < b2->getLanguage().toLower();
 }
 
-static bool sortingLessThanByServer(BookResultViewModel* b1, BookResultViewModel* b2)
+bool sortingLessThanByServer(BookResultViewModel* b1, BookResultViewModel* b2)
 {
     return b1->getServerName().toLower() < b2->getServerName().toLower();
 }
 
 BookResultsViewModel::BookResultsViewModel()
 {
-    myReceivedBooks = QVector<BookResultViewModel*>();
-    myCurrentlyFilteredBooks = QVector<BookResultViewModel*>();
+    receivedBooks = QVector<BookResultViewModel*>();
+    currentlyFilteredBooks = QVector<BookResultViewModel*>();
 
-    myCurrentPageWithPageWindowCorrection = 0;
-    myCurrentPageWithoutPageWindowCorrection = 0;
-    myPageWindowIndex = 0;
+    currentPageWithPageWindowCorrection = 0;
+    currentPageWithoutPageWindowCorrection = 0;
+    pageWindowIndex = 0;
 
     recalculatePages();
 }
@@ -43,26 +43,26 @@ void BookResultsViewModel::initialize()
 
 void BookResultsViewModel::requestNextPagesWindow()
 {
-    myPageWindowIndex++;
+    pageWindowIndex++;
     recalculatePages();
 }
 
 void BookResultsViewModel::requestPrevPagesWindow()
 {
-    myPageWindowIndex--;
+    pageWindowIndex--;
     recalculatePages();
 }
 
 void BookResultsViewModel::recalculatePages()
 {
-    int totalCount = myCurrentlyFilteredBooks.size();
+    int totalCount = currentlyFilteredBooks.size();
     bool additionalPageNeeded = (totalCount % RESULTS_ON_PAGE);
     int fullPagesCount = (totalCount / RESULTS_ON_PAGE) + (additionalPageNeeded ? 1 : 0);
-    int pagesCountAfterWindowPosition = fullPagesCount - myPageWindowIndex * PAGES_WINDOW_SIZE;
+    int pagesCountAfterWindowPosition = fullPagesCount - pageWindowIndex * PAGES_WINDOW_SIZE;
 
     if (pagesCountAfterWindowPosition < 0)
     {
-        myPageWindowIndex = 0;
+        pageWindowIndex = 0;
         pagesCountAfterWindowPosition = (totalCount / RESULTS_ON_PAGE) + (additionalPageNeeded ? 1 : 0);
     }
 
@@ -71,27 +71,27 @@ void BookResultsViewModel::recalculatePages()
                                         ? PAGES_WINDOW_SIZE
                                         : pagesCountAfterWindowPosition;
 
-    if (myCurrentPageWithoutPageWindowCorrection >= pagesToBeShown)
+    if (currentPageWithoutPageWindowCorrection >= pagesToBeShown)
     {
         requestToChangePage(0);
     }
     else
     {
-        requestToChangePage(myCurrentPageWithoutPageWindowCorrection);
+        requestToChangePage(currentPageWithoutPageWindowCorrection);
         showCurrentPage();
     }
 
 
-    emit pagesCountChanged(pagesToBeShown, myPageWindowIndex * PAGES_WINDOW_SIZE);
-    emit pagePrevAvailabilityChanged(myPageWindowIndex > 0);
+    emit pagesCountChanged(pagesToBeShown, pageWindowIndex * PAGES_WINDOW_SIZE);
+    emit pagePrevAvailabilityChanged(pageWindowIndex > 0);
     emit pageNextAvailabilityChanged(pagesCountAfterWindowPosition > PAGES_WINDOW_SIZE);
 }
 
 void BookResultsViewModel::requestToChangePage(int page)
 {
 
-    myCurrentPageWithoutPageWindowCorrection = page;
-    myCurrentPageWithPageWindowCorrection = page + myPageWindowIndex * PAGES_WINDOW_SIZE;
+    currentPageWithoutPageWindowCorrection = page;
+    currentPageWithPageWindowCorrection = page + pageWindowIndex * PAGES_WINDOW_SIZE;
 
     emit pageChanged(page);
     showCurrentPage();
@@ -101,11 +101,11 @@ void BookResultsViewModel::showCurrentPage()
 {
     QVector<BookResultViewModel*> currentPageBooks;
 
-    for (int i = myCurrentPageWithPageWindowCorrection * RESULTS_ON_PAGE; i < (myCurrentPageWithPageWindowCorrection + 1) * RESULTS_ON_PAGE; i++)
+    for (int i = currentPageWithPageWindowCorrection * RESULTS_ON_PAGE; i < (currentPageWithPageWindowCorrection + 1) * RESULTS_ON_PAGE; i++)
     {
-        if (i < myCurrentlyFilteredBooks.size())
+        if (i < currentlyFilteredBooks.size())
         {
-            currentPageBooks.append(myCurrentlyFilteredBooks.at(i));
+            currentPageBooks.append(currentlyFilteredBooks.at(i));
         }
     }
 
@@ -120,34 +120,34 @@ void BookResultsViewModel::changeAllFilteringDataSimultaneously
     QString newFilterTerm
 )
 {
-    myGroupType = newGroupType;
-    mySortType = newSortType;
-    myFilterType = newFilterType;
-    myFilterWords = newFilterTerm;
+    groupType = newGroupType;
+    sortType = newSortType;
+    filterType = newFilterType;
+    filterWords = newFilterTerm;
     updateShownBooks();
 }
 
 void BookResultsViewModel::changeGroupingType(SelectionType newType)
 {
-    myGroupType = newType;
+    groupType = newType;
     updateShownBooks();
 }
 
 void BookResultsViewModel::changeSortingType(SelectionType newType)
 {
-    mySortType = newType;
+    sortType = newType;
     updateShownBooks();
 }
 
 void BookResultsViewModel::changeFilteringType(SelectionType newType)
 {
-    myFilterType = newType;
+    filterType = newType;
     updateShownBooks();
 }
 
 void BookResultsViewModel::changeFilteringPhrase(QString filter)
 {
-    myFilterWords = filter;
+    filterWords = filter;
     updateShownBooks();
 }
 
@@ -166,8 +166,6 @@ QString BookResultsViewModel::getTerm(BookResultViewModel* element, SelectionTyp
     case SERVER:
         term = element->getServerName();
         break;
-    default:
-        break;
     }
 
     return term;
@@ -175,17 +173,17 @@ QString BookResultsViewModel::getTerm(BookResultViewModel* element, SelectionTyp
 
 void BookResultsViewModel::updateShownBooks()
 {
-    QVector<BookResultViewModel*> processedBooks = QVector<BookResultViewModel*>(myReceivedBooks);
+    QVector<BookResultViewModel*> processedBooks = QVector<BookResultViewModel*>(receivedBooks);
     QVector<BookResultViewModel*> filteredBooks;
     
-    if (myFilterType != NONE)
+    if (filterType != NONE)
     {
         for (int i = 0; i < processedBooks .size(); i++)
         {
             BookResultViewModel* nextElement = processedBooks.at(i);
-            QString filteredTerm = getTerm(nextElement, myFilterType);
+            QString filteredTerm = getTerm(nextElement, filterType);
 
-            if (filteredTerm.contains(myFilterWords))
+            if (filteredTerm.contains(filterWords))
             {
                 filteredBooks.append(nextElement);
             }
@@ -196,9 +194,9 @@ void BookResultsViewModel::updateShownBooks()
         filteredBooks = processedBooks;
     }
 
-    if (mySortType != NONE)
+    if (sortType != NONE)
     {
-        switch (mySortType)
+        switch (sortType)
         {
         case AUTHOR:
             qSort(filteredBooks.begin(), filteredBooks.end(), sortingLessThanByAuthor);
@@ -209,27 +207,25 @@ void BookResultsViewModel::updateShownBooks()
         case SERVER:
             qSort(filteredBooks.begin(), filteredBooks.end(), sortingLessThanByServer);
             break;
-        default:
-            break;
         }
     }
 
     QVector<BookResultViewModel*> groupedBooks;
 
-    if (myGroupType != NONE)
+    if (groupType != NONE)
     {
         while(filteredBooks.size() > 0)
         {
             BookResultViewModel* firstElement = filteredBooks.at(0);
             groupedBooks.append(firstElement);
 
-            QString groupTermFirst = getTerm(firstElement, myGroupType);
+            QString groupTermFirst = getTerm(firstElement, groupType);
 
             for (int i = 1; i < filteredBooks .size(); i++)
             {
                 BookResultViewModel* comparedElement = filteredBooks.at(i);
 
-                QString groupTermCompared = getTerm(comparedElement, myGroupType);
+                QString groupTermCompared = getTerm(comparedElement, groupType);
 
                 if (!groupTermCompared.compare(groupTermFirst))
                 {
@@ -247,7 +243,7 @@ void BookResultsViewModel::updateShownBooks()
         groupedBooks = filteredBooks;
     }
 
-    myCurrentlyFilteredBooks = groupedBooks;
+    currentlyFilteredBooks = groupedBooks;
 
     recalculatePages();
     showCurrentPage();
@@ -255,26 +251,26 @@ void BookResultsViewModel::updateShownBooks()
 
 int BookResultsViewModel::getCurrentBooksCount()
 {
-    return myReceivedBooks.size();
+    return receivedBooks.size();
 }
 
 void BookResultsViewModel::newBooksReceived(QVector<Book*>& newBooks)
 {
 
-    for (int i = 0; i < myReceivedBooks.size(); i++)
+    for (int i = 0; i < receivedBooks.size(); i++)
     {
-        BookResultViewModel* nextElement = myReceivedBooks.at(i);
+        BookResultViewModel* nextElement = receivedBooks.at(i);
         delete nextElement;
     }
 
-    myReceivedBooks.clear();
+    receivedBooks.clear();
 
     for (int i = 0; i < newBooks.size(); i++)
     {
         Book* nextBook = newBooks.at(i);
         BookResultViewModel* newBookVm = new BookResultViewModel(nextBook, this);
 
-        myReceivedBooks.append(newBookVm);
+        receivedBooks.append(newBookVm);
     }
 
     updateShownBooks();

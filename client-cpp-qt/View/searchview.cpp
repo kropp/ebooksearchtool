@@ -13,11 +13,11 @@
 
 SearchView::SearchView(QWidget* parent, SearchViewModel* searchViewModel) : StandardContentView(parent)
 {
-    myViewModel = searchViewModel;
+    viewModel = searchViewModel;
 
     initialize();
 
-    myLastSearchString = "";
+    lastSearchString = "";
 }
 
 SearchView::~SearchView()
@@ -29,20 +29,20 @@ void SearchView::createComponents()
 {
     StandardContentView::createComponents();
 
-    mySearchLabel = new QLabel(this);
-    mySearchLine = new QLineEdit("", this);
-    mySearchButton = new QPushButton(this);
-    myMoreButton = new QPushButton(this);
+    searchLabel = new QLabel(this);
+    searchLine = new QLineEdit("", this);
+    searchButton = new QPushButton(this);
+    moreButton = new QPushButton(this);
 
-    mySearchLabel->setObjectName("searchLabel");
-    mySearchLine->setObjectName("searchLine");
-    mySearchButton->setObjectName("searchButton");
-    myMoreButton->setObjectName("moreButton");
+    searchLabel->setObjectName("searchLabel");
+    searchLine->setObjectName("searchLine");
+    searchButton->setObjectName("searchButton");
+    moreButton->setObjectName("moreButton");
 
-    myMoreButton->hide();
+    moreButton->hide();
 
-    myBookResults = new BookResultsRearrangeView(this, myViewModel->getBookResultsViewModel(), true);
-    myBookFilter = new SelectionFilterView(this, myViewModel->getBookResultsViewModel());
+    bookResults = new BookResultsRearrangeView(this, viewModel->getBookResultsViewModel(), true);
+    bookFilter = new SelectionFilterView(this, viewModel->getBookResultsViewModel());
 }
 
 void SearchView::layoutComponents()
@@ -61,51 +61,51 @@ void SearchView::setWindowParameters()
 
 void SearchView::setConnections()
 {
-    connect(myViewModel, SIGNAL(resultsAvailabilityChanged(bool)), this, SLOT(moreAvailabilityChanged(bool)));
-    connect(mySearchButton, SIGNAL(clicked()), this, SLOT(goButtonPressed()));
-    connect(myMoreButton, SIGNAL(clicked()), myViewModel, SLOT(moreBooksRequested()));
-    connect(mySearchLine, SIGNAL(textEdited(QString)), this, SLOT(textEdited(QString)));
+    connect(viewModel, SIGNAL(resultsAvailabilityChanged(bool)), this, SLOT(moreAvailabilityChanged(bool)));
+    connect(searchButton, SIGNAL(clicked()), this, SLOT(goButtonPressed()));
+    connect(moreButton, SIGNAL(clicked()), viewModel, SLOT(moreBooksRequested()));
+    connect(searchLine, SIGNAL(textEdited(QString)), this, SLOT(textEdited(QString)));
 }
 
-void SearchView::viewModelSearchResultsVisibilityChanged(bool /*visibility*/)
+void SearchView::viewModelSearchResultsVisibilityChanged(bool visibility)
 {
 
 }
 
 void SearchView::goButtonPressed()
 {
-    myViewModel->searchStartRequested(mySearchLine->text());
-    myLastSearchString = mySearchLine->text();
-    myMoreButton->setVisible(true);
-    mySearchButton->setVisible(false);
+    viewModel->searchStartRequested(searchLine->text());
+    lastSearchString = searchLine->text();
+    moreButton->setVisible(true);
+    searchButton->setVisible(false);
 }
 
 void SearchView::addItemsToLeftBarPartLayout(QHBoxLayout* leftPartLayout)
 {
-    leftPartLayout->addWidget(mySearchLabel);
+    leftPartLayout->addWidget(searchLabel);
 }
 
 void SearchView::addItemsToRightBarPartLayout(QHBoxLayout* rightPartLayout)
 {
-    rightPartLayout->addWidget(mySearchLine);
+    rightPartLayout->addWidget(searchLine);
     rightPartLayout->addSpacing(20);
-    rightPartLayout->addWidget(mySearchButton);
-    rightPartLayout->addWidget(myMoreButton);
+    rightPartLayout->addWidget(searchButton);
+    rightPartLayout->addWidget(moreButton);
 }
 
 void SearchView::addItemsToLeftContentPartLayout(QHBoxLayout* leftPartLayout)
 {
-    leftPartLayout->addWidget(myBookFilter);
+    leftPartLayout->addWidget(bookFilter);
 }
 
 void SearchView::addItemsToRightContentPartLayout(QHBoxLayout* rightPartLayout)
 {
-    rightPartLayout->addWidget(myBookResults);
+    rightPartLayout->addWidget(bookResults);
 }
 
 void SearchView::textEdited(QString newText)
 {
-    bool availability = newText.length() > 0 && !newText.compare(myLastSearchString);
-    myMoreButton->setVisible(availability);
-    mySearchButton->setVisible(!availability);
+    bool availability = newText.length() > 0 && !newText.compare(lastSearchString);
+    moreButton->setVisible(availability);
+    searchButton->setVisible(!availability);
 }

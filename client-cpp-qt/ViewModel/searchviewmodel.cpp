@@ -7,17 +7,17 @@
 
 SearchViewModel::SearchViewModel()
 {
-    myResultsAvailability = false;
+    resultsAvailability = false;
 
-    myBookResultsVm = new BookResultsViewModel();
-    myBookResultsVm->initialize();
+    bookResultsVm = new BookResultsViewModel();
+    bookResultsVm->initialize();
 
     setConnections();
 }
 
 BookResultsViewModel* SearchViewModel::getBookResultsViewModel()
 {
-    return myBookResultsVm;
+    return bookResultsVm;
 }
 
 void SearchViewModel::searchStartRequested(QString searchRequest)
@@ -34,9 +34,9 @@ void SearchViewModel::moreBooksRequested()
 
 void SearchViewModel::setSearchResultsAvailability(bool availability)
 {
-    if (myResultsAvailability != availability)
+    if (resultsAvailability != availability)
     {
-        myResultsAvailability = availability;
+        resultsAvailability = availability;
         emit resultsAvailabilityChanged(availability);
     }
 }
@@ -49,5 +49,5 @@ void SearchViewModel::bookResultsVisibilityChanged(bool visibility)
 void SearchViewModel::setConnections()
 {
     connect(BookSearchManager::getInstance(), SIGNAL(booksAvailabilityChanged(bool)), this, SLOT(bookResultsVisibilityChanged(bool)));
-    connect(myBookResultsVm, SIGNAL(infoOpenRequested(Book*)), this, SIGNAL(infoOpenRequested(Book*)));
+    connect(bookResultsVm, SIGNAL(infoOpenRequested(Book*)), this, SIGNAL(infoOpenRequested(Book*)));
 }

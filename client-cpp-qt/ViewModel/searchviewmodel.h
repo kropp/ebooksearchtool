@@ -38,8 +38,9 @@ private:
 
 private:
 
-    bool myResultsAvailability;
+    bool resultsAvailability;
 
-    BookResultsViewModel* myBookResultsVm;
+    BookResultsViewModel* bookResultsVm;
 };
+
 #endif // SEARCHVIEWMODEL_H

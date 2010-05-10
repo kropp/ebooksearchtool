@@ -23,7 +23,7 @@ public:
 
 private:
 
-     QString myState;
+     QString state;
 
 };
 

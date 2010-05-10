@@ -9,8 +9,8 @@ static const int MAX_PAGES_COUNT = 200;
 
 PageView::PageView(QWidget* parent, BookResultsViewModel* resultsModel) : StandardView(parent)
 {
-    myViewModel = resultsModel;
-    myCurrentPage = 0;
+    viewModel = resultsModel;
+    currentPage = 0;
     initialize();
 
     pagesCountChanged(0, 0);
@@ -18,27 +18,27 @@ PageView::PageView(QWidget* parent, BookResultsViewModel* resultsModel) : Standa
 
 void PageView::createComponents()
 {
-    myPageButtons = QVector<MultiStateButton*>();
-    myPageLabel = new QLabel("Page:", this);
-    myPageLabel->setMargin(0);
+    pageButtons = QVector<MultiStateButton*>();
+    pageLabel = new QLabel("Page:", this);
+    pageLabel->setMargin(0);
 
     for (int i = 0; i < MAX_PAGES_COUNT; i++)
     {
         MultiStateButton* nextButton = new MultiStateButton(this);
         nextButton->setText(QString::number(i + 1));
-        myPageButtons.append(nextButton);
+        pageButtons.append(nextButton);
     }
 
     highlightSelectedPageButton();
 
-    myPrevButton = new QPushButton(this);
-    myNextButton = new QPushButton(this);
+    prevButton = new QPushButton(this);
+    nextButton = new QPushButton(this);
 
-    myPrevButton->setObjectName("prevButton");
-    myNextButton->setObjectName("nextButton");
+    prevButton->setObjectName("prevButton");
+    nextButton->setObjectName("nextButton");
 
-    myNextButton->hide();
-    myPrevButton->hide();
+    nextButton->hide();
+    prevButton->hide();
 }
 
 void PageView::layoutComponents()
@@ -54,30 +54,30 @@ void PageView::layoutComponents()
 
 
 
-    pagesLayout->addWidget(myPageLabel, 0, 0, 1, 1, Qt::AlignVCenter);
+    pagesLayout->addWidget(pageLabel, 0, 0, 1, 1, Qt::AlignVCenter);
 
     pagesLayout->setMargin(0);
     pagesLayout->setSpacing(0);
 
     QHBoxLayout* prevLayout = new QHBoxLayout();
 
-    prevLayout->addWidget(myPrevButton, 0, Qt::AlignVCenter);
+    prevLayout->addWidget(prevButton, 0, Qt::AlignVCenter);
     prevLayout->addStretch(1);
 
     pagesLayout->addItem(prevLayout, 0, 1);
 
     QHBoxLayout* pagesArrayLayout = new QHBoxLayout();
 
-    for (int i = 0; i < myPageButtons.size(); i++)
+    for (int i = 0; i < pageButtons.size(); i++)
     {
-        QPushButton* nextButton = myPageButtons.at(i);
+        QPushButton* nextButton = pageButtons.at(i);
         pagesArrayLayout->addWidget(nextButton);
     }
 
     pagesLayout->addItem(pagesArrayLayout, 0, 2);
 
     QHBoxLayout* nextLayout = new QHBoxLayout();
-    nextLayout->addWidget(myNextButton, 0, Qt::AlignVCenter);
+    nextLayout->addWidget(nextButton, 0, Qt::AlignVCenter);
     nextLayout->addStretch(1);
 
     pagesLayout->addItem(nextLayout, 0, 3);
@@ -95,16 +95,16 @@ void PageView::setWindowParameters()
 
 void PageView::setConnections()
 {
-    connect(myViewModel, SIGNAL(pagesCountChanged(int, int)), this, SLOT(pagesCountChanged(int, int)));
-    connect(myViewModel, SIGNAL(pagePrevAvailabilityChanged(bool)), this, SLOT(pagePrevAvailabilityChanged(bool)));
-    connect(myViewModel, SIGNAL(pageNextAvailabilityChanged(bool)), this, SLOT(pageNextAvailabilityChanged(bool)));
-    connect(myPrevButton, SIGNAL(clicked()), myViewModel, SLOT(requestPrevPagesWindow()));
-    connect(myNextButton, SIGNAL(clicked()), myViewModel, SLOT(requestNextPagesWindow()));
-    connect(myViewModel, SIGNAL(pageChanged(int)), this, SLOT(pageChanged(int)));
+    connect(viewModel, SIGNAL(pagesCountChanged(int, int)), this, SLOT(pagesCountChanged(int, int)));
+    connect(viewModel, SIGNAL(pagePrevAvailabilityChanged(bool)), this, SLOT(pagePrevAvailabilityChanged(bool)));
+    connect(viewModel, SIGNAL(pageNextAvailabilityChanged(bool)), this, SLOT(pageNextAvailabilityChanged(bool)));
+    connect(prevButton, SIGNAL(clicked()), viewModel, SLOT(requestPrevPagesWindow()));
+    connect(nextButton, SIGNAL(clicked()), viewModel, SLOT(requestNextPagesWindow()));
+    connect(viewModel, SIGNAL(pageChanged(int)), this, SLOT(pageChanged(int)));
 
-    for (int i = 0; i < myPageButtons.size(); i++)
+    for (int i = 0; i < pageButtons.size(); i++)
     {
-        QPushButton* nextButton = myPageButtons.at(i);
+        QPushButton* nextButton = pageButtons.at(i);
 
         connect(nextButton, SIGNAL(clicked()), this, SLOT(pageClicked()));
     }
@@ -112,7 +112,7 @@ void PageView::setConnections()
 
 void PageView::pageChanged(int page)
 {
-    myCurrentPage = page;
+    currentPage = page;
     highlightSelectedPageButton();
 }
 
@@ -122,9 +122,9 @@ void PageView::pageClicked()
 
     int foundIndex = -1;
 
-    for (int i = 0; i < myPageButtons.size(); i++)
+    for (int i = 0; i < pageButtons.size(); i++)
     {
-        MultiStateButton* nextButton = myPageButtons.at(i);
+        MultiStateButton* nextButton = pageButtons.at(i);
 
         if (senderButton == nextButton)
         {
@@ -133,22 +133,22 @@ void PageView::pageClicked()
         }
     }
 
-    myCurrentPage = foundIndex;
+    currentPage = foundIndex;
 
-    myViewModel->requestToChangePage(myCurrentPage);
+    viewModel->requestToChangePage(currentPage);
 }
 
 void PageView::highlightSelectedPageButton()
 {
-    for (int i = 0; i < myPageButtons.size(); i++)
+    for (int i = 0; i < pageButtons.size(); i++)
     {
-        MultiStateButton* nextButton = myPageButtons.at(i);
+        MultiStateButton* nextButton = pageButtons.at(i);
         nextButton->setState("normal");
     }
 
-    if (myCurrentPage < myPageButtons.size())
+    if (currentPage < pageButtons.size())
     {
-        MultiStateButton* selectedButton = myPageButtons.at(myCurrentPage);
+        MultiStateButton* selectedButton = pageButtons.at(currentPage);
         selectedButton->setState("selected");
     }
 
@@ -159,11 +159,11 @@ void PageView::pagePrevAvailabilityChanged(bool availability)
 {
     if (availability)
     {
-        myPrevButton->show();
+        prevButton->show();
     }
     else
     {
-        myPrevButton->hide();
+        prevButton->hide();
     }
 }
 
@@ -171,19 +171,19 @@ void PageView::pageNextAvailabilityChanged(bool availability)
 {
     if (availability)
     {
-        myNextButton->show();
+        nextButton->show();
     }
     else
     {
-        myNextButton->hide();
+        nextButton->hide();
     }
 }
 
 void PageView::hideButtons()
 {
-    for (int i = 0; i < myPageButtons.size(); i++)
+    for (int i = 0; i < pageButtons.size(); i++)
     {
-        QPushButton* nextButton = myPageButtons.at(i);
+        QPushButton* nextButton = pageButtons.at(i);
         nextButton->hide();
     }
 }
@@ -192,11 +192,11 @@ void PageView::pagesCountChanged(int newPagesCount, int startingPage)
 {
     hideButtons();
 
-    int maxPagesCount = newPagesCount < myPageButtons.size() ? newPagesCount : myPageButtons.size();
+    int maxPagesCount = newPagesCount < pageButtons.size() ? newPagesCount : pageButtons.size();
 
     for (int i = 0; i < maxPagesCount; i++)
     {
-        QPushButton* nextButton = myPageButtons.at(i);
+        QPushButton* nextButton = pageButtons.at(i);
         nextButton->setText(QString::number(1 + i + startingPage));
         nextButton->show();
     }

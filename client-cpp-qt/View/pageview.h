@@ -40,14 +40,14 @@ private:
 
 private:
 
-    QLabel* myPageLabel;
-    QVector<MultiStateButton*> myPageButtons;
-    QPushButton* myPrevButton;
-    QPushButton* myNextButton;
+    QLabel* pageLabel;
+    QVector<MultiStateButton*> pageButtons;
+    QPushButton* prevButton;
+    QPushButton* nextButton;
 
-    int myCurrentPage;
+    int currentPage;
 
-    BookResultsViewModel* myViewModel;
+    BookResultsViewModel* viewModel;
 };
 
 

@@ -15,37 +15,37 @@ static const QString SELECTION_SERVER = "Server";
 SelectionFilterView::SelectionFilterView(QWidget* parent, BookResultsViewModel* bookResultViewModel)
     :StandardView(parent)
 {
-    myViewModel = bookResultViewModel;
+    viewModel = bookResultViewModel;
 
     initialize();
 }
 
 void SelectionFilterView::createComponents()
 {
-    myFilterFrame = new QFrame(this);
+    filterFrame = new QFrame(this);
 
-    myGroupLabel = new QLabel("Group by: ", myFilterFrame);
-    mySortLabel = new QLabel("Sort by: ", myFilterFrame);
-    myFilterGroupLabel = new QLabel("Filter by: ", myFilterFrame);
-    myFilterWordsLabel = new QLabel("Filter: ", myFilterFrame);
+    groupLabel = new QLabel("Group by: ", filterFrame);
+    sortLabel = new QLabel("Sort by: ", filterFrame);
+    filterGroupLabel = new QLabel("Filter by: ", filterFrame);
+    filterWordsLabel = new QLabel("Filter: ", filterFrame);
 
-    myGroupCombo = new QComboBox(myFilterFrame);
-    mySortCombo = new QComboBox(myFilterFrame);
-    myFilterCombo = new QComboBox(myFilterFrame);
+    groupCombo = new QComboBox(filterFrame);
+    sortCombo = new QComboBox(filterFrame);
+    filterCombo = new QComboBox(filterFrame);
 
-    myFilterEditBox = new QLineEdit(myFilterFrame);
-    myPerformButton = new QPushButton("Filter", myFilterFrame);
+    filterEditBox = new QLineEdit(filterFrame);
+    performButton = new QPushButton("Filter", filterFrame);
 
-    myFilterFrame->setObjectName("filterFrame");
-    myPerformButton->setObjectName("filterButton");
+    filterFrame->setObjectName("filterFrame");
+    performButton->setObjectName("filterButton");
 
-    myFilterEditBox->setEnabled(false);
+    filterEditBox->setEnabled(false);
 
     QVector<QComboBox*> boxesVector;
 
-    boxesVector.append(myGroupCombo);
-    boxesVector.append(mySortCombo);
-    boxesVector.append(myFilterCombo);
+    boxesVector.append(groupCombo);
+    boxesVector.append(sortCombo);
+    boxesVector.append(filterCombo);
 
     for (int i = 0; i < boxesVector.size(); i++)
     {
@@ -67,8 +67,8 @@ void SelectionFilterView::layoutComponents()
     filterLayout->setSpacing(0);
 
     QHBoxLayout* groupLayout = new QHBoxLayout();
-    groupLayout->addWidget(myGroupLabel);
-    groupLayout->addWidget(myGroupCombo);
+    groupLayout->addWidget(groupLabel);
+    groupLayout->addWidget(groupCombo);
 
     filterLayout->addSpacing(15);
     filterLayout->addItem(groupLayout);
@@ -76,32 +76,32 @@ void SelectionFilterView::layoutComponents()
 
     QHBoxLayout* sortLayout = new QHBoxLayout();
 
-    sortLayout->addWidget(mySortLabel);
-    sortLayout->addWidget(mySortCombo);
+    sortLayout->addWidget(sortLabel);
+    sortLayout->addWidget(sortCombo);
 
     filterLayout->addItem(sortLayout);
     filterLayout->addSpacing(10);
 
     QHBoxLayout* filterGroupLayout = new QHBoxLayout();
-    filterGroupLayout->addWidget(myFilterGroupLabel);
-    filterGroupLayout->addWidget(myFilterCombo);
+    filterGroupLayout->addWidget(filterGroupLabel);
+    filterGroupLayout->addWidget(filterCombo);
 
     filterLayout->addItem(filterGroupLayout);
     filterLayout->addSpacing(10);
 
     QHBoxLayout* filterTermLayout = new QHBoxLayout();
 
-    filterTermLayout->addWidget(myFilterWordsLabel);
-    filterTermLayout->addWidget(myFilterEditBox);
+    filterTermLayout->addWidget(filterWordsLabel);
+    filterTermLayout->addWidget(filterEditBox);
     filterTermLayout->setMargin(0);
     filterTermLayout->setSpacing(0);
 
     filterLayout->addItem(filterTermLayout);
     filterLayout->addSpacing(20);
-    filterLayout->addWidget(myPerformButton, 0, Qt::AlignRight);
+    filterLayout->addWidget(performButton, 0, Qt::AlignRight);
     filterLayout->addStretch(1);
-    myFilterFrame->setLayout(filterLayout);
-    mainLayout->addWidget(myFilterFrame);
+    filterFrame->setLayout(filterLayout);
+    mainLayout->addWidget(filterFrame);
 
     this->setLayout(mainLayout);
 }
@@ -115,30 +115,30 @@ void SelectionFilterView::setWindowParameters()
 
 void SelectionFilterView::setConnections()
 {
-    connect(myGroupCombo, SIGNAL(activated(QString)), this, SLOT(groupComboActivated(QString)));
-    connect(mySortCombo, SIGNAL(activated(QString)), this, SLOT(sortComboActivated(QString)));
-    connect(myFilterCombo, SIGNAL(activated(QString)), this, SLOT(filterComboActivated(QString)));
-    connect(myFilterEditBox, SIGNAL(textChanged(QString)), this, SLOT(filterTextChanged(QString)));
-    connect(myPerformButton, SIGNAL(clicked()), this, SLOT(performFilterPressed()));
+    connect(groupCombo, SIGNAL(activated(QString)), this, SLOT(groupComboActivated(QString)));
+    connect(sortCombo, SIGNAL(activated(QString)), this, SLOT(sortComboActivated(QString)));
+    connect(filterCombo, SIGNAL(activated(QString)), this, SLOT(filterComboActivated(QString)));
+    connect(filterEditBox, SIGNAL(textChanged(QString)), this, SLOT(filterTextChanged(QString)));
+    connect(performButton, SIGNAL(clicked()), this, SLOT(performFilterPressed()));
 }
 
 void SelectionFilterView::groupComboActivated(const QString& string)
 {
     if (!string.compare(SELECTION_NONE))
     {
-        mySelectedGroupType = NONE;
+        selectedGroupType = NONE;
     }
     else if (!string.compare(SELECTION_AUTHOR))
     {
-        mySelectedGroupType = AUTHOR;
+        selectedGroupType = AUTHOR;
     }
     else if (!string.compare(SELECTION_LANGUAGE))
     {
-        mySelectedGroupType = LANGUAGE;
+        selectedGroupType = LANGUAGE;
     }
     else if (!string.compare(SELECTION_SERVER))
     {
-        mySelectedGroupType = SERVER;
+        selectedGroupType = SERVER;
     }
 }
 
@@ -146,19 +146,19 @@ void SelectionFilterView::sortComboActivated(const QString& string)
 {
     if (!string.compare(SELECTION_NONE))
     {
-        mySelectedSortType = NONE;
+        selectedSortType = NONE;
     }
     else if (!string.compare(SELECTION_AUTHOR))
     {
-        mySelectedSortType = AUTHOR;
+        selectedSortType = AUTHOR;
     }
     else if (!string.compare(SELECTION_LANGUAGE))
     {
-        mySelectedSortType = LANGUAGE;
+        selectedSortType = LANGUAGE;
     }
     else if (!string.compare(SELECTION_SERVER))
     {
-        mySelectedSortType = SERVER;
+        selectedSortType = SERVER;
     }
 }
 
@@ -166,34 +166,34 @@ void SelectionFilterView::filterComboActivated(const QString& string)
 {
     if (!string.compare(SELECTION_NONE))
     {
-        mySelectedFilterType = NONE;
-        myFilterEditBox->setEnabled(false);
+        selectedFilterType = NONE;
+        filterEditBox->setEnabled(false);
     }
     else
     {
-        myFilterEditBox->setEnabled(true);
+        filterEditBox->setEnabled(true);
 
         if (!string.compare(SELECTION_AUTHOR))
         {
-            mySelectedFilterType = AUTHOR;
+            selectedFilterType = AUTHOR;
         }
         else if (!string.compare(SELECTION_LANGUAGE))
         {
-            mySelectedFilterType = LANGUAGE;
+            selectedFilterType = LANGUAGE;
         }
         else if (!string.compare(SELECTION_SERVER))
         {
-            mySelectedFilterType = SERVER;
+            selectedFilterType = SERVER;
         }
     }
 }
 
 void SelectionFilterView::performFilterPressed()
 {
-    myViewModel->changeAllFilteringDataSimultaneously(mySelectedGroupType, mySelectedSortType, mySelectedFilterType, mySelectedFilterTerm);
+    viewModel->changeAllFilteringDataSimultaneously(selectedGroupType, selectedSortType, selectedFilterType, selectedFilterTerm);
 }
 
 void SelectionFilterView::filterTextChanged(QString newText)
 {
-    mySelectedFilterTerm = newText;
+    selectedFilterTerm = newText;
 }

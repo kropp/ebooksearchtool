@@ -3,11 +3,12 @@
 
 #include <QObject>
 
-enum ProgramMode {SEARCH}; //, LIBRARY, CATALOG};
+enum ProgramMode {SEARCH, LIBRARY, CATALOG};
 
 class Book;
 class SearchViewModel;
 class LibraryViewModel;
+class CatalogViewModel;
 
 class ProgramModeViewModel  : public QObject
 {
@@ -21,7 +22,7 @@ public:
 public slots:
 
     void requestToChangeProgramMode(ProgramMode newMode);
-   // void infoOpenRequested(Book* book);
+    void infoOpenRequested(Book* book);
 
 signals:
 
@@ -32,6 +33,7 @@ public:
     ProgramMode getCurrentMode();
     SearchViewModel* getSearchViewModel();
     LibraryViewModel* getLibraryViewModel();
+    CatalogViewModel* getCatalogViewModel();
 
 private:
 
@@ -40,10 +42,11 @@ private:
 
 private:
 
-    ProgramMode myCurrentMode;
+    ProgramMode currentMode;
 
-    SearchViewModel* mySearchViewModel;
-    //LibraryViewModel* myLibraryViewModel;
+    SearchViewModel* searchViewModel;
+    LibraryViewModel* libraryViewModel;
+    CatalogViewModel* catalogViewModel;
 };
 
 #endif // PROGRAMMODEVIEWMODEL_H

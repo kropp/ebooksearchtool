@@ -9,15 +9,15 @@ StandardContentView::StandardContentView(QWidget* parent) : StandardView(parent)
 
 void StandardContentView::createComponents()
 {
-    myUpperBarLeftFrame = new QFrame(this);
-    myUpperBarRightFrame = new QFrame(this);
-    myContentLeftFrame = new QFrame(this);
-    myContentRightFrame = new QFrame(this);
+    upperBarLeftFrame = new QFrame(this);
+    upperBarRightFrame = new QFrame(this);
+    contentLeftFrame = new QFrame(this);
+    contentRightFrame = new QFrame(this);
 
-    myUpperBarLeftFrame->setObjectName("upperBarLeftFrame");
-    myUpperBarRightFrame->setObjectName("upperBarRightFrame");
-    myContentLeftFrame->setObjectName("contentLeftFrame");
-    myContentRightFrame->setObjectName("contentRightFrame");
+    upperBarLeftFrame->setObjectName("upperBarLeftFrame");
+    upperBarRightFrame->setObjectName("upperBarRightFrame");
+    contentLeftFrame->setObjectName("contentLeftFrame");
+    contentRightFrame->setObjectName("contentRightFrame");
 }
 
 void StandardContentView::layoutComponents()
@@ -40,13 +40,13 @@ void StandardContentView::layoutComponents()
 
     rightFrameLayout->addSpacing(10);
 
-    myUpperBarLeftFrame->setLayout(leftFrameLayout);
-    myUpperBarRightFrame->setLayout(rightFrameLayout);
+    upperBarLeftFrame->setLayout(leftFrameLayout);
+    upperBarRightFrame->setLayout(rightFrameLayout);
 
     mainBarLayout->setMargin(0);
     mainBarLayout->setSpacing(0);
-    mainBarLayout->addWidget(myUpperBarLeftFrame);
-    mainBarLayout->addWidget(myUpperBarRightFrame);
+    mainBarLayout->addWidget(upperBarLeftFrame);
+    mainBarLayout->addWidget(upperBarRightFrame);
 
     QHBoxLayout* mainContentLayout = new QHBoxLayout();
 
@@ -68,14 +68,14 @@ void StandardContentView::layoutComponents()
     rightContentVLayout->addSpacing(20);
     rightContentVLayout->addItem(rightContentLayout);
 
-    myContentLeftFrame->setLayout(leftContentLayout);
-    myContentRightFrame->setLayout(rightContentVLayout);
+    contentLeftFrame->setLayout(leftContentLayout);
+    contentRightFrame->setLayout(rightContentVLayout);
 
     mainContentLayout->setMargin(0);
     mainContentLayout->setSpacing(0);
     
-    mainContentLayout->addWidget(myContentLeftFrame);
-    mainContentLayout->addWidget(myContentRightFrame);
+    mainContentLayout->addWidget(contentLeftFrame);
+    mainContentLayout->addWidget(contentRightFrame);
 
 
     mainLayout->setMargin(0);
@@ -98,22 +98,22 @@ void StandardContentView::setConnections()
 
 }
 
-void StandardContentView::addItemsToLeftBarPartLayout(QHBoxLayout* /*leftPartLayout*/)
+void StandardContentView::addItemsToLeftBarPartLayout(QHBoxLayout* leftPartLayout)
 {
 
 }
 
-void StandardContentView::addItemsToRightBarPartLayout(QHBoxLayout* /*rightPartLayout*/)
+void StandardContentView::addItemsToRightBarPartLayout(QHBoxLayout* rightPartLayout)
 {
 
 }
 
-void StandardContentView::addItemsToLeftContentPartLayout(QHBoxLayout* /*leftPartLayout*/)
+void StandardContentView::addItemsToLeftContentPartLayout(QHBoxLayout* leftPartLayout)
 {
 
 }
 
-void StandardContentView::addItemsToRightContentPartLayout(QHBoxLayout* /*rightPartLayout*/)
+void StandardContentView::addItemsToRightContentPartLayout(QHBoxLayout* rightPartLayout)
 {
 
 }

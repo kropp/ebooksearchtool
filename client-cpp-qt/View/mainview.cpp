@@ -9,7 +9,7 @@ MainView::MainView() : StandardView(0) { initialize();}
 
 void MainView::createComponents()
 {
-    myProgramSelectorView = new ProgramModeSelectorView(this, new ProgramModeViewModel);
+    programSelectorView = new ProgramModeSelectorView(this, new ProgramModeViewModel);
 }
 
 void MainView::layoutComponents()
@@ -18,7 +18,7 @@ void MainView::layoutComponents()
 
     mainLayout->setSpacing(0);
     mainLayout->setMargin(0);
-    mainLayout->addWidget(myProgramSelectorView);
+    mainLayout->addWidget(programSelectorView);
 
     this->setLayout(mainLayout);
 }

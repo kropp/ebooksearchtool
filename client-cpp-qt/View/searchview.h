@@ -42,17 +42,17 @@ private slots:
 
 private:
 
-    QLabel* mySearchLabel;
-    QLineEdit* mySearchLine;
-    QPushButton* mySearchButton;
-    QPushButton* myMoreButton;
+    QLabel* searchLabel;
+    QLineEdit* searchLine;
+    QPushButton* searchButton;
+    QPushButton* moreButton;
 
-    SearchViewModel* myViewModel;
+    SearchViewModel* viewModel;
 
-    BookResultsRearrangeView* myBookResults;
-    SelectionFilterView* myBookFilter;
+    BookResultsRearrangeView* bookResults;
+    SelectionFilterView* bookFilter;
 
-    QString myLastSearchString;
+    QString lastSearchString;
 
 };
 

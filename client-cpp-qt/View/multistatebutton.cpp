@@ -5,15 +5,15 @@ static const QString NORMAL_STATE = "normal";
 MultiStateButton::MultiStateButton(QWidget *parent) :
     QPushButton(parent)
 {
-    myState = NORMAL_STATE;
+    state = NORMAL_STATE;
 }
 
 QString MultiStateButton::getState()
 {
-    return myState;
+    return state;
 }
 
 void MultiStateButton::setState(QString value)
 {
-    myState = value;
+    state = value;
 }

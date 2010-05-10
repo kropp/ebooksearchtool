@@ -2,33 +2,33 @@
 #include "bookresultsviewmodel.h"
 
 #include "../Model/book.h"
-
+#include "../Model/librarymanager.h"
 
 BookResultViewModel::BookResultViewModel(Book* book, BookResultsViewModel* parent)
 {
-    myShownBook = book;
-    myParentModel = parent;
+    shownBook = book;
+    parentModel = parent;
 }
 
 QString BookResultViewModel::getBookName()
 {
-    return myShownBook->getTitle().trimmed();
+    return shownBook->getTitle().trimmed();
 }
 
 QString BookResultViewModel::getServerName()
 {
-    return myShownBook->getServerName();
+    return shownBook->getServerName();
 }
 
 QString BookResultViewModel::getAuthorName()
 {
-    if (myShownBook->getAuthors().size() > 0)
+    if (shownBook->getAuthors().size() > 0)
     {
-        return myShownBook->getAuthors().at(0)->getName().trimmed();
+        return shownBook->getAuthors().at(0)->getName().trimmed();
     }
     else
     {
-        if (myShownBook->getAuthors().size() == 0)
+        if (shownBook->getAuthors().size() == 0)
         {
             return "Unknown author";
         }
@@ -41,20 +41,20 @@ QString BookResultViewModel::getAuthorName()
 
 QString BookResultViewModel::getLanguage()
 {
-    return myShownBook->getLanguage();
+    return shownBook->getLanguage();
 }
 
 void BookResultViewModel::addBookToLibraryRequested()
 {
-
+    LibraryManager::getInstance()->addBookToLibrary(shownBook);
 }
 
 void BookResultViewModel::removeBookFromLibraryRequested()
 {
-
+    LibraryManager::getInstance()->removeBookFromLibrary(shownBook);
 }
 
 void BookResultViewModel::bookInfoRequested()
 {
-    myParentModel->bookInfoRequested(myShownBook);
+    parentModel->bookInfoRequested(shownBook);
 }
