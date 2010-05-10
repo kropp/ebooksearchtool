@@ -6,7 +6,6 @@
 #include "../ViewModel/programmodeviewmodel.h"
 
 #include <QLabel>
-#include <QGraphicsColorizeEffect>
 
 class SearchView;
 class LibraryView;

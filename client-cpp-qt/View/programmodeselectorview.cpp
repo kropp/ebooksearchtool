@@ -1,7 +1,6 @@
 #include "programmodeselectorview.h"
 
 #include <QHBoxLayout>
-#include <QGraphicsColorizeEffect>
 #include <QSplitter>
 #include <QLineEdit>
 #include <QFile>
