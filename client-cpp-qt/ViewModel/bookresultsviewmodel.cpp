@@ -9,17 +9,17 @@
 static const int RESULTS_ON_PAGE = 15;
 static const int PAGES_WINDOW_SIZE = 17;
 
-bool sortingLessThanByAuthor(BookResultViewModel* b1, BookResultViewModel* b2)
+static bool sortingLessThanByAuthor(BookResultViewModel* b1, BookResultViewModel* b2)
 {
     return b1->getAuthorName().toLower() < b2->getAuthorName().toLower();
 }
 
-bool sortingLessThanByLanguage(BookResultViewModel* b1, BookResultViewModel* b2)
+static bool sortingLessThanByLanguage(BookResultViewModel* b1, BookResultViewModel* b2)
 {
     return b1->getLanguage().toLower() < b2->getLanguage().toLower();
 }
 
-bool sortingLessThanByServer(BookResultViewModel* b1, BookResultViewModel* b2)
+static bool sortingLessThanByServer(BookResultViewModel* b1, BookResultViewModel* b2)
 {
     return b1->getServerName().toLower() < b2->getServerName().toLower();
 }

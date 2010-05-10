@@ -43,7 +43,7 @@ private:
     ProgramMode myCurrentMode;
 
     SearchViewModel* mySearchViewModel;
-    LibraryViewModel* myLibraryViewModel;
+    //LibraryViewModel* myLibraryViewModel;
 };
 
 #endif // PROGRAMMODEVIEWMODEL_H
