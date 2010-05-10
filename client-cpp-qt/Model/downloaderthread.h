@@ -55,6 +55,7 @@ protected:
 
     int myCurrentRequestId;
 
+    QString myRedirectLink;
 };
 
 #endif // DOWNLOADERTHREAD_H

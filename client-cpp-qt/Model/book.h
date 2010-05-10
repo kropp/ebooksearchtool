@@ -5,7 +5,7 @@
 #include <QVector>
 #include <QMap>
 #include <QObject>
-#include "author.h"
+#include "Author.h"
 
 class Book : QObject {
 

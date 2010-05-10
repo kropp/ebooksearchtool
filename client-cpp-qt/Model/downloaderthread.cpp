@@ -23,6 +23,16 @@ DownloaderThread::DownloaderThread(QString downloadServerUrl, QString downloadBo
     connect(myConnection, SIGNAL(requestFinished(int, bool)), this, SLOT(requestFinished(int, bool)));
 }
 
+void DownloaderThread::parseReceivedData(int requestId)
+{
+    // Not Implemented
+}
+
+void DownloaderThread::parseError(int requestId)
+{
+    // Not Implemented
+}
+
 void DownloaderThread::requestFinished(int requestId, bool error)
 {
     if (requestId == myCurrentRequestId)
@@ -44,9 +54,13 @@ void DownloaderThread::requestFinished(int requestId, bool error)
 
 int DownloaderThread::download(QString searchRequest)
 {
+    myResultsMutex.lock();
+
     myIsFinished = false;
 
     myInputBuffer = new QBuffer(this);
+
+    myResultsMutex.unlock();
 
     return myCurrentRequestId = myConnection->get(searchRequest, myInputBuffer);
 }
@@ -70,12 +84,3 @@ bool DownloaderThread::isFinished()
     return myIsFinished;
 }
 
-void DownloaderThread::parseError(int /*requestId*/)
-{
-
-}
-
-void DownloaderThread::parseReceivedData(int /*requestId*/)
-{
-
-}

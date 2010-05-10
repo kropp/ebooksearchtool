@@ -2,6 +2,7 @@
 #define BOOKDOWNLOADER_H
 
 class Book;
+class SearchResult;
 
 #include <QObject>
 #include <QVector>
@@ -22,7 +23,6 @@ class BookDownloader : public DownloaderThread
 public:
 
     BookDownloader(QString downloadServerUrl, QString downloadBooksRequestUrl);
-    virtual ~BookDownloader();
 
 signals:
 
@@ -35,8 +35,8 @@ public:
 
 protected:
 
-    virtual void parseReceivedData(int requestId);
-    virtual void parseError(int requestId);
+    void parseReceivedData(int requestId);
+    void parseError(int requestId);
 
 private:
 
