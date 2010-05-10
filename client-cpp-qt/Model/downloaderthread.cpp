@@ -44,13 +44,9 @@ void DownloaderThread::requestFinished(int requestId, bool error)
 
 int DownloaderThread::download(QString searchRequest)
 {
-    myResultsMutex.lock();
-
     myIsFinished = false;
 
     myInputBuffer = new QBuffer(this);
-
-    myResultsMutex.unlock();
 
     return myCurrentRequestId = myConnection->get(searchRequest, myInputBuffer);
 }

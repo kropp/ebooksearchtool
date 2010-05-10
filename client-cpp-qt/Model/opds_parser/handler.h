@@ -9,6 +9,8 @@
 #include "../search_result.h"
 #include "opds_constants.h"
 
+#include "../catalog.h"
+
 class Catalog;
 
 class OPDSHandler : public QXmlDefaultHandler, public OPDSConstants {
@@ -16,6 +18,7 @@ class OPDSHandler : public QXmlDefaultHandler, public OPDSConstants {
 public:
 
     OPDSHandler(QVector<Book*>* data, SearchResult& result);
+    OPDSHandler(QVector<Book*>* bookData, QVector<Catalog*>* catalogData, QString parsedServer, SearchResult& result);
     ~OPDSHandler();
 
 private:
@@ -33,6 +36,10 @@ private:
 private:
 
     QVector<Book*>* myBookData;
+    QVector<Catalog*>* myCatalogData;
+    Catalog* currentRootCatalog;
+
+    QString currentParsedServer;
 
     Book* myBook;
     
@@ -57,7 +64,7 @@ private:
     QString issued;
     QString publisher;
     QString coverLink;
-    QString catalogLinkUrl;
+    UrlData* catalogLinkUrl;
 
 
     QVector<QString>* categories;

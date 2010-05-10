@@ -22,8 +22,19 @@ public:
 
 signals:
 
+    /**
+     * Emitted when new books are added
+     */
     void booksChanged(QVector<Book*>& books);
+
+    /**
+     * Emitted with availability=true when at least one book is added after download was requested
+     */
     void booksAvailabilityChanged(bool availability);
+
+    /**
+     * Emitted when all threads have finished downloading
+     */
     void downloadFinished();
 
 public slots:
@@ -38,10 +49,14 @@ private slots:
 private:
 
     void initializeDownloaders();
-    void recreateDownloaders();
+
+    /**
+     * TODO
+     */
     void abortDownloaders();
+
     void setConnectionsWithDownloaders();
-    void disconnectDownloaders();
+
     void updateFinishedState();
 
 private:
@@ -49,7 +64,6 @@ private:
     static BookSearchManager instance;
 
     QVector<Book*> myDownloadedBooks;
-
     QVector<BookDownloader*> myBookDownloaders;
 };
 

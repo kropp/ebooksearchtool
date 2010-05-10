@@ -1,12 +1,27 @@
 #include "handler.h"
+#include "../catalog.h"
 
 static const QString BOOK_FORMAT = "pdf";
 
 OPDSHandler::OPDSHandler(QVector<Book*>* data, SearchResult& result) : mySearchResult(result) {
     myBookData = data;
+    myCatalogData = 0;
     myIsEntry = false;
-    myIsInContent = false;    
+    myIsInContent = false;
+    catalogLinkUrl = 0;
     myFormat = BOOK_FORMAT;
+    currentParsedServer = "";
+}
+
+OPDSHandler::OPDSHandler(QVector<Book*>* bookData, QVector<Catalog*>* catalogData, QString parsedServer, SearchResult& result)
+    : mySearchResult(result)
+{
+    myBookData = bookData;
+    myCatalogData = catalogData;
+    myIsEntry = false;
+    myIsInContent = false;
+    myFormat = BOOK_FORMAT;
+    currentParsedServer = parsedServer;
 }
 
 OPDSHandler::~OPDSHandler() {}
@@ -35,12 +50,18 @@ void OPDSHandler::startNewEntry()
     issued = "";
     publisher = "";
     coverLink = "";
-    catalogLinkUrl = "";
+    catalogLinkUrl = 0;
 }
 
 void OPDSHandler::endEntry()
 {
-
+    if (!entryAuthor && myCatalogData != 0)
+    {
+        Catalog* newCatalog = new Catalog(true, title, catalogLinkUrl);
+        myCatalogData->append(newCatalog);
+    }
+    else
+    {
         Book* newBook = new Book();
 
         newBook->setTitle(title);
@@ -61,6 +82,7 @@ void OPDSHandler::endEntry()
         newBook->setCoverLink(coverLink);
 
         myBookData->append(newBook);
+    }
 }
 
 bool OPDSHandler::startElement (const QString& namespaceUri, const QString& tag, const QString&, const QXmlAttributes& attributes)
@@ -197,7 +219,7 @@ void OPDSHandler::processLink(const QXmlAttributes& attributes) {
         
         coverLink = (attributes.value(ATTRIBUTE_REFERENCE));
     } else if (attributes.value(ATTRIBUTE_TYPE) == "application/atom+xml") {
-        catalogLinkUrl = attributes.value("href");
+        catalogLinkUrl = new UrlData(attributes.value("href") ,currentParsedServer);
     }
 }
 

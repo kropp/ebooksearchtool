@@ -27,7 +27,7 @@ void BookSearchManager::initializeDownloaders()
     myBookDownloaders.append(new BookDownloader("manybooks.net", "/stanza/search.php?q="));
     myBookDownloaders.append(new BookDownloader("bookserver.archive.org", "/catalog/opensearch?q="));
     myBookDownloaders.append(new BookDownloader("www.smashwords.com", "/atom/search/books?query="));
-    myBookDownloaders.append(new BookDownloader("only.mawhrin.net", "/ebooks/search.atom?query="));
+   // myBookDownloaders.append(new BookDownloader("ebooksearch.webfactional.com", "/search?query="));
     myBookDownloaders.append(new BookDownloader("catalog.lexcycle.com", "/munseys/op/search?search="));
 }
 
