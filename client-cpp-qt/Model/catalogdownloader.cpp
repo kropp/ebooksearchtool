@@ -26,8 +26,6 @@ void CatalogDownloader::parseReceivedData(int requestId)
 {
     if (myInputBuffer)
     {
-
-
         myResultsMutex.lock();
 
         myInputBuffer->open(QIODevice::ReadOnly);
@@ -83,5 +81,6 @@ void CatalogDownloader::parseError(int requestId)
 
 void CatalogDownloader::startDownloadingCatalog(QString searchRequest, Catalog* parseCatalog)
 {
+    qDebug() << "CatalogDownloader::startDownloadingCatalog " << myServerUrl << searchRequest;
     myDownloadMapping->insert(QString::number(startDownloading(searchRequest)), parseCatalog);
 }

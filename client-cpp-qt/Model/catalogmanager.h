@@ -65,9 +65,7 @@ private:
     Catalog* myCatalogRequestedForOpening;
     Catalog* myCurrentCatalog;
 
-    BookDownloader* myBookDownloader;
     Catalog* myRootCatalog;
-    Catalog* myCatalog;
 
     QList<Catalog*>* myBrowseBackHistory;
     QList<Catalog*>* myBrowseForwardHistory;

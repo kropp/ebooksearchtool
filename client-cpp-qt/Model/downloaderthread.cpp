@@ -20,15 +20,17 @@ DownloaderThread::DownloaderThread(QString downloadServerUrl, QString downloadBo
 
     myConnection->setHost(myServerUrl, CONNECTION_PORT);
 
+    myConnection->setProxy("192.168.0.2", 3128);
+
     connect(myConnection, SIGNAL(requestFinished(int, bool)), this, SLOT(requestFinished(int, bool)));
 }
 
-void DownloaderThread::parseReceivedData(int requestId)
+void DownloaderThread::parseReceivedData(int /*requestId*/)
 {
     // Not Implemented
 }
 
-void DownloaderThread::parseError(int requestId)
+void DownloaderThread::parseError(int /*requestId*/)
 {
     // Not Implemented
 }

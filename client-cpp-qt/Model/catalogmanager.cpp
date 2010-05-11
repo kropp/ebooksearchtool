@@ -5,8 +5,11 @@
 #include "catalogdownloader.h"
 
 static const QString FEEDBOOKS_ID = "www.feedbooks.com";
+static const QString MANYBOOKS_ID = "www.manybooks.net";
+static const QString LITRES_ID = "data.fbreader.org";
+static const QString SMASHWORDS_ID = "www.smashwords.com";
+static const QString BOOKSERVER_ID = "bookserver.archive.org";
 
-static const QString MANYBOOKS_ID = "manybooks.net";
 
 CatalogManager CatalogManager::instance;
 
@@ -20,11 +23,11 @@ CatalogManager::CatalogManager()
     myBrowseBackHistory = new QList<Catalog*>();
     myBrowseForwardHistory = new QList<Catalog*>();
 
-    //   myDownloadersMap.insert("www.feedbooks.com", new CatalogDownloader("www.feedbooks.com"));
-    //  myDownloadersMap.insert("www.manybooks.net", new CatalogDownloader("www.manybooks.net"));
-
     myDownloadersMap.insert(FEEDBOOKS_ID, new CatalogDownloader(FEEDBOOKS_ID));
     myDownloadersMap.insert(MANYBOOKS_ID, new CatalogDownloader(MANYBOOKS_ID));
+    myDownloadersMap.insert(LITRES_ID, new CatalogDownloader(LITRES_ID));
+    myDownloadersMap.insert(SMASHWORDS_ID, new CatalogDownloader(SMASHWORDS_ID));
+    myDownloadersMap.insert(BOOKSERVER_ID, new CatalogDownloader(BOOKSERVER_ID));
 
     setConnections();
 
@@ -137,7 +140,7 @@ void CatalogManager::setConnections()
     }
 }
 
-void CatalogManager::finishedParsing(bool success, Catalog* catalog)
+void CatalogManager::finishedParsing(bool /*success*/, Catalog* catalog)
 {
     if (myCatalogRequestedForOpening == catalog)
     {
@@ -154,10 +157,6 @@ void CatalogManager::finishedParsing(bool success, Catalog* catalog)
             emit goForwardAvailabilityChanged(goForwardAvailable());
             emit goUpAvailabilityChanged(goUpAvailable());
             emit currentCatalogChanged(myCurrentCatalog);
-
-
-
-            myCatalogRequestedForOpening = 0;
         }
     }
 }
@@ -167,22 +166,24 @@ void CatalogManager::createCatalogs()
     myRootCatalog = new Catalog(false, "Root", new UrlData("-", "-"));
     myRootCatalog->markAsParsed();
 
-    Catalog* feedbooks = new Catalog(false, "FeedBooks", new UrlData("/publicdomain/catalog.atom", "www.feedbooks.com"));
+    Catalog* feedbooks = new Catalog(false, "FeedBooks", new UrlData("/publicdomain/catalog.atom", FEEDBOOKS_ID));
+    Catalog* manybooks = new Catalog(false, "ManyBooks", new UrlData("/stanza/catalog/", MANYBOOKS_ID));
+    Catalog* litres = new Catalog(false, "Litres", new UrlData("/catalogs/litres/", LITRES_ID));
+    Catalog* smashwords = new Catalog(false, "SmashWords", new UrlData("/atom", SMASHWORDS_ID));
 
-    Catalog* test = new Catalog(false, "Test", new UrlData("/publicdomain/catalog.atom", "www.feedbooks.com"));
-    test->addChildUrl(new UrlData("/stanza/catalog/","manybooks.net"));
+    Catalog* newBooks = new Catalog(false, "MULTY_SERVERS_TEST", new UrlData("/books/recent.atom", FEEDBOOKS_ID));
+    newBooks->addChildUrl(new UrlData("/catalogs/litres/", LITRES_ID));
 
-    //Catalog* test = new Catalog(false, "Test", new UrlData("/stanza/catalog/", "manybooks.net"));
 
-    //Catalog* popular = new Catalog(false, "Popular", "/publicdomain/catalog.atom");
-
-    //cat2 = new Catalog(true, "ManyBooks", "-");
-    //cat3 = new Catalog(false, "LolBooks", "-");
+                                    //new UrlData("/stanza/catalog/", MANYBOOKS_ID));
+    //newBooks->addChildUrl(new UrlData("/books/recent.atom", FEEDBOOKS_ID));
 
     myRootCatalog->addCatalogToCatalog(feedbooks);
-    myRootCatalog->addCatalogToCatalog(test);
-    /*rootCatalog->addCatalogToCatalog(cat2);
-    rootCatalog->addCatalogToCatalog(cat3);*/
+    myRootCatalog->addCatalogToCatalog(manybooks);
+    myRootCatalog->addCatalogToCatalog(litres);
+    myRootCatalog->addCatalogToCatalog(smashwords);
+    myRootCatalog->addCatalogToCatalog(newBooks);
+
 }
 
 Catalog* CatalogManager::getCatalogRoot()
@@ -197,7 +198,7 @@ void CatalogManager::parseCatalogRoot()
 
 void CatalogManager::parseCatalogContents(Catalog* catalog)
 {
-    QList<UrlData*> list = catalog->getUrlList();
+    const QList<UrlData*>& list = catalog->getUrlList();
 
     currentCatalogParseCyclesAwaited = list.count();
 
@@ -207,14 +208,4 @@ void CatalogManager::parseCatalogContents(Catalog* catalog)
         downloader->startDownloadingCatalog(urlData->url, catalog);
     }
 
-    /*foreach(QString url, list) {
-        // TODO
-        //ищем в map подходящий загрузчик 
-        //проверки
-        myDownloader->startDownloadingCatalog(url, catalog);
-    }
-     // перебираю
-
-    //TODO map  (QString - Downloader)   url->downloader
-*/
 }

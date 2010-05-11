@@ -2,7 +2,6 @@
 ==============
 просмотр каталогов
 
-
 просмотр каталогов более хитрый new, popular - со всех серверов
 
 ==================================
@@ -14,6 +13,7 @@
     tooltips
     значок "поиск в процессе"
     изменение мышки при наведении на активные элементы    
+    настройка прокси
 
 2. работающие кнопки для книги:
     информация
@@ -44,6 +44,8 @@
 
 rel - у каталога 
 feedbooks + (www.feedbooks.com/catalog.atom) 
+litres + (http://data.fbreader.org/catalogs/litres/)
+
 bookserver - (http://bookserver.archive.org/catalog/) есть, но не в формате
 smashwords - (http://www.smashwords.com/atom) есть, но не в формате
 manybooks - (http://manybooks.net/stanza/catalog/) есть новые но не в формате
