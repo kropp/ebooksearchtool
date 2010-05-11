@@ -59,10 +59,12 @@ public class BookPanel implements Comparable {
         }
 
         public Boolean call(){
-            JFileChooser dialog = new JFileChooser();
-            int res = dialog.showSaveDialog(new JFrame());
-            if (res == JFileChooser.APPROVE_OPTION) {
-                File cover = dialog.getSelectedFile();
+            //JFileChooser dialog = new JFileChooser();
+            //int res = dialog.showSaveDialog(new JFrame());
+            //if (res == JFileChooser.APPROVE_OPTION) {
+
+                //File cover = new File dialog.getSelectedFile();
+                //System.out.println("file " + cover.getName());
                 Connector connector = null;
                 try {
                     connector = new Connector(myLink, mySettings);
@@ -70,8 +72,8 @@ public class BookPanel implements Comparable {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                     return false;
                 }
-                connector.getBookFromURL(cover.getName(), new DefaultBoundedRangeModel(0, 0, 0, 100));
-            }
+                connector.getBookFromURL(myName, new DefaultBoundedRangeModel(0, 0, 0, 100));
+            //}
 
             return true;
         }

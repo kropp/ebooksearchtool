@@ -10,6 +10,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.ebooksearchtool.client.connection.Connector;
@@ -36,6 +37,7 @@ public class Controller implements Completive {
     boolean myIsModelSaved;
     boolean myIsComplete;
     ExecutorService myThreads = Executors.newCachedThreadPool();
+    DefaultBoundedRangeModel myModel = new DefaultBoundedRangeModel(0, 0, 0, 100);
 
     public Controller() throws SAXException, ParserConfigurationException, IOException {
 
@@ -407,6 +409,10 @@ public class Controller implements Completive {
     public Boolean isComplete() {
         return myIsComplete;
         //return myThreads.isShutdown();
+    }
+
+    public DefaultBoundedRangeModel getModel(){
+        return myModel;
     }
 
 }

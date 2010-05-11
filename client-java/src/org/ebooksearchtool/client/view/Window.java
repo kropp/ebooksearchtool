@@ -51,10 +51,12 @@ public class Window implements Observer{
     private JButton myToolDown;
     JButton myToolStop;
 
+    private Controller myController;
+
     ItemListener myLibraryLis;
     ActionListener myStopLis, mySortLis, myDeleteLis, myUpLis, myBackLis, myDownLis, myForwardLis, myActLis;
 
-    final DefaultBoundedRangeModel myModel = new DefaultBoundedRangeModel(0, 0, 0, 100);
+    final DefaultBoundedRangeModel myModel;
 
     private ArrayList<ArrayList<BookPanel>> myBookPanels = new ArrayList<ArrayList<BookPanel>>();
 
@@ -62,7 +64,6 @@ public class Window implements Observer{
     private int curModelNumber;
     boolean myIsNewModel = false;
 
-    private Controller myController;
     private int myImageWidth;
     long myTime;
     boolean myIsModelSaved;
@@ -76,6 +77,8 @@ public class Window implements Observer{
         myController = new Controller();
         myController.getData().addObserver(this);
         curModelNumber = myController.getRequestCount();
+
+        myModel = myController.getModel();
 
         myFrame = new JFrame("ebooksearchtool");
         JMenuBar myMenuBar;

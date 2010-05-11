@@ -57,6 +57,11 @@ public class Connector {
                 int j = 0;
                 int i = 0;
                 while (i != -1) {
+                    if(Thread.currentThread().isInterrupted()){
+                        outStream.close();
+                        outFile.delete();
+                        return false;
+                    }
                     i = IS.read();
                     outStream.write(i);
                     ++j;
@@ -77,6 +82,11 @@ public class Connector {
                 int proc = connection.getContentLength() / 100;
                 int j = 0;
                 while (i != -1) {
+                    if(Thread.currentThread().isInterrupted()){
+                        outStream.close();
+                        outFile.delete();
+                        return false;
+                    }
                     i = IS.read();
                     outStream.write(i);
                     //pw1.print((char)connection.getInputStream().read());     
