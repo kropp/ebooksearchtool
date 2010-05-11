@@ -20,7 +20,7 @@ DownloaderThread::DownloaderThread(QString downloadServerUrl, QString downloadBo
 
     myConnection->setHost(myServerUrl, CONNECTION_PORT);
 
-    myConnection->setProxy("192.168.0.2", 3128);
+//    myConnection->setProxy("192.168.0.2", 3128);
 
     connect(myConnection, SIGNAL(requestFinished(int, bool)), this, SLOT(requestFinished(int, bool)));
 }

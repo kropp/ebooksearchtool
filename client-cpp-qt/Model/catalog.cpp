@@ -15,10 +15,12 @@ Catalog::Catalog(bool isBookCatalogFlag, QString catalogName, QString catalogSum
     if (myIsBookCatalog)
     {
         m_childBooks = new QVector<Book*>();
+        m_childCatalogs = 0;
     }
     else
     {
         m_childCatalogs = new QVector<Catalog*>();
+        m_childBooks = 0;
     }
 }
 
