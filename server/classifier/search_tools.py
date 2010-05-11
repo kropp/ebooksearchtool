@@ -6,27 +6,26 @@ from book.models import Tag
 
 GENRES = {'Adventure':['Adventure'], 'Biography':['Biography'], 
     'Collections':['Collections', 'Collection'], 'Crime/Mystery':['Crime/Mystery',
-    'Crime', 'Mystery'], 'Essay':['Essay'], 'Fantasy':['Fantasy'], 
+    'Crime', 'Mystery'], 'Essay':['Essay', 'Essayist'], 'Fantasy':['Fantasy'], 
     'Ghost Stories':['Ghost Stories', 'Ghost-Stories'], 
     'History':['Historian'], 'Horror':['Horror'], 
     'Humor/Satire':['Humor/Satire','Humor','Satire', 'Comedy', 'Black Comedy'],
     'Non-Fiction':['Hon-Fiction', 'Non Fiction'], 
-    'Novels':['Novels','Novelist'], 'Philosophy':['Philosophy'], 
+    'Novels':['Novels','Novelist'], 'Philosophy':['Philosophy', 'Philosopher'], 
     'Plays':['Plays', 'Play', 'Playwright'], 'Poetry':['Poetry', 'Poet'],
-    'Politics':['Politics'], 'Religion':['Religion'], 'Romance':['Romance'],
-    'Science':['Science'], 'Science Fiction':['Science Fiction', 
-    'Science-Fiction'], 'Sexuality':['Sexuality'], 
-    'Short Fiction':['Short Fiction', 'Short-Fiction', 'Short Story '], 
-    'Thriller':['Thriller'], 'Travel':['Travel'], 'War':['War'], 
-    'Western':['Western'], 'Young Readers':['Young Readers', 'Young-Readers', 
-    "Children's Literature"]}
+    'Politics':['Politics', 'Politician'], 'Religion':['Religion'], 'Romance':['Romance'],
+    'Science':['Scientist'], 'Science Fiction':['Science Fiction', 'Sci Fi', 'Sci-Fi'
+    'Science-Fiction'], 'Short Fiction':['Short Fiction', 'Short-Fiction', 'Short Story '], 
+    'Thriller':['Thriller'], 'Young Readers':['Young Readers', 'Young-Readers', 
+    "Children's Literature"], 'Drama': ['Dramatist']}
 
 # all genres can be used with writer
 
 def search_for_author_information(author):     
     ''' search information about author in wiki '''
+    name = author.name.split(',')[0]
 
-    auth_url = "http://en.wikipedia.org/wiki/" + author.name.replace(" ", "_")
+    auth_url = "http://en.wikipedia.org/wiki/" + name.replace(" ", "_")
     opener = urllib2.build_opener()
     opener.addheaders = [('User-agent', 'Mozilla/5.0')]
 
@@ -44,7 +43,7 @@ def search_for_author_information(author):
                     "Wikipedia does not have an article with this exact name")
     text = text[0:0]
     if is_article != -1:
-        auth_url = "http://en.wikipedia.org/wiki/Special:Search/" + author.name
+        auth_url = "http://en.wikipedia.org/wiki/Special:Search/" + name
         infile = opener.open(auth_url)
         page = infile.read()
         beaut_soup = bs.BeautifulSoup(page)
@@ -93,19 +92,49 @@ def search_for_author_information(author):
                     page = infile.read()
                     beaut_soup = bs.BeautifulSoup(page)
 
-    found = False
+    info_box = beaut_soup.find(attrs={'class':'infobox vcard'})
+    genres = []
+    if info_box:
+        ths = info_box.findAll('th')
+        genres_tag = None
+        for th in ths:
+            if th.text.lower() == 'occupation':
+                occupation_tag = th.nextSibling.nextSibling
+            if th.text.lower() == 'genres':
+                genres_tag = th.nextSibling.nextSibling
+
+        if occupation_tag:
+            genres.extend(occupation_tag.text.strip().split(','))
+        if genres_tag:
+            genres.extend(genres_tag.text.strip().split(','))
+
+    if genres:
+        for genre in genres:
+            for i in GENRES.items():
+                tag = Tag.objects.get_or_create(name = i[0])
+                for j in i[1]:
+                    if genre.lower() == j.lower():
+                        author.tag.add(tag[0])
+
+    if author.tag.count():
+        print name
+        print author.tag.all()
+        return    
+
     for i in GENRES.items():
         tag = Tag.objects.get_or_create(name = i[0])
         for j in i[1]:
             k = beaut_soup.find(attrs = {'title':j})
             if k:
-                found = True
                 author.tag.add(tag[0])
             k = beaut_soup.find(attrs = {'title':j.lower()})
             if k:
-                found = True
                 author.tag.add(tag[0])
 
+    if author.tag.count():
+        print name
+        print author.tag.all()
+        return
 
 #    genres_tag = beaut_soup.find(attrs = {'title':'Literary genre'})
 #    if not genres_tag:
@@ -121,17 +150,16 @@ def search_for_author_information(author):
 #        for i in children:
 #            text += i.getText() + " "
 
-    if found == False:
-        text = beaut_soup.getText()
-        text = text.lower()
-        
-        for i in GENRES.items():
-            tag = Tag.objects.get_or_create(name = i[0])
-            for j in i[1]:
-                k = text.count(j.lower())
-                if k >= 5:
-                    print author.name
-                    print tag[0].name
-                    author.tag.add(tag[0])
+    text = beaut_soup.getText()
+    text = text.lower()
+    
+    for i in GENRES.items():
+        tag = Tag.objects.get_or_create(name = i[0])
+        for j in i[1]:
+            k = text.count(j.lower())
+            if k >= 5:
+                author.tag.add(tag[0])
+    print name
+    print author.tag.all()
 
 
