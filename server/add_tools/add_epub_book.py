@@ -3,56 +3,43 @@ import settings
 setup_environ(settings)
 
 from book.models import Author, Book, Language, Annotation, Tag, BookFile
+from tools import smart_split
 from spec.external.BeautifulSoup import BeautifulSoup as bs
 import urllib2
 import zipfile
 import os
 
-def read_fb2(book_file):
-    ''' extract information about book from fb2 '''
+def read_epub(book_file):
+    ''' extract information about book title/author from epub '''
     digits = "0123456789"
+
     link = book_file.link
 
     try:
         webFile = urllib2.urlopen(link)
     except:
         return
-
     filename = "downloads/" + link.split('/')[-1]
     localFile = open(filename, 'w')
     localFile.write(webFile.read())
     webFile.close()
     localFile.close()
 
-    if link.endswith('.zip'):                   # TODO
-        file = zipfile.ZipFile(filename, "r")
+    file = zipfile.ZipFile(filename, "r")
 
-        data = None
-        for i in file.namelist():
+    data = None
+    for i in file.namelist():
+        if i.endswith('opf'):
             data = file.read(i)
-        file.close()
-    else:
-        file = open(filename, 'r')
-        data = file.read()
-        file.close()
+    file.close()
 
     beaut_soup = bs.BeautifulSoup(data)
-
-    title_info = beaut_soup.find('title-info')
-
-    author_tag = title_info.find('author')
-
+    author_tag = beaut_soup.find('dc:creator')
     if author_tag:
-        author_string = author_tag.find('first-name').getText().lower() + " "
-     
-        middle_name = author_tag.find('middle-name')
-        if middle_name:
-            author_string += middle_name.getText().lower() + " "
-
-        author_string += author_tag.find('last-name').getText().lower()
+        author_string = author_tag.getText().lower()
     else:
         os.remove(filename)
-        return  
+        return
     if not author_string:
         os.remove(filename)
         return
@@ -70,13 +57,14 @@ def read_fb2(book_file):
     for c in digits:
         author_string = author_string.replace(c, '')
 
-    author_string = author_string.title()
+    author_string = author_string.title().strip()
 
-    title_string = title_info.find('book-title').getText()
+    title_string = beaut_soup.find('dc:title').getText()
 
     if not title_string:
         os.remove(filename)
         return
+
     ind = title_string.find(" by ")
     if ind != -1:
         title_string = title_string[:ind]
@@ -87,8 +75,7 @@ def read_fb2(book_file):
     if ind != -1:
         title_string = title_string[:ind]
 
-
-    lang_tag = title_info.find('lang')
+    lang_tag = beaut_soup.find('dc:language')
     if lang_tag:
         lang_string = lang_tag.getText()   
 
@@ -105,10 +92,9 @@ def read_fb2(book_file):
     else:
         language = Language.objects.get(short="?") 
 
-
     author = Author.objects.get_or_create(name=author_string)[0]
 
-    book = author.book_set.filter(title=title_string)
+    book = author.book_set.filter(title=title_string.strip())
 
     if book:
         book[0].book_file.add(book_file)
@@ -116,39 +102,29 @@ def read_fb2(book_file):
         book = Book(title=title_string, language=language)
         book.save()
         book.book_file.add(book_file)
+
         book.author.add(author)
 
     print 'Added book:  ', "Title: ", title_string, " Author: ", author_string
 
-    description_tag = title_info.find('annotation')
+    description_tag = beaut_soup.find('dc:description')
     if description_tag:
         description_string = description_tag.getText()
         if description_string:
-            ann = Annotation.objects.get_or_create(name=description_string, book=book)        
+            ann = Annotation.objects.get_or_create(name=description_string.strip(), book=book)        
 
-    tag_tags = title_info.findAll('genre')
-    
-    for tag_tag in tag_tags:
-        if tag_tag:
-            tag_string = tag_tag.getText()
-            if tag_string:
-                for c in digits:
-                    tag_string = tag_string.replace(c, '')
-                tags = smart_split([tag_string], [',', '/', '_'])
-                for tag_name in tags:
-                    tag = Tag.objects.get_or_create(name=tag_name)        
-                    book.tag.add(tag[0])
+    tag_tag = beaut_soup.find('dc:subject')
+    if tag_tag:
+        tag_string = tag_tag.getText()
+        if tag_string:
+            for c in digits:
+                tag_string = tag_string.replace(c, '')
+            tags = smart_split([tag_string], [',', '/', '_'])
+            for tag_name in tags:
+                tag = Tag.objects.get_or_create(name=tag_name.title().strip())        
+                book.tag.add(tag[0])
     os.remove(filename)
 
-def smart_split(string_list, split_params):
-    if not split_params:
-        return string_list
 
-    splitted_string = []
-    for string in string_list:
-        splitted_string.extend(string.split(split_params[0]))
-    return smart_split(splitted_string, split_params[1:])
-
-
-for book_file in BookFile.objects.filter(book__isnull=True, type="fb2"):
+for book_file in BookFile.objects.filter(book__isnull=True, type="epub"):
     read_epub(book_file)
