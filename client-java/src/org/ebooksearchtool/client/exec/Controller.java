@@ -5,10 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
@@ -298,9 +295,9 @@ public class Controller implements Completive {
 
     }
 
-    public void addTask(Callable<?> task) {
-        myThreads.submit(task);
+    public Future addTask(Callable<?> task) {
         myWindow.enableStop(true);
+        return myThreads.submit(task);
     }
 
     public Settings getSettings() {

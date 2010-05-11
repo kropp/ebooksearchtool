@@ -38,7 +38,7 @@ public class LibBookPanel {
     private JLabel mySubtitle;
     private JLabel myAuthor;
     private JPanel myButtonPanel;
-    private JButton myMoreButton, myDelButton, myLibButton, myDownloadPdfButton, myDownloadEpubButton;
+    private JButton myMoreButton, myDelButton, myDownloadPdfButton, myDownloadEpubButton;
     private JCheckBox myCheckBox;
     private JPanel myMoreInfoPanel;
     private JLabel myUpdateLabel;
@@ -51,30 +51,25 @@ public class LibBookPanel {
 
     private boolean myIsMoreInfoShown = false;
 
-    class FileDownloader implements Callable<Boolean> {
+    class FileDownloader implements Callable<Boolean>{
 
         String myName;
         String myLink;
 
-        public FileDownloader(String name, String link) {
+        public FileDownloader(String name, String link){
             myName = name;
             myLink = link;
         }
 
-        public Boolean call(){
-            JFileChooser dialog = new JFileChooser();
-            int res = dialog.showSaveDialog(new JFrame());
-            if (res == JFileChooser.APPROVE_OPTION) {
-                File cover = dialog.getSelectedFile();
-                Connector connector = null;
-                try {
-                    connector = new Connector(myLink, mySettings);
-                } catch (IOException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                    return false;
-                }
-                connector.getBookFromURL(cover.getName(), new DefaultBoundedRangeModel(0, 0, 0, 100));
+        public Boolean call() {
+            Connector connector = null;
+            try {
+                connector = new Connector(myLink, mySettings);
+            } catch (IOException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                return false;
             }
+            connector.getBookFromURL(myName, myController.getModel());
 
             return true;
         }
@@ -159,10 +154,7 @@ public class LibBookPanel {
         myDelButton.setToolTipText("Delete book from list");
         myDelButton.setPreferredSize(new Dimension(30, 30));
         myButtonPanel.add(myDelButton);
-        myLibButton = new JButton(new ImageIcon(getClass().getResource("/ico/library.png")));
-        myLibButton.setToolTipText("Add to library");
-        myLibButton.setPreferredSize(new Dimension(30, 30));
-        myButtonPanel.add(myLibButton);
+
         myDownloadEpubButton = new JButton(new ImageIcon(getClass().getResource("/ico/epub_30.gif")));
         myDownloadEpubButton.setToolTipText("Download ePub book");
         myDownloadEpubButton.setPreferredSize(new Dimension(30, 30));
@@ -317,26 +309,39 @@ public class LibBookPanel {
             }
         });
 
-        myLibButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                myController.addToLibrary(myBook);
-                myController.saveLibrary();
-                myLibButton.setEnabled(false);
-                myRootPanel.setVisible(true);
-            }
-        });
-
         myDownloadEpubButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
-                myController.addTask(new FileDownloader("books" + File.separatorChar + myBook.getTitle() + ".epub", myBook.getLinks().get("epub")));
+                String name = "books" + File.separatorChar + myBook.getTitle() + ".epub";
+                File book = new File(name);
+                if (!book.exists()) {
+                    myController.addTask(new FileDownloader(name, myBook.getLinks().get("epub")));
+                }
+                try {
+                    System.out.println("exec");
+                    String[] cmd = {"C:\\Program Files (x86)\\Adobe\\Reader 9.0\\Reader\\AcroRd32.exe", name};
+                    Runtime.getRuntime().exec(cmd);
+                } catch (IOException e1) {
+                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
 
             }
         });
 
         myDownloadPdfButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                myController.addTask(new FileDownloader("books" + File.separatorChar + myBook.getTitle() + ".pdf", myBook.getLinks().get("pdf")));
+                String name = "books" + File.separatorChar + myBook.getTitle() + ".pdf";
+                File book = new File(name);
+                if (!book.exists()) {
+                    myController.addTask(new FileDownloader(name, myBook.getLinks().get("pdf")));
+                }
+                try {
+                    System.out.println("exec");
+                    String[] cmd = {"C:\\Program Files (x86)\\Adobe\\Reader 9.0\\Reader\\AcroRd32.exe", name};
+                    Runtime.getRuntime().exec(cmd);
+                } catch (IOException e1) {
+                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
             }
         });
 
