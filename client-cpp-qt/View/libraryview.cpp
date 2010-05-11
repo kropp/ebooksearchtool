@@ -34,7 +34,7 @@ void LibraryView::layoutComponents()
     StandardContentView::layoutComponents();
 }
 
-void LibraryView::viewModelSearchResultsVisibilityChanged(bool visibility)
+void LibraryView::viewModelSearchResultsVisibilityChanged(bool /*visibility*/)
 {
 
 }

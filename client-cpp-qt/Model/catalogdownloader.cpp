@@ -74,7 +74,7 @@ void CatalogDownloader::parseReceivedData(int requestId)
     }
 }
 
-void CatalogDownloader::parseError(int requestId)
+void CatalogDownloader::parseError(int /*requestId*/)
 {
     emit downloadFinished(false, 0);
 }

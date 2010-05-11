@@ -1,6 +1,8 @@
 #include "catalog.h"
 #include "book.h"
 
+#include <QDebug>
+
 Catalog::Catalog(bool isBookCatalogFlag, QString catalogName, QString catalogSummary, UrlData* newUrl)
 {
     myIsBookCatalog = isBookCatalogFlag;
@@ -136,7 +138,9 @@ void Catalog::addCatalogToCatalog(Catalog* newCatalog)
 {
     if (!myIsBookCatalog)
     {
+        qDebug() << "Catalog::addCatalogToCatalog to append" << m_childCatalogs->size();
         m_childCatalogs->append(newCatalog);
+        qDebug() << "Catalog::addCatalogToCatalog appended";
         newCatalog->setParent(this);
     }
 }
