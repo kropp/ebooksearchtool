@@ -21,10 +21,18 @@ def tag_adding():
 
         title = book.title
         if book.credit == 0:
-            title = title[:title.find(" trans by ")]
-            title = title[:title.find(" translated ")]
-            title = title[:title.find(" adapted ")]
-            title = title[:title.find(" by ")]
+            ind = title.find(" trans by ")
+            if ind != -1:
+                title = title[:ind]
+            ind = title.find(" translated ")    
+            if ind != -1:
+                title = title[:ind]
+            ind = title.find(" adapted ")    
+            if ind != -1:
+                title = title[:ind]
+            ind = title.find(" by ")
+            if ind != -1:
+                title = title[:ind]
 
             if book.title != title:
                 book.title = title
@@ -42,13 +50,24 @@ def tag_adding():
         summary = ""
         authors = book.author.all()
 
-        if author.credit == 0:
-            for author in authors:
+
+        for author in authors:
+            if author.credit == 0:
                 author_string = author.name
-                author_string = author_string[author_string.find(" trans by ")+10:]
-                author_string = author_string[author_string.find(" translated ")+12:]
-                author_string = author_string[author_string.find(" adapted ")+9:]
-                author_string = author_string[author_string.find(" by ")+4:]
+
+                ind = author_string.find(" trans by ")    
+                if ind != -1:
+                    author_string = author_string[ind+10:]
+                ind = author_string.find(" translated ")    
+                if ind != -1:
+                    author_string = author_string[ind+12:]
+                ind = author_string.find(" adapted ")    
+                if ind != -1:
+                    author_string = author_string[ind+9:]
+                ind = author_string.find(" by ")
+                if ind != -1:
+                    author_string = author_string[ind+4:]
+
                 if author_string and author.name != author_string:
                     author.name = author_string
                     author.credit = 1
@@ -88,15 +107,23 @@ def tag_adding():
                 summary = summary[:tag_ind].strip()
                 tags = smart_split([summary[tag_ind+9:]], [',', '/', '_'])
             else:
-                tags = classifier.classify(summary)
+                if book.author.all()[0].tag.count():
+                    tags = classifier.classify(summary, 
+                                [x.name for x in book.author.all()[0].tag.all()])
+                else:
+                    tags = classifier.classify(summary)
             if not counter%10:
                 print counter, "of cheched ", counter_all
-            if tags[0] != None:
+
+            if tags[0:1] != None:
                 tag = Tag.objects.get_or_create(name=tags[0])
                 book.tag.add(tag[0])
-            if tags[1] != None:
+            if tags[1:2] != None:
                 tag = Tag.objects.get_or_create(name=tags[1])
                 book.tag.add(tag[0]) 
+            print book.title
+            print book.tag.all()
+            print book.author.all()[0].tag.all()
 
     print "Classification complete"
     print counter, " books has been classified"

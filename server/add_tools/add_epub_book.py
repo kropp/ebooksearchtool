@@ -44,10 +44,19 @@ def read_epub(book_file):
         os.remove(filename)
         return
 
-    author_string = author_string[author_string.find(" trans by ")+10:]
-    author_string = author_string[author_string.find(" translated ")+12:]
-    author_string = author_string[author_string.find(" adapted ")+9:]
-    author_string = author_string[author_string.find(" by ")+4:]
+    ind = author_string.find(" trans by ")    
+    if ind != -1:
+        author_string = author_string[ind+10:]
+    ind = author_string.find(" translated ")    
+    if ind != -1:
+        author_string = author_string[ind+12:]
+    ind = author_string.find(" adapted ")    
+    if ind != -1:
+        author_string = author_string[ind+9:]
+    ind = author_string.find(" by ")
+    if ind != -1:
+        author_string = author_string[ind+4:]
+
 
     for c in digits:
         author_string = author_string.replace(c, '')
@@ -60,10 +69,18 @@ def read_epub(book_file):
         os.remove(filename)
         return
 
-    title_string = title_string[:title_string.find(" trans by ")]
-    title_string = title_string[:title_string.find(" translated ")]
-    title_string = title_string[:title_string.find(" adapted ")]
-    title_string = title_string[:title_string.find(" by ")]
+    ind = title_string.find(" trans by ")
+    if ind != -1:
+        title_string = title_string[:ind]
+    ind = title_string.find(" translated ")    
+    if ind != -1:
+        title_string = title_string[:ind]
+    ind = title_string.find(" adapted ")    
+    if ind != -1:
+        title_string = title_string[:ind]
+    ind = title_string.find(" by ")
+    if ind != -1:
+        title_string = title_string[:ind]
 
     lang_tag = beaut_soup.find('dc:language')
     if lang_tag:

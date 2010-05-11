@@ -188,18 +188,26 @@ class FisherClassifier(Classifier):
         
     def classify(self, item, default=None, lang="english"):
         ''' search for best result '''
-        best = default
-        second = default
+        result = []
+        authors_tags = default        
+#        best = default
+#        second = default
         maximum = 0.0
         
         for cathegory in self.categories():
             prob = self.fisher_prob(item, cathegory, lang)
-            
+            print cathegory, prob
+            if authors_tags:
+                if cathegory in authors_tags:
+                    prob += 1.0e-5
+                    print cathegory, prob
             if prob > self.get_min(cathegory) and prob > maximum:
-                second = best
-                best = cathegory
+                result.insert(0, cathegory)
+#                second = best
+#                best = cathegory
                 maximum = prob
-        return (best, second)
+#        return (best, second)
+        return result
     
     def sample_train(self):
         '''sample train on feedbooks '''
