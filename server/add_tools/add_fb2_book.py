@@ -138,8 +138,10 @@ def read_fb2(book_file):
             if tag_string:
                 for c in digits:
                     tag_string = tag_string.replace(c, '')
-                tags = smart_split([tag_string], [',', '/', '_'])
+                tags = smart_split([tag_string], [',', '/', '_', '--'])
                 for tag_name in tags:
+                    if len(tag_name) > 25:
+                        continue
                     tag = Tag.objects.get_or_create(name=tag_name.title().strip())        
                     book.tag.add(tag[0])
     os.remove(filename)
