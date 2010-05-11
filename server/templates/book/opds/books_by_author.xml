@@ -13,13 +13,13 @@
             <link type="application/atom+xml" href="authors.atom?letter={{letter}}"/>
             <updated></updated>
             <id>authors.atom?letter={{letter}}</id>
-            <content type="text"></content>
+            <content type="text">Authors name starts with {{letter}}</content>
         {% else %}
             <title> {{ letter }} </title>
             <link type="application/atom+xml" href="authors.atom?letters={{letter}}"/>
             <updated></updated>
             <id>authors.atom?letters={{letter}}</id>
-            <content type="text"></content>      
+            <content type="text">Authors name starts with {{letter}}</content>      
         {% endifequal %} 
     </entry>
     {% endfor %}    

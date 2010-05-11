@@ -4,7 +4,7 @@ import urllib2
 from spec.external.BeautifulSoup import BeautifulSoup as bs
 from book.models import Tag
 
-GENRES = {'Adventure':['Adventure'], 'Biography':['Biography'], 
+GENRES = {'Adventure':['Adventure'], 'Biography':['Biography', 'Autobiography'], 
     'Collections':['Collections', 'Collection'], 'Crime/Mystery':['Crime/Mystery',
     'Crime', 'Mystery'], 'Essay':['Essay', 'Essayist'], 'Fantasy':['Fantasy'], 
     'Ghost Stories':['Ghost Stories', 'Ghost-Stories'], 
@@ -17,7 +17,7 @@ GENRES = {'Adventure':['Adventure'], 'Biography':['Biography'],
     'Science':['Scientist'], 'Science Fiction':['Science Fiction', 'Sci Fi', 'Sci-Fi'
     'Science-Fiction'], 'Short Fiction':['Short Fiction', 'Short-Fiction', 'Short Story '], 
     'Thriller':['Thriller'], 'Young Readers':['Young Readers', 'Young-Readers', 
-    "Children's Literature"], 'Drama': ['Dramatist']}
+    "Children's Literature", "Children's Books"], 'Drama': ['Dramatist']}
 
 # all genres can be used with writer
 
@@ -96,7 +96,7 @@ def search_for_author_information(author):
     genres = []
     if info_box:
         ths = info_box.findAll('th')
-        genres_tag = None
+        genres_tag = occupation_tag = None
         for th in ths:
             if th.text.lower() == 'occupation':
                 occupation_tag = th.nextSibling.nextSibling

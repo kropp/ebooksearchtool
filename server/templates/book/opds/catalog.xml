@@ -23,7 +23,7 @@
         <link type="application/atom+xml" href="discover/languages.atom"/>
         <updated></updated>
         <id>discover/languages.atom</id>
-        <content type="text">Filter books in a specific language</content>
+        <content type="text">Browse by languages</content>
     </entry>
 
     <entry>
@@ -31,6 +31,6 @@
         <link type="application/atom+xml" href="discover/subjects.atom"/>
         <updated></updated>
         <id>discover/subjects.atom</id>
-        <content type="text">Browse through books based on their subjects</content>
+        <content type="text">Browse by subjects</content>
     </entry>
 </feed>

@@ -16,7 +16,7 @@
         <link type="application/atom+xml" href="/search.atom?tag={{ tag }}"/>
         <updated></updated>
         <id>/search.atom?tag={{ tag }}</id>
-        <content type="text"></content>
+        <content type="text">Books with tag {{ tag }}</content>
     </entry>
     {% endfor %}
 

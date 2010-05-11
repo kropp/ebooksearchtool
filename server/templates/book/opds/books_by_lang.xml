@@ -16,7 +16,7 @@
         <link type="application/atom+xml" href="/search.atom?lang={{ lang.short }}"/>
         <updated></updated>
         <id>/search.atom?lang={{ lang.short }}</id>
-        <content type="text"></content>
+        <content type="text">Books written in {{ lang.full }}</content>
     </entry>
     {% endfor %} 
 
