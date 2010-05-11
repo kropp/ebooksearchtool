@@ -12,6 +12,8 @@ import datetime
 
 def add_tag_for_new_books():
     ''' adds tag for books after classifying '''
+    digits = "0123456789"
+
     classifier = deserialize()
     today = datetime.date.today()
     today.replace(day=today.day-1)
@@ -54,26 +56,6 @@ def add_tag_for_new_books():
         summary = ""
         authors = book.author.all()
 
-        for author in authors:
-            if author.credit == 0:
-                author_string = author.name
-                ind = author_string.find(" trans by ")    
-                if ind != -1:
-                    author_string = author_string[ind+10:]
-                ind = author_string.find(" translated ")    
-                if ind != -1:
-                    author_string = author_string[ind+12:]
-                ind = author_string.find(" adapted ")    
-                if ind != -1:
-                    author_string = author_string[ind+9:]
-                ind = author_string.find(" by ")
-                if ind != -1:
-                    author_string = author_string[ind+4:]
-                if author_string and author.name != author_string:
-                    author.name = author_string
-                    author.credit = 1
-                    author.save()
-
         if ann.count() == 0:
             if authors.count() != 0:
                 summary = get_description(book.title + authors[0].name, True)
@@ -113,10 +95,10 @@ def add_tag_for_new_books():
 
             if counter % 10 == 0:
                 print counter, "of cheched ", counter_all
-            if tags[0] != None:
+            if tags[0:1]:
                 tag = Tag.objects.get_or_create(name=tags[0])
                 book.tag.add(tag[0])
-            if tags[1] != None:
+            if tags[1:2]:
                 tag = Tag.objects.get_or_create(name=tags[1])
                 book.tag.add(tag[0])
     print "Classification complete"

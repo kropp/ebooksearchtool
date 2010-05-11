@@ -46,16 +46,16 @@ def read_epub(book_file):
 
     ind = author_string.find(" trans by ")    
     if ind != -1:
-        author_string = author_string[ind+10:]
+        author_string = author_string[:ind]
     ind = author_string.find(" translated ")    
     if ind != -1:
-        author_string = author_string[ind+12:]
+        author_string = author_string[:ind]
     ind = author_string.find(" adapted ")    
     if ind != -1:
-        author_string = author_string[ind+9:]
+        author_string = author_string[:ind]
     ind = author_string.find(" by ")
     if ind != -1:
-        author_string = author_string[ind+4:]
+        author_string = author_string[:ind]
 
 
     for c in digits:

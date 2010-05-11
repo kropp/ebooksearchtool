@@ -31,6 +31,16 @@
     <h1>{{ author.name }}: </h1>
 </div>
 
+{%if author.tag.all%}
+<div class="author_tags">
+    <div class="tags">{% trans "Tags"%}:
+        {% for tag in author.tag.all %}
+            <a href="../search?tag={{ tag }}" class="tag">{{ tag }}</a>
+        {% endfor %}
+    </div>
+</div><br/><br/>
+{%endif%}
+
 {% autopaginate books 5%}   
 {% for book in books %}
 <table cellpadding=5 cellspacing=5>

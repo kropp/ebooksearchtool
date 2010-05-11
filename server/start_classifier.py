@@ -10,10 +10,11 @@ from classifier.read_tools import get_description, read
 from classifier.tools import deserialize
 from add_tools.tools import smart_split
 
-def tag_adding():
+def tag_adding(books):
     ''' adds tag for books after classifying '''
+    digits = "0123456789"
     classifier = deserialize()
-    books = Book.objects.exclude(tag__isnull=False)
+
     counter = 0
     counter_all = 0
     for book in books:
@@ -50,28 +51,6 @@ def tag_adding():
         summary = ""
         authors = book.author.all()
 
-
-        for author in authors:
-            if author.credit == 0:
-                author_string = author.name
-
-                ind = author_string.find(" trans by ")    
-                if ind != -1:
-                    author_string = author_string[ind+10:]
-                ind = author_string.find(" translated ")    
-                if ind != -1:
-                    author_string = author_string[ind+12:]
-                ind = author_string.find(" adapted ")    
-                if ind != -1:
-                    author_string = author_string[ind+9:]
-                ind = author_string.find(" by ")
-                if ind != -1:
-                    author_string = author_string[ind+4:]
-
-                if author_string and author.name != author_string:
-                    author.name = author_string
-                    author.credit = 1
-                    author.save()
 
         if ann.count() == 0:
             if authors.count() != 0:
@@ -115,10 +94,10 @@ def tag_adding():
             if not counter%10:
                 print counter, "of cheched ", counter_all
 
-            if tags[0:1] != None:
+            if tags[0:1]:
                 tag = Tag.objects.get_or_create(name=tags[0])
                 book.tag.add(tag[0])
-            if tags[1:2] != None:
+            if tags[1:2]:
                 tag = Tag.objects.get_or_create(name=tags[1])
                 book.tag.add(tag[0]) 
             print book.title
@@ -128,5 +107,5 @@ def tag_adding():
     print "Classification complete"
     print counter, " books has been classified"
    
-
-tag_adding()    
+books = Book.objects.exclude(tag__isnull=False)
+tag_adding(books)    
