@@ -129,7 +129,7 @@ def search_for_author_information(author):
             tag = Tag.objects.get_or_create(name = i[0])
             for j in i[1]:
                 k = text.count(j.lower())
-                if k >= 3:
+                if k >= 5:
                     print author.name
                     print tag[0].name
                     author.tag.add(tag[0])

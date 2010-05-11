@@ -8,7 +8,7 @@ from book.models import Book, Tag, Annotation
 from classifier.search_tools import GENRES
 from classifier.read_tools import get_description, read
 from classifier.tools import deserialize
-
+from add_tools.tools import smart_split
 
 def tag_adding():
     ''' adds tag for books after classifying '''
@@ -60,7 +60,12 @@ def tag_adding():
 
         if summary:
             counter += 1        
-            tags = classifier.classify(summary)
+            tag_ind = summary.lower().find("subjects:")
+            if tag_ind != -1:
+                summary = summary[:tag_ind].strip()
+                tags = smart_split([summary[tag_ind+9:]], [',', '/', '_'])
+            else:
+                tags = classifier.classify(summary)
             if not counter%10:
                 print counter, "of cheched ", counter_all
             if tags[0] != None:

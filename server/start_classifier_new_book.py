@@ -59,8 +59,13 @@ def add_tag_for_new_books():
             ann = Annotation.objects.get_or_create(name=summary, book=book)
 
         if summary:
-            counter += 1        
-            tags = classifier.classify(summary)
+            counter += 1    
+            tag_ind = summary.lower().find("subjects:")
+            if tag_ind != -1:
+                summary = summary[:tag_ind].strip()
+                tags = smart_split([summary[tag_ind+9:]], [',', '/', '_'])
+            else:
+                tags = classifier.classify(summary)
             if counter % 10 == 0:
                 print counter, "of cheched ", counter_all
             if tags[0] != None:
