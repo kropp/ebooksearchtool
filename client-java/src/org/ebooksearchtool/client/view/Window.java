@@ -54,7 +54,7 @@ public class Window implements Observer{
     private Controller myController;
 
     ItemListener myLibraryLis;
-    ActionListener myStopLis, mySortLis, myDeleteLis, myUpLis, myBackLis, myDownLis, myForwardLis, myActLis;
+    ActionListener myStopLis, mySortLis, myDeleteLis, myUpLis, myBackLis, myDownLis, myForwardLis, myActLis, myExtSearch;
 
     final DefaultBoundedRangeModel myModel;
 
@@ -310,7 +310,7 @@ public class Window implements Observer{
             }
         };
 
-        ActionListener extSearch = new ActionListener() {
+        myExtSearch = new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
 
             	if(myQueryPlusPanel.isVisible()){
@@ -362,6 +362,7 @@ public class Window implements Observer{
                   terms[2] = myAuthorTextField.getText();
                 }
                 myTime = System.currentTimeMillis();
+                System.out.println("ans");
                 myController.getQueryAnswer(terms);
                 myModel.setValue(100);
                 myProgressBar.setString("Complete");
@@ -511,6 +512,7 @@ public class Window implements Observer{
         myPanel1.add(myProgressBar, "South");
 
         mySearchButton.addActionListener(myActLis);
+        myExtQueryButton.addActionListener(myExtSearch);
         myQueryField.addActionListener(myActLis);
         myGenTextField.addActionListener(myActLis);
         myTitleTextField.addActionListener(myActLis);

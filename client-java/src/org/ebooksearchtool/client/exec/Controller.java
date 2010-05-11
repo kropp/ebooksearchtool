@@ -214,7 +214,7 @@ public class Controller implements Completive {
                 mySettings.getSupportedServers().get(s).setEnabled(false);
             }
             mySettings.getSupportedServers().get("http://feedbooks.com").setEnabled(true);
-            mySettings.getSupportedServers().get("http://only.mawhrin.net/ebooks").setEnabled(true);
+            mySettings.getSupportedServers().get("http://ebooksearch.webfactional.com").setEnabled(true);
         }
 
         myIsModelSaved = false;

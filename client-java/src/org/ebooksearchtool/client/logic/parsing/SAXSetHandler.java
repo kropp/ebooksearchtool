@@ -48,6 +48,8 @@ public class SAXSetHandler extends DefaultHandler {
                     mySettings.setIP(new String(ch, start, length));
                 } else if (myTags.getTags()[i].getName().equals("port")) {
                     mySettings.setPort(Integer.parseInt(new String(ch, start, length)));
+                } else if (myTags.getTags()[i].getName().equals("reader")) {
+                    mySettings.setReader(new String(ch, start, length));
                 }
             }
         }

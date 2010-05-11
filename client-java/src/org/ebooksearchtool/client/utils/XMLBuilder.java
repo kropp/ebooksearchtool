@@ -167,22 +167,7 @@ public class XMLBuilder {
 		}
 		
 		writeFile(doc, fileName);
-    /*
-        OutputStreamWriter osw;
-        try {
-            osw = new OutputStreamWriter(new FileOutputStream(fileName), "utf-8");
-            XMLStreamWriter sw = XMLOutputFactory.newInstance().createXMLStreamWriter(osw);
 
-            
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (XMLStreamException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-      */
     }
 
     public void makeSettingsXML(Settings sets){
@@ -211,6 +196,10 @@ public class XMLBuilder {
         Element port = doc.createElement("port");
         port.setTextContent(((Integer)sets.getPort()).toString());
         root.appendChild(port);
+
+        Element reader = doc.createElement("reader");
+        reader.setTextContent(sets.getReader());
+        root.appendChild(reader);
 
         writeFile(doc, "settings.xml");
 
