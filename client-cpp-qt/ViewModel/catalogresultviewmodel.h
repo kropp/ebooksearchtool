@@ -18,6 +18,7 @@ public:
 public:
 
     QString getCatalogName();
+    QString getCatalogSummary();
 
 public slots:
 

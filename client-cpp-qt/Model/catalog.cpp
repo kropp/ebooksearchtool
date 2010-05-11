@@ -1,6 +1,25 @@
 #include "catalog.h"
 #include "book.h"
 
+Catalog::Catalog(bool isBookCatalogFlag, QString catalogName, QString catalogSummary, UrlData* newUrl)
+{
+    myIsBookCatalog = isBookCatalogFlag;
+    myName = catalogName;
+    mySummary = catalogSummary;
+    myUrlList.append(newUrl);
+    myIsParsed = false;
+    myParent = 0;
+
+    if (myIsBookCatalog)
+    {
+        m_childBooks = new QVector<Book*>();
+    }
+    else
+    {
+        m_childCatalogs = new QVector<Catalog*>();
+    }
+}
+
 Catalog::Catalog(bool isBookCatalogFlag, QString catalogName, UrlData* newUrl)
 {
     myIsBookCatalog = isBookCatalogFlag;
@@ -19,6 +38,7 @@ Catalog::Catalog(bool isBookCatalogFlag, QString catalogName, UrlData* newUrl)
     }
 }
 
+
 QList<UrlData*> Catalog::getUrlList()
 {
     return myUrlList;
@@ -33,6 +53,11 @@ Catalog::Catalog(QString catalogName, UrlData* newUrl)
     m_childBooks = 0;
     m_childCatalogs = 0;
 }
+
+const QString& Catalog::getSummary() {
+    return mySummary;
+}
+
 
 void Catalog::addChildUrl(UrlData* newUrl) {
     myUrlList.append(newUrl);
@@ -116,7 +141,7 @@ void Catalog::addCatalogToCatalog(Catalog* newCatalog)
     }
 }
 
-QString Catalog::getCatalogName()
+const QString& Catalog::getCatalogName()
 {
     return myName;
 }

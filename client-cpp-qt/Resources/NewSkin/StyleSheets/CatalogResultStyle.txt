@@ -18,6 +18,12 @@ QLabel#catalogTitleLabel
 	font-weight: bold;
 }
 
+QLabel#catalogSummaryLabel
+{
+	font-family: "Arial";
+	font-size: 12px;
+}
+
 QPushButton#openButton
 {
 	background-image: url(:/OpenCatalog); 

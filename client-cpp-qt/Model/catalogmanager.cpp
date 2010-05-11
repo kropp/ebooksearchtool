@@ -5,10 +5,11 @@
 #include "catalogdownloader.h"
 
 static const QString FEEDBOOKS_ID = "www.feedbooks.com";
-static const QString MANYBOOKS_ID = "www.manybooks.net";
+static const QString MANYBOOKS_ID = "manybooks.net";
 static const QString LITRES_ID = "data.fbreader.org";
 static const QString SMASHWORDS_ID = "www.smashwords.com";
 static const QString BOOKSERVER_ID = "bookserver.archive.org";
+static const QString EBOOKSEARCH_ID = "ebooksearch.webfactional.com";
 
 
 CatalogManager CatalogManager::instance;
@@ -28,6 +29,7 @@ CatalogManager::CatalogManager()
     myDownloadersMap.insert(LITRES_ID, new CatalogDownloader(LITRES_ID));
     myDownloadersMap.insert(SMASHWORDS_ID, new CatalogDownloader(SMASHWORDS_ID));
     myDownloadersMap.insert(BOOKSERVER_ID, new CatalogDownloader(BOOKSERVER_ID));
+    myDownloadersMap.insert(EBOOKSEARCH_ID, new CatalogDownloader(EBOOKSEARCH_ID));
 
     setConnections();
 
@@ -170,19 +172,18 @@ void CatalogManager::createCatalogs()
     Catalog* manybooks = new Catalog(false, "ManyBooks", new UrlData("/stanza/catalog/", MANYBOOKS_ID));
     Catalog* litres = new Catalog(false, "Litres", new UrlData("/catalogs/litres/", LITRES_ID));
     Catalog* smashwords = new Catalog(false, "SmashWords", new UrlData("/atom", SMASHWORDS_ID));
-
-    Catalog* newBooks = new Catalog(false, "MULTY_SERVERS_TEST", new UrlData("/books/recent.atom", FEEDBOOKS_ID));
-    newBooks->addChildUrl(new UrlData("/catalogs/litres/", LITRES_ID));
+    Catalog* ebooksearch = new Catalog(false, "eBookSearch", new UrlData("/catalog.atom", EBOOKSEARCH_ID));
 
 
-                                    //new UrlData("/stanza/catalog/", MANYBOOKS_ID));
-    //newBooks->addChildUrl(new UrlData("/books/recent.atom", FEEDBOOKS_ID));
+    Catalog* test = new Catalog(false, "MULTY_SERVERS_TEST", new UrlData("/catalogs/litres/new.php", LITRES_ID));
+    test->addChildUrl(new UrlData("/books/recent.atom", FEEDBOOKS_ID));
 
+    myRootCatalog->addCatalogToCatalog(test);
     myRootCatalog->addCatalogToCatalog(feedbooks);
     myRootCatalog->addCatalogToCatalog(manybooks);
     myRootCatalog->addCatalogToCatalog(litres);
     myRootCatalog->addCatalogToCatalog(smashwords);
-    myRootCatalog->addCatalogToCatalog(newBooks);
+    myRootCatalog->addCatalogToCatalog(ebooksearch);
 
 }
 

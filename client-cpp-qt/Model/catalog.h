@@ -26,6 +26,7 @@ class Catalog : QObject {
 public:
 
     Catalog(QString catalogName, UrlData* newUrl);
+    Catalog(bool isBookCatalogFlag, QString catalogName, QString catalogSummary, UrlData* newUrl);
     Catalog(bool isBookCatalogFlag, QString catalogName, UrlData* newUrl);
 
 public:
@@ -33,7 +34,9 @@ public:
     bool containsBooks();
     QVector<Catalog*>* getCatalogs();
     QVector<Book*>* getBooks();
-    QString getCatalogName();
+    const QString& getCatalogName();
+    const QString& getSummary();
+
 
     Catalog* getParent();
     bool hasParent();
@@ -58,6 +61,7 @@ private:
 
     bool myIsBookCatalog;
     QString myName;
+    QString mySummary;
 
     QList<UrlData*> myUrlList;
     bool myIsParsed;

@@ -67,7 +67,7 @@ void SearchView::setConnections()
     connect(searchLine, SIGNAL(textEdited(QString)), this, SLOT(textEdited(QString)));
 }
 
-void SearchView::viewModelSearchResultsVisibilityChanged(bool visibility)
+void SearchView::viewModelSearchResultsVisibilityChanged(bool /*visibility*/)
 {
 
 }

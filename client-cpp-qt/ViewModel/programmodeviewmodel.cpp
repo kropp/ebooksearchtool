@@ -20,9 +20,9 @@ void ProgramModeViewModel::requestToChangeProgramMode(ProgramMode newMode)
     changeViewMode(newMode);
 }
 
-void ProgramModeViewModel::infoOpenRequested(Book* book)
+void ProgramModeViewModel::infoOpenRequested(Book* /*book*/)
 {
-    int i = 0;
+
 }
 
 void ProgramModeViewModel::setConnections()

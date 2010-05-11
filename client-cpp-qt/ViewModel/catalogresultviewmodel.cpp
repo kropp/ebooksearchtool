@@ -16,3 +16,9 @@ QString CatalogResultViewModel::getCatalogName()
 {
     return shownCatalog->getCatalogName();
 }
+
+QString CatalogResultViewModel::getCatalogSummary()
+{
+    return shownCatalog->getSummary();
+}
+

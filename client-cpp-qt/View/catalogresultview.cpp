@@ -6,6 +6,7 @@
 #include <QPushButton>
 #include <QFont>
 #include <QFile>
+#include <QDebug>
 
 CatalogResultView::CatalogResultView(QWidget* parent, CatalogResultViewModel* bookResultViewModel) : StandardView(parent)
 {
@@ -27,18 +28,28 @@ void CatalogResultView::createComponents()
     catalogTitleLabel = new QLabel(viewModel->getCatalogName());
     catalogTitleLabel->setObjectName("catalogTitleLabel");
 
+    catalogSummaryLabel = new QLabel(viewModel->getCatalogSummary());
+    catalogSummaryLabel->setObjectName("catalogSummaryLabel");
+
     openButton = new QPushButton(this);
     openButton->setObjectName("openButton");
 }
 
 void CatalogResultView::layoutComponents()
 {
-    QHBoxLayout* bookLineLayout = new QHBoxLayout;
+    QHBoxLayout* bookLineLayout = new QHBoxLayout();
+
+    QVBoxLayout* textLayout = new QVBoxLayout();
+
+    textLayout->addSpacing(20);
+    textLayout->addWidget(catalogTitleLabel);
+    textLayout->addWidget(catalogSummaryLabel);
+    textLayout->addSpacing(20);
 
     bookLineLayout->addSpacing(10);
     bookLineLayout->addWidget(catalogPictureLabel);
     bookLineLayout->addSpacing(20);
-    bookLineLayout->addWidget(catalogTitleLabel);
+    bookLineLayout->addLayout(textLayout);
     bookLineLayout->addStretch(1);
     bookLineLayout->addWidget(openButton);
 
@@ -55,12 +66,6 @@ void CatalogResultView::setWindowParameters()
 void CatalogResultView::setConnections()
 {
     connect(openButton, SIGNAL(clicked()), this, SLOT(openButtonPressed()));
-}
-
-
-void CatalogResultView::resizeEvent(QResizeEvent* event)
-{
-
 }
 
 
