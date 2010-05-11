@@ -74,7 +74,7 @@ public class Window implements Observer{
 
     public Window() throws SAXException, ParserConfigurationException, IOException {
 
-        myController = new Controller();
+        myController = new Controller(this);
         myController.getData().addObserver(this);
         curModelNumber = myController.getRequestCount();
 
@@ -586,5 +586,9 @@ public class Window implements Observer{
 
         appendBook((Book)arg, myModel);
 
+    }
+
+    public void enableStop(boolean stop){
+        myToolStop.setEnabled(stop);
     }
 }

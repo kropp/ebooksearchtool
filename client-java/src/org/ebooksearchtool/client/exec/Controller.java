@@ -26,6 +26,7 @@ import org.ebooksearchtool.client.model.settings.Server;
 import org.ebooksearchtool.client.model.settings.Settings;
 import org.ebooksearchtool.client.utils.StopParsingException;
 import org.ebooksearchtool.client.utils.XMLBuilder;
+import org.ebooksearchtool.client.view.Window;
 import org.xml.sax.SAXException;
 
 public class Controller implements Completive {
@@ -38,10 +39,12 @@ public class Controller implements Completive {
     boolean myIsComplete;
     ExecutorService myThreads = Executors.newCachedThreadPool();
     DefaultBoundedRangeModel myModel = new DefaultBoundedRangeModel(0, 0, 0, 100);
+    Window myWindow;
 
-    public Controller() throws SAXException, ParserConfigurationException, IOException {
+    public Controller(Window win) throws SAXException, ParserConfigurationException, IOException {
 
         //SAXParserTest.test();
+        myWindow = win;
         myData = new Data();
         myLibrary = new Data();
         mySettings = new Settings();
@@ -290,12 +293,14 @@ public class Controller implements Completive {
             //Thread.currentThread().interrupt();
         }
 
-        myThreads = Executors.newCachedThreadPool(); 
+        myThreads = Executors.newCachedThreadPool();
+        myWindow.enableStop(false);
 
     }
 
     public void addTask(Callable<?> task) {
         myThreads.submit(task);
+        myWindow.enableStop(true);
     }
 
     public Settings getSettings() {
