@@ -1,5 +1,6 @@
 QT += xml
 QT += network
+QT += debug
 OBJECTS_DIR += bin
 MOC_DIR += bin
 HEADERS += Model/book.h \

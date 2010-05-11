@@ -39,7 +39,7 @@
         <file alias="Library">Resources/NewSkin/Library.png</file>
         <file alias="CatalogIcon">Resources/NewSkin/CatalogIcon.png</file>
         <file alias="OpenCatalog">Resources/NewSkin/CatalogIcon.png</file>
-        <file alias="OpenCatalogPressed">Resources/NewSkin/CatalogIcon.png</file>
+        <file alias="OpenCatalogPressed">Resources/NewSkin/CatalogIconPressed.png</file>
         <file alias="Home">Resources/NewSkin/Home.png</file>
         <file alias="Back">Resources/NewSkin/Back.png</file>
         <file alias="BackPressed">Resources/NewSkin/BackPressed.png</file>

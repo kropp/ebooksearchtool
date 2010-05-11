@@ -78,6 +78,7 @@ void DownloaderThread::abort()
 
 int DownloaderThread::startDownloading(QString searchRequest)
 {
+    qDebug() << "DownloaderThread::startDownloading " << myBooksRequestUrl + searchRequest;
     return download(myBooksRequestUrl + searchRequest);
 }
 

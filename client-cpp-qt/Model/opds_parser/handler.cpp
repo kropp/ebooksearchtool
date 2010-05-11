@@ -58,7 +58,6 @@ void OPDSHandler::endEntry()
     if (!entryAuthor && myCatalogData != 0)
     {
         Catalog* newCatalog = new Catalog(true, title, content, catalogLinkUrl);
-        qDebug() << "OPDSHandler::endEntry() " << content;
         myCatalogData->append(newCatalog);
     }
     else
