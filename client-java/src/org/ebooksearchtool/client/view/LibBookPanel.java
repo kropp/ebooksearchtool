@@ -318,8 +318,7 @@ public class LibBookPanel {
                     myController.addTask(new FileDownloader(name, myBook.getLinks().get("epub")));
                 }
                 try {
-                    System.out.println("exec");
-                    String[] cmd = {"C:\\Program Files (x86)\\Adobe\\Reader 9.0\\Reader\\AcroRd32.exe", name};
+                    String[] cmd = {myController.getSettings().getReader(), name};
                     Runtime.getRuntime().exec(cmd);
                 } catch (IOException e1) {
                     e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -336,8 +335,7 @@ public class LibBookPanel {
                     myController.addTask(new FileDownloader(name, myBook.getLinks().get("pdf")));
                 }
                 try {
-                    System.out.println("exec");
-                    String[] cmd = {"C:\\Program Files (x86)\\Adobe\\Reader 9.0\\Reader\\AcroRd32.exe", name};
+                    String[] cmd = {myController.getSettings().getReader(), name};
                     Runtime.getRuntime().exec(cmd);
                 } catch (IOException e1) {
                     e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.

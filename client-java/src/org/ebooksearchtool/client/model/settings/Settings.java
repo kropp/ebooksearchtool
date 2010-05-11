@@ -11,7 +11,7 @@ import java.util.HashMap;
  */
 public class Settings {
 
-    private String myIP;
+    private String myIP, myReader;
     private int myPort;
     private boolean myProxyIsEnabled;
 
@@ -45,5 +45,13 @@ public class Settings {
 
     public HashMap<String, Server> getSupportedServers() {
         return mySupportedServers;
+    }
+
+    public String getReader() {
+        return myReader;
+    }
+
+    public void setReader(String reader) {
+        this.myReader = reader;
     }
 }

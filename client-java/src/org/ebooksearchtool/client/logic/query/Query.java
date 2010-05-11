@@ -43,7 +43,7 @@ public class Query {
                 }
             }
             return link;
-        } else if (server.equals("http://only.mawhrin.net/ebooks")) {
+        } else if (server.equals("http://ebooksearch.webfactional.com")) {
             String link = mySettings.getSupportedServers().get(server).getSearchTerms();
             StringBuffer sb = new StringBuffer(link);
             sb.delete(sb.indexOf("query="), sb.length());
