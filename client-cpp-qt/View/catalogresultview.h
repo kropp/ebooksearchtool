@@ -21,10 +21,6 @@ class CatalogResultView : public StandardView
         CatalogResultView(QWidget* parent, CatalogResultViewModel* resultViewModel);
         ~CatalogResultView();
 
-  //  public:
-
-      //  virtual void resizeEvent (QResizeEvent* event);
-
     protected:
 
         void createComponents();
@@ -40,12 +36,12 @@ class CatalogResultView : public StandardView
 
         CatalogResultViewModel* viewModel;
 
-        QLabel* catalogPictureLabel;
+//        QLabel* catalogPictureLabel;
         QLabel* catalogTitleLabel;
         QLabel* catalogSummaryLabel;
 
 
-        QPushButton* openButton;
+        QPushButton* myOpenCatalogButton;
 };
 
 #endif // CATALOGRESULTVIEW_H

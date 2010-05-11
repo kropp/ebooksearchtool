@@ -22,8 +22,8 @@ CatalogResultView::~CatalogResultView()
 
 void CatalogResultView::createComponents()
 {
-    catalogPictureLabel = new QLabel(this);
-    catalogPictureLabel->setObjectName("catalogPictureLabel");
+//    catalogPictureLabel = new QLabel(this);
+//    catalogPictureLabel->setObjectName("catalogPictureLabel");
 
     catalogTitleLabel = new QLabel(viewModel->getCatalogName());
     catalogTitleLabel->setObjectName("catalogTitleLabel");
@@ -31,8 +31,8 @@ void CatalogResultView::createComponents()
     catalogSummaryLabel = new QLabel(viewModel->getCatalogSummary());
     catalogSummaryLabel->setObjectName("catalogSummaryLabel");
 
-    openButton = new QPushButton(this);
-    openButton->setObjectName("openButton");
+    myOpenCatalogButton = new QPushButton(this);
+    myOpenCatalogButton->setObjectName("openButton");
 }
 
 void CatalogResultView::layoutComponents()
@@ -47,11 +47,11 @@ void CatalogResultView::layoutComponents()
     textLayout->addSpacing(20);
 
     bookLineLayout->addSpacing(10);
-    bookLineLayout->addWidget(catalogPictureLabel);
+    bookLineLayout->addWidget(myOpenCatalogButton);
     bookLineLayout->addSpacing(20);
     bookLineLayout->addLayout(textLayout);
-    bookLineLayout->addStretch(1);
-    bookLineLayout->addWidget(openButton);
+//    bookLineLayout->addStretch(1);
+//    bookLineLayout->addWidget(openButton);
 
     this->setLayout(bookLineLayout);
 }
@@ -65,7 +65,7 @@ void CatalogResultView::setWindowParameters()
 
 void CatalogResultView::setConnections()
 {
-    connect(openButton, SIGNAL(clicked()), this, SLOT(openButtonPressed()));
+    connect(myOpenCatalogButton, SIGNAL(clicked()), this, SLOT(openButtonPressed()));
 }
 
 

@@ -10,6 +10,7 @@
         <file alias="SearchLeftLabel">Resources/NewSkin/SearchLeftLabel.png</file>
         <file alias="ToolbarLeft">Resources/NewSkin/ToolbarLeft.png</file>
         <file alias="SearchButton">Resources/NewSkin/SearchButton.png</file>
+        
         <file alias="SearchButtonPressed">Resources/NewSkin/SearchButtonPressed.png</file>
         <file alias="ContentLeftBack">Resources/NewSkin/ContentLeftBack.png</file>
         <file alias="ContentStretchBack">Resources/NewSkin/ContentStretchBack.png</file>
@@ -37,8 +38,8 @@
         <file alias="Catalogs">Resources/NewSkin/Catalogs.png</file>
         <file alias="Library">Resources/NewSkin/Library.png</file>
         <file alias="CatalogIcon">Resources/NewSkin/CatalogIcon.png</file>
-        <file alias="OpenCatalog">Resources/NewSkin/OpenCatalog.png</file>
-        <file alias="OpenCatalogPressed">Resources/NewSkin/OpenCatalogPressed.png</file>
+        <file alias="OpenCatalog">Resources/NewSkin/CatalogIcon.png</file>
+        <file alias="OpenCatalogPressed">Resources/NewSkin/CatalogIcon.png</file>
         <file alias="Home">Resources/NewSkin/Home.png</file>
         <file alias="Back">Resources/NewSkin/Back.png</file>
         <file alias="BackPressed">Resources/NewSkin/BackPressed.png</file>
