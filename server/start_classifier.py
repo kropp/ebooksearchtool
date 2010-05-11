@@ -20,6 +20,17 @@ def tag_adding():
         counter_all += 1
 
         title = book.title
+        if book.credit == 0:
+            title = title[:title.find(" trans by ")]
+            title = title[:title.find(" translated ")]
+            title = title[:title.find(" adapted ")]
+            title = title[:title.find(" by ")]
+
+            if book.title != title:
+                book.title = title
+                book.credit = 1
+                book.save()
+
         for i in GENRES.items():
             for j in i[1]:
                 if title.find(j) != -1:
@@ -30,6 +41,18 @@ def tag_adding():
         ann = book.annotation_set.all()
         summary = ""
         authors = book.author.all()
+
+        if author.credit == 0:
+            for author in authors:
+                author_string = author.name
+                author_string = author_string[author_string.find(" trans by ")+10:]
+                author_string = author_string[author_string.find(" translated ")+12:]
+                author_string = author_string[author_string.find(" adapted ")+9:]
+                author_string = author_string[author_string.find(" by ")+4:]
+                if author_string and author.name != author_string:
+                    author.name = author_string
+                    author.credit = 1
+                    author.save()
 
         if ann.count() == 0:
             if authors.count() != 0:

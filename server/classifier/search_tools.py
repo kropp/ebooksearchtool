@@ -36,7 +36,10 @@ def search_for_author_information(author):
     except:
         is_article = -1
 
-    beaut_soup = bs.BeautifulSoup(page)
+    try:
+        beaut_soup = bs.BeautifulSoup(page)
+    except:
+        return
     text = beaut_soup.getText()
 
     is_article = text.find(
