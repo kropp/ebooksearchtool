@@ -23,5 +23,8 @@
     <link type="application/{{ book_file.type }}{%ifequal book_file.type "epub"%}+zip {%endifequal%}" href="{{ book_file.link }}" rel="http://opds-spec.org/acquisition" />
     {%if book_file.img_link%}
         <link type="image/png" rel="http://opds-spec.org/cover" href="{{book_file.img_link}}"/>
+    {% else %}
+        <link type="image/png" rel="http://opds-spec.org/cover" href="{{MEDIA_URL}}/pic/open_book.png" />
+
     {%endif%}                
 {% endfor %}   
