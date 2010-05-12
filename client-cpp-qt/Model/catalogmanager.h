@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QList>
+#include <QStringList>
 #include <QMap>
 
 class Catalog;
@@ -56,7 +57,10 @@ private:
     void parseCatalogRoot();
     void parseCatalogContents(Catalog* catalog);
 
+    void searchUrlsForComplexCatalogs();
     void createCatalogs();
+
+    //void createComplexCatalog(const QString& catalogName, const QString& catalogRelation);
 
 private:
 
@@ -66,11 +70,14 @@ private:
     Catalog* myCurrentCatalog;
 
     Catalog* myRootCatalog;
+    QList<Catalog*> mySimpleCatalogs;
 
     QList<Catalog*>* myBrowseBackHistory;
     QList<Catalog*>* myBrowseForwardHistory;
-
     QMap<QString, CatalogDownloader*> myDownloadersMap;
+
+//    QStringList myNewCatalogLinks;
+//    QStringList myPopularCatalogLinks;
 
     int currentCatalogParseCyclesAwaited;
 };

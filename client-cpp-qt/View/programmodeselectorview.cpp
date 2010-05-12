@@ -151,10 +151,10 @@ void ProgramModeSelectorView::viewModeChanged(ProgramMode newMode)
         searchView->show();
         enableSearchButton();
         break;
-  /*  case LIBRARY:
-        libraryView->show();
+    case LIBRARY:
+    /*    libraryView->show();
         enableLibraryButton();
-        break;*/
+       */ break;
     case CATALOG:
         catalogView->show();
         enableCatalogButton();

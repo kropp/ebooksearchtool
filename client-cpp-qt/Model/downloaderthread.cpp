@@ -37,6 +37,7 @@ void DownloaderThread::parseError(int /*requestId*/)
 
 void DownloaderThread::requestFinished(int requestId, bool error)
 {
+    qDebug() << "DownloaderThread::requestFinished id = " << requestId;
     if (requestId == myCurrentRequestId)
     {
         if (!error)
@@ -78,8 +79,9 @@ void DownloaderThread::abort()
 
 int DownloaderThread::startDownloading(QString searchRequest)
 {
-    qDebug() << "DownloaderThread::startDownloading " << myBooksRequestUrl + searchRequest;
-    return download(myBooksRequestUrl + searchRequest);
+    int id = download(myBooksRequestUrl + searchRequest);
+    qDebug() << "DownloaderThread::startDownloading " << myBooksRequestUrl + searchRequest << "id = " << id;
+    return id;
 }
 
 bool DownloaderThread::isFinished()

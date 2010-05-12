@@ -19,6 +19,7 @@ public:
 
     OPDSHandler(QVector<Book*>* data, SearchResult& result);
     OPDSHandler(QVector<Book*>* bookData, QVector<Catalog*>* catalogData, QString parsedServer, SearchResult& result);
+    OPDSHandler(QStringList* newLinks, QStringList* popularLinks);
     ~OPDSHandler();
 
 private:
@@ -27,7 +28,10 @@ private:
     bool endElement (const QString&, const QString&, const QString& str);
     bool startElement (const QString& , const QString& , const QString& name, const QXmlAttributes& );
     
+
     void setInitialValues();
+
+    void parseCatalogLinks(const QXmlAttributes& attributes);
     void processLink(const QXmlAttributes& attributes);
 
     void startNewEntry();
@@ -71,7 +75,11 @@ private:
     QVector<Author*>* authors;
     QMap<QString, QString>* links;
 
-    SearchResult& mySearchResult;
+    QStringList* myNewLinks;
+    QStringList* myPopularLinks;
+    bool myParseLinksMode;
+
+    SearchResult* mySearchResult;
 };
 
 #endif //_HANDLER_H_

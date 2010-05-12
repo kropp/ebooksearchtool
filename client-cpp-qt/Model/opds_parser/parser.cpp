@@ -43,3 +43,18 @@ bool OPDSParser::parseBooksOrCatalogs
 
     return true;
 }
+
+
+bool OPDSParser::parseOpdsLinks(QIODevice* input, QStringList& newLinks, QStringList& popularLinks) {
+    if (input->bytesAvailable() == 0) {
+        return false;
+    }
+
+    QXmlInputSource source(input);
+    OPDSHandler handler(&newLinks, &popularLinks);
+    QXmlSimpleReader reader;
+    reader.setContentHandler(&handler);
+    reader.parse(source);
+
+    return true;
+}

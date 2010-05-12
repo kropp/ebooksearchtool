@@ -43,3 +43,5 @@ const QString OPDSConstants::ATTR_VALUE_COVER = "http://opds-spec.org/cover";
 const QString OPDSConstants::ATTR_VALUE_COVER_ = "http://opds-spec.org/opds-cover-image";
 const QString OPDSConstants::ATTR_VALUE_COVER_STANZA = "x-stanza-cover-image";
 
+const QString OPDSConstants::ATTR_VALUE_RELATION_NEW = "http://opds-spec.org/sort/new";
+const QString OPDSConstants::ATTR_VALUE_RELATION_POPULAR = "http://opds-spec.org/sort/popular";

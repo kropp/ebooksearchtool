@@ -16,7 +16,8 @@ public:
 public:
         bool parse(QIODevice* input, QVector<Book*>* data, SearchResult&);
         bool parseBooksOrCatalogs(QIODevice* input, QVector<Book*>* bookData, QVector<Catalog*>* catalogData, SearchResult& result, QString parsedServer);
-};
+        bool parseOpdsLinks(QIODevice* input, QStringList& newLinks, QStringList& popularLinks);
+    };
 
 #endif //_OPDS_PARSER_H_
 

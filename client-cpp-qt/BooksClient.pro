@@ -45,7 +45,9 @@ HEADERS += Model/book.h \
     Model/catalogdownloader.h \
     View/standardcontentview.h \
     View/selectionfilterview.h \
-    View/multistatebutton.h
+    View/multistatebutton.h \
+    Model/linksextractiondownloader.h \
+    Model/linksinformation.h
 SOURCES += Model/book.cpp \
     View/mainview.cpp \
     main.cpp \
@@ -88,5 +90,6 @@ SOURCES += Model/book.cpp \
     Model/catalogdownloader.cpp \
     View/standardcontentview.cpp \
     View/selectionfilterview.cpp \
-    View/multistatebutton.cpp
+    View/multistatebutton.cpp \
+    Model/linksextractiondownloader.cpp
 RESOURCES += resources.qrc

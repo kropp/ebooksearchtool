@@ -166,6 +166,8 @@ QString BookResultsViewModel::getTerm(BookResultViewModel* element, SelectionTyp
     case SERVER:
         term = element->getServerName();
         break;
+    default:
+        break;
     }
 
     return term;
@@ -206,6 +208,8 @@ void BookResultsViewModel::updateShownBooks()
             break;
         case SERVER:
             qSort(filteredBooks.begin(), filteredBooks.end(), sortingLessThanByServer);
+            break;
+        default:
             break;
         }
     }

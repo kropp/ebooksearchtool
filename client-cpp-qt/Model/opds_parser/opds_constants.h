@@ -27,17 +27,21 @@ protected:
     static const QString TAG_CATEGORY;
     static const QString TAG_LANGUAGE;
     
-
     static const QString ATTRIBUTE_TYPE;
     static const QString ATTRIBUTE_REFERENCE;
     static const QString ATTRIBUTE_RELATION;
     static const QString ATTRIBUTE_TITLE;
     static const QString ATTRIBUTE_TERM;
 
+
     static const QString ATTR_VALUE_ACQUISITION;
     static const QString ATTR_VALUE_COVER;
     static const QString ATTR_VALUE_COVER_;
     static const QString ATTR_VALUE_COVER_STANZA;
+
+    static const QString ATTR_VALUE_RELATION_NEW;
+    static const QString ATTR_VALUE_RELATION_POPULAR;
+
 };
 
 #endif //_opds_constants_h_

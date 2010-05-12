@@ -3,6 +3,7 @@
 #include "catalog.h"
 #include "bookdownloader.h"
 #include "catalogdownloader.h"
+#include "opds_parser/opds_constants.h"
 
 static const QString FEEDBOOKS_ID = "www.feedbooks.com";
 static const QString MANYBOOKS_ID = "manybooks.net";
@@ -10,7 +11,6 @@ static const QString LITRES_ID = "data.fbreader.org";
 static const QString SMASHWORDS_ID = "www.smashwords.com";
 static const QString BOOKSERVER_ID = "bookserver.archive.org";
 static const QString EBOOKSEARCH_ID = "ebooksearch.webfactional.com";
-
 
 CatalogManager CatalogManager::instance;
 
@@ -168,23 +168,45 @@ void CatalogManager::createCatalogs()
     myRootCatalog = new Catalog(false, "Root", new UrlData("-", "-"));
     myRootCatalog->markAsParsed();
 
-    Catalog* feedbooks = new Catalog(false, "FeedBooks", new UrlData("/publicdomain/catalog.atom", FEEDBOOKS_ID));
-    Catalog* manybooks = new Catalog(false, "ManyBooks", new UrlData("/stanza/catalog/", MANYBOOKS_ID));
-    Catalog* litres = new Catalog(false, "Litres", new UrlData("/catalogs/litres/", LITRES_ID));
-    Catalog* smashwords = new Catalog(false, "SmashWords", new UrlData("/atom", SMASHWORDS_ID));
-    Catalog* ebooksearch = new Catalog(false, "eBookSearch", new UrlData("/catalog.atom", EBOOKSEARCH_ID));
+    mySimpleCatalogs.append(new Catalog(false, "FeedBooks", new UrlData("/publicdomain/catalog.atom", FEEDBOOKS_ID)));
+    mySimpleCatalogs.append(new Catalog(false, "ManyBooks", new UrlData("/stanza/catalog/", MANYBOOKS_ID)));
+    mySimpleCatalogs.append(new Catalog(false, "Litres", new UrlData("/catalogs/litres/", LITRES_ID)));
+    mySimpleCatalogs.append(new Catalog(false, "SmashWords", new UrlData("/atom", SMASHWORDS_ID)));
+    mySimpleCatalogs.append(new Catalog(false, "eBookSearch", new UrlData("/catalog.atom", EBOOKSEARCH_ID)));
 
 
     Catalog* test = new Catalog(false, "MULTY_SERVERS_TEST", new UrlData("/catalogs/litres/new.php", LITRES_ID));
     test->addChildUrl(new UrlData("/books/recent.atom", FEEDBOOKS_ID));
 
-    myRootCatalog->addCatalogToCatalog(test);
-    myRootCatalog->addCatalogToCatalog(feedbooks);
-    myRootCatalog->addCatalogToCatalog(manybooks);
-    myRootCatalog->addCatalogToCatalog(litres);
-    myRootCatalog->addCatalogToCatalog(smashwords);
-    myRootCatalog->addCatalogToCatalog(ebooksearch);
+    Catalog* newBooks = new Catalog(false, tr("NEW"), tr("New books from all the servers"), 0);
 
+    newBooks->addChildUrl(new UrlData("/books/recent.atom", FEEDBOOKS_ID));
+    newBooks->addChildUrl(new UrlData("/catalogs/litres/new.php", LITRES_ID));
+
+
+    Catalog* popular = new Catalog(false, tr("POPULAR"), tr("Popular books from all the servers"), 0);
+    popular->addChildUrl(new UrlData("/books/top.atom?range=month", FEEDBOOKS_ID));
+    popular->addChildUrl(new UrlData("/catalogs/litres/top.php", LITRES_ID));
+
+    myRootCatalog->addCatalogToCatalog(newBooks);
+    myRootCatalog->addCatalogToCatalog(popular);
+    myRootCatalog->addCatalogToCatalog(test);
+
+    foreach (Catalog* catalog, mySimpleCatalogs) {
+        myRootCatalog->addCatalogToCatalog(catalog);
+    }
+    searchUrlsForComplexCatalogs();
+}
+
+
+void CatalogManager::searchUrlsForComplexCatalogs() {
+
+    //бегу по всем нормальным каталогам
+    //выбираю нужный downloader
+    //говорю ему скачать
+    //на этот запрос нужно парсить именно header
+    //запускаю на них парсер в режиме вытаскивания ссылки
+    // передаю ему свои списки
 }
 
 Catalog* CatalogManager::getCatalogRoot()
@@ -201,7 +223,12 @@ void CatalogManager::parseCatalogContents(Catalog* catalog)
 {
     const QList<UrlData*>& list = catalog->getUrlList();
 
+
     currentCatalogParseCyclesAwaited = list.count();
+    if (currentCatalogParseCyclesAwaited == 0)
+    {
+        finishedParsing(true, catalog);
+    }
 
     foreach (UrlData* urlData, list)
     {

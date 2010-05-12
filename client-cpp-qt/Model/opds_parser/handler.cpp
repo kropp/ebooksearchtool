@@ -3,7 +3,7 @@
 
 static const QString BOOK_FORMAT = "pdf";
 
-OPDSHandler::OPDSHandler(QVector<Book*>* data, SearchResult& result) : mySearchResult(result) {
+OPDSHandler::OPDSHandler(QVector<Book*>* data, SearchResult& result) : mySearchResult(&result) {
     myBookData = data;
     myCatalogData = 0;
     myIsEntry = false;
@@ -11,10 +11,14 @@ OPDSHandler::OPDSHandler(QVector<Book*>* data, SearchResult& result) : mySearchR
     catalogLinkUrl = 0;
     myFormat = BOOK_FORMAT;
     currentParsedServer = "";
+    myParseLinksMode = false;
+    myNewLinks = 0;
+    myPopularLinks = 0;
+
 }
 
 OPDSHandler::OPDSHandler(QVector<Book*>* bookData, QVector<Catalog*>* catalogData, QString parsedServer, SearchResult& result)
-    : mySearchResult(result)
+    : mySearchResult(&result)
 {
     myBookData = bookData;
     myCatalogData = catalogData;
@@ -22,6 +26,15 @@ OPDSHandler::OPDSHandler(QVector<Book*>* bookData, QVector<Catalog*>* catalogDat
     myIsInContent = false;
     myFormat = BOOK_FORMAT;
     currentParsedServer = parsedServer;
+    myParseLinksMode = false;
+    myNewLinks = 0;
+    myPopularLinks = 0;
+}
+
+OPDSHandler::OPDSHandler(QStringList* newLinks, QStringList* popularLinks) : mySearchResult(0) {
+    myNewLinks = newLinks;
+    myPopularLinks = popularLinks;
+    myParseLinksMode = true;
 }
 
 OPDSHandler::~OPDSHandler() {}
@@ -87,6 +100,9 @@ void OPDSHandler::endEntry()
 
 bool OPDSHandler::startElement (const QString& namespaceUri, const QString& tag, const QString&, const QXmlAttributes& attributes)
 {
+    if (!myIsEntry && myParseLinksMode && tag == TAG_LINK) {
+        parseCatalogLinks(attributes);
+    }
 
     if (myIsInContent)
     {
@@ -121,6 +137,18 @@ bool OPDSHandler::startElement (const QString& namespaceUri, const QString& tag,
     }
 
     return true;
+}
+
+void OPDSHandler::parseCatalogLinks(const QXmlAttributes& attributes) {
+    qDebug() << "OPDSHandler::parseCatalogLinks";
+
+    if (attributes.value(ATTRIBUTE_RELATION) == ATTR_VALUE_RELATION_NEW) {
+        qDebug() << "OPDSHandler::startElement parse links mode" << attributes.value(ATTRIBUTE_REFERENCE);
+        myNewLinks->append(attributes.value(ATTRIBUTE_REFERENCE));
+    } else if (attributes.value(ATTRIBUTE_RELATION) == ATTR_VALUE_RELATION_POPULAR) {
+        qDebug() << "OPDSHandler::startElement parse links mode" << attributes.value(ATTRIBUTE_REFERENCE);
+        myPopularLinks->append(attributes.value(ATTRIBUTE_REFERENCE));
+    }
 }
 
 bool OPDSHandler::endElement (const QString& namespaceUri, const QString& tag, const QString& )
@@ -196,7 +224,7 @@ void OPDSHandler::processLink(const QXmlAttributes& attributes) {
         if (attributes.value(ATTRIBUTE_TYPE) == "application/atom+xml") {
             if (attributes.value(ATTRIBUTE_RELATION) == "next")  {
                // qDebug() << "Handler:: link to the next page " << attributes.value("href");
-                mySearchResult.setLinkToNextResult(myOpdsCatalog, attributes.value("href"));
+                mySearchResult->setLinkToNextResult(myOpdsCatalog, attributes.value("href"));
             } else if (attributes.value(ATTRIBUTE_RELATION) == "self") {
                // qDebug() << "Handler:: link to self " << attributes.value("href");
                 myOpdsCatalog = attributes.value("href");
