@@ -120,9 +120,7 @@ def search_for_author_information(author):
                         author.tag.add(tag[0])
 
     if author.tag.count():
-        print name
-        print author.tag.all()
-        return    
+        return True
 
     for i in GENRES.items():
         tag = Tag.objects.get_or_create(name = i[0])
@@ -135,9 +133,7 @@ def search_for_author_information(author):
                 author.tag.add(tag[0])
 
     if author.tag.count():
-        print name
-        print author.tag.all()
-        return
+        return True
 
 #    genres_tag = beaut_soup.find(attrs = {'title':'Literary genre'})
 #    if not genres_tag:
@@ -162,7 +158,7 @@ def search_for_author_information(author):
             k = text.count(j.lower())
             if k >= 5:
                 author.tag.add(tag[0])
-    print name
-    print author.tag.all()
+    if author.tag.count():
+        return True
 
 

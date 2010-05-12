@@ -100,9 +100,6 @@ def tag_adding(books):
             if tags[1:2]:
                 tag = Tag.objects.get_or_create(name=tags[1])
                 book.tag.add(tag[0]) 
-            print book.title
-            print book.tag.all()
-            print book.author.all()[0].tag.all()
 
     print "Classification complete"
     print counter, " books has been classified"
