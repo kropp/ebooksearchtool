@@ -27,19 +27,21 @@ void SelectionFilterView::createComponents()
     groupLabel = new QLabel("Group by: ", filterFrame);
     sortLabel = new QLabel("Sort by: ", filterFrame);
     filterGroupLabel = new QLabel("Filter by: ", filterFrame);
-    filterWordsLabel = new QLabel("Filter: ", filterFrame);
+    filterWordsLabel = new QLabel("Filter words: ", filterFrame);
 
     groupCombo = new QComboBox(filterFrame);
     sortCombo = new QComboBox(filterFrame);
     filterCombo = new QComboBox(filterFrame);
 
     filterEditBox = new QLineEdit(filterFrame);
+    filterEditBox->hide();
+    filterWordsLabel->hide();
     performButton = new QPushButton("Filter", filterFrame);
 
     filterFrame->setObjectName("filterFrame");
     performButton->setObjectName("filterButton");
 
-    filterEditBox->setEnabled(false);
+    filterEditBox->setEnabled(true);
 
     QVector<QComboBox*> boxesVector;
 
@@ -167,11 +169,13 @@ void SelectionFilterView::filterComboActivated(const QString& string)
     if (!string.compare(SELECTION_NONE))
     {
         selectedFilterType = NONE;
-        filterEditBox->setEnabled(false);
+        filterEditBox->hide();
+        filterWordsLabel->hide();
     }
     else
     {
-        filterEditBox->setEnabled(true);
+        filterEditBox->show();
+        filterWordsLabel->show();
 
         if (!string.compare(SELECTION_AUTHOR))
         {
