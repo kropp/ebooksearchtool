@@ -200,7 +200,7 @@ class FisherClassifier(Classifier):
             if authors_tags:
                 if cathegory in authors_tags:
                     prob += 1.0e-5
-                    print cathegory, prob
+#                    print cathegory, prob
             if prob > self.get_min(cathegory) and prob > maximum:
                 result.insert(0, cathegory)
 #                second = best
