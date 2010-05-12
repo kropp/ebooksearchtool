@@ -197,9 +197,13 @@ public class XMLBuilder {
         port.setTextContent(((Integer)sets.getPort()).toString());
         root.appendChild(port);
 
-        Element reader = doc.createElement("reader");
-        reader.setTextContent(sets.getReader());
-        root.appendChild(reader);
+        Element pdfReader = doc.createElement("pdfreader");
+        pdfReader.setTextContent(sets.getPdfReader());
+        root.appendChild(pdfReader);
+
+        Element epubReader = doc.createElement("epubreader");
+        epubReader.setTextContent(sets.getEpubReader());
+        root.appendChild(epubReader);
 
         writeFile(doc, "settings.xml");
 

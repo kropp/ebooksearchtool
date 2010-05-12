@@ -76,7 +76,6 @@ public class Controller implements Completive {
             mySettings.setProxyEnabled(true);
             mySettings.setIP("192.168.0.2");
             mySettings.setPort(3128);
-            mySettings.setReader("C:\\Program Files (x86)\\Adobe\\Reader 9.0\\Reader\\AcroRd32.exe");
             mySettings.getSupportedServers().put("http://ebooksearch.webfactional.com", new Server("http://ebooksearch.webfactional.com", "http://ebooksearch.webfactional.com/search.atom?query=", true));
             mySettings.getSupportedServers().put("http://feedbooks.com", new Server("http://feedbooks.com", "http://feedbooks.com/books/search.atom?query=", true));
             mySettings.getSupportedServers().put("http://smashwords.com", new Server("http://smashwords.com", "http://smashwords.com/atom/search/books/any?query=", true));

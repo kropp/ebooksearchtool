@@ -11,7 +11,7 @@ import java.util.HashMap;
  */
 public class Settings {
 
-    private String myIP, myReader;
+    private String myIP, myPdfReader, myEpubReader;
     private int myPort;
     private boolean myProxyIsEnabled;
 
@@ -47,11 +47,20 @@ public class Settings {
         return mySupportedServers;
     }
 
-    public String getReader() {
-        return myReader;
+    public String getPdfReader() {
+        return myPdfReader;
     }
 
-    public void setReader(String reader) {
-        this.myReader = reader;
+    public void setPdfReader(String reader) {
+        myPdfReader = reader;
     }
+
+    public String getEpubReader() {
+        return myEpubReader;
+    }
+
+    public void setEpubReader(String reader) {
+        myEpubReader = reader;
+    }
+
 }

@@ -156,16 +156,16 @@ public class LibBookPanel {
         myButtonPanel.add(myDelButton);
 
         myDownloadEpubButton = new JButton(new ImageIcon(getClass().getResource("/ico/epub_30.gif")));
-        myDownloadEpubButton.setToolTipText("Download ePub book");
+        myDownloadEpubButton.setToolTipText("Read ePub book");
         myDownloadEpubButton.setPreferredSize(new Dimension(30, 30));
-        if (myBook.getLinks().get("epub") == null) {
+        if (myBook.getLinks().get("epub") == null || myController.getSettings().getEpubReader() == null) {
             myDownloadEpubButton.setEnabled(false);
         }
         myButtonPanel.add(myDownloadEpubButton);
         myDownloadPdfButton = new JButton(new ImageIcon(getClass().getResource("/ico/pdf_30.gif")));
-        myDownloadPdfButton.setToolTipText("Download pdf book");
+        myDownloadPdfButton.setToolTipText("Read pdf book");
         myDownloadPdfButton.setPreferredSize(new Dimension(30, 30));
-        if (myBook.getLinks().get("pdf") == null) {
+        if (myBook.getLinks().get("pdf") == null || myController.getSettings().getPdfReader() == null) {
             myDownloadPdfButton.setEnabled(false);
         }
         myButtonPanel.add(myDownloadPdfButton);
@@ -318,7 +318,7 @@ public class LibBookPanel {
                     myController.addTask(new FileDownloader(name, myBook.getLinks().get("epub")));
                 }
                 try {
-                    String[] cmd = {myController.getSettings().getReader(), name};
+                    String[] cmd = {myController.getSettings().getEpubReader(), name};
                     Runtime.getRuntime().exec(cmd);
                 } catch (IOException e1) {
                     e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -335,7 +335,7 @@ public class LibBookPanel {
                     myController.addTask(new FileDownloader(name, myBook.getLinks().get("pdf")));
                 }
                 try {
-                    String[] cmd = {myController.getSettings().getReader(), name};
+                    String[] cmd = {myController.getSettings().getPdfReader(), name};
                     Runtime.getRuntime().exec(cmd);
                 } catch (IOException e1) {
                     e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
