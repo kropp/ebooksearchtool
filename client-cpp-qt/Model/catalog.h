@@ -32,8 +32,8 @@ public:
 public:
 
     bool containsBooks();
-    QVector<Catalog*>* getCatalogs();
-    QVector<Book*>* getBooks();
+    QVector<Catalog*>& getCatalogs();
+    QVector<Book*>& getBooks();
     const QString& getCatalogName();
     const QString& getSummary();
 
@@ -56,8 +56,8 @@ private:
 
     Catalog* myParent;
 
-    QVector<Catalog*>* m_childCatalogs;
-    QVector<Book*>* m_childBooks;
+    QVector<Catalog*> myChildCatalogs;
+    QVector<Book*> myChildBooks;
 
     bool myIsBookCatalog;
     QString myName;

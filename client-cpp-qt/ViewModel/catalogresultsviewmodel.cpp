@@ -12,9 +12,9 @@ void CatalogResultsViewModel::createChildViewModels()
 {
     shownCatalogViewModels->clear();
 
-    for (int i = 0; i < shownCatalog->getCatalogs()->size(); i++)
+    for (int i = 0; i < shownCatalog->getCatalogs().size(); i++)
     {
-        Catalog* nextChild = shownCatalog->getCatalogs()->at(i);
+        Catalog* nextChild = shownCatalog->getCatalogs().at(i);
         shownCatalogViewModels->append(new CatalogResultViewModel(nextChild));
     }
 }

@@ -15,7 +15,7 @@ void CatalogBookResultsViewModel::initialize()
 void CatalogBookResultsViewModel::changeCatalog(Catalog* newCatalog)
 {
     shownCatalog = newCatalog;
-    newBooksReceived(*newCatalog->getBooks());
+    newBooksReceived(newCatalog->getBooks());
 }
 
 void CatalogBookResultsViewModel::setConnections()

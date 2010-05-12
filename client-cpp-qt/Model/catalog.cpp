@@ -12,16 +12,16 @@ Catalog::Catalog(bool isBookCatalogFlag, QString catalogName, QString catalogSum
     myIsParsed = false;
     myParent = 0;
 
-    if (myIsBookCatalog)
-    {
-        m_childBooks = new QVector<Book*>();
-        m_childCatalogs = 0;
-    }
-    else
-    {
-        m_childCatalogs = new QVector<Catalog*>();
-        m_childBooks = 0;
-    }
+//    if (myIsBookCatalog)
+//    {
+//        myChildBooks = new QVector<Book*>();
+//        myChildCatalogs = 0;
+//    }
+//    else
+//    {
+//        myChildCatalogs = new QVector<Catalog*>();
+//        myChildBooks = 0;
+//    }
 }
 
 Catalog::Catalog(bool isBookCatalogFlag, QString catalogName, UrlData* newUrl)
@@ -32,14 +32,14 @@ Catalog::Catalog(bool isBookCatalogFlag, QString catalogName, UrlData* newUrl)
     myIsParsed = false;
     myParent = 0;
 
-    if (myIsBookCatalog)
-    {
-        m_childBooks = new QVector<Book*>();
-    }
-    else
-    {
-        m_childCatalogs = new QVector<Catalog*>();
-    }
+//    if (myIsBookCatalog)
+//    {
+//        myChildBooks = new QVector<Book*>();
+//    }
+//    else
+//    {
+//        myChildCatalogs = new QVector<Catalog*>();
+//    }
 }
 
 
@@ -54,8 +54,8 @@ Catalog::Catalog(QString catalogName, UrlData* newUrl)
     myUrlList.append(newUrl);
     myIsParsed = false;
     myParent = 0;
-    m_childBooks = 0;
-    m_childCatalogs = 0;
+//    myChildBooks = 0;
+//    myChildCatalogs = 0;
 }
 
 const QString& Catalog::getSummary() {
@@ -72,20 +72,20 @@ void Catalog::setCatalogType(bool isBookCatalogFlag)
 {
     myIsBookCatalog = isBookCatalogFlag;
 
-    if (myIsBookCatalog)
-    {
-        if (m_childBooks == 0)
-        {
-            m_childBooks = new QVector<Book*>();
-        }
-    }
-    else
-    {
-        if (m_childCatalogs == 0)
-        {
-            m_childCatalogs = new QVector<Catalog*>();
-        }
-    }
+//    if (myIsBookCatalog)
+//    {
+//        if (myChildBooks == 0)
+//        {
+//            myChildBooks = new QVector<Book*>();
+//        }
+//    }
+//    else
+//    {
+//        if (myChildCatalogs == 0)
+//        {
+//            myChildCatalogs = new QVector<Catalog*>();
+//        }
+//    }
 }
 
 void Catalog::setParent(Catalog* catalog)
@@ -108,14 +108,14 @@ bool Catalog::containsBooks()
     return myIsBookCatalog;
 }
 
-QVector<Catalog*>* Catalog::getCatalogs()
+QVector<Catalog*>& Catalog::getCatalogs()
 {
-    return m_childCatalogs;
+    return myChildCatalogs;
 }
 
-QVector<Book*>* Catalog::getBooks()
+QVector<Book*>& Catalog::getBooks()
 {
-    return m_childBooks;
+    return myChildBooks;
 }
 
 Catalog* Catalog::getParent()
@@ -132,7 +132,7 @@ void Catalog::addBookToCatalog(Book* newBook)
 {
     if (myIsBookCatalog)
     {
-        m_childBooks->append(newBook);
+        myChildBooks.append(newBook);
     }
 }
 
@@ -140,9 +140,7 @@ void Catalog::addCatalogToCatalog(Catalog* newCatalog)
 {
     if (!myIsBookCatalog)
     {
-        qDebug() << "Catalog::addCatalogToCatalog to append" << m_childCatalogs->size();
-        m_childCatalogs->append(newCatalog);
-        qDebug() << "Catalog::addCatalogToCatalog appended";
+        myChildCatalogs.append(newCatalog);
         newCatalog->setParent(this);
     }
 }

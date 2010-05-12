@@ -44,7 +44,7 @@ void CatalogResultView::layoutComponents()
     textLayout->addSpacing(20);
     textLayout->addWidget(catalogTitleLabel);
     textLayout->addWidget(catalogSummaryLabel);
-    textLayout->addSpacing(20);
+    textLayout->addSpacing(10);
 
     bookLineLayout->addSpacing(10);
     bookLineLayout->addWidget(myOpenCatalogButton);
