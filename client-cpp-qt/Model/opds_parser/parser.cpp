@@ -1,6 +1,7 @@
 #include "parser.h"
 #include "handler.h"
 #include "../catalog.h"
+#include "../linksinformation.h"
 
 #include <QXmlInputSource>
 
@@ -45,13 +46,13 @@ bool OPDSParser::parseBooksOrCatalogs
 }
 
 
-bool OPDSParser::parseOpdsLinks(QIODevice* input, QStringList& newLinks, QStringList& popularLinks) {
+bool OPDSParser::parseOpdsLinks(QIODevice* input, LinksInformation* linksInfo) {
     if (input->bytesAvailable() == 0) {
         return false;
     }
 
     QXmlInputSource source(input);
-    OPDSHandler handler(&newLinks, &popularLinks);
+    OPDSHandler handler(linksInfo);
     QXmlSimpleReader reader;
     reader.setContentHandler(&handler);
     reader.parse(source);

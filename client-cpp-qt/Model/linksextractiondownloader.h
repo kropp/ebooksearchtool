@@ -28,6 +28,7 @@ signals:
 public:
 
     void startExtractingLinks();
+    const QString& getServerUrl() const;
 
 protected:
 
@@ -38,5 +39,10 @@ private:
 
     LinksInformation* myLinksInfo;
 };
+
+
+inline const QString& LinksExtractionDownloader::getServerUrl() const {
+    return myServerUrl;
+}
 
 #endif // LINKSEXTRACTIONDOWNLOADER_H

@@ -12,8 +12,7 @@ OPDSHandler::OPDSHandler(QVector<Book*>* data, SearchResult& result) : mySearchR
     myFormat = BOOK_FORMAT;
     currentParsedServer = "";
     myParseLinksMode = false;
-    myNewLinks = 0;
-    myPopularLinks = 0;
+    myLinksInformation = 0;
 
 }
 
@@ -27,13 +26,12 @@ OPDSHandler::OPDSHandler(QVector<Book*>* bookData, QVector<Catalog*>* catalogDat
     myFormat = BOOK_FORMAT;
     currentParsedServer = parsedServer;
     myParseLinksMode = false;
-    myNewLinks = 0;
-    myPopularLinks = 0;
+    myLinksInformation = 0;
 }
 
-OPDSHandler::OPDSHandler(QStringList* newLinks, QStringList* popularLinks) : mySearchResult(0) {
-    myNewLinks = newLinks;
-    myPopularLinks = popularLinks;
+OPDSHandler::OPDSHandler(LinksInformation* linksInfo) : mySearchResult(0) {
+    qDebug() << "OPDSHandler::OPDSHandler(linksInfo) ";
+    myLinksInformation = linksInfo;
     myParseLinksMode = true;
 }
 
@@ -144,10 +142,10 @@ void OPDSHandler::parseCatalogLinks(const QXmlAttributes& attributes) {
 
     if (attributes.value(ATTRIBUTE_RELATION) == ATTR_VALUE_RELATION_NEW) {
         qDebug() << "OPDSHandler::startElement parse links mode" << attributes.value(ATTRIBUTE_REFERENCE);
-        myNewLinks->append(attributes.value(ATTRIBUTE_REFERENCE));
+        myLinksInformation->addNewLink(attributes.value(ATTRIBUTE_REFERENCE));
     } else if (attributes.value(ATTRIBUTE_RELATION) == ATTR_VALUE_RELATION_POPULAR) {
         qDebug() << "OPDSHandler::startElement parse links mode" << attributes.value(ATTRIBUTE_REFERENCE);
-        myPopularLinks->append(attributes.value(ATTRIBUTE_REFERENCE));
+        myLinksInformation->addPopularLink(attributes.value(ATTRIBUTE_REFERENCE));
     }
 }
 

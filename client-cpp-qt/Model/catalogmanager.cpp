@@ -212,6 +212,7 @@ void CatalogManager::searchLinksForComplexCatalogs() {
     }
 
     foreach (LinksExtractionDownloader* downloader, myLinksExtractionDownloaders) {
+        qDebug() << "set connection for downloader " << downloader->getServerUrl();
         connect(downloader, SIGNAL(downloadFinished(bool,LinksInformation*)), this, SLOT(setLinksForComplexCatalogs(bool, LinksInformation*)));
         downloader->startExtractingLinks();
     }
@@ -219,6 +220,7 @@ void CatalogManager::searchLinksForComplexCatalogs() {
 
 void CatalogManager::setLinksForComplexCatalogs(bool, const LinksInformation*) {
     qDebug() << "CatalogManager::setLinksForComplexCatalogs()";
+
 }
 
 Catalog* CatalogManager::getCatalogRoot()

@@ -9,6 +9,7 @@
 #include "../search_result.h"
 #include "opds_constants.h"
 
+#include "../linksinformation.h"
 #include "../catalog.h"
 
 class Catalog;
@@ -19,7 +20,7 @@ public:
 
     OPDSHandler(QVector<Book*>* data, SearchResult& result);
     OPDSHandler(QVector<Book*>* bookData, QVector<Catalog*>* catalogData, QString parsedServer, SearchResult& result);
-    OPDSHandler(QStringList* newLinks, QStringList* popularLinks);
+    OPDSHandler(LinksInformation* linksInfo);
     ~OPDSHandler();
 
 private:
@@ -75,8 +76,8 @@ private:
     QVector<Author*>* authors;
     QMap<QString, QString>* links;
 
-    QStringList* myNewLinks;
-    QStringList* myPopularLinks;
+    LinksInformation* myLinksInformation;
+
     bool myParseLinksMode;
 
     SearchResult* mySearchResult;

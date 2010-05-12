@@ -16,7 +16,7 @@ static const QString HTTP_PREFIX = "http://";
 LinksExtractionDownloader::LinksExtractionDownloader(QString downloadServerUrl, QString downloadBooksRequestUrl)
     :DownloaderThread(downloadServerUrl, downloadBooksRequestUrl)
 {
-
+    myLinksInfo = new LinksInformation();
 }
 
 void LinksExtractionDownloader::startExtractingLinks()
@@ -28,37 +28,22 @@ void LinksExtractionDownloader::startExtractingLinks()
 
 void LinksExtractionDownloader::parseReceivedData(int /*requestId*/)
 {
-
     qDebug() << "LinksExtractionDownloader::parseRecievedData ";
-   /* if (myInputBuffer)
+    if (myInputBuffer)
     {
-        myResultsMutex.lock();
-
         myInputBuffer->open(QIODevice::ReadOnly);
-
-        myDownloadedBooks = new QVector<Book*>();
-
         OPDSParser parser;
-        if (!parser.parse(myInputBuffer, myDownloadedBooks, mySearchResult)) {
-            myDownloadedBooks->clear();
-        }
+        parser.parseOpdsLinks(myInputBuffer, myLinksInfo);
 
-        for (int i = 0; i < myDownloadedBooks->size(); i++)
-        {
-            Book* nextBook = myDownloadedBooks->at(i);
-            nextBook->setServerName(myServerUrl);
-        }
+        myIsFinished = true;
+     }
 
-        myResultsMutex.unlock();
+    qDebug() << "LinksExtractionDownloader::parseReceivedData parsed emit 'download finished'" << myLinksInfo->getNewLinks()
+            << myLinksInfo->getPolularLinks();
 
-                 myIsFinished = true;
+    emit downloadFinished(true, myLinksInfo);
 
-        //}
-
-        emit downloadFinished(true, myDownloadedBooks);
-    }
-*/
-}
+   }
 
 
 void LinksExtractionDownloader::parseError(int /*requestId*/)
