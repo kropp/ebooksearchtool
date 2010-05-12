@@ -37,7 +37,7 @@ void DownloaderThread::parseError(int /*requestId*/)
 
 void DownloaderThread::requestFinished(int requestId, bool error)
 {
-    qDebug() << "DownloaderThread::requestFinished id = " << requestId;
+  //  qDebug() << "DownloaderThread::requestFinished id = " << requestId;
     if (requestId == myCurrentRequestId)
     {
         if (!error)

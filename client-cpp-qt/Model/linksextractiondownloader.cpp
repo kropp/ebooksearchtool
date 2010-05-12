@@ -19,9 +19,10 @@ LinksExtractionDownloader::LinksExtractionDownloader(QString downloadServerUrl, 
 
 }
 
-void LinksExtractionDownloader::startExtractingLinks(QString searchRequest)
+void LinksExtractionDownloader::startExtractingLinks()
 {
-    startDownloading(searchRequest);
+    qDebug() << "LinksExtractionDownloader:: startExtractingLinks " <<  myBooksRequestUrl;
+    startDownloading(myBooksRequestUrl);
 }
 
 

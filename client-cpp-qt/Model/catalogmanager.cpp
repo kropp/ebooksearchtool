@@ -1,9 +1,13 @@
+#include <QDebug>
+
 #include "catalogmanager.h"
 #include "book.h"
 #include "catalog.h"
 #include "bookdownloader.h"
 #include "catalogdownloader.h"
 #include "opds_parser/opds_constants.h"
+
+#include "linksextractiondownloader.h"
 
 static const QString FEEDBOOKS_ID = "www.feedbooks.com";
 static const QString MANYBOOKS_ID = "manybooks.net";
@@ -24,12 +28,7 @@ CatalogManager::CatalogManager()
     myBrowseBackHistory = new QList<Catalog*>();
     myBrowseForwardHistory = new QList<Catalog*>();
 
-    myDownloadersMap.insert(FEEDBOOKS_ID, new CatalogDownloader(FEEDBOOKS_ID));
-    myDownloadersMap.insert(MANYBOOKS_ID, new CatalogDownloader(MANYBOOKS_ID));
-    myDownloadersMap.insert(LITRES_ID, new CatalogDownloader(LITRES_ID));
-    myDownloadersMap.insert(SMASHWORDS_ID, new CatalogDownloader(SMASHWORDS_ID));
-    myDownloadersMap.insert(BOOKSERVER_ID, new CatalogDownloader(BOOKSERVER_ID));
-    myDownloadersMap.insert(EBOOKSEARCH_ID, new CatalogDownloader(EBOOKSEARCH_ID));
+    createDownloaders();
 
     setConnections();
 
@@ -104,6 +103,16 @@ void CatalogManager::openCatalog(Catalog* catalog)
     openCatalog(catalog, true);
 }
 
+void CatalogManager::createDownloaders() {
+    myDownloadersMap.insert(FEEDBOOKS_ID, new CatalogDownloader(FEEDBOOKS_ID));
+    myDownloadersMap.insert(MANYBOOKS_ID, new CatalogDownloader(MANYBOOKS_ID));
+    myDownloadersMap.insert(LITRES_ID, new CatalogDownloader(LITRES_ID));
+    myDownloadersMap.insert(SMASHWORDS_ID, new CatalogDownloader(SMASHWORDS_ID));
+    myDownloadersMap.insert(BOOKSERVER_ID, new CatalogDownloader(BOOKSERVER_ID));
+    myDownloadersMap.insert(EBOOKSEARCH_ID, new CatalogDownloader(EBOOKSEARCH_ID));
+}
+
+
 void CatalogManager::openCatalog(Catalog* catalog, bool addToBackHistory)
 {
     if (catalog == myCatalogRequestedForOpening) {
@@ -165,6 +174,7 @@ void CatalogManager::finishedParsing(bool /*success*/, Catalog* catalog)
 
 void CatalogManager::createCatalogs()
 {
+    qDebug() << "CatalogManager::createCatalogs ";
     myRootCatalog = new Catalog(false, "Root", new UrlData("-", "-"));
     myRootCatalog->markAsParsed();
 
@@ -174,39 +184,41 @@ void CatalogManager::createCatalogs()
     mySimpleCatalogs.append(new Catalog(false, "SmashWords", new UrlData("/atom", SMASHWORDS_ID)));
     mySimpleCatalogs.append(new Catalog(false, "eBookSearch", new UrlData("/catalog.atom", EBOOKSEARCH_ID)));
 
-
-    Catalog* test = new Catalog(false, "MULTY_SERVERS_TEST", new UrlData("/catalogs/litres/new.php", LITRES_ID));
-    test->addChildUrl(new UrlData("/books/recent.atom", FEEDBOOKS_ID));
-
     Catalog* newBooks = new Catalog(false, tr("NEW"), tr("New books from all the servers"), 0);
-
-    newBooks->addChildUrl(new UrlData("/books/recent.atom", FEEDBOOKS_ID));
-    newBooks->addChildUrl(new UrlData("/catalogs/litres/new.php", LITRES_ID));
+//    newBooks->addChildUrl(new UrlData("/books/recent.atom", FEEDBOOKS_ID));
+//    newBooks->addChildUrl(new UrlData("/catalogs/litres/new.php", LITRES_ID));
 
 
     Catalog* popular = new Catalog(false, tr("POPULAR"), tr("Popular books from all the servers"), 0);
-    popular->addChildUrl(new UrlData("/books/top.atom?range=month", FEEDBOOKS_ID));
-    popular->addChildUrl(new UrlData("/catalogs/litres/top.php", LITRES_ID));
+//    popular->addChildUrl(new UrlData("/books/top.atom?range=month", FEEDBOOKS_ID));
+//    popular->addChildUrl(new UrlData("/catalogs/litres/top.php", LITRES_ID));
 
     myRootCatalog->addCatalogToCatalog(newBooks);
     myRootCatalog->addCatalogToCatalog(popular);
-    myRootCatalog->addCatalogToCatalog(test);
 
     foreach (Catalog* catalog, mySimpleCatalogs) {
         myRootCatalog->addCatalogToCatalog(catalog);
     }
-    searchUrlsForComplexCatalogs();
+
+    searchLinksForComplexCatalogs();
 }
 
 
-void CatalogManager::searchUrlsForComplexCatalogs() {
+void CatalogManager::searchLinksForComplexCatalogs() {
+    qDebug() << "CatalogManager::searchLinksForComplexCatalogs() ";
+    foreach (Catalog* catalog, mySimpleCatalogs) {
+        const QList<UrlData*>& urlList = catalog->getUrlList();
+        myLinksExtractionDownloaders.append(new LinksExtractionDownloader(urlList.at(0)->server, urlList.at(0)->url));
+    }
 
-    //бегу по всем нормальным каталогам
-    //выбираю нужный downloader
-    //говорю ему скачать
-    //на этот запрос нужно парсить именно header
-    //запускаю на них парсер в режиме вытаскивания ссылки
-    // передаю ему свои списки
+    foreach (LinksExtractionDownloader* downloader, myLinksExtractionDownloaders) {
+        connect(downloader, SIGNAL(downloadFinished(bool,LinksInformation*)), this, SLOT(setLinksForComplexCatalogs(bool, LinksInformation*)));
+        downloader->startExtractingLinks();
+    }
+}
+
+void CatalogManager::setLinksForComplexCatalogs(bool, const LinksInformation*) {
+    qDebug() << "CatalogManager::setLinksForComplexCatalogs()";
 }
 
 Catalog* CatalogManager::getCatalogRoot()

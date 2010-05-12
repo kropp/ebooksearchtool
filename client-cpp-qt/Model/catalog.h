@@ -49,7 +49,7 @@ public:
 
     bool isCatalogParsed();
 
-    QList<UrlData*> getUrlList();
+    const QList<UrlData*>& getUrlList();
     void addChildUrl(UrlData* newUrl);
 
 private:

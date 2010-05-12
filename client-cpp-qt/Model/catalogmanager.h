@@ -6,6 +6,9 @@
 #include <QStringList>
 #include <QMap>
 
+#include "linksinformation.h"
+#include "linksextractiondownloader.h"
+
 class Catalog;
 class BookDownloader;
 class CatalogDownloader;
@@ -50,6 +53,7 @@ signals:
 private slots:
 
     void finishedParsing(bool success, Catalog* catalog);
+    void setLinksForComplexCatalogs(bool, const LinksInformation* info);
 
 private:
 
@@ -57,10 +61,10 @@ private:
     void parseCatalogRoot();
     void parseCatalogContents(Catalog* catalog);
 
-    void searchUrlsForComplexCatalogs();
+    void searchLinksForComplexCatalogs();
     void createCatalogs();
+    void createDownloaders();
 
-    //void createComplexCatalog(const QString& catalogName, const QString& catalogRelation);
 
 private:
 
@@ -76,8 +80,7 @@ private:
     QList<Catalog*>* myBrowseForwardHistory;
     QMap<QString, CatalogDownloader*> myDownloadersMap;
 
-//    QStringList myNewCatalogLinks;
-//    QStringList myPopularCatalogLinks;
+    QList<LinksExtractionDownloader*> myLinksExtractionDownloaders;
 
     int currentCatalogParseCyclesAwaited;
 };

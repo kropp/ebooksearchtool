@@ -28,7 +28,7 @@ Catalog::Catalog(bool isBookCatalogFlag, QString catalogName, UrlData* newUrl)
 }
 
 
-QList<UrlData*> Catalog::getUrlList()
+const QList<UrlData*>& Catalog::getUrlList()
 {
     return myUrlList;
 }
