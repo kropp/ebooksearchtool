@@ -74,6 +74,17 @@ public class Window implements Observer{
 
     public Window() throws SAXException, ParserConfigurationException, IOException {
 
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (InstantiationException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (UnsupportedLookAndFeelException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
         myController = new Controller(this);
         myController.getData().addObserver(this);
         curModelNumber = myController.getRequestCount();
@@ -109,7 +120,7 @@ public class Window implements Observer{
         myToolForward.setToolTipText("Forward");
         myToolBar.add(myToolForward);
         myToolForward.setEnabled(false);
-        myToolDown = new JButton(new ImageIcon(getClass().getResource("/ico/up.png")));
+        myToolDown = new JButton(new ImageIcon(getClass().getResource("/ico/down.png")));
         myToolDown.setToolTipText("Next request");
         myToolBar.add(myToolDown);
         myToolDown.setEnabled(false);
