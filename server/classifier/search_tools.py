@@ -33,6 +33,8 @@ def search_for_author_information(author):
     try:
         infile = opener.open(auth_url)
         page = infile.read()
+        infile.close()
+        opener.close()
     except:
         is_article = -1
 
@@ -49,6 +51,8 @@ def search_for_author_information(author):
         auth_url = "http://en.wikipedia.org/wiki/Special:Search/" + name
         infile = opener.open(auth_url)
         page = infile.read()
+        infile.close()
+        opener.close()
         beaut_soup = bs.BeautifulSoup(page)
         did_you = beaut_soup.find(attrs={'class':'searchdidyoumean'})
         if did_you != None:
@@ -59,6 +63,8 @@ def search_for_author_information(author):
             auth_url = "http://en.wikipedia.org" + did_you
             infile = opener.open(auth_url)
             page = infile.read()
+            infile.close()
+            opener.close()
             beaut_soup = bs.BeautifulSoup(page)
             text = beaut_soup.getText()
             is_result = text.find('Search results')
@@ -71,6 +77,8 @@ def search_for_author_information(author):
                         auth_url = article['href']
                         infile = opener.open(auth_url)
                         page = infile.read()
+                        infile.close()
+                        opener.close()
                         beaut_soup = bs.BeautifulSoup(page)
                         text = beaut_soup.getText().lower()
                         is_writer = text.find('writer')
@@ -80,6 +88,8 @@ def search_for_author_information(author):
                             auth_url = article.find('a')['href']
                             infile = opener.open(auth_url)
                             page = infile.read()
+                            infile.close()
+                            opener.close()
                             beaut_soup = bs.BeautifulSoup(page)
         else:
             first_res = beaut_soup.find(attrs={'class':'mw-search-results'})
@@ -93,6 +103,8 @@ def search_for_author_information(author):
                     auth_url = article.find('a')['href']
                     infile = opener.open(auth_url)
                     page = infile.read()
+                    infile.close()
+                    opener.close()
                     beaut_soup = bs.BeautifulSoup(page)
 
     info_box = beaut_soup.find(attrs={'class':'infobox vcard'})
