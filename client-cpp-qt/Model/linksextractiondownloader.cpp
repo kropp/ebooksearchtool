@@ -16,39 +16,52 @@ static const QString HTTP_PREFIX = "http://";
 LinksExtractionDownloader::LinksExtractionDownloader(QString downloadServerUrl, QString downloadBooksRequestUrl)
     :DownloaderThread(downloadServerUrl, downloadBooksRequestUrl)
 {
-    myLinksInfo = new LinksInformation();
+
 }
 
 void LinksExtractionDownloader::startExtractingLinks()
 {
-    qDebug() << "LinksExtractionDownloader:: startExtractingLinks " <<  myBooksRequestUrl;
-    startDownloading(myBooksRequestUrl);
+    qDebug() << "LinksExtractionDownloader:: startExtractingLinks "
+            <<  "server =" << myServerUrl
+            << "url = " << myRequestUrl;
+
+    startDownloading(QString());
 }
 
 
-void LinksExtractionDownloader::parseReceivedData(int /*requestId*/)
+void LinksExtractionDownloader::parseReceivedData(int requestId)
 {
-    qDebug() << "LinksExtractionDownloader::parseRecievedData ";
+    qDebug() << "LinksExtractionDownloader::parseRecievedData " << myRequestUrl;
     if (myInputBuffer)
     {
         myInputBuffer->open(QIODevice::ReadOnly);
+
+        QString filename(myServerUrl);
+        filename.append(".txt");
+        QFile file(filename);
+        qDebug() << "QBuffer - write to file " << file.fileName() ;
+        file.open(QIODevice::WriteOnly);
+        file.write(myInputBuffer->buffer());
+        file.close();
+
         OPDSParser parser;
-        parser.parseOpdsLinks(myInputBuffer, myLinksInfo);
+        parser.parseOpdsLinks(myInputBuffer, &myLinksInfo);
 
         myIsFinished = true;
-     }
 
-    qDebug() << "LinksExtractionDownloader::parseReceivedData parsed emit 'download finished'" << myLinksInfo->getNewLinks()
-            << myLinksInfo->getPolularLinks();
+    }
 
-    emit downloadFinished(true, myLinksInfo);
+    qDebug() << "LinksExtractionDownloader::parseReceivedData parsed emit 'download finished'" << myLinksInfo.getNewLinks()
+            << myLinksInfo.getPolularLinks();
+
+    emit downloadFinished(true, &myLinksInfo);
 
    }
 
 
 void LinksExtractionDownloader::parseError(int /*requestId*/)
 {
-    // TODO decrease counter
+    // TODO decrease counter of left links for catalog to be ready
     emit downloadFinished(false, 0);
 }
 

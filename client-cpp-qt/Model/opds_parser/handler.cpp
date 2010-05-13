@@ -30,7 +30,6 @@ OPDSHandler::OPDSHandler(QVector<Book*>* bookData, QVector<Catalog*>* catalogDat
 }
 
 OPDSHandler::OPDSHandler(LinksInformation* linksInfo) : mySearchResult(0) {
-    qDebug() << "OPDSHandler::OPDSHandler(linksInfo) ";
     myLinksInformation = linksInfo;
     myParseLinksMode = true;
 }
@@ -100,6 +99,7 @@ bool OPDSHandler::startElement (const QString& namespaceUri, const QString& tag,
 {
     if (!myIsEntry && myParseLinksMode && tag == TAG_LINK) {
         parseCatalogLinks(attributes);
+        return true;
     }
 
     if (myIsInContent)
@@ -138,7 +138,7 @@ bool OPDSHandler::startElement (const QString& namespaceUri, const QString& tag,
 }
 
 void OPDSHandler::parseCatalogLinks(const QXmlAttributes& attributes) {
-    qDebug() << "OPDSHandler::parseCatalogLinks";
+    qDebug() << "OPDSHandler::parseCatalogLinks " << attributes.value(ATTRIBUTE_RELATION);
 
     if (attributes.value(ATTRIBUTE_RELATION) == ATTR_VALUE_RELATION_NEW) {
         qDebug() << "OPDSHandler::startElement parse links mode" << attributes.value(ATTRIBUTE_REFERENCE);
@@ -151,6 +151,10 @@ void OPDSHandler::parseCatalogLinks(const QXmlAttributes& attributes) {
 
 bool OPDSHandler::endElement (const QString& namespaceUri, const QString& tag, const QString& )
 {
+    if (myParseLinksMode) {
+        return true;
+    }
+
     if (myIsEntry)
     {
         if (namespaceUri == NSPACE_ATOM)

@@ -13,14 +13,14 @@ DownloaderThread::DownloaderThread(QString downloadServerUrl, QString downloadBo
 {
     myInputBuffer = 0;
     myServerUrl = downloadServerUrl;
-    myBooksRequestUrl = downloadBooksRequestUrl;
+    myRequestUrl = downloadBooksRequestUrl;
     myIsFinished = true;
 
     myConnection = new QHttp(this);
 
     myConnection->setHost(myServerUrl, CONNECTION_PORT);
 
-    myConnection->setProxy("192.168.0.2", 3128);
+//   myConnection->setProxy("192.168.0.2", 3128);
 
     connect(myConnection, SIGNAL(requestFinished(int, bool)), this, SLOT(requestFinished(int, bool)));
 }
@@ -79,8 +79,8 @@ void DownloaderThread::abort()
 
 int DownloaderThread::startDownloading(QString searchRequest)
 {
-    int id = download(myBooksRequestUrl + searchRequest);
-    qDebug() << "DownloaderThread::startDownloading " << myBooksRequestUrl + searchRequest << "id = " << id;
+    int id = download(myRequestUrl + searchRequest);
+    qDebug() << "DownloaderThread::startDownloading " << myRequestUrl + searchRequest << "id = " << id;
     return id;
 }
 

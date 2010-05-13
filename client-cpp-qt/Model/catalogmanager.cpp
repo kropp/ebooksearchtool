@@ -20,6 +20,7 @@ CatalogManager CatalogManager::instance;
 
 CatalogManager::CatalogManager()
 {
+    qDebug() << "CatalogManager::CatalogManager";
     createCatalogs();
     parseCatalogRoot();
     myCurrentCatalog = myRootCatalog;
@@ -212,15 +213,15 @@ void CatalogManager::searchLinksForComplexCatalogs() {
     }
 
     foreach (LinksExtractionDownloader* downloader, myLinksExtractionDownloaders) {
-        qDebug() << "set connection for downloader " << downloader->getServerUrl();
+        qDebug() << "set connection for extraction downloader " << downloader->getServerUrl();
         connect(downloader, SIGNAL(downloadFinished(bool,LinksInformation*)), this, SLOT(setLinksForComplexCatalogs(bool, LinksInformation*)));
         downloader->startExtractingLinks();
     }
 }
 
-void CatalogManager::setLinksForComplexCatalogs(bool, const LinksInformation*) {
-    qDebug() << "CatalogManager::setLinksForComplexCatalogs()";
-
+void CatalogManager::setLinksForComplexCatalogs(bool, const LinksInformation* linksInfo) {
+    qDebug() << "CatalogManager::setLinksForComplexCatalogs() links "
+             << linksInfo->getNewLinks() << linksInfo->getPolularLinks();
 }
 
 Catalog* CatalogManager::getCatalogRoot()

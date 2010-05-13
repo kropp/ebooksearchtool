@@ -39,11 +39,11 @@ void ProgramModeSelectorView::createComponents()
     headerRightImage->setObjectName("headerRightImage");
 
     searchModeButton = new MultiStateButton(this);
-  //  libraryModeButton = new MultiStateButton(this);
+    libraryModeButton = new MultiStateButton(this);
     catalogModeButton = new MultiStateButton(this);
 
     searchModeButton->setObjectName("searchModeButton");
-   // libraryModeButton->setObjectName("libraryModeButton");
+    libraryModeButton->setObjectName("libraryModeButton");
     catalogModeButton->setObjectName("catalogModeButton");
 }
 
@@ -60,7 +60,7 @@ void ProgramModeSelectorView::layoutComponents()
 
     rightHeaderPartLayout->addSpacing(15);
     rightHeaderPartLayout->addWidget(searchModeButton, 0, Qt::AlignBottom | Qt::AlignLeft);
-   // rightHeaderPartLayout->addWidget(libraryModeButton, 0, Qt::AlignBottom | Qt::AlignLeft);
+    rightHeaderPartLayout->addWidget(libraryModeButton, 0, Qt::AlignBottom | Qt::AlignLeft);
     rightHeaderPartLayout->addWidget(catalogModeButton, 0, Qt::AlignBottom | Qt::AlignLeft);
 
     headerRightImage->setLayout(rightHeaderPartLayout);
@@ -88,7 +88,7 @@ void ProgramModeSelectorView::hideAllModeChildren()
 void ProgramModeSelectorView::grayAllButtons()
 {
     searchModeButton->setState("grayed");
-  //  libraryModeButton->setState("grayed");
+    libraryModeButton->setState("grayed");
     catalogModeButton->setState("grayed");
 }
 
@@ -136,7 +136,7 @@ void ProgramModeSelectorView::setConnections()
 {
     connect(viewModel, SIGNAL(viewModeChanged(ProgramMode)), this, SLOT(viewModeChanged(ProgramMode)));
     connect(searchModeButton, SIGNAL(clicked()), this, SLOT(modeButtonPressed()));
-  //  connect(libraryModeButton, SIGNAL(clicked()), this, SLOT(modeButtonPressed()));
+    connect(libraryModeButton, SIGNAL(clicked()), this, SLOT(modeButtonPressed()));
     connect(catalogModeButton, SIGNAL(clicked()), this, SLOT(modeButtonPressed()));
 }
 
@@ -152,9 +152,9 @@ void ProgramModeSelectorView::viewModeChanged(ProgramMode newMode)
         enableSearchButton();
         break;
     case LIBRARY:
-    /*    libraryView->show();
+        libraryView->show();
         enableLibraryButton();
-       */ break;
+        break;
     case CATALOG:
         catalogView->show();
         enableCatalogButton();
@@ -162,7 +162,7 @@ void ProgramModeSelectorView::viewModeChanged(ProgramMode newMode)
     }
 
     searchModeButton->setStyleSheet(this->styleSheet());
-   // libraryModeButton->setStyleSheet(this->styleSheet());
+    libraryModeButton->setStyleSheet(this->styleSheet());
     catalogModeButton->setStyleSheet(this->styleSheet());
 
 }

@@ -37,7 +37,7 @@ protected:
 
 private:
 
-    LinksInformation* myLinksInfo;
+    LinksInformation myLinksInfo;
 };
 
 

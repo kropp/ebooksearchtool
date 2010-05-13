@@ -44,7 +44,7 @@ protected:
 
     SearchResult mySearchResult;
     QString myServerUrl;
-    QString myBooksRequestUrl;
+    QString myRequestUrl;
 
     bool myIsFinished;
 
