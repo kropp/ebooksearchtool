@@ -3,7 +3,7 @@
 
 from book.models import Author, Book, Language, BookFile, Annotation
 
-from server.forms.views_forms import available_languages
+#from forms.views_forms import available_languages
 from django import forms
 from django.forms.widgets import RadioInput
 
@@ -28,7 +28,7 @@ class BookForm(forms.ModelForm):
     author = forms.CharField(widget=AuthorWidget(rel=ManyToManyRel(to=Author)), 
                                             label='Authors') #TODO help_text
     language = forms.ModelChoiceField(queryset=Language.objects.all(), 
-                        widget=LanguageWidget(choices=available_languages()))
+                        widget=LanguageWidget(choices=Language.objects.exclude(book__isnull=True)[1:]))
     credit = forms.IntegerField(widget=forms.RadioSelect(choices=CREDIT_CHOICES))
 
     annotation = forms.CharField(widget=AnnotationWidget
