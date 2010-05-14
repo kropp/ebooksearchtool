@@ -181,13 +181,8 @@ void CatalogManager::createCatalogs()
     mySimpleCatalogs.append(new Catalog(false, "eBookSearch", new UrlData("/catalog.atom", EBOOKSEARCH_ID)));
 
     myNewCatalog = new Catalog(false, tr("NEW"), tr("New books from all the servers"), 0);
-//    newBooks->addChildUrl(new UrlData("/books/recent.atom", FEEDBOOKS_ID));
-//    newBooks->addChildUrl(new UrlData("/catalogs/litres/new.php", LITRES_ID));
-
 
     myPopularCatalog = new Catalog(false, tr("POPULAR"), tr("Popular books from all the servers"), 0);
-//    popular->addChildUrl(new UrlData("/books/top.atom?range=month", FEEDBOOKS_ID));
-//    popular->addChildUrl(new UrlData("/catalogs/litres/top.php", LITRES_ID));
 
     myRootCatalog->addCatalogToCatalog(myNewCatalog);
     myRootCatalog->addCatalogToCatalog(myPopularCatalog);
@@ -201,26 +196,30 @@ void CatalogManager::createCatalogs()
 
 
 void CatalogManager::searchLinksForComplexCatalogs() {
-    qDebug() << "CatalogManager::searchLinksForComplexCatalogs() ";
     foreach (Catalog* catalog, mySimpleCatalogs) {
         const QList<UrlData*>& urlList = catalog->getUrlList();
         myLinksExtractionDownloaders.append(new LinksExtractionDownloader(urlList.at(0)->server, urlList.at(0)->url));
     }
 
     foreach (LinksExtractionDownloader* downloader, myLinksExtractionDownloaders) {
-        qDebug() << "set connection for extraction downloader " << downloader->getServerUrl();
         connect(downloader, SIGNAL(downloadFinished(bool,LinksInformation*)), this, SLOT(setLinksForComplexCatalogs(bool, LinksInformation*)));
         downloader->startExtractingLinks();
     }
 }
 
-void CatalogManager::setLinksForComplexCatalogs(bool, const LinksInformation* linksInfo) {
+void CatalogManager::setLinksForComplexCatalogs(bool, LinksInformation* linksInfo) {
     qDebug() << "CatalogManager::setLinksForComplexCatalogs() links "
              << linksInfo->getNewLinks() << linksInfo->getPolularLinks();
 
-    //TODO!!!!
-    //    QStringList list = linksInfo->getNewLinks();
-//    myNewCatalog
+      const QStringList& newLinks = linksInfo->getNewLinks();
+      foreach (QString link, newLinks) {
+          myNewCatalog->addChildUrl(link);
+      }
+
+      const QStringList& popularLinks = linksInfo->getPolularLinks();
+      foreach (QString link, popularLinks) {
+          myPopularCatalog->addChildUrl(link);
+      }
 }
 
 Catalog* CatalogManager::getCatalogRoot()

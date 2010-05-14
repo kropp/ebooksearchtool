@@ -53,7 +53,7 @@ signals:
 private slots:
 
     void finishedParsing(bool success, Catalog* catalog);
-    void setLinksForComplexCatalogs(bool, const LinksInformation* info);
+    void setLinksForComplexCatalogs(bool, LinksInformation* info);
 
 private:
 

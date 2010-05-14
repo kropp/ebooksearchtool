@@ -56,9 +56,11 @@ void Catalog::addChildUrl(UrlData* newUrl) {
 void Catalog::addChildUrl(QString url) {
     url.remove("http://");
     foreach (QString server, EBookSearchTool::ourServers) {
-        server.remove("www.");
-        if (url.contains(server)) {
-            url.remove(server);
+        QString part(server);
+        part.remove("www.");
+        if (url.contains(part)) {
+            url.remove(part);
+            url.remove("www.");
             UrlData* newUrl = new UrlData(url, server);
             qDebug() << "Catalog::addChildUrl for complex catalog" << url << "  " << server;
             addChildUrl(newUrl);

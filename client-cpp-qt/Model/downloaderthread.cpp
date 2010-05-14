@@ -80,7 +80,6 @@ void DownloaderThread::abort()
 int DownloaderThread::startDownloading(QString searchRequest)
 {
     int id = download(myRequestUrl + searchRequest);
-    qDebug() << "DownloaderThread::startDownloading " << myRequestUrl + searchRequest << "id = " << id;
     return id;
 }
 
