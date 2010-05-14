@@ -32,6 +32,7 @@ public class Window implements Observer{
     private JButton myPlusButton;
     private JLabel mySearchLabel;
     private JMenuItem myNetMenu;
+    private JMenuItem myReadMenu;
     private JPanel myTextPan;
  //   private JComboBox myQueryCombo;
     private JProgressBar myProgressBar;
@@ -97,6 +98,8 @@ public class Window implements Observer{
         myMenuBar.add(new JMenu("Settings"));
         myNetMenu = new JMenuItem("Network");
         myMenuBar.getMenu(0).add(myNetMenu);
+        myReadMenu = new JMenuItem("Reader");
+        myMenuBar.getMenu(0).add(myReadMenu);
         myFrame.setJMenuBar(myMenuBar);
         myFrame.setContentPane(myPanel1);
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -549,6 +552,16 @@ public class Window implements Observer{
 
         });
 
+        myReadMenu.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+
+                JDialog.setDefaultLookAndFeelDecorated(true);
+                ReaderDialog dialogFrame = new ReaderDialog(myController);
+
+            }
+
+        });
 
         myFrame.setSize(700, 700);
         myFrame.setLocation(300,30);
