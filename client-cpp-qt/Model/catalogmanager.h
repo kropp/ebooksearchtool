@@ -75,6 +75,8 @@ private:
 
     Catalog* myRootCatalog;
     QList<Catalog*> mySimpleCatalogs;
+    Catalog* myNewCatalog;
+    Catalog* myPopularCatalog;
 
     QList<Catalog*>* myBrowseBackHistory;
     QList<Catalog*>* myBrowseForwardHistory;

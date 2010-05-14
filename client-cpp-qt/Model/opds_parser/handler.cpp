@@ -138,7 +138,6 @@ bool OPDSHandler::startElement (const QString& namespaceUri, const QString& tag,
 }
 
 void OPDSHandler::parseCatalogLinks(const QXmlAttributes& attributes) {
-    qDebug() << "OPDSHandler::parseCatalogLinks " << attributes.value(ATTRIBUTE_RELATION);
 
     if (attributes.value(ATTRIBUTE_RELATION) == ATTR_VALUE_RELATION_NEW) {
         qDebug() << "OPDSHandler::startElement parse links mode" << attributes.value(ATTRIBUTE_REFERENCE);

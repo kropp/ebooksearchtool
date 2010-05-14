@@ -1,5 +1,6 @@
 #include "catalog.h"
 #include "book.h"
+#include "servers.h"
 
 #include <QDebug>
 
@@ -50,6 +51,21 @@ const QString& Catalog::getSummary() {
 
 void Catalog::addChildUrl(UrlData* newUrl) {
     myUrlList.append(newUrl);
+}
+
+void Catalog::addChildUrl(QString url) {
+    url.remove("http://");
+    foreach (QString server, EBookSearchTool::ourServers) {
+        server.remove("www.");
+        if (url.contains(server)) {
+            url.remove(server);
+            UrlData* newUrl = new UrlData(url, server);
+            qDebug() << "Catalog::addChildUrl for complex catalog" << url << "  " << server;
+            addChildUrl(newUrl);
+            break;
+        }
+    }
+
 }
 
 

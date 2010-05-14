@@ -2,10 +2,13 @@
 #include "bookdownloader.h"
 #include "book.h"
 
+#include "servers.h"
+
 BookSearchManager BookSearchManager::instance;
 
 BookSearchManager::BookSearchManager()
 {
+    EBookSearchTool::initializeServers();
     myDownloadedBooks = QVector<Book*>();
     myBookDownloaders = QVector<BookDownloader*>();
 

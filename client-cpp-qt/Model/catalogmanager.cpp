@@ -8,13 +8,8 @@
 #include "opds_parser/opds_constants.h"
 
 #include "linksextractiondownloader.h"
+#include "servers.h"
 
-static const QString FEEDBOOKS_ID = "www.feedbooks.com";
-static const QString MANYBOOKS_ID = "manybooks.net";
-static const QString LITRES_ID = "data.fbreader.org";
-static const QString SMASHWORDS_ID = "www.smashwords.com";
-static const QString BOOKSERVER_ID = "bookserver.archive.org";
-static const QString EBOOKSEARCH_ID = "ebooksearch.webfactional.com";
 
 CatalogManager CatalogManager::instance;
 
@@ -185,17 +180,17 @@ void CatalogManager::createCatalogs()
     mySimpleCatalogs.append(new Catalog(false, "SmashWords", new UrlData("/atom", SMASHWORDS_ID)));
     mySimpleCatalogs.append(new Catalog(false, "eBookSearch", new UrlData("/catalog.atom", EBOOKSEARCH_ID)));
 
-    Catalog* newBooks = new Catalog(false, tr("NEW"), tr("New books from all the servers"), 0);
+    myNewCatalog = new Catalog(false, tr("NEW"), tr("New books from all the servers"), 0);
 //    newBooks->addChildUrl(new UrlData("/books/recent.atom", FEEDBOOKS_ID));
 //    newBooks->addChildUrl(new UrlData("/catalogs/litres/new.php", LITRES_ID));
 
 
-    Catalog* popular = new Catalog(false, tr("POPULAR"), tr("Popular books from all the servers"), 0);
+    myPopularCatalog = new Catalog(false, tr("POPULAR"), tr("Popular books from all the servers"), 0);
 //    popular->addChildUrl(new UrlData("/books/top.atom?range=month", FEEDBOOKS_ID));
 //    popular->addChildUrl(new UrlData("/catalogs/litres/top.php", LITRES_ID));
 
-    myRootCatalog->addCatalogToCatalog(newBooks);
-    myRootCatalog->addCatalogToCatalog(popular);
+    myRootCatalog->addCatalogToCatalog(myNewCatalog);
+    myRootCatalog->addCatalogToCatalog(myPopularCatalog);
 
     foreach (Catalog* catalog, mySimpleCatalogs) {
         myRootCatalog->addCatalogToCatalog(catalog);
@@ -222,6 +217,10 @@ void CatalogManager::searchLinksForComplexCatalogs() {
 void CatalogManager::setLinksForComplexCatalogs(bool, const LinksInformation* linksInfo) {
     qDebug() << "CatalogManager::setLinksForComplexCatalogs() links "
              << linksInfo->getNewLinks() << linksInfo->getPolularLinks();
+
+    //TODO!!!!
+    //    QStringList list = linksInfo->getNewLinks();
+//    myNewCatalog
 }
 
 Catalog* CatalogManager::getCatalogRoot()

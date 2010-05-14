@@ -51,6 +51,7 @@ public:
 
     const QList<UrlData*>& getUrlList();
     void addChildUrl(UrlData* newUrl);
+    void addChildUrl(QString url);
 
 private:
 
