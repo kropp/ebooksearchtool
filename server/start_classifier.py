@@ -86,9 +86,12 @@ def tag_adding(books):
                 summary = summary[:tag_ind].strip()
                 tags = smart_split([summary[tag_ind+9:]], [',', '/', '_'])
             else:
-                if book.author.all()[0].tag.count():
-                    tags = classifier.classify(summary, 
-                                [x.name for x in book.author.all()[0].tag.all()])
+                if book.author.all():
+                    if book.author.all()[0].tag.count():
+                        tags = classifier.classify(summary, 
+                                    [x.name for x in book.author.all()[0].tag.all()])
+                    else:
+                        tags = classifier.classify(summary)
                 else:
                     tags = classifier.classify(summary)
             if not counter%10:

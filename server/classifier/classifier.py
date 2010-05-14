@@ -196,7 +196,7 @@ class FisherClassifier(Classifier):
         
         for cathegory in self.categories():
             prob = self.fisher_prob(item, cathegory, lang)
-            print cathegory, prob
+#            print cathegory, prob
             if authors_tags:
                 if cathegory in authors_tags:
                     prob += 1.0e-5
