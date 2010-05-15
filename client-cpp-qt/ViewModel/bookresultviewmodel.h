@@ -25,11 +25,14 @@ public:
 
     QString getServerName();
 
+    bool canBeDownloaded();
+
 public slots:
 
     void addBookToLibraryRequested();
     void removeBookFromLibraryRequested();
     void bookInfoRequested();
+    void downloadingRequested();
 
 signals:
 
@@ -44,8 +47,8 @@ private:
 
 private:
 
-    Book* shownBook;
-    BookResultsViewModel* parentModel;
+    Book* myShownBook;
+    BookResultsViewModel* myParentModel;
 
 };
 

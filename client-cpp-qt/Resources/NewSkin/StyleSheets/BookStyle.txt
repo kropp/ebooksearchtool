@@ -37,7 +37,7 @@ QLabel#bookServerLabel
 	font-size: 12px;
 }
 
-QPushButton#downloadButton
+MultiStateButton#downloadButton[state="normal"]
 {
 	background-image: url(:/Download); 
 	background-repeat: no-repeat; 
@@ -49,6 +49,21 @@ QPushButton#downloadButton
 	min-height: 65px; 
 	max-height: 65px; 
 }
+
+MultiStateButton#downloadButton[state="grayed"]
+{
+	background-image: url(:/DownloadInactive); 
+	background-repeat: no-repeat; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 65px; 
+	max-width: 65px; 
+	min-height: 65px; 
+	max-height: 65px; 
+}
+
+
 
 QPushButton#addToLibraryButton
 {

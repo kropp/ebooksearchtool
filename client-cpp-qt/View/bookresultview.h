@@ -8,6 +8,7 @@
 class BookResultViewModel;
 
 #include "standardview.h"
+#include "multistatebutton.h"
 
 class QLabel;
 class QPushButton;
@@ -50,7 +51,7 @@ class BookResultView : public StandardView
         QLabel* myBookAuthorLabel;
         QLabel* myBookLanguageLabel;
         QLabel* myBookServerLabel;
-        QPushButton* myDownloadButton;
+        MultiStateButton* myDownloadButton;
         QPushButton* myAddToLibraryButton;
         QPushButton* myRemoveFromLibraryButton;
         QPushButton* myReadButton;

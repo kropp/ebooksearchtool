@@ -1,3 +1,5 @@
+#include <QDebug>
+
 #include "bookresultviewmodel.h"
 #include "bookresultsviewmodel.h"
 
@@ -6,29 +8,29 @@
 
 BookResultViewModel::BookResultViewModel(Book* book, BookResultsViewModel* parent)
 {
-    shownBook = book;
-    parentModel = parent;
+    myShownBook = book;
+    myParentModel = parent;
 }
 
 QString BookResultViewModel::getBookName()
 {
-    return shownBook->getTitle().trimmed();
+    return myShownBook->getTitle().trimmed();
 }
 
 QString BookResultViewModel::getServerName()
 {
-    return shownBook->getServerName();
+    return myShownBook->getServerName();
 }
 
 QString BookResultViewModel::getAuthorName()
 {
-    if (shownBook->getAuthors().size() > 0)
+    if (myShownBook->getAuthors().size() > 0)
     {
-        return shownBook->getAuthors().at(0)->getName().trimmed();
+        return myShownBook->getAuthors().at(0)->getName().trimmed();
     }
     else
     {
-        if (shownBook->getAuthors().size() == 0)
+        if (myShownBook->getAuthors().size() == 0)
         {
             return "Unknown author";
         }
@@ -41,20 +43,30 @@ QString BookResultViewModel::getAuthorName()
 
 QString BookResultViewModel::getLanguage()
 {
-    return shownBook->getLanguage();
+    return myShownBook->getLanguage();
 }
 
 void BookResultViewModel::addBookToLibraryRequested()
 {
-    LibraryManager::getInstance()->addBookToLibrary(shownBook);
+    LibraryManager::getInstance()->addBookToLibrary(myShownBook);
 }
 
 void BookResultViewModel::removeBookFromLibraryRequested()
 {
-    LibraryManager::getInstance()->removeBookFromLibrary(shownBook);
+    LibraryManager::getInstance()->removeBookFromLibrary(myShownBook);
 }
 
 void BookResultViewModel::bookInfoRequested()
 {
-    parentModel->bookInfoRequested(shownBook);
+    myParentModel->bookInfoRequested(myShownBook);
+}
+
+void BookResultViewModel::downloadingRequested() {
+    qDebug() << "BookResultViewModel::downloadingRequested(); " << myShownBook->getSourceLinks();
+}
+
+
+bool BookResultViewModel::canBeDownloaded() {
+    //qDebug() << "BookResultViewModel::canBeDownloaded() " << myShownBook->getSourceLinks();
+    return !myShownBook->getSourceLinks().empty();
 }

@@ -48,7 +48,8 @@ HEADERS += Model/book.h \
     View/multistatebutton.h \
     Model/linksextractiondownloader.h \
     Model/linksinformation.h \
-    Model/servers.h
+    Model/servers.h \
+    Model/settings.h
 SOURCES += Model/book.cpp \
     View/mainview.cpp \
     main.cpp \

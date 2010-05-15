@@ -31,8 +31,8 @@ public:
     const QString& getSummary() const;
     const QString& getId() const;
     const QMap<QString, QString>& getSourceLinks() const;
-    const QString getSourceLink(const QString& format) const;
-    QString getSourceLink() const;
+//    const QString getSourceLink(const QString& format) const;
+//    QString getSourceLink() const;
     const QString& getCoverLink() const;
     const QString& getFormat() const;
     const QString& getContent() const;
@@ -49,6 +49,7 @@ public:
     void setId(const QString& id);
     void addAuthor(const Author* author);
     void addSourceLink(const QString& format, const QString& link);
+    void setSourceLinks(QMap<QString, QString>* links);
     void setCoverLink(const QString& path);
     void setContent(const QString& content);
     void setPublisher(const QString& publisher);
@@ -71,7 +72,7 @@ private:
     QString myRights;
     QVector<QString> myCategories;
     QString myCoverLink;
-    QMap<QString, QString> mySourceLinks; // format -> link
+    QMap<QString, QString>* mySourceLinks; // format -> link
 
 private:
     Book(const Book& other);

@@ -26,12 +26,13 @@ void BookSearchManager::initializeDownloaders()
 {
     myBookDownloaders.clear();
 
-    myBookDownloaders.append(new BookDownloader("www.feedbooks.com", "/books/search.atom?query="));
-    myBookDownloaders.append(new BookDownloader("manybooks.net", "/stanza/search.php?q="));
-    myBookDownloaders.append(new BookDownloader("bookserver.archive.org", "/catalog/opensearch?q="));
-    myBookDownloaders.append(new BookDownloader("www.smashwords.com", "/atom/search/books?query="));
-    myBookDownloaders.append(new BookDownloader("only.mawhrin.net", "/ebooks/search.atom?query="));
-    myBookDownloaders.append(new BookDownloader("catalog.lexcycle.com", "/munseys/op/search?search="));
+    myBookDownloaders.append(new BookDownloader(FEEDBOOKS_ID, "/books/search.atom?query="));
+    myBookDownloaders.append(new BookDownloader(MANYBOOKS_ID, "/stanza/search.php?q="));
+    myBookDownloaders.append(new BookDownloader(BOOKSERVER_ID, "/catalog/opensearch?q="));
+    myBookDownloaders.append(new BookDownloader(SMASHWORDS_ID, "/atom/search/books?query="));
+    myBookDownloaders.append(new BookDownloader(EBOOKSEARCH_ID, "/search?query="));
+
+  //  myBookDownloaders.append(new BookDownloader(LITRES_ID, "/munseys/op/search?search="));
 }
 
 void BookSearchManager::getMore()

@@ -37,8 +37,14 @@ void BookResultView::createComponents()
     myBookServerLabel = new QLabel("Server: " + myViewModel->getServerName());
     myBookServerLabel->setObjectName("bookServerLabel");
 
-    myDownloadButton = new QPushButton(this);
+    myDownloadButton = new MultiStateButton(this);
     myDownloadButton->setObjectName("downloadButton");
+    if (myViewModel->canBeDownloaded()) {
+        myDownloadButton->setState("normal");
+    } else {
+        myDownloadButton->setState("grayed");
+        myDownloadButton->setEnabled(false);
+    }
 
     if (myAddToLibraryButtonEnabled)
     {
@@ -131,6 +137,8 @@ void BookResultView::setWindowParameters()
 void BookResultView::setConnections()
 {
     connect(myInformationButton, SIGNAL(clicked()), this, SLOT(bookInfoPressed()));
+    connect(myDownloadButton, SIGNAL(clicked()), this, SLOT(downloadButtonPressed()));
+    connect(myReadButton, SIGNAL(clicked()), this, SLOT(readButtonPressed()));
 
     if (myAddToLibraryButtonEnabled)
     {
@@ -140,6 +148,7 @@ void BookResultView::setConnections()
     {
         connect(myRemoveFromLibraryButton, SIGNAL(clicked()), this, SLOT(removeFromLibraryButtonPressed()));
     }
+
 }
 
 void BookResultView::bookInfoPressed()
@@ -155,7 +164,7 @@ void BookResultView::resizeEvent(QResizeEvent* /*event*/)
 
 void BookResultView::downloadButtonPressed()
 {
-
+    myViewModel->downloadingRequested();
 }
 
 void BookResultView::addToLibraryButtonPressed()

@@ -39,6 +39,7 @@ private slots:
     void goButtonPressed();
     void viewModelSearchResultsVisibilityChanged(bool visibility);
     void textEdited(QString newText);
+    void moreAvailabilityChanged(bool);
 
 private:
 

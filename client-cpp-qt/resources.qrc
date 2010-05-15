@@ -24,6 +24,8 @@
         <file alias="PreviousPage">Resources/NewSkin/PreviousPage.png</file>
         <file alias="AddToLibrary">Resources/NewSkin/AddToLibrary.png</file>
         <file alias="Download">Resources/NewSkin/Download.png</file>
+ <file alias="DownloadInactive">Resources/NewSkin/DownloadInactive.png</file>
+
         <file alias="Info">Resources/NewSkin/Info.png</file>
         <file alias="Read">Resources/NewSkin/Read.png</file>
         <file alias="UnknownBook">Resources/NewSkin/UnknownBook.png</file>

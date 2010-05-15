@@ -59,25 +59,30 @@ void Book::setContent(const QString& content) {
 }
 
 void Book::addSourceLink(const QString& format, const QString& link) {
-    mySourceLinks.insert(format, link);
+    mySourceLinks->insert(format, link);
 }
 
-QString Book::getSourceLink() const {
-    qDebug() << " Book::getSourceLink default - return pdf-link !!!!";
-    return getSourceLink("pdf");
+void Book::setSourceLinks(QMap<QString, QString>* links) {
+    mySourceLinks = links;
 }
 
-const QString Book::getSourceLink(const QString& format) const {
-    QMap<QString, QString>::const_iterator i = mySourceLinks.find(format);
-    if (i == mySourceLinks.constEnd()) {
-        return QString();
-    } else {
-        return i.value();
-    }
-}
+
+//QString Book::getSourceLink() const {
+//    qDebug() << " Book::getSourceLink default - return pdf-link !!!!";
+//    return getSourceLink("pdf");
+//}
+//
+//const QString Book::getSourceLink(const QString& format) const {
+//    QMap<QString, QString>::const_iterator i = mySourceLinks.find(format);
+//    if (i == mySourceLinks.constEnd()) {
+//        return QString();
+//    } else {
+//        return i.value();
+//    }
+//}
 
 const QMap<QString, QString>& Book::getSourceLinks() const {
-    return mySourceLinks;
+    return *mySourceLinks;
 }
 
 

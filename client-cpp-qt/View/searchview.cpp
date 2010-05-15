@@ -72,6 +72,10 @@ void SearchView::viewModelSearchResultsVisibilityChanged(bool /*visibility*/)
 
 }
 
+void SearchView::moreAvailabilityChanged(bool availability) {
+     moreButton->setEnabled(availability);
+}
+
 void SearchView::goButtonPressed()
 {
     viewModel->searchStartRequested(searchLine->text());

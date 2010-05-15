@@ -45,7 +45,7 @@ void OPDSHandler::startNewEntry()
 {
     categories = new QVector<QString>();
     authors = new QVector<Author*>();
-    links = new QMap<QString, QString>();
+    mySourceLinks = new QMap<QString, QString>();
 
     title = "";
     authorsName = "";
@@ -90,6 +90,7 @@ void OPDSHandler::endEntry()
         newBook->setIssued(issued);
         newBook->setPublisher(publisher);
         newBook->setCoverLink(coverLink);
+        newBook->setSourceLinks(mySourceLinks);
 
         myBookData->append(newBook);
     }
@@ -119,7 +120,6 @@ bool OPDSHandler::startElement (const QString& namespaceUri, const QString& tag,
     {
         myIsEntry = true;
         startNewEntry();
-        setInitialValues();
     }
     else if (tag == TAG_LINK)
     {
@@ -140,10 +140,10 @@ bool OPDSHandler::startElement (const QString& namespaceUri, const QString& tag,
 void OPDSHandler::parseCatalogLinks(const QXmlAttributes& attributes) {
 
     if (attributes.value(ATTRIBUTE_RELATION) == ATTR_VALUE_RELATION_NEW) {
-        qDebug() << "OPDSHandler::startElement parse links mode" << attributes.value(ATTRIBUTE_REFERENCE);
+     //   qDebug() << "OPDSHandler::startElement parse links mode" << attributes.value(ATTRIBUTE_REFERENCE);
         myLinksInformation->addNewLink(attributes.value(ATTRIBUTE_REFERENCE));
     } else if (attributes.value(ATTRIBUTE_RELATION) == ATTR_VALUE_RELATION_POPULAR) {
-        qDebug() << "OPDSHandler::startElement parse links mode" << attributes.value(ATTRIBUTE_REFERENCE);
+       // qDebug() << "OPDSHandler::startElement parse links mode" << attributes.value(ATTRIBUTE_REFERENCE);
         myLinksInformation->addPopularLink(attributes.value(ATTRIBUTE_REFERENCE));
     }
 }
@@ -239,7 +239,7 @@ void OPDSHandler::processLink(const QXmlAttributes& attributes) {
     if (attributes.value(ATTRIBUTE_RELATION) == ATTR_VALUE_ACQUISITION) {
         QString format = attributes.value(ATTRIBUTE_TYPE);
         format.remove("application/");
-        links->insert(format, attributes.value(ATTRIBUTE_REFERENCE));
+        mySourceLinks->insert(format, attributes.value(ATTRIBUTE_REFERENCE));
 
     } else if ((attributes.value(ATTRIBUTE_TYPE).contains("image")) && 
                ((attributes.value(ATTRIBUTE_RELATION) == ATTR_VALUE_COVER) ||
@@ -250,9 +250,4 @@ void OPDSHandler::processLink(const QXmlAttributes& attributes) {
     } else if (attributes.value(ATTRIBUTE_TYPE) == "application/atom+xml") {
         catalogLinkUrl = new UrlData(attributes.value("href") ,currentParsedServer);
     }
-}
-
-void OPDSHandler::setInitialValues() {
-    myAuthorsName = "";
-    myAuthorsUri = "";
 }

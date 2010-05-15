@@ -29,9 +29,6 @@ private:
     bool endElement (const QString&, const QString&, const QString& str);
     bool startElement (const QString& , const QString& , const QString& name, const QXmlAttributes& );
     
-
-    void setInitialValues();
-
     void parseCatalogLinks(const QXmlAttributes& attributes);
     void processLink(const QXmlAttributes& attributes);
 
@@ -45,14 +42,10 @@ private:
     Catalog* currentRootCatalog;
 
     QString currentParsedServer;
-
-    Book* myBook;
     
     QString myCurrentText;
     bool myIsEntry;
     bool myIsInContent;
-    QString myAuthorsName;
-    QString myAuthorsUri;
     QString myFormat;
     QString myOpdsCatalog;
 
@@ -74,7 +67,7 @@ private:
 
     QVector<QString>* categories;
     QVector<Author*>* authors;
-    QMap<QString, QString>* links;
+    QMap<QString, QString>* mySourceLinks;
 
     LinksInformation* myLinksInformation;
 
