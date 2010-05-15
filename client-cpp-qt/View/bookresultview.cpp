@@ -1,12 +1,15 @@
 #include "bookresultview.h"
 #include "../ViewModel/bookresultviewmodel.h"
+#include "../Model/settings.h"
 
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QPushButton>
 #include <QFont>
 #include <QFile>
+#include <QFileDialog>
 
+#include <QDebug>
 
 BookResultView::BookResultView(QWidget* parent, BookResultViewModel* bookResultViewModel, bool addToLibraryButton) : StandardView(parent)
 {
@@ -164,7 +167,20 @@ void BookResultView::resizeEvent(QResizeEvent* /*event*/)
 
 void BookResultView::downloadButtonPressed()
 {
-    myViewModel->downloadingRequested();
+    QString name = myViewModel->getFileName();
+    QString fileName(QFileDialog::getSaveFileName(this, tr("Download book"),
+                                                  name,
+                                                  QString("*.") + Settings::FORMAT));
+    qDebug() << "BookResultView::downloadButtonPressed() file name for saving " << fileName;
+    if (fileName.isEmpty()) {
+       return;
+    }
+    myViewModel->downloadingRequested(fileName);
+    //myDownloadButton->setState("wait");
+    // myDownloadButton->setState("finished");
+    //show - downloading in progress
+
+    //else do nothing
 }
 
 void BookResultView::addToLibraryButtonPressed()

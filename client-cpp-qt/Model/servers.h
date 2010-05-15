@@ -13,6 +13,8 @@ static const QString EBOOKSEARCH_ID = "ebooksearch.webfactional.com";
 
 class EBookSearchTool {
 public:
+    const EBookSearchTool& getInstance();
+
     static void initializeServers();
 
 public:

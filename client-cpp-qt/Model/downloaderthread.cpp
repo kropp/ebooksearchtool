@@ -64,7 +64,7 @@ int DownloaderThread::download(QString searchRequest)
     myInputBuffer = new QBuffer(this);
 
     myResultsMutex.unlock();
-
+    qDebug() << "DownloaderThread::download request" <<  myServerUrl << searchRequest;
     return myCurrentRequestId = myConnection->get(searchRequest, myInputBuffer);
 }
 

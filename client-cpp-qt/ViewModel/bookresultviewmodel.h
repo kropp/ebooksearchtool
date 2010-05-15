@@ -25,6 +25,8 @@ public:
 
     QString getServerName();
 
+    QString getFileName();
+
     bool canBeDownloaded();
 
 public slots:
@@ -32,7 +34,7 @@ public slots:
     void addBookToLibraryRequested();
     void removeBookFromLibraryRequested();
     void bookInfoRequested();
-    void downloadingRequested();
+    void downloadingRequested(const QString& fileName);
 
 signals:
 

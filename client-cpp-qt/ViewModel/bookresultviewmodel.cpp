@@ -2,6 +2,7 @@
 
 #include "bookresultviewmodel.h"
 #include "bookresultsviewmodel.h"
+#include "../Model/settings.h"
 
 #include "../Model/book.h"
 #include "../Model/librarymanager.h"
@@ -46,6 +47,12 @@ QString BookResultViewModel::getLanguage()
     return myShownBook->getLanguage();
 }
 
+QString BookResultViewModel::getFileName() {
+    QString name = myShownBook->getTitle();
+    name.replace(" ", "_");
+    return name;
+}
+
 void BookResultViewModel::addBookToLibraryRequested()
 {
     LibraryManager::getInstance()->addBookToLibrary(myShownBook);
@@ -61,12 +68,17 @@ void BookResultViewModel::bookInfoRequested()
     myParentModel->bookInfoRequested(myShownBook);
 }
 
-void BookResultViewModel::downloadingRequested() {
-    qDebug() << "BookResultViewModel::downloadingRequested(); " << myShownBook->getSourceLinks();
+void BookResultViewModel::downloadingRequested(const QString& filename) {
+
+    qDebug() << "BookResultViewModel::downloadingRequested() link " << myShownBook->getSourceLinks()
+             << "file" << filename;
+
+
 }
 
 
 bool BookResultViewModel::canBeDownloaded() {
     //qDebug() << "BookResultViewModel::canBeDownloaded() " << myShownBook->getSourceLinks();
-    return !myShownBook->getSourceLinks().empty();
+
+    return !myShownBook->getSourceLinks().value(Settings::FORMAT).isEmpty();
 }

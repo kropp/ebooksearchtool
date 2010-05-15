@@ -8,14 +8,13 @@
 #include "opds_parser/opds_constants.h"
 
 #include "linksextractiondownloader.h"
-#include "servers.h"
+#include "settings.h"
 
 
 CatalogManager CatalogManager::instance;
 
 CatalogManager::CatalogManager()
 {
-    qDebug() << "CatalogManager::CatalogManager";
     createCatalogs();
     parseCatalogRoot();
     myCurrentCatalog = myRootCatalog;
@@ -100,12 +99,14 @@ void CatalogManager::openCatalog(Catalog* catalog)
 }
 
 void CatalogManager::createDownloaders() {
-    myDownloadersMap.insert(FEEDBOOKS_ID, new CatalogDownloader(FEEDBOOKS_ID));
-    myDownloadersMap.insert(MANYBOOKS_ID, new CatalogDownloader(MANYBOOKS_ID));
-    myDownloadersMap.insert(LITRES_ID, new CatalogDownloader(LITRES_ID));
-    myDownloadersMap.insert(SMASHWORDS_ID, new CatalogDownloader(SMASHWORDS_ID));
-    myDownloadersMap.insert(BOOKSERVER_ID, new CatalogDownloader(BOOKSERVER_ID));
-    myDownloadersMap.insert(EBOOKSEARCH_ID, new CatalogDownloader(EBOOKSEARCH_ID));
+    const Settings& settings = Settings::getInstance();
+    const QStringList& servers = settings.getServers();
+
+    qDebug() << "CatalogManager::createDownloaders() servers = " <<  servers;
+
+    foreach (QString server, servers) {
+        myDownloadersMap.insert(server, new CatalogDownloader(server));
+    }
 }
 
 
@@ -179,6 +180,8 @@ void CatalogManager::createCatalogs()
     mySimpleCatalogs.append(new Catalog(false, "Litres", new UrlData("/catalogs/litres/", LITRES_ID)));
     mySimpleCatalogs.append(new Catalog(false, "SmashWords", new UrlData("/atom", SMASHWORDS_ID)));
     mySimpleCatalogs.append(new Catalog(false, "eBookSearch", new UrlData("/catalog.atom", EBOOKSEARCH_ID)));
+    mySimpleCatalogs.append(new Catalog(false, "BookServer", new UrlData("/catalog/", BOOKSERVER_ID)));
+
 
     myNewCatalog = new Catalog(false, tr("NEW"), tr("New books from all the servers"), 0);
 
@@ -208,8 +211,8 @@ void CatalogManager::searchLinksForComplexCatalogs() {
 }
 
 void CatalogManager::setLinksForComplexCatalogs(bool, LinksInformation* linksInfo) {
-    qDebug() << "CatalogManager::setLinksForComplexCatalogs() links "
-             << linksInfo->getNewLinks() << linksInfo->getPolularLinks();
+//     qDebug() << "CatalogManager::setLinksForComplexCatalogs() links "
+//             << linksInfo->getNewLinks() << linksInfo->getPolularLinks();
 
       const QStringList& newLinks = linksInfo->getNewLinks();
       foreach (QString link, newLinks) {
@@ -242,6 +245,7 @@ void CatalogManager::parseCatalogContents(Catalog* catalog)
     {
         finishedParsing(true, catalog);
     }
+
 
     foreach (UrlData* urlData, list)
     {
