@@ -21,9 +21,9 @@ LinksExtractionDownloader::LinksExtractionDownloader(QString downloadServerUrl, 
 
 void LinksExtractionDownloader::startExtractingLinks()
 {
-    qDebug() << "LinksExtractionDownloader:: startExtractingLinks "
-            <<  "server =" << myServerUrl
-            << "url = " << myRequestUrl;
+//    qDebug() << "LinksExtractionDownloader:: startExtractingLinks "
+//            <<  "server =" << myServerUrl
+//            << "url = " << myRequestUrl;
 
     startDownloading(QString());
 }
@@ -36,14 +36,6 @@ void LinksExtractionDownloader::parseReceivedData(int requestId)
     {
         myInputBuffer->open(QIODevice::ReadOnly);
 
-//        QString filename(myServerUrl);
-//        filename.append(".txt");
-//        QFile file(filename);
-//        qDebug() << "QBuffer - write to file " << file.fileName() ;
-//        file.open(QIODevice::WriteOnly);
-//        file.write(myInputBuffer->buffer());
-//        file.close();
-
         OPDSParser parser;
         parser.parseOpdsLinks(myInputBuffer, &myLinksInfo);
 
@@ -51,8 +43,8 @@ void LinksExtractionDownloader::parseReceivedData(int requestId)
 
     }
 
-    qDebug() << "LinksExtractionDownloader::parseReceivedData parsed emit 'download finished'" << myLinksInfo.getNewLinks()
-            << myLinksInfo.getPolularLinks();
+//    qDebug() << "LinksExtractionDownloader::parseReceivedData parsed emit 'download finished'" << myLinksInfo.getNewLinks()
+//            << myLinksInfo.getPolularLinks();
 
     emit downloadFinished(true, &myLinksInfo);
 
