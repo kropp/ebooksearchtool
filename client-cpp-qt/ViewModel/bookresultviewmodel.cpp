@@ -73,7 +73,7 @@ void BookResultViewModel::downloadingRequested(const QString& filename) {
     qDebug() << "BookResultViewModel::downloadingRequested() link " << myShownBook->getSourceLinks()
              << "file" << filename;
 
-
+    //    FileDownloadManager::getInstance()->downloadBook(filename, myShownBook, Settings::FORMAT);
 }
 
 
