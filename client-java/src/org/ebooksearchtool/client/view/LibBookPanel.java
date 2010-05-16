@@ -335,6 +335,7 @@ public class LibBookPanel {
                 if (!book.exists()) {
                     myController.addTask(new FileDownloader(name, myBook.getLinks().get("pdf")));
                 }
+                while(!book.exists()){}
                 try {
                     String[] cmd = {myController.getSettings().getPdfReader(), name};
                     Runtime.getRuntime().exec(cmd);

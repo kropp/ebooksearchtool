@@ -48,7 +48,7 @@ public class Connector {
         try {
             if (!mySettings.isProxyEnabled()) {
                 connection = Url.openConnection();
-                File outFile = new File(fileName);
+                File outFile = new File(fileName + "`");
                 FileOutputStream outStream = new FileOutputStream(outFile);
                 InputStream IS = connection.getInputStream();
 
@@ -71,10 +71,11 @@ public class Connector {
                     }
                 }
                 outStream.close();
+                outFile.renameTo(new File(fileName));
             } else {
                 connection = Url.openConnection(new Proxy(Proxy.Type.HTTP, new InetSocketAddress(mySettings.getIP(), mySettings.getPort())));
 
-                File outFile = new File(fileName);
+                File outFile = new File(fileName + "`");
                 FileOutputStream outStream = new FileOutputStream(outFile);
                 InputStream IS = connection.getInputStream();
                 int i = 0;
@@ -97,6 +98,7 @@ public class Connector {
                     }
                 }
                 outStream.close();
+                outFile.renameTo(new File(fileName));
             }
             return true;
 
