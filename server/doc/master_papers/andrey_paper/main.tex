@@ -1,14 +1,15 @@
 \documentclass[a4paper]{report}
 \usepackage{master}
+\RequirePackage{listings}
 
-\includeonly{problem-set, search-problem, search-implementation} %, analyzer-interface, conclusion}
+\includeonly{problem-set, search-problem, search-implementation, analyzer-interface, conclusion}
 %\includeonly{./head/head, problem-set} %, search-problem, search-implementation, analyzer-interface, conclusion}
 
 \begin{document}
 
-\title{Создание набора инструментов для поиска электронных книг в Интернете.\\
-Создание серверной части, 
-обеспечивающей хранение информации о книгах и поиск по ней.}
+\title{Создание набора инструментов для поиска электронных книг в~Интернете.\\
+Серверной~часть, 
+обеспечивающая хранение информации о~книгах, поиск по ней и возможность модифицировать её.}
 \author{Иваницкий Андрей}
 \date{\today}
 \maketitle
@@ -31,9 +32,9 @@
 
 \include{search-implementation}
 
-%\include{analyzer-interface}
-%
-%\include{conclusion}
+\include{analyzer-interface}
+
+\include{conclusion}
 
 \end{document}
 
