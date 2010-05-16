@@ -322,6 +322,11 @@ public class Controller implements Completive {
     }
 
     public void addToLibrary(Book book) {
+        for(Book b : myLibrary.getBooks()){
+            if(b.getID().equals(book.getID())){
+                return;
+            }
+        }
         myLibrary.addBook(book);
     }
 
