@@ -87,4 +87,8 @@ public class Data extends Observable {
         return Collections.unmodifiableList(myAuthors);
     }
 
+    public void  removeBook(Book book){
+        myBooks.remove(book);
+    }
+
 }

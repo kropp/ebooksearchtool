@@ -272,10 +272,8 @@ public class Window implements Observer{
 				myImageWidth = 0;
                 myController.loadModel(curModelNumber);
 
-				/*myMorePanel.setVisible(false);
-           		if(curModelNumber == 0){
-           			myToolUp.setEnabled(false);
-           		}*/
+                myModel.setValue(100);
+
            		if(curModelNumber < myController.getRequestCount()-1){
            			myToolDown.setEnabled(true);
            		}

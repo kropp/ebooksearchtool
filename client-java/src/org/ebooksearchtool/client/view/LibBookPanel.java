@@ -305,6 +305,7 @@ public class LibBookPanel {
 
         myDelButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                myController.removeFromLibrary(myBook);
                 myRootPanel.setVisible(false);
             }
         });

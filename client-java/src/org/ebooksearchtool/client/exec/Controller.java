@@ -414,4 +414,9 @@ public class Controller implements Completive {
         return myModel;
     }
 
+    public void removeFromLibrary(Book book){
+        myLibrary.removeBook(book);
+        saveLibrary();
+    }
+
 }
