@@ -527,7 +527,9 @@ public class Window implements Observer{
     	myTextPan = new JPanel();
     	BoxLayout box = new BoxLayout(myTextPan, BoxLayout.Y_AXIS);
     	myTextPan.setLayout(box);
-        myCentralPanel.add(new JScrollPane(myTextPan), "Center");
+        JScrollPane sp = new JScrollPane(myTextPan);
+        sp.getVerticalScrollBar().setUnitIncrement(20);
+        myCentralPanel.add(sp, "Center");
 
         myProgressBar = new JProgressBar(myModel);
         myProgressBar.setStringPainted(true);

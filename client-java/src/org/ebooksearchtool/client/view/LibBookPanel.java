@@ -135,7 +135,7 @@ public class LibBookPanel {
             myImageLable.setIcon(img);
         }
 
-        myImageLable.setPreferredSize(new Dimension(myImageWidth, 50));
+        myImageLable.setPreferredSize(new Dimension(myImageWidth, 80));
         myRootPanel.add(myImageLable);
 
         myTitle = new JLabel(myBook.getTitle());
@@ -155,16 +155,16 @@ public class LibBookPanel {
         myDelButton.setPreferredSize(new Dimension(30, 30));
         myButtonPanel.add(myDelButton);
 
-        myDownloadEpubButton = new JButton(new ImageIcon(getClass().getResource("/ico/epub_30.gif")));
+        myDownloadEpubButton = new JButton("read in epub");//new ImageIcon(getClass().getResource("/ico/epub_30.gif")));
         myDownloadEpubButton.setToolTipText("Read ePub book");
-        myDownloadEpubButton.setPreferredSize(new Dimension(30, 30));
+        myDownloadEpubButton.setPreferredSize(new Dimension(95, 30));
         if (myBook.getLinks().get("epub") == null || myController.getSettings().getEpubReader() == null) {
             myDownloadEpubButton.setEnabled(false);
         }
         myButtonPanel.add(myDownloadEpubButton);
-        myDownloadPdfButton = new JButton(new ImageIcon(getClass().getResource("/ico/pdf_30.gif")));
+        myDownloadPdfButton = new JButton("read in pdf");//new ImageIcon(getClass().getResource("/ico/pdf_30.gif")));
         myDownloadPdfButton.setToolTipText("Read pdf book");
-        myDownloadPdfButton.setPreferredSize(new Dimension(30, 30));
+        myDownloadPdfButton.setPreferredSize(new Dimension(90, 30));
         if (myBook.getLinks().get("pdf") == null || myController.getSettings().getPdfReader() == null) {
             myDownloadPdfButton.setEnabled(false);
         }
@@ -190,7 +190,7 @@ public class LibBookPanel {
         myRootPanel.add(myInfoPanel);
 
 
-        JPanel checkPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+       /* JPanel checkPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         myCheckBox = new JCheckBox();
         //checkPanel.setPreferredSize(new Dimension(100, 100));
         //myCheckBox.setPreferredSize(new Dimension(100, 100));
@@ -198,7 +198,7 @@ public class LibBookPanel {
         checkPanel.add(myCheckBox);
         myCheckBox.setAlignmentX(JCheckBox.CENTER_ALIGNMENT);
         myCheckBox.setAlignmentY(JCheckBox.CENTER_ALIGNMENT);
-        myRootPanel.add(myCheckBox);
+        myRootPanel.add(myCheckBox);*/
 
         myRootPanel.setBorder(new SoftBevelBorder(BevelBorder.RAISED));
 

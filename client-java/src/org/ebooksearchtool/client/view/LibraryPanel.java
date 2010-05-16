@@ -37,11 +37,13 @@ public class LibraryPanel {
 
     public void drawLibrary(){
 
-        myRootPanel.setLayout(new GridLayout());
+        myRootPanel.setLayout(new BorderLayout());
         myTextPan = new JPanel();
     	BoxLayout box = new BoxLayout(myTextPan, BoxLayout.Y_AXIS);
     	myTextPan.setLayout(box);
-        myRootPanel.add(new JScrollPane(myTextPan));
+        JScrollPane sp = new JScrollPane(myTextPan);
+        sp.getVerticalScrollBar().setUnitIncrement(20);
+        myRootPanel.add(sp, "Center");
 
         for(int i = 0; i < myController.getLibrary().getBooks().size(); ++i){
             appendBook(myController.getLibrary().getBooks().get(i));
