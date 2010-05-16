@@ -87,12 +87,21 @@ def add_tag_for_new_books():
                 summary = summary[:tag_ind].strip()
                 tags = smart_split([summary[tag_ind+9:]], [',', '/', '_'])
             else:
-                if book.author.all()[0].tag.count():
-                    tags = classifier.classify(summary, 
-                                [x.name for x in book.author.all()[0].tag.all()])
+                if book.author.all():
+                    if book.author.all()[0].tag.count():
+                        tags = classifier.classify(summary, 
+                                    [x.name for x in book.author.all()[0].tag.all()])
+                        for tag in tags:
+                            classifier.train(summary, tag)
+                    else:
+                        tags = classifier.classify(summary)
+                        for tag in tags:
+                            classifier.train(summary, tag)
                 else:
                     tags = classifier.classify(summary)
-
+                    for tag in tags:
+                        classifier.train(summary, tag)
+                                    
             if counter % 10 == 0:
                 print counter, "of cheched ", counter_all
             if tags[0:1]:

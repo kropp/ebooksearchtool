@@ -90,10 +90,16 @@ def tag_adding(books):
                     if book.author.all()[0].tag.count():
                         tags = classifier.classify(summary, 
                                     [x.name for x in book.author.all()[0].tag.all()])
+                        for tag in tags:
+                            classifier.train(summary, tag)
                     else:
                         tags = classifier.classify(summary)
+                        for tag in tags:
+                            classifier.train(summary, tag)
                 else:
                     tags = classifier.classify(summary)
+                    for tag in tags:
+                        classifier.train(summary, tag)
             if not counter%10:
                 print counter, "of cheched ", counter_all
 
