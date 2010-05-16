@@ -110,11 +110,7 @@ public class Window implements Observer{
         myToolUp = new JButton(new ImageIcon(getClass().getResource("/ico/up.png")));
         myToolUp.setToolTipText("Previous request");
         myToolBar.add(myToolUp);
-        if(myController.getRequestCount() > 1){
-			myToolUp.setEnabled(true);
-		}else{
-			myToolUp.setEnabled(false);
-		}
+
         myToolBack = new JButton(new ImageIcon(getClass().getResource("/ico/back.png")));
         myToolBack.setToolTipText("Back");
         myToolBar.add(myToolBack);
@@ -149,6 +145,11 @@ public class Window implements Observer{
             public void itemStateChanged(ItemEvent e) {
 
                 if (myToolLibrary.isSelected()) {
+                    myToolBack.setEnabled(false);
+                    myToolUp.setEnabled(false);
+                    myToolDelete.setEnabled(false);
+                    myToolDown.setEnabled(false);
+                    myToolForward.setEnabled(false);
                     System.out.println("library");
                     myPanel1.remove(myCentralPanel);
                     LibraryPanel lib = new LibraryPanel(myController, myModel);
@@ -417,6 +418,15 @@ public class Window implements Observer{
         myCentralPanel = new JPanel(new BorderLayout());
         myPanel1.add(myCentralPanel, "Center");
 
+        if(myController.getRequestCount() > 1){
+			myToolUp.setEnabled(true);
+		}else{
+			myToolUp.setEnabled(false);
+		}
+
+        if(myController.getData().getBooks().size() != 0 && myBookPanels.size() != 0){
+            myToolSort.setEnabled(true);
+        }
 
         myQueryPanel = new JPanel();
         myQueryPanel.setLayout(new BoxLayout(myQueryPanel,BoxLayout.Y_AXIS));
