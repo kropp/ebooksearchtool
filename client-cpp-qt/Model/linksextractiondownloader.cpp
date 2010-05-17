@@ -31,7 +31,7 @@ void LinksExtractionDownloader::startExtractingLinks()
 
 void LinksExtractionDownloader::parseReceivedData(int requestId)
 {
-    qDebug() << "LinksExtractionDownloader::parseRecievedData " << myRequestUrl;
+    qDebug() << "LinksExtractionDownloader::parseRecievedData " << myRequestUrl << myServerUrl;
     if (myInputBuffer)
     {
         myInputBuffer->open(QIODevice::ReadOnly);
@@ -43,8 +43,8 @@ void LinksExtractionDownloader::parseReceivedData(int requestId)
 
     }
 
-//    qDebug() << "LinksExtractionDownloader::parseReceivedData parsed emit 'download finished'" << myLinksInfo.getNewLinks()
-//            << myLinksInfo.getPolularLinks();
+    qDebug() << "LinksExtractionDownloader::parseReceivedData parsed emit 'download finished'" << myLinksInfo.getNewLinks()
+            << myLinksInfo.getPolularLinks();
 
     emit downloadFinished(true, &myLinksInfo);
 

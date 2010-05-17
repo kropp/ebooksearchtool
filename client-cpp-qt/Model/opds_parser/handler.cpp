@@ -140,10 +140,10 @@ bool OPDSHandler::startElement (const QString& namespaceUri, const QString& tag,
 void OPDSHandler::parseCatalogLinks(const QXmlAttributes& attributes) {
 
     if (attributes.value(ATTRIBUTE_RELATION) == ATTR_VALUE_RELATION_NEW) {
-     //   qDebug() << "OPDSHandler::startElement parse links mode" << attributes.value(ATTRIBUTE_REFERENCE);
+        qDebug() << "OPDSHandler::startElement parse links mode" << attributes.value(ATTRIBUTE_REFERENCE);
         myLinksInformation->addNewLink(attributes.value(ATTRIBUTE_REFERENCE));
     } else if (attributes.value(ATTRIBUTE_RELATION) == ATTR_VALUE_RELATION_POPULAR) {
-       // qDebug() << "OPDSHandler::startElement parse links mode" << attributes.value(ATTRIBUTE_REFERENCE);
+        qDebug() << "OPDSHandler::startElement parse links mode" << attributes.value(ATTRIBUTE_REFERENCE);
         myLinksInformation->addPopularLink(attributes.value(ATTRIBUTE_REFERENCE));
     }
 }

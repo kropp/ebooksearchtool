@@ -15,6 +15,10 @@ CatalogManager CatalogManager::instance;
 
 CatalogManager::CatalogManager()
 {
+    createDownloaders();
+
+    setConnections();
+
     createCatalogs();
     parseCatalogRoot();
     myCurrentCatalog = myRootCatalog;
@@ -22,10 +26,6 @@ CatalogManager::CatalogManager()
 
     myBrowseBackHistory = new QList<Catalog*>();
     myBrowseForwardHistory = new QList<Catalog*>();
-
-    createDownloaders();
-
-    setConnections();
 
     currentCatalogParseCyclesAwaited = 0;
 }
@@ -199,6 +199,7 @@ void CatalogManager::createCatalogs()
 
 
 void CatalogManager::searchLinksForComplexCatalogs() {
+    qDebug() << "CatalogManager::searchLinksForComplexCatalogs() ";
     foreach (Catalog* catalog, mySimpleCatalogs) {
         const QList<UrlData*>& urlList = catalog->getUrlList();
         myLinksExtractionDownloaders.append(new LinksExtractionDownloader(urlList.at(0)->server, urlList.at(0)->url));
@@ -211,8 +212,8 @@ void CatalogManager::searchLinksForComplexCatalogs() {
 }
 
 void CatalogManager::setLinksForComplexCatalogs(bool, LinksInformation* linksInfo) {
-//     qDebug() << "CatalogManager::setLinksForComplexCatalogs() links "
-//             << linksInfo->getNewLinks() << linksInfo->getPolularLinks();
+     qDebug() << "CatalogManager::setLinksForComplexCatalogs() links "
+             << linksInfo->getNewLinks() << linksInfo->getPolularLinks();
 
       const QStringList& newLinks = linksInfo->getNewLinks();
       foreach (QString link, newLinks) {
