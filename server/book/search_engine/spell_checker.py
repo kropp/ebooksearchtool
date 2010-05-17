@@ -34,6 +34,7 @@ def spell_check(query, lang=None):
     "Chekces spelling using lang or tries to recognize language."
     if not query:
         return
+    # TODO add capital russian letters for recognizing language
 #    try:
 #        # TODO should i recognize language for hole query or for each word?
 #        if not lang:
