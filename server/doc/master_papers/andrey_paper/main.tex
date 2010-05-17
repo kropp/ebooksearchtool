@@ -1,4 +1,5 @@
 \documentclass[a4paper,12pt]{article}
+\renewcommand*\abstractname{Summary}
 %\usepackage[14pt]{extsizes}
 %\usepackage{master}
 
@@ -16,7 +17,14 @@
 \RequirePackage[utf8x]{inputenc}
 \RequirePackage[T1,T2A]{fontenc}
 %% LANGUAGES
-\RequirePackage[english,russian]{babel}
+%\usepackage[english,russian]{babel}
+%        \addto\captionsnrussian{
+%        \renewcommand{\abstractname}{Kurzfassung}%
+%}
+\usepackage[english,ngerman,russian]{babel}
+        \addto\captionsrussian{
+        \renewcommand{\abstractname}{Реферат}%
+}
 
 %%     
 %% FONTS
@@ -73,10 +81,7 @@
 \fi      
          
          
-      
-\renewcommand{\abstractname}{Реферат} 
-
-     
+ 
                 
 %\includeonly{
 %./head/head,
@@ -99,7 +104,7 @@
 
 Мотивацией для данного проекта послужило желание облегчить работу пользователей с электронными книгами. Ресурсы, которые сейчас есть в интеренете, позволяют пользователю последовательно сначала находить нужную книгу, затем самостоятельно скачивать и искать программу, которая может работать с файлом в заданном формате.
 
-Основная идея проекта - избавить пользователя от лишних и трудоемких действий, оставив ему самую приятную часть - непосредственно чтение книги. Таким образом, проект призван объединить все стадии подготовки к чтению(поиск, скачивание, открытие файла) в одну.
+Основная идея проекта - избавить пользователя от лишних и трудоемких действий, оставив ему самую приятную часть - непосредственно чтение книги. Таким образом, проект призван объединить все стадии подготовки к чтению (поиск, скачивание, открытие файла) в одну.
 \end{abstract}
 
 \newpage
