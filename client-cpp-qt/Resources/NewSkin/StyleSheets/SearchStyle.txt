@@ -17,7 +17,21 @@ QLineEdit#searchLine
 	border-radius: 10px;
 	padding: 0 8px;
 	background: white;
+	min-height: 25px; 
+	max-height: 25px; 
 	font: 18px "Times New Roman"
+}
+
+QProgressBar#progressBar
+{
+	border: 1px solid gray;
+	border-radius: 10px;
+	padding: 0 8px;
+	background: white;
+	min-width: 80px; 
+	max-width: 80px; 
+	min-height: 25px; 
+	max-height: 25px; 
 }
 
 QPushButton#searchButton

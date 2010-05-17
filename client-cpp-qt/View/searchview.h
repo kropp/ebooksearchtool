@@ -8,6 +8,7 @@ class BookResultsRearrangeView;
 class QLabel;
 class QLineEdit;
 class QPushButton;
+class QProgressBar;
 
 #include "standardcontentview.h"
 #include "selectionfilterview.h"
@@ -40,6 +41,8 @@ private slots:
     void viewModelSearchResultsVisibilityChanged(bool visibility);
     void textEdited(QString newText);
     void moreAvailabilityChanged(bool);
+    void showProgress();
+    void hideProgress();
 
 private:
 
@@ -47,6 +50,7 @@ private:
     QLineEdit* searchLine;
     QPushButton* searchButton;
     QPushButton* moreButton;
+    QProgressBar* myProgressBar;
 
     SearchViewModel* viewModel;
 

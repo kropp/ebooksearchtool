@@ -24,7 +24,6 @@ void SearchViewModel::searchStartRequested(QString searchRequest)
 {
     //setAvailability(!resultsAvailability);
     BookSearchManager::getInstance()->startSearch(searchRequest);
-    //NetworkManager::getInstance()->startSearch(searchRequest);
 }
 
 void SearchViewModel::moreBooksRequested()
