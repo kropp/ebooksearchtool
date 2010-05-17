@@ -1,10 +1,86 @@
-\documentclass[12pt,a4paper]{report}
-\usepackage{master}
-%\usepackage[12pt]{extsizes}
+\documentclass[a4paper,12pt]{article}
+%\usepackage[14pt]{extsizes}
+%\usepackage{master}
 
-\includeonly{
-./head/head,
-problem-set, search-problem, search-implementation, analyzer-interface, conclusion}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% define if \ifpdf
+\RequirePackage{ifpdf}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%% ENCODINGS
+\ifpdf
+    \RequirePackage{cmap}
+\fi
+
+\RequirePackage[utf8x]{inputenc}
+\RequirePackage[T1,T2A]{fontenc}
+%% LANGUAGES
+\RequirePackage[english,russian]{babel}
+
+%%     
+%% FONTS
+\RequirePackage[psamsfonts]{amsfonts,amssymb} %Math packages
+\RequirePackage{mathrsfs}
+
+\RequirePackage[a4paper,top=2.5cm,bottom=2.5cm,left=3cm,right=1cm,head=17pt]{geometry}
+
+\RequirePackage{indentfirst}
+
+\RequirePackage{tikz}
+\RequirePackage{array}
+               
+\RequirePackage{xspace}
+\RequirePackage{remreset}
+
+%% ABBREVIATURES
+\newcommand{\mnp}{\mathcal{NP}}
+\newcommand{\np}{$\mnp$\xspace}
+\newcommand{\mconp}{co\mnp}
+\newcommand{\conp}{$\mconp$\xspace}
+\newcommand{\pnnp}{$\mathcal{P}\neq\mathcal{NP}$\xspace}
+\newcommand{\SAT}{\textsc{SAT}\xspace}
+\newcommand{\PHP}{\textsc{PHP}\xspace}
+\newcommand{\PHPs}[2]{$\textsc{PHP}_{#1}^{#2}$}
+
+%%%\dottedcontents
+\newcommand{\stroka}{\vspace{\baselineskip}}
+\newcommand{\te}{т.\,е.\xspace}
+\newcommand{\td}{т.\,д.\xspace}
+\newcommand{\tk}{т.\,к.\xspace}
+\newcommand{\tp}{т.\,п.\xspace}
+%% STYLE
+%\RequirePackage[raggedright,small]{titlesec}
+%\RequirePackage[dotinlabels]{titletoc}
+%\titlelabel{\thetitle.\quad\thispagestyle{fancy}}
+      %%
+\newcommand{\picref}[1]{рис.~\ref{#1}}
+\newcommand{\tabref}[1]{табл.~\ref{#1}}
+%% OTHER
+
+\ifpdf
+    \RequirePackage[bookmarks=false, a4paper, colorlinks, unicode, pdfstartview=FitH, pdftex]{hyperref}
+    \hypersetup{ 
+     plainpages=true,
+     linkcolor=blue,
+     citecolor=red,
+     menucolor=blue,
+     pdfnewwindow=true
+    }
+\else
+    \RequirePackage[bookmarks=false, colorlinks, unicode,
+                    pdfstartview=FitH]{hyperref}
+\fi      
+         
+         
+      
+\renewcommand{\abstractname}{Реферат} 
+
+     
+                
+%\includeonly{
+%./head/head,
+%problem-set, search-problem, search-implementation, analyzer-interface, conclusion}
 %\includeonly{./head/head, problem-set} %, search-problem, search-implementation, analyzer-interface, conclusion}
 
 \begin{document}
@@ -16,27 +92,32 @@ problem-set, search-problem, search-implementation, analyzer-interface, conclusi
 \date{\today}
 \maketitle
 
+\newpage
 
-\abstract{
+
+\begin{abstract}
+
 Мотивацией для данного проекта послужило желание облегчить работу пользователей с электронными книгами. Ресурсы, которые сейчас есть в интеренете, позволяют пользователю последовательно сначала находить нужную книгу, затем самостоятельно скачивать и искать программу, которая может работать с файлом в заданном формате.
 
-Основная идея проекта - избавить пользователя от лишних и трудоемких действий, оставив ему самую приятную часть - непосредственно чтение книги. Таким образом, проект призван объединить все стадии подготовки к чтению(поиск, скачивание, открытие файла) в одну. }
+Основная идея проекта - избавить пользователя от лишних и трудоемких действий, оставив ему самую приятную часть - непосредственно чтение книги. Таким образом, проект призван объединить все стадии подготовки к чтению(поиск, скачивание, открытие файла) в одну.
+\end{abstract}
 
 \newpage
 \tableofcontents
 \newpage
 
 \include{./head/head}
-
+%
 \include{problem-set}
-
+%
 \include{search-problem}
-
+%
 \include{search-implementation}
-
+%
 \include{analyzer-interface}
-
+%
 \include{conclusion}
+
 
 \end{document}
 
