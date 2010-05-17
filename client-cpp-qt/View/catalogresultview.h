@@ -6,6 +6,7 @@
 #include <QFontMetrics>
 
 class CatalogResultViewModel;
+class CatalogResultsView;
 
 #include "standardview.h"
 
@@ -18,7 +19,7 @@ class CatalogResultView : public StandardView
     Q_OBJECT
 
     public:
-        CatalogResultView(QWidget* parent, CatalogResultViewModel* resultViewModel);
+        CatalogResultView(CatalogResultsView* parent, CatalogResultViewModel* resultViewModel);
         ~CatalogResultView();
 
     protected:
@@ -28,6 +29,10 @@ class CatalogResultView : public StandardView
         void setWindowParameters();
         void setConnections();
 
+    signals:
+
+        void openCatalogRequested();
+
     private slots:
 
         void openButtonPressed();
@@ -35,6 +40,7 @@ class CatalogResultView : public StandardView
     private:
 
         CatalogResultViewModel* viewModel;
+        CatalogResultsView* myParent;
 
 //        QLabel* catalogPictureLabel;
         QLabel* catalogTitleLabel;
@@ -42,6 +48,6 @@ class CatalogResultView : public StandardView
 
 
         QPushButton* myOpenCatalogButton;
-};
+    };
 
 #endif // CATALOGRESULTVIEW_H

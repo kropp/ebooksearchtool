@@ -22,14 +22,21 @@ void CatalogBrowseBarPanel::createComponents()
     myGoBackButton = new QPushButton(this);
     myGoForwardButton = new QPushButton(this);
 
+    myProgressBar = new QProgressBar(this);
+
     myHomeButton->setObjectName("homeButton");
     myGoUpButton->setObjectName("goUpButton");
     myGoBackButton->setObjectName("goBackButton");
     myGoForwardButton->setObjectName("goForwardButton");
+    myProgressBar->setObjectName("progressBar");
 
     myGoUpButton->setEnabled(myViewModel->getGoUpAvailability());
     myGoBackButton->setEnabled(myViewModel->getGoBackAvailability());
     myGoForwardButton->setEnabled(myViewModel->getGoForwardAvailability());
+    myProgressBar->setMaximum(0);
+    myProgressBar->setMinimum(0);
+
+    myProgressBar->hide();
 }
 
 void CatalogBrowseBarPanel::setUpAvailability(bool newValue)
@@ -47,6 +54,14 @@ void CatalogBrowseBarPanel::setForwardAvailability(bool newValue)
     myGoForwardButton->setEnabled(newValue);
 }
 
+void CatalogBrowseBarPanel::showProgress() {
+        myProgressBar->show();
+}
+
+void CatalogBrowseBarPanel::hideProgress() {
+        myProgressBar->hide();
+}
+
 void CatalogBrowseBarPanel::layoutComponents()
 {
     QHBoxLayout* headerLayout = new QHBoxLayout();
@@ -62,6 +77,7 @@ void CatalogBrowseBarPanel::layoutComponents()
     frameLayout->addWidget(myGoUpButton, 0, Qt::AlignVCenter);
     frameLayout->addWidget(myGoBackButton, 0, Qt::AlignVCenter);
     frameLayout->addWidget(myGoForwardButton, 0, Qt::AlignVCenter);
+    frameLayout->addWidget(myProgressBar, 0, Qt::AlignRight);
     frameLayout->addStretch(1);
 
     myBarFrame->setLayout(frameLayout);

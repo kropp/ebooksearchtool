@@ -31,7 +31,7 @@ void LinksExtractionDownloader::startExtractingLinks()
 
 void LinksExtractionDownloader::parseReceivedData(int requestId)
 {
-    qDebug() << "LinksExtractionDownloader::parseRecievedData " << myRequestUrl << myServerUrl;
+    qDebug() << "LinksExtractionDownloader::parseRecievedData " << myServerUrl << myRequestUrl;
     if (myInputBuffer)
     {
         myInputBuffer->open(QIODevice::ReadOnly);

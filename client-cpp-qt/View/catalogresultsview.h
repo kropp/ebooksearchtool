@@ -31,6 +31,9 @@ class CatalogResultsView : public StandardView
 
         void createChildViews(QVector<CatalogResultViewModel*>* childModels);
 
+    signals:
+        void requestToOpenCatalog();
+
     private:
 
         void relayout();

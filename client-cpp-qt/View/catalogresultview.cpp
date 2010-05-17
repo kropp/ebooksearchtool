@@ -1,5 +1,7 @@
 #include "catalogresultview.h"
 #include "../ViewModel/catalogresultviewmodel.h"
+#include "catalogresultsview.h"
+
 
 #include <QHBoxLayout>
 #include <QLabel>
@@ -8,10 +10,10 @@
 #include <QFile>
 #include <QDebug>
 
-CatalogResultView::CatalogResultView(QWidget* parent, CatalogResultViewModel* bookResultViewModel) : StandardView(parent)
+CatalogResultView::CatalogResultView(CatalogResultsView* parent, CatalogResultViewModel* bookResultViewModel) : StandardView((QWidget*)parent)
 {
     viewModel = bookResultViewModel;
-
+    myParent = parent;
     initialize();
 }
 
@@ -66,6 +68,8 @@ void CatalogResultView::setWindowParameters()
 void CatalogResultView::setConnections()
 {
     connect(myOpenCatalogButton, SIGNAL(clicked()), this, SLOT(openButtonPressed()));
+
+    connect(myOpenCatalogButton, SIGNAL(clicked()), myParent, SIGNAL(requestToOpenCatalog()));
 }
 
 
