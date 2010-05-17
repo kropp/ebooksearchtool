@@ -2,6 +2,8 @@
 #define BOOKRESULTVIEWMODEL_H
 
 #include <QObject>
+#include <QMap>
+
 class Book;
 class BookResultsViewModel;
 
@@ -26,6 +28,8 @@ public:
     QString getServerName();
 
     QString getFileName();
+
+    QMap<QString, QString> getLinks();
 
     bool canBeDownloaded();
 

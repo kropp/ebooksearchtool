@@ -140,6 +140,7 @@ void BookResultView::setWindowParameters()
 void BookResultView::setConnections()
 {
     connect(myInformationButton, SIGNAL(clicked()), this, SLOT(bookInfoPressed()));
+    connect(myInformationButton, SIGNAL(clicked()), this, SLOT(informationButtonPressed()));
     connect(myDownloadButton, SIGNAL(clicked()), this, SLOT(downloadButtonPressed()));
     connect(myReadButton, SIGNAL(clicked()), this, SLOT(readButtonPressed()));
 
@@ -200,5 +201,5 @@ void BookResultView::readButtonPressed()
 
 void BookResultView::informationButtonPressed()
 {
-
+    qDebug() << "BookResultView::informationButtonPressed(); links " << myViewModel->getLinks();
 }

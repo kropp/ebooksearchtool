@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QVector>
 
+class FileDownloader;
+class Book;
 
 class FileDownloadManager : public QObject
 {
@@ -16,7 +18,7 @@ private:
 
 public:
 
-    static FileDownloadManager* getInstance();
+    static FileDownloadManager& getInstance();
 
 signals:
 
@@ -24,25 +26,22 @@ signals:
 
 public slots:
 
-    void downloadBook(const Book& book, const QString& filename, QString format);
+    void downloadBook(const Book& book, const QString& filename, const QString& format);
 
 private slots:
-
-    void childDownloaderFinished(bool success, QVector<Book*>* gotBooks);
+    void downloadFinished(bool success, QString filename);
 
 private:
 
     void initializeDownloaders();
-    void recreateDownloaders();
     void abortDownloaders();
     void setConnectionsWithDownloaders();
-    void disconnectDownloaders();
-    void updateFinishedState();
 
 private:
 
     static FileDownloadManager* instance;
 
+    FileDownloader* myDownloader;
 };
 
 #endif // FILEDOWNLOADMANAGER_H

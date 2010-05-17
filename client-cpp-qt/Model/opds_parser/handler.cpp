@@ -236,7 +236,7 @@ void OPDSHandler::processLink(const QXmlAttributes& attributes) {
     }
 
     // if I am inside an entry
-    if (attributes.value(ATTRIBUTE_RELATION) == ATTR_VALUE_ACQUISITION) {
+    if (attributes.value(ATTRIBUTE_RELATION).contains(ATTR_VALUE_ACQUISITION)) {
         QString format = attributes.value(ATTRIBUTE_TYPE);
         format.remove("application/");
         mySourceLinks->insert(format, attributes.value(ATTRIBUTE_REFERENCE));

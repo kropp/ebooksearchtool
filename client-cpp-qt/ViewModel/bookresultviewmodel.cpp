@@ -6,6 +6,7 @@
 
 #include "../Model/book.h"
 #include "../Model/librarymanager.h"
+#include "../Model/filedownloadmanager.h"
 
 BookResultViewModel::BookResultViewModel(Book* book, BookResultsViewModel* parent)
 {
@@ -21,6 +22,10 @@ QString BookResultViewModel::getBookName()
 QString BookResultViewModel::getServerName()
 {
     return myShownBook->getServerName();
+}
+
+QMap<QString, QString> BookResultViewModel::getLinks() {
+    return myShownBook->getSourceLinks();
 }
 
 QString BookResultViewModel::getAuthorName()
@@ -73,7 +78,7 @@ void BookResultViewModel::downloadingRequested(const QString& filename) {
     qDebug() << "BookResultViewModel::downloadingRequested() link " << myShownBook->getSourceLinks()
              << "file" << filename;
 
-    //    FileDownloadManager::getInstance()->downloadBook(filename, myShownBook, Settings::FORMAT);
+    FileDownloadManager::getInstance().downloadBook(*myShownBook, filename, Settings::FORMAT);
 }
 
 

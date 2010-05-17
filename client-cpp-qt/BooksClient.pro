@@ -51,7 +51,8 @@ HEADERS += Model/book.h \
     Model/servers.h \
     Model/settings.h \
     Model/linksextractiondownloader.h \
-    Model/filedownloadmanager.h
+    Model/filedownloadmanager.h \
+    Model/filedownloader.h
 SOURCES += Model/book.cpp \
     View/mainview.cpp \
     main.cpp \
@@ -98,5 +99,6 @@ SOURCES += Model/book.cpp \
     Model/linksextractiondownloader.cpp \
     Model/servers.cpp \
     Model/settings.cpp \
-    Model/filedownloadmanager.cpp
+    Model/filedownloadmanager.cpp \
+    Model/filedownloader.cpp
 RESOURCES += resources.qrc
