@@ -74,8 +74,15 @@
 \RequirePackage{xspace}
 \RequirePackage{remreset}
 %%
-\RequirePackage[a4paper,top=2.5cm,bottom=2.5cm,left=2.5cm,
-                right=1cm,head=17pt]{geometry}
+%\RequirePackage[a4paper,top=1.0pt,bottom=2.5cm,left=2.5cm,
+ %               right=1cm,head=17pt]{geometry}
+
+\usepackage{geometry} % Меняем поля страницы
+\geometry{left=3cm}% левое поле
+\geometry{right=1cm}% правое поле
+\geometry{top=1.5cm}% верхнее поле
+\geometry{bottom=2cm}% нижнее поле
+
 %%
 %\RequirePackage{listings}
 %\lstset{language=c++,extendedchars=true,%
