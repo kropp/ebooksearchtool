@@ -17,6 +17,7 @@ BookResultsView::BookResultsView
     myCurrentVerticalLayout = 0;
     myViewModel = bookResultsViewModel;
     myShownResults = QVector<BookResultView*>();
+    mySelectedBook = 0;
     initialize();
 }
 
@@ -91,3 +92,10 @@ void BookResultsView::shownBooksChanged(QVector<BookResultViewModel*> newBooks)
     relayout();
 }
 
+void BookResultsView::changeSelectedBook(BookResultView* newBookView) {
+    if (mySelectedBook) {
+        mySelectedBook->cancelSelection();
+    }
+    mySelectedBook = newBookView;
+    mySelectedBook->select();
+}

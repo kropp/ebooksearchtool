@@ -183,3 +183,9 @@ QPushButton#informationButton:pressed
 	min-height: 65px; 
 	max-height: 65px; 
 }
+
+QFrame#bookFrame
+{
+	bgcolor="red"
+	 
+}

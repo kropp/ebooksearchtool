@@ -2,7 +2,6 @@
 
 StandardView::StandardView(QWidget* parent) : QWidget(parent)
 {
-
 }
 
 StandardView::~StandardView()

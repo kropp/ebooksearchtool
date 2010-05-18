@@ -4,14 +4,18 @@
 #include <QWidget>
 #include <QResizeEvent>
 #include <QFontMetrics>
+#include <QFrame>
 
 class BookResultViewModel;
 
 #include "standardview.h"
 #include "multistatebutton.h"
+#include "bookresultsview.h"
 
 class QLabel;
 class QPushButton;
+class QMouseEvent;
+class QFrame;
 
 class BookResultView : public StandardView
 {
@@ -19,12 +23,17 @@ class BookResultView : public StandardView
     Q_OBJECT
 
     public:
-        BookResultView(QWidget* parent, BookResultViewModel* resultViewModel, bool addToLibraryButton);
+        BookResultView(BookResultsView* parent, BookResultViewModel* resultViewModel, bool addToLibraryButton);
         ~BookResultView();
 
     public:
 
         virtual void resizeEvent (QResizeEvent* event);
+        void select();
+        void cancelSelection();
+
+    signals:
+        void bookSelected(BookResultView* );
 
     protected:
 
@@ -42,6 +51,12 @@ class BookResultView : public StandardView
         void informationButtonPressed();
         void bookInfoPressed();
 
+
+    private:
+         void mousePressEvent  ( QMouseEvent * e );
+         void setBackgroundColor(QColor color);
+
+
     private:
 
         BookResultViewModel* myViewModel;
@@ -56,6 +71,8 @@ class BookResultView : public StandardView
         QPushButton* myRemoveFromLibraryButton;
         QPushButton* myReadButton;
         QPushButton* myInformationButton;
+
+        BookResultsView* myParent;
 
         QFontMetrics* myMetrics;
 

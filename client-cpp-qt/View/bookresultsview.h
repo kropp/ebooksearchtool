@@ -27,9 +27,10 @@ class BookResultsView : public StandardView
         void setWindowParameters();
         void setConnections();
 
-    protected slots:
+    public slots:
 
         void shownBooksChanged(QVector<BookResultViewModel*> newBooks);
+        void changeSelectedBook(BookResultView* );
 
     private:
 
@@ -41,6 +42,8 @@ class BookResultsView : public StandardView
 
         QVector<BookResultView*> myShownResults;
         QVector<BookResultViewModel*> myCurrentResultVms;
+
+        BookResultView* mySelectedBook;
 
         QVBoxLayout* myCurrentVerticalLayout;
 

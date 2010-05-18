@@ -8,11 +8,14 @@
 #include <QFont>
 #include <QFile>
 #include <QFileDialog>
+#include <QMouseEvent>
+#include <QPalette>
 
 #include <QDebug>
 
-BookResultView::BookResultView(QWidget* parent, BookResultViewModel* bookResultViewModel, bool addToLibraryButton) : StandardView(parent)
+BookResultView::BookResultView(BookResultsView* parent, BookResultViewModel* bookResultViewModel, bool addToLibraryButton) : StandardView(parent)
 {
+    myParent = parent;
     myViewModel = bookResultViewModel;
 
     myAddToLibraryButtonEnabled = addToLibraryButton;
@@ -127,7 +130,9 @@ void BookResultView::layoutComponents()
     bookLineLayout->addStretch(1);
     bookLineLayout->addItem(buttonsLayout);
 
+//    bookLineLayout->addWidget(myFrame);
     this->setLayout(bookLineLayout);
+
 }
 
 void BookResultView::setWindowParameters()
@@ -135,6 +140,8 @@ void BookResultView::setWindowParameters()
     QFile styleSheetFile(":/qss/BookStyle");
     styleSheetFile.open(QIODevice::ReadOnly);
     this->setStyleSheet(styleSheetFile.readAll());
+    setBackgroundColor(Qt::white);
+    select();
 }
 
 void BookResultView::setConnections()
@@ -202,4 +209,26 @@ void BookResultView::readButtonPressed()
 void BookResultView::informationButtonPressed()
 {
     qDebug() << "BookResultView::informationButtonPressed(); links " << myViewModel->getLinks();
+}
+
+
+void BookResultView::mousePressEvent  ( QMouseEvent * e ) {
+  //  qDebug() << "BookResultView::mousePressEvent();";
+    myParent->changeSelectedBook(this);
+}
+
+void BookResultView::select() {
+    qDebug() << "BookResultView::select();";
+    setBackgroundColor(Qt::blue);
+}
+
+void BookResultView::cancelSelection() {
+    setBackgroundColor(Qt::white);
+}
+
+void BookResultView::setBackgroundColor(QColor color) {
+    QPalette pal = this->palette();
+    pal.setColor(QPalette::Background, color);
+    this->setPalette(pal);
+    this->setAutoFillBackground(true);
 }
