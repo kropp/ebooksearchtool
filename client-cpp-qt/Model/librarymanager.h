@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QVector>
 
+class QFile;
 class Book;
 
 class LibraryManager : public QObject
@@ -28,6 +29,12 @@ public slots:
 
     void addBookToLibrary(Book* newBook);
     void removeBookFromLibrary(Book* newBook);
+    void saveLibrary();
+
+private:
+     void openLibrary();
+     bool getBooks(QFile& file);
+
 
 private:
 

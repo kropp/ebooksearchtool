@@ -1,9 +1,12 @@
 #include "mainview.h"
 #include "programmodeselectorview.h"
 #include "../ViewModel/programmodeviewmodel.h"
+#include "../Model/librarymanager.h"
+
 
 #include <QHBoxLayout>
 #include <QFile>
+#include <QCloseEvent>
 
 MainView::MainView() : StandardView(0) { initialize();}
 
@@ -28,4 +31,9 @@ void MainView::setWindowParameters()
     QFile styleSheetFile(":/qss/Common");
     styleSheetFile.open(QIODevice::ReadOnly);
     this->setStyleSheet(styleSheetFile.readAll());
+}
+
+void MainView::closeEvent (QCloseEvent * e ) {
+    LibraryManager::getInstance()->saveLibrary();
+    e->accept();
 }

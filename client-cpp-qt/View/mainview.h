@@ -18,6 +18,10 @@ protected:
     void layoutComponents();
     void setWindowParameters();
 
+
+private:
+    void closeEvent (QCloseEvent * e );
+
 private:
 
 

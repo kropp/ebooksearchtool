@@ -1,15 +1,12 @@
 #include "handler.h"
 #include "../catalog.h"
 
-static const QString BOOK_FORMAT = "pdf";
-
 OPDSHandler::OPDSHandler(QVector<Book*>* data, SearchResult& result) : mySearchResult(&result) {
     myBookData = data;
     myCatalogData = 0;
     myIsEntry = false;
     myIsInContent = false;
     catalogLinkUrl = 0;
-    myFormat = BOOK_FORMAT;
     currentParsedServer = "";
     myParseLinksMode = false;
     myLinksInformation = 0;
@@ -23,7 +20,6 @@ OPDSHandler::OPDSHandler(QVector<Book*>* bookData, QVector<Catalog*>* catalogDat
     myCatalogData = catalogData;
     myIsEntry = false;
     myIsInContent = false;
-    myFormat = BOOK_FORMAT;
     currentParsedServer = parsedServer;
     myParseLinksMode = false;
     myLinksInformation = 0;

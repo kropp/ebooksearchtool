@@ -46,7 +46,6 @@ private:
     QString myCurrentText;
     bool myIsEntry;
     bool myIsInContent;
-    QString myFormat;
     QString myOpdsCatalog;
 
     QString title;

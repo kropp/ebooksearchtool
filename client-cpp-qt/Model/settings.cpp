@@ -5,6 +5,7 @@ QString Settings::FORMAT = "pdf";
 
 Settings::Settings() {
     initializeServers();
+    myLibraryPath = "library.xml";
 }
 
 Settings& Settings::getInstance() {
@@ -15,14 +16,14 @@ Settings& Settings::getInstance() {
 }
 
 const QStringList& Settings::getServers() const {
-    return ourServers;
+    return myServers;
 }
 
 void Settings::initializeServers() {
-    ourServers.append(FEEDBOOKS_ID);
-    ourServers.append(MANYBOOKS_ID);
-    ourServers.append(LITRES_ID);
-    ourServers.append(SMASHWORDS_ID);
-    ourServers.append(EBOOKSEARCH_ID);
+    myServers.append(FEEDBOOKS_ID);
+    myServers.append(MANYBOOKS_ID);
+    myServers.append(LITRES_ID);
+    myServers.append(SMASHWORDS_ID);
+    myServers.append(EBOOKSEARCH_ID);
 }
 

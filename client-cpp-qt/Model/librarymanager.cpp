@@ -1,16 +1,52 @@
+#include <QFile>
+#include <QDebug>
+
+#include "opds_parser/parser.h"
+#include "opds_writer/opds_writer.h"
+
 #include "librarymanager.h"
 #include "book.h"
+#include "settings.h"
+#include "search_result.h"
+
 
 LibraryManager LibraryManager::instance;
 
 LibraryManager::LibraryManager()
 {
-    myBooksInLibrary = QVector<Book*>();
+//    openLibrary();
 }
 
 LibraryManager* LibraryManager::getInstance()
 {
     return &instance;
+}
+
+void LibraryManager::openLibrary() {
+    qDebug() << "LibraryManageri::openLibrary()";
+    QString fileName = Settings::getInstance().getLibraryPath();
+    if (!QFile::exists(fileName)) {
+        return;
+    }
+    QFile file(Settings::getInstance().getLibraryPath());
+    if (!file.open(QIODevice::ReadOnly)) {
+        file.close();
+        return;
+    }
+    getBooks(file);
+    file.close();
+}
+
+bool LibraryManager::getBooks(QFile& file) {
+    OPDSParser parser;
+    SearchResult* searchResult = new SearchResult();
+    parser.parse(&file, &myBooksInLibrary, *searchResult);
+    if (myBooksInLibrary.empty()) {
+        return false;
+    }
+    emit booksChanged(myBooksInLibrary);
+    emit booksAvailabilityChanged(myBooksInLibrary.size() > 0);
+    return true;
 }
 
 void LibraryManager::addBookToLibrary(Book* newBook)
@@ -32,3 +68,17 @@ void LibraryManager::removeBookFromLibrary(Book* newBook)
         emit booksAvailabilityChanged(myBooksInLibrary.size() > 0);
     }
 }
+
+void LibraryManager::saveLibrary() {
+    const QString& fileName = Settings::getInstance().getLibraryPath();
+    QFile file(fileName);
+    qDebug() << "LibraryManager::saveLibrary() " << file.fileName();
+
+    if (!file.open(QIODevice::WriteOnly)) {
+        return;
+    }
+    DataWriter writer;
+    writer.write(&file, myBooksInLibrary);
+    file.close();
+}
+

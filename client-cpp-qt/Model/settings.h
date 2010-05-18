@@ -25,6 +25,7 @@ private:
 
 public:
     const QStringList& getServers() const;
+    const QString& getLibraryPath() const;
 
 private:
     Settings();
@@ -32,9 +33,14 @@ private:
 
 private:
 
-   QStringList ourServers;
+   QStringList myServers;
+   QString myLibraryPath;
+
 };
 
+inline const QString& Settings::getLibraryPath() const {
+    return myLibraryPath;
+}
 
 
 #endif // SETTINGS_H
