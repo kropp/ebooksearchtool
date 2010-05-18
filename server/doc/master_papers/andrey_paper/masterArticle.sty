@@ -1,0 +1,74 @@
+
+%\usepackage[14pt]{extsizes}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% define if \ifpdf
+\RequirePackage{ifpdf}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% ENCODINGS
+\ifpdf
+    \RequirePackage{cmap}
+\fi
+
+\RequirePackage[utf8x]{inputenc}
+\RequirePackage[T1,T2A]{fontenc}
+%% LANGUAGES
+\usepackage[english,ngerman,russian]{babel}
+        \addto\captionsrussian{
+        \renewcommand{\abstractname}{Реферат}%
+}
+
+%%     
+%% FONTS
+\RequirePackage[psamsfonts]{amsfonts,amssymb} %Math packages
+\RequirePackage{mathrsfs}
+
+\RequirePackage[a4paper,top=2.5cm,bottom=2.5cm,left=3cm,right=1cm,head=17pt]{geometry}
+
+\RequirePackage{indentfirst}
+
+\RequirePackage{tikz}
+\RequirePackage{array}
+               
+\RequirePackage{xspace}
+\RequirePackage{remreset}
+
+%% ABBREVIATURES
+\newcommand{\mnp}{\mathcal{NP}}
+\newcommand{\np}{$\mnp$\xspace}
+\newcommand{\mconp}{co\mnp}
+\newcommand{\conp}{$\mconp$\xspace}
+\newcommand{\pnnp}{$\mathcal{P}\neq\mathcal{NP}$\xspace}
+\newcommand{\SAT}{\textsc{SAT}\xspace}
+\newcommand{\PHP}{\textsc{PHP}\xspace}
+\newcommand{\PHPs}[2]{$\textsc{PHP}_{#1}^{#2}$}
+
+%%%\dottedcontents
+\newcommand{\stroka}{\vspace{\baselineskip}}
+\newcommand{\te}{т.\,е.\xspace}
+\newcommand{\td}{т.\,д.\xspace}
+\newcommand{\tk}{т.\,к.\xspace}
+\newcommand{\tp}{т.\,п.\xspace}
+%% STYLE
+%\RequirePackage[raggedright,small]{titlesec}
+%\RequirePackage[dotinlabels]{titletoc}
+%\titlelabel{\thetitle.\quad\thispagestyle{fancy}}
+      %%
+\newcommand{\picref}[1]{рис.~\ref{#1}}
+\newcommand{\tabref}[1]{табл.~\ref{#1}}
+%% OTHER
+
+\ifpdf
+    \RequirePackage[bookmarks=false, a4paper, colorlinks, unicode, pdfstartview=FitH, pdftex]{hyperref}
+    \hypersetup{ 
+     plainpages=true,
+     linkcolor=blue,
+     citecolor=red,
+     menucolor=blue,
+     pdfnewwindow=true
+    }
+\else
+    \RequirePackage[bookmarks=false, colorlinks, unicode,
+                    pdfstartview=FitH]{hyperref}
+\fi      
