@@ -14,7 +14,7 @@
    id="svg2"
    sodipodi:version="0.32"
    inkscape:version="0.47pre4 r22446"
-   sodipodi:docname="New document 3"
+   sodipodi:docname="scheme.pdf"
    version="1.0">
   <defs
      id="defs4">
@@ -168,12 +168,12 @@
     <text
        xml:space="preserve"
        style="font-size:10px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
-       x="42.51968"
+       x="45.70871"
        y="864.42529"
        id="text3612"><tspan
          sodipodi:role="line"
          id="tspan3614"
-         x="42.51968"
+         x="45.70871"
          y="864.42529">Пользователь</tspan></text>
     <text
        xml:space="preserve"
@@ -257,5 +257,25 @@
        id="path4672"
        inkscape:path-effect="#path-effect4674"
        inkscape:original-d="m 241.29961,868.11143 54.96567,13.91166" />
+    <text
+       xml:space="preserve"
+       style="font-size:10px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="254.46895"
+       y="887.12018"
+       id="text4778"><tspan
+         sodipodi:role="line"
+         id="tspan4780"
+         x="254.46895"
+         y="887.12018">OPDS</tspan></text>
+    <text
+       id="text4782"
+       y="847.08081"
+       x="254.46895"
+       style="font-size:10px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       xml:space="preserve"><tspan
+         y="847.08081"
+         x="254.46895"
+         id="tspan4784"
+         sodipodi:role="line">OPDS</tspan></text>
   </g>
 </svg>
