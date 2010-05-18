@@ -169,7 +169,7 @@ void BookResultView::resizeEvent(QResizeEvent* /*event*/)
 void BookResultView::downloadButtonPressed()
 {
     QString name = myViewModel->getFileName();
-    QString fileName(QFileDialog::getSaveFileName(this, tr("Download book"),
+    QString fileName(QFileDialog::getSaveFileName(0, tr("Download book"),
                                                   name,
                                                   QString("*.") + Settings::FORMAT));
     qDebug() << "BookResultView::downloadButtonPressed() file name for saving " << fileName;
