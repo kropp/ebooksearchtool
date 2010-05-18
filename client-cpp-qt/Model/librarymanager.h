@@ -1,6 +1,8 @@
 #ifndef LIBRARYMANAGER_H
 #define LIBRARYMANAGER_H
 
+#include "search_result.h"
+
 #include <QObject>
 #include <QVector>
 
@@ -30,9 +32,9 @@ public slots:
     void addBookToLibrary(Book* newBook);
     void removeBookFromLibrary(Book* newBook);
     void saveLibrary();
+    void openLibrary();
 
 private:
-     void openLibrary();
      bool getBooks(QFile& file);
 
 
@@ -41,6 +43,7 @@ private:
     static LibraryManager instance;
 
     QVector<Book*> myBooksInLibrary;
+    //SearchResult mySearchResult;
 
 };
 

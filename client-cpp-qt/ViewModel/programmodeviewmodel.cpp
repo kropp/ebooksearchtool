@@ -3,10 +3,12 @@
 #include "libraryviewmodel.h"
 #include "catalogviewmodel.h"
 #include "../Model/book.h"
+#include "../Model/librarymanager.h"
 
 ProgramModeViewModel::ProgramModeViewModel()
 {
     currentMode = SEARCH;
+    myLibraryWasOpened = false;
 
     searchViewModel = new SearchViewModel();
     libraryViewModel = new LibraryViewModel();
@@ -33,6 +35,10 @@ void ProgramModeViewModel::setConnections()
 void ProgramModeViewModel::changeViewMode(ProgramMode newMode)
 {
     currentMode = newMode;
+    if ((newMode == LIBRARY) && (!myLibraryWasOpened)) {
+        LibraryManager::getInstance()->openLibrary();
+        myLibraryWasOpened = true;
+    }
     emit viewModeChanged(currentMode);
 }
 

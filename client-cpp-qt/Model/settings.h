@@ -35,6 +35,7 @@ private:
 
    QStringList myServers;
    QString myLibraryPath;
+   QString myImagesPath;
 
 };
 

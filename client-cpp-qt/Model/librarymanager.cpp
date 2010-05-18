@@ -14,7 +14,6 @@ LibraryManager LibraryManager::instance;
 
 LibraryManager::LibraryManager()
 {
-//    openLibrary();
 }
 
 LibraryManager* LibraryManager::getInstance()
@@ -29,21 +28,20 @@ void LibraryManager::openLibrary() {
         return;
     }
     QFile file(Settings::getInstance().getLibraryPath());
-    if (!file.open(QIODevice::ReadOnly)) {
-        file.close();
-        return;
+    if (file.open(QIODevice::ReadOnly)) {
+        getBooks(file);
     }
-    getBooks(file);
     file.close();
 }
 
 bool LibraryManager::getBooks(QFile& file) {
     OPDSParser parser;
-    SearchResult* searchResult = new SearchResult();
-    parser.parse(&file, &myBooksInLibrary, *searchResult);
+    SearchResult searchResult;
+    parser.parse(&file, &myBooksInLibrary, searchResult);
     if (myBooksInLibrary.empty()) {
         return false;
     }
+    qDebug() << "set Books to library";
     emit booksChanged(myBooksInLibrary);
     emit booksAvailabilityChanged(myBooksInLibrary.size() > 0);
     return true;

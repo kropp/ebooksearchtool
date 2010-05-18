@@ -47,6 +47,8 @@ private:
     SearchViewModel* searchViewModel;
     LibraryViewModel* libraryViewModel;
     CatalogViewModel* catalogViewModel;
+
+    bool myLibraryWasOpened;
 };
 
 #endif // PROGRAMMODEVIEWMODEL_H

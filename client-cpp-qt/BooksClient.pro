@@ -1,6 +1,7 @@
 QT += xml
 QT += network
-CONFIG += qt debug
+CONFIG += qt \
+    debug
 OBJECTS_DIR += bin
 MOC_DIR += bin
 HEADERS += Model/book.h \
