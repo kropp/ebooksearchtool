@@ -23,7 +23,7 @@ void FileDownloader::parseReceivedData(int requestId)
         if (!file.open(QIODevice::WriteOnly)) {
             qDebug() << "FileDownloader error - open file " << filename;
 
-            emit downloadFinished(false, filename);
+            emit downloadFinished(false, filename, requestId);
             return;
         }
         file.write(myInputBuffer->buffer());
@@ -31,7 +31,7 @@ void FileDownloader::parseReceivedData(int requestId)
 
         qDebug() << "FileDownloader file downloaded " << filename;
         myIsFinished = true;
-        emit downloadFinished(true, filename);
+        emit downloadFinished(true, filename, requestId);
 
         myResultsMutex.unlock();
     }
@@ -39,13 +39,15 @@ void FileDownloader::parseReceivedData(int requestId)
 
 void FileDownloader::parseError(int requestId)
 {
-    emit downloadFinished(false, myDownloadMapping.value(requestId));
+    emit downloadFinished(false, myDownloadMapping.value(requestId), requestId);
 }
 
-void FileDownloader::startDownloadingFile(QString url, QString filename)
+int FileDownloader::startDownloadingFile(QString url, QString filename)
 {
     //qDebug() << "FileDownloader::startDownloadingCatalog " << myServerUrl << searchRequest;
 
-    myDownloadMapping.insert(startDownloading(url), filename);
+    int requestId = startDownloading(url);
+    myDownloadMapping.insert(requestId, filename);
+    return requestId;
 }
 

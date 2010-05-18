@@ -3,12 +3,13 @@
 
 #include <QObject>
 
-enum ProgramMode {SEARCH, LIBRARY, CATALOG};
+enum ProgramMode {SEARCH, LIBRARY, CATALOG, OPTIONS};
 
 class Book;
 class SearchViewModel;
 class LibraryViewModel;
 class CatalogViewModel;
+class OptionsViewModel;
 
 class ProgramModeViewModel  : public QObject
 {
@@ -34,6 +35,7 @@ public:
     SearchViewModel* getSearchViewModel();
     LibraryViewModel* getLibraryViewModel();
     CatalogViewModel* getCatalogViewModel();
+    OptionsViewModel* getOptionsViewModel();
 
 private:
 
@@ -47,6 +49,7 @@ private:
     SearchViewModel* searchViewModel;
     LibraryViewModel* libraryViewModel;
     CatalogViewModel* catalogViewModel;
+    OptionsViewModel* optionsViewModel;
 
     bool myLibraryWasOpened;
 };

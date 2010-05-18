@@ -51,6 +51,7 @@ class BookResultView : public StandardView
         void informationButtonPressed();
         void bookInfoPressed();
 
+        void bookDownloadStateChanged(QString newState);
 
     private:
          void mousePressEvent  ( QMouseEvent * e );

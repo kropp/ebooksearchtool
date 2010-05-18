@@ -10,6 +10,7 @@
 class SearchView;
 class LibraryView;
 class CatalogView;
+class OptionsView;
 
 class ProgramModeSelectorView : public StandardView
 {
@@ -39,6 +40,7 @@ private:
     void enableSearchButton();
     void enableLibraryButton();
     void enableCatalogButton();
+    void enableOptionsButton();
 
 private:
 
@@ -47,6 +49,7 @@ private:
     SearchView* searchView;
     LibraryView* libraryView;
     CatalogView* catalogView;
+    OptionsView* optionsView;
 
     QFrame* headerRightImage;
     QLabel* headerStretchImage;
@@ -56,6 +59,7 @@ private:
     MultiStateButton* searchModeButton;
     MultiStateButton* libraryModeButton;
     MultiStateButton* catalogModeButton;
+    MultiStateButton* optionsModeButton;
 };
 
 #endif // PROGRAMMODESELECTORVIEW_H

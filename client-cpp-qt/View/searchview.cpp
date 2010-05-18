@@ -12,6 +12,7 @@
 #include <QDebug>
 #include <QFile>
 #include <QProgressBar>
+#include <QKeyEvent>
 
 SearchView::SearchView(QWidget* parent, SearchViewModel* searchViewModel) : StandardContentView(parent)
 {
@@ -83,6 +84,16 @@ void SearchView::viewModelSearchResultsVisibilityChanged(bool /*visibility*/)
 
 void SearchView::moreAvailabilityChanged(bool availability) {
      moreButton->setEnabled(availability);
+}
+
+void SearchView::keyPressEvent(QKeyEvent* event)
+{
+    int key = event->key();
+    if (key == Qt::Key_Enter ||
+        key == Qt::Key_Return)
+    {
+        goButtonPressed();
+    }
 }
 
 void SearchView::goButtonPressed()

@@ -121,3 +121,31 @@ MultiStateButton#catalogModeButton[state="grayed"]
 	min-height: 100px; 
 	max-height: 100px; 
 }
+
+MultiStateButton#optionsModeButton[state="normal"]
+{
+	background-image: url(:/OptionsNavigationIcon); 
+	background-repeat: no-repeat; 
+	background-origin: margin; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 90px; 
+	max-width: 90px; 
+	min-height: 100px; 
+	max-height: 100px; 
+}
+
+MultiStateButton#optionsModeButton[state="grayed"]
+{
+	background-image: url(:/OptionsNavigationIconInactive); 
+	background-repeat: no-repeat; 
+	background-origin: margin; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 90px; 
+	max-width: 90px; 
+	min-height: 100px; 
+	max-height: 100px; 
+}

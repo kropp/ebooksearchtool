@@ -3,10 +3,10 @@
 
 #include "../Model/book.h"
 #include "../Model/booksearchmanager.h"
+#include "../Model/settingsmanager.h"
 
 #include <QDebug>
 
-static const int RESULTS_ON_PAGE = 15;
 static const int PAGES_WINDOW_SIZE = 17;
 
 bool sortingLessThanByAuthor(BookResultViewModel* b1, BookResultViewModel* b2)
@@ -55,15 +55,17 @@ void BookResultsViewModel::requestPrevPagesWindow()
 
 void BookResultsViewModel::recalculatePages()
 {
+    int resultsOnPage = SettingsManager::getInstance()->getBooksOnPage();
+
     int totalCount = currentlyFilteredBooks.size();
-    bool additionalPageNeeded = (totalCount % RESULTS_ON_PAGE);
-    int fullPagesCount = (totalCount / RESULTS_ON_PAGE) + (additionalPageNeeded ? 1 : 0);
+    bool additionalPageNeeded = (totalCount % resultsOnPage);
+    int fullPagesCount = (totalCount / resultsOnPage) + (additionalPageNeeded ? 1 : 0);
     int pagesCountAfterWindowPosition = fullPagesCount - pageWindowIndex * PAGES_WINDOW_SIZE;
 
     if (pagesCountAfterWindowPosition < 0)
     {
         pageWindowIndex = 0;
-        pagesCountAfterWindowPosition = (totalCount / RESULTS_ON_PAGE) + (additionalPageNeeded ? 1 : 0);
+        pagesCountAfterWindowPosition = (totalCount / resultsOnPage) + (additionalPageNeeded ? 1 : 0);
     }
 
 
@@ -99,9 +101,11 @@ void BookResultsViewModel::requestToChangePage(int page)
 
 void BookResultsViewModel::showCurrentPage()
 {
+    int resultsOnPage = SettingsManager::getInstance()->getBooksOnPage();
+
     QVector<BookResultViewModel*> currentPageBooks;
 
-    for (int i = currentPageWithPageWindowCorrection * RESULTS_ON_PAGE; i < (currentPageWithPageWindowCorrection + 1) * RESULTS_ON_PAGE; i++)
+    for (int i = currentPageWithPageWindowCorrection * resultsOnPage; i < (currentPageWithPageWindowCorrection + 1) * resultsOnPage; i++)
     {
         if (i < currentlyFilteredBooks.size())
         {
@@ -185,7 +189,7 @@ void BookResultsViewModel::updateShownBooks()
             BookResultViewModel* nextElement = processedBooks.at(i);
             QString filteredTerm = getTerm(nextElement, filterType);
 
-            if (filteredTerm.contains(filterWords))
+            if (filteredTerm.toLower().contains(filterWords.toLower()))
             {
                 filteredBooks.append(nextElement);
             }

@@ -18,18 +18,19 @@ private:
 
 public:
 
-    static FileDownloadManager& getInstance();
+    static FileDownloadManager* getInstance();
 
 signals:
 
-    void downloadFinished(bool);
+    void downloadBookFinished(bool, int);
 
 public slots:
 
-    void downloadBook(const Book& book, const QString& filename, const QString& format);
+    int downloadBook(const Book& book, const QString& filename, const QString& format);
 
 private slots:
-    void downloadFinished(bool success, QString filename);
+
+    void downloadFinished(bool success, QString filename, int request);
 
 private:
 

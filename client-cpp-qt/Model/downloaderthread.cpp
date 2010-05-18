@@ -1,5 +1,7 @@
 #include "downloaderthread.h"
 
+#include "settingsmanager.h"
+
 #include <QFile>
 #include <QDebug>
 #include <QUrl>
@@ -65,6 +67,14 @@ int DownloaderThread::download(QString searchRequest)
 
     myResultsMutex.unlock();
     qDebug() << "DownloaderThread::download request" <<  myServerUrl << searchRequest;
+
+    QString proxy = SettingsManager::getInstance()->getProxy();
+
+    if (proxy.size() != 0)
+    {
+       myConnection->setProxy(proxy, SettingsManager::getInstance()->getProxyPort());
+    }
+
     return myCurrentRequestId = myConnection->get(searchRequest, myInputBuffer);
 }
 
@@ -87,4 +97,3 @@ bool DownloaderThread::isFinished()
 {
     return myIsFinished;
 }
-

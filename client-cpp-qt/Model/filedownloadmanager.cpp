@@ -11,18 +11,19 @@ FileDownloadManager* FileDownloadManager::instance = 0;
 FileDownloadManager::FileDownloadManager() {
     qDebug() << "FileDownloadManager::FileDownloadManager";
     initializeDownloaders();
+    setConnectionsWithDownloaders();
 }
 
-FileDownloadManager& FileDownloadManager::getInstance() {
+FileDownloadManager* FileDownloadManager::getInstance() {
     if (!instance) {
         instance = new FileDownloadManager();
     }
-    return *instance;
+    return instance;
 }
 
 
-void FileDownloadManager::downloadBook(const Book& book, const QString& filename, const QString& format) {
-    myDownloader->startDownloadingFile(book.getSourceLinks().value(format), filename);
+int FileDownloadManager::downloadBook(const Book& book, const QString& filename, const QString& format) {
+    return myDownloader->startDownloadingFile(book.getSourceLinks().value(format), filename);
 }
 
 void FileDownloadManager::initializeDownloaders() {
@@ -34,10 +35,13 @@ void FileDownloadManager::abortDownloaders() {
 }
 
 void FileDownloadManager::setConnectionsWithDownloaders() {
-    connect(myDownloader, SIGNAL(downloadFinished(bool, QString)), this, SLOT(downloadFinished(bool, QString)));
+    connect(myDownloader, SIGNAL(downloadFinished(bool, QString, int)), this, SLOT(downloadFinished(bool, QString, int)));
 }
 
-void FileDownloadManager::downloadFinished(bool success, QString filename) {
+void FileDownloadManager::downloadFinished(bool success, QString filename, int request) {
+
+    emit downloadBookFinished(success, request);
+
     if (success) {
         qDebug() << "FileDownloadManager::downloadFinished SUCCESS" << filename;
     } else {

@@ -63,6 +63,32 @@ MultiStateButton#downloadButton[state="grayed"]
 	max-height: 65px; 
 }
 
+MultiStateButton#downloadButton[state="downloaded"]
+{
+	background-image: url(:/DownloadSuccess); 
+	background-repeat: no-repeat; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 65px; 
+	max-width: 65px; 
+	min-height: 65px; 
+	max-height: 65px; 
+}
+
+MultiStateButton#downloadButton[state="failed"]
+{
+	background-image: url(:/DownloadFailed); 
+	background-repeat: no-repeat; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 65px; 
+	max-width: 65px; 
+	min-height: 65px; 
+	max-height: 65px; 
+}
+
 
 
 QPushButton#addToLibraryButton
@@ -182,10 +208,4 @@ QPushButton#informationButton:pressed
 	max-width: 65px; 
 	min-height: 65px; 
 	max-height: 65px; 
-}
-
-QFrame#bookFrame
-{
-	bgcolor="red"
-	 
 }

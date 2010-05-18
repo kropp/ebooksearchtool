@@ -23,11 +23,11 @@ public:
 
 public:
 
-    void startDownloadingFile(QString url, QString filename);
+    int startDownloadingFile(QString url, QString filename);
 
 signals:
 
-    void downloadFinished(bool success, QString filename);
+    void downloadFinished(bool success, QString filename, int requestId);
 
 protected:
 

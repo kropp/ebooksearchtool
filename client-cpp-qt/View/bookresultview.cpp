@@ -28,6 +28,12 @@ BookResultView::~BookResultView()
 
 }
 
+void BookResultView::bookDownloadStateChanged(QString newState)
+{
+    myDownloadButton->setState(newState);
+    this->setStyleSheet(this->styleSheet());
+}
+
 void BookResultView::createComponents()
 {
     myBookPictureLabel = new QLabel(this);
@@ -45,6 +51,9 @@ void BookResultView::createComponents()
 
     myDownloadButton = new MultiStateButton(this);
     myDownloadButton->setObjectName("downloadButton");
+
+    myDownloadButton->setToolTip("Download book");
+
     if (myViewModel->canBeDownloaded()) {
         myDownloadButton->setState("normal");
     } else {
@@ -56,15 +65,21 @@ void BookResultView::createComponents()
     {
         myAddToLibraryButton = new QPushButton(this);
         myAddToLibraryButton->setObjectName("addToLibraryButton");
+        myAddToLibraryButton->setToolTip("Add to library");
     }
     else
     {
         myRemoveFromLibraryButton = new QPushButton(this);
         myRemoveFromLibraryButton->setObjectName("removeFromLibraryButton");
+        myRemoveFromLibraryButton->setToolTip("Remove from library");
     }
 
     myReadButton = new QPushButton(this);
+    myReadButton->setToolTip("Read book");
+
     myInformationButton = new QPushButton(this);
+    myInformationButton->setToolTip("Book information");
+
 
     myReadButton->setObjectName("readButton");
     myInformationButton->setObjectName("informationButton");
@@ -130,7 +145,7 @@ void BookResultView::layoutComponents()
     bookLineLayout->addStretch(1);
     bookLineLayout->addItem(buttonsLayout);
 
-//    bookLineLayout->addWidget(myFrame);
+    //    bookLineLayout->addWidget(myFrame);
     this->setLayout(bookLineLayout);
 
 }
@@ -146,6 +161,8 @@ void BookResultView::setWindowParameters()
 
 void BookResultView::setConnections()
 {
+    connect(myViewModel, SIGNAL(bookDownloadStateChanged(QString)), this, SLOT(bookDownloadStateChanged(QString)));
+    connect(myInformationButton, SIGNAL(clicked()), this, SLOT(informationButtonPressed()));
     connect(myInformationButton, SIGNAL(clicked()), this, SLOT(bookInfoPressed()));
     connect(myInformationButton, SIGNAL(clicked()), this, SLOT(informationButtonPressed()));
     connect(myDownloadButton, SIGNAL(clicked()), this, SLOT(downloadButtonPressed()));
@@ -181,7 +198,7 @@ void BookResultView::downloadButtonPressed()
                                                   QString("*.") + Settings::FORMAT));
     qDebug() << "BookResultView::downloadButtonPressed() file name for saving " << fileName;
     if (fileName.isEmpty()) {
-       return;
+        return;
     }
     myViewModel->downloadingRequested(fileName);
     //myDownloadButton->setState("wait");
@@ -213,7 +230,7 @@ void BookResultView::informationButtonPressed()
 
 
 void BookResultView::mousePressEvent  ( QMouseEvent * e ) {
-  //  qDebug() << "BookResultView::mousePressEvent();";
+    //  qDebug() << "BookResultView::mousePressEvent();";
     myParent->changeSelectedBook(this);
 }
 

@@ -211,8 +211,11 @@ void CatalogManager::searchLinksForComplexCatalogs() {
     }
 }
 
-void CatalogManager::setLinksForComplexCatalogs(bool, LinksInformation* linksInfo) {
-     qDebug() << "CatalogManager::setLinksForComplexCatalogs() links "
+void CatalogManager::setLinksForComplexCatalogs(bool success, LinksInformation* linksInfo) {
+    if (!success) {
+        return;
+    }
+        qDebug() << "CatalogManager::setLinksForComplexCatalogs() links "
              << linksInfo->getNewLinks() << linksInfo->getPolularLinks();
 
       const QStringList& newLinks = linksInfo->getNewLinks();

@@ -42,10 +42,12 @@ public slots:
 
 signals:
 
+    void bookDownloadStateChanged(QString newState);
     void infoOpenRequested(Book* book);
 
 private slots:
 
+    void downloadFinished(bool, int);
 
 private:
 
@@ -56,6 +58,7 @@ private:
     Book* myShownBook;
     BookResultsViewModel* myParentModel;
 
+     int lastRequestId;
 };
 
 #endif // BOOKRESULTVIEWMODEL_H

@@ -8,11 +8,41 @@
 #include "../Model/librarymanager.h"
 #include "../Model/filedownloadmanager.h"
 
+#include "../Model/filedownloadmanager.h"
+
 BookResultViewModel::BookResultViewModel(Book* book, BookResultsViewModel* parent)
 {
     myShownBook = book;
     myParentModel = parent;
+
+    setConnections();
 }
+
+void BookResultViewModel::setConnections()
+{
+    connect(FileDownloadManager::getInstance(), SIGNAL(downloadBookFinished(bool, int)), this, SLOT(downloadFinished(bool, int)));
+}
+
+void BookResultViewModel::downloadFinished(bool success, int requestId)
+{
+    if (lastRequestId == requestId)
+    {
+        if (success)
+        {
+            emit bookDownloadStateChanged("downloaded");
+        }
+        else
+        {
+            emit bookDownloadStateChanged("failed");
+        }
+    }
+}
+
+
+QMap<QString, QString> BookResultViewModel::getLinks() {
+    return myShownBook->getSourceLinks();
+}
+
 
 QString BookResultViewModel::getBookName()
 {
@@ -22,10 +52,6 @@ QString BookResultViewModel::getBookName()
 QString BookResultViewModel::getServerName()
 {
     return myShownBook->getServerName();
-}
-
-QMap<QString, QString> BookResultViewModel::getLinks() {
-    return myShownBook->getSourceLinks();
 }
 
 QString BookResultViewModel::getAuthorName()
@@ -78,7 +104,7 @@ void BookResultViewModel::downloadingRequested(const QString& filename) {
     qDebug() << "BookResultViewModel::downloadingRequested() link " << myShownBook->getSourceLinks()
              << "file" << filename;
 
-    FileDownloadManager::getInstance().downloadBook(*myShownBook, filename, Settings::FORMAT);
+    lastRequestId = FileDownloadManager::getInstance()->downloadBook(*myShownBook, filename, Settings::FORMAT);
 }
 
 

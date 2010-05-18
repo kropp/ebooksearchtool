@@ -30,6 +30,8 @@ protected:
     void setWindowParameters();
     void setConnections();
 
+    void keyPressEvent(QKeyEvent* event);
+
     virtual void addItemsToLeftBarPartLayout(QHBoxLayout* leftPartLayout);
     virtual void addItemsToRightBarPartLayout(QHBoxLayout* rightPartLayout);
     virtual void addItemsToLeftContentPartLayout(QHBoxLayout* leftPartLayout);

@@ -10,7 +10,6 @@
         <file alias="SearchLeftLabel">Resources/NewSkin/SearchLeftLabel.png</file>
         <file alias="ToolbarLeft">Resources/NewSkin/ToolbarLeft.png</file>
         <file alias="SearchButton">Resources/NewSkin/SearchButton.png</file>
-        
         <file alias="SearchButtonPressed">Resources/NewSkin/SearchButtonPressed.png</file>
         <file alias="ContentLeftBack">Resources/NewSkin/ContentLeftBack.png</file>
         <file alias="ContentStretchBack">Resources/NewSkin/ContentStretchBack.png</file>
@@ -24,8 +23,7 @@
         <file alias="PreviousPage">Resources/NewSkin/PreviousPage.png</file>
         <file alias="AddToLibrary">Resources/NewSkin/AddToLibrary.png</file>
         <file alias="Download">Resources/NewSkin/Download.png</file>
- <file alias="DownloadInactive">Resources/NewSkin/DownloadInactive.png</file>
-
+        <file alias="DownloadInactive">Resources/NewSkin/DownloadInactive.png</file>
         <file alias="Info">Resources/NewSkin/Info.png</file>
         <file alias="Read">Resources/NewSkin/Read.png</file>
         <file alias="UnknownBook">Resources/NewSkin/UnknownBook.png</file>
@@ -54,6 +52,11 @@
         <file alias="ForwardDisabled">Resources/NewSkin/ForwardInactive.png</file>
         <file alias="HomeDisabled">Resources/NewSkin/HomeInactive.png</file>
         <file alias="UpDisabled">Resources/NewSkin/UpInactive.png</file>
+        <file alias="Options">Resources/NewSkin/Options.png</file>
+        <file alias="OptionsNavigationIcon">Resources/NewSkin/OptionsNavigationIcon.png</file>
+        <file alias="OptionsNavigationIconInactive">Resources/NewSkin/OptionsNavigationIconInactive.png</file>
+        <file alias="DownloadFailed">Resources/NewSkin/DownloadFailed.png</file>
+        <file alias="DownloadSuccess">Resources/NewSkin/DownloadSuccess.png</file>
     </qresource>
     <qresource prefix="/qss">
         <file alias="Common">Resources/NewSkin/StyleSheets/CommonStyle.txt</file>
@@ -68,5 +71,7 @@
         <file alias="CatalogStyle">Resources/NewSkin/StyleSheets/CatalogStyle.txt</file>
         <file alias="CatalogResultStyle">Resources/NewSkin/StyleSheets/CatalogResultStyle.txt</file>
         <file alias="BrowseBarStyle">Resources/NewSkin/StyleSheets/BrowseBarStyle.txt</file>
+        <file alias="OptinsListStyle">Resources/NewSkin/StyleSheets/OptionsListStyle.txt</file>
+        <file alias="OptionsStyle">Resources/NewSkin/StyleSheets/OptionsStyle.txt</file>
     </qresource>
 </RCC>
