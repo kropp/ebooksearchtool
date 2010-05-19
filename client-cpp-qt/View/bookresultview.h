@@ -22,62 +22,66 @@ class BookResultView : public StandardView
 
     Q_OBJECT
 
-    public:
-        BookResultView(BookResultsView* parent, BookResultViewModel* resultViewModel, bool addToLibraryButton);
-        ~BookResultView();
+private:
+    static QColor ourBackgroundSelectedColor;
+    static QColor ourBackgroundColor;
 
-    public:
+public:
+    BookResultView(BookResultsView* parent, BookResultViewModel* resultViewModel, bool addToLibraryButton);
+    ~BookResultView();
 
-        virtual void resizeEvent (QResizeEvent* event);
-        void select();
-        void cancelSelection();
+public:
 
-    signals:
-        void bookSelected(BookResultView* );
+    virtual void resizeEvent (QResizeEvent* event);
+    void select();
+    void cancelSelection();
 
-    protected:
+signals:
+    void bookSelected(BookResultView* );
 
-        void createComponents();
-        void layoutComponents();
-        void setWindowParameters();
-        void setConnections();
+protected:
 
-    private slots:
+    void createComponents();
+    void layoutComponents();
+    void setWindowParameters();
+    void setConnections();
 
-        void downloadButtonPressed();
-        void addToLibraryButtonPressed();
-        void removeFromLibraryButtonPressed();
-        void readButtonPressed();
-        void informationButtonPressed();
-        void bookInfoPressed();
+private slots:
 
-        void bookDownloadStateChanged(QString newState);
+    void downloadButtonPressed();
+    void addToLibraryButtonPressed();
+    void removeFromLibraryButtonPressed();
+    void readButtonPressed();
+    void informationButtonPressed();
+    void bookInfoPressed();
 
-    private:
-         void mousePressEvent  ( QMouseEvent * e );
-         void setBackgroundColor(QColor color);
+    void bookDownloadStateChanged(QString newState);
+
+private:
+    void mousePressEvent  ( QMouseEvent * e );
+    void setBackgroundColor(QColor color);
 
 
-    private:
+private:
 
-        BookResultViewModel* myViewModel;
+    BookResultViewModel* myViewModel;
 
-        QLabel* myBookPictureLabel;
-        QLabel* myBookTitleLabel;
-        QLabel* myBookAuthorLabel;
-        QLabel* myBookLanguageLabel;
-        QLabel* myBookServerLabel;
-        MultiStateButton* myDownloadButton;
-        QPushButton* myAddToLibraryButton;
-        QPushButton* myRemoveFromLibraryButton;
-        QPushButton* myReadButton;
-        QPushButton* myInformationButton;
+    QLabel* myBookPictureLabel;
+    QLabel* myBookTitleLabel;
+    QLabel* myBookAuthorLabel;
+    QLabel* myBookLanguageLabel;
+    QLabel* myBookServerLabel;
+    MultiStateButton* myDownloadButton;
+    QPushButton* myAddToLibraryButton;
+    QPushButton* myRemoveFromLibraryButton;
+    QPushButton* myReadButton;
+    QPushButton* myInformationButton;
 
-        BookResultsView* myParent;
+    BookResultsView* myParent;
 
-        QFontMetrics* myMetrics;
+    QFontMetrics* myMetrics;
 
-        bool myAddToLibraryButtonEnabled;
+    bool myAddToLibraryButtonEnabled;
 };
 
 #endif // BOOKRESULTVIEW_H

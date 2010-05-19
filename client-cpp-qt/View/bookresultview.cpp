@@ -13,6 +13,9 @@
 
 #include <QDebug>
 
+QColor BookResultView::ourBackgroundSelectedColor(QColor::fromHsv(200, 10, 255));
+QColor BookResultView::ourBackgroundColor(Qt::white);
+
 BookResultView::BookResultView(BookResultsView* parent, BookResultViewModel* bookResultViewModel, bool addToLibraryButton) : StandardView(parent)
 {
     myParent = parent;
@@ -204,11 +207,6 @@ void BookResultView::downloadButtonPressed()
         return;
     }
     myViewModel->downloadingRequested(fileName);
-    //myDownloadButton->setState("wait");
-    // myDownloadButton->setState("finished");
-    //show - downloading in progress
-
-    //else do nothing
 }
 
 void BookResultView::addToLibraryButtonPressed()
@@ -238,12 +236,11 @@ void BookResultView::mousePressEvent  ( QMouseEvent * e ) {
 }
 
 void BookResultView::select() {
-    qDebug() << "BookResultView::select();";
-    setBackgroundColor(Qt::blue);
+    setBackgroundColor(ourBackgroundSelectedColor);
 }
 
 void BookResultView::cancelSelection() {
-    setBackgroundColor(Qt::white);
+    setBackgroundColor(ourBackgroundColor);
 }
 
 void BookResultView::setBackgroundColor(QColor color) {
