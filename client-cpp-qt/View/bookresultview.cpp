@@ -64,20 +64,23 @@ void BookResultView::createComponents()
     if (myAddToLibraryButtonEnabled)
     {
         myAddToLibraryButton = new QPushButton(this);
+        myAddToLibraryButton->setCursor(Qt::PointingHandCursor);
         myAddToLibraryButton->setObjectName("addToLibraryButton");
         myAddToLibraryButton->setToolTip("Add to library");
     }
     else
     {
         myRemoveFromLibraryButton = new QPushButton(this);
+        myRemoveFromLibraryButton->setCursor(Qt::PointingHandCursor);
         myRemoveFromLibraryButton->setObjectName("removeFromLibraryButton");
         myRemoveFromLibraryButton->setToolTip("Remove from library");
     }
 
     myReadButton = new QPushButton(this);
     myReadButton->setToolTip("Read book");
-
+    myReadButton->setCursor(Qt::PointingHandCursor);
     myInformationButton = new QPushButton(this);
+    myInformationButton->setCursor(Qt::PointingHandCursor);
     myInformationButton->setToolTip("Book information");
 
 

@@ -22,6 +22,11 @@ void CatalogBrowseBarPanel::createComponents()
     myGoBackButton = new QPushButton(this);
     myGoForwardButton = new QPushButton(this);
 
+    myHomeButton->setCursor(Qt::PointingHandCursor);
+    myGoUpButton->setCursor(Qt::PointingHandCursor);
+    myGoBackButton->setCursor(Qt::PointingHandCursor);
+    myGoForwardButton->setCursor(Qt::PointingHandCursor);
+
     myProgressBar = new QProgressBar(this);
 
     myHomeButton->setObjectName("homeButton");

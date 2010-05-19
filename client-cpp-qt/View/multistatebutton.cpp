@@ -6,6 +6,7 @@ MultiStateButton::MultiStateButton(QWidget *parent) :
     QPushButton(parent)
 {
     state = NORMAL_STATE;
+    setCursor(Qt::PointingHandCursor);
 }
 
 QString MultiStateButton::getState()

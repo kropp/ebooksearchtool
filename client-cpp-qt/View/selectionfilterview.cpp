@@ -38,6 +38,8 @@ void SelectionFilterView::createComponents()
     filterWordsLabel->hide();
     performButton = new QPushButton("Filter", filterFrame);
 
+    performButton->setCursor(Qt::PointingHandCursor);
+
     filterFrame->setObjectName("filterFrame");
     performButton->setObjectName("filterButton");
 

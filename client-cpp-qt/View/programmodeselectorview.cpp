@@ -41,6 +41,12 @@ void ProgramModeSelectorView::createComponents()
     catalogModeButton = new MultiStateButton(this);
     optionsModeButton = new MultiStateButton(this);
 
+    searchModeButton->setCursor(Qt::PointingHandCursor);
+    libraryModeButton->setCursor(Qt::PointingHandCursor);
+    catalogModeButton->setCursor(Qt::PointingHandCursor);
+    optionsModeButton->setCursor(Qt::PointingHandCursor);
+
+
     searchModeButton->setObjectName("searchModeButton");
     libraryModeButton->setObjectName("libraryModeButton");
     catalogModeButton->setObjectName("catalogModeButton");

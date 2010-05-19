@@ -40,6 +40,9 @@ void SearchView::createComponents()
     myProgressBar->setMaximum(0);
     myProgressBar->setMinimum(0);
 
+    searchButton->setCursor(Qt::PointingHandCursor);
+    moreButton->setCursor(Qt::PointingHandCursor);
+
     searchLabel->setObjectName("searchLabel");
     searchLine->setObjectName("searchLine");
     searchButton->setObjectName("searchButton");

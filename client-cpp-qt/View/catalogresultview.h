@@ -38,13 +38,15 @@ class CatalogResultView : public StandardView
         void openButtonPressed();
 
     private:
+        void mousePressEvent(QMouseEvent *);
 
-        CatalogResultViewModel* viewModel;
+    private:
+
+        CatalogResultViewModel* myViewModel;
         CatalogResultsView* myParent;
 
-//        QLabel* catalogPictureLabel;
-        QLabel* catalogTitleLabel;
-        QLabel* catalogSummaryLabel;
+        QLabel* myCatalogTitleLabel;
+        QLabel* myCatalogSummaryLabel;
 
 
         QPushButton* myOpenCatalogButton;
