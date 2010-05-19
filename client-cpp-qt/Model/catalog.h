@@ -54,6 +54,9 @@ public:
     void addChildUrl(QString url);
 
 private:
+      bool containServer(const QString& server);
+
+private:
 
     Catalog* myParent;
 

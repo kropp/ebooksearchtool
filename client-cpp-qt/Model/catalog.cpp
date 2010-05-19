@@ -50,7 +50,12 @@ const QString& Catalog::getSummary() {
 
 
 void Catalog::addChildUrl(UrlData* newUrl) {
-    myUrlList.append(newUrl);
+    if (!newUrl) {
+        return;
+    }
+    if (!containServer(newUrl->server)) {
+        myUrlList.append(newUrl);
+    }
 }
 
 void Catalog::addChildUrl(QString url) {
@@ -138,4 +143,16 @@ void Catalog::addCatalogToCatalog(Catalog* newCatalog)
 const QString& Catalog::getCatalogName()
 {
     return myName;
+}
+
+bool Catalog::containServer(const QString& server) {
+    bool contain = false;
+    foreach (UrlData* url, myUrlList) {
+        if (url->server == server) {
+            contain = true;
+            break;
+
+        }
+    }
+    return contain;
 }
