@@ -1,5 +1,5 @@
 
-%\usepackage[14pt]{extsizes}
+\usepackage[14pt]{extsizes}
 
 % Библиографический список
 
@@ -27,7 +27,7 @@
 \RequirePackage[psamsfonts]{amsfonts,amssymb} %Math packages
 \RequirePackage{mathrsfs}
 
-\RequirePackage[a4paper,top=2.5cm,bottom=2.5cm,left=3cm,right=1cm,head=17pt]{geometry}
+\RequirePackage[a4paper,top=2.5cm,bottom=2.5cm,left=3cm,right=2cm,head=17pt]{geometry}
 
 
 %% Puts "." instead of ":" in captions
@@ -78,4 +78,11 @@
 \else
     \RequirePackage[bookmarks=false, colorlinks, unicode,
                     pdfstartview=FitH]{hyperref}
-\fi      
+\fi  
+
+           
+\newtheorem{thm}{Теорема}
+\newenvironment{algo}[1]{\par\medskip\noindent{\bf Алгоритм} 
+                        {\sc #1}\par}{\medskip\par}      
+                        
+\linespread{1.3}
