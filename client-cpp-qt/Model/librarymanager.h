@@ -31,11 +31,11 @@ public slots:
 
     void addBookToLibrary(Book* newBook);
     void removeBookFromLibrary(Book* newBook);
-    void saveLibrary();
     void openLibrary();
 
 private:
      bool getBooks(QFile& file);
+     void saveLibrary();
 
 
 private:

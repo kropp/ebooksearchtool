@@ -54,6 +54,7 @@ void LibraryManager::addBookToLibrary(Book* newBook)
         myBooksInLibrary.append(newBook);
         emit booksChanged(myBooksInLibrary);
         emit booksAvailabilityChanged(myBooksInLibrary.size() > 0);
+        saveLibrary();
     }
 }
 
@@ -64,6 +65,7 @@ void LibraryManager::removeBookFromLibrary(Book* newBook)
         myBooksInLibrary.remove(myBooksInLibrary.indexOf(newBook, 0));
         emit booksChanged(myBooksInLibrary);
         emit booksAvailabilityChanged(myBooksInLibrary.size() > 0);
+        saveLibrary();
     }
 }
 

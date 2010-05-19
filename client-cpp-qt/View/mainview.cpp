@@ -33,7 +33,7 @@ void MainView::setWindowParameters()
     this->setStyleSheet(styleSheetFile.readAll());
 }
 
-void MainView::closeEvent (QCloseEvent * e ) {
-    LibraryManager::getInstance()->saveLibrary();
-    e->accept();
-}
+//void MainView::closeEvent (QCloseEvent * e ) {
+//    LibraryManager::getInstance()->saveLibrary();
+//    e->accept();
+//}
