@@ -28,6 +28,9 @@ OPDSHandler::OPDSHandler(QVector<Book*>* bookData, QVector<Catalog*>* catalogDat
 OPDSHandler::OPDSHandler(LinksInformation* linksInfo) : mySearchResult(0) {
     myLinksInformation = linksInfo;
     myParseLinksMode = true;
+    myIsEntry = false;
+    myIsInContent = false;
+    currentParsedServer = "";
 }
 
 OPDSHandler::~OPDSHandler() {}

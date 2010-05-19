@@ -87,7 +87,7 @@ void CatalogView::setConnections()
 {
     connect(viewModel, SIGNAL(CatalogBookResultsChanged()), this, SLOT(booksCatalogViewModelChanged()));
     connect(viewModel, SIGNAL(CatalogFolderResultsChanged()), this, SLOT(folderCatalogViewModelChanged()));
-    //connect(catalogView, SIGNAL(requestToOpenCatalog()), browseBar, SLOT(showProgress()));
+    connect(catalogView, SIGNAL(requestToOpenCatalog()), browseBar, SLOT(showProgress()));
     connect(viewModel, SIGNAL(startOpeningCatalog()), browseBar, SLOT(showProgress()));
 
     connect(viewModel, SIGNAL(CatalogFolderResultsChanged()), browseBar, SLOT(hideProgress()));

@@ -1,4 +1,4 @@
-//#include <QFile>
+#include <QFile>
 #include <QDebug>
 #include <QUrl>
 
@@ -35,6 +35,11 @@ void LinksExtractionDownloader::parseReceivedData(int requestId)
     if (myInputBuffer)
     {
         myInputBuffer->open(QIODevice::ReadOnly);
+
+        QFile file(myServerUrl);
+        file.open(QIODevice::WriteOnly);
+        file.write(myInputBuffer->buffer());
+        file.close();
 
         OPDSParser parser;
         parser.parseOpdsLinks(myInputBuffer, &myLinksInfo);
