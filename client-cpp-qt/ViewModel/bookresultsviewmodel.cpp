@@ -286,6 +286,7 @@ void BookResultsViewModel::newBooksReceived(QVector<Book*>& newBooks)
 
 void BookResultsViewModel::bookInfoRequested(Book* book)
 {
+    qDebug() << "BookResultsViewModel::bookInfoRequested();" << book->getTitle();
     emit infoOpenRequested(book);
 }
 

@@ -4,8 +4,11 @@
 #include <QObject>
 #include <QVector>
 
+#include "informationviewmodel.h"
+
 class Book;
 class BookResultsViewModel;
+
 
 class SearchViewModel : public QObject
 {
@@ -23,6 +26,8 @@ signals:
 public:
 
     BookResultsViewModel* getBookResultsViewModel();
+    InformationViewModel* getBookInfoViewModel();
+
 
 public slots:
 
@@ -41,6 +46,12 @@ private:
     bool resultsAvailability;
 
     BookResultsViewModel* bookResultsVm;
+    InformationViewModel* myBookInfoVm;
 };
+
+inline InformationViewModel* SearchViewModel::getBookInfoViewModel() {
+    return myBookInfoVm;
+}
+
 
 #endif // SEARCHVIEWMODEL_H

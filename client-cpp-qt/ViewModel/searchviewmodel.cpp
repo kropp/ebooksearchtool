@@ -11,6 +11,7 @@ SearchViewModel::SearchViewModel()
 
     bookResultsVm = new BookResultsViewModel();
     bookResultsVm->initialize();
+    myBookInfoVm = new InformationViewModel();
 
     setConnections();
 }
@@ -49,4 +50,7 @@ void SearchViewModel::setConnections()
 {
     connect(BookSearchManager::getInstance(), SIGNAL(booksAvailabilityChanged(bool)), this, SLOT(bookResultsVisibilityChanged(bool)));
     connect(bookResultsVm, SIGNAL(infoOpenRequested(Book*)), this, SIGNAL(infoOpenRequested(Book*)));
+    connect(bookResultsVm, SIGNAL(infoOpenRequested(Book*)), myBookInfoVm, SLOT(changeCurrentBook(Book*)));
+
+    //connect(bookResultsVm, SIGNAL(infoOpenRequested(Book*)), myBookInfoVm, SLOT(changeCurrentBook(Book*)));
 }

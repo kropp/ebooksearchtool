@@ -233,6 +233,7 @@ void BookResultView::informationButtonPressed()
 void BookResultView::mousePressEvent  ( QMouseEvent * e ) {
     //  qDebug() << "BookResultView::mousePressEvent();";
     myParent->changeSelectedBook(this);
+    bookInfoPressed();
 }
 
 void BookResultView::select() {

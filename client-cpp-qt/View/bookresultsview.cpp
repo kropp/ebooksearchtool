@@ -98,4 +98,5 @@ void BookResultsView::changeSelectedBook(BookResultView* newBookView) {
     }
     mySelectedBook = newBookView;
     mySelectedBook->select();
+    //myViewModel->bookInfoRequested(newBookView);
 }

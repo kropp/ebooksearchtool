@@ -42,6 +42,7 @@ public slots:
     void requestPrevPagesWindow();
     void bookInfoRequested(Book* book);
 
+
 signals:
 
     void pageChanged(int page);

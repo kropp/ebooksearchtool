@@ -52,8 +52,9 @@ void SearchView::createComponents()
     moreButton->hide();
     myProgressBar->hide();
 
-    bookResults = new BookResultsRearrangeView(this, viewModel->getBookResultsViewModel(), true);
-    bookFilter = new SelectionFilterView(this, viewModel->getBookResultsViewModel());
+    myBookResults = new BookResultsRearrangeView(this, viewModel->getBookResultsViewModel(), true);
+    myBookFilter = new SelectionFilterView(this, viewModel->getBookResultsViewModel());
+    myInformationView = new InformationView(this, viewModel->getBookInfoViewModel());
 }
 
 void SearchView::layoutComponents()
@@ -127,12 +128,15 @@ void SearchView::addItemsToRightBarPartLayout(QHBoxLayout* rightPartLayout)
 
 void SearchView::addItemsToLeftContentPartLayout(QHBoxLayout* leftPartLayout)
 {
-    leftPartLayout->addWidget(bookFilter);
+    QVBoxLayout* mainLayout = new QVBoxLayout();
+    mainLayout->addWidget(myBookFilter);
+    mainLayout->addWidget(myInformationView);
+    leftPartLayout->addLayout(mainLayout);
 }
 
 void SearchView::addItemsToRightContentPartLayout(QHBoxLayout* rightPartLayout)
 {
-    rightPartLayout->addWidget(bookResults);
+    rightPartLayout->addWidget(myBookResults);
 }
 
 void SearchView::textEdited(QString newText)

@@ -58,7 +58,9 @@ HEADERS += Model/book.h \
     View/optionsview.h \
     View/optionslistview.h \
     ViewModel/optionsviewmodel.h \
-    Model/settingsmanager.h
+    Model/settingsmanager.h \
+    View/informationview.h \
+    ViewModel/informationviewmodel.h
 SOURCES += Model/book.cpp \
     View/mainview.cpp \
     main.cpp \
@@ -111,5 +113,7 @@ SOURCES += Model/book.cpp \
     View/optionsview.cpp \
     View/optionslistview.cpp \
     ViewModel/optionsviewmodel.cpp \
-    Model/settingsmanager.cpp
+    Model/settingsmanager.cpp \
+    View/informationview.cpp \
+    ViewModel/informationviewmodel.cpp
 RESOURCES += resources.qrc

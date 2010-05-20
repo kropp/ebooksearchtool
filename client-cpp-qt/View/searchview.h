@@ -12,6 +12,7 @@ class QProgressBar;
 
 #include "standardcontentview.h"
 #include "selectionfilterview.h"
+#include "informationview.h"
 
 class SearchView : public StandardContentView
 {
@@ -56,8 +57,9 @@ private:
 
     SearchViewModel* viewModel;
 
-    BookResultsRearrangeView* bookResults;
-    SelectionFilterView* bookFilter;
+    BookResultsRearrangeView* myBookResults;
+    SelectionFilterView* myBookFilter;
+    InformationView* myInformationView;
 
     QString lastSearchString;
 
