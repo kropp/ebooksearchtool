@@ -36,6 +36,7 @@ public:
 public slots:
 
     void addBookToLibraryRequested();
+    void readRequested();
     void removeBookFromLibraryRequested();
     void bookInfoRequested();
     void downloadingRequested(const QString& fileName);

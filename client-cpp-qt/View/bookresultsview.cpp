@@ -16,7 +16,6 @@ BookResultsView::BookResultsView
     myAddToLibraryResults = addToLibrary;
     myCurrentVerticalLayout = 0;
     myViewModel = bookResultsViewModel;
-    myShownResults = QVector<BookResultView*>();
     mySelectedBook = 0;
     initialize();
 }

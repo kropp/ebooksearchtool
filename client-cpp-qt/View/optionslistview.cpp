@@ -1,11 +1,15 @@
 #include "optionslistview.h"
+#include "serverseditview.h"
 
 #include <QLabel>
 #include <QFile>
 
 #include "../ViewModel/optionsviewmodel.h"
+#include "../ViewModel/serverseditviewmodel.h"
 
 static const QString APPLY_TEXT = "Apply";
+
+static const int RESIZE_MARGIN = 150;
 
 OptionsListView::OptionsListView
 (
@@ -48,6 +52,26 @@ void OptionsListView::createComponents()
     proxyPortEdit->setObjectName("proxyPortEdit");
     proxyPortEdit->setText(myViewModel->getProxyPort());
 
+    libraryPathLabel = new QLabel(this);
+    libraryPathLabel->setObjectName("libraryPathLabel");
+    libraryPathLabel->setText("Library path:");
+
+    libraryPathEdit = new QLineEdit(this);
+    libraryPathEdit->setObjectName("libraryPathEdit");
+    libraryPathEdit->setText(myViewModel->getLibraryPath());
+
+    downloadFormatLabel = new QLabel(this);
+    downloadFormatLabel->setObjectName("downloadFormatLabel");
+    downloadFormatLabel->setText("Download format:");
+
+    downloadFormatEdit = new QLineEdit(this);
+    downloadFormatEdit->setObjectName("downloadFormatEdit");
+    downloadFormatEdit->setText(myViewModel->getDownloadFormat());
+
+    serversList = new ServersEditView(this, myViewModel->getServersEditVm());
+
+    scrollArea = new QScrollArea(this);
+    scrollArea->setWidget(serversList);
 
     applyButton = new QPushButton(this);
     applyButton->setObjectName("applyButton");
@@ -61,22 +85,32 @@ void OptionsListView::layoutComponents()
     QGridLayout* optionsLayout = new QGridLayout;
 
     optionsLayout->setMargin(20);
+    optionsLayout->setSpacing(20);
     optionsLayout->setColumnMinimumWidth(0, 200);
     optionsLayout->setColumnMinimumWidth(1, 30);
     optionsLayout->setColumnStretch(0, 1);
     optionsLayout->setColumnStretch(1, 0);
 
 
-    optionsLayout->addWidget(booksPerPageLabel, 0, 0, 1, 1, Qt::AlignLeft);
-    optionsLayout->addWidget(booksPerPageEdit,  0, 1, 1, 1, Qt::AlignRight);
+    optionsLayout->addWidget(booksPerPageLabel, 0, 0, 1, 1);
+    optionsLayout->addWidget(booksPerPageEdit,  0, 1, 1, 1);
 
-    optionsLayout->addWidget(proxyLabel, 1, 0, 1, 1, Qt::AlignLeft);
-    optionsLayout->addWidget(proxyEdit,  1, 1, 1, 1, Qt::AlignRight);
+    optionsLayout->addWidget(proxyLabel, 1, 0, 1, 1);
+    optionsLayout->addWidget(proxyEdit,  1, 1, 1, 1);
 
-    optionsLayout->addWidget(proxyPortLabel, 2, 0, 1, 1, Qt::AlignLeft);
-    optionsLayout->addWidget(proxyPortEdit,  2, 1, 1, 1, Qt::AlignRight);
+    optionsLayout->addWidget(proxyPortLabel, 2, 0, 1, 1);
+    optionsLayout->addWidget(proxyPortEdit,  2, 1, 1, 1);
+
+    optionsLayout->addWidget(libraryPathLabel, 3, 0, 1, 1);
+    optionsLayout->addWidget(libraryPathEdit,  3, 1, 1, 1);
+
+    optionsLayout->addWidget(downloadFormatLabel, 4, 0, 1, 1);
+    optionsLayout->addWidget(downloadFormatEdit,  4, 1, 1, 1);
+
+    optionsLayout->addWidget(scrollArea, 5, 0, 1, 2);
 
     mainLayout->addItem(optionsLayout);
+    mainLayout->addStretch(1);
 
     QHBoxLayout* applyButtonLayout = new QHBoxLayout();
 
@@ -87,6 +121,12 @@ void OptionsListView::layoutComponents()
     mainLayout->addItem(applyButtonLayout);
 
     this->setLayout(mainLayout);
+}
+
+void OptionsListView::resizeEvent(QResizeEvent* event)
+{
+    int newWidth = event->size().width();
+    serversList->setFixedWidth(newWidth - RESIZE_MARGIN);
 }
 
 void OptionsListView::setWindowParameters()
@@ -107,6 +147,8 @@ void OptionsListView::applyAllChanges()
     myViewModel->requestToChangePageBooksCount(booksPerPageEdit->text());
     myViewModel->requestToChangeProxy(proxyEdit->text());
     myViewModel->requestToChangeProxyPort(proxyPortEdit->text());
+    myViewModel->requestToChangeLibraryPath(libraryPathEdit->text());
+    myViewModel->requestToChangeDownloadFormat(downloadFormatEdit->text());
     myViewModel->applyAllChanges();
 }
 

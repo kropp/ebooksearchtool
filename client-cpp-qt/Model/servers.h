@@ -3,25 +3,56 @@
 
 #include <QString>
 #include <QStringList>
+#include <QObject>
+#include <QList>
 
-static const QString FEEDBOOKS_ID = "www.feedbooks.com";
-static const QString MANYBOOKS_ID = "manybooks.net";
-static const QString LITRES_ID = "data.fbreader.org";
-static const QString SMASHWORDS_ID = "www.smashwords.com";
-static const QString BOOKSERVER_ID = "bookserver.archive.org";
-static const QString EBOOKSEARCH_ID = "ebooksearch.webfactional.com";
+struct ServerInfo
+{
+    QString ProgramAlias;
+    QString ServerPath;
+    QString SearchPath;
+    QString RootAtomPath;
+    bool includedInBookSearch;
+    bool includedInCatalogSearch;
+};
 
-class EBookSearchTool {
-public:
-    const EBookSearchTool& getInstance();
+class EBookSearchTool : public QObject {
 
-    static void initializeServers();
-
-public:
-    static QStringList ourServers;
+    Q_OBJECT
 
 private:
-    EBookSearchTool() {}
+
+    EBookSearchTool();
+
+public:
+
+    static EBookSearchTool* getInstance();
+
+    void initializeServers();
+
+signals:
+
+    void serversChanged();
+
+public:
+
+    QList<ServerInfo*> getServers();
+
+public:
+
+    void addServer(QString alias, QString serverPath, QString searchPath, QString atomPath, bool bookSearchInclude, bool catalogSearchInclude);
+    void deleteServer(ServerInfo* info);
+    void dropServersToDefault();
+
+private:
+
+    void addServerWithNotification(QString alias, QString serverPath, QString searchPath, QString atomPath, bool bookSearchInclude, bool catalogSearchInclude, bool emitSignal);
+
+private:
+
+    QList<ServerInfo*> ourServers;
+
+    static EBookSearchTool instance;
 };
 
 

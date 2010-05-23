@@ -7,10 +7,12 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
+#include <QScrollArea>
 
 #include "standardview.h"
 
 class OptionsViewModel;
+class ServersEditView;
 
 class OptionsListView : public StandardView
 {
@@ -28,6 +30,7 @@ class OptionsListView : public StandardView
         void setWindowParameters();
         void setConnections();
 
+        void resizeEvent(QResizeEvent* event);
 
     protected slots:
 
@@ -47,7 +50,17 @@ class OptionsListView : public StandardView
         QLabel* proxyPortLabel;
         QLineEdit* proxyPortEdit;
 
+        QLabel* libraryPathLabel;
+        QLineEdit* libraryPathEdit;
+
+        QLabel* downloadFormatLabel;
+        QLineEdit* downloadFormatEdit;
+
+        ServersEditView* serversList;
+
         QPushButton* applyButton;
+
+        QScrollArea* scrollArea;
 
 };
 #endif // OPTIONSLISTVIEW_H

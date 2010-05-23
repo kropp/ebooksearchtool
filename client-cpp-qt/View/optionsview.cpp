@@ -29,6 +29,8 @@ void OptionsView::createComponents()
 
     myScrollArea->setWidget(listView);
     myScrollArea->setObjectName("scrollArea");
+
+
 }
 
 void OptionsView::layoutComponents()

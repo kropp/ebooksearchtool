@@ -2,7 +2,7 @@
 
 #include "bookresultviewmodel.h"
 #include "bookresultsviewmodel.h"
-#include "../Model/settings.h"
+#include "../Model/settingsmanager.h"
 
 #include "../Model/book.h"
 #include "../Model/librarymanager.h"
@@ -104,12 +104,18 @@ void BookResultViewModel::downloadingRequested(const QString& filename) {
     qDebug() << "BookResultViewModel::downloadingRequested() link " << myShownBook->getSourceLinks()
              << "file" << filename;
 
-    lastRequestId = FileDownloadManager::getInstance()->downloadBook(*myShownBook, filename, Settings::FORMAT);
+    lastRequestId = FileDownloadManager::getInstance()->downloadBook(*myShownBook, filename, SettingsManager::getInstance()->getCurrentFormat());
+}
+
+void BookResultViewModel::readRequested()
+{
+    lastRequestId = FileDownloadManager::getInstance()->readBook(*myShownBook, FileDownloadManager::getInstance()->getReadDefaultLocation(),
+                                                                               SettingsManager::getInstance()->getCurrentFormat());
 }
 
 
 bool BookResultViewModel::canBeDownloaded() {
     //qDebug() << "BookResultViewModel::canBeDownloaded() " << myShownBook->getSourceLinks();
 
-    return !myShownBook->getSourceLinks().value(Settings::FORMAT).isEmpty();
+    return !myShownBook->getSourceLinks().value(SettingsManager::getInstance()->getCurrentFormat()).isEmpty();
 }

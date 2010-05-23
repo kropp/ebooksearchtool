@@ -36,7 +36,7 @@ public slots:
 private:
      bool getBooks(QFile& file);
      void saveLibrary();
-
+     void setConnections();
 
 private:
 

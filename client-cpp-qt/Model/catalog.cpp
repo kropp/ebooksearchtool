@@ -60,7 +60,10 @@ void Catalog::addChildUrl(UrlData* newUrl) {
 
 void Catalog::addChildUrl(QString url) {
     url.remove("http://");
-    foreach (QString server, EBookSearchTool::ourServers) {
+    foreach (ServerInfo* serverInfo, EBookSearchTool::getInstance()->getServers()) {
+
+        QString server = serverInfo->ServerPath;
+
         QString part(server);
         part.remove("www.");
         if (url.contains(part)) {

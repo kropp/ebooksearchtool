@@ -1,6 +1,6 @@
 #include "bookresultview.h"
 #include "../ViewModel/bookresultviewmodel.h"
-#include "../Model/settings.h"
+#include "../Model/settingsmanager.h"
 
 #include <QHBoxLayout>
 #include <QLabel>
@@ -201,7 +201,7 @@ void BookResultView::downloadButtonPressed()
     QString name = myViewModel->getFileName();
     QString fileName(QFileDialog::getSaveFileName(0, tr("Download book"),
                                                   name,
-                                                  QString("*.") + Settings::FORMAT));
+                                                  QString("*.") + SettingsManager::getInstance()->getCurrentFormat()));
     qDebug() << "BookResultView::downloadButtonPressed() file name for saving " << fileName;
     if (fileName.isEmpty()) {
         return;
@@ -221,7 +221,7 @@ void BookResultView::removeFromLibraryButtonPressed()
 
 void BookResultView::readButtonPressed()
 {
-
+    myViewModel->readRequested();
 }
 
 void BookResultView::informationButtonPressed()

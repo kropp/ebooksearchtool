@@ -8,16 +8,36 @@
 #include "opds_parser/opds_constants.h"
 
 #include "linksextractiondownloader.h"
-#include "settings.h"
-
+#include "servers.h"
 
 CatalogManager CatalogManager::instance;
 
 CatalogManager::CatalogManager()
 {
+    setConnections();
+    recreateAllCatalogs();
+}
+
+CatalogManager* CatalogManager::getInstance()
+{
+    return &instance;
+}
+
+void CatalogManager::setConnections()
+{
+    connect(EBookSearchTool::getInstance(), SIGNAL(serversChanged()), this, SLOT(recreateAllCatalogs()));
+}
+
+
+void CatalogManager::recreateAllCatalogs()
+{
+    mySimpleCatalogs.clear();
+    myDownloadersMap.clear();
+    myLinksExtractionDownloaders.clear();
+
     createDownloaders();
 
-    setConnections();
+    setDownloaderConnections();
 
     createCatalogs();
     parseCatalogRoot();
@@ -28,11 +48,12 @@ CatalogManager::CatalogManager()
     myBrowseForwardHistory = new QList<Catalog*>();
 
     currentCatalogParseCyclesAwaited = 0;
-}
 
-CatalogManager* CatalogManager::getInstance()
-{
-    return &instance;
+    emit catalogsRecreated();
+    emit currentCatalogChanged(myRootCatalog);
+    emit goBackAvailabilityChanged(goBackAvailable());
+    emit goForwardAvailabilityChanged(goForwardAvailable());
+    emit goUpAvailabilityChanged(goUpAvailable());
 }
 
 void CatalogManager::goUpLevel()
@@ -99,13 +120,9 @@ void CatalogManager::openCatalog(Catalog* catalog)
 }
 
 void CatalogManager::createDownloaders() {
-    const Settings& settings = Settings::getInstance();
-    const QStringList& servers = settings.getServers();
-
-    qDebug() << "CatalogManager::createDownloaders() servers = " <<  servers;
-
-    foreach (QString server, servers) {
-        myDownloadersMap.insert(server, new CatalogDownloader(server));
+    foreach (ServerInfo* serverInfo, EBookSearchTool::getInstance()->getServers())
+    {
+        myDownloadersMap.insert(serverInfo->ServerPath, new CatalogDownloader(serverInfo->ServerPath));
     }
 }
 
@@ -138,7 +155,7 @@ void CatalogManager::openCatalog(Catalog* catalog, bool addToBackHistory)
     }
 }
 
-void CatalogManager::setConnections()
+void CatalogManager::setDownloaderConnections()
 {
     QList<CatalogDownloader*> values = myDownloadersMap.values();
 
@@ -175,11 +192,20 @@ void CatalogManager::createCatalogs()
     myRootCatalog = new Catalog(false, "Root", new UrlData("-", "-"));
     myRootCatalog->markAsParsed();
 
-    mySimpleCatalogs.append(new Catalog(false, "FeedBooks", new UrlData("/publicdomain/catalog.atom", FEEDBOOKS_ID)));
-    mySimpleCatalogs.append(new Catalog(false, "ManyBooks", new UrlData("/stanza/catalog/", MANYBOOKS_ID)));
-    mySimpleCatalogs.append(new Catalog(false, "Litres", new UrlData("/catalogs/litres/", LITRES_ID)));
-    mySimpleCatalogs.append(new Catalog(false, "SmashWords", new UrlData("/atom", SMASHWORDS_ID)));
-    mySimpleCatalogs.append(new Catalog(false, "eBookSearch", new UrlData("/catalog.atom", EBOOKSEARCH_ID)));
+    foreach (ServerInfo* serverInfo, EBookSearchTool::getInstance()->getServers())
+    {
+        if (serverInfo->includedInCatalogSearch)
+        {
+            mySimpleCatalogs.append(new Catalog(false, serverInfo->ProgramAlias, new UrlData(serverInfo->RootAtomPath, serverInfo->ServerPath)));
+        }
+    }
+
+/*    mySimpleCatalogs.append(new Catalog(false, "FeedBooks", new UrlData(FEEDBOOKS_ATOM_PATH, FEEDBOOKS_ID)));
+    mySimpleCatalogs.append(new Catalog(false, "ManyBooks", new UrlData(MANYBOOKS_ATOM_PATH, MANYBOOKS_ID)));
+    mySimpleCatalogs.append(new Catalog(false, "Litres", new UrlData(LITRES_ATOM_PATH, LITRES_ID)));
+    mySimpleCatalogs.append(new Catalog(false, "SmashWords", new UrlData(SMASHWORDS_ATOM_PATH, SMASHWORDS_ID)));
+    mySimpleCatalogs.append(new Catalog(false, "eBookSearch", new UrlData(EBOOKSEARCH_ATOM_PATH, EBOOKSEARCH_ID)));*/
+
 //    mySimpleCatalogs.append(new Catalog(false, "BookServer", new UrlData("/catalog/", BOOKSERVER_ID)));
 
 

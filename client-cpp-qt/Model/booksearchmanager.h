@@ -34,6 +34,7 @@ public slots:
 private slots:
 
     void childDownloaderFinished(bool success, QVector<Book*>* gotBooks);
+    void serversChanged();
 
 private:
 
@@ -43,14 +44,20 @@ private:
     void setConnectionsWithDownloaders();
     void disconnectDownloaders();
     void updateFinishedState();
+    void setConnections();
+
 
 private:
 
     static BookSearchManager instance;
 
+    bool downloadersSearchStarted;
+
     QVector<Book*> myDownloadedBooks;
 
     QVector<BookDownloader*> myBookDownloaders;
+
+    QString lastRequest;
 };
 
 #endif // NETWORKMANAGER_H

@@ -4,8 +4,11 @@
 #include <QSettings>
 #include <QCoreApplication>
 
-class SettingsManager
+class SettingsManager : public QObject
 {
+
+    Q_OBJECT
+
 private:
 
     SettingsManager();
@@ -13,6 +16,10 @@ private:
 public:
 
     static SettingsManager* getInstance();
+
+signals:
+
+    void libraryPathChanged();
 
 public:
 
@@ -24,6 +31,12 @@ public:
 
     void setProxyPort(int newValue);
     int getProxyPort();
+
+    QString getLibraryPath();
+    void setLibraryPath(QString newPath);
+
+    QString getCurrentFormat();
+    void setCurrentFormat(QString newFormat);
 
 private:
 

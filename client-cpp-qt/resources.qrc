@@ -57,6 +57,10 @@
         <file alias="OptionsNavigationIconInactive">Resources/NewSkin/OptionsNavigationIconInactive.png</file>
         <file alias="DownloadFailed">Resources/NewSkin/DownloadFailed.png</file>
         <file alias="DownloadSuccess">Resources/NewSkin/DownloadSuccess.png</file>
+        <file alias="DeleteSmall">Resources/NewSkin/DeleteSmall.png</file>
+        <file alias="DeleteSmallPressed">Resources/NewSkin/DeleteSmallPressed.png</file>
+        <file alias="AddServer">Resources/NewSkin/AddServer.png</file>
+        <file alias="AddServerPressed">Resources/NewSkin/AddServerPressed.png</file>
     </qresource>
     <qresource prefix="/qss">
         <file alias="Common">Resources/NewSkin/StyleSheets/CommonStyle.txt</file>
@@ -71,7 +75,10 @@
         <file alias="CatalogStyle">Resources/NewSkin/StyleSheets/CatalogStyle.txt</file>
         <file alias="CatalogResultStyle">Resources/NewSkin/StyleSheets/CatalogResultStyle.txt</file>
         <file alias="BrowseBarStyle">Resources/NewSkin/StyleSheets/BrowseBarStyle.txt</file>
-        <file alias="OptinsListStyle">Resources/NewSkin/StyleSheets/OptionsListStyle.txt</file>
+        <file alias="OptionsListStyle">Resources/NewSkin/StyleSheets/OptionsListStyle.txt</file>
         <file alias="OptionsStyle">Resources/NewSkin/StyleSheets/OptionsStyle.txt</file>
+        <file alias="InformationStyle">Resources/NewSkin/StyleSheets/InformationStyle.txt</file>
+        <file alias="ServerStyle">Resources/NewSkin/StyleSheets/ServerStyle.txt</file>
+        <file alias="ServersEditStyle">Resources/NewSkin/StyleSheets/ServersEditStyle.txt</file>
     </qresource>
 </RCC>

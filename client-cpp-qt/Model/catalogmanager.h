@@ -38,7 +38,7 @@ public:
     bool goForwardAvailable();
     bool goUpAvailable();
 
-    void setConnections();
+    void setDownloaderConnections();
 
 signals:
 
@@ -50,10 +50,13 @@ signals:
     void goBackAvailabilityChanged(bool newValue);
     void goForwardAvailabilityChanged(bool newValue);
 
+    void catalogsRecreated();
+
 private slots:
 
     void finishedParsing(bool success, Catalog* catalog);
     void setLinksForComplexCatalogs(bool, LinksInformation* info);
+    void recreateAllCatalogs();
 
 private:
 
@@ -64,7 +67,7 @@ private:
     void searchLinksForComplexCatalogs();
     void createCatalogs();
     void createDownloaders();
-
+    void setConnections();
 
 private:
 

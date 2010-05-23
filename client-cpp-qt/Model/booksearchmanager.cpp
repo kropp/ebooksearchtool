@@ -8,12 +8,14 @@ BookSearchManager BookSearchManager::instance;
 
 BookSearchManager::BookSearchManager()
 {
-    EBookSearchTool::initializeServers();
     myDownloadedBooks = QVector<Book*>();
     myBookDownloaders = QVector<BookDownloader*>();
 
     initializeDownloaders();
     setConnectionsWithDownloaders();
+    setConnections();
+
+    downloadersSearchStarted = false;
 }
 
 
@@ -22,28 +24,55 @@ BookSearchManager* BookSearchManager::getInstance()
     return &instance;
 }
 
+void BookSearchManager::setConnections()
+{
+    connect(EBookSearchTool::getInstance(), SIGNAL(serversChanged()), this, SLOT(serversChanged()));
+}
+
+void BookSearchManager::serversChanged()
+{
+    initializeDownloaders();
+    setConnectionsWithDownloaders();
+    downloadersSearchStarted = false;
+}
+
 void BookSearchManager::initializeDownloaders()
 {
     myBookDownloaders.clear();
 
-    myBookDownloaders.append(new BookDownloader(FEEDBOOKS_ID, "/books/search.atom?query="));
-    myBookDownloaders.append(new BookDownloader(MANYBOOKS_ID, "/stanza/search.php?q="));
-    myBookDownloaders.append(new BookDownloader(BOOKSERVER_ID, "/catalog/opensearch?q="));
-    myBookDownloaders.append(new BookDownloader(SMASHWORDS_ID, "/atom/search/books?query="));
-    myBookDownloaders.append(new BookDownloader(EBOOKSEARCH_ID, "/search?query="));
+    foreach (ServerInfo* serverInfo, EBookSearchTool::getInstance()->getServers())
+    {
+        if (serverInfo->includedInBookSearch)
+        {
+            myBookDownloaders.append(new BookDownloader(serverInfo->ServerPath, serverInfo->SearchPath));
+        }
+    }
 
-  //  myBookDownloaders.append(new BookDownloader(LITRES_ID, "/munseys/op/search?search="));
+    /*    myBookDownloaders.append(new BookDownloader(FEEDBOOKS_ID, FEEDBOOKS_SEARCH_PATH));
+    myBookDownloaders.append(new BookDownloader(MANYBOOKS_ID, MANYBOOKS_SEARCH_PATH));
+    myBookDownloaders.append(new BookDownloader(BOOKSERVER_ID, BOOKSERVER_SEARCH_PATH));
+    myBookDownloaders.append(new BookDownloader(SMASHWORDS_ID, SMASHWORDS_SEARCH_PATH));
+    myBookDownloaders.append(new BookDownloader(EBOOKSEARCH_ID, EBOOKSEARCH_SEARCH_PATH));*/
+
+    //  myBookDownloaders.append(new BookDownloader(LITRES_ID, "/munseys/op/search?search="));
 }
 
 void BookSearchManager::getMore()
 {
-    for (int i = 0; i < myBookDownloaders.size(); i++)
+    if (downloadersSearchStarted)
     {
-        BookDownloader* nextDownloader = myBookDownloaders.at(i);
-        if (nextDownloader->isFinished())
+        for (int i = 0; i < myBookDownloaders.size(); i++)
         {
-            nextDownloader->getMore();
+            BookDownloader* nextDownloader = myBookDownloaders.at(i);
+            if (nextDownloader->isFinished())
+            {
+                nextDownloader->getMore();
+            }
         }
+    }
+    else
+    {
+        startSearch(lastRequest);
     }
 }
 
@@ -77,6 +106,9 @@ void BookSearchManager::startSearch(QString searchRequest)
 {
     //emit booksChanged(downloadedBooks);
 
+    lastRequest = searchRequest;
+    downloadersSearchStarted = true;
+
     myDownloadedBooks.clear();
 
     for (int i = 0; i < myBookDownloaders.size(); i++)
@@ -104,5 +136,6 @@ void BookSearchManager::updateFinishedState()
     if (finished)
     {
         emit downloadFinished();
+        getMore();
     }
 }

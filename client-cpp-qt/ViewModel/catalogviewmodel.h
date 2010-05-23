@@ -31,6 +31,7 @@ signals:
 private slots:
 
     void currentCatalogChanged(Catalog* catalog);
+    void catalogsRecreated();
 
 private:
 

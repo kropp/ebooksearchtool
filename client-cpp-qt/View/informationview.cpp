@@ -3,6 +3,7 @@
 
 #include <QLabel>
 #include <QDebug>
+#include <QFile>
 
 #include "informationview.h"
 
@@ -26,7 +27,11 @@ void InformationView::layoutComponents() {
 }
 
 void InformationView::setWindowParameters() {
-
+    QFile styleSheetFile(":/qss/InformationStyle");
+    styleSheetFile.open(QIODevice::ReadOnly);
+    this->setStyleSheet(styleSheetFile.readAll());
+    styleSheetFile.close();
+//    setAutoFillBackground(true);
 }
 
 void InformationView::setConnections() {

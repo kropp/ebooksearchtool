@@ -19,11 +19,11 @@ class FileDownloader : public DownloaderThread
 
 public:
 
-    FileDownloader(QString serverName);
+    FileDownloader(QString serverName, bool openAfterDownload);
 
 public:
 
-    int startDownloadingFile(QString url, QString filename);
+    int startDownloadingFile(QString url, QString filename, bool autoOpen);
 
 signals:
 
@@ -38,6 +38,8 @@ private:
 
     // requestId -> file to write
     QMap<int, QString> myDownloadMapping;
+
+    bool autoOpenFlag;
 };
 
 

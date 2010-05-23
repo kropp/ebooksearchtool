@@ -131,6 +131,7 @@ void SearchView::addItemsToLeftContentPartLayout(QHBoxLayout* leftPartLayout)
     QVBoxLayout* mainLayout = new QVBoxLayout();
     mainLayout->addWidget(myBookFilter);
     mainLayout->addWidget(myInformationView);
+    mainLayout->addStretch(1);
     leftPartLayout->addLayout(mainLayout);
 }
 

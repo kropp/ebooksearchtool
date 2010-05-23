@@ -24,9 +24,14 @@ signals:
 
     void downloadBookFinished(bool, int);
 
+public:
+
+    QString getReadDefaultLocation();
+
 public slots:
 
     int downloadBook(const Book& book, const QString& filename, const QString& format);
+    int readBook(const Book& book, const QString& filename, const QString& format);
 
 private slots:
 

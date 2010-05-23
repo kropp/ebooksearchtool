@@ -1,0 +1,67 @@
+QPushButton#addServer
+{
+	background-image: url(:/AddServer); 
+	background-repeat: no-repeat; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 30px; 
+	max-width: 30px; 
+	min-height: 30px; 
+	max-height: 30px; 
+}
+
+QPushButton#addServer:pressed
+{
+	background-image: url(:/AddServerPressed); 
+	background-repeat: no-repeat; 
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	min-width: 30px; 
+	max-width: 30px; 
+	min-height: 30px; 
+	max-height: 30px; 
+}
+
+QLabel#serversLabel
+{
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	font-family: "Arial";
+	font-size: 14px;
+	font-weight: bold;
+}
+
+QLabel
+{
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	font-family: "Arial";
+	font-size: 10px;
+	font-weight: normal;
+}
+
+QLabel#serverAliasLabel
+{
+	border-style: none; 
+	border: 0px; 
+	padding: 0px; 
+	font-family: "Arial";
+	font-size: 12px;
+	font-weight: bold;
+}
+
+QLineEdit
+{
+	min-width: 250px; 
+	max-width: 250px; 
+	min-height: 30px; 
+	max-height: 30px; 
+	font-family: "Arial";
+	font-size: 10px;
+	font-weight: normal;
+}
+

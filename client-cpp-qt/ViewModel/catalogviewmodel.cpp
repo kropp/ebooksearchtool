@@ -35,6 +35,14 @@ CatalogResultsViewModel* CatalogViewModel::getFolderResultsViewModel()
 void CatalogViewModel::setConnections()
 {
     connect(CatalogManager::getInstance(), SIGNAL(currentCatalogChanged(Catalog*)), this, SLOT(currentCatalogChanged(Catalog*)));
+    connect(CatalogManager::getInstance(), SIGNAL(catalogsRecreated()), this, SLOT(catalogsRecreated()));
+
+
+}
+
+void CatalogViewModel::catalogsRecreated()
+{
+
 }
 
 void CatalogViewModel::currentCatalogChanged(Catalog* catalog)

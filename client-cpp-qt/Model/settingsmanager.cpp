@@ -9,7 +9,18 @@ static const QString PROXY_DEFAULT_VALUE = "";
 static const QString PROXY_PORT_ID = "ProxyPort";
 static const int PROXY_PORT_DEFAULT_VALUE = 0;
 
+static const QString LIBRARY_PATH_ID = "Library";
+static const QString LIBRARY_PATH_DEFAULT_VALUE = "library.xml";
+
+static const QString DOWNLOAD_FORMAT_ID = "Format";
+static const QString DOWNLOAD_FORMAT_DEFAULT_VALUE = "pdf";
+
 SettingsManager SettingsManager::instance;
+
+SettingsManager* SettingsManager::getInstance()
+{
+    return &instance;
+}
 
 SettingsManager::SettingsManager()
 {
@@ -17,12 +28,28 @@ SettingsManager::SettingsManager()
     QCoreApplication::setOrganizationDomain("test.com");
     QCoreApplication::setApplicationName("Test");*/
 
-    settings = new QSettings("settings2.txt");
+    settings = new QSettings("settings3.txt");
 }
 
-SettingsManager* SettingsManager::getInstance()
+QString SettingsManager::getLibraryPath()
 {
-    return &instance;
+    return settings->value(LIBRARY_PATH_ID, LIBRARY_PATH_DEFAULT_VALUE).toString();
+}
+
+void SettingsManager::setLibraryPath(QString newPath)
+{
+    settings->setValue(LIBRARY_PATH_ID, newPath);
+    emit libraryPathChanged();
+}
+
+QString SettingsManager::getCurrentFormat()
+{
+    return settings->value(DOWNLOAD_FORMAT_ID, DOWNLOAD_FORMAT_DEFAULT_VALUE).toString();
+}
+
+void SettingsManager::setCurrentFormat(QString newFormat)
+{
+    settings->setValue(DOWNLOAD_FORMAT_ID, newFormat);
 }
 
 void SettingsManager::setBooksOnPage(int newValue)

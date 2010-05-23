@@ -1,6 +1,6 @@
 #include "filedownloader.h"
 #include "filedownloadmanager.h"
-#include "settings.h"
+#include "settingsmanager.h"
 #include "book.h"
 
 #include <QDebug>
@@ -23,15 +23,24 @@ FileDownloadManager* FileDownloadManager::getInstance() {
 
 
 int FileDownloadManager::downloadBook(const Book& book, const QString& filename, const QString& format) {
-    return myDownloader->startDownloadingFile(book.getSourceLinks().value(format), filename);
+    return myDownloader->startDownloadingFile(book.getSourceLinks().value(format), filename, false);
+}
+
+int FileDownloadManager::readBook(const Book& book, const QString& filename, const QString& format) {
+    return myDownloader->startDownloadingFile(book.getSourceLinks().value(format), filename, true);
 }
 
 void FileDownloadManager::initializeDownloaders() {
-    myDownloader = new FileDownloader(FEEDBOOKS_ID);
+    myDownloader = new FileDownloader("www.feedbooks.com", false);
 }
 
 void FileDownloadManager::abortDownloaders() {
 
+}
+
+QString FileDownloadManager::getReadDefaultLocation()
+{
+    return "tempreadfile." + SettingsManager::getInstance()->getCurrentFormat();
 }
 
 void FileDownloadManager::setConnectionsWithDownloaders() {

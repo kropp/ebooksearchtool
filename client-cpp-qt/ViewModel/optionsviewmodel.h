@@ -3,6 +3,8 @@
 
 #include <QObject>
 
+class ServersEditViewModel;
+
 class OptionsViewModel : public QObject
 {
 
@@ -21,10 +23,16 @@ public:
     void requestToChangePageBooksCount(QString newValue);
     void requestToChangeProxy(QString newValue);
     void requestToChangeProxyPort(QString newValue);
+    void requestToChangeLibraryPath(QString newValue);
+    void requestToChangeDownloadFormat(QString newValue);
 
     QString getPageBooksCount();
     QString getProxy();
     QString getProxyPort();
+    QString getLibraryPath();
+    QString getDownloadFormat();
+
+    ServersEditViewModel* getServersEditVm();
 
 public slots:
 
@@ -39,7 +47,10 @@ private:
     int booksCountValueToChange;
     QString proxy;
     int proxyPort;
+    QString libraryPath;
+    QString downloadFormat;
 
+    ServersEditViewModel* serversEditVm;
 };
 
 #endif // OPTIONSVIEWMODEL_H
