@@ -3,3 +3,11 @@ list of popular OPDS servers:
 	OPDS root feed
 	simple opensearch
 
+
+rel - у каталога 
+feedbooks + (www.feedbooks.com/catalog.atom) 
+litres + (http://data.fbreader.org/catalogs/litres/)
+
+bookserver - (http://bookserver.archive.org/catalog/) есть, но не в формате
+smashwords - (http://www.smashwords.com/atom) есть, но не в формате
+manybooks - (http://manybooks.net/stanza/catalog/) есть новые но не в формате

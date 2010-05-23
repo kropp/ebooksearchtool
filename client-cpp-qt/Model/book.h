@@ -5,6 +5,10 @@
 #include <QVector>
 #include <QMap>
 #include <QObject>
+#include <QFile>
+#include <QIcon>
+#include <QBuffer>
+
 #include "author.h"
 
 class Book : QObject {
@@ -19,7 +23,14 @@ public:
     Book(const QString& title, const QString& language, const QString& summary, const QString& id);
     Book();
 
+signals:
+
+    void bookCoverChanged(QIcon* icon);
+
 public:
+
+    void downloadCover();
+
 
 // all the getters return an empty string
 // if the book hasn't such attribute
@@ -58,7 +69,16 @@ public:
     void setRights(const QString& rights);
     void addCategory(const QString& category);
 
+private slots:
+
+    void setCover(int requestId, bool success);
+
 private:
+
+    bool coverDownloadRequested;
+    int myDownloadCoverId;
+    QFile* myCoverFile;
+
     QString myServerName;
     QString myTitle;
     QString myLanguage;

@@ -35,21 +35,21 @@ void SearchView::createComponents()
     searchLabel = new QLabel(this);
     searchLine = new QLineEdit("", this);
     searchButton = new QPushButton(this);
-    moreButton = new QPushButton(this);
+    stopButton = new QPushButton(this);
     myProgressBar = new QProgressBar(this);
     myProgressBar->setMaximum(0);
     myProgressBar->setMinimum(0);
 
     searchButton->setCursor(Qt::PointingHandCursor);
-    moreButton->setCursor(Qt::PointingHandCursor);
+    stopButton->setCursor(Qt::PointingHandCursor);
 
     searchLabel->setObjectName("searchLabel");
     searchLine->setObjectName("searchLine");
     searchButton->setObjectName("searchButton");
-    moreButton->setObjectName("moreButton");
+    stopButton->setObjectName("moreButton");
     myProgressBar->setObjectName("progressBar");
 
-    moreButton->hide();
+    stopButton->hide();
     myProgressBar->hide();
 
     myBookResults = new BookResultsRearrangeView(this, viewModel->getBookResultsViewModel(), true);
@@ -75,8 +75,8 @@ void SearchView::setConnections()
 {
     connect(viewModel, SIGNAL(resultsAvailabilityChanged(bool)), this, SLOT(moreAvailabilityChanged(bool)));
     connect(searchButton, SIGNAL(clicked()), this, SLOT(goButtonPressed()));
-    connect(moreButton, SIGNAL(clicked()), viewModel, SLOT(moreBooksRequested()));
-    connect(moreButton, SIGNAL(clicked()), this, SLOT(showProgress()));
+    connect(stopButton, SIGNAL(clicked()), viewModel, SLOT(stopRequested()));
+    //connect(stopButton, SIGNAL(clicked()), this, SLOT(showProgress()));
     connect(BookSearchManager::getInstance(), SIGNAL(downloadFinished()), this, SLOT(hideProgress()));
     connect(searchLine, SIGNAL(textEdited(QString)), this, SLOT(textEdited(QString)));
 }
@@ -87,7 +87,7 @@ void SearchView::viewModelSearchResultsVisibilityChanged(bool /*visibility*/)
 }
 
 void SearchView::moreAvailabilityChanged(bool availability) {
-     moreButton->setEnabled(availability);
+     stopButton->setEnabled(availability);
 }
 
 void SearchView::keyPressEvent(QKeyEvent* event)
@@ -107,7 +107,7 @@ void SearchView::goButtonPressed()
     }
     viewModel->searchStartRequested(searchLine->text());
     lastSearchString = searchLine->text();
-    moreButton->setVisible(true);
+    stopButton->setVisible(true);
     searchButton->setVisible(false);
     showProgress();
 }
@@ -122,7 +122,7 @@ void SearchView::addItemsToRightBarPartLayout(QHBoxLayout* rightPartLayout)
     rightPartLayout->addWidget(searchLine);
     rightPartLayout->addSpacing(20);
     rightPartLayout->addWidget(searchButton);
-    rightPartLayout->addWidget(moreButton);
+    rightPartLayout->addWidget(stopButton);
     rightPartLayout->addWidget(myProgressBar);
 }
 
@@ -143,7 +143,7 @@ void SearchView::addItemsToRightContentPartLayout(QHBoxLayout* rightPartLayout)
 void SearchView::textEdited(QString newText)
 {
     bool availability = newText.length() > 0 && !newText.compare(lastSearchString);
-    moreButton->setVisible(availability);
+    stopButton->setVisible(availability);
     searchButton->setVisible(!availability);
 }
 

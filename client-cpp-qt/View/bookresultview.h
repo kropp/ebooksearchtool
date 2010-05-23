@@ -54,6 +54,7 @@ private slots:
     void readButtonPressed();
     void informationButtonPressed();
     void bookInfoPressed();
+    void setCover(QIcon* coverIcon);
 
     void bookDownloadStateChanged(QString newState);
 

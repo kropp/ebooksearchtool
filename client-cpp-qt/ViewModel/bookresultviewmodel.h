@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include <QMap>
+#include <QIcon>
+#include <QFile>
 
 class Book;
 class BookResultsViewModel;
@@ -18,6 +20,8 @@ public:
 
 
 public:
+
+    void downloadCover();
 
     QString getBookName();
 
@@ -45,6 +49,7 @@ signals:
 
     void bookDownloadStateChanged(QString newState);
     void infoOpenRequested(Book* book);
+    void bookCoverChanged(QIcon* icon);
 
 private slots:
 
@@ -54,12 +59,13 @@ private:
 
     void setConnections();
 
+
 private:
 
     Book* myShownBook;
     BookResultsViewModel* myParentModel;
 
-     int lastRequestId;
+    int lastRequestId;
 };
 
 #endif // BOOKRESULTVIEWMODEL_H

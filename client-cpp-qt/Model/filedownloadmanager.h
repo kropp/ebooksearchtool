@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include <QVector>
+#include <QIODevice>
+#include <QHttp>
 
 class FileDownloader;
 class Book;
@@ -23,10 +25,13 @@ public:
 signals:
 
     void downloadBookFinished(bool, int);
+    void coverRequestFinished(int, bool);
 
 public:
 
     QString getReadDefaultLocation();
+    QString getCoverDir();
+    int downloadCover(QString urlStr, QIODevice* out);
 
 public slots:
 
@@ -36,18 +41,21 @@ public slots:
 private slots:
 
     void downloadFinished(bool success, QString filename, int request);
+    void coverDownloadRequestFinished(int request, bool success);
 
 private:
 
     void initializeDownloaders();
     void abortDownloaders();
-    void setConnectionsWithDownloaders();
+    void setConnections();
 
 private:
 
     static FileDownloadManager* instance;
 
     FileDownloader* myDownloader;
+
+    QHttp* myConnectionForCovers;
 };
 
 #endif // FILEDOWNLOADMANAGER_H

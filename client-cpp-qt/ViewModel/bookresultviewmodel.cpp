@@ -15,6 +15,8 @@ BookResultViewModel::BookResultViewModel(Book* book, BookResultsViewModel* paren
     myShownBook = book;
     myParentModel = parent;
 
+    lastRequestId = -1;
+
     setConnections();
 }
 
@@ -38,7 +40,6 @@ void BookResultViewModel::downloadFinished(bool success, int requestId)
     }
 }
 
-
 QMap<QString, QString> BookResultViewModel::getLinks() {
     return myShownBook->getSourceLinks();
 }
@@ -53,6 +54,12 @@ QString BookResultViewModel::getServerName()
 {
     return myShownBook->getServerName();
 }
+
+void BookResultViewModel::downloadCover()
+{
+    myShownBook->downloadCover();
+}
+
 
 QString BookResultViewModel::getAuthorName()
 {

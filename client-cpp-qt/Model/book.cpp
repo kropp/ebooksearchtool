@@ -1,17 +1,24 @@
 #include "book.h"
+#include "filedownloadmanager.h"
 
 #include <QDebug>
+
+static const int HTTP_PREFIX_LENGTH = 7;
 
 Book::Book(const QString& title,
            const QString& language,
            const QString& summary,
            const QString& id) : myTitle (title),
-                                myLanguage(language),
-                                mySummary(summary),
-                                myId(id) {}
+myLanguage(language),
+mySummary(summary),
+myId(id) {}
 
 
-Book::Book() {}
+Book::Book()
+{
+    myDownloadCoverId = -1;
+    coverDownloadRequested = false;
+}
 
 
 bool Book::compareAuthors(const Book* book1, const Book* book2) {
@@ -103,5 +110,52 @@ void Book::setRights(const QString& rights) {
 
 void Book::addCategory(const QString& category) {
     myCategories.push_back(category);
+}
+
+void Book::downloadCover() {
+
+    if (!coverDownloadRequested)
+    {
+        coverDownloadRequested = true;
+
+        const QString coverLink = getCoverLink();
+
+        if (coverLink.startsWith("http://www.feedbooks.com/book/547.jpg"))
+        {
+            QString fileName = coverLink.right(coverLink.size() - coverLink.lastIndexOf('/') - 1);
+            fileName = FileDownloadManager::getInstance()->getCoverDir() + fileName.left(fileName.indexOf('?'));
+
+            //if such file exists - just open it and return;
+            if (QFile::exists(fileName)) {
+                myCoverFile = new QFile(fileName);
+                setCover(0, false);
+                return;
+            }
+
+            myCoverFile = new QFile(fileName);
+            myCoverFile->open(QIODevice::WriteOnly);
+
+            QString coverLinkWithoutHttp = coverLink.right(coverLink.length() - HTTP_PREFIX_LENGTH);
+            myDownloadCoverId = FileDownloadManager::getInstance()->downloadCover(coverLink, myCoverFile);
+            connect(FileDownloadManager::getInstance(), SIGNAL(coverRequestFinished(int, bool)), this, SLOT(setCover(int, bool)));
+        }
+    }
+}
+
+void Book::setCover(int requestId, bool success)
+{
+    if (success)
+    {
+        if (requestId == myDownloadCoverId)
+        {
+            QIcon* coverIcon = new QIcon(myCoverFile->fileName());
+            myCoverFile->close();
+            emit bookCoverChanged(coverIcon);
+        }
+    }
+    else
+    {
+        myCoverFile->remove();
+    }
 }
 

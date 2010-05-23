@@ -52,7 +52,7 @@ private:
     QLabel* searchLabel;
     QLineEdit* searchLine;
     QPushButton* searchButton;
-    QPushButton* moreButton;
+    QPushButton* stopButton;
     QProgressBar* myProgressBar;
 
     SearchViewModel* viewModel;

@@ -88,6 +88,7 @@ void BookResultsView::shownBooksChanged(QVector<BookResultViewModel*> newBooks)
         myShownResults.append(newBookView);
     }
 
+    mySelectedBook = 0;
     relayout();
 }
 

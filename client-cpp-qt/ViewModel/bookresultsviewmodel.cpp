@@ -110,6 +110,7 @@ void BookResultsViewModel::showCurrentPage()
         if (i < currentlyFilteredBooks.size())
         {
             currentPageBooks.append(currentlyFilteredBooks.at(i));
+            currentlyFilteredBooks.at(i)->downloadCover();
         }
     }
 

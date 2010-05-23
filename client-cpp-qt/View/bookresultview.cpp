@@ -183,6 +183,7 @@ void BookResultView::setConnections()
         connect(myRemoveFromLibraryButton, SIGNAL(clicked()), this, SLOT(removeFromLibraryButtonPressed()));
     }
 
+    connect(myViewModel, SIGNAL(bookCoverChanged(QIcon*)), this, SLOT(setCover(QIcon*)));
 }
 
 void BookResultView::bookInfoPressed()
@@ -242,6 +243,11 @@ void BookResultView::select() {
 
 void BookResultView::cancelSelection() {
     setBackgroundColor(ourBackgroundColor);
+}
+
+void BookResultView::setCover(QIcon* coverIcon)
+{
+    QIcon* icon = coverIcon;
 }
 
 void BookResultView::setBackgroundColor(QColor color) {

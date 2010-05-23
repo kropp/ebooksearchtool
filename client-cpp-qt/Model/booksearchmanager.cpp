@@ -102,10 +102,16 @@ void BookSearchManager::childDownloaderFinished(bool success, QVector<Book*>* go
     updateFinishedState();
 }
 
+void BookSearchManager::stop()
+{
+    shouldContinue = false;
+}
+
 void BookSearchManager::startSearch(QString searchRequest)
 {
     //emit booksChanged(downloadedBooks);
 
+    shouldContinue = true;
     lastRequest = searchRequest;
     downloadersSearchStarted = true;
 
@@ -135,7 +141,13 @@ void BookSearchManager::updateFinishedState()
 
     if (finished)
     {
-        emit downloadFinished();
-        getMore();
+        if (shouldContinue)
+        {
+            getMore();
+        }
+        else
+        {
+            emit downloadFinished();
+        }
     }
 }

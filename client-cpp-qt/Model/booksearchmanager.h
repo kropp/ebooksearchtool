@@ -30,6 +30,7 @@ public slots:
 
     void startSearch(QString searchRequest);
     void getMore();
+    void stop();
 
 private slots:
 
@@ -58,6 +59,8 @@ private:
     QVector<BookDownloader*> myBookDownloaders;
 
     QString lastRequest;
+
+    bool shouldContinue;
 };
 
 #endif // NETWORKMANAGER_H

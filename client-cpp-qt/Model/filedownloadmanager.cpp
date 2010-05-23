@@ -4,14 +4,21 @@
 #include "book.h"
 
 #include <QDebug>
+#include <QUrl>
 
 FileDownloadManager* FileDownloadManager::instance = 0;
 
 
+static const QString COVER_DIR = "./";
+
+static const int IMAGE_DOWNLOAD_URL_PORT = 80;
+
 FileDownloadManager::FileDownloadManager() {
     qDebug() << "FileDownloadManager::FileDownloadManager";
+
+    myConnectionForCovers = new QHttp(this);
     initializeDownloaders();
-    setConnectionsWithDownloaders();
+    setConnections();
 }
 
 FileDownloadManager* FileDownloadManager::getInstance() {
@@ -21,6 +28,36 @@ FileDownloadManager* FileDownloadManager::getInstance() {
     return instance;
 }
 
+QString FileDownloadManager::getCoverDir()
+{
+    return COVER_DIR;
+}
+
+int FileDownloadManager::downloadCover(QString urlStr, QIODevice* out) {
+    QUrl url(urlStr);
+
+    QString urlHost = url.host();
+    QString urlPath = tr("/book/547.jpg?t=20090916102557");
+
+    myConnectionForCovers->setHost(urlHost, IMAGE_DOWNLOAD_URL_PORT);
+
+    QString proxy = SettingsManager::getInstance()->getProxy();
+
+    if (proxy.size() != 0)
+    {
+       myConnectionForCovers->setProxy(proxy, SettingsManager::getInstance()->getProxyPort());
+    }
+
+   // qDebug() << "NetworkManager::downloadCover request =" << url.host()<<  url.path();
+    int id = myConnectionForCovers->get(urlPath, out);
+
+    return id;
+}
+
+void FileDownloadManager::coverDownloadRequestFinished(int request, bool success)
+{
+    emit coverRequestFinished(request, success);
+}
 
 int FileDownloadManager::downloadBook(const Book& book, const QString& filename, const QString& format) {
     return myDownloader->startDownloadingFile(book.getSourceLinks().value(format), filename, false);
@@ -43,7 +80,8 @@ QString FileDownloadManager::getReadDefaultLocation()
     return "tempreadfile." + SettingsManager::getInstance()->getCurrentFormat();
 }
 
-void FileDownloadManager::setConnectionsWithDownloaders() {
+void FileDownloadManager::setConnections() {
+    connect(myConnectionForCovers, SIGNAL(requestFinished(int,bool)), this, SLOT(coverDownloadRequestFinished(int,bool)));
     connect(myDownloader, SIGNAL(downloadFinished(bool, QString, int)), this, SLOT(downloadFinished(bool, QString, int)));
 }
 

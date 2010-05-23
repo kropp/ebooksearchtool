@@ -32,7 +32,7 @@ public:
 public slots:
 
     void searchStartRequested(QString searchRequest);
-    void moreBooksRequested();
+    void stopRequested();
     void bookResultsVisibilityChanged(bool visibility);
 
 private:
