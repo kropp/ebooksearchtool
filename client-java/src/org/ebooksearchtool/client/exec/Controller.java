@@ -50,10 +50,12 @@ public class Controller implements Completive {
         images.mkdir();
         File books = new File("books");
         books.mkdir();
+        File history = new File("history");
+        history.mkdir();
 
         myRequestCount = 0;
         for (; ;) {
-            File answer = new File(Integer.toString(myRequestCount) + ".xml");
+            File answer = new File("history" + File.separatorChar + Integer.toString(myRequestCount) + ".xml");
             if (answer.exists()) {
                 ++myRequestCount;
             } else {
@@ -136,14 +138,12 @@ public class Controller implements Completive {
                         System.out.println("catch");
                         return false;
                     } catch (SAXException e) {
-                        e.printStackTrace();
                         return false;
                     } catch (ParserConfigurationException e) {
-                        e.printStackTrace();
                         return false;
                     } catch (Exception e) {
                         System.out.println("simple exception in  " + myServer);
-                        e.printStackTrace();
+                        myIsFinished = true;
                         return false;
                     }
 
@@ -178,20 +178,17 @@ public class Controller implements Completive {
                     SAXHandler handler = new SAXHandler(myAnswer, m_compliter);
                     parser.parse(myStream, handler);
                 } catch (IOException e) {
-                    e.printStackTrace();
                     return;
                 } catch (StopParsingException stop){
                     System.out.println("catch");
                     return;
                 } catch (SAXException e) {
-                    e.printStackTrace();
                     return;
                 } catch (ParserConfigurationException e) {
-                    e.printStackTrace();
                     return;
                 } catch (Exception e) {
                     System.out.println("simple exception in  " + myServer);
-                    e.printStackTrace();
+                    myIsFinished = true;
                     return;
                 }
 
@@ -335,7 +332,7 @@ public class Controller implements Completive {
         if (myRequestCount > 9) {
             try {
                 Parser pars = new Parser();
-                pars.parse("0.xml", new SAXClearHandler());
+                pars.parse("history" + File.separatorChar + "0.xml", new SAXClearHandler());
             } catch (SAXException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             } catch (ParserConfigurationException e) {
@@ -344,10 +341,10 @@ public class Controller implements Completive {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
             for (int i = 0; i < 9; ++i) {
-                File prev = new File(Integer.toString(i) + ".xml");
+                File prev = new File("history" + File.separatorChar + Integer.toString(i) + ".xml");
                 prev.delete();
-                File cur = new File(Integer.toString(i + 1) + ".xml");
-                cur.renameTo(new File(Integer.toString(i) + ".xml"));
+                File cur = new File("history" + File.separatorChar + Integer.toString(i + 1) + ".xml");
+                cur.renameTo(new File("history" + File.separatorChar + Integer.toString(i) + ".xml"));
             }
             --myRequestCount;
         }
@@ -367,7 +364,7 @@ public class Controller implements Completive {
         XMLBuilder builder = new XMLBuilder();
         synchronized (myData) {
             --myRequestCount;
-            builder.makeXML(myData, Integer.toString(myRequestCount) + ".xml");
+            builder.makeXML(myData, "history" + File.separatorChar + Integer.toString(myRequestCount) + ".xml");
             ++myRequestCount;
         }
     }
@@ -380,7 +377,7 @@ public class Controller implements Completive {
             parser = new Parser();
             QueryAnswer answer = new QueryAnswer(myData);
             SAXHandler handler = new SAXHandler(answer);
-            parser.parse(number + ".xml", handler);
+            parser.parse("history" + File.separatorChar + number + ".xml", handler);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

@@ -262,6 +262,7 @@ public class Window implements Observer{
 
             public void actionPerformed(ActionEvent e) {
 
+                System.out.println(curModelNumber);
             	myTextPan.removeAll();
 
             	myBookPanels = new ArrayList<ArrayList<BookPanel>>();
@@ -278,6 +279,7 @@ public class Window implements Observer{
            		if(curModelNumber < myController.getRequestCount()-1){
            			myToolDown.setEnabled(true);
            		}
+                System.out.println(curModelNumber);
             }
         };
 
@@ -306,6 +308,7 @@ public class Window implements Observer{
 
             public void actionPerformed(ActionEvent e) {
 
+                System.out.println(curModelNumber);
             	myTextPan.removeAll();
 
             	myBookPanels = new ArrayList<ArrayList<BookPanel>>();
@@ -320,6 +323,7 @@ public class Window implements Observer{
 				if(curModelNumber == myController.getRequestCount()-1){
            			myToolDown.setEnabled(false);
            		}
+                System.out.println(curModelNumber);
             }
         };
 

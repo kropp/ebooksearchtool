@@ -16,6 +16,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 
 /*Date: 17.10.2009
@@ -200,10 +201,11 @@ public class NetworkDialog extends JDialog {
 
                 try {
                     Connector con = new Connector(myServerText.getText(), myController.getSettings());
-                    if (con.getFileFromURL("searchprobe.xml") != null) {
+                    InputStream IS = con.getFileFromURL("searchprobe.xml");
+                    if (IS != null) {
                         Parser parser = new Parser();
                         SAXQueryHandler handler = new SAXQueryHandler();
-                        parser.parse("searchprobe.xml", handler);
+                        parser.parse(IS, handler);
                         if (handler.getSearchLink() != null) {
                             if (handler.getSearchLink().contains("{searchTerms}") || handler.getSearchLink().contains("{searchTerms?}")) {
                                 StringBuffer link = new StringBuffer(handler.getSearchLink());
@@ -236,9 +238,10 @@ public class NetworkDialog extends JDialog {
                                     con = new Connector(handler.getSearchLink(), myController.getSettings());
                                 }
                                 System.out.println("connected");
-                                if (con.getFileFromURL("searchprobe.xml") != null) {
+                                IS = con.getFileFromURL("searchprobe.xml");
+                                if (IS != null) {
                                     handler = new SAXQueryHandler();
-                                    parser.parse("searchprobe.xml", handler);
+                                    parser.parse(IS, handler);
                                     if (handler.getSearchLink() != null) {
                                         if (handler.getSearchLink().contains("{searchTerms}") || handler.getSearchLink().contains("{searchTerms?}")) {
                                             StringBuffer link = new StringBuffer(handler.getSearchLink());
