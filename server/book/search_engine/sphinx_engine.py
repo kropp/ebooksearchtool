@@ -135,15 +135,13 @@ class SphinxSearchEngine(SearchEngine):
                         break
 
         del query_ex['title']
-        print books
-        print query_ex
         if len(books) < MIN_LEN_RESULT:
             query_ex['author'] = query
             authors = UserList(self.__author_search(1, **query_ex))
-            print authors
             if authors:
                 # TODO add filtering by language and tag here
-                books = authors[0].book_set.all()
+                authors_books = authors[0].book_set.all()
+                books.extend(authors_books)
             del query_ex['author']
 
         query_ex['query'] = query
