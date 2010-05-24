@@ -23,15 +23,15 @@ urlpatterns = patterns('',
 
 
     # interface for search
-    (r'^search.atom/?$', 'search.search_request_to_server',
+    (r'^search.atom/?$', 'search_views.search_request_to_server',
         {'response_type': 'atom', 'is_all': 'no'}),
-    (r'^search/?$', 'search.search_request_to_server',
+    (r'^search/?$', 'search_views.search_request_to_server',
         {'response_type': 'xhtml', 'is_all': 'no'}),
         
     #all books
-    (r'^all.atom/?$', 'search.search_request_to_server',
+    (r'^all.atom/?$', 'search_views.search_request_to_server',
         {'response_type': 'atom', 'is_all': 'yes'}),
-    (r'^all/?$', 'search.search_request_to_server',
+    (r'^all/?$', 'search_views.search_request_to_server',
         {'response_type': 'xhtml', 'is_all': 'yes'}),
     
     # requests
