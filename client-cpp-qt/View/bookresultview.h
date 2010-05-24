@@ -52,7 +52,6 @@ private slots:
     void addToLibraryButtonPressed();
     void removeFromLibraryButtonPressed();
     void readButtonPressed();
-    void informationButtonPressed();
     void bookInfoPressed();
     void setCover(QIcon* coverIcon);
 
@@ -76,7 +75,7 @@ private:
     QPushButton* myAddToLibraryButton;
     QPushButton* myRemoveFromLibraryButton;
     QPushButton* myReadButton;
-    QPushButton* myInformationButton;
+//    QPushButton* myInformationButton;
 
     BookResultsView* myParent;
 

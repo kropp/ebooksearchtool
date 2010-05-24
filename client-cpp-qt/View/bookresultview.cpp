@@ -82,13 +82,13 @@ void BookResultView::createComponents()
     myReadButton = new QPushButton(this);
     myReadButton->setToolTip("Read book");
     myReadButton->setCursor(Qt::PointingHandCursor);
-    myInformationButton = new QPushButton(this);
-    myInformationButton->setCursor(Qt::PointingHandCursor);
-    myInformationButton->setToolTip("Book information");
+//    myInformationButton = new QPushButton(this);
+//    myInformationButton->setCursor(Qt::PointingHandCursor);
+//    myInformationButton->setToolTip("Book information");
 
 
     myReadButton->setObjectName("readButton");
-    myInformationButton->setObjectName("informationButton");
+//    myInformationButton->setObjectName("informationButton");
 }
 
 void BookResultView::layoutComponents()
@@ -146,7 +146,7 @@ void BookResultView::layoutComponents()
     }
 
     buttonsLayout->addWidget(myReadButton);
-    buttonsLayout->addWidget(myInformationButton);
+//    buttonsLayout->addWidget(myInformationButton);
 
     bookLineLayout->addStretch(1);
     bookLineLayout->addItem(buttonsLayout);
@@ -168,9 +168,9 @@ void BookResultView::setWindowParameters()
 void BookResultView::setConnections()
 {
     connect(myViewModel, SIGNAL(bookDownloadStateChanged(QString)), this, SLOT(bookDownloadStateChanged(QString)));
-    connect(myInformationButton, SIGNAL(clicked()), this, SLOT(informationButtonPressed()));
-    connect(myInformationButton, SIGNAL(clicked()), this, SLOT(bookInfoPressed()));
-    connect(myInformationButton, SIGNAL(clicked()), this, SLOT(informationButtonPressed()));
+//    connect(myInformationButton, SIGNAL(clicked()), this, SLOT(informationButtonPressed()));
+//    connect(myInformationButton, SIGNAL(clicked()), this, SLOT(bookInfoPressed()));
+//    connect(myInformationButton, SIGNAL(clicked()), this, SLOT(informationButtonPressed()));
     connect(myDownloadButton, SIGNAL(clicked()), this, SLOT(downloadButtonPressed()));
     connect(myReadButton, SIGNAL(clicked()), this, SLOT(readButtonPressed()));
 
@@ -225,13 +225,8 @@ void BookResultView::readButtonPressed()
     myViewModel->readRequested();
 }
 
-void BookResultView::informationButtonPressed()
-{
-    qDebug() << "BookResultView::informationButtonPressed(); links " << myViewModel->getLinks();
-}
 
-
-void BookResultView::mousePressEvent  ( QMouseEvent * e ) {
+void BookResultView::mousePressEvent  ( QMouseEvent * ) {
     //  qDebug() << "BookResultView::mousePressEvent();";
     myParent->changeSelectedBook(this);
     bookInfoPressed();
@@ -245,9 +240,10 @@ void BookResultView::cancelSelection() {
     setBackgroundColor(ourBackgroundColor);
 }
 
-void BookResultView::setCover(QIcon* coverIcon)
+void BookResultView::setCover(QIcon* )
 {
-    QIcon* icon = coverIcon;
+
+    // TODO set cover
 }
 
 void BookResultView::setBackgroundColor(QColor color) {
