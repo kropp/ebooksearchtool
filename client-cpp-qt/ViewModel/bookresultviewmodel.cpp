@@ -124,5 +124,13 @@ void BookResultViewModel::readRequested()
 bool BookResultViewModel::canBeDownloaded() {
     //qDebug() << "BookResultViewModel::canBeDownloaded() " << myShownBook->getSourceLinks();
 
-    return !myShownBook->getSourceLinks().value(SettingsManager::getInstance()->getCurrentFormat()).isEmpty();
+    QList<QString> formats = myShownBook->getSourceLinks().keys();
+    qDebug() << "formats " << formats;
+    const QString& currentFormat = SettingsManager::getInstance()->getCurrentFormat();
+    foreach (QString format, formats) {
+        if (format.contains(currentFormat)) {
+            return true;
+        }
+    }
+    return false;
 }
