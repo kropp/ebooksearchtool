@@ -1,0 +1,86 @@
+\documentclass[handout]{beamer}
+\usepackage{presentation}
+
+\title{Сервис поиска электронных книг }
+\subtitle{Серверная часть, обеспечивающая верификацию, обновление данных и взаимодействие с клиентскими программами и пользователем.}
+%\author{Е. А. Тузова}
+%\institute{АУ РАН}
+\date{}
+
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+
+  \begin{flushright}
+    Студент~~~~~~  Е. А. Тузова
+  
+    Руководитель~~~  Н. М. Пульцин
+
+  \end{flushright}
+\end{frame}
+
+\section*{План}
+  \begin{frame}
+    \frametitle{План}
+    \tableofcontents[pausesections]
+
+  \end{frame}
+
+\section{Постановка задачи}
+  \begin{frame}
+
+    \frametitle{Постановка задачи}
+    \begin{enumerate}
+      \item Верификация и обновление данных
+      \item Предоставление данных пользователю и клиентским программам
+    \end{enumerate}
+  \end{frame}
+
+\section{Задача обновления информации}
+  \begin{frame}
+    \frametitle{Задача обновления информации}
+  
+    \begin{enumerate}
+      \item Определение жанра книги
+      \item Поиск информации на внешних ресурсах
+      \item Извлечение информации из форматов epub и fb2 
+    \end{enumerate}
+  \end{frame}
+
+\section{Определение жанра книги}
+  \begin{frame}
+    \frametitle{Определение жанра книги}  
+    
+    \begin{enumerate}
+      \item Возможные решения (плюсы и минусы)
+      \item Байесовский классификатор
+    \end{enumerate}        
+  \end{frame}
+
+\subsection{Возможные решения}
+  \begin{frame}
+    \frametitle{Возможные решения}  
+    
+    \begin{enumerate}
+      \item Деревья принятия решений
+      \item Нейронные сети
+      \item Метод k-средних
+      \item Байесовский классификатор
+    \end{enumerate}        
+  \end{frame}
+
+
+\section{Заключение}
+  \begin{frame}
+    \frametitle{Заключение}
+    \begin{enumerate}
+      \item Для обновления информации реализован самообучающийся классификатор, позволяющий предсказать жанр книги по её аннотации.
+	  \item Реализован поиск дополнительной информации и извлечение информации из форматов ePub и FB2
+	  \item Усовершенствован стандартный интерфейс администратора, предоставляемый фреймворком Django.
+	  \item Реализовано предоставление данных в xHTML виде для пользователей и по протоколу OPDS для клиентских пр
+    \end{enumerate}
+  \end{frame}
+
+\end{document}
