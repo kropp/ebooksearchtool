@@ -16,7 +16,7 @@ static const QString EBOOKSEARCH_ID = "ebooksearch.webfactional.com";
 
 static const QString FEEDBOOKS_SEARCH_PATH = "/books/search.atom?query=";
 static const QString MANYBOOKS_SEARCH_PATH = "/stanza/search.php?q=";
-static const QString LITRES_SEARCH_PATH = "/munseys/op/search?search=";
+static const QString LITRES_SEARCH_PATH = "/catalogs/litres/search.atom?q=";
 static const QString SMASHWORDS_SEARCH_PATH = "/atom/search/books?query=";
 static const QString BOOKSERVER_SEARCH_PATH = "/catalog/opensearch?q=";
 static const QString EBOOKSEARCH_SEARCH_PATH = "/search?query=";
@@ -57,9 +57,9 @@ void EBookSearchTool::initializeServers() {
     ourServers.clear();
     addServerWithNotification(FEEDBOOKS_ALIAS, FEEDBOOKS_ID, FEEDBOOKS_SEARCH_PATH, FEEDBOOKS_ATOM_PATH, true, true, false);
     addServerWithNotification(LITRES_ALIAS, LITRES_ID, LITRES_SEARCH_PATH, LITRES_ATOM_PATH, false, true, false);
-    addServerWithNotification(EBOOKSEARCH_ALIAS, BOOKSERVER_ID, BOOKSERVER_SEARCH_PATH, BOOKSERVER_ATOM_PATH, true, false, false);
+    addServerWithNotification(BOOKSERVER_ALIAS, BOOKSERVER_ID, BOOKSERVER_SEARCH_PATH, BOOKSERVER_ATOM_PATH, true, false, false);
     addServerWithNotification(SMASHWORDS_ALIAS, SMASHWORDS_ID, SMASHWORDS_SEARCH_PATH, SMASHWORDS_ATOM_PATH, true, true, false);
-    addServerWithNotification(BOOKSERVER_ALIAS, EBOOKSEARCH_ID, EBOOKSEARCH_SEARCH_PATH, EBOOKSEARCH_ATOM_PATH, true, true, false);
+    addServerWithNotification(EBOOKSEARCH_ALIAS, EBOOKSEARCH_ID, EBOOKSEARCH_SEARCH_PATH, EBOOKSEARCH_ATOM_PATH, true, true, false);
     addServerWithNotification(MANYBOOKS_ALIAS, MANYBOOKS_ID, MANYBOOKS_SEARCH_PATH, MANYBOOKS_ATOM_PATH, true, true, false);
     emit serversChanged();
 }

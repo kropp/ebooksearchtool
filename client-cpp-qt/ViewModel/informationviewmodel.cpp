@@ -56,9 +56,25 @@ QString InformationViewModel::getInformation() const{
             information.append("<p> <b>" + tr("\nRights: ") + "</b>" + myBook->getRights() + "</p>");
         // set Content
         if (!myBook->getContent().isEmpty()) {
-            information.append("</p><b>" + tr("\nContent: ") + "</b>");
+            information.append("<p><b>" + tr("\nContent: ") + "</b>");
             information.append(myBook->getContent() + "</p>");
         }
+        // set Downloads information
+        if (!myBook->getSourceLinks().isEmpty()) {
+            information.append(("<p><b>" + tr("\nAvailable formats: ") + "</b>"));
+            QList<QString> formats = myBook->getSourceLinks().keys();
+            foreach (const QString format, formats) {
+                information.append(format + "\t");
+            }
+
+            information.append(("<p><b>" + tr("\nLinks: ") + "</b>"));
+            QList<QString> links = myBook->getSourceLinks().values();
+            foreach (const QString link, links) {
+                information.append(link + "\t");
+            }
+        }
+
+
     }
     return information;
 }
