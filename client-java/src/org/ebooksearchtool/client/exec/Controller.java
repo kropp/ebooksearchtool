@@ -349,7 +349,7 @@ public class Controller implements Completive {
             --myRequestCount;
         }
         XMLBuilder builder = new XMLBuilder();
-        builder.makeXML(myData, Integer.toString(myRequestCount) + ".xml");
+        builder.makeXML(myData, "history" + File.separatorChar + Integer.toString(myRequestCount) + ".xml");
         ++myRequestCount;
         myIsModelSaved = true;
     }
@@ -419,6 +419,13 @@ public class Controller implements Completive {
     public void removeFromLibrary(Book book){
         myLibrary.removeBook(book);
         saveLibrary();
+    }
+
+    public void endTask(){
+        System.out.println("active threads " + ((ThreadPoolExecutor)myThreads).getActiveCount());
+        if(((ThreadPoolExecutor)myThreads).getActiveCount() == 1 || ((ThreadPoolExecutor)myThreads).getActiveCount() == 0){
+            myWindow.enableStop(false);
+        }
     }
 
 }

@@ -60,6 +60,7 @@ public class BookPanel implements Comparable {
 
         public Boolean call() {
             Connector connector = null;
+            myController.getModel().setValue(0);
             try {
                 connector = new Connector(myLink, mySettings);
             } catch (IOException e) {
@@ -67,6 +68,7 @@ public class BookPanel implements Comparable {
                 return false;
             }
             connector.getBookFromURL(myName, myController.getModel());
+            myController.endTask();
 
             return true;
         }
@@ -312,12 +314,14 @@ public class BookPanel implements Comparable {
 
         myDownloadEpubButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                myDownloadEpubButton.setEnabled(false);
                 myController.addTask(new FileDownloader("books" + File.separatorChar + myBook.getTitle() + ".epub", myBook.getLinks().get("epub")));
             }
         });
 
         myDownloadPdfButton.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
+                myDownloadPdfButton.setEnabled(false);
                 myController.addTask(new FileDownloader("books" + File.separatorChar + myBook.getTitle() + ".pdf", myBook.getLinks().get("pdf")));
     		  }
         });

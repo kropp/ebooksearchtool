@@ -63,6 +63,7 @@ public class LibBookPanel {
 
         public Boolean call() {
             Connector connector = null;
+            myController.getModel().setValue(0);
             try {
                 connector = new Connector(myLink, mySettings);
             } catch (IOException e) {
@@ -70,6 +71,7 @@ public class LibBookPanel {
                 return false;
             }
             connector.getBookFromURL(myName, myController.getModel());
+            myController.endTask();
 
             return true;
         }
