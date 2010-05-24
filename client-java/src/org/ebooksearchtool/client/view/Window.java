@@ -279,6 +279,9 @@ public class Window implements Observer{
            		if(curModelNumber < myController.getRequestCount()-1){
            			myToolDown.setEnabled(true);
            		}
+                if(curModelNumber == 0){
+                    myToolUp.setEnabled(false);
+                }
                 System.out.println(curModelNumber);
             }
         };
@@ -323,6 +326,9 @@ public class Window implements Observer{
 				if(curModelNumber == myController.getRequestCount()-1){
            			myToolDown.setEnabled(false);
            		}
+                if(curModelNumber != 0){
+                    myToolUp.setEnabled(true);
+                }
                 System.out.println(curModelNumber);
             }
         };
@@ -350,6 +356,8 @@ public class Window implements Observer{
                 //myMorePanel.setVisible(false);
                 //myController.stopProcesses();
 
+                  curModelNumber = myController.getRequestCount();
+                  myToolDown.setEnabled(false);
                 myToolStop.setEnabled(true);
                 System.out.println("act");
                 myModel.setValue(0);
@@ -422,7 +430,7 @@ public class Window implements Observer{
         myCentralPanel = new JPanel(new BorderLayout());
         myPanel1.add(myCentralPanel, "Center");
 
-        if(myController.getRequestCount() > 1){
+        if(myController.getRequestCount() > 0){
 			myToolUp.setEnabled(true);
 		}else{
 			myToolUp.setEnabled(false);
