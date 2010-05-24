@@ -52,5 +52,11 @@ void SearchViewModel::setConnections()
     connect(bookResultsVm, SIGNAL(infoOpenRequested(Book*)), this, SIGNAL(infoOpenRequested(Book*)));
     connect(bookResultsVm, SIGNAL(infoOpenRequested(Book*)), myBookInfoVm, SLOT(changeCurrentBook(Book*)));
 
+
+//    connect(bookResultsVm, SIGNAL(shownBooksChanged(QVector<BookResultViewModel*>)), myBookInfoVm, SLOT(forgetInfo()));
+
+    // connect(bookResultsVm, SIGNAL(pageChanged(int)), myBookInfoVm, SLOT(forgetInfo()));
+    //void shownBooksChanged(QVector<BookResultViewModel*> newBooks);
+
     //connect(bookResultsVm, SIGNAL(infoOpenRequested(Book*)), myBookInfoVm, SLOT(changeCurrentBook(Book*)));
 }

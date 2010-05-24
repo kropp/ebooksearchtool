@@ -15,7 +15,7 @@ InformationView::InformationView(QWidget* parent, InformationViewModel* infoVm)
 
 void InformationView::createComponents() {
     myText = new QTextEdit(this);
-    myText->insertHtml("selected book information");
+    myText->hide();
     myText->setReadOnly(true);
 }
 
@@ -39,6 +39,11 @@ void InformationView::setConnections() {
 }
 
 void InformationView::updateInformation(QString info) {
+    if (info.isEmpty()) {
+        myText->hide();
+    } else {
+        myText->show();
+    }
     qDebug() << "InformationView::updateInformation();";
     myText->clear();
     myText->insertHtml(info);

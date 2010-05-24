@@ -49,8 +49,8 @@ QString InformationViewModel::getInformation() const{
             information.append("<p><b>" + tr("\nPublisher: ") + "</b>" + myBook->getPublisher() + "</p>");
 
         // set Updated
-        if (!myBook->getUpdated().isEmpty())
-            information.append("<p><b>" + tr("\nUpdated: ") + "</b>" + myBook->getUpdated() + "</p>");
+//        if (!myBook->getUpdated().isEmpty())
+//            information.append("<p><b>" + tr("\nUpdated: ") + "</b>" + myBook->getUpdated() + "</p>");
         // set Rights
         if (!myBook->getRights().isEmpty())
             information.append("<p> <b>" + tr("\nRights: ") + "</b>" + myBook->getRights() + "</p>");
@@ -72,8 +72,9 @@ QString InformationViewModel::getInformation() const{
             foreach (const QString link, links) {
                 information.append(link + "\t");
             }
+        } else {
+            information.append(("<p><b>" + tr("\nTher is no links for free downloading: ") + "</b>"));
         }
-
 
     }
     return information;
@@ -82,5 +83,11 @@ QString InformationViewModel::getInformation() const{
 void InformationViewModel::changeCurrentBook(Book* newBook) {
     myBook = newBook;
     emit bookInformationChanged(getInformation());
+}
+
+void InformationViewModel::forgetInfo() {
+    myBook = 0;
+    qDebug() << "InformationViewModel::forgetInfo()";
+    emit bookInformationChanged(QString());
 }
 

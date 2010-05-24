@@ -62,8 +62,8 @@ void ServerView::layoutComponents()
     QHBoxLayout* headerLayout = new QHBoxLayout();
 
     headerLayout->addWidget(serverAliasLabel);
-    headerLayout->addStretch(1);
-    headerLayout->addWidget(deleteButton);
+//    headerLayout->addStretch(1);
+//    headerLayout->addWidget(deleteButton);
 
     mainLayout->addItem(headerLayout);
 
@@ -87,6 +87,9 @@ void ServerView::layoutComponents()
     fieldsGridLayout->addWidget(serverPathEdit, 0, 1, 1, 1, Qt::AlignLeft);
     fieldsGridLayout->addWidget(searchPathEdit, 1, 1, 1, 1, Qt::AlignLeft);
     fieldsGridLayout->addWidget(atomPathEdit, 2, 1, 1, 1, Qt::AlignLeft);
+
+    fieldsGridLayout->addWidget(deleteButton, 1, 2, Qt::AlignLeft);
+
 
     fieldsLayout->addItem(fieldsGridLayout);
 

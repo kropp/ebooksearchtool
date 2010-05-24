@@ -17,6 +17,7 @@ signals:
 
 public slots:
     void changeCurrentBook(Book*);
+    void forgetInfo();
 
 public:
     QString getInformation() const;

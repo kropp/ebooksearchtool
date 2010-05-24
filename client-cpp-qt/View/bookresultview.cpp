@@ -28,7 +28,6 @@ BookResultView::BookResultView(BookResultsView* parent, BookResultViewModel* boo
 
 BookResultView::~BookResultView()
 {
-
 }
 
 void BookResultView::bookDownloadStateChanged(QString newState)

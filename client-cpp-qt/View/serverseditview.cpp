@@ -131,8 +131,8 @@ void ServersEditView::layoutComponents()
     QHBoxLayout* headerLayout = new QHBoxLayout();
 
     headerLayout->addWidget(newServerLabel);
-    headerLayout->addStretch(1);
-    headerLayout->addWidget(addServerButton);
+//    headerLayout->addStretch(1);
+//    headerLayout->addWidget(addServerButton);
 
     newServerLayout->addItem(headerLayout);
 
@@ -158,6 +158,10 @@ void ServersEditView::layoutComponents()
     fieldsGridLayout->addWidget(serverPathEdit, 1, 1, 1, 1, Qt::AlignLeft);
     fieldsGridLayout->addWidget(searchPathEdit, 2, 1, 1, 1, Qt::AlignLeft);
     fieldsGridLayout->addWidget(atomPathEdit, 3, 1, 1, 1, Qt::AlignLeft);
+
+
+    fieldsGridLayout->addWidget(addServerButton, 1, 2, Qt::AlignCenter);
+
 
     fieldsLayout->addItem(fieldsGridLayout);
 

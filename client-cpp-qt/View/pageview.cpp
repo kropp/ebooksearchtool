@@ -37,6 +37,9 @@ void PageView::createComponents()
     prevButton->setObjectName("prevButton");
     nextButton->setObjectName("nextButton");
 
+    prevButton->setCursor(Qt::PointingHandCursor);
+    nextButton->setCursor(Qt::PointingHandCursor);
+
     nextButton->hide();
     prevButton->hide();
 }
