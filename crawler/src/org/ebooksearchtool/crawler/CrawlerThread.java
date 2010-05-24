@@ -50,32 +50,65 @@ class CrawlerThread extends Thread {
         final int maxLinksFromPage = myCrawler.getMaxLinksFromPage();
         while (true) {
             myAction = "taking an URI from the queue";
+            System.err.println(myIndex + " " + myAction);
             Link uri = null;
             myWaitingForQueue = true;
+            System.err.println(myIndex + " myWaitingForQueue = true");
             while (uri == null) {
-                uri = queue.poll();
+                System.err.println(myIndex + " poll");
+
+                try {
+                    uri = queue.poll();
+                } catch (RuntimeException ex) {
+                    // queue is empty now,
+                    // but maybe some thread is downloading page now,
+                    // and would generate new URI's
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex2) {
+                        // TODO
+                    }
+                } catch (InterruptedException ex) {
+                    // TODO logging it
+                    return;
+                }
+                
+                
+                System.err.println(myIndex + " synchronized");
                 synchronized (queue) {
+                    System.err.println(myIndex + " if uri == null");
                     if (uri != null) {
                         myWaitingForQueue = false;
                         break;
                     }
                 }
-                if (myCrawler.allThreadsAreWaitingForQueue()) break;
+//                if (myCrawler.allThreadsAreWaitingForQueue()) {
+//                    System.err.println("allThreadsAreWaitingForQueue");
+//                    break;
+//                }
             }
             if (uri == null) break;
             myAction = "downloading the page at: " + uri;
+            System.err.println(myIndex + " " + myAction);
             myDownloadingLink = uri;
             String page = network.download(uri, "text/html", true, myIndex);
             myDownloadingLink = null;
-            if (myStopping) break;
-            if (page == null) continue;
+            if (myStopping)
+                break;
+            if (page == null) {
+                System.err.println(myIndex + " page == null");
+                continue;
+            }
+
             synchronized (logger) {
                 logger.log(Logger.MessageType.CRAWLED_PAGES, String.format("% 4d %d %s %d", myIndex, myCrawler.getCrawledPagesNumber(), uri, page.length()));
             }
             myAction = "getting links out of: " + uri;
+            System.err.println(myIndex + " " + myAction);
             List<Link> links = HTMLParser.parse(uri, page);
             int canAddMoreLinks = maxLinksFromPage;
             if (myStopping) break;
+            
             for (Link link : links) {
                 myAction = "normalizing link: " + link;
                 link = Util.normalize(link);
@@ -108,7 +141,6 @@ class CrawlerThread extends Thread {
             if (myStopping) break;
         }
         myAction = "finished";
-//      System.out.print("#" + myIndex + " ");
     }
     
     public void finish() {

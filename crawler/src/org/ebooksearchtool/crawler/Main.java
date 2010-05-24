@@ -102,6 +102,10 @@ public class Main {
         Crawler crawler = new Crawler(properties, starts);
         Thread crawlingThread = new Thread(crawler);
         crawlingThread.start();
+
+        //try {
+        //} catch (InterruptedException e) {
+        //}
         
         if (debug) {
             String keyboardInput = null;
@@ -128,7 +132,8 @@ public class Main {
                 crawlingThread.join();
             } catch (InterruptedException ie) { }
         } else try {
-            Thread.sleep(Long.MAX_VALUE);
+            crawlingThread.join();
+           // Thread.sleep(Long.MAX_VALUE);
         } catch (InterruptedException ie) { }
 //        if (output != null) {
 //            output.close();
@@ -144,7 +149,8 @@ public class Main {
     * With a specified name and added counter "0", "1", "2", etc.
     * For a set of files, as each file reaches a given record number limit,
     * it is closed, and a new file opened.
-    * The next file will be named like the previous file, but the counter will be incremented.
+    * The next file will be named like the previous file,
+    * but the counter will be incremented.
     */
     static class FileSplitHandler extends java.util.logging.Handler {
         private int myRecordCount;
@@ -157,9 +163,11 @@ public class Main {
        /**
         * Initialize a FileSplitHandler to write to a set of files.
         *
-        * When the given limit has been written to one file, another file will be opened.
+        * When the given limit has been written to one file, 
+        * another file will be opened.
         * @param fileName - the pattern for naming the output file
-        * @param maxRecordCount - the maximum number of records to write to any one file
+        * @param maxRecordCount - the maximum number of records to write 
+        * to any one file
         */
         public FileSplitHandler(String fileName, int maxRecordCount) {
             this.myFileName = fileName;

@@ -4,7 +4,7 @@ public abstract class AbstractLinksQueue {
 
     public abstract boolean offer(Link s);
     
-    public abstract Link poll();
+    public abstract Link poll() throws InterruptedException;
     
     public abstract boolean isEmpty();
     

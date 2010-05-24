@@ -204,6 +204,12 @@ public class Crawler implements Runnable {
         boolean[] toKill = new boolean[ourThreadsCount];
         try {
             while (true) {
+
+//                // check if all threads are waiting for queue
+//                // for leaving this loop
+//                if (allThreadsAreWaitingForQueue())
+//                    break;
+
                 Thread.sleep(ourThreadTimeoutForLink);
                 Arrays.fill(toKill, false);
                 boolean killSomeone = false;
@@ -246,8 +252,6 @@ public class Crawler implements Runnable {
 //        if (myOutput != null) {
 //            myOutput.println("</books>");
 //        }
-        System.out.println();
-        System.out.println("finished");
         myLogger.finish();
         ourNetwork.finish();
         if (ourAnalyzerEnabled) {
