@@ -7,6 +7,8 @@ from book.search_engine.engine import SearchEngine
 from book.search_engine.spell_checker import spell_check
 from book.models import Author, Book, Language, Tag
 
+MIN_LEN_RESULT = 5
+
 class SphinxSearchEngine(SearchEngine):
     "Search engine using sphinx search."
 
@@ -73,11 +75,13 @@ class SphinxSearchEngine(SearchEngine):
                 books = books.filter(tag_id=tag_id)
 
             if author_query:
-                authors = self.__author_search(author=author_query, max_length=max_length)
+                authors = self.__author_search(author=author_query, \
+                                               max_length=max_length)
                 authors_id = [a.id for a in authors]
                 if authors_id:
                     first_author_id = authors_id[0]
-                    result_books = books._clone().filter(author_id=first_author_id)[0:max_length]
+                    result_books = \
+                        books._clone().filter(author_id=first_author_id)[0:max_length]
 
                     authors_id = authors_id[1:]
                     if authors_id:
@@ -131,6 +135,17 @@ class SphinxSearchEngine(SearchEngine):
                         break
 
         del query_ex['title']
+        print books
+        print query_ex
+        if len(books) < MIN_LEN_RESULT:
+            query_ex['author'] = query
+            authors = UserList(self.__author_search(1, **query_ex))
+            print authors
+            if authors:
+                # TODO add filtering by language and tag here
+                books = authors[0].book_set.all()
+            del query_ex['author']
+
         query_ex['query'] = query
         books.suggestion = self.__get_suggetions(**query_ex)
         return books
