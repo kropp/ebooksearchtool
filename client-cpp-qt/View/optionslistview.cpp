@@ -52,13 +52,13 @@ void OptionsListView::createComponents()
     proxyPortEdit->setObjectName("proxyPortEdit");
     proxyPortEdit->setText(myViewModel->getProxyPort());
 
-    libraryPathLabel = new QLabel(this);
-    libraryPathLabel->setObjectName("libraryPathLabel");
-    libraryPathLabel->setText("Library path:");
-
-    libraryPathEdit = new QLineEdit(this);
-    libraryPathEdit->setObjectName("libraryPathEdit");
-    libraryPathEdit->setText(myViewModel->getLibraryPath());
+//    libraryPathLabel = new QLabel(this);
+//    libraryPathLabel->setObjectName("libraryPathLabel");
+//    libraryPathLabel->setText("Library path:");
+//
+//    libraryPathEdit = new QLineEdit(this);
+//    libraryPathEdit->setObjectName("libraryPathEdit");
+//    libraryPathEdit->setText(myViewModel->getLibraryPath());
 
     downloadFormatLabel = new QLabel(this);
     downloadFormatLabel->setObjectName("downloadFormatLabel");
@@ -101,8 +101,8 @@ void OptionsListView::layoutComponents()
     optionsLayout->addWidget(proxyPortLabel, 2, 0, 1, 1);
     optionsLayout->addWidget(proxyPortEdit,  2, 1, 1, 1);
 
-    optionsLayout->addWidget(libraryPathLabel, 3, 0, 1, 1);
-    optionsLayout->addWidget(libraryPathEdit,  3, 1, 1, 1);
+//    optionsLayout->addWidget(libraryPathLabel, 3, 0, 1, 1);
+//    optionsLayout->addWidget(libraryPathEdit,  3, 1, 1, 1);
 
     optionsLayout->addWidget(downloadFormatLabel, 4, 0, 1, 1);
     optionsLayout->addWidget(downloadFormatEdit,  4, 1, 1, 1);
@@ -147,8 +147,8 @@ void OptionsListView::applyAllChanges()
     myViewModel->requestToChangePageBooksCount(booksPerPageEdit->text());
     myViewModel->requestToChangeProxy(proxyEdit->text());
     myViewModel->requestToChangeProxyPort(proxyPortEdit->text());
-    myViewModel->requestToChangeLibraryPath(libraryPathEdit->text());
-    myViewModel->requestToChangeDownloadFormat(downloadFormatEdit->text());
+    //myViewModel->requestToChangeLibraryPath(libraryPathEdit->text());
+//    myViewModel->requestToChangeDownloadFormat(downloadFormatEdit->text());
     myViewModel->applyAllChanges();
 }
 

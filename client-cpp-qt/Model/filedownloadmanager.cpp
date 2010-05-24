@@ -69,6 +69,7 @@ int FileDownloadManager::readBook(const Book& book, const QString& filename, con
 
 void FileDownloadManager::initializeDownloaders() {
     myDownloader = new FileDownloader("www.feedbooks.com", false);
+
 }
 
 void FileDownloadManager::abortDownloaders() {

@@ -50,8 +50,8 @@ class OptionsListView : public StandardView
         QLabel* proxyPortLabel;
         QLineEdit* proxyPortEdit;
 
-        QLabel* libraryPathLabel;
-        QLineEdit* libraryPathEdit;
+//        QLabel* libraryPathLabel;
+//        QLineEdit* libraryPathEdit;
 
         QLabel* downloadFormatLabel;
         QLineEdit* downloadFormatEdit;
