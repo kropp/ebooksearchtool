@@ -30,10 +30,10 @@ def simple_search(request, response_type, items_per_page, page, start_index):
 
 
     total = len(books)
-    # TODO search in annotation
 
     next = None
-    if (total-1)/(items_per_page * page) != 0:
+    max_item = items_per_page * page
+    if (total-1)/max_item != 0:
         next = page+1
 
     if response_type == "atom":
@@ -69,7 +69,8 @@ def search_in_author(request, lang, tag, response_type, items_per_page, page,
 
     total = len(authors)
     next = None
-    if (total-1)/(items_per_page * page) != 0:
+    max_item = items_per_page * page
+    if (total-1)/max_item != 0:
         next = page+1
     if response_type == "atom":
         return render_response(request, 'book/opds/authors_search_response.xml',
@@ -148,7 +149,8 @@ def search_request_to_server(request, response_type, is_all):
     total = len(books)
 
     next = None
-    if (total-1)/(items_per_page * page) != 0:
+    max_item = items_per_page * page
+    if (total-1)/max_item != 0:
         next = page+1
         
     if response_type == "atom":
