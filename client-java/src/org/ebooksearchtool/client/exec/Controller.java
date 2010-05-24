@@ -175,7 +175,7 @@ public class Controller implements Completive {
                         return;
 
                     Parser parser = new Parser();
-                    SAXHandler handler = new SAXHandler(myAnswer);
+                    SAXHandler handler = new SAXHandler(myAnswer, m_compliter);
                     parser.parse(myStream, handler);
                 } catch (IOException e) {
                     e.printStackTrace();

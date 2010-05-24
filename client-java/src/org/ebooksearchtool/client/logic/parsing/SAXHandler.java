@@ -56,6 +56,13 @@ public class SAXHandler extends DefaultHandler{
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException
     {
+
+        if(m_parent != null && m_parent.isComplete()){
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            myAnswer.setNextPage("");
+            throw new StopParsingException();
+        }
+
         if(!localName.equals(qName)){
             if("http://purl.org/dc/terms/".equals(uri) || "http://a9.com/-/spec/opensearch/1.1/".equals(uri)){
                 qName = localName;
