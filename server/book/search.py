@@ -10,42 +10,45 @@ from spec.search_util import rm_items, id_field
 from spec.distance import name_distance
 from book.models import Author, Book
 
-
+from book.search_engine.sphinx_engine import SphinxSearchEngine
 
 def author_search(query, max_length=5):
     """Searches 'query' in author field.
     Returns list of SphinxSearch."""
 
-    # TODO search by author name and alias
+#    # TODO search by author name and alias
+#
+#    result_list = []
+#
+#    if not query:
+#        return []
+#
+#    # simple full-text search
+#    query_set = Author.simple_search.query(query)
+#    result_list = query_set[0:max_length]
+#
+#    if query_set.count() < max_length:
+#        # if number of the results is less then max_length
+#        # than try to search using soundex
+#        soundex_query_set = \
+#            Author.soundex_search.query(query)[0:max_length]
+#
+#        # remove found in simple search results from soundex search
+#        id_set = set( [a.id for a in result_list] )
+#        soundex_query_set = rm_items(soundex_query_set, id_set, id_field)
+#        result_list.extend(soundex_query_set)
 
-    result_list = []
-
-    if not query:
-        return []
-
-    # simple full-text search
-    query_set = Author.simple_search.query(query)
-    result_list = query_set[0:max_length]
-
-    if query_set.count() < max_length:
-        # if number of the results is less then max_length
-        # than try to search using soundex
-        soundex_query_set = \
-            Author.soundex_search.query(query)[0:max_length]
-
-        # remove found in simple search results from soundex search
-        id_set = set( [a.id for a in result_list] )
-        soundex_query_set = rm_items(soundex_query_set, id_set, id_field)
-        result_list.extend(soundex_query_set)
+    search_engine = SphinxSearchEngine()
+    result = search_engine.author_search(max_length=max_length, author=query)
 
     # calculating distance between words
-    for item in result_list:
+    for item in result:
         item.rel = name_distance(query, item.name)
 
     # sorting list by relevant index
-    result_list.sort( lambda x, y: cmp(x.rel, y.rel) )
+    result.sort( lambda x, y: cmp(x.rel, y.rel) )
 
-    return result_list
+    return result[:max_length]
 
 
 
@@ -58,6 +61,9 @@ def book_title_search(query, author_ids = None, max_length=5):
 
     # simple full-text search
     query_set = Book.title_search.query(query)
+    
+#    search_engine = SphinxSearchEngine()
+#    result = search_engine.book_search(max_length=max_length, title=query)
 
     # filter by authors id
     if author_ids:
