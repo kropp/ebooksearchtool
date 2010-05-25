@@ -1,11 +1,12 @@
 \documentclass[utf8,handout]{beamer}
 
 \usepackage{presentation}
-\title{Сервис для поиска электронных книг}
+\title{Сервис поиска электронных книг}
 \subtitle{Серверная часть, обеспечивающая хранение информации о~книгах, поиск по ней и возможность модифицировать её.}
 
 \author{Иваницкий Андрей}
-\institute{АУ РАН}
+
+\institute{Санкт-Петербургский Академический Университет РАН}
 \date{\today}
 
 \begin{document}
@@ -90,8 +91,8 @@
 			$ M_{i,j} = D_{Levenshtein}(a_{i},b_{j}), i=1..n, j=1..m $ \\
 			где $D_{Levenshtein}$ --- расстояние Левенштейна
 			
-			\[	C_{min}=\min_{\alpha_1, \alpha_2, \ldots, \alpha_n}{\sum_{i=1}^{n} M_{i,\alpha_{i}}} \] \\
-			где $\alpha_1, \alpha_2, \ldots, \alpha_n$ --- перестановка чисел от $1$ до $n$,\\
+			\[	C_{min}=\min_{\alpha_1, \alpha_2, \ldots, \alpha_m}{\sum_{i=1}^{n} M_{i,\alpha_{i}}} \] \\
+			где $\alpha_1, \alpha_2, \ldots, \alpha_m$ --- перестановка чисел от $1$ до $m$,\\
 			минимум по всем таким возможным перестановкам
 
 			$C_{full}=C_{min}+(m-n)\times C_{remove}$\\
@@ -100,8 +101,20 @@
 	\end{frame}
 
 	\subsection{Фаза добавления}
-		\begin{frame}
+		\begin{frame}[fragile]
  			\frametitle{Структура запроса}
+ 			\begin{verbatim}
+<?xml version="1.0" encoding="UTF-8"?>
+<request>
+    <define>
+        ...
+    </define>
+
+    <update>
+        ...
+    </update>
+</request>
+			\end{verbatim}
 		\end{frame}
 	
 		\begin{frame}
