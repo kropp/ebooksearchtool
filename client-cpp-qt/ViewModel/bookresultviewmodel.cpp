@@ -1,4 +1,5 @@
 #include <QDebug>
+#include <QFileDialog>
 
 #include "bookresultviewmodel.h"
 #include "bookresultsviewmodel.h"
@@ -9,6 +10,7 @@
 #include "../Model/filedownloadmanager.h"
 
 #include "../Model/filedownloadmanager.h"
+
 
 BookResultViewModel::BookResultViewModel(Book* book, BookResultsViewModel* parent)
 {
@@ -113,6 +115,19 @@ void BookResultViewModel::downloadingRequested(const QString& filename) {
 
     lastRequestId = FileDownloadManager::getInstance()->downloadBook(*myShownBook, filename, SettingsManager::getInstance()->getCurrentFormat());
 }
+
+void BookResultViewModel::downloadingRequested() {
+        QString name = getFileName();
+        QString fileName(QFileDialog::getSaveFileName(0, tr("Download book"),
+                                                      name,
+                                                      QString("*.") + SettingsManager::getInstance()->getCurrentFormat()));
+        qDebug() << "BookResultView::downloadButtonPressed() file name for saving " << fileName;
+        if (fileName.isEmpty()) {
+            return;
+        }
+        downloadingRequested(fileName);
+}
+
 
 void BookResultViewModel::readRequested()
 {

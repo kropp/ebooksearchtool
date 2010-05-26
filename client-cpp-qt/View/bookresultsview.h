@@ -30,7 +30,7 @@ class BookResultsView : public StandardView
     public slots:
 
         void shownBooksChanged(QVector<BookResultViewModel*> newBooks);
-        void changeSelectedBook(BookResultView* );
+        void changeSelectedBookRequest(BookResultView* );
 
     private:
 
@@ -41,7 +41,6 @@ class BookResultsView : public StandardView
         BookResultsViewModel* myViewModel;
 
         QVector<BookResultView*> myShownResults;
-        QVector<BookResultViewModel*> myCurrentResultVms;
 
         BookResultView* mySelectedBook;
 

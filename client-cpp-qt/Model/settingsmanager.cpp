@@ -28,7 +28,7 @@ SettingsManager::SettingsManager()
     QCoreApplication::setOrganizationDomain("test.com");
     QCoreApplication::setApplicationName("Test");*/
 
-    settings = new QSettings("settings3.txt");
+    settings = new QSettings("settings3.txt", QSettings::IniFormat);
 }
 
 QString SettingsManager::getLibraryPath()
@@ -49,7 +49,11 @@ QString SettingsManager::getCurrentFormat()
 
 void SettingsManager::setCurrentFormat(QString newFormat)
 {
-    settings->setValue(DOWNLOAD_FORMAT_ID, newFormat);
+    if (newFormat.isEmpty()) {
+        settings->setValue(DOWNLOAD_FORMAT_ID, DOWNLOAD_FORMAT_DEFAULT_VALUE);
+    }
+     settings->setValue(DOWNLOAD_FORMAT_ID, newFormat);
+
 }
 
 void SettingsManager::setBooksOnPage(int newValue)

@@ -36,6 +36,7 @@ void InformationView::setWindowParameters() {
 
 void InformationView::setConnections() {
     connect (myViewModel, SIGNAL(bookInformationChanged(QString)), this, SLOT(updateInformation(QString)));
+   // connect (myViewModel, stateChanged(bool), );
 }
 
 void InformationView::updateInformation(QString info) {

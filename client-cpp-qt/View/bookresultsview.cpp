@@ -92,7 +92,7 @@ void BookResultsView::shownBooksChanged(QVector<BookResultViewModel*> newBooks)
     relayout();
 }
 
-void BookResultsView::changeSelectedBook(BookResultView* newBookView) {
+void BookResultsView::changeSelectedBookRequest(BookResultView* newBookView) {
     if (mySelectedBook) {
         mySelectedBook->cancelSelection();
     }

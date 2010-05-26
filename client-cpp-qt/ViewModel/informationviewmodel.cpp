@@ -73,7 +73,7 @@ QString InformationViewModel::getInformation() const{
                 information.append(link + "\t");
             }
         } else {
-            information.append(("<p><b>" + tr("\nTher is no links for free downloading: ") + "</b>"));
+            information.append(("<p><b>" + tr("\nThere is no links for free downloading") + "</b>"));
         }
 
     }

@@ -17,6 +17,8 @@ FileDownloadManager::FileDownloadManager() {
     qDebug() << "FileDownloadManager::FileDownloadManager";
 
     myConnectionForCovers = new QHttp(this);
+    myConnectionForCovers->setHost("www.feedbooks.com", 80);
+
     initializeDownloaders();
     setConnections();
 }
@@ -34,12 +36,12 @@ QString FileDownloadManager::getCoverDir()
 }
 
 int FileDownloadManager::downloadCover(QString urlStr, QIODevice* out) {
-    QUrl url(urlStr);
-
-    QString urlHost = url.host();
+//    QUrl url(urlStr);
+//
+//    QString urlHost = url.host();
     QString urlPath = tr("/book/547.jpg?t=20090916102557");
 
-    myConnectionForCovers->setHost(urlHost, IMAGE_DOWNLOAD_URL_PORT);
+//    myConnectionForCovers->setHost(urlHost, IMAGE_DOWNLOAD_URL_PORT);
 
     QString proxy = SettingsManager::getInstance()->getProxy();
 

@@ -13,7 +13,7 @@
 
 #include <QDebug>
 
-QColor BookResultView::ourBackgroundSelectedColor(QColor::fromHsv(200, 10, 255));
+QColor BookResultView::ourBackgroundSelectedColor(Qt::black);//(QColor::fromHsv(200, 10, 255));
 QColor BookResultView::ourBackgroundColor(Qt::white);
 
 BookResultView::BookResultView(BookResultsView* parent, BookResultViewModel* bookResultViewModel, bool addToLibraryButton) : StandardView(parent)
@@ -195,18 +195,20 @@ void BookResultView::resizeEvent(QResizeEvent* /*event*/)
 
 }
 
-
 void BookResultView::downloadButtonPressed()
 {
-    QString name = myViewModel->getFileName();
-    QString fileName(QFileDialog::getSaveFileName(0, tr("Download book"),
-                                                  name,
-                                                  QString("*.") + SettingsManager::getInstance()->getCurrentFormat()));
-    qDebug() << "BookResultView::downloadButtonPressed() file name for saving " << fileName;
-    if (fileName.isEmpty()) {
-        return;
-    }
-    myViewModel->downloadingRequested(fileName);
+    myViewModel->downloadingRequested();
+
+
+//    QString name = myViewModel->getFileName();
+//    QString fileName(QFileDialog::getSaveFileName(0, tr("Download book"),
+//                                                  name,
+//                                                  QString("*.") + SettingsManager::getInstance()->getCurrentFormat()));
+//    qDebug() << "BookResultView::downloadButtonPressed() file name for saving " << fileName;
+//    if (fileName.isEmpty()) {
+//        return;
+//    }
+//    myViewModel->downloadingRequested(fileName);
 }
 
 void BookResultView::addToLibraryButtonPressed()
@@ -227,7 +229,7 @@ void BookResultView::readButtonPressed()
 
 void BookResultView::mousePressEvent  ( QMouseEvent * ) {
     //  qDebug() << "BookResultView::mousePressEvent();";
-    myParent->changeSelectedBook(this);
+    myParent->changeSelectedBookRequest(this);
     bookInfoPressed();
 }
 

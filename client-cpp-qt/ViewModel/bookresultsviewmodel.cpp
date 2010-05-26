@@ -26,12 +26,9 @@ bool sortingLessThanByServer(BookResultViewModel* b1, BookResultViewModel* b2)
 
 BookResultsViewModel::BookResultsViewModel()
 {
-    receivedBooks = QVector<BookResultViewModel*>();
-    currentlyFilteredBooks = QVector<BookResultViewModel*>();
-
-    currentPageWithPageWindowCorrection = 0;
-    currentPageWithoutPageWindowCorrection = 0;
-    pageWindowIndex = 0;
+    myCurrentPageWithPageWindowCorrection = 0;
+    myCurrentPageWithoutPageWindowCorrection = 0;
+    myPageWindowIndex = 0;
 
     recalculatePages();
 }
@@ -43,13 +40,13 @@ void BookResultsViewModel::initialize()
 
 void BookResultsViewModel::requestNextPagesWindow()
 {
-    pageWindowIndex++;
+    myPageWindowIndex++;
     recalculatePages();
 }
 
 void BookResultsViewModel::requestPrevPagesWindow()
 {
-    pageWindowIndex--;
+    myPageWindowIndex--;
     recalculatePages();
 }
 
@@ -57,14 +54,14 @@ void BookResultsViewModel::recalculatePages()
 {
     int resultsOnPage = SettingsManager::getInstance()->getBooksOnPage();
 
-    int totalCount = currentlyFilteredBooks.size();
+    int totalCount = myCurrentlyFilteredBooks.size();
     bool additionalPageNeeded = (totalCount % resultsOnPage);
     int fullPagesCount = (totalCount / resultsOnPage) + (additionalPageNeeded ? 1 : 0);
-    int pagesCountAfterWindowPosition = fullPagesCount - pageWindowIndex * PAGES_WINDOW_SIZE;
+    int pagesCountAfterWindowPosition = fullPagesCount - myPageWindowIndex * PAGES_WINDOW_SIZE;
 
     if (pagesCountAfterWindowPosition < 0)
     {
-        pageWindowIndex = 0;
+        myPageWindowIndex = 0;
         pagesCountAfterWindowPosition = (totalCount / resultsOnPage) + (additionalPageNeeded ? 1 : 0);
     }
 
@@ -73,27 +70,27 @@ void BookResultsViewModel::recalculatePages()
                                         ? PAGES_WINDOW_SIZE
                                         : pagesCountAfterWindowPosition;
 
-    if (currentPageWithoutPageWindowCorrection >= pagesToBeShown)
+    if (myCurrentPageWithoutPageWindowCorrection >= pagesToBeShown)
     {
         requestToChangePage(0);
     }
     else
     {
-        requestToChangePage(currentPageWithoutPageWindowCorrection);
+        requestToChangePage(myCurrentPageWithoutPageWindowCorrection);
         showCurrentPage();
     }
 
 
-    emit pagesCountChanged(pagesToBeShown, pageWindowIndex * PAGES_WINDOW_SIZE);
-    emit pagePrevAvailabilityChanged(pageWindowIndex > 0);
+    emit pagesCountChanged(pagesToBeShown, myPageWindowIndex * PAGES_WINDOW_SIZE);
+    emit pagePrevAvailabilityChanged(myPageWindowIndex > 0);
     emit pageNextAvailabilityChanged(pagesCountAfterWindowPosition > PAGES_WINDOW_SIZE);
 }
 
 void BookResultsViewModel::requestToChangePage(int page)
 {
 
-    currentPageWithoutPageWindowCorrection = page;
-    currentPageWithPageWindowCorrection = page + pageWindowIndex * PAGES_WINDOW_SIZE;
+    myCurrentPageWithoutPageWindowCorrection = page;
+    myCurrentPageWithPageWindowCorrection = page + myPageWindowIndex * PAGES_WINDOW_SIZE;
 
     emit pageChanged(page);
     showCurrentPage();
@@ -105,15 +102,15 @@ void BookResultsViewModel::showCurrentPage()
 
     QVector<BookResultViewModel*> currentPageBooks;
 
-    for (int i = currentPageWithPageWindowCorrection * resultsOnPage; i < (currentPageWithPageWindowCorrection + 1) * resultsOnPage; i++)
+    for (int i = myCurrentPageWithPageWindowCorrection * resultsOnPage; i < (myCurrentPageWithPageWindowCorrection + 1) * resultsOnPage; i++)
     {
-        if (i < currentlyFilteredBooks.size())
+        if (i < myCurrentlyFilteredBooks.size())
         {
-            currentPageBooks.append(currentlyFilteredBooks.at(i));
-            currentlyFilteredBooks.at(i)->downloadCover();
+            currentPageBooks.append(myCurrentlyFilteredBooks.at(i));
+            myCurrentlyFilteredBooks.at(i)->downloadCover();
         }
     }
-
+    myCurrentSelectedBook = 0;
     emit shownBooksChanged(currentPageBooks);
 }
 
@@ -125,34 +122,34 @@ void BookResultsViewModel::changeAllFilteringDataSimultaneously
     QString newFilterTerm
 )
 {
-    groupType = newGroupType;
-    sortType = newSortType;
-    filterType = newFilterType;
-    filterWords = newFilterTerm;
+    myGroupType = newGroupType;
+    mySortType = newSortType;
+    myFilterType = newFilterType;
+    myFilterWords = newFilterTerm;
     updateShownBooks();
 }
 
 void BookResultsViewModel::changeGroupingType(SelectionType newType)
 {
-    groupType = newType;
+    myGroupType = newType;
     updateShownBooks();
 }
 
 void BookResultsViewModel::changeSortingType(SelectionType newType)
 {
-    sortType = newType;
+    mySortType = newType;
     updateShownBooks();
 }
 
 void BookResultsViewModel::changeFilteringType(SelectionType newType)
 {
-    filterType = newType;
+    myFilterType = newType;
     updateShownBooks();
 }
 
 void BookResultsViewModel::changeFilteringPhrase(QString filter)
 {
-    filterWords = filter;
+    myFilterWords = filter;
     updateShownBooks();
 }
 
@@ -180,17 +177,19 @@ QString BookResultsViewModel::getTerm(BookResultViewModel* element, SelectionTyp
 
 void BookResultsViewModel::updateShownBooks()
 {
-    QVector<BookResultViewModel*> processedBooks = QVector<BookResultViewModel*>(receivedBooks);
+
+   QVector<BookResultViewModel*> processedBooks(myRecievedBooks);
+
     QVector<BookResultViewModel*> filteredBooks;
     
-    if (filterType != NONE)
+    if (myFilterType != NONE)
     {
         for (int i = 0; i < processedBooks .size(); i++)
         {
             BookResultViewModel* nextElement = processedBooks.at(i);
-            QString filteredTerm = getTerm(nextElement, filterType);
+            QString filteredTerm = getTerm(nextElement, myFilterType);
 
-            if (filteredTerm.toLower().contains(filterWords.toLower()))
+            if (filteredTerm.toLower().contains(myFilterWords.toLower()))
             {
                 filteredBooks.append(nextElement);
             }
@@ -201,9 +200,9 @@ void BookResultsViewModel::updateShownBooks()
         filteredBooks = processedBooks;
     }
 
-    if (sortType != NONE)
+    if (mySortType != NONE)
     {
-        switch (sortType)
+        switch (mySortType)
         {
         case AUTHOR:
             qSort(filteredBooks.begin(), filteredBooks.end(), sortingLessThanByAuthor);
@@ -221,20 +220,20 @@ void BookResultsViewModel::updateShownBooks()
 
     QVector<BookResultViewModel*> groupedBooks;
 
-    if (groupType != NONE)
+    if (myGroupType != NONE)
     {
         while(filteredBooks.size() > 0)
         {
             BookResultViewModel* firstElement = filteredBooks.at(0);
             groupedBooks.append(firstElement);
 
-            QString groupTermFirst = getTerm(firstElement, groupType);
+            QString groupTermFirst = getTerm(firstElement, myGroupType);
 
             for (int i = 1; i < filteredBooks .size(); i++)
             {
                 BookResultViewModel* comparedElement = filteredBooks.at(i);
 
-                QString groupTermCompared = getTerm(comparedElement, groupType);
+                QString groupTermCompared = getTerm(comparedElement, myGroupType);
 
                 if (!groupTermCompared.compare(groupTermFirst))
                 {
@@ -252,7 +251,7 @@ void BookResultsViewModel::updateShownBooks()
         groupedBooks = filteredBooks;
     }
 
-    currentlyFilteredBooks = groupedBooks;
+    myCurrentlyFilteredBooks = groupedBooks;
 
     recalculatePages();
     showCurrentPage();
@@ -260,26 +259,31 @@ void BookResultsViewModel::updateShownBooks()
 
 int BookResultsViewModel::getCurrentBooksCount()
 {
-    return receivedBooks.size();
+    return myBooksMapping.size();
 }
 
 void BookResultsViewModel::newBooksReceived(QVector<Book*>& newBooks)
 {
+    // remove old books if new books don't contain them
 
-    for (int i = 0; i < receivedBooks.size(); i++)
-    {
-        BookResultViewModel* nextElement = receivedBooks.at(i);
-        delete nextElement;
+    QList<Book*> oldBooks = myBooksMapping.keys();
+
+    foreach (Book* oldBook, oldBooks) {
+        if (!newBooks.contains(oldBook)) {
+            BookResultViewModel* oldVm = myBooksMapping[oldBook];
+            myBooksMapping.remove(oldBook);
+            myRecievedBooks.remove(myRecievedBooks.indexOf(oldVm));
+            delete oldVm;
+        }
     }
 
-    receivedBooks.clear();
-
-    for (int i = 0; i < newBooks.size(); i++)
-    {
-        Book* nextBook = newBooks.at(i);
-        BookResultViewModel* newBookVm = new BookResultViewModel(nextBook, this);
-
-        receivedBooks.append(newBookVm);
+    // create new Vms if they haven't already been created
+    foreach (Book* book, newBooks) {
+        if (!myBooksMapping.contains(book)) {
+            BookResultViewModel* bookVm = new BookResultViewModel(book, this);
+            myBooksMapping.insert(book, bookVm);
+            myRecievedBooks.append(bookVm);
+        }
     }
 
     updateShownBooks();

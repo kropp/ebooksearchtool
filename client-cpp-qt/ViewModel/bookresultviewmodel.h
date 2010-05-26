@@ -44,6 +44,8 @@ public slots:
     void removeBookFromLibraryRequested();
     void bookInfoRequested();
     void downloadingRequested(const QString& fileName);
+    void downloadingRequested();
+
 
 signals:
 

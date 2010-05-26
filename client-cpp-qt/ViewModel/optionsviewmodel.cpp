@@ -70,11 +70,12 @@ QString OptionsViewModel::getProxyPort()
 
 void OptionsViewModel::applyAllChanges()
 {
-    SettingsManager::getInstance()->setBooksOnPage(booksCountValueToChange);
-    SettingsManager::getInstance()->setProxy(proxy);
-    SettingsManager::getInstance()->setProxyPort(proxyPort);
-    SettingsManager::getInstance()->setLibraryPath(libraryPath);
-    SettingsManager::getInstance()->setCurrentFormat(downloadFormat);
+    SettingsManager* settings = SettingsManager::getInstance();
+    settings->setBooksOnPage(booksCountValueToChange);
+    settings->setProxy(proxy);
+    settings->setProxyPort(proxyPort);
+    settings->setLibraryPath(libraryPath);
+    settings->setCurrentFormat(downloadFormat);
 
     emitChanges();
 }

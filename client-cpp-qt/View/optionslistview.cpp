@@ -148,7 +148,7 @@ void OptionsListView::applyAllChanges()
     myViewModel->requestToChangeProxy(proxyEdit->text());
     myViewModel->requestToChangeProxyPort(proxyPortEdit->text());
     //myViewModel->requestToChangeLibraryPath(libraryPathEdit->text());
-//    myViewModel->requestToChangeDownloadFormat(downloadFormatEdit->text());
+    myViewModel->requestToChangeDownloadFormat(downloadFormatEdit->text());
     myViewModel->applyAllChanges();
 }
 

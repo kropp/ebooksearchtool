@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QVector>
 #include <QList>
+#include <QMap>
 
 class Book;
 class BookResultViewModel;
@@ -71,19 +72,22 @@ private:
 
 private:
 
-    QVector<BookResultViewModel*> receivedBooks;
-    QVector<BookResultViewModel*> currentlyFilteredBooks;
+    QMap<Book*, BookResultViewModel*> myBooksMapping;
+    QVector<BookResultViewModel*> myRecievedBooks;
+    QVector<BookResultViewModel*> myCurrentlyFilteredBooks;
 
-    QString filterWords;
+    BookResultViewModel* myCurrentSelectedBook;
 
-    SelectionType groupType;
-    SelectionType sortType;
-    SelectionType filterType;
+    QString myFilterWords;
 
-    int currentPageWithPageWindowCorrection;
-    int currentPageWithoutPageWindowCorrection;
+    SelectionType myGroupType;
+    SelectionType mySortType;
+    SelectionType myFilterType;
 
-    int pageWindowIndex;
+    int myCurrentPageWithPageWindowCorrection;
+    int myCurrentPageWithoutPageWindowCorrection;
+
+    int myPageWindowIndex;
 };
 
 #endif // BOOKRESULTSVIEWMODEL_H
