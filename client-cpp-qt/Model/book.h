@@ -7,6 +7,7 @@
 #include <QObject>
 #include <QFile>
 #include <QIcon>
+#include <QPair>
 #include <QBuffer>
 
 #include "author.h"
@@ -43,7 +44,6 @@ public:
     const QString& getId() const;
     const QMap<QString, QString>& getSourceLinks() const;
 //    const QString getSourceLink(const QString& format) const;
-//    QString getSourceLink() const;
     const QString& getCoverLink() const;
     const QString& getFormat() const;
     const QString& getContent() const;
@@ -52,6 +52,8 @@ public:
     const QString& getPublisher() const;
     const QString& getRights() const;
     const QVector<QString>& getCategories() const;
+    const QPair<QString, QString>&  getLocalLink() const;
+
 
     void setServerName(const QString& server);
     void setTitle(const QString& title);
@@ -68,6 +70,10 @@ public:
     void setIssued(const QString& issued);
     void setRights(const QString& rights);
     void addCategory(const QString& category);
+    void setLocalLink(QPair<QString, QString> link);
+
+// check if file exists,  if not - remove link
+    bool hasLocalLink();
 
 private slots:
 
@@ -92,6 +98,7 @@ private:
     QString myRights;
     QVector<QString> myCategories;
     QString myCoverLink;
+    QPair<QString, QString> myLocalLink;
     QMap<QString, QString>* mySourceLinks; // format -> link
 
 private:
@@ -145,6 +152,7 @@ inline const QString& Book::getCoverLink() const {
 inline const QString& Book::getContent() const {
     return myContent;
 }
+
 
 
 #endif // BOOK_H

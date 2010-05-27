@@ -159,3 +159,27 @@ void Book::setCover(int requestId, bool success)
     }
 }
 
+void Book::setLocalLink(QPair<QString, QString> link) {
+    qDebug() << "Book::setLocalLink( ) " << myTitle << "  link =  " << link.second;
+    myLocalLink = link;
+}
+
+
+bool Book::hasLocalLink() {
+    if (myLocalLink.first.isEmpty()) {
+        return false;
+    }
+    if (QFile::exists(myLocalLink.second)) {
+        return true;
+    } else {
+        myLocalLink.first = QString();
+        myLocalLink.second = QString();
+        return false;
+    }
+}
+
+
+const QPair<QString, QString>&  Book::getLocalLink() const {
+//    hasLocalLink();
+    return myLocalLink;
+}

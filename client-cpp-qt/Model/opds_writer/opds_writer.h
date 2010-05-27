@@ -23,6 +23,7 @@ private:
     void appendTagAndText(QDomDocument& doc, QDomElement& parentElement, const QString& tag, const QString& text);
 
     void appendCoverLink(QDomDocument& doc, QDomElement& entry, const Book& book);
+    void appendLocalLink(QDomDocument& doc, QDomElement& entry, const Book& book);
     void appendSourceLinks(QDomDocument& doc, QDomElement& entry, const Book& book);
 };
 

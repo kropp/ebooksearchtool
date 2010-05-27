@@ -1,4 +1,5 @@
 #include <QDebug>
+#include <QPair>
 #include <QFileDialog>
 
 #include "bookresultviewmodel.h"
@@ -33,6 +34,8 @@ void BookResultViewModel::downloadFinished(bool success, int requestId)
     {
         if (success)
         {
+            QPair<QString, QString> link (SettingsManager::getInstance()->getCurrentFormat(), myFileNameForSaving);
+            myShownBook->setLocalLink(link);
             emit bookDownloadStateChanged("downloaded");
         }
         else
@@ -112,7 +115,7 @@ void BookResultViewModel::downloadingRequested(const QString& filename) {
 
     qDebug() << "BookResultViewModel::downloadingRequested() link " << myShownBook->getSourceLinks()
              << "file" << filename;
-
+    myFileNameForSaving = filename;
     lastRequestId = FileDownloadManager::getInstance()->downloadBook(*myShownBook, filename, SettingsManager::getInstance()->getCurrentFormat());
 }
 
@@ -146,4 +149,8 @@ bool BookResultViewModel::canBeDownloaded() {
         }
     }
     return false;
+}
+
+bool BookResultViewModel::isDownloaded() {
+    return myShownBook->hasLocalLink();
 }

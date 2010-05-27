@@ -37,6 +37,8 @@ public:
 
     bool canBeDownloaded();
 
+    bool isDownloaded();
+
 public slots:
 
     void addBookToLibraryRequested();
@@ -66,6 +68,7 @@ private:
 
     Book* myShownBook;
     BookResultsViewModel* myParentModel;
+    QString myFileNameForSaving;
 
     int lastRequestId;
 };

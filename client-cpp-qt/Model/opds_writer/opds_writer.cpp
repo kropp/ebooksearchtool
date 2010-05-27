@@ -47,6 +47,7 @@ void DataWriter::bookToDomElement(const Book& book, QDomDocument& doc, QDomEleme
     // append links 
     appendSourceLinks(doc, entry, book);
     appendCoverLink(doc, entry, book);
+    appendLocalLink(doc, entry, book);
 
    //append issued   
     if(!book.getIssued().isEmpty())
@@ -109,6 +110,20 @@ void DataWriter::appendCoverLink(QDomDocument& doc, QDomElement& entry, const Bo
 	    entry.appendChild(coverLink);	
     }
 }
+
+void DataWriter::appendLocalLink(QDomDocument& doc, QDomElement& entry, const Book& book) {
+    if (!book.getLocalLink().first.isEmpty()) {
+        QDomElement localLink = doc.createElement(TAG_LINK);
+        const QPair<QString, QString>& link = book.getLocalLink();
+
+        localLink.setAttribute(ATTRIBUTE_TYPE, "application/" + link.first);
+        localLink.setAttribute(ATTRIBUTE_RELATION, ATTR_VALUE_ACQUISITION+"/local");
+        localLink.setAttribute(ATTRIBUTE_REFERENCE, link.second);
+        entry.appendChild(localLink);
+    }
+}
+
+
 
 void DataWriter::appendSourceLinks(QDomDocument& doc, QDomElement& entry, const Book& book) {
     // append Source link

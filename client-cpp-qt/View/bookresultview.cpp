@@ -13,7 +13,7 @@
 
 #include <QDebug>
 
-QColor BookResultView::ourBackgroundSelectedColor(Qt::black);//(QColor::fromHsv(200, 10, 255));
+QColor BookResultView::ourBackgroundSelectedColor(QColor::fromHsv(200, 10, 255));
 QColor BookResultView::ourBackgroundColor(Qt::white);
 
 BookResultView::BookResultView(BookResultsView* parent, BookResultViewModel* bookResultViewModel, bool addToLibraryButton) : StandardView(parent)
@@ -62,6 +62,9 @@ void BookResultView::createComponents()
         myDownloadButton->setState("grayed");
         myDownloadButton->setEnabled(false);
     }
+    if (myViewModel->isDownloaded()) {
+        myDownloadButton->setState("downloaded");
+    }
 
     if (myAddToLibraryButtonEnabled)
     {
@@ -81,13 +84,9 @@ void BookResultView::createComponents()
     myReadButton = new QPushButton(this);
     myReadButton->setToolTip("Read book");
     myReadButton->setCursor(Qt::PointingHandCursor);
-//    myInformationButton = new QPushButton(this);
-//    myInformationButton->setCursor(Qt::PointingHandCursor);
-//    myInformationButton->setToolTip("Book information");
 
 
     myReadButton->setObjectName("readButton");
-//    myInformationButton->setObjectName("informationButton");
 }
 
 void BookResultView::layoutComponents()
