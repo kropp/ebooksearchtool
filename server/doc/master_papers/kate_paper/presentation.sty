@@ -1,6 +1,14 @@
-\RequirePackage[utf8x]{inputenc}
+%% ENCODINGS
+\RequirePackage{ifpdf}
+\ifpdf
+    \RequirePackage{cmap}
+\fi
+
+\RequirePackage[utf8]{inputenc}
+\RequirePackage[T1,T2A]{fontenc}
 \usepackage[english,russian]{babel}
 
-\usetheme{Copenhagen}
-\usecolortheme{seahorse}
+\usetheme{CambridgeUS}
+%\usecolortheme{seahorse}
 
+\usecolortheme{dolphin}
