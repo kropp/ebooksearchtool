@@ -35,6 +35,7 @@ protected:
 
 
     static const QString ATTR_VALUE_ACQUISITION;
+    static const QString ATTR_VALUE_ACQUISITION_LOCAL;
     static const QString ATTR_VALUE_COVER;
     static const QString ATTR_VALUE_COVER_;
     static const QString ATTR_VALUE_COVER_STANZA;

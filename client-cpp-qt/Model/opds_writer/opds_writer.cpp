@@ -12,10 +12,10 @@ static const QString IMAGE_GIF = "image/gif";
 DataWriter::DataWriter() {}
 
 void DataWriter::write(QFile* file, const QVector<Book*>& data) {
-	QDomDocument* doc = new QDomDocument();
+    QDomDocument* doc = new QDomDocument();
     dataToDomDocument(data, *doc);
-	QTextStream out(file);
-	doc->save(out, 4);
+    QTextStream out(file);
+    doc->save(out, 4);
     delete doc;
 }
 
@@ -28,7 +28,7 @@ void DataWriter::dataToDomDocument(const QVector<Book*>& data, QDomDocument& doc
     doc.appendChild(feed);
     foreach (const Book* book, data) {
         QDomElement entry = doc.createElement(TAG_ENTRY);
-	    bookToDomElement(*book, doc, entry);
+        bookToDomElement(*book, doc, entry);
         feed.appendChild(entry);
     }
 }
@@ -43,17 +43,17 @@ void DataWriter::bookToDomElement(const Book& book, QDomDocument& doc, QDomEleme
     // append date of last updating
     if (!book.getUpdated().isEmpty())
         appendTagAndText(doc, entry, TAG_UPDATED, book.getUpdated());
-   
+
     // append links 
     appendSourceLinks(doc, entry, book);
     appendCoverLink(doc, entry, book);
     appendLocalLink(doc, entry, book);
 
-   //append issued   
+    //append issued
     if(!book.getIssued().isEmpty())
         appendTagAndText(doc, entry, "dcterms:issued", book.getIssued());
-   
-     //append authors
+
+    //append authors
     const QVector<const Author*>& authors = book.getAuthors();
     foreach (const Author* author, authors) {
         QDomElement authorElement = doc.createElement("author");
@@ -65,37 +65,37 @@ void DataWriter::bookToDomElement(const Book& book, QDomDocument& doc, QDomEleme
     // append publisher
     if(!book.getPublisher().isEmpty())
         appendTagAndText(doc, entry, "dcterms:" + TAG_PUBLISHER, book.getPublisher());
-     
- 
-   // append categories
+
+
+    // append categories
     const QVector<QString>& categories = book.getCategories();
     foreach (QString category, categories) {
         QDomElement element = doc.createElement(TAG_CATEGORY);
-	    element.setAttribute(ATTRIBUTE_TERM, category);
-	    entry.appendChild(element);	 
+        element.setAttribute(ATTRIBUTE_TERM, category);
+        entry.appendChild(element);
     }
-   
-   //append language   
+
+    //append language
     if(!book.getLanguage().isEmpty())
         appendTagAndText(doc, entry, "dcterms:language", book.getLanguage());
     
     // append content
     appendTagAndText(doc, entry, TAG_CONTENT, book.getContent());
     
-   // append summary
+    // append summary
     if (!book.getSummary().isEmpty())
         appendTagAndText(doc, entry, TAG_SUMMARY, book.getSummary());
-   
-   //append rights
+
+    //append rights
     if (!book.getRights().isEmpty())
         appendTagAndText(doc, entry, TAG_RIGHTS, book.getRights());
-   
+
 }
 
 void DataWriter::appendCoverLink(QDomDocument& doc, QDomElement& entry, const Book& book) {
     if (!book.getCoverLink().isEmpty()) {
         QDomElement coverLink = doc.createElement(TAG_LINK);
-	    const QString& coverLinkValue = book.getCoverLink();
+        const QString& coverLinkValue = book.getCoverLink();
         QString attributeTypeValue = IMAGE_PNG;
         if ((coverLinkValue.contains(".jpeg")) ||
             (coverLinkValue.contains(".jpg"))) {
@@ -105,9 +105,9 @@ void DataWriter::appendCoverLink(QDomDocument& doc, QDomElement& entry, const Bo
             attributeTypeValue = IMAGE_GIF;
         }
         coverLink.setAttribute(ATTRIBUTE_TYPE, attributeTypeValue);
-	    coverLink.setAttribute(ATTRIBUTE_RELATION, ATTR_VALUE_COVER);
+        coverLink.setAttribute(ATTRIBUTE_RELATION, ATTR_VALUE_COVER);
         coverLink.setAttribute(ATTRIBUTE_REFERENCE, coverLinkValue);
-	    entry.appendChild(coverLink);	
+        entry.appendChild(coverLink);
     }
 }
 
@@ -131,11 +131,11 @@ void DataWriter::appendSourceLinks(QDomDocument& doc, QDomElement& entry, const 
     typedef QMap<QString, QString>::const_iterator MapIt;
     for (MapIt it = links.constBegin(); it != links.constEnd(); ++it) {
         QDomElement textLink = doc.createElement(TAG_LINK);
-	    textLink.setAttribute(ATTRIBUTE_TYPE, "application/" + it.key());
-	    textLink.setAttribute(ATTRIBUTE_RELATION, ATTR_VALUE_ACQUISITION);
-	    textLink.setAttribute(ATTRIBUTE_REFERENCE, it.value());
-	    entry.appendChild(textLink);		
-	}
+        textLink.setAttribute(ATTRIBUTE_TYPE, "application/" + it.key());
+        textLink.setAttribute(ATTRIBUTE_RELATION, ATTR_VALUE_ACQUISITION);
+        textLink.setAttribute(ATTRIBUTE_REFERENCE, it.value());
+        entry.appendChild(textLink);
+    }
 }
 
 void DataWriter::appendTagAndText(QDomDocument& doc, QDomElement& parentElement, const QString& tag, const QString& text) {

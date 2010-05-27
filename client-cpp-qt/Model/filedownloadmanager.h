@@ -14,6 +14,10 @@ class FileDownloadManager : public QObject
 
 Q_OBJECT
 
+public:
+    static void openLocalFile(QString filename);
+
+
 private:
 
     FileDownloadManager();

@@ -2,6 +2,7 @@
 #include "filedownloadmanager.h"
 
 #include <QDebug>
+#include <QFileInfo>
 
 static const int HTTP_PREFIX_LENGTH = 7;
 
@@ -161,7 +162,9 @@ void Book::setCover(int requestId, bool success)
 
 void Book::setLocalLink(QPair<QString, QString> link) {
     qDebug() << "Book::setLocalLink( ) " << myTitle << "  link =  " << link.second;
-    myLocalLink = link;
+    myLocalLink.first = link.first;
+    QFileInfo fileInfo(link.second);
+    link.second = fileInfo.absoluteFilePath();
 }
 
 

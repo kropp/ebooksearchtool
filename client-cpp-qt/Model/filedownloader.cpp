@@ -1,11 +1,10 @@
 #include <QFile>
+#include <QFileInfo>
 #include <QDebug>
 
-#include <QDesktopServices>
-#include <QApplication>
-#include <QUrl>
-
 #include "filedownloader.h"
+#include "filedownloadmanager.h"
+
 
 FileDownloader::FileDownloader(QString serverName, bool openAfterDownload)
     :DownloaderThread(serverName, "")
@@ -37,11 +36,12 @@ void FileDownloader::parseReceivedData(int requestId)
         myIsFinished = true;
         emit downloadFinished(true, filename, requestId);
 
-        if (autoOpenFlag)
-        {
-            QString appPath = QApplication::applicationDirPath();
-            QDesktopServices::openUrl(QUrl("file:///" + appPath + "/" + filename));
+        if (autoOpenFlag) {
+            QFileInfo fileInfo(filename);
+            qDebug() << "FileDownload::parseReceivedData  open file" << fileInfo.absoluteFilePath();
+            FileDownloadManager::openLocalFile(fileInfo.absoluteFilePath());
         }
+
 
         myResultsMutex.unlock();
     }

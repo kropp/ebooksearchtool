@@ -48,13 +48,6 @@ void BookSearchManager::initializeDownloaders()
         }
     }
 
-    /*    myBookDownloaders.append(new BookDownloader(FEEDBOOKS_ID, FEEDBOOKS_SEARCH_PATH));
-    myBookDownloaders.append(new BookDownloader(MANYBOOKS_ID, MANYBOOKS_SEARCH_PATH));
-    myBookDownloaders.append(new BookDownloader(BOOKSERVER_ID, BOOKSERVER_SEARCH_PATH));
-    myBookDownloaders.append(new BookDownloader(SMASHWORDS_ID, SMASHWORDS_SEARCH_PATH));
-    myBookDownloaders.append(new BookDownloader(EBOOKSEARCH_ID, EBOOKSEARCH_SEARCH_PATH));*/
-
-    //  myBookDownloaders.append(new BookDownloader(LITRES_ID, "/munseys/op/search?search="));
 }
 
 void BookSearchManager::getMore()

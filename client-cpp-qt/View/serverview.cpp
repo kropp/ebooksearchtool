@@ -6,9 +6,9 @@
 #include <QGridLayout>
 #include <QFile>
 
-static const QString SERVER_PATH_LABEL = "Path:";
-static const QString SERVER_SEARCH_PATH_LABEL = "Book search path:";
-static const QString SERVER_ATOM_PATH_LABEL = "Root OPDS catalog path:";
+static const QString SERVER_PATH_LABEL = "host:";
+static const QString SERVER_SEARCH_PATH_LABEL = "Book search url:";
+static const QString SERVER_ATOM_PATH_LABEL = "Root OPDS catalog url:";
 
 ServerView::ServerView(QWidget* parent, ServerViewModel* resultViewModel)
     :StandardView(parent)

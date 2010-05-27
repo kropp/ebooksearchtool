@@ -45,6 +45,8 @@ void OPDSHandler::startNewEntry()
     categories = new QVector<QString>();
     authors = new QVector<Author*>();
     mySourceLinks = new QMap<QString, QString>();
+    myLocalLink.first = QString();
+    myLocalLink.second = QString();
 
     title = "";
     authorsName = "";
@@ -90,7 +92,10 @@ void OPDSHandler::endEntry()
         newBook->setPublisher(publisher);
         newBook->setCoverLink(coverLink);
         newBook->setSourceLinks(mySourceLinks);
-
+        if (!myLocalLink.first.isEmpty()) {
+            newBook->setLocalLink(myLocalLink);
+            qDebug() << "OPDSHandler::endEntry() local link parsed "<< myLocalLink.second;
+        }
         myBookData->append(newBook);
     }
 }
@@ -236,9 +241,15 @@ void OPDSHandler::processLink(const QXmlAttributes& attributes) {
 
     // if I am inside an entry
     if (attributes.value(ATTRIBUTE_RELATION).contains(ATTR_VALUE_ACQUISITION)) {
+
         QString format = attributes.value(ATTRIBUTE_TYPE);
         format.remove("application/");
-        mySourceLinks->insert(format, attributes.value(ATTRIBUTE_REFERENCE));
+        if (attributes.value(ATTRIBUTE_RELATION) == ATTR_VALUE_ACQUISITION_LOCAL) {
+            myLocalLink.first = format;
+            myLocalLink.second = attributes.value(ATTRIBUTE_REFERENCE);
+        } else {
+            mySourceLinks->insert(format, attributes.value(ATTRIBUTE_REFERENCE));
+        }
 
     } else if ((attributes.value(ATTRIBUTE_TYPE).contains("image")) && 
                ((attributes.value(ATTRIBUTE_RELATION) == ATTR_VALUE_COVER) ||

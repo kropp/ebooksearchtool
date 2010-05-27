@@ -134,6 +134,11 @@ void BookResultViewModel::downloadingRequested() {
 
 void BookResultViewModel::readRequested()
 {
+    if (myShownBook->hasLocalLink()) {
+        FileDownloadManager::openLocalFile(myShownBook->getLocalLink().second);
+        return;
+    }
+
     lastRequestId = FileDownloadManager::getInstance()->readBook(*myShownBook, FileDownloadManager::getInstance()->getReadDefaultLocation(),
                                                                                SettingsManager::getInstance()->getCurrentFormat());
 }

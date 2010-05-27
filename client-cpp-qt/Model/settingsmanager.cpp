@@ -36,9 +36,9 @@ QString SettingsManager::getLibraryPath()
     return settings->value(LIBRARY_PATH_ID, LIBRARY_PATH_DEFAULT_VALUE).toString();
 }
 
-void SettingsManager::setLibraryPath(QString newPath)
+void SettingsManager::setLibraryPath(QString /*newPath*/)
 {
-    settings->setValue(LIBRARY_PATH_ID, newPath);
+    settings->setValue(LIBRARY_PATH_ID, LIBRARY_PATH_DEFAULT_VALUE);
     emit libraryPathChanged();
 }
 

@@ -75,7 +75,6 @@ private:
     QPushButton* myAddToLibraryButton;
     QPushButton* myRemoveFromLibraryButton;
     QPushButton* myReadButton;
-//    QPushButton* myInformationButton;
 
     BookResultsView* myParent;
 

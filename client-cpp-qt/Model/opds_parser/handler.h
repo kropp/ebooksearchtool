@@ -63,6 +63,7 @@ private:
     QString coverLink;
     UrlData* catalogLinkUrl;
 
+    QPair<QString, QString> myLocalLink;
 
     QVector<QString>* categories;
     QVector<Author*>* authors;

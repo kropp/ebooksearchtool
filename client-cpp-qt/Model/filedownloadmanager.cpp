@@ -5,6 +5,8 @@
 
 #include <QDebug>
 #include <QUrl>
+#include <QDesktopServices>
+#include <QApplication>
 
 FileDownloadManager* FileDownloadManager::instance = 0;
 
@@ -12,6 +14,17 @@ FileDownloadManager* FileDownloadManager::instance = 0;
 static const QString COVER_DIR = "./";
 
 static const int IMAGE_DOWNLOAD_URL_PORT = 80;
+
+void FileDownloadManager::openLocalFile(QString filename) {
+//  need absolute file path
+
+//    QString appPath = QApplication::applicationDirPath();
+//    QDesktopServices::openUrl(QUrl("file:///" + appPath + "/" + filename));
+
+        QDesktopServices::openUrl(QUrl("file:///" + filename));
+
+}
+
 
 FileDownloadManager::FileDownloadManager() {
     qDebug() << "FileDownloadManager::FileDownloadManager";
@@ -36,7 +49,7 @@ QString FileDownloadManager::getCoverDir()
 }
 
 int FileDownloadManager::downloadCover(QString urlStr, QIODevice* out) {
-//    QUrl url(urlStr);
+    QUrl url(urlStr);
 //
 //    QString urlHost = url.host();
     QString urlPath = tr("/book/547.jpg?t=20090916102557");
@@ -66,6 +79,7 @@ int FileDownloadManager::downloadBook(const Book& book, const QString& filename,
 }
 
 int FileDownloadManager::readBook(const Book& book, const QString& filename, const QString& format) {
+
     return myDownloader->startDownloadingFile(book.getSourceLinks().value(format), filename, true);
 }
 

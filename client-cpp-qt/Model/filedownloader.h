@@ -21,6 +21,7 @@ public:
 
     FileDownloader(QString serverName, bool openAfterDownload);
 
+
 public:
 
     int startDownloadingFile(QString url, QString filename, bool autoOpen);
