@@ -6,7 +6,7 @@
 
 <body>
 
-<div id="header">
+<div id="header_lang">
 
 <div id="lang" align="right">
     <form action="/i18n/setlang/" method="post">
@@ -14,12 +14,13 @@
         <select name="language">
         {% for lang in LANGUAGES %}
         {% ifequal  lang.0 request.LANGUAGE_CODE%}
-            <option value="{{ lang.0 }}" selected>{{ lang.1 }}</option>
+            <option value="{{ lang.0 }}" selected = "selected">{{ lang.1 }}</option>
         {% else %}
             <option value="{{ lang.0 }}" >{{ lang.1 }}</option>
         {%endifequal%}
         
         {% endfor %}
+        </select>
         <input type="submit" value="{%trans "Go" %}" />
     </form>
 </div>
@@ -32,7 +33,7 @@
 <br/><br/>
 
 <div id="header">
-<center><input type="hidden" maxlength=2048 size=40 class=lst value=""><center>
+<center><input type="hidden" maxlength="2048" size="40" class="lst" value=""/></center>
 <script type="text/javascript">function checkForm(form) {
     var errorList = [];    
     for (var i = 0; i < form.elements.length; i++) {
@@ -50,33 +51,34 @@ if (!errorList.length) return true;
 return false;
 
 }</script>
-
+<center>
+<div id="search_section">
 <form action="search" onsubmit="return checkForm(this);" name="simple_search" >
 
-    <table cellpadding=0 cellspacing=0>
-    <tr valign=top>
-        <td width=25%>&nbsp;</td>
-        <td align=center nowrap>
-            <input type="text" maxlength=2048 size=40 class=lst name="query" value="{{query}}">
+    <table cellpadding="0" cellspacing="0">
+    <tr valign="top">
+        <td width="25%">&nbsp;</td>
+        <td align="center">
+            <input type="text" maxlength="2048" size="40" class="lst" name="query" value="{{query}}"/>
         </td>
-        <td nowrap width=25% align=left id=sbl>
-            &nbsp;<input type="submit" value="{% trans "Search" %}" ><font size=-2>&nbsp;&nbsp;<a href="extended_search" rel="extended search">{%trans "Extended search"%}</a></font>
+        <td width="25%" align="left" id="sbl">
+            &nbsp;<input type="submit" value="{% trans "Search" %}" /><font size="-2">&nbsp;&nbsp;<a href="extended_search" rel="extended search">{%trans "Extended search"%}</a></font>
         </td>
     </tr>
     </table>
 </form>
 </div>
-
+</center>
 {%if suggestions%}
         <h4>{%trans "Did you mean"%}: <a href="search?query={{ suggestions.query }}" class="gray">{{ suggestions.query }}</a></em></h4>
 {%endif%}
-    </form>
+
 </div>
 
 </div>
 <br/><br/><br/>
 <center>
-<table cellpadding=5 cellspacing=5>
+<table cellpadding="5" cellspacing="5">
 <tr>
 <td>  
 <div class="catalog_link"><a href="discover/authors">{% trans "Authors"%}</a></div></td>

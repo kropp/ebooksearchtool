@@ -13,7 +13,7 @@
         <select name="language">
         {% for lang in LANGUAGES %}
         {% ifequal  lang.0 request.LANGUAGE_CODE%}
-            <option value="{{ lang.0 }}" selected>{{ lang.1 }}</option>
+            <option value="{{ lang.0 }}" selected = "selected">{{ lang.1 }}</option>
         {% else %}
             <option value="{{ lang.0 }}" >{{ lang.1 }}</option>
         {%endifequal%}
@@ -81,7 +81,7 @@ return false;
             <td style="padding-top: 20px;"><select name="lang"  width="260" style="width: 260px">
                 <option value="">--None--</option>
                 {% ifequal "en" title.lang %}
-                    <option selected value="en">English</option>
+                    <option selected = "selected" value="en">English</option>
                     <option value="ru">Russian</option>
                     <option value="fr">French</option>
                     <option disabled>-----------</option> 
@@ -91,7 +91,7 @@ return false;
                 {% else %}
                     {% ifequal "ru" title.lang %}
                         <option value="en">English</option>
-                        <option selected value="ru">Russian</option>
+                        <option selected = "selected" value="ru">Russian</option>
                         <option value="fr">French</option>
                         <option disabled>-----------</option> 
                         {% for lang in langs %}
@@ -101,7 +101,7 @@ return false;
                         {% ifequal "fr" title.lang %}
                             <option value="en">English</option>
                             <option value="ru">Russian</option>
-                            <option selected value="fr">French</option>
+                            <option selected = "selected" value="fr">French</option>
                             <option disabled>-----------</option> 
                             {% for lang in langs %}
                                 <option value="{{lang.short}}">{{lang.full}}</option>
@@ -113,7 +113,7 @@ return false;
                             <option disabled>-----------</option>
                             {% for lang in langs %}
                                 {% ifequal lang.short title.lang %} 
-                                    <option selected value="{{lang.short}}">{{lang.full}}</option>                    
+                                    <option selected = "selected" value="{{lang.short}}">{{lang.full}}</option>                    
                                 {% else %}
                                 <option value="{{lang.short}}">{{lang.full}}</option>
                                 {% endifequal %}
@@ -130,7 +130,7 @@ return false;
                 <option value="">--None--</option>
                 {% for tag in tags %}
                     {% ifequal tag.name title.tag %} 
-                        <option selected value="{{tag.name}}">{{tag.name}}</option>
+                        <option selected = "selected" value="{{tag.name}}">{{tag.name}}</option>
                     {% else %}
                         <option value="{{tag.name}}">{{tag.name}}</option>
                     {% endifequal %}

@@ -5,7 +5,7 @@
         <select name="language">
         {% for lang in LANGUAGES %}
         {% ifequal  lang.0 request.LANGUAGE_CODE%}
-            <option value="{{ lang.0 }}" selected>{{ lang.1 }}</option>
+            <option value="{{ lang.0 }}" selected="selected">{{ lang.1 }}</option>
         {% else %}
             <option value="{{ lang.0 }}" >{{ lang.1 }}</option>
         {%endifequal%}
