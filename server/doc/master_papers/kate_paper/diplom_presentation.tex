@@ -3,8 +3,9 @@
 
 \title{Сервис поиска электронных книг }
 \subtitle{Серверная часть, обеспечивающая верификацию, обновление данных и взаимодействие с клиентскими программами и пользователем.}
-%\author{Е. А. Тузова}
-%\institute{АУ РАН}
+\author{Е. А. Тузова}
+
+\institute{Академический Университет РАН}
 \date{}
 
 
@@ -14,7 +15,7 @@
   \titlepage
 
   \begin{flushright}
-    Студент~~~~~~  Е. А. Тузова
+%    Студент~~~~~~  Е. А. Тузова
   
     Руководитель~~~  Н. М. Пульцин
 
@@ -28,28 +29,42 @@
 
   \end{frame}
 
+\section{Протокол OPDS}
+  \begin{frame}
+
+    \frametitle{Протокол OPDS}
+    
+	\includegraphics{./head/scheme}
+  \end{frame}
+
 \section{Постановка задачи}
   \begin{frame}
 
     \frametitle{Постановка задачи}
     \begin{enumerate}
-      \item Верификация и обновление данных
       \item Предоставление данных пользователю и клиентским программам
+      \item Верификация и обновление данных
     \end{enumerate}
   \end{frame}
 
-\section{Описание системы в целом}
+\section{Предоставление данных}
   \begin{frame}
-    \frametitle{Описание системы в целом}
+    \frametitle{Предоставление данных пользователю и клиентским программам}  
+    
+	\begin{itemize}
+      \item Абстракция MVC в Django
+      \item Абстракция от поискового механизма
+      \item Форматы предоставления информации
+          \begin{itemize}
+            \item xHTML
+            \item OPDS
+          \end{itemize}        
 
-    \includegraphics{./head/scheme}
+    \end{itemize}        
+    
   \end{frame}
 
-  \begin{frame}
-    \frametitle{Описание системы в целом}
 
-    \includegraphics[width=1.05\textwidth]{./head/innerstructure}
-  \end{frame}  
 
 \section{Задача верификации и обновления данных}
   \begin{frame}
@@ -87,31 +102,15 @@
     \end{itemize}        
   \end{frame}
 
-\section{Предоставление данных}
-  \begin{frame}
-    \frametitle{Предоставление данных пользователю и клиентским программам}  
-    
-    \begin{itemize}
-      \item xHTML
-      \item OPDS
-    \end{itemize}        
-
-	\begin{itemize}
-      \item Абстракция от поискового механизма
-      \item Абстракция MVC
-    \end{itemize}        
-    
-  \end{frame}
-
-
 \section{Заключение}
   \begin{frame}
     \frametitle{Заключение}
     \begin{enumerate}
+      \item Реализовано предоставление данных в xHTML виде для пользователей и по протоколу OPDS для клиентских программ	  
 	  \item Усовершенствован стандартный интерфейс администратора, предоставляемый фреймворком Django.
 	  \item Реализован поиск дополнительной информации и извлечение информации из форматов ePub и FB2
       \item Для обновления информации реализован самообучающийся классификатор, позволяющий предсказать жанр книги по её аннотации.
-	  \item Реализовано предоставление данных в xHTML виде для пользователей и по протоколу OPDS для клиентских программ
+	  
     \end{enumerate}
   \end{frame}
 
