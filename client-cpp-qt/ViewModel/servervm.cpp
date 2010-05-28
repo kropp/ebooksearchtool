@@ -27,6 +27,6 @@ QString ServerViewModel::getServerAtomPath()
 
 void ServerViewModel::requestToDeleteServer()
 {
-    EBookSearchTool::getInstance()->deleteServer(m_serverInfo);
+    EBookSearchTool::getInstance()->deleteServer(m_serverInfo->ServerPath);
     emit serverDeleted();
 }

@@ -4,7 +4,7 @@
 #include <QString>
 #include <QStringList>
 #include <QObject>
-#include <QList>
+#include <QMap>
 
 struct ServerInfo
 {
@@ -36,12 +36,13 @@ signals:
 
 public:
 
-    QList<ServerInfo*> getServers();
+//Server id -> server info
+    const QMap<QString, ServerInfo*>& getServers();
 
 public:
 
     void addServer(QString alias, QString serverPath, QString searchPath, QString atomPath, bool bookSearchInclude, bool catalogSearchInclude);
-    void deleteServer(ServerInfo* info);
+    void deleteServer(QString serverHost);
     void dropServersToDefault();
 
 private:
@@ -50,7 +51,7 @@ private:
 
 private:
 
-    QList<ServerInfo*> ourServers;
+    QMap<QString, ServerInfo*> ourServers;
 
     static EBookSearchTool instance;
 };

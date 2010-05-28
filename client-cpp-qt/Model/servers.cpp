@@ -40,13 +40,13 @@ EBookSearchTool* EBookSearchTool::getInstance()
     return &instance;
 }
 
-void EBookSearchTool::deleteServer(ServerInfo* info)
+void EBookSearchTool::deleteServer(QString serverHost)
 {
-    ourServers.removeOne(info);
+    ourServers.remove(serverHost);
     emit serversChanged();
 }
 
-QList<ServerInfo*> EBookSearchTool::getServers()
+const QMap<QString, ServerInfo*>& EBookSearchTool::getServers()
 {
     return ourServers;
 }
@@ -86,7 +86,7 @@ void EBookSearchTool::addServerWithNotification(QString alias, QString serverPat
     info->includedInBookSearch = bookSearchInclude;
     info->includedInCatalogSearch = catalogSearchInclude;
 
-    ourServers.append(info);
+    ourServers.insert(serverPath, info);
 
     if (emitSignal)
     {

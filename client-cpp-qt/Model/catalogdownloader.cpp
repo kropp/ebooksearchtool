@@ -1,5 +1,6 @@
 #include "catalogdownloader.h"
 
+#include "servers.h"
 #include "bookdownloader.h"
 #include "book.h"
 #include "catalog.h"
@@ -82,5 +83,22 @@ void CatalogDownloader::parseError(int /*requestId*/)
 void CatalogDownloader::startDownloadingCatalog(QString searchRequest, Catalog* parseCatalog)
 {
     //qDebug() << "CatalogDownloader::startDownloadingCatalog " << myServerUrl << searchRequest;
+
+    //if search request is relative then prepend root opds catalog url
+
+    ServerInfo* serverInfo = EBookSearchTool::getInstance()->getServers()[myServerUrl];
+
+    if ((!searchRequest.contains(serverInfo->ServerPath)) && (!searchRequest.contains(serverInfo->RootAtomPath))) {
+        if (!serverInfo->RootAtomPath.contains("."))
+            searchRequest.prepend(serverInfo->RootAtomPath);
+    }
+
+    if (!searchRequest.contains("http")) {
+        searchRequest.replace("//", "/");
+        if (!searchRequest.startsWith("/")) {
+            searchRequest.prepend("/");
+        }
+    }
+
     myDownloadMapping->insert(QString::number(startDownloading(searchRequest)), parseCatalog);
 }
