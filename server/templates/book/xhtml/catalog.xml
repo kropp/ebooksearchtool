@@ -1,6 +1,7 @@
 {% load i18n %}
 {% include 'book/xhtml/header.xml' %}
 
+<script type="text/javascript" src="{{MEDIA_URL}}/js/views/catalog.js"/>
     <title> eBookSearch Catalog</title>   
 </head>
 
@@ -34,23 +35,6 @@
 
 <div id="header">
 <center><input type="hidden" maxlength="2048" size="40" class="lst" value=""/></center>
-<script type="text/javascript">function checkForm(form) {
-    var errorList = [];    
-    for (var i = 0; i < form.elements.length; i++) {
-    el = form.elements[i];
-    elName = el.nodeName.toLowerCase();
-    value = el.value;
-    if (elName == "input") {
-        type = el.type.toLowerCase();
-        if( type == "text" && value == "") {
-                errorList.push(1);
-        }
-    }
-    }
-if (!errorList.length) return true;
-return false;
-
-}</script>
 <center>
 <div id="search_section">
 <form action="search" onsubmit="return checkForm(this);" name="simple_search" >
