@@ -43,7 +43,7 @@
 
 <div>
     <div>
-        <table cellpadding=5 cellspacing=5>
+        <table cellpadding="5" cellspacing="5">
         <tr><td>
         {% include 'book/xhtml/book_cover.xml' %}
         </td><td>
