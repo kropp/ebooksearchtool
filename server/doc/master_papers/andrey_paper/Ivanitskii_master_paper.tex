@@ -1,11 +1,7 @@
 \documentclass[a4paper,12pt]{article}
 
 \usepackage{masterArticle}
-   
-%\includeonly{
-%./head/head,
-%problem-set, search-problem, search-implementation, analyzer-interface, conclusion}
-%\includeonly{./head/head, problem-set} %, search-problem, search-implementation, analyzer-interface, conclusion}
+
 
 \begin{document}
 
@@ -50,6 +46,50 @@
 \include{conclusion}
 
 \include{bib}
+
+
+
+%\section{Приложения}
+%\subsection{Структура дерева исходных кодов}
+%\appendix
+%\appendix{Структура дерева исходных кодов}
+\section{Приложение: Структура дерева исходных кодов}
+
+{\small
+
+Исходные коды всего проекта находятся в svn-репозитории google code ---\\ 
+\url{http://code.google.com/p/ebooksearchtool/}.
+\\
+
+Дерево исходных кодов этой работы:
+\\
+/trunk/server/ \\
+/trunk/server/generate\_sphinx\_conf.py --- генератор файла настроек Sphinx \\
+/trunk/server/settings.py --- файл настроек сервера \\
+\\
+/trunk/server/book/ \\
+/trunk/server/book/data\_modify.py --- реализация протокола модификации данных \\
+/trunk/server/book/models.py --- описание базы данных (средствами Django) \\
+/trunk/server/book/search.py --- реализация протокола поиска по данным для анализатора \\
+/trunk/server/book/update\_entity.py --- вспомогательные фукции для протокола модификации данных \\
+/trunk/server/book/view.py --- view-функции для интерфейса анализатора \\
+\\
+/trunk/server/book/search\_engine/ \\
+/trunk/server/book/search\_engine/engine.py --- описание интерфейса поискового механизма \\
+/trunk/server/book/search\_engine/spell\_checker.py --- функции для проверки и исправлнения запросов \\
+/trunk/server/book/search\_engine/sphinx\_engine.py --- реализация поискового механизма с помощью Sphinx \\
+\\
+/trunk/server/book/tests/ --- unit-тесты \\
+\\
+/trunk/server/spec/ \\
+/trunk/server/spec/distance.py --- функция расчёта расстояния между строками \\
+/trunk/server/spec/exception.py --- определение иерархии пользовательских исключений \\
+/trunk/server/spec/logger.py --- настройка стандартного python логера \\
+\\
+/trunk/server/templates/data/ --- описание templates для интерфейса анализатора \\
+/trunk/server/templates/sphinx\_conf/ --- описание templates для формирования файла настроек Sphinx \\
+}
+
 
 
 \end{document}
