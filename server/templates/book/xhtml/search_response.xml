@@ -61,7 +61,7 @@
     {% include 'book/xhtml/book_cover.xml' %}
     </td>
     <td>
-    <div id="book_title"><a href="book/id{{ book.id }}" class="title">{{ book.title }}</a></div>
+    <div class="book_title"><a href="book/id{{ book.id }}" class="title">{{ book.title }}</a></div>
     
     {% if book.author.all %}
         <div class="author">&nbsp;&nbsp;&nbsp;<em>{%trans "by"%} 
