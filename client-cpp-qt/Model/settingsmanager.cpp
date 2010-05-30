@@ -15,6 +15,10 @@ static const QString LIBRARY_PATH_DEFAULT_VALUE = "library.xml";
 static const QString DOWNLOAD_FORMAT_ID = "Format";
 static const QString DOWNLOAD_FORMAT_DEFAULT_VALUE = "pdf";
 
+static const QString COVER_DIR_ID = "coverDir";
+static const QString COVER_DIR_DEFAULT = "covers";
+
+
 SettingsManager SettingsManager::instance;
 
 SettingsManager* SettingsManager::getInstance()
@@ -55,6 +59,21 @@ void SettingsManager::setCurrentFormat(QString newFormat)
      settings->setValue(DOWNLOAD_FORMAT_ID, newFormat);
 
 }
+
+QString SettingsManager::getCoverDir()
+{
+    return settings->value(COVER_DIR_ID, COVER_DIR_DEFAULT).toString();
+}
+
+void SettingsManager::setCoverDir(QString newDir)
+{
+    if (newDir.isEmpty()) {
+        settings->setValue(COVER_DIR_ID, COVER_DIR_DEFAULT);
+    }
+     settings->setValue(COVER_DIR_ID, newDir);
+}
+
+
 
 void SettingsManager::setBooksOnPage(int newValue)
 {

@@ -34,7 +34,6 @@ signals:
 public:
 
     QString getReadDefaultLocation();
-    QString getCoverDir();
     int downloadCover(QString urlStr, QIODevice* out);
 
 public slots:
@@ -46,6 +45,7 @@ private slots:
 
     void downloadFinished(bool success, QString filename, int request);
     void coverDownloadRequestFinished(int request, bool success);
+    void printDownloadCoverState(int state);
 
 private:
 

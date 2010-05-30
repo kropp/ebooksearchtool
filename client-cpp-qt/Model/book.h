@@ -12,7 +12,7 @@
 
 #include "author.h"
 
-class Book : QObject {
+class Book : public QObject {
 
 Q_OBJECT
 

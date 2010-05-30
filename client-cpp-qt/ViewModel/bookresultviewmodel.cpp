@@ -19,13 +19,19 @@ BookResultViewModel::BookResultViewModel(Book* book, BookResultsViewModel* paren
     myParentModel = parent;
 
     lastRequestId = -1;
-
+    myCoverIcon = 0;
     setConnections();
 }
 
 void BookResultViewModel::setConnections()
 {
     connect(FileDownloadManager::getInstance(), SIGNAL(downloadBookFinished(bool, int)), this, SLOT(downloadFinished(bool, int)));
+    connect(myShownBook, SIGNAL(bookCoverChanged(QIcon*)), this, SLOT(coverChanged(QIcon*)));
+}
+
+void BookResultViewModel::coverChanged(QIcon* icon) {
+    myCoverIcon = icon;
+    emit bookCoverChanged(icon);
 }
 
 void BookResultViewModel::downloadFinished(bool success, int requestId)
@@ -158,4 +164,8 @@ bool BookResultViewModel::canBeDownloaded() {
 
 bool BookResultViewModel::isDownloaded() {
     return myShownBook->hasLocalLink();
+}
+
+QIcon* BookResultViewModel::getCoverIcon() const {
+    return myCoverIcon;
 }

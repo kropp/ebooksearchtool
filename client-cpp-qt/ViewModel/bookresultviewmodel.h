@@ -9,8 +9,7 @@
 class Book;
 class BookResultsViewModel;
 
-class BookResultViewModel : public QObject
-{
+class BookResultViewModel : public QObject {
 
 Q_OBJECT
 
@@ -35,6 +34,8 @@ public:
 
     QMap<QString, QString> getLinks();
 
+    QIcon* getCoverIcon() const;
+
     bool canBeDownloaded();
 
     bool isDownloaded();
@@ -58,6 +59,8 @@ signals:
 private slots:
 
     void downloadFinished(bool, int);
+    void coverChanged(QIcon* icon);
+
 
 private:
 
@@ -69,7 +72,7 @@ private:
     Book* myShownBook;
     BookResultsViewModel* myParentModel;
     QString myFileNameForSaving;
-
+    QIcon* myCoverIcon;
     int lastRequestId;
 };
 

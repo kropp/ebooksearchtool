@@ -84,8 +84,11 @@ void CatalogDownloader::startDownloadingCatalog(QString searchRequest, Catalog* 
 {
     //qDebug() << "CatalogDownloader::startDownloadingCatalog " << myServerUrl << searchRequest;
 
-    //if search request is relative then prepend root opds catalog url
+    correctRequest(searchRequest);
+    myDownloadMapping->insert(QString::number(startDownloading(searchRequest)), parseCatalog);
+}
 
+void CatalogDownloader::correctRequest (QString& searchRequest) {
     ServerInfo* serverInfo = EBookSearchTool::getInstance()->getServers()[myServerUrl];
 
     if ((!searchRequest.contains(serverInfo->ServerPath)) && (!searchRequest.contains(serverInfo->RootAtomPath))) {
@@ -99,6 +102,4 @@ void CatalogDownloader::startDownloadingCatalog(QString searchRequest, Catalog* 
             searchRequest.prepend("/");
         }
     }
-
-    myDownloadMapping->insert(QString::number(startDownloading(searchRequest)), parseCatalog);
 }

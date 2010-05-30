@@ -38,6 +38,10 @@ public:
     QString getCurrentFormat();
     void setCurrentFormat(QString newFormat);
 
+    QString getCoverDir();
+    void setCoverDir(QString newDir);
+
+
 private:
 
     static SettingsManager instance;

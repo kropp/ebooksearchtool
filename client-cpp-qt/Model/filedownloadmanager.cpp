@@ -10,19 +10,11 @@
 
 FileDownloadManager* FileDownloadManager::instance = 0;
 
-
-static const QString COVER_DIR = "./";
-
 static const int IMAGE_DOWNLOAD_URL_PORT = 80;
 
 void FileDownloadManager::openLocalFile(QString filename) {
-//  need absolute file path
-
-//    QString appPath = QApplication::applicationDirPath();
-//    QDesktopServices::openUrl(QUrl("file:///" + appPath + "/" + filename));
-
-        QDesktopServices::openUrl(QUrl("file:///" + filename));
-
+    //  need absolute file path
+    QDesktopServices::openUrl(QUrl("file:///" + filename));
 }
 
 
@@ -43,40 +35,47 @@ FileDownloadManager* FileDownloadManager::getInstance() {
     return instance;
 }
 
-QString FileDownloadManager::getCoverDir()
-{
-    return COVER_DIR;
-}
-
 int FileDownloadManager::downloadCover(QString urlStr, QIODevice* out) {
     QUrl url(urlStr);
-//
-//    QString urlHost = url.host();
-    QString urlPath = tr("/book/547.jpg?t=20090916102557");
+
+    QHttp::ConnectionMode mode = url.scheme().toLower() == "https" ? QHttp::ConnectionModeHttps : QHttp::ConnectionModeHttp;
+    myConnectionForCovers->setHost(url.host(), mode, url.port() == -1 ? 80 : url.port());
+
+    QByteArray path = QUrl::toPercentEncoding(url.path(), "!$&'()*+,;=:@/");
+    if (path.isEmpty())
+        path = "/";
+
 
 //    myConnectionForCovers->setHost(urlHost, IMAGE_DOWNLOAD_URL_PORT);
 
     QString proxy = SettingsManager::getInstance()->getProxy();
-
     if (proxy.size() != 0)
     {
-       myConnectionForCovers->setProxy(proxy, SettingsManager::getInstance()->getProxyPort());
+        myConnectionForCovers->setProxy(proxy, SettingsManager::getInstance()->getProxyPort());
     }
 
-   // qDebug() << "NetworkManager::downloadCover request =" << url.host()<<  url.path();
-    int id = myConnectionForCovers->get(urlPath, out);
+    qDebug() << "FileDownloadManager::downloadCover request =" << url.host()<<  url.path();
+    int id = myConnectionForCovers->get(path, out);
 
     return id;
 }
 
-void FileDownloadManager::coverDownloadRequestFinished(int request, bool success)
+void FileDownloadManager::coverDownloadRequestFinished(int request, bool error)
 {
-    emit coverRequestFinished(request, success);
+    if (error) {
+        qDebug() << "ERROR "<< myConnectionForCovers->errorString();
+    }
+    emit coverRequestFinished(request, !error);
 }
 
 int FileDownloadManager::downloadBook(const Book& book, const QString& filename, const QString& format) {
     return myDownloader->startDownloadingFile(book.getSourceLinks().value(format), filename, false);
 }
+
+
+
+
+
 
 int FileDownloadManager::readBook(const Book& book, const QString& filename, const QString& format) {
 
@@ -99,8 +98,14 @@ QString FileDownloadManager::getReadDefaultLocation()
 
 void FileDownloadManager::setConnections() {
     connect(myConnectionForCovers, SIGNAL(requestFinished(int,bool)), this, SLOT(coverDownloadRequestFinished(int,bool)));
+    //connect(myConnectionForCovers, SIGNAL(stateChanged(int)), this, SLOT(printDownloadCoverState(int)));
     connect(myDownloader, SIGNAL(downloadFinished(bool, QString, int)), this, SLOT(downloadFinished(bool, QString, int)));
 }
+
+//void FileDownloadManager::printDownloadCoverState(int state) {
+//    qDebug() << "FileDownload::printDownloadCoverState() " << state;
+//}
+
 
 void FileDownloadManager::downloadFinished(bool success, QString filename, int request) {
 

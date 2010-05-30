@@ -39,6 +39,9 @@ protected:
     void parseError(int requestId);
 
 private:
+    void correctRequest (QString& request);
+
+private:
 
     Catalog* myCurrentCatalog;
     QMap<QString, Catalog*>* myDownloadMapping;

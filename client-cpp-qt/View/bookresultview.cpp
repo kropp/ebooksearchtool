@@ -40,6 +40,10 @@ void BookResultView::createComponents()
 {
     myBookPictureLabel = new QLabel(this);
     myBookPictureLabel->setObjectName("bookPictureLabel");
+    QIcon* coverIcon = myViewModel->getCoverIcon();
+    if (coverIcon) {
+        setCover(coverIcon);
+    }
 
     myBookTitleLabel = new QLabel(myViewModel->getBookName());
     myBookTitleLabel->setObjectName("bookTitleLabel");
@@ -144,7 +148,7 @@ void BookResultView::layoutComponents()
     }
 
     buttonsLayout->addWidget(myReadButton);
-//    buttonsLayout->addWidget(myInformationButton);
+    //    buttonsLayout->addWidget(myInformationButton);
 
     bookLineLayout->addStretch(1);
     bookLineLayout->addItem(buttonsLayout);
@@ -166,9 +170,9 @@ void BookResultView::setWindowParameters()
 void BookResultView::setConnections()
 {
     connect(myViewModel, SIGNAL(bookDownloadStateChanged(QString)), this, SLOT(bookDownloadStateChanged(QString)));
-//    connect(myInformationButton, SIGNAL(clicked()), this, SLOT(informationButtonPressed()));
-//    connect(myInformationButton, SIGNAL(clicked()), this, SLOT(bookInfoPressed()));
-//    connect(myInformationButton, SIGNAL(clicked()), this, SLOT(informationButtonPressed()));
+    //    connect(myInformationButton, SIGNAL(clicked()), this, SLOT(informationButtonPressed()));
+    //    connect(myInformationButton, SIGNAL(clicked()), this, SLOT(bookInfoPressed()));
+    //    connect(myInformationButton, SIGNAL(clicked()), this, SLOT(informationButtonPressed()));
     connect(myDownloadButton, SIGNAL(clicked()), this, SLOT(downloadButtonPressed()));
     connect(myReadButton, SIGNAL(clicked()), this, SLOT(readButtonPressed()));
 
@@ -199,15 +203,15 @@ void BookResultView::downloadButtonPressed()
     myViewModel->downloadingRequested();
 
 
-//    QString name = myViewModel->getFileName();
-//    QString fileName(QFileDialog::getSaveFileName(0, tr("Download book"),
-//                                                  name,
-//                                                  QString("*.") + SettingsManager::getInstance()->getCurrentFormat()));
-//    qDebug() << "BookResultView::downloadButtonPressed() file name for saving " << fileName;
-//    if (fileName.isEmpty()) {
-//        return;
-//    }
-//    myViewModel->downloadingRequested(fileName);
+    //    QString name = myViewModel->getFileName();
+    //    QString fileName(QFileDialog::getSaveFileName(0, tr("Download book"),
+    //                                                  name,
+    //                                                  QString("*.") + SettingsManager::getInstance()->getCurrentFormat()));
+    //    qDebug() << "BookResultView::downloadButtonPressed() file name for saving " << fileName;
+    //    if (fileName.isEmpty()) {
+    //        return;
+    //    }
+    //    myViewModel->downloadingRequested(fileName);
 }
 
 void BookResultView::addToLibraryButtonPressed()
@@ -240,10 +244,9 @@ void BookResultView::cancelSelection() {
     setBackgroundColor(ourBackgroundColor);
 }
 
-void BookResultView::setCover(QIcon* )
+void BookResultView::setCover(QIcon* icon)
 {
-
-    // TODO set cover
+    myBookPictureLabel->setPixmap(icon->pixmap(QSize(100,100), QIcon::Normal, QIcon::On));
 }
 
 void BookResultView::setBackgroundColor(QColor color) {
