@@ -27,11 +27,11 @@
 
 <center><a href="/"><img alt="eBookSearch" border="0" hspace="10"  src="{{MEDIA_URL}}/pic/title.png" title="eBookSearch" /></a></center>
     <h2>{%trans "Extended search"%}</h2>
-    <form name="extended_search" onsubmit="return checkExtForm(this);" action="search">
+    <form name="extended_search" onsubmit="return checkExtForm(this);" action="search"/>
     
         <table>    
             <tr><td>{%trans "Title"%}:</td>
-            <td>  <input type="text" style="width: 253px;" name="title" id="id_title" value="{{ title.tit }}">
+            <td>  <input type="text" style="width: 253px;" name="title" id="id_title" value="{{ title.tit }}"/>
             {%if USE_AUTOCOMPLETE%}
             <script type="text/javascript">function author_value() { return $('#id_author').val(); }
             $('#id_title').autocomplete("/extended_search/autocomplete_title", {
@@ -40,11 +40,11 @@
                 }
             });</script>
             {%endif%}</td>
-            <td><input type="submit" value="{%trans "Search"%}" ></td>
+            <td><input type="submit" value="{%trans "Search"%}" /></td>
             <td>&nbsp;&nbsp;<a href="/" rel="simple search">{%trans "Simple search"%}</a></td>
             </tr><tr>
             <td>{%trans "Author"%}:</td> 
-            <td> <input type="text" style="width: 253px;" name="author" value="{{ title.author }}" id="id_author"></td>
+            <td> <input type="text" style="width: 253px;" name="author" value="{{ title.author }}" id="id_author"/></td>
             {%if USE_AUTOCOMPLETE%}
             <script type="text/javascript">function title_value() { return $('#id_title').val(); }
             $('#id_author').autocomplete("/extended_search/autocomplete_author", {
