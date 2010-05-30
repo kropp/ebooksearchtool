@@ -1,6 +1,5 @@
-{% load i18n %}
 {% include 'book/xhtml/header.xml' %}
-
+{% load i18n %}
     <title>Extended search | eBookSearch</title>      
 </head>
 

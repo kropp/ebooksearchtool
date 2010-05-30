@@ -1,6 +1,5 @@
-{% load i18n %}
 {% include 'book/xhtml/header.xml' %}
-
+{% load i18n %}
 <script type="text/javascript" src="{{MEDIA_URL}}/js/views/catalog.js"/>
     <title> eBookSearch Catalog</title>   
 </head>

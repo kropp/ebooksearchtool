@@ -1,6 +1,6 @@
+{% include 'book/xhtml/header.xml' %}
 {% load i18n %}
 {% load pagination_tags %}
-{% include 'book/xhtml/header.xml' %}
 
     <title>Search results for: 
     {% if query %}
