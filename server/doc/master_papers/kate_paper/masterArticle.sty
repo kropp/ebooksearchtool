@@ -66,6 +66,11 @@
 \newcommand{\tabref}[1]{табл.~\ref{#1}}
 %% OTHER
 
+\newcommand{\numlesschap}[1]{
+    \addcontentsline{toc}{chapter}{#1}%
+    {\raggedright\Large\bfseries\setlength{\baselineskip}{1.5em}#1\vskip1em\par}%
+}
+
 \ifpdf
     \RequirePackage[bookmarks=false, a4paper, colorlinks, unicode, pdfstartview=FitH, pdftex]{hyperref}
     \hypersetup{ 

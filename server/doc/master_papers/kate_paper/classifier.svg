@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="453.5433"
+   height="340.15747"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.47 r22583"
+   sodipodi:docname="classifier.svg"
+   version="1.0">
+  <defs
+     id="defs4">
+    <marker
+       inkscape:stockid="TriangleOutM"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="TriangleOutM"
+       style="overflow:visible">
+      <path
+         id="path5479"
+         d="M 5.77,0.0 L -2.88,5.0 L -2.88,-5.0 L 5.77,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt;marker-start:none"
+         transform="scale(0.4)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Lend"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow2Lend"
+       style="overflow:visible;">
+      <path
+         id="path5354"
+         style="font-size:12.0;fill-rule:evenodd;stroke-width:0.62500000;stroke-linejoin:round;"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         transform="scale(1.1) rotate(180) translate(1,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1Lend"
+       style="overflow:visible;">
+      <path
+         id="path5336"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt;marker-start:none;"
+         transform="scale(0.8) rotate(180) translate(12.5,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lstart"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1Lstart"
+       style="overflow:visible">
+      <path
+         id="path5333"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt;marker-start:none"
+         transform="scale(0.8) translate(12.5,0)" />
+    </marker>
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 170.07874 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="453.5433 : 170.07874 : 1"
+       inkscape:persp3d-origin="226.77165 : 113.38582 : 1"
+       id="perspective2826" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.0892718"
+     inkscape:cx="211.5692"
+     inkscape:cy="229.65493"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     inkscape:window-width="1094"
+     inkscape:window-height="807"
+     inkscape:window-x="33"
+     inkscape:window-y="26"
+     width="12.8cm"
+     height="9.6cm"
+     units="cm"
+     showgrid="true"
+     grid_units="mm"
+     inkscape:object-paths="false"
+     inkscape:grid-points="true"
+     inkscape:grid-bbox="true"
+     inkscape:guide-points="true"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:window-maximized="0">
+    <sodipodi:guide
+       orientation="vertical"
+       position="56.476527"
+       id="guide3573" />
+    <sodipodi:guide
+       orientation="horizontal"
+       position="11.035643"
+       id="guide3579" />
+    <sodipodi:guide
+       orientation="horizontal"
+       position="24.018753"
+       id="guide3886" />
+    <sodipodi:guide
+       orientation="horizontal"
+       position="285.62841"
+       id="guide3988" />
+    <sodipodi:guide
+       orientation="horizontal"
+       position="303.15561"
+       id="guide4081" />
+    <inkscape:grid
+       id="GridFromPre046Settings"
+       type="xygrid"
+       originx="0px"
+       originy="0px"
+       spacingx="2mm"
+       spacingy="2mm"
+       color="#0000ff"
+       empcolor="#0000ff"
+       opacity="0.2"
+       empopacity="0.4"
+       empspacing="5"
+       units="mm"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(4.149475e-6,-698.0315)">
+    <rect
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.73919153;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect2828"
+       width="71.29892"
+       height="21.259813"
+       x="49.606297"
+       y="761.81104" />
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="51.606297"
+       y="775.98425"
+       id="text2830"><tspan
+         sodipodi:role="line"
+         id="tspan2832"
+         x="51.606297"
+         y="775.98425">аннотация</tspan></text>
+    <rect
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.22311056;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect2834"
+       width="311.81104"
+       height="120.4724"
+       x="141.73227"
+       y="747.63782" />
+    <rect
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.70866142;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect2836"
+       width="99.212608"
+       height="28.346495"
+       x="148.81888"
+       y="761.81104" />
+    <rect
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.70866142;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect2838"
+       width="70.907677"
+       height="28.346493"
+       x="262.16318"
+       y="761.81104" />
+    <rect
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.74529386;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect2840"
+       width="71.995903"
+       height="35.433071"
+       x="48.476532"
+       y="804.33069" />
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="82.616135"
+       y="818.50391"
+       id="text2842"><tspan
+         sodipodi:role="line"
+         id="tspan2844"
+         x="84.526291"
+         y="818.50391">список </tspan><tspan
+         sodipodi:role="line"
+         x="82.616135"
+         y="833.50391"
+         id="tspan2846">категорий</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:9.87319279px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="195.84171"
+       y="784.10559"
+       id="text2848"
+       transform="scale(1.0160478,0.98420566)"><tspan
+         sodipodi:role="line"
+         x="197.41331"
+         y="784.10559"
+         id="tspan2856"
+         style="text-align:center;text-anchor:middle">разбиение на </tspan><tspan
+         sodipodi:role="line"
+         x="195.84171"
+         y="796.44708"
+         style="text-align:center;text-anchor:middle"
+         id="tspan5128">отдельные слова</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:15.84547043px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="262.67865"
+       y="797.56927"
+       id="text2858"
+       transform="scale(1.0251741,0.97544408)"><tspan
+         sodipodi:role="line"
+         id="tspan2860"
+         x="262.67865"
+         y="797.56927"
+         style="font-size:10.56364727px">стемминг</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:13.34340668px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="180.94258"
+       y="828.12793"
+       id="text2864"
+       transform="scale(1.0142362,0.98596363)"><tspan
+         sodipodi:role="line"
+         id="tspan2866"
+         x="182.35858"
+         y="828.12793"
+         style="font-size:8.89560413px;text-align:center;text-anchor:middle">учёт жанра </tspan><tspan
+         sodipodi:role="line"
+         x="180.94258"
+         y="839.24744"
+         style="font-size:8.89560413px;text-align:center;text-anchor:middle"
+         id="tspan8614">автора</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:13.6295433px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="351.42386"
+       y="833.41986"
+       id="text2868"
+       transform="scale(0.96794073,1.0331211)"><tspan
+         sodipodi:role="line"
+         id="tspan2870"
+         x="351.42386"
+         y="833.41986">классификатор</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:15.78841209px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="389.5564"
+       y="785.31274"
+       id="text5092"
+       transform="scale(1.0175196,0.98278205)"><tspan
+         sodipodi:role="line"
+         x="389.5564"
+         y="785.31274"
+         style="font-size:9.64847374px;text-align:center;text-anchor:middle"
+         id="tspan10342">Вероятность</tspan><tspan
+         sodipodi:role="line"
+         x="389.5564"
+         y="797.37335"
+         style="font-size:9.64847374px;text-align:center;text-anchor:middle"
+         id="tspan10346">отдельного слова</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16.21191788px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="375.24799"
+       y="850.03442"
+       id="text5100"
+       transform="scale(1.0395016,0.96199948)"><tspan
+         sodipodi:role="line"
+         id="tspan5102"
+         x="376.82501"
+         y="850.03442"
+         style="font-size:9.90728283px;text-align:center;text-anchor:middle">Вероятность </tspan><tspan
+         sodipodi:role="line"
+         x="375.24799"
+         y="862.41852"
+         id="tspan5104"
+         style="font-size:9.90728283px;text-align:center;text-anchor:middle"> всего документа</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:15.0523386px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+       x="235.494"
+       y="839.99341"
+       id="text5110"
+       transform="scale(1.0274503,0.97328312)"><tspan
+         sodipodi:role="line"
+         id="tspan5112"
+         x="235.494"
+         y="839.99341"
+         style="font-size:9.19865131px">проверка на </tspan><tspan
+         sodipodi:role="line"
+         x="235.494"
+         y="851.4917"
+         style="font-size:9.19865131px"
+         id="tspan8612">случайность</tspan></text>
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:0.70866142;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect5114"
+       width="106.29922"
+       height="28.346453"
+       x="340.15747"
+       y="804.33069" />
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:0.7069298;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect5118"
+       width="99.212585"
+       height="28.346478"
+       x="347.24411"
+       y="761.81104" />
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:0.70423681;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect5120"
+       width="85.039368"
+       height="28.346439"
+       x="233.85826"
+       y="804.33069" />
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:0.70866142;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect5122"
+       width="70.907677"
+       height="28.346458"
+       x="148.77736"
+       y="804.33069" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.94186896px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#TriangleOutM)"
+       d="m 120.4561,772.37548 18.4624,0"
+       id="path5130" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.04873669px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#TriangleOutM)"
+       d="m 141.73228,821.59055 -18.39781,0"
+       id="path8616" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.9095937px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#TriangleOutM)"
+       d="m 247.98629,773.73425 11.42059,0"
+       id="path8808" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.91134793px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#TriangleOutM)"
+       d="m 333.02654,776.89763 11.47274,0"
+       id="path9000" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.84126604px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-start:none;marker-end:url(#TriangleOutM)"
+       d="m 389.76378,790.15747 0,11.77153"
+       id="path9192"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.89997339px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#TriangleOutM)"
+       d="m 340.23956,819.12656 -18.95324,0"
+       id="path9196" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.13693535px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#TriangleOutM)"
+       d="m 234.20134,820.21186 -11.36008,0"
+       id="path9198" />
+  </g>
+</svg>

@@ -11,6 +11,7 @@
 
 \include{abstract}
 
+\mbox{}\vspace{-2.8cm}
 \tableofcontents
 \newpage
 
@@ -24,9 +25,119 @@
 
 \include{interface}
 
+\section{Тестирование}
+
+В настоящей работе применялись различные техники тестирования. 
+
+Одной из основных использованных техник является юнит-тестирование. Для приложения были написаны юнит тесты, покрывающие основную функциональность классификатора, логики представления информации и извлечения информации из форматов ePub и fb2. 
+
+Для тестирования xHTML и OPDS интерфейсов так же применялось юнит-тестирование. Так же, для тестирования интерфейсов использовались плагин firebug\cite{firebug} для веб-браузера	firefox и валидация с помощью сайта \url{http://validator.w3.org/}. 
+
+Для автоматизации тестирования был написан скрипт test\_runner,	 запускающий полное или частичное тестирование программы.
+
 \include{conclusion}
 
 \include{bibliography}
+
+\appendix
+\section{Структура дерева исходных кодов}
+
+{\small
+\ 
+\\
+Исходные коды всего проекта находятся в svn-репозитории google code ---\\ 
+\url{http://code.google.com/p/ebooksearchtool/}.
+\\
+\\
+\begin{normalsize}Дерево исходных кодов работы:\end{normalsize}
+\\
+\\
+{\tt /trunk/server/} \\
+{\tt /trunk/server/settings.py} --- файл настроек сервера \\
+{\tt /trunk/server/urls\_root.py} --- файл URL-связывания \\
+{\tt /trunk/server/forms/} --- различные формы и виджеты, использованные в представлениях\\
+{\tt /trunk/server/locale/} --- файлы, использованные для локализации\\
+\\
+{\tt /trunk/server/media/} \\
+{\tt /trunk/server/media/css/} --- каскадные таблицы стилей\\
+{\tt /trunk/server/media/js/} --- файлы javascript\\
+\\
+{\tt /trunk/server/tests/} --- unit-тесты \\
+\\
+\begin{normalsize}Предоставление информации:\end{normalsize}
+\\
+\\
+{\tt /trunk/server/views.py} --- функции, описывающие логику отображения информации для каталогов\\
+{\tt /trunk/server/search\_views.py} --- функции, описывающие логику отображения информации для различных видов поиска\\
+{\tt /trunk/server/templates/book/xhtml} --- шаблоны для xHTML представления\\
+{\tt /trunk/server/templates/book/opds} --- шаблоны для OPDS представления
+\\
+\\
+\begin{normalsize}Интерфейс администратора:\end{normalsize}
+\\
+\\
+{\tt /trunk/server/book/} \\
+{\tt /trunk/server/book/template\_tags} --- файлы регистрирования новых функций для шаблонов отображения книг (используются в интерфейсе администратора)\\
+{\tt /trunk/server/book/admin.py} --- регистрирование моделей в интерфейсе администратора\\
+{\tt /trunk/server/templates/admin} --- шаблоны для интерфейса администратора
+\\
+\\
+\begin{normalsize}Обновление данных:\end{normalsize}
+\\
+\\
+{\tt /trunk/server/add\_tools/} --- файлы для добавления ссылок на книги (в формате epub, fb2) и извлечения информации из них\\
+{\tt /trunk/server/classifier/} --- файлы классификатора книг и авторов и связанные с ними утилиты\\
+\\
+\begin{normalsize}Скрипты:\end{normalsize}
+\\
+\\
+{\tt /trunk/server/start\_classifier.py} --- скрипт для запуска классификатора книг\\
+{\tt /trunk/server/start\_author\_classifier.py} --- скрипт для запуска классификатора авторов\\
+{\tt /trunk/server/test\_runner.py} --- скрипт для запуска тестов\\
+
+\newpage
+\section{Архитектура проекта}
+\ 
+\\
+\begin{normalsize}Классификатор:\end{normalsize}
+\\
+\\
+{\tt Classifier} --- базовый класс для классификатора книг
+\\
+{\tt FisherClassifier} --- класс-наследник {\tt Classifier}, расширяющий функциональность с помощью алгоритма Фишера\\
+\\
+\begin{normalsize}Формы:\end{normalsize}
+\\
+\\
+{\tt AutocompleteWidget} --- Форма автодополнение, наследник от стандартного класса {\tt TextInput}\\
+{\tt ExtendedSearch }--- Форма для расширенного поиска, наследник от стандартного класса {\tt Form}\\
+{\tt BookForm} --- Форма для представления класса модели {\tt Book}, наследник от стандартного класса {\tt ModelForm}\\
+{\tt AuthorForm} --- Форма для представления класса модели {\tt Author}, наследник от стандартного класса {\tt ModelForm}\\
+{\tt BookFileForm} --- Форма для представления класса модели {\tt BookFile}, наследник от стандартного класса {\tt ModelForm}\\
+{\tt AuthorWidget} --- Виджет для отображения класса модели {\tt Author}, наследник от стандартных классов {\tt CheckboxSelectMultiple} и {\tt ManyToManyRawIdWidget}\\
+{\tt LanguageWidget} --- Виджет для отображения класса модели {\tt Language}, наследник от стандартного класса {\tt Select}\\
+{\tt AnnotationWidget} --- Виджет для отображения класса модели {\tt Annotation}, наследник от стандартных классов {\tt CheckboxSelectMultiple} и {\tt ManyToManyRawIdWidget}\\
+\\
+\begin{normalsize}Классы интерфейса администратора:\end{normalsize}
+\\
+\\
+{\tt AnnotationInline} --- класс для отображения класса модели {\tt Annotation}, наследник от стандартного класса {\tt StackedInline} \\
+{\tt AuthorAdmin} --- определяет базовое поведение класса модели {\tt Author}, наследник от стандартного класса {\tt ModelAdmin} \\
+{\tt BookAdmin} --- определяет базовое поведение класса модели {\tt Book}, наследник от стандартного класса {\tt ModelAdmin} \\
+{\tt AnnotationAdmin} --- определяет базовое поведение класса модели {\tt Annotation}, наследник от стандартного класса {\tt ModelAdmin} \\
+{\tt BookFileAdmin} --- определяет базовое поведение класса модели {\tt BookFile}, наследник от стандартного класса {\tt ModelAdmin} \\
+\\ 
+\begin{normalsize}Предоставление информации (OPDS и xHTML):\end{normalsize}
+\\
+\\
+Логика конструирования информации для отображения в фреймворке Django решается выделением набора функций в отдельные пакеты {\tt views}. В данном проекте таких пакетов два --- пакет, отвечающий за поиск информации и пакет, отвечающий за разделение по каталогам.
+\\
+\\
+\begin{normalsize}Обновление информации:\end{normalsize}\\
+\\
+Функции отвечающие за поиск дополнительной информации и извлечение из форматов ePub и fb2 выделены в отдельные скрипты. Это сделано для возможности вызова данных скриптов в определённое время с помощью демона-планировщика cron\cite{cron}.
+
+
 
 \end{document}
 

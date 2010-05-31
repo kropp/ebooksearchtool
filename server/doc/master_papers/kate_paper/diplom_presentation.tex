@@ -1,4 +1,4 @@
-\documentclass[handout]{beamer}
+\documentclass[utf8,handout]{beamer}
 \usepackage{presentation}
 
 \title{Сервис поиска электронных книг }
@@ -22,6 +22,12 @@
   \end{flushright}
 \end{frame}
 
+
+\begin{frame}
+	\frametitle{Место в общей системе}
+	\includegraphics[width=1.05\textwidth]{./head/innerstructure-new}
+\end{frame}
+
 \section*{План}
   \begin{frame}
     \frametitle{План}
@@ -31,8 +37,11 @@
 
 \section{Протокол OPDS}
   \begin{frame}
-
     \frametitle{Протокол OPDS}
+    \begin{block}{}
+	OPDS(The Open Publication Distribution System) - стандарт для предоставления информации об электронных документах, построенный на базе протокола публикации Atom.
+	\end{block}
+	\ 
     
 	\includegraphics{./head/scheme}
   \end{frame}
@@ -52,8 +61,7 @@
     \frametitle{Предоставление данных пользователю и клиентским программам}  
     
 	\begin{itemize}
-      \item Абстракция MVC в Django
-      \item Абстракция от поискового механизма
+      \item Абстракция MVC(Model-View-Controller) в Django
       \item Форматы предоставления информации
           \begin{itemize}
             \item xHTML
@@ -80,8 +88,8 @@
   	Обновление:
     \begin{itemize}
       \item Извлечение информации из форматов epub и fb2 
-      \item Определение жанра книги
       \item Поиск информации на внешних ресурсах
+      \item Определение жанра книги
     \end{itemize}
 
   \end{frame}
@@ -93,8 +101,8 @@
     
     \begin{itemize}
       \item Деревья принятия решений
-      \item Нейронные сети
       \item Метод k-средних
+      \item Нейронные сети
 		
 	  \ 
 		
@@ -102,19 +110,40 @@
     \end{itemize}        
   \end{frame}
 
-\subsection{Байесовский классификатор}
-	\begin{frame}
-		\frametitle{Байесовский классификатор}
-		  \begin{enumerate}
-		    \item Возможность инкрементального обучения
-		    \item Простота интерпретации
-		    \item Простые математические операции
-		  \end{enumerate}
-		  
-		  \begin{enumerate}
-		    \item 
-		  \end{enumerate}		  		  
-	\end{frame}
+\begin{frame}
+	\frametitle{Байесовский классификатор}
+	  \begin{itemize}
+	    \item Возможность инкрементального обучения
+	    \item Простота интерпретации
+	    \item Простые математические операции
+	  \end{itemize}
+	   		  
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Алгоритм}
+      \includegraphics[width=1.05\textwidth]{./classifier}
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Статистика}
+   \begin{figure}
+	  \centering
+	  \includegraphics[width=.7\textwidth]{./statistics}
+	  
+	  \ 
+	  \ 
+	  
+	  Таблица успешности распознавания жанра книги.
+   \end{figure} 
+\end{frame}
+
+\begin{frame}
+	\frametitle{Пример}
+    
+\end{frame}
 
 \section{Заключение}
   \begin{frame}
