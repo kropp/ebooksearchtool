@@ -41,6 +41,9 @@ void BookResultView::createComponents()
 {
     myBookPictureLabel = new QLabel(this);
     myBookPictureLabel->setObjectName("bookPictureLabel");
+    myBookCoverLabel = new QLabel(this);
+    myBookCoverLabel->hide();
+
     QIcon* coverIcon = myViewModel->getCoverIcon();
     if (coverIcon) {
         setCover(coverIcon);
@@ -104,8 +107,8 @@ void BookResultView::layoutComponents()
     bookLineLayout->setSpacing(-1);
 
     bookLineLayout->addWidget(myBookPictureLabel);
+    bookLineLayout->addWidget(myBookCoverLabel);
     bookLineLayout->addSpacing(10);
-
 
     QVBoxLayout* bookNameAndAuthorLayout = new QVBoxLayout;
 
@@ -250,7 +253,11 @@ void BookResultView::cancelSelection() {
 
 void BookResultView::setCover(QIcon* icon)
 {
-    myBookPictureLabel->setPixmap(icon->pixmap(QSize(65,100), QIcon::Normal, QIcon::On));
+    if (icon != 0) {
+        myBookPictureLabel->hide();
+        myBookCoverLabel->setPixmap(icon->pixmap(QSize(65,100), QIcon::Normal, QIcon::On));
+        myBookCoverLabel->show();
+    }
 }
 
 void BookResultView::setBackgroundColor(QColor color) {

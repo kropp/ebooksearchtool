@@ -68,6 +68,7 @@ private:
     BookResultViewModel* myViewModel;
 
     QLabel* myBookPictureLabel;
+    QLabel* myBookCoverLabel;
     QLabel* myBookTitleLabel;
     QLabel* myBookAuthorLabel;
     QLabel* myBookLanguageLabel;
