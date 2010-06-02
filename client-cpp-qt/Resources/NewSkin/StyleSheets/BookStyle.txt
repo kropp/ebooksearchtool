@@ -209,3 +209,13 @@ QPushButton#informationButton:pressed
 	min-height: 65px; 
 	max-height: 65px; 
 }
+
+QProgressBar#progressBar
+{
+	border: 1px solid gray;
+	border-radius: 10px;
+	padding: 0 8px;
+	background: white;
+	min-height: 25px; 
+	max-height: 25px;
+}

@@ -43,14 +43,16 @@ public:
 signals:
 
     void catalogRootChanged();
-    void catalogContentsParsed(Catalog* catalog);
     void currentCatalogChanged(Catalog* catalog);
+    void startedOpening();
+    void finishedOpening();
 
     void goUpAvailabilityChanged(bool newValue);
     void goBackAvailabilityChanged(bool newValue);
     void goForwardAvailabilityChanged(bool newValue);
 
     void catalogsRecreated();
+
 
 private slots:
 
@@ -81,8 +83,8 @@ private:
     Catalog* myNewCatalog;
     Catalog* myPopularCatalog;
 
-    QList<Catalog*>* myBrowseBackHistory;
-    QList<Catalog*>* myBrowseForwardHistory;
+    QList<Catalog*> myBrowseBackHistory;
+    QList<Catalog*> myBrowseForwardHistory;
     QMap<QString, CatalogDownloader*> myDownloadersMap;
 
     QList<LinksExtractionDownloader*> myLinksExtractionDownloaders;

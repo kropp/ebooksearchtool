@@ -62,7 +62,9 @@ HEADERS += Model/book.h \
     ViewModel/informationviewmodel.h \
     ViewModel/servervm.h \
     View/serverview.h \
-    ViewModel/serverseditviewmodel.h
+    ViewModel/serverseditviewmodel.h \
+    View/progressview.h \
+    ViewModel/progressviewmodel.h
 SOURCES += Model/book.cpp \
     View/mainview.cpp \
     main.cpp \
@@ -119,5 +121,7 @@ SOURCES += Model/book.cpp \
     ViewModel/informationviewmodel.cpp \
     ViewModel/servervm.cpp \
     View/serverview.cpp \
-    ViewModel/serverseditviewmodel.cpp
+    ViewModel/serverseditviewmodel.cpp \
+    View/progressview.cpp \
+    ViewModel/progressviewmodel.cpp
 RESOURCES += resources.qrc

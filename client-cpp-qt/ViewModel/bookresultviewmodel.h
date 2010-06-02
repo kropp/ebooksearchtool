@@ -16,7 +16,7 @@ Q_OBJECT
 public:
 
     BookResultViewModel(Book* book, BookResultsViewModel* parent);
-
+    ~BookResultViewModel();
 
 public:
 
@@ -55,6 +55,8 @@ signals:
     void bookDownloadStateChanged(QString newState);
     void infoOpenRequested(Book* book);
     void bookCoverChanged(QIcon* icon);
+    void downloadStarted();
+    void downloadFinished();
 
 private slots:
 

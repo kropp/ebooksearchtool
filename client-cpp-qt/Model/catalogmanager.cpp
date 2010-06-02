@@ -44,9 +44,6 @@ void CatalogManager::recreateAllCatalogs()
     myCurrentCatalog = myRootCatalog;
     myCatalogRequestedForOpening = myRootCatalog;
 
-    myBrowseBackHistory = new QList<Catalog*>();
-    myBrowseForwardHistory = new QList<Catalog*>();
-
     currentCatalogParseCyclesAwaited = 0;
 
     emit catalogsRecreated();
@@ -66,10 +63,10 @@ void CatalogManager::goBack()
 {
     if (goBackAvailable())
     {
-        Catalog* backCatalog = myBrowseBackHistory->last();
+        Catalog* backCatalog = myBrowseBackHistory.last();
 
-        myBrowseBackHistory->removeLast();
-        myBrowseForwardHistory->append(myCurrentCatalog);
+        myBrowseBackHistory.removeLast();
+        myBrowseForwardHistory.append(myCurrentCatalog);
 
         openCatalog(backCatalog, false);
 
@@ -82,10 +79,10 @@ void CatalogManager::goForward()
 {
     if (goForwardAvailable())
     {
-        Catalog* forwardCatalog = myBrowseForwardHistory->last();
+        Catalog* forwardCatalog = myBrowseForwardHistory.last();
 
-        myBrowseForwardHistory->removeLast();
-        myBrowseBackHistory->append(myCurrentCatalog);
+        myBrowseForwardHistory.removeLast();
+        myBrowseBackHistory.append(myCurrentCatalog);
 
         openCatalog(forwardCatalog, false);
 
@@ -96,12 +93,12 @@ void CatalogManager::goForward()
 
 bool CatalogManager::goBackAvailable()
 {
-    return myBrowseBackHistory->size() > 0;
+    return myBrowseBackHistory.size() > 0;
 }
 
 bool CatalogManager::goForwardAvailable()
 {
-    return myBrowseForwardHistory->size() > 0;
+    return myBrowseForwardHistory.size() > 0;
 }
 
 bool CatalogManager::goUpAvailable()
@@ -136,14 +133,15 @@ void CatalogManager::openCatalog(Catalog* catalog, bool addToBackHistory)
 
     if (!catalog->isCatalogParsed())
     {
-        parseCatalogContents(catalog);
+        emit startedOpening();
+        parseCatalogContents(catalog);        
     }
     else
     {
         if (addToBackHistory)
         {
-            myBrowseBackHistory->append(myCurrentCatalog);
-            myBrowseForwardHistory->clear();
+            myBrowseBackHistory.append(myCurrentCatalog);
+            myBrowseForwardHistory.clear();
         }
 
         myCurrentCatalog = catalog;
@@ -174,10 +172,11 @@ void CatalogManager::finishedParsing(bool /*success*/, Catalog* catalog)
         if (currentCatalogParseCyclesAwaited == 0)
         {
 
-            myBrowseBackHistory->append(myCurrentCatalog);
-            myBrowseForwardHistory->clear();
+            myBrowseBackHistory.append(myCurrentCatalog);
+            myBrowseForwardHistory.clear();
             myCurrentCatalog = catalog;
 
+            emit finishedOpening();
             emit goBackAvailabilityChanged(goBackAvailable());
             emit goForwardAvailabilityChanged(goForwardAvailable());
             emit goUpAvailabilityChanged(goUpAvailable());
@@ -199,15 +198,6 @@ void CatalogManager::createCatalogs()
             mySimpleCatalogs.append(new Catalog(false, serverInfo->ProgramAlias, new UrlData(serverInfo->RootAtomPath, serverInfo->ServerPath)));
         }
     }
-
-/*    mySimpleCatalogs.append(new Catalog(false, "FeedBooks", new UrlData(FEEDBOOKS_ATOM_PATH, FEEDBOOKS_ID)));
-    mySimpleCatalogs.append(new Catalog(false, "ManyBooks", new UrlData(MANYBOOKS_ATOM_PATH, MANYBOOKS_ID)));
-    mySimpleCatalogs.append(new Catalog(false, "Litres", new UrlData(LITRES_ATOM_PATH, LITRES_ID)));
-    mySimpleCatalogs.append(new Catalog(false, "SmashWords", new UrlData(SMASHWORDS_ATOM_PATH, SMASHWORDS_ID)));
-    mySimpleCatalogs.append(new Catalog(false, "eBookSearch", new UrlData(EBOOKSEARCH_ATOM_PATH, EBOOKSEARCH_ID)));*/
-
-//    mySimpleCatalogs.append(new Catalog(false, "BookServer", new UrlData("/catalog/", BOOKSERVER_ID)));
-
 
     myNewCatalog = new Catalog(false, tr("NEW"), tr("New books from all the servers"), 0);
 

@@ -75,7 +75,11 @@ QString InformationViewModel::getInformation() const{
         } else {
             information.append(("<p><b>" + tr("\nThere is no links for free downloading") + "</b>"));
         }
-
+        // show cover link
+        if (!myBook->getCoverLink().isEmpty()) {
+            information.append(("<p><b>" + tr("\nCover image: ") + "</b>"));
+            information.append(myBook->getCoverLink() + "\t");
+        }
     }
     return information;
 }

@@ -2,10 +2,10 @@
 #define CATALOGBROWSEBARPANEL_H
 
 #include "standardview.h"
+#include "progressview.h"
 
 #include <QPushButton>
 #include <QFrame>
-#include <QProgressBar>
 
 class CatalogBrowseBarViewModel;
 
@@ -30,8 +30,6 @@ private slots:
     void setUpAvailability(bool newValue);
     void setBackAvailability(bool newValue);
     void setForwardAvailability(bool newValue);
-    void showProgress();
-    void hideProgress();
 
 private:
 
@@ -40,7 +38,7 @@ private:
     QPushButton* myGoBackButton;
     QPushButton* myGoForwardButton;
     QFrame* myBarFrame;
-    QProgressBar* myProgressBar;
+    ProgressView* myProgressBar;
 
     CatalogBrowseBarViewModel* myViewModel;
 };

@@ -11,6 +11,7 @@ class BookResultViewModel;
 #include "standardview.h"
 #include "multistatebutton.h"
 #include "bookresultsview.h"
+#include "progressview.h"
 
 class QLabel;
 class QPushButton;
@@ -75,6 +76,7 @@ private:
     QPushButton* myAddToLibraryButton;
     QPushButton* myRemoveFromLibraryButton;
     QPushButton* myReadButton;
+    ProgressView* myProgressView;
 
     BookResultsView* myParent;
 

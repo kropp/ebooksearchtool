@@ -2,6 +2,8 @@
 #include "bookresultsrearrangeview.h"
 #include "../ViewModel/searchviewmodel.h"
 #include "../Model/booksearchmanager.h"
+#include "../ViewModel/progressviewmodel.h"
+
 #include <QPushButton>
 #include <QLineEdit>
 #include <QLabel>
@@ -36,9 +38,10 @@ void SearchView::createComponents()
     searchLine = new QLineEdit("", this);
     searchButton = new QPushButton(this);
     stopButton = new QPushButton(this);
-    myProgressBar = new QProgressBar(this);
-    myProgressBar->setMaximum(0);
-    myProgressBar->setMinimum(0);
+    myProgressBar = new ProgressView(this, new BookSearchProgressViewModel());
+    //    myProgressBar = new QProgressBar(this);
+//    myProgressBar->setMaximum(0);
+//    myProgressBar->setMinimum(0);
 
     searchButton->setCursor(Qt::PointingHandCursor);
     stopButton->setCursor(Qt::PointingHandCursor);
@@ -77,7 +80,6 @@ void SearchView::setConnections()
     connect(searchButton, SIGNAL(clicked()), this, SLOT(goButtonPressed()));
     connect(stopButton, SIGNAL(clicked()), viewModel, SLOT(stopRequested()));
     //connect(stopButton, SIGNAL(clicked()), this, SLOT(showProgress()));
-    connect(BookSearchManager::getInstance(), SIGNAL(downloadFinished()), this, SLOT(hideProgress()));
     connect(searchLine, SIGNAL(textEdited(QString)), this, SLOT(textEdited(QString)));
 }
 
@@ -109,7 +111,7 @@ void SearchView::goButtonPressed()
     lastSearchString = searchLine->text();
     stopButton->setVisible(true);
     searchButton->setVisible(false);
-    showProgress();
+    //showProgress();
 }
 
 void SearchView::addItemsToLeftBarPartLayout(QHBoxLayout* leftPartLayout)
@@ -147,10 +149,10 @@ void SearchView::textEdited(QString newText)
     searchButton->setVisible(!availability);
 }
 
-void SearchView::showProgress() {
-    myProgressBar->show();
-}
-
-void SearchView::hideProgress() {
-    myProgressBar->hide();
-}
+//void SearchView::showProgress() {
+//    myProgressBar->show();
+//}
+//
+//void SearchView::hideProgress() {
+//    myProgressBar->hide();
+//}

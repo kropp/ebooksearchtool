@@ -1,6 +1,7 @@
 #include "bookresultview.h"
 #include "../ViewModel/bookresultviewmodel.h"
 #include "../Model/settingsmanager.h"
+#include "../ViewModel/progressviewmodel.h"
 
 #include <QHBoxLayout>
 #include <QLabel>
@@ -91,6 +92,8 @@ void BookResultView::createComponents()
 
 
     myReadButton->setObjectName("readButton");
+
+    myProgressView = new ProgressView(this, new BookDownloadProgressViewModel(myViewModel));
 }
 
 void BookResultView::layoutComponents()
@@ -135,6 +138,7 @@ void BookResultView::layoutComponents()
 
     QHBoxLayout* buttonsLayout = new QHBoxLayout;
 
+    buttonsLayout->addWidget(myProgressView);
     buttonsLayout->addStretch(1);
     buttonsLayout->addWidget(myDownloadButton);
 
@@ -246,7 +250,7 @@ void BookResultView::cancelSelection() {
 
 void BookResultView::setCover(QIcon* icon)
 {
-    myBookPictureLabel->setPixmap(icon->pixmap(QSize(100,100), QIcon::Normal, QIcon::On));
+    myBookPictureLabel->setPixmap(icon->pixmap(QSize(65,100), QIcon::Normal, QIcon::On));
 }
 
 void BookResultView::setBackgroundColor(QColor color) {

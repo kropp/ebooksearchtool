@@ -126,7 +126,7 @@ void Book::downloadCover() {
 
         QString fileName = coverLink.right(coverLink.size() - coverLink.lastIndexOf('/') - 1);
         fileName = fileName.left(fileName.indexOf('?')); //FileDownloadManager::getInstance()->getCoverDir() +
-
+        fileName = fileName.left(15);
         //if such file exists - just open it and return;
         myCoverFile = new QFile(fileName);
 

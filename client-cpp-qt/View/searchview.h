@@ -13,6 +13,7 @@ class QProgressBar;
 #include "standardcontentview.h"
 #include "selectionfilterview.h"
 #include "informationview.h"
+#include "progressview.h"
 
 class SearchView : public StandardContentView
 {
@@ -44,8 +45,8 @@ private slots:
     void viewModelSearchResultsVisibilityChanged(bool visibility);
     void textEdited(QString newText);
     void moreAvailabilityChanged(bool);
-    void showProgress();
-    void hideProgress();
+//    void showProgress();
+//    void hideProgress();
 
 private:
 
@@ -53,7 +54,7 @@ private:
     QLineEdit* searchLine;
     QPushButton* searchButton;
     QPushButton* stopButton;
-    QProgressBar* myProgressBar;
+    ProgressView* myProgressBar;
 
     SearchViewModel* viewModel;
 

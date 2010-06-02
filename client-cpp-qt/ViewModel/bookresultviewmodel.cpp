@@ -23,6 +23,12 @@ BookResultViewModel::BookResultViewModel(Book* book, BookResultsViewModel* paren
     setConnections();
 }
 
+BookResultViewModel::~BookResultViewModel() {
+    if (myCoverIcon) {
+        delete myCoverIcon;
+    }
+}
+
 void BookResultViewModel::setConnections()
 {
     connect(FileDownloadManager::getInstance(), SIGNAL(downloadBookFinished(bool, int)), this, SLOT(downloadFinished(bool, int)));
@@ -38,6 +44,7 @@ void BookResultViewModel::downloadFinished(bool success, int requestId)
 {
     if (lastRequestId == requestId)
     {
+        emit downloadFinished();
         if (success)
         {
             QPair<QString, QString> link (SettingsManager::getInstance()->getCurrentFormat(), myFileNameForSaving);
@@ -123,6 +130,7 @@ void BookResultViewModel::downloadingRequested(const QString& filename) {
              << "file" << filename;
     myFileNameForSaving = filename;
     lastRequestId = FileDownloadManager::getInstance()->downloadBook(*myShownBook, filename, SettingsManager::getInstance()->getCurrentFormat());
+    emit downloadStarted();
 }
 
 void BookResultViewModel::downloadingRequested() {

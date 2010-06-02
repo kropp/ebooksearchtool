@@ -25,6 +25,8 @@ signals:
     void booksChanged(QVector<Book*>& books);
     void booksAvailabilityChanged(bool availability);
     void downloadFinished();
+    void searchStarted();
+    void searchFinished();
 
 public slots:
 

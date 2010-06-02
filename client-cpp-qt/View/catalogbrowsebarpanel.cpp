@@ -1,6 +1,8 @@
 #include "catalogbrowsebarpanel.h"
 
 #include "../ViewModel/catalogbrowsebarviewmodel.h"
+#include "../ViewModel/progressviewmodel.h"
+#include "progressview.h"
 
 #include <QHBoxLayout>
 #include <QIcon>
@@ -27,7 +29,7 @@ void CatalogBrowseBarPanel::createComponents()
     myGoBackButton->setCursor(Qt::PointingHandCursor);
     myGoForwardButton->setCursor(Qt::PointingHandCursor);
 
-    myProgressBar = new QProgressBar(this);
+    myProgressBar = new ProgressView(this, new CatalogProgressViewModel());
 
     myHomeButton->setObjectName("homeButton");
     myGoUpButton->setObjectName("goUpButton");
@@ -38,10 +40,6 @@ void CatalogBrowseBarPanel::createComponents()
     myGoUpButton->setEnabled(myViewModel->getGoUpAvailability());
     myGoBackButton->setEnabled(myViewModel->getGoBackAvailability());
     myGoForwardButton->setEnabled(myViewModel->getGoForwardAvailability());
-    myProgressBar->setMaximum(0);
-    myProgressBar->setMinimum(0);
-
-    myProgressBar->hide();
 }
 
 void CatalogBrowseBarPanel::setUpAvailability(bool newValue)
@@ -59,13 +57,6 @@ void CatalogBrowseBarPanel::setForwardAvailability(bool newValue)
     myGoForwardButton->setEnabled(newValue);
 }
 
-void CatalogBrowseBarPanel::showProgress() {
-        myProgressBar->show();
-}
-
-void CatalogBrowseBarPanel::hideProgress() {
-        myProgressBar->hide();
-}
 
 void CatalogBrowseBarPanel::layoutComponents()
 {

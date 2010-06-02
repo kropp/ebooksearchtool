@@ -45,7 +45,7 @@ private slots:
 
     void downloadFinished(bool success, QString filename, int request);
     void coverDownloadRequestFinished(int request, bool success);
-    void printDownloadCoverState(int state);
+//    void printDownloadCoverState(int state);
 
 private:
 
