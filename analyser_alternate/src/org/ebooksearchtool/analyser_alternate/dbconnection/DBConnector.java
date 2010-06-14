@@ -74,7 +74,7 @@ public class DBConnector {
         PreparedStatement deleteStatement = myDBConnection.prepareStatement(myDeleteString);
         ResultSet result = selectStatement.executeQuery();
         deleteStatement.executeUpdate(myDeleteString);
-        return selectStatement.executeQuery();
+        return result;
     }
     
     @Override

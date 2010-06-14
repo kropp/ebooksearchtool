@@ -5,7 +5,6 @@ import java.sql.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.sql.DriverManager;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -44,12 +43,6 @@ public class Main {
 
         // load properties
         Properties properties = loadProperties();
-
-        // create db connection
-        final String dbHost = properties.getProperty("db_host");
-        final String dbName = properties.getProperty("db_name");
-        final String userName = properties.getProperty("user_name");
-        final String userPassword = properties.getProperty("user_password");
 
         // create connector to database storing raw data
         DBConnector messageConnector = null;
