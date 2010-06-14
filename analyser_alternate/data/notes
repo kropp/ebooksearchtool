@@ -1,0 +1,39 @@
+Про Logger:
+    ( в Main -- настройка)
+    Запись:
+    
+    Logger logger = Logger.getLogger("main.log");
+    logger.log(Level.SEVERE,"message");
+    
+Про Properties:
+    (в Main)
+    
+    сделать default как двумерный массив (может, map? )
+    использовать java.util.Properties
+    
+Про xmlBeans:
+    (LinkExtractor)
+    
+    создать схему: scheme.xsd
+    скомпилировать схему: scomp -out bin/scheme.jar scheme.xsd
+    подключить jar как библиотеку
+    подключить сгенерированные файлы туда, где будем использовать
+    xmlOptions.setLoadSubstituteNamespaces(Collections.singletonMap("", "http://analyser_alternate.org")); --- задает какой namespace использовать
+    
+    
+Про mySQL database:
+    # http://www.kitebird.com/articles/jdbc.html
+    Создать соединение
+        Connection dbConnection = createConnection(dbHost, dbName, userName, userPassword);
+        
+        # если повторяющиеся запросы
+        preparedStatement = myDBConnection.prepareStatement(
+                        "INSERT INTO Message (book_link) VALUES (?)");
+        preparedStatement.setString(1, book_link);
+        preparedStatement.executeUpdate();
+        # preparedStatement need to be closed!
+        
+        # иначе см. http://www.javatalks.ru/ftopic12568.php
+        
+Про потоки:
+    http://topcode.ru/2010/04/14/potoki-v-java-chast-2/        

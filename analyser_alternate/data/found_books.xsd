@@ -1,0 +1,38 @@
+<xs:schema
+    xmlns:an="http://analyser_alternate.org"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://analyser_alternate.org"
+    elementFormDefault="qualified">
+
+
+<!--  ENTRY LOG -->
+
+    <xs:element name="log">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="record" type="an:record" minOccurs="0" maxOccurs="unbounded"></xs:element>
+            </xs:sequence>
+        </xs:complexType >
+    </xs:element>
+
+    <!--  ENTRY RECORD -->
+
+        <xs:complexType name="record">
+            <xs:sequence>
+                <xs:element name="date" type="xs:dateTime"></xs:element>
+                <xs:element name="millis" type="xs:integer"></xs:element>
+                <xs:element name="sequence" type="xs:integer"></xs:element>
+                <xs:element name="logger" type="xs:string"></xs:element>
+                <xs:element name="level" type="xs:string"></xs:element>
+                <xs:element name="class" type="xs:string"></xs:element>
+                <xs:element name="method" type="xs:string"></xs:element>
+                <xs:element name="thread" type="xs:integer"></xs:element>
+                
+                <!--  bookfile link  (we extract only that information)-->
+                
+                <xs:element name="message" type="xs:string"></xs:element>
+            </xs:sequence>
+        </xs:complexType>
+
+        
+</xs:schema>
