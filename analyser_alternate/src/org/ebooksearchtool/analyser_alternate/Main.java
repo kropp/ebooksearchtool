@@ -29,7 +29,6 @@ public class Main {
     private static final String[][] ourDefaultProperties = {
         {"path_to_found", "./found_books/found_log.xml.0"},
         {"crawler_port", "9999"},
-        {"crawler_timeout", "1000"},
         {"db_host","localhost"},
         {"db_name","analyserdb"},
         {"user_name", "catherine"},

@@ -21,11 +21,11 @@ import org.ebooksearchtool.analyser_alternate.Main;
 public class DBConnector {
 
     private Connection myDBConnection = null;
-    private String myInsertString;
-    private String mySelectString;
-    private String myDeleteString;
-    private String myTableName;
 
+    private String myTableName;
+    private PreparedStatement mySelectStatement;
+    private PreparedStatement myInsertStatement;
+    private PreparedStatement myDeleteStatement;
     /**
      *
      * @param insert The string using to insert values to db
@@ -47,9 +47,13 @@ public class DBConnector {
         url.append(dbName);
         myDBConnection = DriverManager.getConnection(url.toString(),
                                                     userName, userPassword);
-        myInsertString = "INSERT INTO " +  myTableName + " " + insert;
-        mySelectString = "SELECT *  FROM " +  myTableName + " ORDER BY id LIMIT 1;";
-        myDeleteString = "DELETE  FROM " +  myTableName + " ORDER BY id LIMIT 1;";
+        String insertString = "INSERT INTO " +  myTableName + " " + insert;
+        String selectString = "SELECT *  FROM " +  myTableName + " ORDER BY id LIMIT 1;";
+        String deleteString = "DELETE  FROM " +  myTableName + " ORDER BY id LIMIT 1;";
+
+        mySelectStatement = myDBConnection.prepareStatement(selectString);
+        myDeleteStatement = myDBConnection.prepareStatement(deleteString);
+        myInsertStatement = myDBConnection.prepareStatement(insertString);
     }
 
     /**
@@ -58,29 +62,33 @@ public class DBConnector {
      * @throws SQLException if can't insert data
      */
     public void insertData(ArrayList <String> params) throws SQLException {
-        PreparedStatement preparedStatement =
-                        myDBConnection.prepareStatement(myInsertString);
-
         for (int i = 0; i < params.size(); i++) {
-            preparedStatement.setString(i+1, params.get(i));
-
+            myInsertStatement.setString(i+1, params.get(i));
         }
-        int count = preparedStatement.executeUpdate();
+        myInsertStatement.executeUpdate();
     }
 
+    /**
+     *
+     * @return data from db as ResultSet
+     * @throws SQLException if can't extract data
+     */
     public ResultSet extractData() throws SQLException {
         // prepare select and delete operations with database
-        PreparedStatement selectStatement = myDBConnection.prepareStatement(mySelectString);
-        PreparedStatement deleteStatement = myDBConnection.prepareStatement(myDeleteString);
-        ResultSet result = selectStatement.executeQuery();
-        deleteStatement.executeUpdate(myDeleteString);
+        ResultSet result = mySelectStatement.executeQuery();
+        
+        // TODO delete later for debugging
+        //myDeleteStatement.executeUpdate();
         return result;
     }
     
     @Override
     protected void finalize() throws Throwable {
         try {
-             myDBConnection.close();          // close connection
+            myDeleteStatement.close();
+            myInsertStatement.close();
+            mySelectStatement.close();
+            myDBConnection.close();          // close connection
         } finally {
             super.finalize();
         }
