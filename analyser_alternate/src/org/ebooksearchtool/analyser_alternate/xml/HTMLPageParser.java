@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.StringTokenizer;
 import java.util.logging.Level;
 import net.htmlparser.jericho.*;
 import java.util.logging.Logger;
@@ -40,7 +41,7 @@ public class HTMLPageParser implements Runnable {
                 resultSet.next();
                 myHTMLPage = resultSet.getString("page");
                 myBookLink = resultSet.getString("book_link");
-                myBookLink = myBookLink.substring(0,myBookLink.indexOf(".epub"));
+                myBookLink = myBookLink.substring(0, myBookLink.indexOf(".epub"));
 
                 // process myHTMLPage
                 Source source = new Source(myHTMLPage);
@@ -55,8 +56,20 @@ public class HTMLPageParser implements Runnable {
 //                        System.out.println("");
                         Element parent = link.getParentElement().getParentElement();
                         TextExtractor t = parent.getTextExtractor();
-                        System.out.println(t.toString());
-
+                        StringBuffer strBuff = new StringBuffer(t.toString());
+                        int authorIndex = strBuff.indexOf("by");
+                        if (authorIndex != -1) {
+                            String title = strBuff.substring(0, authorIndex);
+                            StringBuffer authorBuff = new StringBuffer();
+                            StringTokenizer stringTokenizer = new StringTokenizer(strBuff.substring(authorIndex + 3));
+                            for (int i = 0; i < 2; ++i) {
+                                String token = stringTokenizer.nextToken();
+                                authorBuff.append(token + " ");
+                            }
+                            System.out.println(title);
+                            System.out.println(authorBuff);
+                            System.out.println("");
+                        }
 
                         //System.out.println(link.getParentElement().getParentElement().getParentElement());
                         //System.out.println(parent.getPreviousTag());
