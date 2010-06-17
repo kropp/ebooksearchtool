@@ -77,8 +77,7 @@ public class DBConnector {
         // prepare select and delete operations with database
         ResultSet result = mySelectStatement.executeQuery();
         
-        // TODO delete later for debugging
-        //myDeleteStatement.executeUpdate();
+        myDeleteStatement.executeUpdate();
         return result;
     }
     
