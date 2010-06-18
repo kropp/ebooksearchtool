@@ -42,7 +42,7 @@ public class Main {
         {"server_port", "8000"},
         {"server_insert", "/data/insert"},
         {"server_init", "/data"},
-        {"server_get", "/data/get"}
+        {"server_search", "/data/search"}
     };
 
     private static final Logger ourLogger = Logger.getLogger("main.log");
@@ -96,16 +96,25 @@ public class Main {
         String serverHost = properties.getProperty("server_host");
         String serverPort = properties.getProperty("server_port");
         String init = properties.getProperty("server_init");
+        String search = properties.getProperty("server_search");
+        String insert = properties.getProperty("server_insert");
         URL serverURL = null;
+        URL serverSearch = null;
+        URL serverInsert = null;
         try {
             serverURL = new URL(protocol + "://" + serverHost + ":" 
                                                          + serverPort + init);
+            serverSearch = new URL(protocol + "://" + serverHost + ":"
+                                                         + serverPort + search);
+            serverInsert = new URL(protocol + "://" + serverHost + ":"
+                                                         + serverPort + insert);
         } catch (MalformedURLException ex) {
             ourLogger.log(Level.SEVERE, "Bad server URL" + ex.getMessage());
         }
         ServerConnector serverConnector = null;
         try {
-            serverConnector = new ServerConnector(serverURL, modelConnector);
+            serverConnector = new ServerConnector(serverURL, serverSearch,
+                                                serverInsert, modelConnector);
         } catch (IOException ex) {
             ourLogger.log(Level.SEVERE, "Cannot open server connection"
                                                         + ex.getMessage());

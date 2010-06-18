@@ -76,8 +76,9 @@ public class DBConnector {
     public ResultSet extractData() throws SQLException {
         // prepare select and delete operations with database
         ResultSet result = mySelectStatement.executeQuery();
-        
-        myDeleteStatement.executeUpdate();
+
+        //!!!TODO
+        //myDeleteStatement.executeUpdate();
         return result;
     }
     
